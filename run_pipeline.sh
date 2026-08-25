@@ -115,7 +115,12 @@ run_stage() {
         echo "Run ./install.sh first." >&2
         exit 1
     fi
-    PATH="${prefix}/bin:${PATH}" "${prefix}/bin/python" "$@"
+    # Stage 2's TensorFlow loads its CUDA by soname at runtime, and we call the
+    # interpreter directly rather than through `conda activate`, so nothing
+    # would otherwise point at the environment's own copy. It goes in front of
+    # any existing entries so that a host or cluster CUDA cannot win.
+    LD_LIBRARY_PATH="${prefix}/lib:${LD_LIBRARY_PATH:-}" \
+        PATH="${prefix}/bin:${PATH}" "${prefix}/bin/python" "$@"
 }
 
 [ -n "$DEVICE" ] && export CMAGE_DEVICE="$DEVICE"

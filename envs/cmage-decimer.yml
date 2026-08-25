@@ -11,9 +11,12 @@
 # captures are kept at envs/legacy/decimer_freeze.txt and
 # envs/legacy/decimer_conda_export.yml. See envs/README.md.
 #
-# GPU note: TensorFlow 2.12 is built against CUDA 11.8 / cuDNN 8.6+. On the
-# cluster this is provided by `module load cuda/11.8 cudnn/8.9.3`. Elsewhere,
-# install cudatoolkit=11.8 and cudnn=8.6 yourself, or run on CPU.
+# GPU note: TensorFlow 2.12 ships no CUDA of its own, unlike the torch wheels
+# in stages 1 and 3, so it uses whatever the host happens to provide. Borrowing
+# the host's is what broke this stage on a cluster: a cuDNN module built for
+# CUDA 12 loaded next to CUDA 11.8 and aborted mid-inference looking for
+# libcublasLt.so.12. The pair below is pinned here instead, so the stage is
+# self-contained and no `module load` is needed or wanted.
 
 name: cmage-decimer
 
@@ -26,6 +29,14 @@ dependencies:
 
   # Required by pdf2image (see the note in cmage-visualheist.yml).
   - poppler
+
+  # --- CUDA -----------------------------------------------------------
+  # TensorFlow 2.12 wants CUDA 11.8 with cuDNN 8.6 or newer. cuDNN 8.9 is
+  # published in separate CUDA 11 and CUDA 12 builds; this is the CUDA 11 one.
+  # run_pipeline.sh puts this environment's lib/ at the front of the loader
+  # path, which is what makes these win over any system CUDA.
+  - cudatoolkit=11.8
+  - cudnn=8.9.7.29
 
   - pip:
       # --- TensorFlow ---------------------------------------------------
