@@ -53,6 +53,9 @@ parser.add_argument("--output-dir", type=Path, default=DIS_DIR,
                     help="Directory for the classified images and completed spreadsheets.")
 parser.add_argument("--canvas", type=Path, default=DIS_DIR / "canvas.xlsx",
                     help="Empty workbook used as the template for low-confidence results.")
+parser.add_argument("--hccanvas", type=Path, default=DIS_DIR / "canvas.xlsx",
+                    help="Empty workbook used as the template for high-confidence results. "
+                         "Loading the same blank file twice gives two independent workbooks.")
 parser.add_argument("--device", default=os.environ.get("CMAGE_DEVICE"),
                     help="torch device: cuda, mps or cpu. Detected automatically "
                          "when not given. Also read from CMAGE_DEVICE.")
@@ -76,8 +79,10 @@ file_paths = []
 for paths in df["DIS Result File Paths"]:
     file_paths.append(paths)
 
-#Loads the DECIMER-Image-Segmentation output excel as a workbook that can be edited
-workbook = load_workbook(args.results_excel)
+#Starts from a blank workbook rather than stage 2's spreadsheet. That spreadsheet
+#lists every segment, so rows past the last high-confidence one kept their path
+#and nothing else, which looked like the run had stopped partway.
+workbook = load_workbook(args.hccanvas)
 worksheet = workbook.active
 
 #Loads an empty excel as a second workbook for low confidence values to be stored
@@ -158,7 +163,12 @@ for digit,fps in enumerate(file_paths):
         #CXMolScribe code for high confidnece translation
         if confidence >= 0.8431 and str(smiles) != "<invalid>":
             try:        
+                #The sheet starts blank now, so the path is written here rather
+                #than inherited from stage 2's spreadsheet.
+                worksheet.cell(row=hc_row_value, column=2).value = fps
+
                 worksheet.cell(row=hc_row_value, column=10).value = correct_classification
+                worksheet.cell(row=hc_row_value, column=1).value = correct_counter
                 correct_counter += 1
 
                 #Appends molecule predictions to appropriate location on output spreadsheet
@@ -201,6 +211,7 @@ for digit,fps in enumerate(file_paths):
                 dis_worksheet.cell(row=dis_row_value, column=2).value = fps
 
                 dis_worksheet.cell(row=dis_row_value, column=10).value = discard_classification
+                dis_worksheet.cell(row=dis_row_value, column=1).value = discard_counter
                 discard_counter += 1
 
                 #Appends molecule predictions to appropriate location on output spreadsheet
@@ -242,6 +253,7 @@ for digit,fps in enumerate(file_paths):
                 dis_worksheet.cell(row=dis_row_value, column=2).value = fps
 
                 dis_worksheet.cell(row=dis_row_value,column=10).value = discard_classification
+                dis_worksheet.cell(row=dis_row_value, column=1).value = discard_counter
                 discard_counter += 1
                 
                 #Appends molecule predictions to appropriate location on output spreadsheet
