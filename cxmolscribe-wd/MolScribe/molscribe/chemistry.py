@@ -432,7 +432,6 @@ def _expand_functional_group(mol, mappings, debug=False):
             atom = mol_w.GetAtomWithIdx(i)
             if atom.GetSymbol() == '*':
                 symbol = Chem.GetAtomAlias(atom)
-                print("* Atom Symbol is: " +str(symbol)) # This accurately prints the symbol for each atom
                 isotope = atom.GetIsotope()
                 if isotope > 0 and isotope in mappings:
                     symbol = mappings[isotope]
@@ -492,21 +491,16 @@ def _expand_functional_group(mol, mappings, debug=False):
         atoms_to_remove.sort(reverse=True)
         for i in atoms_to_remove:
             mol_w.RemoveAtom(i)
-#FROM HERE TO END OF FUNCTION IS NEW STUFF#############################################################################################
         for i2 in range(num_atoms):
             atom2 = mol_w.GetAtomWithIdx(i2)
             if atom2.GetSymbol() == '*':
                 symbol2 = Chem.GetAtomAlias(atom2)
                 mol_w.GetAtomWithIdx(i2).SetProp("atomLabel", str(symbol2))
-       # abbrevs = rdAbbreviations.GetDefaultAbbreviations()
-       # v2mol = rdAbbreviations.CondenseMolAbbreviations(mol_w, abbrevs)
         smiles = Chem.MolToCXSmiles(mol_w, Chem.SmilesWriteParams(), rdmolfiles.CXSmilesFields.CX_ATOM_LABELS)
         mol = mol_w.GetMol()
-        print("THIS IS SMILES" +str(smiles))
 
     else:
         smiles = Chem.MolToCXSmiles(mol, Chem.SmilesWriteParams(), rdmolfiles.CXSmilesFields.CX_ALL_BUT_COORDS)
-        print("THIS IS SMILES" +str(smiles))
     return smiles, mol
 
 
