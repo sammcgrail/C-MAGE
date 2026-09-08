@@ -9,8 +9,16 @@ sys.modules.setdefault('tensorflow', types.ModuleType('tensorflow'))
 import importlib.util
 spec = importlib.util.spec_from_file_location("dis_mod", os.path.join(os.path.dirname(__file__), "..", "cxmolscribe-wd", "DECIMER-Image-Segmentation", "decimer_segmentation", "decimer_segmentation.py"))
 src = open(os.path.join(os.path.dirname(__file__), "..", "cxmolscribe-wd", "DECIMER-Image-Segmentation", "decimer_segmentation", "decimer_segmentation.py")).read()
-start = src.index("_MIN_WEIGHTS_BYTES")
-end = src.index("def load_model()")
+# Anchor on the DEFINITION at line start, not the bare identifier: the name also
+# appears in the comment above it and in the docstring, so `src.index(name)` can
+# silently slide to a different offset and test text that is not the guard.
+import re as _re
+_m = _re.search(r"^_MIN_WEIGHTS_BYTES\s*=", src, _re.M)
+assert _m, "guard constants not found — did the source move?"
+start = _m.start()
+end = src.index("\ndef load_model()")
+assert end > start and "def _download_weights" in src[start:end], \
+    "sliced region does not contain the guard; the anchors have drifted"
 ns = {"os": os}
 import requests as _rq
 ns["requests"] = _rq

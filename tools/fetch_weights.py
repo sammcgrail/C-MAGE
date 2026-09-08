@@ -50,6 +50,12 @@ MIN_BYTES = 8 * 1024 * 1024          # real file ~260 MB; an error page is bytes
 # different checksum (e.g. if upstream legitimately republishes).
 EXPECTED_SHA256 = "329120facb69e88add819a3216db0fbfef57e9a37d6b6db0f6149819a11d46a5"
 EXPECTED_BYTES = 272650600
+# Independent corroboration: this is the md5 ZENODO PUBLISHES for record
+# 10663579 (DECIMER-Segmentation model v1.2.0, 2024-02-15), confirmed against
+# their API once it recovered. The sha256 above only says "the same bytes I
+# received"; this says "the bytes upstream published". Two different claims, and
+# the second is the one that matters if my download had been subtly wrong.
+EXPECTED_MD5 = "edd1e6e469cfff7efa6bf8c38441a529"
 UA = "C-MAGE/fetch_weights (+https://github.com/AlexTaylor54/C-MAGE)"
 
 
