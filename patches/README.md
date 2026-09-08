@@ -78,7 +78,9 @@ Inference never instantiates Indigo.
 
 ### Regenerate
 
-    { git diff -- cxmolscribe-wd/MolScribe/molscribe/dataset.py;
+    # against upstream, NOT the index: a bare `git diff` compares the worktree
+    # to the index and emits an empty patch as soon as the change is committed.
+    { git diff upstream/main -- cxmolscribe-wd/MolScribe/molscribe/dataset.py;
       git diff --no-index /dev/null cxmolscribe-wd/MolScribe/molscribe/indigo_compat.py; } \
       > patches/0001-molscribe-indigo-aarch64-fallback.patch
     git apply --check --reverse patches/0001-molscribe-indigo-aarch64-fallback.patch

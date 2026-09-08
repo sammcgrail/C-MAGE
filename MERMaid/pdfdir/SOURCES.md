@@ -79,13 +79,12 @@ unrestricted.
   certificate; structures on only 4 pages.
 - US5747498A (erlotinib, 26 p): structures on ~7 pages, remainder Markush prose; lower value.
 - US6515117B2 (dapagliflozin, 16 p): good, but chemically duplicates the empagliflozin file.
-- Too long for a 2-core box: US7157456B2 rivaroxaban 78 p, US7514444B2 ibrutinib 74 p,
+- Too long to be worth a CPU-only run: US7157456B2 rivaroxaban 78 p, US7514444B2 ibrutinib 74 p,
   US8946235B2 osimertinib 86 p, US6573293B2 sunitinib 134 p, US6362178B1 vardenafil 146 p,
   US6251910B1 ticagrelor 51 p (not inspected).
 
 ### Optional extra (NOT copied into this directory)
-A verified open-access journal article is parked at /tmp/cmage-pdfs/PMC11643494.pdf if a
-journal-layout baseline is wanted: Mishra et al., "Structure-Activity Relationship Studies in a
+If a journal-layout baseline is wanted, fetch this verified open-access article: Mishra et al., "Structure-Activity Relationship Studies in a
 Series of 2-Aryloxy-N-(pyrimidin-5-yl)acetamide Inhibitors of SLACK Potassium Channels",
 Molecules 2024, 29(23), 5494, doi:10.3390/molecules29235494, licence CC BY 4.0 (Europe PMC
 record: isOpenAccess=Y, license "cc by"), 19 pages, downloaded from

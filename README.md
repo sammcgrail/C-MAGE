@@ -219,15 +219,35 @@ check-image that matches its own wrong SMILES perfectly. The side-by-side
 rendering that normally makes an error obvious at a glance agrees with itself in
 exactly this case.
 
-Observed on this repository's own `Validation/test_page.pdf`: five structures,
-all five classified high confidence, two of them the wrong molecule — caffeine
-missing its fused imidazole ring, and paracetamol's hydroxyl read as iodine after
-being clipped at the crop boundary. Mask expansion (`expand=True`) was already
-enabled, so this is a segmentation accuracy limit rather than a misconfiguration.
+Observed on this repository's own
+`cxmolscribe-wd/DECIMER-Image-Segmentation/Validation/test_page.pdf`: five
+structures, all five classified high confidence, two of them the wrong molecule
+— caffeine missing part of its fused imidazole ring, and paracetamol's hydroxyl
+read as iodine, both around 0.89 confidence.
 
-Treat the split as triage, not a correctness guarantee, and give structures near
-figure edges a human look. Measured numbers against a ground-truth corpus are in
-[benchmarks/](benchmarks/).
+The mechanism is **erasure, not clipping**, and the difference matters because
+it points at a fix. `apply_mask()` whites out every pixel the segmentation mask
+missed before cropping, so uncovered ink is deleted and stage 3 receives a
+mutilated drawing inside a crop with clean borders — which is exactly why it
+scores the result high. Stage 3 reads the *uncropped* figures correctly, and the
+failure survives a 3x upscale, so neither the recogniser nor resolution is at
+fault.
+
+This fork adds an opt-in that crops the original pixels at the mask bounding box
+with padding instead:
+
+```bash
+DECIMER_BBOX_PAD=0.15 ./run_pipeline.sh --stages 2,3 --figures FIGS
+```
+
+On that same test page it recovers 3 of 3 known molecules instead of 1 of 3
+(paracetamol 0.922, caffeine 0.901). It is **off by default** — padding can pull
+a neighbour's ink into the crop on a dense figure, and the default path stays
+byte-identical to upstream.
+
+Either way, treat the confidence split as triage rather than a correctness
+guarantee. Measured numbers against a ground-truth corpus, including the
+largest-fragment caveat, are in [benchmarks/](benchmarks/).
 
 ## Post Pipeline Processing
 

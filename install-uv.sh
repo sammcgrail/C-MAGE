@@ -132,9 +132,9 @@ for stage in "${STAGES[@]}"; do
     probe() { case "$1" in visualheist) echo visualheist ;; decimer) echo decimer_segmentation.complete_structure ;;
                            cxmolscribe) echo molscribe ;; esac; }
     if [ -x "$p" ] && "$p" -c "import $(probe "$stage")" >/dev/null 2>&1; then
-        printf '  ok   %-28s %s\\n' "$(condaname_for "$stage")" "$("$p" --version 2>&1)"
+        printf '  ok   %-28s %s\n' "$(condaname_for "$stage")" "$("$p" --version 2>&1)"
     else
-        printf '  FAIL %-28s cannot import %s (rerun: ./install-uv.sh --force %s)\\n' \
+        printf '  FAIL %-28s cannot import %s (rerun: ./install-uv.sh --force %s)\n' \
             "$(condaname_for "$stage")" "$(probe "$stage")" "$stage"; missing=1
     fi
 done

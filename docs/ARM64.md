@@ -84,7 +84,7 @@ Known-good file: **272,650,600 bytes**, sha256
 
 ## Accuracy note that is NOT ARM-specific — read before trusting output
 
-On the repo's own `Validation/test_page.pdf`, the full pipeline produced 5
+On the repo's own `cxmolscribe-wd/DECIMER-Image-Segmentation/Validation/test_page.pdf`, the full pipeline produced 5
 structures, all of them classified **high confidence**, and **two were the wrong
 molecule**:
 
@@ -94,22 +94,54 @@ molecule**:
 | 2 | paracetamol | `CC(=O)Nc1ccc(I)cc1` | wrong — OH read as iodine |
 | 3 | ibuprofen | `CC(C)Cc1ccc(C(C)C(=O)O)cc1` | correct |
 
-**The cause is stage 2, not stage 3.** Inspecting the segment images DECIMER
-handed to MolScribe: caffeine's crop has the fused imidazole ring cut off, and
-paracetamol's crop has the OH clipped at the image edge, leaving a bond running
-off the frame that MolScribe reasonably resolved as a terminal `I`. MolScribe
-read both crops *faithfully*. Mask expansion (`expand=True`) is already enabled
-in `pipeline_dis.py`, so this is a segmentation accuracy limit, not a
-misconfiguration.
+**The cause is stage 2, and the mechanism is erasure, not clipping.** It is
+worth being precise, because the obvious reading — "the crop cut the molecule
+off at the edge" — points at the wrong fix.
 
-The consequence matters for how you use the tool:
+`apply_mask()` multiplies the page by the segmentation mask, thresholds the
+result into an alpha channel, forces every non-mask pixel to white, and only
+then crops to the mask's bounding box. So ink the mask failed to cover is
+**deleted**, and what reaches stage 3 is a mutilated drawing sitting inside a
+crop with clean, ink-free borders. Caffeine loses part of its fused imidazole
+ring; paracetamol loses the O of its hydroxyl, leaving a bond that terminates in
+nothing, which MolScribe resolves as `I`.
+
+Two observations rule out the alternatives. The same stage 3 reads the
+*uncropped* stage-1 figures correctly (caffeine 0.897990, paracetamol 0.894638),
+so the recogniser is not the problem. And the failure persists at 300 dpi and at
+3x upscale, so it is not resolution either.
+
+That points at a fix, and this fork ships it as an opt-in:
+
+```bash
+DECIMER_BBOX_PAD=0.15 ./run_pipeline.sh --stages 2,3 --figures FIGS
+```
+
+It crops the **original** pixels at the mask bounding box plus a padding
+fraction, instead of erasing everything outside the mask. Measured on the four
+figures of the test page, same models, same stage 3, one variable:
+
+| | default (`DECIMER_BBOX_PAD=0`) | `DECIMER_BBOX_PAD=0.15` |
+|---|---|---|
+| caffeine | `C=C1NC(NC)=C(NC)C(=O)N1C` **wrong**, 0.889446 | `Cn1c(=O)c2c(ncn2C)n(C)c1=O` **correct**, 0.901154 |
+| paracetamol | `CC(=O)Nc1ccc(I)cc1` **wrong**, 0.898833 | `CC(=O)Nc1ccc(O)cc1` **correct**, 0.922076 |
+| ibuprofen | correct, 0.898307 | correct, 0.900629 |
+| recovered | 1 of 3 | **3 of 3** |
+
+**It is off by default on purpose.** Padding can pull a neighbouring structure's
+ink into the crop on a densely packed figure, which is the thing masking exists
+to prevent — and default behaviour here is byte-identical to upstream. Turn it
+on for sparse figures where accuracy matters more than isolation, and check the
+segments.
+
+The consequence for how you read confidence stands either way:
 
 > **A high-confidence result can still be the wrong molecule.** The confidence
-> score measures image→SMILES fidelity. It cannot see that the image it was
-> given was clipped, so a truncated structure scores *high* and its rendered
-> check-image matches the wrong SMILES perfectly — which defeats the "an
-> incorrect prediction is visible at a glance" property the confidence split is
-> sold on.
+> score measures image→SMILES fidelity. It cannot see that a substituent was
+> erased before it ever saw the image, so a mutilated structure scores *high*
+> and its rendered check-image matches the wrong SMILES perfectly — which
+> defeats the "an incorrect prediction is visible at a glance" property the
+> confidence split is sold on. Both wrong molecules above scored ~0.89.
 
 Anything downstream should treat the confidence split as a triage aid, not a
 correctness guarantee, and structures near figure edges deserve a human look.
