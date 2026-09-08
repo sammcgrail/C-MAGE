@@ -1,0 +1,43 @@
+# Build context filter for every image built from the repository root
+# (Dockerfile.allinone and webapp/Dockerfile). Dockerfile.allinone COPYs the
+# pipeline paths explicitly, so this file only has to keep junk out of them;
+# it deliberately does NOT exclude webapp/, which the web image ships.
+
+# Version control and local environments (rebuilt inside the image)
+.git
+.gitignore
+**/.git
+.venv*
+**/.venv*
+.venvs
+**/node_modules/
+webapp/data/
+
+# Outputs, caches, editor and NFS droppings
+results/
+**/results/
+**/__pycache__/
+**/*.pyc
+**/*.egg-info/
+**/.nfs*
+**/.DS_Store
+MERMaid/mermaid.log
+
+# Docker's own files and docs are not needed inside the image
+.dockerignore
+Dockerfile*
+docs/
+
+# Data that is not part of the pipeline. Sample patents are inputs to mount,
+# not to bake (they are .gitignored too). DECIMER's validation tarball is
+# 98 MB of benchmark images; only its one-page test PDF is kept, as a smoke
+# test input that ships with the image.
+MERMaid/pdfdir/*.pdf
+cxmolscribe-wd/DECIMER-Image-Segmentation/Validation/*
+!cxmolscribe-wd/DECIMER-Image-Segmentation/Validation/test_page.pdf
+cxmolscribe-wd/DECIMER-Image-Segmentation/DECIMER_Segmentation_notebook.ipynb
+cxmolscribe-wd/DECIMER-Image-Segmentation/.github/
+cxmolscribe-wd/MolScribe/build/
+MERMaid/Assets/
+details/
+envs/legacy/

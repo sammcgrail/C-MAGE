@@ -1,0 +1,487 @@
+# syntax=docker/dockerfile:1.7
+#
+# C-MAGE in one image, two variants from this one file:
+#
+#   cmage:allinone   three uv environments + all three models baked in.
+#                    Runs with no network at all. The default target, and the
+#                    one to reach for when "reproduce it" is the point.
+#   cmage:slim       the same image without the ~2.4 GB of weights. The models
+#                    come from a directory mounted at /opt/cmage/models, which
+#                    `cmage:slim fetch-models` fills once (using
+#                    tools/fetch_weights.py for the Zenodo file). Starts by
+#                    checking the weights are there and fails in under a
+#                    second with instructions if not.
+#
+#   docker build -f Dockerfile.allinone -t cmage:allinone .                    # default target
+#   docker build -f Dockerfile.allinone --target slim -t cmage:slim .
+#   docker run --rm -v "$PWD/pdfs:/in:ro" -v "$PWD/out:/out" cmage:allinone
+#   docker run --rm -v "$PWD/models:/opt/cmage/models" cmage:slim fetch-models
+#   docker run --rm -v "$PWD/models:/opt/cmage/models" -v "$PWD/pdfs:/in:ro" -v "$PWD/out:/out" cmage:slim
+#
+# The two variants share every layer but the last ones: allinone is FROM slim
+# plus one COPY of the weights. One file, one entrypoint, one set of pins, so
+# they cannot drift apart. docs/DOCKER.md has the trade-offs, sizes and the
+# runs that verified each variant.
+#
+# ONE IMAGE, STILL THREE ENVIRONMENTS. Stage 2's TensorFlow 2.12 needs
+# numpy < 1.24 and the torch stages need >= 1.24 (envs/README.md). The
+# environments are built by ./install-uv.sh exactly as on a bare machine.
+#
+# MODEL PINS. Content, not URLs: the two Hugging Face repos by commit hash
+# (VH_MODEL_REV is what MERMaid/src/visualheist/methods_visualheist.py
+# hard-codes; the processor and MolScribe are loaded from "main", which
+# resolved to VH_PROC_REV / MOLSCRIBE_REV on 2026-09-08, and refs/main is
+# written to those commits so an offline load of "main" gets exactly them),
+# and the Zenodo file by tools/fetch_weights.py's own pins (sha256, exact
+# size, and the md5 Zenodo publishes; DECIMER_ALLOW_UNPINNED=1 is the one
+# opt-out). The same pins drive the build-time download and the run-time
+# `fetch-models`.
+#
+# Stages:
+#   scripts          the entrypoint and the fetch script, written once here
+#   builder          debian + uv + pinned CPython, then ./install-uv.sh.
+#                    Replaceable by a previous image to skip the ~9 min venv
+#                    build:  --build-context builder=docker-image://cmage:allinone
+#   models-download  fetches the three models (network at BUILD time only)
+#   models           a scratch stage holding only the weights, so a local
+#                    directory can stand in for it:  --build-context models=DIR
+#   runtime          runtime libs, interpreters + venvs from builder, code
+#                    from the build context, the entrypoint, the wiring
+#   slim             runtime, verified offline, including that the
+#                    missing-models check fires
+#   allinone         slim + the weights, verified offline
+
+ARG UV_VERSION=0.11.29
+ARG DEBIAN_TAG=bookworm-slim
+# Same interpreter builds the host verification used (uv-managed CPython).
+ARG PY_STAGE12=3.10.20
+ARG PY_STAGE3=3.11.15
+ARG VH_MODEL_REV=e36203e67a05b9dd66d1310fd3a217e8b334ab30
+ARG VH_PROC_REV=0e4464d1002b30f800e9d2a08a541ffa70b31b97
+ARG MOLSCRIBE_REV=a0189776b7415b82795c7ee81eed311bf5c8724b
+# tools/fetch_weights.py pins mask_rcnn_molecule.h5 by sha256, exact size and
+# Zenodo's published md5. --build-arg DECIMER_ALLOW_UNPINNED=1 (or -e at run
+# time) accepts other weights.
+ARG DECIMER_ALLOW_UNPINNED=""
+# Where the weights sit inside the `models` context: "/" for the built stage
+# and for a directory override; "/opt/cmage/models" when the override is a
+# previous image (--build-context models=docker-image://cmage:allinone).
+ARG MODELS_SRC=/
+ARG GIT_SHA=unknown
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
+
+# ----------------------------------------------------------------- scripts
+# Both scripts live in the Dockerfile so the image is fully described by the
+# repository's committed files; nothing is generated anywhere else.
+FROM scratch AS scripts
+
+# The fetch script. Used by the models-download build stage and by
+# `cmage fetch-models` at run time in the slim image: same code, same pins.
+COPY --chmod=755 <<'SH' /cmage-fetch-models
+#!/usr/bin/env bash
+# cmage-fetch-models [DIR]     (default DIR: /opt/cmage/models)
+#
+# Populates DIR with the three C-MAGE models at the pinned revisions:
+#   DIR/huggingface/hub/models--shixuanleong--visualheist-base   (two snapshots)
+#   DIR/huggingface/hub/models--yujieq--MolScribe
+#   DIR/decimer/mask_rcnn_molecule.h5
+# Idempotent: present-and-valid files are not fetched again (Hugging Face is
+# still contacted to confirm the pinned file lists, so this needs network even
+# then; `cmage check-models` is the offline question). The DECIMER file goes
+# through tools/fetch_weights.py -- local copy (DECIMER_WEIGHTS=/file), then
+# DECIMER_WEIGHTS_MIRRORS, then Zenodo with backoff for DECIMER_FETCH_WAIT
+# seconds -- validated (HDF5 signature, exact size, pinned sha256; the md5
+# Zenodo publishes is reported) before it is put in place.
+set -euo pipefail
+dir="${1:-${CMAGE_MODELS:-/opt/cmage/models}}"
+: "${CMAGE_VH_MODEL_REV:?}" "${CMAGE_VH_PROC_REV:?}" "${CMAGE_MOLSCRIBE_REV:?}"
+py=/opt/cmage/.venv-vh/bin/python
+export HF_HOME="$dir/huggingface" HF_HUB_OFFLINE=0 TRANSFORMERS_OFFLINE=0
+mkdir -p "$dir/huggingface/hub" "$dir/decimer"
+
+echo "==> Hugging Face: shixuanleong/visualheist-base @ ${CMAGE_VH_MODEL_REV:0:8} (model) + ${CMAGE_VH_PROC_REV:0:8} (processor), yujieq/MolScribe @ ${CMAGE_MOLSCRIBE_REV:0:8}"
+"$py" - <<'PY'
+import os, pathlib, shutil
+from huggingface_hub import snapshot_download
+
+hub = pathlib.Path(os.environ["HF_HOME"]) / "hub"
+
+def pin(repo, rev, patterns, ref_main=False):
+    snapshot_download(repo, revision=rev, allow_patterns=patterns)
+    if ref_main:
+        refs = hub / ("models--" + repo.replace("/", "--")) / "refs"
+        refs.mkdir(parents=True, exist_ok=True)
+        (refs / "main").write_text(rev)
+
+# Exactly the files the stage scripts request, nothing more (no second copy of
+# model.safetensors from the processor commit).
+pin("shixuanleong/visualheist-base", os.environ["CMAGE_VH_MODEL_REV"],
+    ["config.json", "configuration_florence2.py", "modeling_florence2.py", "model.safetensors"])
+pin("shixuanleong/visualheist-base", os.environ["CMAGE_VH_PROC_REV"],
+    ["config.json", "configuration_florence2.py", "preprocessor_config.json",
+     "processing_florence2.py", "tokenizer_config.json", "tokenizer.json", "vocab.json"],
+    ref_main=True)
+pin("yujieq/MolScribe", os.environ["CMAGE_MOLSCRIBE_REV"], ["swin_base_char_aux_1m.pth"], ref_main=True)
+
+# Neither is model data: .locks are download locks, xet/ is the transfer
+# backend's log directory (timestamped, so it would make every build differ).
+shutil.rmtree(hub / ".locks", ignore_errors=True)
+shutil.rmtree(hub.parent / "xet", ignore_errors=True)
+# transformers' "this cache is in the post-4.22 layout" marker. Without it
+# every import logs a misleading "your cache is of a previous version" warning
+# and tries to migrate an already-migrated cache.
+(hub / "version.txt").write_text("1")
+for p in sorted(hub.rglob("*")):
+    if p.is_file() or p.is_symlink():
+        print(f"{p.stat().st_size:>12}  {p.relative_to(hub)}")
+PY
+
+echo "==> DECIMER: mask_rcnn_molecule.h5 via tools/fetch_weights.py"
+"$py" /opt/cmage/tools/fetch_weights.py --dest "$dir/decimer/mask_rcnn_molecule.h5" \
+    --wait "${DECIMER_FETCH_WAIT:-1800}"
+"$py" /opt/cmage/tools/fetch_weights.py --check --dest "$dir/decimer/mask_rcnn_molecule.h5"
+echo "==> $(du -sh "$dir" | cut -f1) in $dir"
+if [ -x /usr/local/bin/cmage ]; then
+    CMAGE_MODELS="$dir" HF_HOME="$dir/huggingface" /usr/local/bin/cmage check-models
+fi
+SH
+
+# The entrypoint, shared by both variants.
+COPY --chmod=755 <<'SH' /cmage
+#!/usr/bin/env bash
+# C-MAGE container entrypoint (cmage:allinone and cmage:slim).
+#
+#   cmage [run_pipeline.sh options]      run the pipeline (the default)
+#   cmage fetch-models [DIR]             fill DIR (default /opt/cmage/models) with the models
+#   cmage check-models [--stages LIST]   are the models the requested stages need present?
+#
+# The pipeline path is deliberately thin: it adds container-shaped defaults
+# and hands everything else to run_pipeline.sh unchanged, so `--help` is the
+# pipeline's own help and every flag documented there works.
+#   /in  mounted and no --pdfs given  ->  --pdfs /in
+#   /out mounted and no --out given   ->  --out /out
+#   --local always: a container has no batch queue to submit to.
+# Before running, it checks that every model the requested stages need is
+# actually there, so a slim image without its volume fails in under a second
+# with instructions, not four minutes in with an h5py traceback.
+# Exit codes: 2 no input, 3 models missing; otherwise run_pipeline.sh's.
+set -euo pipefail
+
+MODELS="${CMAGE_MODELS:-/opt/cmage/models}"
+HUB="${HF_HOME:-$MODELS/huggingface}/hub"
+VARIANT="${CMAGE_VARIANT:-unknown}"
+
+case "${1:-}" in
+    fetch-models) shift; exec /usr/local/bin/cmage-fetch-models "${1:-$MODELS}" ;;
+esac
+
+args=("$@")
+given() { local a; for a in "${args[@]}"; do [ "$a" = "$1" ] && return 0; done; return 1; }
+argval() {   # argval FLAG DEFAULT -> the token after FLAG, or DEFAULT
+    local i; for ((i = 0; i < ${#args[@]}; i++)); do
+        [ "${args[$i]}" = "$1" ] && { echo "${args[$((i + 1))]:-}"; return; }
+    done; echo "$2"
+}
+stages="$(argval --stages 1,2,3)"
+wants() { case ",${stages}," in *",$1,"*) return 0 ;; *) return 1 ;; esac; }
+
+check_models() {
+    local missing=() d main w
+    if wants 1; then
+        d="$HUB/models--shixuanleong--visualheist-base"
+        [ -s "$d/snapshots/${CMAGE_VH_MODEL_REV}/model.safetensors" ] \
+            || missing+=("stage 1 VisualHeist:  $d/snapshots/${CMAGE_VH_MODEL_REV}/model.safetensors")
+        main="$(cat "$d/refs/main" 2>/dev/null || true)"
+        { [ -n "$main" ] && [ -s "$d/snapshots/$main/preprocessor_config.json" ]; } \
+            || missing+=("stage 1 VisualHeist:  $d/refs/main -> snapshots/<commit>/preprocessor_config.json")
+    fi
+    if wants 2; then
+        w="$MODELS/decimer/mask_rcnn_molecule.h5"
+        # Non-empty, plausibly large and an HDF5 signature: the checks that
+        # tell a model from a cached error page (patches/0002).
+        if [ ! -s "$w" ] || [ "$(stat -Lc %s "$w")" -lt 8388608 ] \
+           || [ "$(head -c 8 "$w" | od -An -tx1 | tr -d ' \n')" != "894844460d0a1a0a" ]; then
+            missing+=("stage 2 DECIMER:      $w  (a valid HDF5 file, ~260 MB)")
+        fi
+    fi
+    if wants 3; then
+        d="$HUB/models--yujieq--MolScribe"
+        main="$(cat "$d/refs/main" 2>/dev/null || true)"
+        { [ -n "$main" ] && [ -s "$d/snapshots/$main/swin_base_char_aux_1m.pth" ]; } \
+            || missing+=("stage 3 CXMolScribe:  $d/refs/main -> snapshots/<commit>/swin_base_char_aux_1m.pth")
+    fi
+    [ ${#missing[@]} -eq 0 ] && return 0
+    {
+        echo "cmage: model files missing for the requested stages (${stages}):"
+        printf '  %s\n' "${missing[@]}"
+        if [ "$VARIANT" = allinone ]; then
+            echo "This is cmage:allinone, which ships the weights inside the image, so something"
+            echo "is mounted over ${MODELS} that does not contain them. Drop that -v mount, or"
+            echo "point it at a complete directory."
+        else
+            echo "This is cmage:slim: the weights are not in the image. Either"
+            echo "  1. mount a directory that already holds them"
+            echo "     (layout: huggingface/hub/models--*, decimer/mask_rcnn_molecule.h5):"
+            echo "       -v /path/to/models:${MODELS}"
+            echo "  2. fetch them into such a directory once (network, ~2.4 GB; Zenodo is retried"
+            echo "     with backoff, DECIMER_WEIGHTS=/file adopts a local copy):"
+            echo "       docker run --rm -v /path/to/models:${MODELS} cmage:slim fetch-models"
+            echo "  3. or use cmage:allinone, which has them baked in and needs no network."
+        fi
+    } >&2
+    return 3
+}
+
+case "${1:-}" in
+    check-models)
+        if check_models; then echo "cmage: models present for stages ${stages} (${VARIANT})"; exit 0; fi
+        exit 3 ;;
+esac
+
+help=no
+if given -h || given --help; then help=yes; fi
+if [ "$help" = no ]; then
+    if ! given --pdfs && [ -d /in ]; then args+=(--pdfs /in); fi
+    if ! given --out; then
+        if [ -d /out ]; then
+            args+=(--out /out)
+        else
+            echo "cmage: /out is not mounted; results will stay inside this container." >&2
+            echo "       Add  -v \"\$PWD/out:/out\"  to keep them." >&2
+        fi
+    fi
+    if ! given --pdfs && ! given --figures && [ ! -d /in ]; then
+        echo "cmage: no input. Mount a directory of PDFs at /in  (-v /path/to/pdfs:/in)" >&2
+        echo "       or pass --pdfs DIR / --figures DIR. See --help." >&2
+        exit 2
+    fi
+    check_models || exit 3
+fi
+exec /opt/cmage/run_pipeline.sh --local "${args[@]}"
+SH
+
+# ----------------------------------------------------------------- builder
+FROM debian:${DEBIAN_TAG} AS builder
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive
+# A compiler in case a pin ever needs an sdist; nothing did on aarch64, and
+# none of this stage ships.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        build-essential ca-certificates poppler-utils \
+ && rm -rf /var/lib/apt/lists/*
+COPY --from=uv /uv /usr/local/bin/uv
+
+# Interpreters live outside the repo tree and are copied to the same absolute
+# path in the final stage; each venv's pyvenv.cfg and bin/python point there.
+ENV UV_PYTHON_INSTALL_DIR=/opt/python \
+    UV_PYTHON_PREFERENCE=only-managed \
+    UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1
+ARG PY_STAGE12
+ARG PY_STAGE3
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv python install "cpython-${PY_STAGE12}" "cpython-${PY_STAGE3}"
+
+WORKDIR /opt/cmage
+# Explicit paths rather than `COPY .`: what is in the image is what is listed
+# here. .dockerignore only trims junk inside these (caches, egg-info, the
+# 98 MB validation tarball, sample PDFs).
+COPY install-uv.sh run_pipeline.sh run_pipeline.py README.md ./
+COPY envs/ envs/
+COPY MERMaid/ MERMaid/
+COPY cxmolscribe-wd/ cxmolscribe-wd/
+COPY tools/ tools/
+COPY patches/ patches/
+COPY tests/ tests/
+COPY examples/ examples/
+# Builds .venv-vh, .venv-decimer, .venv-ms and the conda-named symlinks in
+# .venvs/ that run_pipeline.sh probes. Unchanged from a bare-metal install.
+RUN --mount=type=cache,target=/root/.cache/uv ./install-uv.sh
+
+# --------------------------------------------------------- models-download
+FROM builder AS models-download
+ARG VH_MODEL_REV
+ARG VH_PROC_REV
+ARG MOLSCRIBE_REV
+ARG DECIMER_ALLOW_UNPINNED
+# tools/fetch_weights.py escape hatches, passed through as build args:
+#   DECIMER_WEIGHTS_MIRRORS=url1,url2   try these before Zenodo
+#   DECIMER_FETCH_WAIT=seconds          keep retrying a 5xx this long
+ARG DECIMER_WEIGHTS_MIRRORS=""
+ARG DECIMER_FETCH_WAIT=1800
+COPY --from=scripts /cmage-fetch-models /usr/local/bin/cmage-fetch-models
+RUN CMAGE_VH_MODEL_REV="${VH_MODEL_REV}" CMAGE_VH_PROC_REV="${VH_PROC_REV}" \
+    CMAGE_MOLSCRIBE_REV="${MOLSCRIBE_REV}" DECIMER_ALLOW_UNPINNED="${DECIMER_ALLOW_UNPINNED}" \
+    DECIMER_WEIGHTS_MIRRORS="${DECIMER_WEIGHTS_MIRRORS}" DECIMER_FETCH_WAIT="${DECIMER_FETCH_WAIT}" \
+    /usr/local/bin/cmage-fetch-models /models
+
+# ------------------------------------------------------------------ models
+# Only the model files, at a fixed layout, so `--build-context models=DIR`
+# (or =docker-image://... with MODELS_SRC) can stand in for the download stage.
+FROM scratch AS models
+COPY --from=models-download /models /
+
+# ----------------------------------------------------------------- runtime
+FROM debian:${DEBIAN_TAG} AS runtime
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive
+# poppler-utils: pdf2image shells out to pdftoppm/pdfinfo.
+# libgl1 + libglib2.0-0: the non-headless opencv-python wheels stages 2 and 3
+# pin link against libGL.so.1 and libgthread-2.0.so.0.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        poppler-utils libgl1 libglib2.0-0 ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+# Interpreters and environments from the builder; the code from the build
+# context. The editable installs point at /opt/cmage/<package> by path, so
+# the checkout is what runs, whichever builder produced the venvs -- this is
+# what makes `--build-context builder=docker-image://cmage:allinone` safe.
+COPY --from=builder /opt/python /opt/python
+COPY --from=builder /opt/cmage/.venv-vh /opt/cmage/.venv-vh
+COPY --from=builder /opt/cmage/.venv-decimer /opt/cmage/.venv-decimer
+COPY --from=builder /opt/cmage/.venv-ms /opt/cmage/.venv-ms
+WORKDIR /opt/cmage
+COPY install-uv.sh run_pipeline.sh run_pipeline.py README.md ./
+COPY envs/ envs/
+COPY MERMaid/ MERMaid/
+COPY cxmolscribe-wd/ cxmolscribe-wd/
+COPY tools/ tools/
+COPY patches/ patches/
+COPY tests/ tests/
+COPY examples/ examples/
+COPY --from=scripts /cmage /usr/local/bin/cmage
+COPY --from=scripts /cmage-fetch-models /usr/local/bin/cmage-fetch-models
+
+# Wire things together. Done here rather than inherited from the builder so
+# the tree is the same whichever builder supplied the venvs:
+#  - .venvs/cmage-*: the conda-named, RELATIVE symlinks run_pipeline.sh probes
+#    for, and the completion stamps install-uv.sh writes (sha256 of the
+#    stage's requirements file) once a venv's editable install has finished.
+#  - decimer_segmentation.load_model() looks for the weights next to its own
+#    source before it looks in ~/.cache, so this link makes stage 2 find them
+#    whatever HOME is (root, --user 1000, anything). It dangles in slim until
+#    the volume is there; the entrypoint check says so.
+#  - hub/version.txt: see cmage-fetch-models.
+RUN mkdir -p .venvs \
+ && ln -sfn ../.venv-vh .venvs/cmage-visualheist \
+ && ln -sfn ../.venv-decimer .venvs/cmage-decimer \
+ && ln -sfn ../.venv-ms .venvs/cmage-cxmolscribe \
+ && sha256sum envs/uv/stage1-visualheist.txt | cut -d" " -f1 > .venv-vh/.cmage-install-complete \
+ && sha256sum envs/uv/stage2-decimer.txt     | cut -d" " -f1 > .venv-decimer/.cmage-install-complete \
+ && sha256sum envs/uv/stage3-cxmolscribe.txt | cut -d" " -f1 > .venv-ms/.cmage-install-complete \
+ && mkdir -p /opt/cmage/models/huggingface/hub /opt/cmage/models/decimer \
+ && echo 1 > /opt/cmage/models/huggingface/hub/version.txt \
+ && ln -sfn /opt/cmage/models/decimer/mask_rcnn_molecule.h5 \
+        /opt/cmage/cxmolscribe-wd/DECIMER-Image-Segmentation/decimer_segmentation/mask_rcnn_molecule.h5
+
+# Offline by declaration, not by luck: with the model directory complete
+# these stop every stage from even attempting a connection, so a container
+# with no network behaves identically to one with it (fetch-models flips
+# them for its own process). HF_MODULES_CACHE (Florence-2's trust_remote_code
+# copies) and MPLCONFIGDIR are the only things the stages write outside the
+# run directory; under /tmp so `docker run --user UID:GID` works against the
+# read-only image tree. DECIMER_CACHE is read only by tools/fetch_weights.py
+# (its default --dest). The pins are exported so the entrypoint check and
+# fetch-models agree with the build.
+ARG VH_MODEL_REV
+ARG VH_PROC_REV
+ARG MOLSCRIBE_REV
+ARG DECIMER_ALLOW_UNPINNED
+ENV HF_HOME=/opt/cmage/models/huggingface \
+    HF_HUB_OFFLINE=1 \
+    TRANSFORMERS_OFFLINE=1 \
+    HF_HUB_DISABLE_TELEMETRY=1 \
+    HF_MODULES_CACHE=/tmp/cmage/hf-modules \
+    MPLCONFIGDIR=/tmp/cmage/matplotlib \
+    DECIMER_CACHE=/opt/cmage/models/decimer/mask_rcnn_molecule.h5 \
+    CMAGE_VH_MODEL_REV=${VH_MODEL_REV} \
+    CMAGE_VH_PROC_REV=${VH_PROC_REV} \
+    CMAGE_MOLSCRIBE_REV=${MOLSCRIBE_REV} \
+    DECIMER_ALLOW_UNPINNED=${DECIMER_ALLOW_UNPINNED} \
+    CMAGE_DEVICE=cpu \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+ENTRYPOINT ["/usr/local/bin/cmage"]
+
+# -------------------------------------------------------------------- slim
+FROM runtime AS slim
+ENV CMAGE_VARIANT=slim
+# Verified before tagging, offline: every environment imports its stage's
+# package, the help prints, and the missing-models check FIRES (exit 3 with
+# the fetch-models hint) and, as the positive control, PASSES on a complete
+# layout faked in place and removed again in the same step.
+RUN --network=none <<'EOF'
+cd /opt/cmage
+echo "--- stage 1 environment"
+.venvs/cmage-visualheist/bin/python -c "
+import torch, transformers, visualheist, pdf2image
+print('python', __import__('sys').version.split()[0], 'torch', torch.__version__, 'transformers', transformers.__version__)"
+echo "--- stage 2 environment"
+.venvs/cmage-decimer/bin/python -c "
+import tensorflow as tf, cv2, h5py, numpy, pdf2image
+print('python', __import__('sys').version.split()[0], 'tensorflow', tf.__version__, 'numpy', numpy.__version__, 'cv2', cv2.__version__)"
+echo "--- stage 3 environment"
+.venvs/cmage-cxmolscribe/bin/python -c "
+import torch, rdkit, cv2
+from molscribe import MolScribe
+print('python', __import__('sys').version.split()[0], 'torch', torch.__version__, 'rdkit', rdkit.__version__)"
+echo "--- entrypoint: help"
+cmage --help | head -1
+echo "--- entrypoint: the missing-models check must fire (no weights in this stage)"
+if cmage check-models 2>/tmp/check.err; then echo "check passed with no models: broken"; exit 1; fi
+grep -q 'fetch-models' /tmp/check.err && grep -q 'stage 2 DECIMER' /tmp/check.err && echo "fired, exit 3, with instructions"
+echo "--- entrypoint: positive control, a faked complete layout must pass"
+hub=/opt/cmage/models/huggingface/hub
+vh=$hub/models--shixuanleong--visualheist-base; ms=$hub/models--yujieq--MolScribe
+mkdir -p $vh/snapshots/$CMAGE_VH_MODEL_REV $vh/snapshots/$CMAGE_VH_PROC_REV $vh/refs $ms/snapshots/$CMAGE_MOLSCRIBE_REV $ms/refs
+echo x > $vh/snapshots/$CMAGE_VH_MODEL_REV/model.safetensors; echo x > $vh/snapshots/$CMAGE_VH_PROC_REV/preprocessor_config.json
+echo -n $CMAGE_VH_PROC_REV > $vh/refs/main; echo x > $ms/snapshots/$CMAGE_MOLSCRIBE_REV/swin_base_char_aux_1m.pth; echo -n $CMAGE_MOLSCRIBE_REV > $ms/refs/main
+printf '\x89HDF\r\n\x1a\n' > /opt/cmage/models/decimer/mask_rcnn_molecule.h5; truncate -s 9M /opt/cmage/models/decimer/mask_rcnn_molecule.h5
+cmage check-models
+cmage check-models --stages 2,3
+rm -rf $vh $ms /opt/cmage/models/decimer/mask_rcnn_molecule.h5 /tmp/check.err /tmp/cmage
+echo "--- poppler"; pdftoppm -v 2>&1 | head -1
+EOF
+ARG GIT_SHA
+LABEL org.opencontainers.image.title="C-MAGE (slim, CPU; models from a volume)" \
+      org.opencontainers.image.revision="${GIT_SHA}" \
+      org.opencontainers.image.description="VisualHeist -> DECIMER -> MolScribe, three uv envs; weights mounted at /opt/cmage/models or fetched once with `fetch-models`" \
+      io.cmage.variant="slim"
+
+# ---------------------------------------------------------------- allinone
+FROM slim AS allinone
+ENV CMAGE_VARIANT=allinone
+ARG MODELS_SRC
+COPY --from=models ${MODELS_SRC} /opt/cmage/models/
+# Offline again: the five files the stage scripts request resolve from the
+# hub cache, the DECIMER file passes tools/fetch_weights.py's pins (HDF5
+# signature, exact size, sha256; the md5 Zenodo publishes is reported), and
+# the entrypoint check passes. A build that fails this is not worth
+# running; a build that passes it can still have a broken pipeline, which is
+# what docs/DOCKER.md's verified runs are for.
+RUN --network=none <<'EOF'
+cd /opt/cmage
+echo "--- models resolve offline, the way the stage scripts ask for them"
+.venvs/cmage-visualheist/bin/python -c "
+import os
+from huggingface_hub import hf_hub_download
+rev = os.environ['CMAGE_VH_MODEL_REV']
+for repo, name, r in [('shixuanleong/visualheist-base', 'model.safetensors', rev),
+                      ('shixuanleong/visualheist-base', 'modeling_florence2.py', rev),
+                      ('shixuanleong/visualheist-base', 'preprocessor_config.json', None),
+                      ('shixuanleong/visualheist-base', 'tokenizer.json', None),
+                      ('yujieq/MolScribe', 'swin_base_char_aux_1m.pth', None)]:
+    p = hf_hub_download(repo, name, revision=r)
+    print(f'{os.path.getsize(p):>12}  {p}')"
+.venvs/cmage-visualheist/bin/python tools/fetch_weights.py --check
+cmage check-models
+rm -rf /tmp/cmage
+EOF
+ARG GIT_SHA
+LABEL org.opencontainers.image.title="C-MAGE (all-in-one, CPU)" \
+      org.opencontainers.image.revision="${GIT_SHA}" \
+      org.opencontainers.image.description="VisualHeist -> DECIMER -> MolScribe, three uv envs and all weights baked in; runs with no network" \
+      io.cmage.variant="allinone"
