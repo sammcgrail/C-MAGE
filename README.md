@@ -13,15 +13,52 @@ into machine-readable CXSMILES.
 
 ## Install
 
-Needs ~7 GB of disk and Linux, Windows, or macOS 12+ on Apple Silicon. Intel Macs
-cannot run it — PyTorch has published no macOS x86_64 wheels since 2.2.2.
-A GPU is optional.
+Needs ~7 GB of disk. A GPU is optional. Three ways in — pick one:
 
-Users will also need conda. If you don't have it, install
-[Miniforge](https://conda-forge.org/download/) — pick the file matching your
-system and run it.
+| | Needs | Best for |
+|---|---|---|
+| **[Docker](docs/DOCKER.md)** | docker | one command, nothing installed on the host |
+| **[uv](docs/ARM64.md)** | [uv](https://docs.astral.sh/uv/) | fast, no conda, **works on ARM64** |
+| conda | conda | the original path; required for a **CUDA** box |
 
-After conda is installed, clone C-MAGE's repository
+Platform support: Linux x86_64, **Linux aarch64/ARM64** (added via the uv path),
+Windows, and macOS 12+ on Apple Silicon. Intel Macs cannot run it — PyTorch has
+published no macOS x86_64 wheels since 2.2.2.
+
+### Docker — one container, everything baked in
+
+```bash
+docker build -f Dockerfile.allinone -t cmage .
+docker run --rm -v "$PWD/pdfs:/in" -v "$PWD/out:/out" cmage --pdfs /in --out /out
+```
+
+Details and image-size trade-offs: [docs/DOCKER.md](docs/DOCKER.md).
+
+### uv — no conda required
+
+```bash
+./install-uv.sh                    # three venvs, same pins as the conda specs
+python3 tools/fetch_weights.py     # stage 2 weights, checksum-verified
+./run_pipeline.sh --device cpu
+```
+
+`install-uv.sh` builds the same three environments from `envs/uv/*.txt`, which
+carry the identical version pins and reasoning as `envs/*.yml`. Only the two
+things pip cannot express differ: **poppler** comes from your system package
+manager (`apt install poppler-utils`), and `cudatoolkit`/`cudnn` are dropped
+because the uv path is CPU-only — **on a CUDA machine use `./install.sh`**, where
+conda pins the exact CUDA/cuDNN pair TensorFlow 2.12 needs.
+
+There are still three environments under uv, for the same irreducible reason:
+stage 2's TensorFlow 2.12 requires `numpy < 1.24` and the PyTorch stages require
+`>= 1.24`.
+
+ARM64 notes, including two corrections to the platform claims below and why
+MolScribe's x86-only Indigo does not block inference:
+[docs/ARM64.md](docs/ARM64.md).
+
+### conda
+
 ```bash
 git clone https://github.com/AlexTaylor54/C-MAGE.git
 cd C-MAGE
@@ -84,6 +121,29 @@ The split is on CXMolScribe's confidence at a threshold of 0.8431. Each row in t
 spreadsheet shows the DECIMER-Image-Segmentation input next to the predicted CXSMILES and a
 rendering of that CXSMILES, so an incorrect prediction is visible at a glance. The raw 
 confidence value is also present in this row.
+
+## Accuracy — read this before trusting the confidence split
+
+The confidence threshold sorts results into two spreadsheets, and it is easy to
+read that as "high confidence = correct". It is not.
+
+**The score measures how faithfully the model read the image it was given. It
+cannot see that the image was clipped.** If stage 2's segmentation crops a
+structure — cutting off a fused ring, or a substituent at the frame edge — stage 3
+reads the truncated drawing accurately, reports high confidence, and renders a
+check-image that matches its own wrong SMILES perfectly. The side-by-side
+rendering that normally makes an error obvious at a glance agrees with itself in
+exactly this case.
+
+Observed on this repository's own `Validation/test_page.pdf`: five structures,
+all five classified high confidence, two of them the wrong molecule — caffeine
+missing its fused imidazole ring, and paracetamol's hydroxyl read as iodine after
+being clipped at the crop boundary. Mask expansion (`expand=True`) was already
+enabled, so this is a segmentation accuracy limit rather than a misconfiguration.
+
+Treat the split as triage, not a correctness guarantee, and give structures near
+figure edges a human look. Measured numbers against a ground-truth corpus are in
+[benchmarks/](benchmarks/).
 
 ## Post Pipeline Processing
 
