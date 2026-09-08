@@ -60,7 +60,7 @@ def _run(smiles: list[str]) -> list[dict]:
         return [dict(e, error=str(exc)[:300]) for e in empty]
 
 
-def verdict(pred: dict, truths: list[dict]) -> tuple[str, int | None]:
+def verdict(pred: dict, truths: list[dict], *, whole: bool = True) -> tuple[str, int | None]:
     """Compare one canonicalised prediction against candidate truths.
 
     Returns (verdict, index of the matched truth or None):
@@ -68,13 +68,28 @@ def verdict(pred: dict, truths: list[dict]) -> tuple[str, int | None]:
       'stereo'   same molecule once stereochemistry is ignored
       'wrong'    a valid molecule that matches none of the candidates
       'invalid'  the prediction is not parseable
+
+    whole=True scores the ENTIRE predicted string -- what a caller gets if it
+    pastes the SMILES straight out. whole=False scores only the largest
+    fragment, which is what the recogniser actually achieved when it appended
+    phantom disconnected atoms to a correct core. The two numbers differ a lot
+    on real corpora and neither one alone is an honest summary, so both are
+    computed and both are reported. Ground truth is always compared whole:
+    a truth SMILES with a real counter-ion is not a phantom.
     """
-    if not pred.get("valid"):
+    ck, fk = ("canonical", "flat") if whole else ("largest", "largest_flat")
+    if not pred.get("valid") or pred.get(ck) is None:
         return "invalid", None
     for i, t in enumerate(truths):
-        if t.get("valid") and t["canonical"] == pred["canonical"]:
+        if t.get("valid") and t["canonical"] == pred[ck]:
             return "match", i
     for i, t in enumerate(truths):
-        if t.get("valid") and t["flat"] == pred["flat"]:
+        if t.get("valid") and t["flat"] == pred[fk]:
             return "stereo", i
     return "wrong", None
+
+
+def phantom_summary(pred: dict) -> str:
+    """'3 x I, 2 x [HH]' -- the fragments a largest-fragment score discards."""
+    items = sorted((pred.get("phantom") or {}).items(), key=lambda kv: (-kv[1], kv[0]))
+    return ", ".join(f"{n} x {s}" if n > 1 else s for s, n in items)

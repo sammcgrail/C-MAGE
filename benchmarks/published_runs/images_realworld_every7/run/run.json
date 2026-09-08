@@ -1,0 +1,14 @@
+{
+  "title": "97 single-molecule depictions — stage 3 alone",
+  "corpus": "97 PNG depictions (300x300), one molecule each",
+  "corpus_detail": "A stride sample of the 743-image molecules_realworld corpus: of the 743 files, 675 carry a SMILES, and every 7th of those from index 0 gives these 97. 95 of the 97 were checked pixel-exact against PubChem's own depiction of the compound's CID; the two that were not (fadh2, toprol_az) keep their corpus SMILES. Every image is a clean, isolated, computer-drawn structure — no page background, no caption, no neighbouring molecule.",
+  "stages": "Stage 3 only. Figure extraction and segmentation were not run: each image went straight to CXMolScribe.",
+  "method": "RDKit canonical SMILES on both sides, never string equality. Scored twice — once on the whole predicted string, once on its largest fragment by heavy-atom count — and each of those twice again, with stereochemistry required and with it removed. Recall counts drawn molecules recovered (denominator 97 drawn); precision counts emitted structures that are right (denominator 97 emitted). The two denominators are equal here only because every image holds exactly one molecule and the run emitted exactly one structure per image.",
+  "settings": "CPU. Pipeline defaults; DECIMER_BBOX_PAD unset, i.e. 0, which is upstream behaviour. Stage 2 is not involved in this run at all.",
+  "note": "Because segmentation never ran, the crop shown beside each result IS the original image — nothing was cropped, masked or erased. That is the point of this arm: it measures the SMILES reader on its own, with the segmenter's failures excluded by construction. It is therefore an upper bound on what the full pipeline can do on figures of this kind, not a prediction of it. The phantom fragments are largely a resolution artifact: re-reading the 24 worst offenders at 4x scale cuts their total fragment count from 257 to 56. That paired test is the third run on this tab; read its caveat before comparing its accuracy with this one's.",
+  "source": "benchmarks/run_stage3_only.sh over the sample listed in ground_truth/images_realworld_every7.json",
+  "corpus_key": "images",
+  "seconds": 347.5,
+  "hardware": "8-core arm64 CPU, no GPU, shared with other work at the time",
+  "rank": 1
+}

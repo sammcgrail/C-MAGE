@@ -30,8 +30,30 @@ document's molecules with RDKit canonical SMILES, once with stereochemistry
 and once without. A prediction the pipeline scored "high confidence" that is
 still the wrong molecule is the thing this tab exists to make visible.
 
-Optionally a run directory may carry a verdicts.json written by whatever
-produced it; if present and well-formed it is used as-is instead of recomputing.
+EVERY PREDICTION IS SCORED TWICE, and both numbers are reported:
+
+  verdict       the WHOLE predicted SMILES string, which is what a caller gets
+                if it pastes the output straight into a database
+  frag_verdict  the LARGEST FRAGMENT of it, which is what the recogniser
+                actually achieved when it appended phantom disconnected atoms
+
+On a real corpus the two differ enormously -- 14% against 66% on the 97-image
+set shipped here -- because the model routinely recovers the molecule and then
+hangs unbonded `I` or `[HH]` off it. Publishing either number alone misleads:
+the strict one says the tool is useless, the fragment one hides that its raw
+output is unusable without a post-process. So the tally carries both, the
+confidence cross-tab is broken out under both, and the per-structure record
+keeps the fragment count and the discarded fragments themselves.
+
+A run directory may also carry:
+
+    run.json       {"title","corpus","corpus_detail","stages","method",
+                    "settings","note","source"} -- what this run was measured
+                    on. Displayed with the numbers; a headline accuracy with no
+                    corpus attached is not a fact anyone can use.
+    verdicts.json  verdicts from an offline scorer. These are NOT trusted in
+                   place of recomputation: they are cross-checked against it and
+                   the disagreement count is reported.
 """
 from __future__ import annotations
 
@@ -68,7 +90,7 @@ def _signature() -> str:
         except OSError:
             parts.append(f"{p}:missing")
         if p.is_dir():
-            for sub in list(results.SUBDIRS.values()) + ["03_CXMS_Results", "verdicts.json"]:
+            for sub in list(results.SUBDIRS.values()) + ["03_CXMS_Results", "verdicts.json", "run.json"]:
                 try:
                     parts.append(f"{p / sub}:{(p / sub).stat().st_mtime_ns}")
                 except OSError:
@@ -99,10 +121,34 @@ def _run_id(run: Path) -> str:
     return hashlib.sha1(str(run.relative_to(config.BENCHMARK_DIR)).encode()).hexdigest()[:10]
 
 
+_META_KEYS = ("title", "corpus", "corpus_key", "corpus_detail", "stages", "method", "settings",
+              "note", "source", "seconds", "hardware", "rank")
+
+# Sampling facts a manifest may record about the population it was drawn from.
+# They are what turns "97 images" into a claim someone can check: how many exist,
+# how many were eligible, how they were picked, how many were verified.
+_CORPUS_STATS = ("images_dir_file_count", "population_size", "step", "offset", "sample_size",
+                 "pubchem_verified", "files_with_empty_smiles", "files_without_key", "generated", "method")
+
+
+def _run_meta(run: Path) -> dict:
+    """Optional run.json beside the stage directories: what corpus this run is
+    over, which stages produced it, and any standing caveat. Every headline
+    number on this tab is meaningless without the corpus it was measured on,
+    so the corpus travels with the run rather than living in page copy."""
+    try:
+        data = json.loads((run / "run.json").read_text())
+    except (OSError, ValueError):
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    return {k: str(data[k]) for k in _META_KEYS if data.get(k)}
+
+
 def _load_manifests() -> tuple[list[dict], dict]:
     """-> (documents, meta). Each document: {stem, file, title, molecules:[{key,label,smiles}]}."""
     docs: list[dict] = []
-    meta = {"names": [], "descriptions": [], "files": []}
+    meta: dict = {"names": [], "descriptions": [], "files": [], "corpora": {}}
     for path in manifest_paths():
         try:
             data = json.loads(path.read_text())
@@ -111,6 +157,18 @@ def _load_manifests() -> tuple[list[dict], dict]:
         if not isinstance(data, dict):
             continue
         meta["files"].append(path.name)
+        key = str(data.get("corpus") or path.stem)
+        stats = {k: data[k] for k in _CORPUS_STATS if k in data}
+        stats["manifest"] = path.name
+        stats["groups"] = len(data["groups"]) if isinstance(data.get("groups"), dict) else len(data.get("pdfs") or [])
+        stats["molecules"] = sum(len(g.get("molecules") or [])
+                                 for g in (data["groups"].values() if isinstance(data.get("groups"), dict)
+                                           else (data.get("pdfs") or [])))
+        if data.get("excluded"):
+            stats["excluded"] = list(data["excluded"])
+        if data.get("pubchem_unverified_files"):
+            stats["unverified"] = list(data["pubchem_unverified_files"])
+        meta["corpora"][key] = stats
         if data.get("name"):
             meta["names"].append(str(data["name"]))
         if data.get("description"):
@@ -188,6 +246,7 @@ def _build() -> dict:
         "description": " · ".join(meta["descriptions"]),
         "threshold": config.CONFIDENCE_THRESHOLD,
         "generated": time.time(),
+        "corpora": meta["corpora"],
         "runs": [],
         "_runs": [],
     }
@@ -223,38 +282,75 @@ def _build() -> dict:
             per_doc[d["stem"]] = {"file": d["file"], "title": d["title"],
                                   "molecules": [{k: m.get(k) for k in ("key", "label", "smiles", "canonical", "valid")}
                                                 for m in truth_by_stem[d["stem"]]],
-                                  "structures": [], "matched_keys": []}
+                                  "structures": [], "matched_keys": [], "frag_matched_keys": []}
         unassigned = []
+        disagreements = 0
         for s, pred in zip(structs, preds):
             stem = _doc_for(s["source"], stems)
-            rec = dict(s, pred_canonical=pred.get("canonical"))
+            # Both scorings, always, from the same RDKit canonicalisation:
+            #   verdict       the whole predicted string, as a caller would paste it
+            #   frag_verdict  the largest fragment alone, dropping phantom atoms
+            # Reporting only one of these is the difference between "14% works"
+            # and "66% works", so the record carries both and so does the UI.
+            rec = dict(s, pred_canonical=pred.get("canonical"), pred_largest=pred.get("largest"),
+                       fragments=pred.get("fragments") or 0, phantom=chem.phantom_summary(pred))
             if stem is None:
-                rec.update(verdict="unassigned", matched_key=None, truth_smiles=None)
+                rec.update(verdict="unassigned", frag_verdict="unassigned", matched_key=None, truth_smiles=None)
                 unassigned.append(rec)
                 continue
+            truths = truth_by_stem[stem]
+            v, idx = chem.verdict(pred, truths, whole=True)
+            fv, fidx = chem.verdict(pred, truths, whole=False)
+            # Recall is counted separately for the two scorings. Letting a
+            # fragment-only hit fill in matched_key would quietly move the strict
+            # "expected molecules found" number without anything saying so.
+            strict_truth = truths[idx] if idx is not None else None
+            frag_truth = truths[fidx] if fidx is not None else None
+            shown = strict_truth or frag_truth
+            rec.update(verdict=v, frag_verdict=fv,
+                       matched_key=strict_truth["key"] if strict_truth else None,
+                       frag_matched_key=frag_truth["key"] if frag_truth else None,
+                       truth_smiles=shown["smiles"] if shown else None)
             pre = (precomputed or {}).get(s.get("segment_image") or "")
             if pre:
+                # A verdicts.json written by the offline scorer. It is used for the
+                # extras it carries (nearest miss + Tanimoto), and its verdict is
+                # CHECKED against the one just recomputed rather than trusted: a
+                # silent disagreement between the two would otherwise be invisible.
                 mk = pre.get("matched_key")
-                truth = next((t for t in truth_by_stem[stem] if mk and mk in (t["key"], t["label"])), None)
-                rec.update(verdict=pre["verdict"], matched_key=truth["key"] if truth else mk,
-                           truth_smiles=pre.get("truth_smiles") or (truth["smiles"] if truth else None),
-                           closest_key=pre.get("closest_key"), closest_tanimoto=pre.get("closest_tanimoto"))
-            else:
-                v, idx = chem.verdict(pred, truth_by_stem[stem])
-                truth = truth_by_stem[stem][idx] if idx is not None else None
-                rec.update(verdict=v, matched_key=truth["key"] if truth else None,
-                           truth_smiles=truth["smiles"] if truth else None)
-            if rec["matched_key"] and rec["matched_key"] not in per_doc[stem]["matched_keys"]:
-                per_doc[stem]["matched_keys"].append(rec["matched_key"])
+                pt = next((t for t in truths if mk and mk in (t["key"], t["label"])), None)
+                if pre["verdict"] != v:
+                    disagreements += 1
+                rec.update(closest_key=pre.get("closest_key"), closest_tanimoto=pre.get("closest_tanimoto"))
+                if pt is not None and rec["truth_smiles"] is None:
+                    rec["truth_smiles"] = pt["smiles"]
+            if rec["truth_smiles"] is None and len(truths) == 1:
+                # One drawn molecule in the group: the answer it was scored against
+                # is unambiguous even when the prediction misses it entirely.
+                rec["truth_smiles"] = truths[0]["smiles"]
+            for field, bucket in (("matched_key", "matched_keys"), ("frag_matched_key", "frag_matched_keys")):
+                if rec[field] and rec[field] not in per_doc[stem][bucket]:
+                    per_doc[stem][bucket].append(rec[field])
             per_doc[stem]["structures"].append(rec)
 
+        blank = lambda: {"n": 0, "match": 0, "stereo": 0, "wrong": 0, "invalid": 0,  # noqa: E731
+                         "frag_match": 0, "frag_stereo": 0, "frag_wrong": 0, "frag_invalid": 0}
         tally = {"structures": len(structs), "match": 0, "stereo": 0, "wrong": 0, "invalid": 0,
+                 "frag_match": 0, "frag_stereo": 0, "frag_wrong": 0, "frag_invalid": 0,
                  "unassigned": len(unassigned), "high": 0, "high_wrong": 0, "low": 0, "low_right": 0,
-                 "expected": 0, "found": 0, "documents": 0}
+                 "expected": 0, "found": 0, "frag_found": 0, "documents": 0,
+                 "phantom": 0, "rescued": 0, "phantom_atoms": 0,
+                 "crosstab": {"high": blank(), "low": blank()},
+                 # Confidence of the answers that turned out RIGHT vs WRONG, scored
+                 # on the largest fragment. If these two ranges overlap, the score
+                 # cannot be used to tell one from the other, and saying so with the
+                 # run's own numbers beats asserting it in prose.
+                 "conf_right": [], "conf_wrong": []}
         blocks = []
         for stem in stems:
             block = per_doc[stem]
             block["found"] = len(block["matched_keys"])
+            block["frag_found"] = len(block["frag_matched_keys"])
             block["expected"] = len(block["molecules"])
             block["missing"] = [m for m in block["molecules"] if m["key"] not in block["matched_keys"]]
             # Documents the run never touched are left out rather than shown as all-missing.
@@ -264,10 +360,25 @@ def _build() -> dict:
             tally["documents"] += 1
             tally["expected"] += block["expected"]
             tally["found"] += block["found"]
+            tally["frag_found"] += block["frag_found"]
             for rec in block["structures"]:
+                tier = "high" if rec["tier"] == "high" else "low"
+                cell = tally["crosstab"][tier]
+                cell["n"] += 1
                 tally[rec["verdict"]] = tally.get(rec["verdict"], 0) + 1
+                cell[rec["verdict"]] = cell.get(rec["verdict"], 0) + 1
+                tally["frag_" + rec["frag_verdict"]] = tally.get("frag_" + rec["frag_verdict"], 0) + 1
+                cell["frag_" + rec["frag_verdict"]] = cell.get("frag_" + rec["frag_verdict"], 0) + 1
                 right = rec["verdict"] in ("match", "stereo")
-                if rec["tier"] == "high":
+                if rec["confidence"] is not None:
+                    key = "conf_right" if rec["frag_verdict"] in ("match", "stereo") else "conf_wrong"
+                    tally[key].append(round(float(rec["confidence"]), 4))
+                if rec["fragments"] > 1:
+                    tally["phantom"] += 1
+                    tally["phantom_atoms"] += rec["fragments"] - 1
+                    if rec["frag_verdict"] in ("match", "stereo") and not right:
+                        tally["rescued"] += 1
+                if tier == "high":
                     tally["high"] += 1
                     if not right:
                         tally["high_wrong"] += 1
@@ -275,6 +386,10 @@ def _build() -> dict:
                     tally["low"] += 1
                     if right:
                         tally["low_right"] += 1
+        for key in ("conf_right", "conf_wrong"):
+            vals = tally.pop(key)
+            tally[key] = {"n": len(vals), "min": min(vals), "max": max(vals),
+                          "mean": round(sum(vals) / len(vals), 4)} if vals else None
         try:
             mtime = max((run / sub).stat().st_mtime for sub in results.SUBDIRS.values() if (run / sub).exists())
         except ValueError:
@@ -282,11 +397,21 @@ def _build() -> dict:
         out["runs"].append({
             "id": rid, "name": str(run.relative_to(config.BENCHMARK_DIR)), "mtime": mtime,
             "tally": tally, "pdfs": blocks, "unassigned": unassigned,
-            "verdict_source": "precomputed" if precomputed else "rdkit",
+            "meta": _run_meta(run),
+            # Verdicts are ALWAYS recomputed here. A verdicts.json, when present,
+            # is cross-checked against them; a non-zero disagreement count is a
+            # defect worth surfacing, not something to average away.
+            "verdict_source": "rdkit",
+            "cross_checked": bool(precomputed),
+            "cross_check_disagreements": disagreements,
             "has_crops": bool(parsed["counts"]["segments"]),
         })
         out["_runs"].append({"id": rid, "_path": str(run)})
-    out["runs"].sort(key=lambda r: r["mtime"], reverse=True)
+    # Explicit rank first, newest last. Ordering by mtime alone put whichever run
+    # happened to be copied most recently in front, and the run that lands first is
+    # the one most readers will take as "the" result -- which for a deliberately
+    # hard 24-image subset would be badly misleading.
+    out["runs"].sort(key=lambda r: (int(r["meta"].get("rank") or 99), -r["mtime"]))
     return out
 
 
@@ -299,7 +424,7 @@ def _load_verdicts(path: Path) -> dict | None:
     table = {}
     entries = data.get("structures") if isinstance(data, dict) else None
     if entries is None and isinstance(data, dict):
-        entries = [s for key in ("pdfs", "groups", "documents") for p in (data.get(key) or [])
+        entries = [s for key in ("pdfs", "groups", "documents", "images") for p in (data.get(key) or [])
                    if isinstance(p, dict) for s in p.get("structures", [])]
     synonyms = {"exact": "match", "match": "match", "stereo": "stereo", "wrong": "wrong", "invalid": "invalid"}
     for s in entries or []:

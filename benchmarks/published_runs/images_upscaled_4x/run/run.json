@@ -1,0 +1,12 @@
+{
+  "title": "The same 24 images at 4x resolution — a paired test, not a better score",
+  "corpus": "24 images only — the worst phantom-fragment offenders from the 97, upscaled",
+  "corpus_key": "images",
+  "corpus_detail": "NOT a random or representative sample. These are the 24 predictions from the 97-image run that carried the most phantom fragments, upscaled from 300x300 to 1200x1200 with LANCZOS and re-read. Nothing else changed. Its accuracy is therefore NOT comparable with the 97-image run's: this subset was selected for being the hardest cases, and at 300px all 24 of them scored wrong on the whole string.",
+  "stages": "Stage 3 only, same as the 97-image run.",
+  "method": "Same scoring, same manifest, same ground truth. The comparison that means something is fragment COUNT on the same 24 images before and after: 257 fragments at 300px against 56 at 1200px, a 78% reduction, with the worst single prediction falling from 106 fragments to 5. Ten of the 24 lost their phantoms entirely, fourteen kept some, none got worse.",
+  "settings": "CPU. Input upscaled 4x with PIL LANCZOS; no other change.",
+  "note": "What this run is for: it identifies the phantom fragments as largely an input-RESOLUTION artifact. At 300x300 a heteroatom label is a few pixels tall and gets read as an unbonded I or H. Feed this pipeline images bigger than 300 px and most of that disappears. Two things it does not show: it is not evidence that the pipeline is 79% accurate in general (that number is over 24 hand-picked hard cases), and resolution is not the whole story — phantoms survive in 14 of the 24 even at 1200 px, so a largest-fragment post-process is still worth having.",
+  "source": "benchmarks/run_stage3_only.sh over 4x-upscaled copies of 24 images from the every7 sample",
+  "rank": 3
+}

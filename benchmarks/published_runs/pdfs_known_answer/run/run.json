@@ -1,0 +1,12 @@
+{
+  "title": "11 known-answer PDFs, 44 drawn molecules — all three stages",
+  "corpus": "11 one-page PDFs; 44 molecules drawn across them",
+  "corpus_detail": "Each page is a 2x2 grid of PubChem PNG depictions embedded at roughly 115-120 ppi with vector text labels. All 44 drawn molecules were verified pixel-exact against PubChem's depiction of their CID, so the ground truth is the SMILES of that CID.",
+  "stages": "All three: VisualHeist figure extraction, DECIMER segmentation, then CXMolScribe.",
+  "method": "Identical scoring to the stage-3 run: RDKit canonical SMILES, whole string and largest fragment, with and without stereochemistry. Structures are attributed to a document by the longest manifest stem that prefixes their figure name.",
+  "settings": "CPU. Pipeline defaults; DECIMER_BBOX_PAD unset, i.e. 0, which is upstream behaviour.",
+  "note": "A twelfth document, test_reactions_coupling.pdf, was run but has no molecule-level ground truth — it is reaction schemes, including Markush structures with R groups, which no single SMILES describes. Its structures appear at the bottom, shown and not scored. Compare this run with the stage-3-only run above rather than reading either alone: the difference between them is what segmentation costs.",
+  "source": "run_pipeline.py --stages 1,2,3 over benchmarks/ground_truth/pdf_manifest.json's corpus",
+  "corpus_key": "pdfs",
+  "rank": 2
+}

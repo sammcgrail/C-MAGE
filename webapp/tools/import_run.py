@@ -15,6 +15,12 @@ into a job directory in the standard layout and indexed.
   --figures   stage 1 figures; optional but lets the UI show the source figure
   --note      a caveat shown above the results (e.g. which structures are known
               to be wrong and why)
+  --private   keep it out of the gallery listing
+  --sample    make it the one run the "try the sample" button reuses
+
+An imported run is LISTED by default, which is the opposite of an upload: it is
+a curated exhibit the operator chose to publish, not a document a stranger
+handed over. Uploads are unlisted unless the uploader asks otherwise.
 
 Point CMAGE_DATA at the same data directory the server uses; the server picks
 the new run up on its next start (or immediately, if you POST nothing: the
@@ -46,6 +52,11 @@ def main() -> int:
     ap.add_argument("--label", default="")
     ap.add_argument("--note", default="")
     ap.add_argument("--finished", type=float, default=None, help="unix time; default: now")
+    ap.add_argument("--private", action="store_true",
+                    help="do not list it in the gallery (imports are listed by default: "
+                         "an imported run is a curated exhibit, not somebody's upload)")
+    ap.add_argument("--sample", action="store_true",
+                    help="this is the canonical demo run that 'Try the one-page sample' reuses")
     args = ap.parse_args()
 
     src = args.results.resolve()
@@ -100,13 +111,16 @@ def main() -> int:
         "created": finished, "origin": "import", "status": "done", "stage": 3, "stage_started": None,
         "started": finished, "finished": finished, "error": None, "client": "", "label": args.label,
         "run_dir": str(run_dir.relative_to(job_dir)), "results": parsed, "note": args.note,
+        "public": not args.private, "sample": args.sample, "token": secrets.token_urlsafe(16),
     }
     tmp = job_dir / "job.json.tmp"
     tmp.write_text(json.dumps(record, indent=1, sort_keys=True))
     os.replace(tmp, job_dir / "job.json")
     c = parsed["counts"]
     print(f"imported {job_id}: {c['structures']} structures ({c['high']} high, {c['low']} low), "
-          f"{copied} crops, {c['figures']} figures -> {job_dir}")
+          f"{copied} crops, {c['figures']} figures, "
+          f"{'listed in the gallery' if record['public'] else 'unlisted'}"
+          f"{', canonical sample' if args.sample else ''} -> {job_dir}")
     return 0
 
 

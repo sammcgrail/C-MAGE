@@ -3,30 +3,39 @@
     GET  /                                   the single-page UI
     GET  /api/health                         liveness + which model caches are present
     GET  /api/limits                         upload limits, for the UI to display
-    POST /api/jobs            multipart file  PDF or image -> {id}
-    POST /api/jobs/sample                    run the bundled one-page sample
+    POST /api/jobs            multipart file  PDF or image -> {id, token}
+                              + publish=1 to list the finished run publicly
+    POST /api/jobs/sample                    the one canonical demo run, reused
     GET  /api/jobs/{id}                      status, progress, results when done
     DELETE /api/jobs/{id}                    cancel a queued or running job
+    POST /api/jobs/{id}/publish              list / unlist a finished run
     GET  /api/jobs/{id}/log                  the pipeline's own output
     GET  /api/jobs/{id}/results.csv          every structure as CSV
     GET  /api/jobs/{id}/img/{kind}/{name}    segment | render | figure images
-    GET  /api/runs                           the gallery (completed runs)
-    DELETE /api/runs/{id}                    remove a run (needs CMAGE_ADMIN_TOKEN)
+    GET  /api/runs                           the gallery (PUBLISHED runs only)
+    DELETE /api/runs/{id}                    remove a run (owner token or admin)
     GET  /api/benchmark                      known-answer corpus results
     GET  /api/benchmark/{run}/img/{kind}/{name}
 
 Run with exactly one worker process: the queue lives in memory.
+
+UPLOADS ARE PRIVATE BY DEFAULT. A finished run is reachable at its own
+unguessable id; it is listed in the gallery only if the uploader ticks the box.
+Ownership is proved by the token returned once by POST /api/jobs, or -- for a
+run that was never listed -- by knowing its id at all, since nothing else
+publishes it. Every owner can delete their own run without an operator token.
 """
 from __future__ import annotations
 
 import csv
 import io
 import re
+import secrets
 import shutil
 import time
 from pathlib import Path
 
-from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 
@@ -106,8 +115,32 @@ def health() -> dict:
 @app.get("/api/limits")
 def limits() -> dict:
     return {"max_mb": config.MAX_PDF_MB, "max_pages": config.MAX_PAGES, "max_queue": config.MAX_QUEUE,
-            "threshold": config.CONFIDENCE_THRESHOLD, "sample": config.SAMPLE_PDF.is_file(),
+            "threshold": config.CONFIDENCE_THRESHOLD,
+            "sample": config.SAMPLE_PDF.is_file() or store.canonical_sample() is not None,
+            "publish_default": config.PUBLISH_UPLOADS_DEFAULT,
+            "upload_ttl_hours": config.UPLOAD_TTL_HOURS,
             "version": config.VERSION}
+
+
+def _is_admin(request: Request) -> bool:
+    token = request.headers.get("x-admin-token", "")
+    return bool(config.ADMIN_TOKEN) and secrets.compare_digest(token, config.ADMIN_TOKEN)
+
+
+def _may_manage(job: jobs.Job, request: Request, *, unlisting: bool) -> bool:
+    """May this caller delete or unlist this run?
+
+    The operator always may. Otherwise the caller must hold the owner token from
+    the upload response -- except while the run is unlisted, where knowing the id
+    is itself proof of ownership, because nothing has ever published it. Once a
+    run IS listed its id is on a public page, so `unlisting` demands the token.
+    """
+    if _is_admin(request):
+        return True
+    if unlisting:
+        token = request.headers.get("x-job-token", "")
+        return bool(token and job.token and secrets.compare_digest(token, job.token))
+    return store.owns(job, request.headers.get("x-job-token", ""))
 
 
 # ---------------------------------------------------------------------------- jobs
@@ -121,10 +154,16 @@ def _admit(request: Request) -> str:
     return client
 
 
-def _start(request: Request, info: dict, filename: str, origin: str) -> JSONResponse:
+def _truthy(value: str | None) -> bool:
+    return str(value or "").strip().lower() in ("1", "true", "yes", "on")
+
+
+def _start(request: Request, info: dict, filename: str, origin: str,
+           publish: bool = False, sample: bool = False) -> JSONResponse:
     client = _admit(request)
     job, why = store.submit(kind=info["kind"], filename=filename, size=len(info["bytes"]),
-                            pages=info["pages"], client=client, origin=origin)
+                            pages=info["pages"], client=client, origin=origin,
+                            public=publish, sample=sample)
     if job is None:
         raise HTTPException(429, why, headers={"Retry-After": "120"})
     try:
@@ -133,11 +172,14 @@ def _start(request: Request, info: dict, filename: str, origin: str) -> JSONResp
         store.discard(job)
         raise HTTPException(500, f"Could not store the upload: {exc}") from exc
     store.enqueue(job)
-    return JSONResponse(store.public(job), status_code=202)
+    # The owner token is returned HERE and nowhere else. It is what lets the
+    # uploader delete or unlist the run afterwards without an operator.
+    return JSONResponse(dict(store.public(job), token=job.token), status_code=202)
 
 
 @app.post("/api/jobs")
-def create_job(request: Request, file: UploadFile = File(...)) -> JSONResponse:
+def create_job(request: Request, file: UploadFile = File(...),
+               publish: str = Form(default="")) -> JSONResponse:
     buf = bytearray()
     while True:
         chunk = file.file.read(1 << 20)
@@ -151,11 +193,23 @@ def create_job(request: Request, file: UploadFile = File(...)) -> JSONResponse:
     except uploads.Rejected as exc:
         raise HTTPException(400, str(exc)) from exc
     display = (file.filename or "").strip()[:120] or (f"{info['stem']}{info['ext']}")
-    return _start(request, info, display, "upload")
+    wants_public = _truthy(publish) if publish != "" else config.PUBLISH_UPLOADS_DEFAULT
+    return _start(request, info, display, "upload", publish=wants_public)
 
 
 @app.post("/api/jobs/sample")
 def create_sample(request: Request) -> JSONResponse:
+    """Show the demo. The SAME finished run every time.
+
+    Re-running it per click cost ~90 s of six-core CPU and left a permanent
+    gallery entry, so the button was an unauthenticated way to burn the box and
+    flood the listing; three duplicates accumulated in an hour of casual use.
+    The pipeline is deterministic on a fixed input, so a second run adds nothing
+    a visitor could see. It is executed once, only if no sample exists yet.
+    """
+    existing = store.canonical_sample()
+    if existing is not None:
+        return JSONResponse(store.public(existing), status_code=200)
     if not config.SAMPLE_PDF.is_file():
         raise HTTPException(404, "No sample document is installed on this server.")
     data = config.SAMPLE_PDF.read_bytes()
@@ -163,7 +217,7 @@ def create_sample(request: Request) -> JSONResponse:
         info = uploads.classify(data, config.SAMPLE_PDF.name)
     except uploads.Rejected as exc:
         raise HTTPException(500, f"The bundled sample is unusable: {exc}") from exc
-    return _start(request, info, config.SAMPLE_PDF.name, "sample")
+    return _start(request, info, config.SAMPLE_PDF.name, "sample", publish=True, sample=True)
 
 
 @app.get("/api/jobs/{job_id}")
@@ -177,6 +231,19 @@ def job_cancel(job_id: str) -> dict:
     if not store.cancel(job.id):
         raise HTTPException(409, "That job has already finished.")
     return store.public(job)
+
+
+@app.post("/api/jobs/{job_id}/publish")
+def job_publish(job_id: str, request: Request, publish: str = Form(default="1")) -> dict:
+    """List or unlist a finished run. Owner or operator only."""
+    job = _job_or_404(job_id)
+    if job.status != "done":
+        raise HTTPException(409, "Only a finished run can be listed.")
+    wanted = _truthy(publish)
+    if not _may_manage(job, request, unlisting=(job.public and not wanted)):
+        raise HTTPException(403, "Only the person who uploaded this run can change whether it is listed.")
+    store.set_public(job.id, wanted)
+    return {"id": job.id, "public": wanted}
 
 
 @app.get("/api/jobs/{job_id}/log")
@@ -197,6 +264,26 @@ def job_image(job_id: str, kind: str, name: str) -> FileResponse:
     return _image_response(path)
 
 
+_FORMULA_LEAD = ("=", "+", "-", "@", "\t", "\r")
+
+
+def _csv_cell(value):
+    """Neutralise spreadsheet formula injection.
+
+    Excel, LibreOffice and Sheets execute a cell that begins `= + - @`, and this
+    file is assembled from strings a stranger chose: the uploaded FILE NAME goes
+    straight into the `document` column. A file named `=2*21` really did land as
+    a live formula in an export. Prefixing an apostrophe is the standard fix and
+    is what a spreadsheet strips again on display.
+    """
+    text = value if isinstance(value, str) else str(value)
+    return "'" + text if text[:1] in _FORMULA_LEAD else value
+
+
+def _csv_row(cells: list) -> list:
+    return [_csv_cell(c) for c in cells]
+
+
 @app.get("/api/jobs/{job_id}/results.csv")
 def job_csv(job_id: str, request: Request) -> Response:
     job = _job_or_404(job_id)
@@ -209,10 +296,10 @@ def job_csv(job_id: str, request: Request) -> Response:
                 "segment_image", "rendered_image", "figure_image", "document", "job"])
     for i, s in enumerate(job.results["structures"], 1):
         img = lambda kind, name: f"{base}/api/jobs/{job.id}/img/{kind}/{name}" if name else ""  # noqa: E731
-        w.writerow([i, s["tier"], "" if s["confidence"] is None else f"{s['confidence']:.6f}", s["smiles"],
-                    int(bool(s["valid"])), s["source"], s["figure"], "" if s["molecule"] is None else s["molecule"],
-                    img("segment", s["segment_image"]), img("render", s["rendered_image"]),
-                    img("figure", s["figure_image"]), job.filename, job.id])
+        w.writerow(_csv_row([i, s["tier"], "" if s["confidence"] is None else f"{s['confidence']:.6f}", s["smiles"],
+                             int(bool(s["valid"])), s["source"], s["figure"], "" if s["molecule"] is None else s["molecule"],
+                             img("segment", s["segment_image"]), img("render", s["rendered_image"]),
+                             img("figure", s["figure_image"]), job.filename, job.id]))
     return Response(out.getvalue(), media_type="text/csv; charset=utf-8",
                     headers={"Content-Disposition": f'attachment; filename="cmage-{job.id}.csv"'})
 
@@ -225,10 +312,17 @@ def gallery() -> dict:
 
 @app.delete("/api/runs/{job_id}")
 def gallery_delete(job_id: str, request: Request) -> dict:
-    token = request.headers.get("x-admin-token", "")
-    if not config.ADMIN_TOKEN or token != config.ADMIN_TOKEN:
-        raise HTTPException(403, "Deleting runs needs the admin token.")
+    """Remove a run and everything on disk behind it.
+
+    Previously this required CMAGE_ADMIN_TOKEN, which is unset on most
+    deployments -- so it answered 403 to everyone, including the operator, and
+    there was no way to withdraw an upload at all. An owner can now always
+    delete their own run; the admin token is only the operator's override for
+    somebody else's.
+    """
     job = _job_or_404(job_id)
+    if not _may_manage(job, request, unlisting=bool(job.public)):
+        raise HTTPException(403, "Only the person who uploaded this run, or the operator, can delete it.")
     if not store.delete(job.id):
         raise HTTPException(409, "That job is still running; cancel it first.")
     return {"deleted": job.id}

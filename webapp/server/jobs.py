@@ -60,6 +60,16 @@ class Job:
     run_dir: str | None = None     # relative to the job dir
     results: dict | None = None
     note: str = ""                 # standing caveat text attached by an importer
+    public: bool = False           # listed in the gallery. NEVER default true for
+                                   # an upload: this tool is pointed at unpublished
+                                   # manuscripts and draft patents, and the figure
+                                   # images a run exposes are the pages themselves.
+    token: str = ""                # owner capability, handed to the uploader once
+                                   # in the response that created the job and never
+                                   # served again. Proves "I am the person who
+                                   # uploaded this" for unlisting and deleting.
+    sample: bool = False           # the one canonical demo run, reused by every
+                                   # visitor instead of re-running the pipeline
 
     @property
     def dir(self) -> Path:
@@ -119,8 +129,13 @@ class JobStore:
         job.dir.mkdir(parents=True, exist_ok=True)
         _atomic_write(job.dir / "job.json", asdict(job))
 
+    def _listed(self, job: "Job") -> bool:
+        """In the gallery? Completed AND explicitly published. Anything else is
+        reachable only by its own unguessable id, which only the uploader has."""
+        return job.status == "done" and bool(job.public)
+
     def _write_index(self) -> None:
-        done = [self.summary(j) for j in self._jobs.values() if j.status == "done"]
+        done = [self.summary(j) for j in self._jobs.values() if self._listed(j)]
         done.sort(key=lambda s: s["finished"] or 0, reverse=True)
         config.DATA_DIR.mkdir(parents=True, exist_ok=True)
         _atomic_write(config.INDEX_FILE, {"version": 1, "updated": _now(), "runs": done})
@@ -153,7 +168,7 @@ class JobStore:
 
     def gallery(self) -> list[dict]:
         self.refresh()
-        done = [self.summary(j) for j in self._jobs.values() if j.status == "done"]
+        done = [self.summary(j) for j in self._jobs.values() if self._listed(j)]
         done.sort(key=lambda s: s["finished"] or 0, reverse=True)
         return done
 
@@ -165,13 +180,15 @@ class JobStore:
         return sum(1 for j in self._jobs.values() if j.client == client and j.status not in TERMINAL)
 
     def submit(self, *, kind: str, filename: str, size: int, pages: int, client: str,
-               origin: str = "upload") -> tuple[Job | None, str | None]:
+               origin: str = "upload", public: bool = False, sample: bool = False
+               ) -> tuple[Job | None, str | None]:
         """Reserve a job directory. The caller writes the input file, then calls enqueue()."""
         with self._cv:
             if len(self._pending) >= config.MAX_QUEUE:
                 return None, "The queue is full right now — try again in a few minutes."
         job = Job(id=secrets.token_urlsafe(9), kind=kind, filename=filename, size=size, pages=pages,
-                  created=_now(), origin=origin, client=client)
+                  created=_now(), origin=origin, client=client, public=public, sample=sample,
+                  token=secrets.token_urlsafe(16))
         (job.dir / "input").mkdir(parents=True, exist_ok=False)
         self._save(job)
         with self._cv:
@@ -216,6 +233,40 @@ class JobStore:
         self._write_index()
         return True
 
+    def owns(self, job: Job, token: str) -> bool:
+        """Is the caller the person who uploaded this run?
+
+        Two ways to prove it, and they cover different situations:
+          * the owner token minted at upload and returned exactly once, or
+          * knowing the id of a run that is NOT listed anywhere -- an unlisted
+            id is only ever held by whoever uploaded it.
+        A listed run's id is public by construction, so id-knowledge stops
+        counting the moment it is published.
+        """
+        return bool(token and job.token and secrets.compare_digest(token, job.token)) or not job.public
+
+    def set_public(self, job_id: str, public: bool) -> bool:
+        with self._cv:
+            job = self._jobs.get(job_id)
+            if job is None or job.status != "done":
+                return False
+            job.public = bool(public)
+            self._save(job)
+        self._write_index()
+        return True
+
+    def canonical_sample(self) -> Job | None:
+        """The single demo run every visitor is shown.
+
+        Without this, "Try the one-page sample" spends ~90 s of CPU and leaves a
+        permanent gallery entry on EVERY click -- an unauthenticated way to fill
+        the disk and flood the listing. The oldest completed sample wins so the
+        choice is stable across restarts.
+        """
+        with self._cv:
+            cands = [j for j in self._jobs.values() if j.sample and j.status == "done"]
+        return min(cands, key=lambda j: j.finished or j.created) if cands else None
+
     def register_import(self, job: Job) -> None:
         """Adopt a job directory prepared by tools/import_run.py."""
         with self._cv:
@@ -234,7 +285,7 @@ class JobStore:
             "id": job.id, "kind": job.kind, "filename": job.filename, "label": job.label,
             "origin": job.origin, "pages": job.pages, "created": job.created, "finished": job.finished,
             "duration_s": (job.finished - job.started) if job.started and job.finished else None,
-            "counts": counts, "note": job.note,
+            "counts": counts, "note": job.note, "public": bool(job.public),
             "thumbs": [s["segment_image"] for s in structs if s.get("segment_image")][:6],
         }
 
@@ -243,6 +294,7 @@ class JobStore:
         run_dir = job.run_path()
         d = {
             "id": job.id, "kind": job.kind, "filename": job.filename, "label": job.label, "origin": job.origin,
+            "public": bool(job.public), "sample": bool(job.sample),
             "pages": job.pages, "size": job.size, "status": job.status, "created": job.created,
             "started": job.started, "finished": job.finished, "error": job.error, "note": job.note,
             "stage": job.stage, "stage_name": STAGE_NAMES.get(job.stage, ""), "stage_hint": STAGE_HINTS.get(job.stage, ""),
@@ -387,9 +439,16 @@ class JobStore:
         now = _now()
         ttl = config.FAILED_TTL_HOURS * 3600
         doomed = []
+        upload_ttl = config.UPLOAD_TTL_HOURS * 3600
         with self._cv:
             for job in self._jobs.values():
-                if job.status in ("failed", "cancelled") and (job.finished or job.created) < now - ttl:
+                age = now - (job.finished or job.created)
+                if job.status in ("failed", "cancelled") and age > ttl:
+                    doomed.append(job.id)
+                # An upload nobody published is somebody's private document. Keep it
+                # long enough to be useful, then stop holding it.
+                elif (job.status == "done" and job.origin == "upload" and not job.public
+                      and not job.sample and upload_ttl > 0 and age > upload_ttl):
                     doomed.append(job.id)
             done = sorted((j for j in self._jobs.values() if j.status == "done"), key=lambda j: j.finished or 0)
             for job in done[:max(0, len(done) - config.MAX_GALLERY_RUNS)]:

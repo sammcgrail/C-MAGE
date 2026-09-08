@@ -41,9 +41,12 @@ CLIENT_IP_HEADER = os.environ.get("CMAGE_CLIENT_IP_HEADER", "").strip().lower()
 JOB_TIMEOUT_S = int(os.environ.get("CMAGE_JOB_TIMEOUT_S", str(60 * 60)))
 MIN_FREE_DISK_MB = int(os.environ.get("CMAGE_MIN_FREE_DISK_MB", "2048"))
 
-# Failed / cancelled jobs are swept after this many hours. Completed runs are kept
-# (they are the gallery) up to MAX_GALLERY_RUNS, oldest pruned first.
+# Failed / cancelled jobs are swept after this many hours, and so are completed
+# uploads the uploader never published -- holding someone's unpublished figures
+# on disk forever is a cost with no matching benefit. Published and imported runs
+# (the gallery) are kept up to MAX_GALLERY_RUNS, oldest pruned first.
 FAILED_TTL_HOURS = float(os.environ.get("CMAGE_FAILED_TTL_HOURS", "24"))
+UPLOAD_TTL_HOURS = float(os.environ.get("CMAGE_UPLOAD_TTL_HOURS", "72"))
 MAX_GALLERY_RUNS = int(os.environ.get("CMAGE_MAX_GALLERY_RUNS", "500"))
 KEEP_PDFS = os.environ.get("CMAGE_KEEP_PDFS", "0") not in ("", "0", "false", "no")
 
@@ -53,8 +56,18 @@ DEVICE = os.environ.get("CMAGE_DEVICE", "cpu")
 # folder_ms.py's split. Displayed to the user; the split itself is the pipeline's.
 CONFIDENCE_THRESHOLD = 0.8431
 
-# Optional token that unlocks DELETE on gallery runs. Unset = deletion disabled.
+# Optional token that unlocks DELETE and unlisting on runs somebody else owns.
+# Unset only removes the OPERATOR's override: an uploader can always delete or
+# unlist their own run, because that path authenticates with the per-job owner
+# token instead. Deletion is never globally disabled.
 ADMIN_TOKEN = os.environ.get("CMAGE_ADMIN_TOKEN", "")
+
+# Do uploads appear in the public gallery? NO, unless the person uploading ticks
+# the box. The users of a structure-extraction tool are holding unpublished
+# manuscripts and draft patents, and a run exposes the extracted figure regions,
+# which for a PDF are the pages themselves. Opt-in is the only defensible default;
+# set this only for a deployment where every upload is already public.
+PUBLISH_UPLOADS_DEFAULT = os.environ.get("CMAGE_PUBLISH_UPLOADS_DEFAULT", "0") not in ("", "0", "false", "no")
 
 # A small PDF shipped with the pipeline, offered as a one-tap demo.
 SAMPLE_PDF = Path(os.environ.get("CMAGE_SAMPLE_PDF") or

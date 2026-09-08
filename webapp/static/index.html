@@ -50,6 +50,7 @@
   nav { display: flex; gap: 6px; margin-left: auto; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
   nav::-webkit-scrollbar { display: none; }
   nav button { flex-shrink: 0; white-space: nowrap; }
+  @media (max-width: 460px) { nav button { padding: 0 9px; font-size: 14px; } }
   button, .btn {
     font: inherit; color: var(--text); background: var(--panel2); border: 1px solid var(--line);
     border-radius: 10px; min-height: 44px; padding: 0 16px; cursor: pointer; display: inline-flex;
@@ -163,9 +164,9 @@
 
   /* benchmark */
   .tally { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 10px 0 6px; }
-  .tally > div { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; height: 66px; }
+  .tally > div { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; min-height: 66px; }
   .tally .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
-  .tally .l { font-size: 12px; color: var(--muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tally .l { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
   .tally .hot { border-color: #7f2f2f; }
   .tally .hot .v { color: var(--bad); }
   .pdf { margin-top: 18px; }
@@ -182,6 +183,70 @@
   @media (min-width: 720px) {
     .bench-row { grid-template-columns: 300px 1fr; }
   }
+
+  /* Confidence is a SELF-REPORT, so it gets a neutral badge. Green is reserved for
+     a verdict checked against a known answer -- the benchmark tab -- because a
+     green "HIGH CONFIDENCE" chip reads as "this is correct" and undoes every
+     warning printed beside it. Amber for the low tier stays: that one is a real
+     warning, and warnings may look like warnings. */
+  .badge.tier, .chip.tier { background: var(--gray-bg); color: var(--gray); }
+  .chip.tier.low { background: var(--low-bg); color: var(--low); }
+  .badge.tier.low { background: var(--low-bg); color: var(--low); }
+  .conf i { background: var(--gray); }
+  .struct.low .conf i, .bench-row .conf i { background: var(--low); }
+
+  /* privacy */
+  .privacy { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line);
+    background: var(--panel2); border-radius: 10px; padding: 10px 12px; margin: 12px 0 0; }
+  .privacy input { width: 20px; height: 20px; margin: 2px 0 0; flex-shrink: 0; accent-color: var(--accent); }
+  .privacy label { font-size: 14px; line-height: 1.45; }
+  .privacy .sub { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .visibility { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 13px;
+    color: var(--muted); border: 1px solid var(--line); background: var(--panel2);
+    border-radius: 10px; padding: 10px 12px; margin: 10px 0 4px; }
+  .danger { border-color: #7f2f2f; color: var(--bad); }
+
+  /* benchmark headline: both numbers, adjacent, never one alone */
+  .heads { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 12px 0 4px; }
+  .head { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .head .v { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .head .n { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .head .l { font-size: 14px; font-weight: 700; margin-top: 6px; }
+  .head .d { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  .head.strict { border-color: #7f2f2f; }
+  .head.frag { border-color: #3f6b5c; }
+  .gapnote { border: 1px solid var(--line); background: var(--panel2); border-radius: 10px;
+    padding: 10px 12px; font-size: 14px; line-height: 1.5; margin: 10px 0 14px; }
+  .gapnote code { font-size: 12px; background: #0e1118; border-radius: 4px; padding: 1px 5px;
+    word-break: break-all; overflow-wrap: anywhere; }
+
+  /* crosstab + metadata */
+  .xwrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 6px 0 4px; }
+  table.xtab { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+  table.xtab th, table.xtab td { border: 1px solid var(--line); padding: 7px 9px; text-align: right;
+    white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.xtab th { color: var(--muted); font-weight: 600; text-align: right; background: var(--panel2); }
+  table.xtab th.rh, table.xtab td.rh { text-align: left; }
+  table.xtab td.big { font-weight: 700; }
+  .kv { margin: 8px 0 0; font-size: 13px; line-height: 1.5; }
+  .kv div { display: flex; gap: 8px; padding: 5px 0; border-top: 1px solid var(--line); }
+  .kv dt { color: var(--muted); flex: 0 0 108px; }
+  .kv dd { margin: 0; flex: 1; min-width: 0; }
+  .runpick { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 2px; }
+  .runpick button { min-height: 40px; height: auto; font-size: 14px; padding: 9px 12px;
+    white-space: normal; text-align: left; line-height: 1.3; }
+  .runpick button.active { border-color: var(--accent); color: var(--accent); }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 10px; }
+  .filters button { min-height: 38px; height: auto; font-size: 13px; padding: 8px 11px;
+    white-space: normal; text-align: left; line-height: 1.3; }
+  .filters button.active { border-color: var(--accent); color: var(--accent); }
+  .phantom { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--low); word-break: break-all; overflow-wrap: anywhere; }
+  .more { width: 100%; margin-top: 6px; }
+
+  @media (min-width: 720px) {
+    .heads { grid-template-columns: 1fr 1fr; }
+  }
   footer { color: var(--muted); font-size: 13px; padding: 18px 4px 0; line-height: 1.5; }
   footer .v { float: right; color: var(--muted); }
 </style>
@@ -194,6 +259,7 @@
       <button data-tab="extract" class="active" type="button">Extract</button>
       <button data-tab="gallery" type="button">Gallery</button>
       <button data-tab="benchmark" type="button">Benchmark</button>
+      <button data-tab="ringleader" type="button">Ringleader</button>
     </nav>
   </header>
 
@@ -206,9 +272,17 @@
           <input type="file" id="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/tiff,image/webp,image/bmp">
         </label>
         <div class="picked muted" id="picked"><span>No file chosen yet.</span></div>
+        <div class="privacy">
+          <input type="checkbox" id="publish">
+          <label for="publish">Also list this run in the public gallery
+            <span class="sub">Off by default. Your results stay at their own private link — the gallery
+              lists nothing unless you tick this. Publishing shows the file name, the extracted figure
+              regions (for a PDF, those are the pages) and every predicted structure to anyone.</span>
+          </label>
+        </div>
         <div class="actions">
           <button class="primary" id="run" type="button" disabled>Extract structures</button>
-          <button id="sample" type="button">Try the one-page sample</button>
+          <button id="sample" type="button">See the one-page sample</button>
         </div>
         <div class="status" id="status"></div>
         <p class="note">
@@ -241,11 +315,10 @@
     <section id="view-gallery" class="hidden">
       <div id="gallery-list">
         <div class="card">
-          <h2>Every document this server has run</h2>
-          <div class="caveat"><b>Read the confidence honestly.</b> The score measures how faithfully a cropped image was
-            read into SMILES. It cannot see whether the crop held the whole molecule: when the segmenter clips a ring
-            or a substituent, the reading is confident <i>and</i> wrong. High confidence is not "correct" — compare
-            the crop and its rendering against the source figure.</div>
+          <h2>Runs that were published here</h2>
+          <p class="note">Uploads are private by default and are not listed. Everything below is either an
+            example the operator seeded or a run whose uploader chose to publish it.</p>
+          <div class="caveat" id="gallery-caveat"></div>
           <div class="runs" id="runs"></div>
         </div>
       </div>
@@ -255,13 +328,19 @@
     <section id="view-benchmark" class="hidden">
       <div class="card" id="bench"></div>
     </section>
+
+    <section id="view-ringleader" class="hidden">
+      <div class="card" id="ring"></div>
+    </section>
   </main>
 
   <footer>
     <span class="v" id="version"></span>
     C-MAGE = VisualHeist (figures out of pages) → DECIMER segmentation (structures out of figures) → CXMolScribe
     (SMILES out of structures). The pipeline's own confidence threshold is 0.8431: above it a structure is filed as
-    high confidence, below it as "review or discard".
+    high confidence, below it as "review or discard". That number measures how sure the reader is of the drawing it
+    was handed — not whether the drawing still held the whole molecule. The Benchmark tab measures the difference
+    against known answers.
   </footer>
 </div>
 
@@ -333,10 +412,23 @@
 
   var THRESHOLD = 0.8431;
   var limits = { max_mb: 20, max_pages: 40 };
-  var CAVEAT = 'A high-confidence result can still be the wrong molecule. Confidence scores how faithfully the crop was read, not whether the crop held the whole structure: a ring or substituent clipped by the segmenter reads confidently — and wrongly. Compare crop and rendering against the source figure.';
+  // Rewritten 2026-09-08. The old wording said the failure was "a ring or substituent
+  // CLIPPED by the segmenter" and told the reader to "compare crop and rendering".
+  // Both halves were wrong and the second was actively harmful: the mechanism is
+  // ERASURE (apply_mask() whites out every pixel the mask missed and only then crops),
+  // so the crop has clean, ink-free borders and the rendering agrees with it exactly.
+  // A chemist who ran the suggested check was reassured by the very failure it warned
+  // about. The only comparison that can catch it is crop against SOURCE.
+  var CAVEAT = 'A high-confidence result can still be the wrong molecule, and the crop will not look wrong. '
+    + 'Segmentation masks the figure before cropping it, so any ink the mask missed is <b>erased</b>: the crop comes back '
+    + 'with clean borders around a plausible structure that is quietly missing an atom or a label. The rendering then '
+    + 'matches the crop perfectly, because the reader read faithfully what it was handed. Two known failures of exactly '
+    + 'this kind scored about 0.89. A second class needs no erasure at all — one benzylpenicillin crop kept its "S" glyph, '
+    + 'intact and legible, and stage 3 dropped the sulfur anyway. So crop-versus-rendering proves nothing. '
+    + 'Compare the crop against the <b>source figure</b>, shown under each result.';
 
   // ---- tabs / routing
-  var tabs = ['extract', 'gallery', 'benchmark'];
+  var tabs = ['extract', 'gallery', 'benchmark', 'ringleader'];
   function showTab(name, push) {
     tabs.forEach(function (t) {
       $('view-' + t).classList.toggle('hidden', t !== name);
@@ -348,9 +440,34 @@
     }
     if (name === 'gallery') loadGallery();
     if (name === 'benchmark') loadBenchmark();
+    if (name === 'ringleader') loadRingleader();
     window.scrollTo(0, 0);
   }
   document.querySelectorAll('nav button').forEach(function (b) { b.addEventListener('click', function () { showTab(b.dataset.tab); }); });
+
+  // ---- owner tokens. POST /api/jobs returns one, once. It is what lets the person
+  // who uploaded a run delete it or unlist it afterwards without an operator token,
+  // so it is kept in this browser and never displayed.
+  var TOKENS = 'cmage.owner.v1';
+  function tokenStore() {
+    try { return JSON.parse(localStorage.getItem(TOKENS) || '{}') || {}; } catch (e) { return {}; }
+  }
+  function rememberToken(id, token) {
+    if (!id || !token) return;
+    try {
+      var all = tokenStore(); all[id] = token;
+      var keys = Object.keys(all);
+      if (keys.length > 60) delete all[keys[0]];
+      localStorage.setItem(TOKENS, JSON.stringify(all));
+    } catch (e) { /* private mode: the id-knowledge path still works while unlisted */ }
+  }
+  function forgetToken(id) {
+    try { var all = tokenStore(); delete all[id]; localStorage.setItem(TOKENS, JSON.stringify(all)); } catch (e) {}
+  }
+  function ownerHeaders(id) {
+    var t = tokenStore()[id];
+    return t ? { 'X-Job-Token': t } : {};
+  }
 
   // ---- upload
   var picked = null, currentJob = null, pollTimer = null, tick = null, lastPoll = null, lastData = null;
@@ -373,12 +490,17 @@
   $('run').addEventListener('click', function () {
     if (!picked) return;
     var fd = new FormData(); fd.append('file', picked, picked.name);
+    fd.append('publish', $('publish').checked ? '1' : '0');
     $('run').disabled = true; $('sample').disabled = true; setStatus('');
-    api('/api/jobs', { method: 'POST', body: fd }).then(startJob).catch(function (err) { setStatus(err.message); $('run').disabled = false; $('sample').disabled = false; });
+    api('/api/jobs', { method: 'POST', body: fd }).then(function (job) {
+      rememberToken(job.id, job.token); startJob(job);
+    }).catch(function (err) { setStatus(err.message); $('run').disabled = false; $('sample').disabled = false; });
   });
   $('sample').addEventListener('click', function () {
     $('run').disabled = true; $('sample').disabled = true; setStatus('');
     api('/api/jobs/sample', { method: 'POST' }).then(startJob).catch(function (err) { setStatus(err.message); $('run').disabled = !picked; $('sample').disabled = false; });
+    // no rememberToken(): the sample is one shared run reused by every visitor, not this
+    // visitor's upload, so nobody gets owner rights over it by pressing a demo button.
   });
   $('cancel').addEventListener('click', function () {
     if (!currentJob) return;
@@ -492,23 +614,25 @@
     copy.addEventListener('click', function () { copyText(s.smiles, copy); });
     card.appendChild(el('div', { class: 'smiles-row' }, [code, copy]));
     var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
+    // ONE decimal, deliberately. The three-decimal figure looked like it separated
+    // right answers from wrong ones and it does not: on the known-answer corpora the
+    // wrong readings score inside the same range as the correct ones. Full precision
+    // is in the CSV, where it is data rather than a claim.
     var meta = el('div', { class: 'meta' }, [
-      el('span', { class: 'badge ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
+      el('span', { class: 'badge tier ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
       el('span', { class: 'conf', style: '--thr:' + (THRESHOLD * 100) + '%' }, [el('i', { style: 'width:' + (pct == null ? 0 : pct * 100) + '%' })]),
-      el('span', { class: 'pct', text: pct == null ? '—' : pct.toFixed(3) }),
+      el('span', { class: 'pct', title: pct == null ? '' : 'exact score ' + pct.toFixed(6), text: pct == null ? '—' : pct.toFixed(1) }),
       el('span', { class: 'where', text: whereText(s) })
     ]);
+    card.appendChild(meta);
+    // The source figure is the ONLY comparison that catches an erased crop, so it is
+    // open on arrival rather than behind a button nobody presses.
     if (s.figure_image) {
-      var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'source figure', loading: 'lazy' })]);
-      var btn = el('button', { class: 'srcbtn', type: 'button', text: 'source figure' });
-      btn.addEventListener('click', function () {
-        var open = src.classList.toggle('hidden');
-        if (!open && !src.firstChild.getAttribute('src')) src.firstChild.src = urlFor('figure', s.figure_image);
-        btn.textContent = open ? 'source figure' : 'hide source';
-      });
-      meta.appendChild(btn);
-      card.appendChild(meta); card.appendChild(src);
-    } else card.appendChild(meta);
+      card.appendChild(el('div', { class: 'source' }, [
+        el('img', { alt: 'the figure this crop came from', loading: 'lazy', src: urlFor('figure', s.figure_image) })
+      ]));
+      card.appendChild(el('div', { class: 'muted small', text: 'source figure — check the crop against this, not against the rendering' }));
+    }
     return card;
   }
   function whereText(s) {
@@ -516,6 +640,55 @@
     var fig = m ? 'figure ' + m[1] : (s.figure || '');
     return fig + (s.molecule != null ? ' · structure ' + (s.molecule + 1) : '');
   }
+  // Who can see this run, and the controls to change that. Both actions authenticate
+  // with the owner token from the upload (or, while the run is unlisted, with the fact
+  // that the caller knows an id nothing has published). Before this existed, DELETE
+  // needed an admin token that was unset in production, so a run could never be
+  // withdrawn by anyone at all -- including the operator.
+  function visibilityRow(job, opts) {
+    var row = el('div', { class: 'visibility' });
+    // A published run belonging to somebody else: state the visibility, offer nothing.
+    // Showing buttons that can only answer 403 is worse than showing none.
+    var mine = !job.public || !!tokenStore()[job.id];
+    var state = el('span', {});
+    var pubBtn = el('button', { class: 'srcbtn', type: 'button' });
+    var delBtn = el('button', { class: 'srcbtn danger', type: 'button', text: 'Delete this run' });
+    function paint() {
+      state.innerHTML = '';
+      state.appendChild(el('b', { text: job.public ? 'Listed in the public gallery.' : 'Private.' }));
+      state.appendChild(document.createTextNode(job.public
+        ? ' Anyone can see the file name, the figures and every structure.'
+        : ' Only someone with this page\u2019s link can see it. Unpublished uploads are deleted after '
+          + (limits.upload_ttl_hours || 72) + ' hours.'));
+      pubBtn.textContent = job.public ? 'Unlist it' : 'Publish it';
+      pubBtn.style.width = 'auto';
+    }
+    paint();
+    function fail(err) { state.appendChild(el('div', { class: 'muted small', text: err.message })); }
+    pubBtn.addEventListener('click', function () {
+      var want = job.public ? '0' : '1';
+      pubBtn.disabled = true;
+      var fd = new FormData(); fd.append('publish', want);
+      api('/api/jobs/' + job.id + '/publish', { method: 'POST', body: fd, headers: ownerHeaders(job.id) })
+        .then(function (d) { job.public = d.public; paint(); })
+        .catch(fail).then(function () { pubBtn.disabled = false; });
+    });
+    delBtn.addEventListener('click', function () {
+      if (!window.confirm('Delete this run and everything stored for it? This cannot be undone.')) return;
+      delBtn.disabled = true;
+      api('/api/runs/' + job.id, { method: 'DELETE', headers: ownerHeaders(job.id) })
+        .then(function () {
+          forgetToken(job.id);
+          if (opts && opts.onDeleted) opts.onDeleted();
+          else if (opts && opts.onReset) opts.onReset();
+        })
+        .catch(function (err) { fail(err); delBtn.disabled = false; });
+    });
+    row.appendChild(state);
+    if (mine) row.appendChild(el('span', { class: 'chips' }, [pubBtn, delBtn]));
+    return row;
+  }
+
   function renderResults(container, job, opts) {
     opts = opts || {};
     container.innerHTML = '';
@@ -526,8 +699,8 @@
       el('h2', { text: job.filename }),
       el('div', { class: 'chips' }, [
         el('span', { class: 'chip', text: (c.structures || 0) + (c.structures === 1 ? ' structure' : ' structures') }),
-        el('span', { class: 'chip high', text: (c.high || 0) + ' high confidence' }),
-        el('span', { class: 'chip low', text: (c.low || 0) + ' low confidence' }),
+        el('span', { class: 'chip tier', text: (c.high || 0) + ' high confidence' }),
+        el('span', { class: 'chip tier low', text: (c.low || 0) + ' low confidence' }),
         c.invalid ? el('span', { class: 'chip bad', text: c.invalid + ' unreadable' }) : null,
         el('span', { class: 'chip', text: (job.kind === 'pdf' ? job.pages + (job.pages === 1 ? ' page' : ' pages') : 'image') + ' · ' + (c.figures || 0) + (c.figures === 1 ? ' figure' : ' figures') })
       ])
@@ -535,6 +708,7 @@
     card.appendChild(head);
     if (job.note) card.appendChild(el('div', { class: 'caveat', text: job.note }));
     card.appendChild(el('div', { class: 'caveat', html: '<b>Read the confidence honestly.</b> ' + CAVEAT }));
+    if (opts.manage !== false) card.appendChild(visibilityRow(job, opts));
     var acts = el('div', { class: 'actions' });
     if (r.structures.length) {
       acts.appendChild(el('a', { class: 'btn', href: '/api/jobs/' + job.id + '/results.csv', text: 'Download CSV' }));
@@ -564,10 +738,11 @@
   // ---- gallery
   function loadGallery() {
     $('gallery-detail').classList.add('hidden'); $('gallery-list').classList.remove('hidden');
+    $('gallery-caveat').innerHTML = '<b>Read the confidence honestly.</b> ' + CAVEAT;
     var list = $('runs'); list.innerHTML = '<p class="empty">Loading…</p>';
     api('/api/runs').then(function (d) {
       list.innerHTML = '';
-      if (!d.runs.length) { list.appendChild(el('p', { class: 'empty', text: 'Nothing has been run on this server yet. Completed runs land here and survive restarts.' })); return; }
+      if (!d.runs.length) { list.appendChild(el('p', { class: 'empty', text: 'Nothing has been published here yet. Uploads are private by default, so this list stays empty until someone chooses to publish a run.' })); return; }
       d.runs.forEach(function (run) {
         var c = run.counts || {};
         var b = el('button', { class: 'run', type: 'button' });
@@ -577,8 +752,8 @@
         ]));
         b.appendChild(el('div', { class: 'chips' }, [
           el('span', { class: 'chip', text: (c.structures || 0) + (c.structures === 1 ? ' structure' : ' structures') }),
-          el('span', { class: 'chip high', text: (c.high || 0) + ' high' }),
-          el('span', { class: 'chip low', text: (c.low || 0) + ' low' }),
+          el('span', { class: 'chip tier', text: (c.high || 0) + ' high' }),
+          el('span', { class: 'chip tier low', text: (c.low || 0) + ' low' }),
           el('span', { class: 'chip', text: run.kind === 'pdf' ? run.pages + (run.pages === 1 ? ' page' : ' pages') : 'image' }),
           run.label ? el('span', { class: 'chip', text: run.label }) : null
         ]));
@@ -597,81 +772,367 @@
     api('/api/jobs/' + id).then(function (job) {
       $('gallery-list').classList.add('hidden');
       var d = $('gallery-detail'); d.classList.remove('hidden');
-      renderResults(d, job, { back: { label: 'Gallery', fn: function () { history.replaceState(null, '', '?tab=gallery'); loadGallery(); window.scrollTo(0, 0); } } });
+      var toList = function () { history.replaceState(null, '', '?tab=gallery'); loadGallery(); window.scrollTo(0, 0); };
+      renderResults(d, job, { back: { label: 'Gallery', fn: toList }, onDeleted: toList });
       window.scrollTo(0, 0);
     }).catch(function (err) { loadGallery(); });
   }
 
   // ---- benchmark
+  //
+  // Two numbers, always together. Scored on the whole predicted SMILES this
+  // pipeline is at 14.4% exact on the 97-image set; scored on the largest fragment
+  // of the same predictions it is at 66.0%, because it keeps hanging unbonded I and
+  // [HH] off an otherwise correct core. Publishing 66% alone tells a chemist the
+  // raw output is usable, which it is not. Publishing 14.4% alone tells them to
+  // throw the tool away, when a one-line post-process recovers most of it. So the
+  // page renders both side by side and refuses to have a single headline.
+  var benchData = null;
+  var benchPick = 0;
+
+  function pctText(n, d) { return d ? (100 * n / d).toFixed(1) + '%' : '—'; }
+
   function loadBenchmark() {
-    var box = $('bench'); box.innerHTML = '<p class="empty">Loading…</p>';
-    api('/api/benchmark').then(function (d) {
-      box.innerHTML = '';
-      box.appendChild(el('h2', { text: d.name || 'Benchmark' }));
-      if (d.description) box.appendChild(el('p', { class: 'muted small', text: d.description }));
-      box.appendChild(el('div', { class: 'caveat', html: '<b>Known answers, so every row gets a verdict.</b> These documents were generated from molecules whose structures are known, so each predicted SMILES is compared with the true one — as RDKit canonical SMILES, with and without stereochemistry, never by string equality. The pipeline\'s confidence sits next to the verdict on purpose: where they disagree is what to look at.' }));
-      if (!d.available || !d.runs.length) {
-        box.appendChild(el('p', { class: 'empty', text: !d.runs_found ? 'No benchmark runs have landed yet. When a pipeline run over the corpus is placed under the configured benchmark directory (with its manifest of expected molecules), it appears here.' : 'Runs were found but no manifest of expected molecules; the comparison needs one.' }));
-        return;
-      }
-      d.runs.forEach(function (run, idx) { box.appendChild(benchRun(run, idx, d)); });
-    }).catch(function (err) { box.innerHTML = ''; box.appendChild(el('p', { class: 'empty', text: 'Could not load the benchmark: ' + err.message })); });
+    var box = $('bench');
+    if (benchData) { paintBenchmark(); return; }
+    box.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/benchmark').then(function (d) { benchData = d; paintBenchmark(); })
+      .catch(function (err) { box.innerHTML = ''; box.appendChild(el('p', { class: 'empty', text: 'Could not load the benchmark: ' + err.message })); });
   }
-  function benchRun(run, idx, d) {
-    var t = run.tally, wrap = el('div', {});
-    if (d.runs.length > 1) wrap.appendChild(el('h3', { class: 'tier', text: 'Run ' + run.name + ' · ' + fmtWhen(run.mtime) }));
-    else wrap.appendChild(el('p', { class: 'muted small', text: 'Run ' + run.name + ' · ' + fmtWhen(run.mtime) }));
+
+  function paintBenchmark() {
+    var d = benchData, box = $('bench');
+    box.innerHTML = '';
+    box.appendChild(el('h2', { text: 'Measured against known answers' }));
+    if (!d.available || !d.runs.length) {
+      box.appendChild(el('p', { class: 'empty', text: !d.runs_found
+        ? 'No benchmark runs have landed yet. When a pipeline run over the corpus is placed under the configured benchmark directory (with its manifest of expected molecules), it appears here.'
+        : 'Runs were found but no manifest of expected molecules; the comparison needs one.' }));
+      return;
+    }
+    if (d.runs.length > 1) {
+      var pick = el('div', { class: 'runpick' });
+      d.runs.forEach(function (r, i) {
+        var b = el('button', { type: 'button', class: i === benchPick ? 'active' : '',
+          text: (r.meta && r.meta.title) || r.name });
+        b.addEventListener('click', function () { benchPick = i; paintBenchmark(); window.scrollTo(0, 0); });
+        pick.appendChild(b);
+      });
+      box.appendChild(el('p', { class: 'muted small', text: d.runs.length + ' runs, on different corpora. Every number below belongs to the one selected, and they differ a lot — accuracy is not a property of the tool alone.' }));
+      box.appendChild(pick);
+    }
+    box.appendChild(benchRun(d.runs[Math.min(benchPick, d.runs.length - 1)], d));
+  }
+
+  function metaBlock(run) {
+    var m = run.meta || {}, wrap = el('div', {});
+    wrap.appendChild(el('h3', { class: 'tier', text: 'What was measured, exactly' }));
+    var kv = el('dl', { class: 'kv' });
+    [['Corpus', m.corpus], ['Detail', m.corpus_detail], ['Stages run', m.stages],
+     ['Scoring', m.method], ['Settings', m.settings], ['Hardware', m.hardware],
+     ['Produced by', m.source]].forEach(function (r) {
+      if (r[1]) kv.appendChild(el('div', {}, [el('dt', { text: r[0] }), el('dd', { text: r[1] })]));
+    });
+    kv.appendChild(el('div', {}, [el('dt', { text: 'Stored at' }), el('dd', {}, [el('code', { text: run.name })])]));
+    if (run.cross_checked) {
+      kv.appendChild(el('div', {}, [el('dt', { text: 'Cross-check' }), el('dd', { text:
+        'This run also carries verdicts from the offline scorer. They are not trusted in place of the '
+        + 'recomputation above — they are compared with it, and they disagree on '
+        + run.cross_check_disagreements + ' of ' + run.tally.structures + ' structures.' })]));
+    }
+    wrap.appendChild(kv);
+    if (m.note) wrap.appendChild(el('div', { class: 'caveat', text: m.note }));
+    return wrap;
+  }
+
+  function headline(t) {
+    var n = t.structures - t.unassigned;
+    var heads = el('div', { class: 'heads' });
+    heads.appendChild(el('div', { class: 'head strict' }, [
+      el('div', { class: 'v', text: pctText(t.match, n) }),
+      el('div', { class: 'n', text: t.match + ' of ' + n + ' scored structures' }),
+      el('div', { class: 'l', text: 'Exact, on the whole predicted SMILES' }),
+      el('div', { class: 'd', text: 'What a caller gets by pasting the output straight into a database. '
+        + pctText(t.match + t.stereo, n) + ' (' + (t.match + t.stereo) + ') if stereochemistry may be lost.' })
+    ]));
+    heads.appendChild(el('div', { class: 'head frag' }, [
+      el('div', { class: 'v', text: pctText(t.frag_match, n) }),
+      el('div', { class: 'n', text: t.frag_match + ' of ' + n + ' scored structures' }),
+      el('div', { class: 'l', text: 'Exact, on the largest fragment only' }),
+      el('div', { class: 'd', text: 'What the recogniser actually got right, ignoring disconnected atoms it '
+        + 'added. ' + pctText(t.frag_match + t.frag_stereo, n) + ' (' + (t.frag_match + t.frag_stereo)
+        + ') if stereochemistry may be lost.' })
+    ]));
+    return heads;
+  }
+
+  // The gap between the two headline numbers, explained with rows out of this run.
+  function gapBlock(run, rows) {
+    var t = run.tally, n = t.structures - t.unassigned;
+    var box = el('div', { class: 'gapnote' });
+    if (!t.phantom) {
+      box.appendChild(el('span', { html: '<b>The two numbers above are close on this corpus.</b> Only ' + t.phantom
+        + ' of ' + n + ' predictions carried a disconnected extra fragment, so there is little for the '
+        + 'largest-fragment score to remove.' }));
+      return box;
+    }
+    box.appendChild(el('div', { html: '<b>Why the two differ, and why it is not spin.</b> '
+      + t.phantom + ' of ' + n + ' predictions (' + pctText(t.phantom, n) + ') carry phantom <i>disconnected</i> atoms '
+      + 'appended to a core that is otherwise right — almost all of them <code>I</code> or <code>[HH]</code>, the '
+      + 'signature of a small heteroatom label read as an unbonded atom. Stripping them rescues '
+      + t.rescued + ' predictions the strict score called wrong or unreadable. The strict number is not pessimism: '
+      + 'the string really is unusable as written. The fragment number is not flattery: the molecule really was '
+      + 'recognised. A caller that keeps the largest fragment gets the second number; a caller that does not gets the first.' }));
+    var worst = rows.filter(function (r) { return r.fragments > 1 && (r.frag_verdict === 'match' || r.frag_verdict === 'stereo'); })
+      .sort(function (a, b) { return b.fragments - a.fragments; });
+    var picks = [];
+    if (worst.length) picks.push(worst[0]);
+    var small = worst.slice().sort(function (a, b) { return (a.smiles || '').length - (b.smiles || '').length; });
+    if (small.length && small[0] !== picks[0]) picks.push(small[0]);
+    picks.forEach(function (r) {
+      box.appendChild(el('div', { style: 'margin-top:8px' }, [
+        el('div', { class: 'muted small', text: (r.matched_key || r.frag_matched_key || r.source) + ' — '
+          + r.fragments + ' fragments, ' + (r.phantom || 'none') + ' discarded' }),
+        el('div', { class: 'smiles', text: r.smiles })
+      ]));
+    });
+    return box;
+  }
+
+  function crosstab(t) {
+    var wrap = el('div', {});
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Does the confidence score tell you anything?' }));
+    var tbl = el('table', { class: 'xtab' });
+    var head = el('tr', {}, [el('th', { class: 'rh', text: 'Tier' }), el('th', { text: 'n' }),
+      el('th', { text: 'correct' }), el('th', { text: 'exact' }), el('th', { text: '+stereo' }),
+      el('th', { text: 'wrong' }), el('th', { text: 'invalid' })]);
+    var body = el('tbody', {}, [el('tr', {}, [el('th', { class: 'rh', colspan: '7', text: 'scored on the whole predicted SMILES' })]),
+      tierRow('high', t.crosstab.high, false), tierRow('low', t.crosstab.low, false),
+      el('tr', {}, [el('th', { class: 'rh', colspan: '7', text: 'scored on the largest fragment' })]),
+      tierRow('high', t.crosstab.high, true), tierRow('low', t.crosstab.low, true)]);
+    tbl.appendChild(el('thead', {}, [head]));
+    tbl.appendChild(body);
+    wrap.appendChild(el('div', { class: 'xwrap' }, [tbl]));
+    wrap.appendChild(el('p', { class: 'muted small', text: '"correct" = exact or exact-except-stereochemistry. Scroll the table sideways for the breakdown.' }));
+    var hi = t.crosstab.high, lo = t.crosstab.low;
+    var hiRight = hi.frag_match + hi.frag_stereo, loRight = lo.frag_match + lo.frag_stereo;
+    var useful = hi.n && lo.n && (hiRight / hi.n) - (loRight / lo.n) >= 0.1;
+    wrap.appendChild(el('div', { class: 'gapnote', html: (useful
+      ? '<b>On this corpus the split is worth using.</b> The high tier is ' + pctText(hiRight, hi.n) + ' correct ('
+        + hiRight + ' of ' + hi.n + ') against ' + pctText(loRight, lo.n) + ' for the low tier (' + loRight + ' of '
+        + lo.n + '), scored on the largest fragment. That is a real triage signal: work the high tier first.'
+      : '<b>On this corpus the split is close to useless.</b> The high tier is ' + pctText(hiRight, hi.n)
+        + ' correct (' + hiRight + ' of ' + hi.n + ') and the low tier ' + pctText(loRight, lo.n) + ' ('
+        + loRight + ' of ' + lo.n + '), scored on the largest fragment. Sorting by this score would not have '
+        + 'helped you find the errors.')
+      + ' <b>But it is not a correctness check.</b> A high-confidence answer can still be the wrong molecule, '
+      + 'and the two mechanisms are invisible to it: segmentation can <i>erase</i> ink inside a crop whose borders '
+      + 'look clean, and stage 3 can drop an atom whose glyph is present and legible. '
+      + 'Note also that this figure is specific to this corpus — switch runs above and it moves a long way.' }));
+    if (t.conf_right && t.conf_wrong) {
+      var overlap = t.conf_wrong.max >= t.conf_right.min;
+      wrap.appendChild(el('p', { class: 'muted small', text: 'Score ranges in this run: answers that turned out right '
+        + t.conf_right.min.toFixed(3) + '–' + t.conf_right.max.toFixed(3) + ' (mean ' + t.conf_right.mean.toFixed(3) + ', n '
+        + t.conf_right.n + '); answers that turned out wrong ' + t.conf_wrong.min.toFixed(3) + '–' + t.conf_wrong.max.toFixed(3)
+        + ' (mean ' + t.conf_wrong.mean.toFixed(3) + ', n ' + t.conf_wrong.n + '). '
+        + (overlap ? 'The ranges overlap, so no threshold separates them cleanly — which is why the number beside each result is shown to one decimal.'
+                   : 'The ranges do not overlap in this run.') }));
+    }
+    return wrap;
+  }
+  function tierRow(tier, c, frag) {
+    var e = frag ? c.frag_match : c.match, s = frag ? c.frag_stereo : c.stereo;
+    var w = frag ? c.frag_wrong : c.wrong, i = frag ? c.frag_invalid : c.invalid;
+    return el('tr', {}, [
+      el('td', { class: 'rh' }, [el('span', { class: 'badge tier ' + tier, text: tier + ' confidence' })]),
+      el('td', { text: String(c.n) }), el('td', { class: 'big', text: pctText(e + s, c.n) }),
+      el('td', { text: String(e) }), el('td', { text: String(e + s) }),
+      el('td', { text: String(w) }), el('td', { text: String(i) })]);
+  }
+
+  var FILTERS = [
+    { key: 'all', label: 'All', fn: function () { return true; } },
+    { key: 'phantom', label: 'Phantom fragments', fn: function (r) { return r.fragments > 1; } },
+    { key: 'rescued', label: 'Rescued by stripping them', fn: function (r) {
+        return (r.frag_verdict === 'match' || r.frag_verdict === 'stereo') && r.verdict !== 'match' && r.verdict !== 'stereo'; } },
+    { key: 'hiwrong', label: 'High confidence, wrong molecule', fn: function (r) {
+        return r.tier === 'high' && r.frag_verdict !== 'match' && r.frag_verdict !== 'stereo'; } },
+    { key: 'exact', label: 'Right, whole string', fn: function (r) { return r.verdict === 'match'; } },
+    { key: 'invalid', label: 'Unreadable', fn: function (r) { return r.frag_verdict === 'invalid'; } }
+  ];
+  var PAGE = 24;
+
+  function benchRun(run, d) {
+    var t = run.tally, m = run.meta || {}, wrap = el('div', {});
+    // Headline first, corpus label glued to it, methodology directly under. The
+    // numbers are the point of the page and a wall of method above them buries it;
+    // but a number with no corpus attached is not a fact, so the corpus comes too.
+    if (m.title) wrap.appendChild(el('h3', { class: 'tier', text: m.title }));
+    if (m.corpus) wrap.appendChild(el('p', { class: 'muted small', text: 'Corpus: ' + m.corpus
+      + (m.stages ? ' · ' + m.stages : '') }));
+    wrap.appendChild(headline(t));
+
+    // flatten every scored structure, keeping its document for the label lookups
+    var rows = [];
+    run.pdfs.forEach(function (p) { p.structures.forEach(function (s) { rows.push(withDoc(s, p)); }); });
+    wrap.appendChild(gapBlock(run, rows));
+
+    wrap.appendChild(el('div', { class: 'caveat', html:
+      '<b>How every number here is produced.</b> Each predicted SMILES and each true SMILES is turned into an '
+      + 'RDKit canonical SMILES and those are compared — never the raw strings, which differ for identical molecules. '
+      + 'The comparison runs twice, once with stereochemistry required and once with it stripped. '
+      + 'Recall and precision have <i>different denominators</i> and both are shown: recall counts how many of the '
+      + 'molecules actually drawn were recovered, precision counts how many of the structures the pipeline emitted '
+      + 'were right. A run that emits nothing scores 0% recall and no precision at all. '
+      + 'Nothing on this tab is transcribed from an earlier report: the verdicts are recomputed from the stored run '
+      + 'and the manifest every time this page is built.' }));
+    wrap.appendChild(metaBlock(run));
+
     var tiles = [
-      [t.structures, 'structures read'], [t.match, 'exact match'], [t.stereo, 'match except stereo'], [t.wrong, 'wrong molecule'],
-      [t.invalid, 'invalid SMILES'], [t.found + ' / ' + t.expected, 'expected molecules found'],
-      [t.high_wrong + ' / ' + t.high, 'high confidence, yet wrong', true], [t.low_right + ' / ' + t.low, 'low confidence, yet right']
+      [t.structures, 'structures emitted'], [t.documents, t.documents === 1 ? 'document' : 'documents'],
+      [t.found + ' / ' + t.expected, 'drawn molecules recovered, whole string'],
+      [t.frag_found + ' / ' + t.expected, 'recovered, largest fragment'],
+      [t.invalid, 'predictions RDKit cannot parse'],
+      [t.phantom, 'carry phantom fragments'],
+      [t.high_wrong + ' / ' + t.high, 'high confidence, yet wrong', true],
+      [t.low_right + ' / ' + t.low, 'low confidence, yet right']
     ];
     var tally = el('div', { class: 'tally' });
-    tiles.forEach(function (x) { tally.appendChild(el('div', { class: x[2] ? 'hot' : '' }, [el('div', { class: 'v', text: String(x[0]) }), el('div', { class: 'l', text: x[1] })])); });
+    tiles.forEach(function (x) { tally.appendChild(el('div', { class: x[2] ? 'hot' : '' }, [
+      el('div', { class: 'v', text: String(x[0]) }), el('div', { class: 'l', title: x[1], text: x[1] })])); });
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Counts' }));
     wrap.appendChild(tally);
+    wrap.appendChild(el('p', { class: 'muted small', text: 'The two "recovered" tiles share one denominator — the '
+      + t.expected + ' molecules actually drawn in this corpus — and the "high confidence, yet wrong" tile is judged '
+      + 'on the whole string. Unassigned structures (' + t.unassigned + ') are excluded from every accuracy figure '
+      + 'because there is no ground truth to compare them with; they are listed at the bottom.' }));
+
+    wrap.appendChild(crosstab(t));
+
+    // ---- browsable per-molecule table
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Every structure, one row each' }));
+    wrap.appendChild(el('p', { class: 'muted small', text: 'Input image, the SMILES the pipeline predicted, the true '
+      + 'SMILES it was compared against, both verdicts, and the pipeline’s own confidence.' }));
+    var filters = el('div', { class: 'filters' });
+    var list = el('div', {});
+    var count = el('p', { class: 'muted small' });
+    var search = el('input', { type: 'search', placeholder: 'filter by molecule or file name',
+      style: 'width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);margin-bottom:10px' });
+    var active = 'all', shown = PAGE;
     var urlFor = function (kind, name) { return '/api/benchmark/' + run.id + '/img/' + kind + '/' + encodeURIComponent(name); };
-    run.pdfs.forEach(function (p) {
-      var sec = el('div', { class: 'pdf' });
-      sec.appendChild(el('h3', {}, [el('span', { text: p.title }), el('code', { text: p.file }), el('span', { class: 'muted small', text: p.found + ' of ' + p.expected + ' expected molecules found' })]));
-      var ex = el('div', { class: 'expect' });
-      p.molecules.forEach(function (m) {
-        var hit = p.matched_keys.indexOf(m.key) >= 0;
-        ex.appendChild(el('span', { class: 'chip ' + (hit ? 'high' : 'bad'), text: (hit ? '✓ ' : '✗ ') + m.label + (hit ? '' : ' — missing') }));
+
+    function matching() {
+      var f = FILTERS.filter(function (x) { return x.key === active; })[0].fn;
+      var q = (search.value || '').trim().toLowerCase();
+      return rows.filter(function (r) {
+        if (!f(r)) return false;
+        if (!q) return true;
+        return ((r.matched_key || '') + ' ' + (r.frag_matched_key || '') + ' ' + (r.closest_key || '') + ' '
+          + r.source + ' ' + (r._doc.title || '')).toLowerCase().indexOf(q) >= 0;
       });
-      sec.appendChild(ex);
-      if (!p.structures.length) sec.appendChild(el('p', { class: 'muted small', text: 'The pipeline produced no structures for this document.' }));
-      p.structures.forEach(function (s) { sec.appendChild(benchRow(s, urlFor, p)); });
-      wrap.appendChild(sec);
+    }
+    function paint() {
+      var hits = matching();
+      list.innerHTML = '';
+      hits.slice(0, shown).forEach(function (r) { list.appendChild(benchRow(r, urlFor)); });
+      count.textContent = hits.length + (hits.length === 1 ? ' structure' : ' structures')
+        + (hits.length > shown ? ' — showing the first ' + shown : '') + '.';
+      if (hits.length > shown) {
+        var more = el('button', { class: 'more', type: 'button', text: 'Show ' + Math.min(PAGE, hits.length - shown) + ' more' });
+        more.addEventListener('click', function () { shown += PAGE; paint(); });
+        list.appendChild(more);
+      }
+      if (!hits.length) list.appendChild(el('p', { class: 'empty', text: 'Nothing matches that filter — which for some of these filters is the good outcome.' }));
+    }
+    FILTERS.forEach(function (f) {
+      var hits = rows.filter(f.fn).length;
+      var b = el('button', { type: 'button', class: f.key === active ? 'active' : '', text: f.label + ' (' + hits + ')' });
+      b.addEventListener('click', function () {
+        active = f.key; shown = PAGE;
+        filters.querySelectorAll('button').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active'); paint();
+      });
+      filters.appendChild(b);
     });
+    search.addEventListener('input', function () { shown = PAGE; paint(); });
+    wrap.appendChild(filters); wrap.appendChild(search); wrap.appendChild(count); wrap.appendChild(list);
+    paint();
+
+    // ---- documents whose expected molecules were never recovered
+    var missed = run.pdfs.filter(function (p) { return p.missing && p.missing.length; });
+    if (missed.length) {
+      wrap.appendChild(el('h3', { class: 'tier', text: 'Molecules that were drawn and never recovered' }));
+      wrap.appendChild(el('p', { class: 'muted small', text: 'Scored on the whole predicted string. These are the '
+        + 'misses behind the recall figure; nothing the pipeline emitted matched them.' }));
+      var ex = el('div', { class: 'expect' });
+      missed.forEach(function (p) {
+        p.missing.forEach(function (m) { ex.appendChild(el('span', { class: 'chip bad', text: m.label })); });
+      });
+      wrap.appendChild(ex);
+    }
+
     if (run.unassigned && run.unassigned.length) {
       var sec2 = el('div', { class: 'pdf' });
-      sec2.appendChild(el('h3', {}, [el('span', { text: 'Structures from documents with no molecule-level ground truth' }), el('span', { class: 'muted small', text: run.unassigned.length + ' structures — shown, not scored' })]));
-      run.unassigned.forEach(function (s) { sec2.appendChild(benchRow(s, urlFor, null)); });
+      sec2.appendChild(el('h3', {}, [el('span', { text: 'Shown, not scored' }),
+        el('span', { class: 'muted small', text: run.unassigned.length + ' structures from documents with no molecule-level ground truth — reaction schemes and Markush structures, which no single SMILES describes' })]));
+      run.unassigned.slice(0, PAGE).forEach(function (s) { sec2.appendChild(benchRow(withDoc(s, null), urlFor)); });
+      if (run.unassigned.length > PAGE) sec2.appendChild(el('p', { class: 'muted small', text: 'and ' + (run.unassigned.length - PAGE) + ' more.' }));
       wrap.appendChild(sec2);
     }
     return wrap;
   }
-  function benchRow(s, urlFor, p) {
-    var row = el('div', { class: 'bench-row ' + s.verdict });
+  function withDoc(s, p) { var r = {}; Object.keys(s).forEach(function (k) { r[k] = s[k]; }); r._doc = p || {}; return r; }
+
+  var VLABEL = { match: 'exact match', stereo: 'match except stereochemistry', wrong: 'wrong molecule',
+                 invalid: 'unreadable SMILES', unassigned: 'no ground truth' };
+
+  function benchRow(s, urlFor) {
+    var p = s._doc || {};
+    var row = el('div', { class: 'bench-row ' + s.frag_verdict });
     var imgs = el('div', { class: 'imgs' });
-    imgs.appendChild(s.segment_image ? el('figure', {}, [el('img', { src: urlFor('segment', s.segment_image), alt: '', loading: 'lazy' }), el('figcaption', { text: 'crop' })]) : el('figure', { class: 'none', text: 'no crop' }));
-    imgs.appendChild(s.rendered_image ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: '', loading: 'lazy' }), el('figcaption', { text: 'predicted, drawn' })]) : el('figure', { class: 'none', text: 'nothing drawn' }));
+    imgs.appendChild(s.segment_image
+      ? el('figure', {}, [el('img', { src: urlFor('segment', s.segment_image), alt: 'the image stage 3 was given', loading: 'lazy' }),
+          el('figcaption', { text: 'input to the reader' })])
+      : el('figure', { class: 'none', text: 'no input image stored' }));
+    imgs.appendChild(s.rendered_image
+      ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: 'the predicted SMILES, drawn', loading: 'lazy' }),
+          el('figcaption', { text: 'prediction, drawn' })])
+      : el('figure', { class: 'none', text: s.valid ? 'could not be drawn' : 'nothing readable' }));
     row.appendChild(imgs);
+
     var right = el('div', { class: 'pair' });
-    var vlabel = { match: 'exact match', stereo: 'match except stereochemistry', wrong: 'wrong molecule', invalid: 'invalid SMILES', unassigned: 'no document' }[s.verdict] || s.verdict;
     var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
     right.appendChild(el('div', { class: 'verdict-line' }, [
-      el('span', { class: 'badge ' + s.verdict, text: vlabel }),
-      el('span', { class: 'badge ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
-      el('span', { class: 'pct', text: pct == null ? '—' : pct.toFixed(3) }),
-      el('span', { text: s.matched_key ? 'matched ' + labelFor(p, s.matched_key)
-        : (s.verdict === 'wrong' && s.closest_key ? 'closest: ' + labelFor(p, s.closest_key) + (s.closest_tanimoto != null ? ' (Tanimoto ' + Number(s.closest_tanimoto).toFixed(2) + ')' : '')
-        : (p && s.verdict !== 'unassigned' ? 'matches none of: ' + p.molecules.map(function (m) { return m.label; }).join(', ') : '')) }),
-      el('span', { class: 'where', text: whereText(s) })
+      el('span', { class: 'badge ' + s.verdict, text: 'whole string: ' + (VLABEL[s.verdict] || s.verdict) }),
+      el('span', { class: 'badge ' + s.frag_verdict, text: 'largest fragment: ' + (VLABEL[s.frag_verdict] || s.frag_verdict) })
     ]));
-    var predBox = el('div', {}, [el('label', { text: 'predicted' }), el('div', { class: 'smiles' + (s.valid ? '' : ' empty'), text: s.smiles || 'nothing readable' })]);
-    right.appendChild(predBox);
-    if (s.truth_smiles) right.appendChild(el('div', {}, [el('label', { text: 'true (' + labelFor(p, s.matched_key) + ')' }), el('div', { class: 'smiles', text: s.truth_smiles })]));
+    right.appendChild(el('div', { class: 'verdict-line' }, [
+      el('span', { class: 'badge tier ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
+      el('span', { class: 'conf', style: '--thr:' + (THRESHOLD * 100) + '%' }, [el('i', { style: 'width:' + (pct == null ? 0 : pct * 100) + '%' })]),
+      el('span', { class: 'pct', text: pct == null ? '—' : pct.toFixed(3) }),
+      el('span', { class: 'where', text: (s.matched_key || s.frag_matched_key || labelFor(p, s.closest_key) || s.source) })
+    ]));
+    if (s.fragments > 1) {
+      right.appendChild(el('div', {}, [el('label', { text: s.fragments + ' fragments — discarded by the fragment score' }),
+        el('div', { class: 'phantom', text: s.phantom || '(none)' })]));
+    }
+    right.appendChild(el('div', {}, [el('label', { text: 'predicted' }),
+      el('div', { class: 'smiles' + (s.valid ? '' : ' empty'), text: s.smiles || 'nothing readable' })]));
+    if (s.fragments > 1 && s.pred_largest) {
+      right.appendChild(el('div', {}, [el('label', { text: 'predicted, largest fragment only' }),
+        el('div', { class: 'smiles', text: s.pred_largest })]));
+    }
+    if (s.truth_smiles) {
+      right.appendChild(el('div', {}, [el('label', { text: 'true — ' + (labelFor(p, s.matched_key || s.frag_matched_key) || 'from the manifest') }),
+        el('div', { class: 'smiles', text: s.truth_smiles })]));
+    } else if (p.molecules && p.molecules.length && s.verdict !== 'unassigned') {
+      right.appendChild(el('div', {}, [el('label', { text: 'compared against, and matched none of' }),
+        el('div', { class: 'muted small', text: p.molecules.map(function (m) { return m.label; }).join(', ') })]));
+    }
+    if (s.closest_key && s.frag_verdict === 'wrong') {
+      right.appendChild(el('div', { class: 'muted small', text: 'nearest molecule in the document: '
+        + labelFor(p, s.closest_key) + (s.closest_tanimoto != null ? ' (Tanimoto ' + Number(s.closest_tanimoto).toFixed(2) + ')' : '') }));
+    }
     if (s.figure_image) {
       var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'source figure', loading: 'lazy' })]);
       var btn = el('button', { class: 'srcbtn', type: 'button', text: 'source figure' });
@@ -686,9 +1147,102 @@
     return row;
   }
   function labelFor(p, key) {
-    if (!p) return key || '';
+    if (!key) return '';
+    if (!p || !p.molecules) return key;
     var m = p.molecules.filter(function (x) { return x.key === key; })[0];
     return m ? m.label : key;
+  }
+
+  // ---- ringleader
+  //
+  // The 743-image molecules_realworld corpus. The Benchmark tab's 97-image run is a
+  // stride sample of EXACTLY this corpus, so this tab reads the same run rather than
+  // measuring anything again: two tabs quoting two independently-derived accuracies
+  // for the same images would eventually disagree, and the disagreement would be
+  // invisible. What this tab adds is the sampling arithmetic and the coverage.
+  function loadRingleader() {
+    var box = $('ring');
+    if (benchData) { paintRingleader(); return; }
+    box.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/benchmark').then(function (d) { benchData = d; paintRingleader(); })
+      .catch(function (err) { box.innerHTML = ''; box.appendChild(el('p', { class: 'empty', text: 'Could not load it: ' + err.message })); });
+  }
+
+  function paintRingleader() {
+    var d = benchData, box = $('ring');
+    box.innerHTML = '';
+    box.appendChild(el('h2', { text: 'The molecules_realworld corpus' }));
+    var c = (d.corpora || {}).images;
+    // The upscaled subset also carries corpus_key 'images'; this tab is about the
+    // whole stride sample, so take the best-ranked images run rather than the last one.
+    var idx = -1, best = 1e9;
+    (d.runs || []).forEach(function (r, i) {
+      if (!r.meta || r.meta.corpus_key !== 'images') return;
+      var rank = Number(r.meta.rank) || 99;
+      if (rank < best) { best = rank; idx = i; }
+    });
+    if (!c || idx < 0) {
+      box.appendChild(el('p', { class: 'empty', text: 'The single-molecule corpus manifest or its run is not installed on this server, so there is nothing to report. This tab does not estimate.' }));
+      return;
+    }
+    var run = d.runs[idx], t = run.tally;
+    var eligible = c.population_size, all = c.images_dir_file_count, sample = c.sample_size;
+    var blank = c.files_with_empty_smiles;
+
+    box.appendChild(el('p', { class: 'note', text: 'A collection of ' + all + ' single-molecule PNG depictions, one '
+      + 'compound per file. It is the largest known-answer set available to this pipeline, and it is the source of '
+      + 'the 97-image benchmark: those 97 were not drawn from somewhere else.' }));
+
+    box.appendChild(el('h3', { class: 'tier', text: 'How the 97 were chosen' }));
+    var steps = el('div', { class: 'tally' });
+    [[all, 'PNG files in the corpus'], [blank, 'have no SMILES — not scorable'],
+     [eligible, 'eligible: a file and an answer'], ['every ' + c.step + 'th', 'taken from index ' + c.offset],
+     [sample, 'in the benchmark sample'], [c.pubchem_verified + ' / ' + sample, 'pixel-verified against PubChem']
+    ].forEach(function (x) {
+      steps.appendChild(el('div', {}, [el('div', { class: 'v', text: String(x[0]) }), el('div', { class: 'l', title: x[1], text: x[1] })]));
+    });
+    box.appendChild(steps);
+    box.appendChild(el('p', { class: 'muted small', text: 'A fixed stride, not a random draw and not a hand-pick: '
+      + 'every ' + c.step + 'th of the ' + eligible + ' eligible files sorted by name, starting at index ' + c.offset
+      + '. That is reproducible and it is not chosen to flatter the result, but it is also not a random sample, so '
+      + 'treat the figures below as an estimate with no error bar attached.'
+      + (c.unverified && c.unverified.length ? ' ' + c.unverified.length + ' of the ' + sample
+         + ' could not be matched pixel-exact to a PubChem depiction (' + c.unverified.join(', ')
+         + '); those keep the SMILES recorded in the corpus itself.' : '') }));
+
+    box.appendChild(el('h3', { class: 'tier', text: 'Result on the sample' }));
+    box.appendChild(headline(t));
+    box.appendChild(el('div', { class: 'gapnote', html: '<b>These are the same numbers as the Benchmark tab, from the '
+      + 'same stored run — not a second measurement.</b> Read them there with the full methodology, the confidence '
+      + 'cross-tab and a row for every molecule.' }));
+    var go = el('button', { type: 'button', text: 'Open it in Benchmark' });
+    go.addEventListener('click', function () { benchPick = idx; showTab('benchmark'); });
+    box.appendChild(el('div', { class: 'actions' }, [go]));
+
+    box.appendChild(el('h3', { class: 'tier', text: 'What has not been measured' }));
+    var notRun = eligible - sample;
+    var per = Number(run.meta && run.meta.seconds) / (t.structures || 1);
+    var line = notRun + ' of the ' + eligible + ' eligible images have never been run — '
+      + (100 * notRun / eligible).toFixed(0) + '% of the corpus. ';
+    if (isFinite(per) && per > 0) {
+      line += 'This run read ' + t.structures + ' images in ' + Math.round(Number(run.meta.seconds))
+        + ' s of CPU, so ' + per.toFixed(1) + ' s each; the remaining ' + notRun + ' would be about '
+        + Math.round(per * notRun / 60) + ' minutes of the same hardware, and the whole ' + eligible
+        + ' about ' + Math.round(per * eligible / 60) + ' minutes. That is cheap enough to be worth doing and '
+        + 'was not done here, so nothing on this page claims to describe the other ' + notRun + ' images.';
+    } else {
+      line += 'Nothing on this page claims to describe them.';
+    }
+    box.appendChild(el('p', { class: 'note', text: line }));
+    var bar = el('div', { class: 'conf', style: '--thr:100%;height:14px;margin:10px 0' },
+      [el('i', { style: 'width:' + (100 * sample / eligible).toFixed(1) + '%;background:var(--accent)' })]);
+    box.appendChild(bar);
+    box.appendChild(el('p', { class: 'muted small', text: 'Coverage: ' + sample + ' of ' + eligible
+      + ' eligible images measured (' + (100 * sample / eligible).toFixed(1) + '%).' }));
+    box.appendChild(el('p', { class: 'muted small', text: 'Also worth stating plainly: these are isolated, '
+      + 'computer-drawn depictions with no page around them, and the run behind them skipped figure extraction and '
+      + 'segmentation entirely. It measures the SMILES reader, not the pipeline. The other benchmark run — 11 PDFs '
+      + 'through all three stages — is the one to read for what happens to a document.' }));
   }
 
   // ---- boot
