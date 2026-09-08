@@ -11,6 +11,90 @@ into machine-readable CXSMILES.
 | 2 | DECIMER Image Segmentation | Figures/tables → Individual Structure Images |
 | 3 | CXMolScribe | Individual Structure Images → CXSMILES |
 
+## How it works
+
+Three specialised models in a row, because "read the chemistry out of this paper"
+is really three unrelated problems: *find the pictures*, *cut out each molecule*,
+*read the molecule*. One end-to-end model would have to be good at all three.
+
+```mermaid
+flowchart LR
+    A[PDF pages] -->|VisualHeist<br/>Florence-2| B[figure images]
+    B -->|DECIMER<br/>Mask R-CNN + mask expansion| C[one image<br/>per structure]
+    C -->|MolScribe<br/>Swin encoder + graph decoder| D[CXSMILES<br/>+ confidence]
+    B -.->|upload an image<br/>and stage 1 is skipped| C
+```
+
+### Stage 1 — VisualHeist: find the figures
+
+Pages are rasterised and passed to **Florence-2**, a vision-language model, which
+is asked to locate figures and tables. Output is a cropped image per figure. This
+is a *layout* problem, not a chemistry one — nothing here knows what a molecule is.
+
+### Stage 2 — DECIMER: cut out each structure
+
+A figure may hold one structure or twenty in a grid. **Mask R-CNN** proposes a
+rough mask per structure — and then the interesting part, which is not the neural
+network at all:
+
+```mermaid
+flowchart TD
+    M[Mask R-CNN mask<br/>roughly right, edges ragged] --> B[binarize the page<br/>threshold 0.72]
+    B --> E[expand the mask along<br/>CONNECTED dark pixels]
+    E --> X{hits an exclusion<br/>region?}
+    X -->|no| E
+    X -->|yes: long vertical/horizontal<br/>lines = table rules| S[stop, emit crop]
+```
+
+The mask is grown outward through connected ink until it frames the whole drawing,
+so a box that clipped a substituent recovers it. An **exclusion mask** built from
+long straight-line detection stops the growth escaping along a table border and
+swallowing the page.
+
+That expansion is the cleverest idea in the pipeline **and its main failure mode**.
+When it stops early you get a structure with a ring or a substituent missing — and
+see [Accuracy](#accuracy--read-this-before-trusting-the-confidence-split), because
+nothing downstream can tell that it happened.
+
+### Stage 3 — MolScribe: read the structure
+
+The part people usually get wrong about this stage: **it does not caption the image
+into a SMILES string.** It predicts a *molecular graph*, then builds SMILES from it.
+
+```mermaid
+flowchart LR
+    I[structure image] --> S[Swin Transformer<br/>encoder]
+    S --> D[decoder]
+    D --> N[atom symbols<br/>+ 2D coordinates]
+    D --> E[edge matrix:<br/>bond type for every atom pair]
+    N --> G[molecular graph]
+    E --> G
+    G -->|RDKit reconstruction| O[CXSMILES]
+    N -.->|per-atom scores| C[confidence]
+```
+
+Three things fall out of predicting a graph rather than a string, and together they
+are the actual secret sauce:
+
+- **Per-atom confidence.** Scores attach to nodes, so the model can say *which part*
+  it was unsure about. A string-captioning model can only score the whole sequence.
+- **R-groups survive.** A node may carry a label like `R1` instead of an element.
+  Plain SMILES cannot express that, which is why the output is **CXSMILES** —
+  extended SMILES that carries the labels alongside the structure. For a patent
+  Markush drawing this is the difference between a usable answer and none.
+- **The output is chemically checkable.** A graph either reconstructs into a valid
+  molecule or it does not. A generated string can be confidently malformed.
+
+### Why three environments and not one
+
+Not fussiness — an irreducible conflict. Stage 2's TensorFlow 2.12 requires
+`numpy < 1.24`; the PyTorch stages require `>= 1.24`. No single environment
+satisfies both, so each stage runs under its own interpreter and the runner shells
+between them.
+
+*(The stage 1 package is named MERMaid, which is unrelated to the Mermaid diagrams
+above — a coincidence that will confuse exactly one person per team.)*
+
 ## Install
 
 Needs ~7 GB of disk. A GPU is optional. Three ways in — pick one:
