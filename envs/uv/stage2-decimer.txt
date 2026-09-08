@@ -1,0 +1,74 @@
+# C-MAGE stage 2 -- DECIMER Image Segmentation (uv / plain-pip flavour)
+#
+# Segments individual chemical structure depictions out of the figure images
+# produced by stage 1, using the Mask R-CNN model in decimer_segmentation.
+#
+# This is the pip: section of envs/cmage-decimer.yml, verbatim pins, for use
+# with uv instead of conda:
+#
+#   uv venv .venv-decimer --python 3.10
+#   uv pip install --python .venv-decimer/bin/python -r envs/uv/stage2-decimer.txt
+#   uv pip install --python .venv-decimer/bin/python --no-deps \
+#       -e ./cxmolscribe-wd/DECIMER-Image-Segmentation
+#
+# Platform: verified on Linux aarch64 (ARM64), CPU only. Plain tensorflow
+# 2.12.0 publishes a cp310 manylinux_2_17_aarch64 wheel; the "no arm64 wheel
+# at 2.12" note in envs/README.md is about macOS arm64 (tensorflow-macos),
+# not Linux ARM. Do not switch this file to the macOS spec on Linux.
+#
+# Dropped from the conda spec, and why:
+#   - cudatoolkit=11.8, cudnn=8.9.7.29 -- CPU-only build. There is no GPU on
+#     the target host, TensorFlow 2.12 does not bundle CUDA (it uses whatever
+#     the host provides), and neither package is a pip dependency. Without a
+#     GPU TensorFlow simply reports no devices and runs on CPU; the
+#     `tf.device("/device:GPU:0")` block in decimer_segmentation.load_model()
+#     is soft-placed onto CPU. If you later add a GPU, TF 2.12 wants CUDA 11.8
+#     with cuDNN >= 8.6 -- see the GPU note in envs/cmage-decimer.yml.
+#   - poppler -- conda-only package. pdf2image shells out to pdftoppm/pdfinfo,
+#     so install it from the system package manager instead:
+#         apt-get install -y poppler-utils
+#   - python=3.10, pip -- provided by `uv venv --python 3.10`.
+
+# --- TensorFlow -------------------------------------------------------------
+# decimer_segmentation's Mask R-CNN implementation targets the TF 2.12 Keras
+# API and does not run on TF 2.13+.
+tensorflow==2.12.0
+protobuf==4.25.6
+h5py==3.13.0
+
+# --- Scientific stack -------------------------------------------------------
+# numpy is wedged: TensorFlow 2.12 requires < 1.24, and scipy 1.15.2 requires
+# >= 1.23.5. 1.23.5 is the only version that satisfies both, so there is no
+# slack here -- bumping either tensorflow or scipy breaks the environment.
+# This pin is also why stage 2 cannot share an environment with stages 1 and
+# 3, which need numpy 1.26 for torch.
+numpy==1.23.5
+scipy==1.15.2
+scikit-image==0.24.0
+matplotlib==3.10.1
+pandas==2.2.3
+opencv-python==4.11.0.86
+
+# --- PDF and image IO -------------------------------------------------------
+pillow==11.2.1
+pdf2image==1.17.0
+PyPDF2==3.0.1
+# Imported at the top of pipeline_dis.py but never called. Bumped from the
+# captured 0.6.1, which ships no wheel; 0.6.3 does. Drop the import and this
+# pin together.
+img2pdf==0.6.3
+
+# --- Results bookkeeping ----------------------------------------------------
+# pipeline_dis.py writes the segment paths to an .xlsx that stage 3 reads.
+openpyxl==3.1.5
+
+# decimer_segmentation/mrcnn/visualize.py imports IPython.display at module
+# scope, so it is needed even outside a notebook. Unpinned, as in the conda
+# spec; on Python 3.10 this resolves to the 8.x line (9.x needs 3.11+).
+ipython
+
+# decimer_segmentation.decimer_segmentation imports `requests` to fetch the
+# model weights from Zenodo on first use. Not listed in the conda spec; it
+# arrives transitively via tensorflow -> tensorboard. Listed here unpinned so
+# the dependency is visible rather than accidental.
+requests

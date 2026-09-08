@@ -1,0 +1,66 @@
+# C-MAGE stage 1 -- VisualHeist  (uv / pip requirements)
+#
+# Extracts figures and tables from PDFs using the Florence-2-based VisualHeist
+# models (shixuanleong/visualheist-base, shixuanleong/visualheist-large).
+#
+# Derived from envs/cmage-visualheist.yml (the conda spec) so the stage can be
+# built with uv instead of conda. The pins are identical to the .yml; only the
+# conda-level entries (python, poppler) had to leave the file, because pip
+# cannot install either.
+#
+#   uv venv .venv-vh --python 3.10
+#   uv pip install --python .venv-vh/bin/python -r envs/uv/stage1-visualheist.txt
+#   uv pip install --python .venv-vh/bin/python -e ./MERMaid --no-deps
+#
+# --no-deps on the MERMaid install matters: MERMaid's own [visualheist] extra
+# pins torch==2.3.0 / transformers==4.44.1, which conflict with the versions
+# below. It is a global flag, so it cannot live in this file; hence the
+# separate command (same reason install.sh does it separately).
+#
+# Changes from the .yml, and why:
+#   - python=3.10 -> supplied by `uv venv --python 3.10`; not a pip package.
+#   - poppler     -> a system package, not a pip package:
+#                    `apt-get install -y poppler-utils` (Debian/Ubuntu) or
+#                    `brew install poppler`. pdf2image shells out to poppler's
+#                    pdftoppm/pdftocairo/pdfinfo; without them on PATH stage 1
+#                    fails with PDFInfoNotInstalledError.
+#   - No version pin was changed.
+#
+# Platform note, Linux aarch64 (verified 2026-09-08 against PyPI): the default
+# PyPI torch 2.8.0 aarch64 wheel (torch-2.8.0-cp310-cp310-manylinux_2_28_aarch64,
+# ~102 MB) is a CPU-only build. Its nvidia-* CUDA requirements all carry
+# `platform_machine == "x86_64"` markers, so on ARM nothing CUDA-related is
+# pulled and no --index-url override is needed. The CUDA remark under PyTorch
+# below is inherited from the .yml and applies to x86_64 only.
+#
+# Verified 2026-09-08 on Linux aarch64, CPU only, Python 3.10.20: the pins
+# install, `import visualheist` works, and run_visualheist.py ran end-to-end
+# on a 1-page test PDF with the base model (CMAGE_DEVICE=cpu), producing 4
+# figure/table crops. First run downloads ~1.1 GB (model.safetensors) into
+# the Hugging Face cache.
+
+# --- PyTorch ------------------------------------------------------
+# On Linux x86_64 the default PyPI wheels are CUDA 12.8 builds, which is what
+# the reference environment used. For a different CUDA version see
+# https://pytorch.org/get-started/previous-versions/
+# (On Linux aarch64 the same pins give a CPU-only build; see the note above.)
+torch==2.8.0
+torchvision==0.23.0
+
+# --- Florence-2 / VisualHeist -------------------------------------
+# transformers is pinned deliberately. VisualHeist loads Florence-2 via
+# trust_remote_code, and the model's vendored modelling_florence2.py
+# does not work on transformers >= 4.50.
+transformers==4.38.0
+tokenizers==0.15.1
+safetensors==0.5.3
+accelerate==1.7.0
+huggingface_hub==0.36.0
+# Imported by Florence-2's remote code.
+timm==0.4.12
+einops==0.8.1
+
+# --- PDF and image IO ---------------------------------------------
+pdf2image==1.17.0
+pillow==11.3.0
+numpy==1.26.4

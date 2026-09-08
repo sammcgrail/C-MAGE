@@ -50,7 +50,9 @@ def env_roots():
     needs conda to be executable in the current shell -- not true under
     restricted shells, cron, or the bundled micromamba install.
     """
-    roots = [REPO_ROOT / ".micromamba" / "envs"]
+    # uv venvs first, so a uv install wins over any conda on the box. install-uv.sh
+    # puts conda-named symlinks in .venvs/, which is why nothing below had to change.
+    roots = [REPO_ROOT / ".venvs", REPO_ROOT / ".micromamba" / "envs"]
     if os.environ.get("MAMBA_ROOT_PREFIX"):
         roots.append(Path(os.environ["MAMBA_ROOT_PREFIX"]) / "envs")
     if os.environ.get("CONDA_EXE"):

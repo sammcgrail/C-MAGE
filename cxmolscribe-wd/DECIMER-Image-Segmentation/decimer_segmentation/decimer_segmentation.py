@@ -195,6 +195,82 @@ def sort_segments_bboxes(
     return sorted_segments, sorted_bboxes
 
 
+# Minimum plausible size for the weights. The real file is ~260 MB; anything in
+# the kilobytes is an error page, not a model.
+_MIN_WEIGHTS_BYTES = 8 * 1024 * 1024
+# HDF5 files start with this signature. Checking it is what turns "the server
+# sent us something" into "the server sent us a model".
+_HDF5_MAGIC = b"\x89HDF\r\n\x1a\n"
+
+
+def _download_weights(url: str, dest: str) -> None:
+    """Fetch the segmentation weights, refusing to cache anything that is not
+    an HDF5 file.
+
+    WHY THIS IS NOT `requests.get(url).content` WRITTEN STRAIGHT TO DISK, which
+    is what it used to be: on 2026-09-08 Zenodo was down and returned a 92-byte
+    HTML error page with HTTP 504. That page was written to
+    ~/.cache/decimer/mask_rcnn_molecule.h5, and because the download only runs
+    when the file is ABSENT, every later import then failed on the cached
+    rubbish with
+
+        OSError: Unable to open file (file signature not found)
+
+    which names neither Zenodo nor the cache. A failed download is a bad
+    afternoon; a POISONED CACHE is a bad afternoon that repeats itself and
+    points at the wrong thing.
+
+    Four checks, cheapest first, then an atomic rename so a partial or rejected
+    download can never be mistaken for a complete cache entry:
+      1. HTTP status
+      2. content-type is not HTML  (the exact failure that bit us)
+      3. the bytes actually start with the HDF5 signature
+      4. the file is plausibly large
+
+    Raises RuntimeError naming what arrived and which path to delete.
+    """
+    tmp = dest + ".part"
+
+    def _fail(what: str) -> None:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        raise RuntimeError(
+            "DECIMER segmentation weights download failed: {}.\n"
+            "  url:   {}\n"
+            "  cache: {}\n"
+            "Nothing was cached, so this will retry cleanly on the next run. "
+            "If a bad file predates this check, delete the cache path above."
+            .format(what, url, dest)
+        )
+
+    try:
+        resp = requests.get(url, allow_redirects=True, timeout=60)
+    except requests.RequestException as exc:
+        _fail("could not reach the server ({})".format(exc))
+
+    if resp.status_code != 200:
+        _fail("HTTP {}".format(resp.status_code))
+
+    ctype = resp.headers.get("Content-Type", "")
+    if "html" in ctype.lower():
+        _fail("server returned an HTML page (Content-Type: {}), not a model. "
+              "Zenodo is probably down or rate-limiting".format(ctype))
+
+    body = resp.content
+    if not body.startswith(_HDF5_MAGIC):
+        _fail("payload is not an HDF5 file (first bytes: {!r})".format(body[:16]))
+    if len(body) < _MIN_WEIGHTS_BYTES:
+        _fail("payload is only {} bytes; the weights are ~260 MB".format(len(body)))
+
+    with open(tmp, "wb") as fh:
+        fh.write(body)
+    # Rename last: until this line there is no file at `dest` for a later run
+    # to trust.
+    os.replace(tmp, dest)
+
+
 def load_model() -> modellib.MaskRCNN:
     """
     This function loads the segmentation model and returns it. The weights
@@ -219,9 +295,7 @@ def load_model() -> modellib.MaskRCNN:
         os.makedirs(cache_dir, exist_ok=True)
         print("Downloading model weights...")
         url = "https://zenodo.org/record/10663579/files/mask_rcnn_molecule.h5?download=1"
-        req = requests.get(url, allow_redirects=True)
-        with open(model_path, "wb") as model_file:
-            model_file.write(req.content)
+        _download_weights(url, model_path)
         print("Successfully downloaded the segmentation model weights!")
     # Create model object in inference mode.
     #with line is new

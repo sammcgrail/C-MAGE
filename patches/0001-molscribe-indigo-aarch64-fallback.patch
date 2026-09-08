@@ -1,0 +1,129 @@
+diff --git a/cxmolscribe-wd/MolScribe/molscribe/dataset.py b/cxmolscribe-wd/MolScribe/molscribe/dataset.py
+index a0b34c0..ad6c900 100755
+--- a/cxmolscribe-wd/MolScribe/molscribe/dataset.py
++++ b/cxmolscribe-wd/MolScribe/molscribe/dataset.py
+@@ -13,8 +13,7 @@ from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence
+ import albumentations as A
+ from albumentations.pytorch import ToTensorV2
+ 
+-from .indigo import Indigo
+-from .indigo.renderer import IndigoRenderer
++from .indigo_compat import Indigo, IndigoRenderer
+ 
+ from .augment import SafeRotate, CropWhite, PadWhite, SaltAndPepperNoise
+ from .utils import FORMAT_INFO
+diff --git a/cxmolscribe-wd/MolScribe/molscribe/indigo_compat.py b/cxmolscribe-wd/MolScribe/molscribe/indigo_compat.py
+new file mode 100644
+index 0000000..a04fb33
+--- /dev/null
++++ b/cxmolscribe-wd/MolScribe/molscribe/indigo_compat.py
+@@ -0,0 +1,109 @@
++"""Pick an Indigo binding whose native library runs on this machine.
++
++MolScribe vendors EPAM Indigo under molscribe/indigo/ -- the Python binding
++plus native libraries -- but the only libraries it ships are Linux x86_64
++builds (molscribe/indigo/lib/Linux/x64/*.so). The vendored loader keys on
++platform.architecture(), which reports "64bit" on every 64-bit Linux, so on
++aarch64 it walks into lib/Linux/x64 and dlopen rejects the x86_64 objects at
++the first Indigo() call:
++
++    OSError: .../molscribe/indigo/lib/Linux/x64/libindigo.so:
++    cannot open shared object file: No such file or directory
++
++Indigo is used only by generate_indigo_image() -- training-time augmentation
++(TrainDataset with --dynamic_indigo). Inference never instantiates it, but
++dataset.py imports it at module level and interface.py imports dataset.py,
++so it sits on the import path of `from molscribe import MolScribe`.
++
++Selection order:
++
++1. the vendored binding, when the vendored library is built for this machine
++   (Linux x86_64 -- the only case in which it ever worked);
++2. the `epam.indigo` package from PyPI: the same toolkit with an
++   API-compatible binding, published as wheels for Linux aarch64, macOS
++   arm64 and others. Its renderer no longer defines `render-font-family`
++   (dropped between the vendored 1.4.3 and 1.6.0, the first release with
++   aarch64 wheels), so that option is ignored on this path;
++3. placeholders that raise at instantiation, so that importing MolScribe for
++   inference still works when neither binding is usable.
++"""
++import os
++import platform
++
++_VENDORED_LINUX_X64_LIB = os.path.join(
++    os.path.dirname(os.path.abspath(__file__)), "indigo", "lib", "Linux", "x64", "libindigo.so"
++)
++
++_UNAVAILABLE = (
++    "Indigo is not available on this machine: MolScribe's vendored Indigo "
++    "libraries are Linux x86_64 only and the `epam.indigo` package is not "
++    "installed. Indigo is needed only to render training/augmentation images "
++    "(generate_indigo_image); install `epam.indigo` to enable it."
++)
++
++
++def _vendored_library_matches_machine():
++    return (
++        platform.system() == "Linux"
++        and platform.machine() in ("x86_64", "AMD64")
++        and os.path.exists(_VENDORED_LINUX_X64_LIB)
++    )
++
++
++if _vendored_library_matches_machine():
++    from .indigo import Indigo
++    from .indigo.renderer import IndigoRenderer
++
++    INDIGO_SOURCE = "vendored"
++else:
++    try:
++        from indigo import Indigo as _EpamIndigo
++        from indigo.renderer import IndigoRenderer
++    except ImportError:
++        _EpamIndigo = None
++
++    if _EpamIndigo is not None:
++        from indigo import IndigoObject as _EpamIndigoObject
++
++        # IndigoObject.coords() -- the rendered 2-D atom position get_graph()
++        # uses when pseudo_coords=False -- is not Indigo API. It is a MolScribe
++        # addition (C entry point indigoCoords) compiled into the vendored
++        # x86_64 libindigo.so only. Fail with a message that says so instead
++        # of an AttributeError; pseudo_coords=True uses atom.xyz() and works.
++        if not hasattr(_EpamIndigoObject, "coords"):
++
++            def _coords_unavailable(self):
++                raise NotImplementedError(
++                    "IndigoObject.coords() comes from MolScribe's modified Indigo "
++                    "build (indigoCoords), shipped only as Linux x86_64 binaries; "
++                    "epam.indigo does not provide it. Train with --pseudo_coords, "
++                    "which uses atom.xyz() instead."
++                )
++
++            _EpamIndigoObject.coords = _coords_unavailable
++
++        # Render options dataset.py sets that Indigo dropped after the vendored
++        # 1.4.3. No epam.indigo release with an aarch64 wheel (1.6.0 onwards)
++        # defines render-font-family, so on this path the random font choice
++        # in generate_indigo_image() becomes a no-op instead of an
++        # IndigoException. Any other undefined option still raises.
++        _DROPPED_RENDER_OPTIONS = frozenset({"render-font-family"})
++
++        class Indigo(_EpamIndigo):
++            def setOption(self, option, value1, value2=None, value3=None):
++                if option in _DROPPED_RENDER_OPTIONS:
++                    return None
++                return super().setOption(option, value1, value2, value3)
++
++        INDIGO_SOURCE = "epam.indigo"
++    else:
++
++        class _IndigoUnavailable:
++            def __init__(self, *args, **kwargs):
++                raise ImportError(_UNAVAILABLE)
++
++        Indigo = _IndigoUnavailable
++        IndigoRenderer = _IndigoUnavailable
++        INDIGO_SOURCE = None
++
++__all__ = ["Indigo", "IndigoRenderer", "INDIGO_SOURCE"]

@@ -92,6 +92,9 @@ esac
 env_prefix() {
     local name="$1" root base roots=()
 
+    # uv venvs first, so a uv install wins over any conda on the box. install-uv.sh
+    # puts conda-named symlinks in .venvs/, which is why nothing below had to change.
+    roots+=("${REPO_ROOT}/.venvs")
     roots+=("${REPO_ROOT}/.micromamba/envs")
     [ -n "${MAMBA_ROOT_PREFIX:-}" ] && roots+=("${MAMBA_ROOT_PREFIX}/envs")
     [ -n "${CONDA_EXE:-}" ] && roots+=("$(dirname "$(dirname "${CONDA_EXE}")")/envs")

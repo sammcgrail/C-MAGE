@@ -1,0 +1,83 @@
+# C-MAGE stage 3 -- CXMolScribe (uv / pip requirements)
+#
+# uv translation of envs/cmage-cxmolscribe.yml: the pip section of that file,
+# same pins, same comments. The conda wrapper (python=3.11 + pip) becomes a
+# uv-managed interpreter. From the repository root:
+#
+#   uv venv .venv-ms --python 3.11
+#   uv pip install --python .venv-ms/bin/python -r envs/uv/stage3-cxmolscribe.txt
+#   uv pip install --python .venv-ms/bin/python --no-deps -e cxmolscribe-wd/MolScribe
+#
+# MolScribe itself is NOT listed here (same as the yml): it is installed with
+# --no-deps from cxmolscribe-wd/MolScribe, because letting the resolver see
+# MolScribe's own install_requires pulls an incompatible torch. See
+# envs/README.md, section "MolScribe / CXMolScribe".
+#
+# Reconstructed from the working `2ms` environment on the CRC cluster; the raw
+# capture is kept at envs/legacy/cxmolscribe_conda_explicit.txt.
+
+# --- PyTorch ------------------------------------------------------------
+# Linux x86_64 PyPI wheels for 2.7.1 are CUDA 12.6 builds, matching the
+# reference environment. The Linux aarch64 wheels are CPU-only builds.
+torch==2.7.1
+torchvision==0.22.1
+
+# --- MolScribe decoder --------------------------------------------------
+# MolScribe's decoder is built on OpenNMT-py 2.2.0, which in turn hard-pins
+# the legacy torchtext 0.5.0. Both pins are load-bearing; newer versions of
+# either break the checkpoint. torchtext 0.5.0 has no wheel and builds from
+# an sdist, so this is the slowest part of the install.
+#   [uv note] The sentence above is carried over from the yml but is not
+#   accurate: PyPI does publish torchtext-0.5.0-py3-none-any.whl (pure
+#   Python, 73 kB), and uv installs it in seconds on any architecture.
+#   Nothing is compiled. It is still imported at inference time: molscribe's
+#   transformer decoder imports onmt, and onmt 2.2.0 imports torchtext.
+OpenNMT-py==2.2.0
+torchtext==0.5.0
+pyonmttok==1.37.1
+sentencepiece==0.2.0
+configargparse==1.7.1
+
+# --- MolScribe encoder / preprocessing ----------------------------------
+albumentations==1.1.0
+qudida==0.0.4
+timm==0.4.12
+SmilesPE==0.0.3
+
+# --- Chemistry ----------------------------------------------------------
+rdkit==2025.3.3
+
+# --- Scientific stack ---------------------------------------------------
+numpy==1.26.4
+pandas==2.3.0
+scipy==1.13.1
+scikit-image==0.25.2
+scikit-learn==1.7.0
+matplotlib==3.10.3
+opencv-python==4.11.0.86
+# albumentations 1.1.0 requires the headless build alongside the regular
+# one; both were present in the reference environment.
+opencv-python-headless==4.11.0.86
+
+# --- Results bookkeeping ------------------------------------------------
+# folder_ms.py / pipeline_ms.py read the stage 2 .xlsx, write CXSMILES back
+# into it, and embed the structure images.
+openpyxl==3.1.5
+pillow==11.2.1
+
+# Used to fetch the MolScribe checkpoint (yujieq/MolScribe). This was missing
+# from the captured `2ms` environment even though the stage 3 scripts import
+# it, so the capture was already slightly stale.
+huggingface_hub==0.36.0
+tqdm==4.67.1
+
+# --- Indigo on Linux aarch64 (not in the yml) ---------------------------
+# molscribe/dataset.py -- imported by molscribe/interface.py, hence by any
+# `from molscribe import MolScribe` -- uses the Indigo toolkit that MolScribe
+# vendors under molscribe/indigo/. The vendored native libraries are x86_64
+# only (molscribe/indigo/lib/Linux/x64/*.so). epam.indigo ships the same
+# toolkit, with an API-compatible Python binding, as manylinux2014 aarch64
+# wheels. patches/0001-molscribe-indigo-aarch64-fallback.patch makes
+# molscribe use it when the vendored library is not loadable on this machine.
+# Harmless on x86_64, where the vendored copy is still used.
+epam.indigo==1.46.0
