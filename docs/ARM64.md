@@ -128,6 +128,37 @@ figures of the test page, same models, same stage 3, one variable:
 | ibuprofen | correct, 0.898307 | correct, 0.900629 |
 | recovered | 1 of 3 | **3 of 3** |
 
+### Where this behaviour comes from — it is not this fork, and not really C-MAGE
+
+Worth tracing, because the natural assumption is that a port broke something.
+
+`git diff upstream/main HEAD` on `decimer_segmentation.py` deletes exactly three
+lines, all of them the unguarded Zenodo download. The masking and cropping code
+is untouched. So the behaviour is identical in unmodified C-MAGE.
+
+It is not C-MAGE's invention either. C-MAGE vendors DECIMER-Image-Segmentation,
+and current upstream DECIMER does the same thing in `_apply_single_mask`:
+
+```python
+rgba[alpha == 0] = [255, 255, 255, 255]      # every non-mask pixel -> white
+```
+
+There is one difference, and it does not favour the vendored copy. Upstream
+DECIMER derives alpha **directly from the mask** (`alpha = (mask_roi * 255)`).
+The copy vendored here is an older variant that first converts the masked image
+to grayscale and applies an **Otsu threshold**, then derives alpha from *that*:
+
+```python
+im_gray = cv2.cvtColor(masked_image, cv2.COLOR_RGB2GRAY)
+_, im_bw = cv2.threshold(im_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+_, alpha = cv2.threshold(im_bw, 0, 255, cv2.THRESH_BINARY)
+```
+
+That is an extra lossy step upstream DECIMER no longer has, and it can remove
+more than the mask alone would. In short: the erasure design is DECIMER's, and
+the vendored copy is a stale variant of it. `DECIMER_BBOX_PAD` sidesteps the
+whole chain by never consulting the alpha channel at all.
+
 **It is off by default on purpose.** Padding can pull a neighbouring structure's
 ink into the crop on a densely packed figure, which is the thing masking exists
 to prevent — and default behaviour here is byte-identical to upstream. Turn it
