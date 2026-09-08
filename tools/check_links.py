@@ -24,6 +24,19 @@ VENDORED = ("cxmolscribe-wd/MolScribe/", "cxmolscribe-wd/DECIMER-Image-Segmentat
             "MERMaid/")
 
 
+def strip_code(text):
+    """Blank out fenced and inline code before looking for links.
+
+    Not optional: SMILES are full of `](`. This checker reported
+    `CNC[C@H](O)c1ccc(O)c(O)c1` inside a fenced block as a broken link to a file
+    named "O". A checker that cries wolf gets ignored, which costs more than the
+    bug it was written to catch.
+    """
+    text = re.sub(r"```.*?```", "", text, flags=re.S)
+    text = re.sub(r"^(?: {4}|\t).*$", "", text, flags=re.M)   # indented code
+    return re.sub(r"`[^`\n]*`", "", text)
+
+
 def git_files():
     out = subprocess.run(["git", "ls-files"], capture_output=True, text=True, check=True)
     return set(filter(None, out.stdout.split("\n")))
@@ -44,7 +57,7 @@ def main():
     broken = checked = 0
     for doc in docs:
         with open(doc) as fh:
-            text = fh.read()
+            text = strip_code(fh.read())
         for link in re.findall(r"\]\(([^)]+)\)", text):
             link = link.split("#")[0].strip()
             if not link or link.startswith(("http://", "https://", "mailto:")):
