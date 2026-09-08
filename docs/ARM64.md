@@ -1,7 +1,7 @@
 # Running C-MAGE on an ARM64 server
 
 Upstream supports Linux x86_64, Windows and Apple Silicon. This fork adds
-**Linux aarch64**, and replaces conda with [uv]. Every version pin is unchanged;
+**Linux aarch64** (not macOS arm64 — see the platform note below), and replaces conda with [uv]. Every version pin is unchanged;
 only the two things pip cannot express moved.
 
 Verified end to end on: Ubuntu aarch64, 8 CPU cores, 15 GB RAM, **no GPU**.
@@ -9,7 +9,7 @@ Verified end to end on: Ubuntu aarch64, 8 CPU cores, 15 GB RAM, **no GPU**.
 ## Reproduce it
 
 ```bash
-git clone https://github.com/sammcgrail/C-MAGE.git && cd C-MAGE
+git clone https://github.com/<your-fork>/C-MAGE.git && cd C-MAGE
 ./install-uv.sh                       # three venvs, ~10 min, ~4 GB
 python3 tools/fetch_weights.py        # DECIMER weights, 260 MB, checksum-pinned
 cp your.pdf MERMaid/pdfdir/
@@ -119,9 +119,12 @@ correctness guarantee, and structures near figure edges deserve a human look.
 The point of a port is that only the *installation* changes. Here is the whole
 argument, each step checkable:
 
-**1. Only three upstream code files are modified at all.**
-`git diff upstream/main HEAD` touches 16 files; 13 are new (docs, `envs/uv/`,
-`patches/`, `tools/`, `tests/`) and cannot execute during a run. The three are:
+**1. Four upstream code files are modified, plus the README.**
+`git diff upstream/main HEAD --name-status` reports 17 files: 12 added and 5
+modified. Of the 12 added, eleven are docs, `envs/uv/`, `patches/`, `tools/` and
+`tests/`, which cannot execute during a run — the twelfth, `indigo_compat.py`,
+**does** run, on every stage-3 import, and is covered in point 2. The modified
+code files are:
 
 | File | Change | Can it alter output? |
 |---|---|---|
@@ -129,17 +132,30 @@ argument, each step checkable:
 | `decimer_segmentation.py` | the **only** deleted lines are the three unguarded download lines; everything else is added | No — the guard runs before the model exists |
 | `molscribe/dataset.py` | one import line, `.indigo` → `.indigo_compat` | See 2 |
 
-**2. The Indigo swap provably cannot reach inference.** `indigo_compat` prefers
-the vendored binding on x86_64, so on upstream's own platform the import
-resolves to exactly the same object. On ARM it falls back — but that only
-matters if something *constructs* an `Indigo()`. Measured, by subclassing
-`indigo_compat.Indigo` to count constructions and running a real prediction:
+**2. The Indigo swap cannot reach inference.** `indigo_compat` prefers the
+vendored binding on **Linux x86_64** — upstream's primary platform — so there the
+import resolves to exactly the same object. (On macOS and Windows the vendored
+tree ships no matching `.so`, so the name binds to `_IndigoUnavailable`;
+behaviourally identical, because nothing on the inference path touches it.) On
+ARM it falls back to `epam.indigo`. Either way it only matters if something
+*constructs* an `Indigo()`, and nothing on the inference path does:
 
-```
-Indigo objects constructed during inference: 0
-```
+- the sole construction site is `dataset.py:275`, inside `generate_indigo_image()`
+- which is called only from `TrainDataset.__getitem__` under `self.dynamic_indigo`
+- and `interface.py`, the inference entry point, imports only `get_transforms`
 
-Indigo is used only by `generate_indigo_image()`, a training-time augmentation.
+Verified by tripwire rather than by counting: replacing `dataset.Indigo` and
+`IndigoRenderer` with a class that **raises on construction**, then running a
+real stage-3 prediction, completes normally and reproduces all five rows
+byte-identically.
+
+> A note on how *not* to check this, because the first attempt here got it
+> wrong. Patching `indigo_compat.Indigo` after import counts nothing: `dataset.py`
+> does `from .indigo_compat import Indigo`, binding its own name at import time,
+> so the patched attribute is never consulted and the counter reads **0 whether
+> or not Indigo is used**. A check whose failure is indistinguishable from its
+> success is not evidence. Patch `molscribe.dataset.Indigo`, or use a tripwire
+> that must raise.
 
 **3. The weights are upstream's, byte for byte.** `mask_rcnn_molecule.h5` is
 272,650,600 bytes with md5 `edd1e6e469cfff7efa6bf8c38441a529` — **the checksum

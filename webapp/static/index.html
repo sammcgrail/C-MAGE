@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0d12">
+<meta name="description" content="Upload a PDF or a figure image and get back every chemical structure it contains as SMILES, with the cropped image and the pipeline's confidence.">
+<title>C-MAGE — chemical structures from PDFs</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nGPkFwn4zzCAgIWJlW0g7R91AG4HvLiewCChuYDmDmCU1M0b3onwydkQBhnjNQPnADmLTQz47MBwwIPDMQwKtkswFGovgtBX47AbBJPHpwYbYFR0bCM6DWjO/QVnX09mIyhODCA6CtRnfGFgYGBguHHtFtRSNbgcTExDS41Bc+4vhpsZPEQ7gFHVexLRIaA6+R2KpRpaanAaBm7nChFtOQMDAwOjesAMkrNhCtdkBgYGBoY533JJ1YrpAM3QeWSVA0msvQwMDAwM834XU+QAirMhpfrJd8Bv6jiAkavnBNlFceO5ZAYGBgaGeqO5ZDuAhenPX5I0vPBYBWdPPwehX7ksR1EjsSOMaPMY+VoOERUCz3zWMjAwMDCwCcoSVPvr/WMGBgYGBqktwQTVEgyBJwEbiLYYBmBqYY6W2RDAwMDAwBAS47B1zZID3shqmZj+/GVAxyExDlthbGoAmFnrFuz1RrcLawhsmLPLmwlNDBaspEQBsgNwAUaxkm1EpYF7MTuJUQYHBTwTtm6asd2bkDpGiYLNJGXDOwl7CKpRWeBCtHkkZ8MCnglbt03YiNdnTAzEm8kok7F2gNuEVErpow4YdcCQdQAAaZSo8sgEIX8AAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nGPkFwn4zzCAgIWJlW0g7R91AG4HvLiewCChuYDmDmCU1M0b3onwydkQBhnjNQPnADmLTQz47MBwwIPDMQwKtkswFGovgtBX47AbBJPHpwYbYFR0bCM6DWjO/QVnX09mIyhODCA6CtRnfGFgYGBguHHtFtRSNbgcTExDS41Bc+4vhpsZPEQ7gFHVexLRIaA6+R2KpRpaanAaBm7nChFtOQMDAwOjesAMkrNhCtdkBgYGBoY533JJ1YrpAM3QeWSVA0msvQwMDAwM834XU+QAirMhpfrJd8Bv6jiAkavnBNlFceO5ZAYGBgaGeqO5ZDuAhenPX5I0vPBYBWdPPwehX7ksR1EjsSOMaPMY+VoOERUCz3zWMjAwMDCwCcoSVPvr/WMGBgYGBqktwQTVEgyBJwEbiLYYBmBqYY6W2RDAwMDAwBAS47B1zZID3shqmZj+/GVAxyExDlthbGoAmFnrFuz1RrcLawhsmLPLmwlNDBaspEQBsgNwAUaxkm1EpYF7MTuJUQYHBTwTtm6asd2bkDpGiYLNJGXDOwl7CKpRWeBCtHkkZ8MCnglbt03YiNdnTAzEm8kok7F2gNuEVErpow4YdcCQdQAAaZSo8sgEIX8AAAAASUVORK5CYII=">
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  html, body {
+    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none;
+  }
+  input, select, textarea { font-size: 16px; touch-action: auto; }
+  .card, .panel, .bucket, .struct, .run, .bench-row, .imgs figure, .smiles-row, .meta, .tally > div { min-width: 0; overflow: hidden; }
+
+  :root {
+    --bg: #0b0d12; --panel: #131722; --panel2: #1a1f2c; --line: #262d3c;
+    --text: #e6e9f0; --muted: #9aa3b7; --accent: #4fd1c5; --accent-ink: #06201e;
+    --high: #6ee7b7; --high-bg: rgba(52, 211, 153, .14);
+    --low: #fbbf24; --low-bg: rgba(245, 158, 11, .16);
+    --bad: #fca5a5; --bad-bg: rgba(248, 113, 113, .16);
+    --stereo: #c4b5fd; --stereo-bg: rgba(167, 139, 250, .18);
+    --gray: #b5bccb; --gray-bg: rgba(148, 163, 184, .16);
+  }
+  html { background: var(--bg); }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100dvh;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+             max(24px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 6px 4px 14px; }
+  .brand { font-weight: 800; font-size: 22px; letter-spacing: .02em; }
+  .brand small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); letter-spacing: 0; }
+  nav { display: flex; gap: 6px; margin-left: auto; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { flex-shrink: 0; white-space: nowrap; }
+  button, .btn {
+    font: inherit; color: var(--text); background: var(--panel2); border: 1px solid var(--line);
+    border-radius: 10px; min-height: 44px; padding: 0 16px; cursor: pointer; display: inline-flex;
+    align-items: center; justify-content: center; gap: 8px; text-decoration: none; white-space: nowrap;
+  }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+  nav button.active { border-color: var(--accent); color: var(--accent); }
+  @media (hover: hover) {
+    button:not(:disabled):hover { border-color: #3a4359; background: #202637; }
+    button.primary:not(:disabled):hover { background: #6ee0d5; border-color: #6ee0d5; }
+  }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+  .card h2 { font-size: 17px; margin-bottom: 10px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .hidden { display: none !important; }
+
+  /* upload */
+  .drop {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    gap: 6px; min-height: 132px; padding: 18px; border: 2px dashed #34405a; border-radius: 12px;
+    background: var(--panel2); cursor: pointer; position: relative;
+  }
+  .drop.over { border-color: var(--accent); background: #1c2533; }
+  .drop strong { font-size: 17px; }
+  .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  .picked { height: 44px; display: flex; align-items: center; gap: 8px; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .picked span { overflow: hidden; text-overflow: ellipsis; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .status { min-height: 44px; display: flex; align-items: center; color: var(--bad); font-size: 14px; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+  .note b { color: var(--text); font-weight: 600; }
+
+  /* progress */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+  .step { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 10px 8px; min-width: 0; height: 104px; overflow: hidden; }
+  .step .n { font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .step .t { font-weight: 600; font-size: 14px; margin: 3px 0 4px; line-height: 1.25; }
+  .step .d { font-size: 12px; color: var(--muted); line-height: 1.3; }
+  .step.active { border-color: var(--accent); }
+  .step.active .n { color: var(--accent); }
+  .step.done { border-color: #2f7f6e; }
+  .step.done .n { color: var(--high); }
+  .step.skip { opacity: .6; }
+  .pline { height: 24px; display: flex; gap: 14px; align-items: center; white-space: nowrap; overflow: hidden; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; color: var(--muted); font-size: 14px; }
+  /* the stage line changes text between stages: two fixed lines, clamped, so nothing below it moves */
+  .pline.stage { height: 44px; white-space: normal; align-items: flex-start; line-height: 1.35; padding-top: 2px; }
+  .pline.stage .pulse { margin-top: 5px; }
+  .pline.stage span:last-child { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pline b { color: var(--text); font-weight: 600; }
+  .pulse { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: pulse 1.2s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes pulse { 0%, 100% { opacity: .35; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+  /* results */
+  .rhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 8px; }
+  .rhead h2 { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--gray-bg); color: var(--gray); white-space: nowrap; }
+  .chip.high { background: var(--high-bg); color: var(--high); }
+  .chip.low { background: var(--low-bg); color: var(--low); }
+  .chip.bad { background: var(--bad-bg); color: var(--bad); }
+  .chip.stereo { background: var(--stereo-bg); color: var(--stereo); }
+  .caveat { border: 1px solid #5a4a1c; background: rgba(245, 158, 11, .08); border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.5; margin: 10px 0 14px; }
+  .caveat b { color: var(--low); }
+  h3.tier { font-size: 15px; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .struct { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .struct.low { border-color: #5a4a1c; }
+  .imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .imgs figure { background: #fff; border-radius: 8px; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .imgs img { max-width: 100%; height: 110px; object-fit: contain; display: block; }
+  .imgs figcaption { font-size: 11px; color: #4b5563; text-align: center; line-height: 1.2; height: 14px; overflow: hidden; white-space: nowrap; width: 100%; text-overflow: ellipsis; }
+  .imgs figure.none { background: #202637; color: var(--muted); font-size: 12px; justify-content: center; text-align: center; min-height: 138px; }
+  .smiles-row { display: flex; gap: 8px; align-items: stretch; }
+  .smiles { flex: 1; min-width: 0; font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #0e1118; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; word-break: break-all; overflow-wrap: anywhere; max-height: 92px; overflow-y: auto; touch-action: pan-y pinch-zoom; }
+  .smiles.empty { color: var(--muted); font-style: italic; }
+  @media (hover: hover) { .smiles { -webkit-user-select: text; user-select: text; } }
+  .copy { width: 84px; flex-shrink: 0; padding: 0; font-size: 14px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
+  .badge { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+  .badge.high { background: var(--high-bg); color: var(--high); }
+  .badge.low { background: var(--low-bg); color: var(--low); }
+  .badge.match { background: var(--high-bg); color: var(--high); }
+  .badge.stereo { background: var(--stereo-bg); color: var(--stereo); }
+  .badge.wrong { background: var(--bad-bg); color: var(--bad); }
+  .badge.invalid, .badge.unassigned, .badge.missing { background: var(--gray-bg); color: var(--gray); }
+  .conf { position: relative; flex: 1; min-width: 80px; height: 8px; border-radius: 4px; background: #2a3242; overflow: visible; }
+  .conf i { display: block; height: 100%; border-radius: 4px; background: var(--high); }
+  .struct.low .conf i { background: var(--low); }
+  .conf::after { content: ""; position: absolute; top: -3px; bottom: -3px; left: var(--thr, 84.31%); width: 2px; background: #e6e9f0; opacity: .7; }
+  .pct { font-variant-numeric: tabular-nums; width: 4.2em; text-align: right; color: var(--text); }
+  .where { white-space: nowrap; }
+  .srcbtn { min-height: 32px; padding: 0 10px; font-size: 13px; width: 122px; }
+  .source { background: #fff; border-radius: 8px; padding: 6px; }
+  .source img { width: 100%; max-height: 420px; object-fit: contain; display: block; }
+  .empty { color: var(--muted); padding: 24px 8px; text-align: center; line-height: 1.5; }
+
+  /* gallery */
+  .runs { display: flex; flex-direction: column; gap: 10px; }
+  .run { display: block; width: 100%; text-align: left; background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; min-height: 44px; }
+  .run .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .run .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .run .when { color: var(--muted); font-size: 13px; }
+  .run .chips { margin-top: 6px; }
+  .thumbs { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; overflow-y: hidden; touch-action: pan-x pinch-zoom; scrollbar-width: none; height: 62px; }
+  .thumbs::-webkit-scrollbar { display: none; }
+  .thumbs img { height: 56px; width: 72px; object-fit: contain; background: #fff; border-radius: 6px; flex-shrink: 0; padding: 2px; }
+  .back { margin-bottom: 12px; }
+
+  /* benchmark */
+  .tally { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 10px 0 6px; }
+  .tally > div { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; height: 66px; }
+  .tally .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .tally .l { font-size: 12px; color: var(--muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tally .hot { border-color: #7f2f2f; }
+  .tally .hot .v { color: var(--bad); }
+  .pdf { margin-top: 18px; }
+  .pdf h3 { font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .pdf h3 code { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .expect { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+  .bench-row { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .bench-row.wrong { border-color: #7f2f2f; }
+  .bench-row.stereo { border-color: #4b3f80; }
+  .bench-row .imgs img { height: 96px; }
+  .pair { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .pair label { font-size: 12px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .verdict-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
+  @media (min-width: 720px) {
+    .bench-row { grid-template-columns: 300px 1fr; }
+  }
+  footer { color: var(--muted); font-size: 13px; padding: 18px 4px 0; line-height: 1.5; }
+  footer .v { float: right; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">C-MAGE<small>chemical structures out of PDFs and figures, as SMILES</small></div>
+    <nav>
+      <button data-tab="extract" class="active" type="button">Extract</button>
+      <button data-tab="gallery" type="button">Gallery</button>
+      <button data-tab="benchmark" type="button">Benchmark</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="view-extract">
+      <div class="card" id="upload-card">
+        <label class="drop" id="drop" for="file">
+          <strong>Drop a PDF or a figure image here, or tap to choose</strong>
+          <span class="muted small" id="limits-line">PDF up to 20 MB and 40 pages · PNG, JPEG, TIFF, WebP or BMP</span>
+          <input type="file" id="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/tiff,image/webp,image/bmp">
+        </label>
+        <div class="picked muted" id="picked"><span>No file chosen yet.</span></div>
+        <div class="actions">
+          <button class="primary" id="run" type="button" disabled>Extract structures</button>
+          <button id="sample" type="button">Try the one-page sample</button>
+        </div>
+        <div class="status" id="status"></div>
+        <p class="note">
+          <b>Images are the fast path.</b> A PDF goes through all three stages — figure extraction, structure
+          segmentation, then reading each structure into SMILES — and takes minutes on this CPU server. An image
+          skips stage 1 entirely, so a single cropped structure comes back in seconds and a whole figure with
+          several structures in well under a minute. One job runs at a time; you get a queue position if the
+          server is busy.
+        </p>
+      </div>
+
+      <div class="card hidden" id="progress-card">
+        <div class="rhead"><h2 id="p-title">Working…</h2><span class="chip" id="p-kind"></span></div>
+        <div class="steps" id="steps"></div>
+        <div class="pline stage"><span class="pulse" id="pulse"></span><span id="p-stage"></span></div>
+        <div class="pline" id="p-counts"></div>
+        <div class="pline"><span>elapsed <b id="p-elapsed">0:00</b></span><span id="p-queue"></span></div>
+        <div class="actions"><button id="cancel" type="button">Cancel</button><button id="p-log" type="button">View log</button></div>
+      </div>
+
+      <div class="card hidden" id="error-card">
+        <h2>That did not work</h2>
+        <p id="error-text"></p>
+        <div class="actions"><button id="error-log" type="button">View log</button><button id="error-reset" type="button">Start over</button></div>
+      </div>
+
+      <div id="results"></div>
+    </section>
+
+    <section id="view-gallery" class="hidden">
+      <div id="gallery-list">
+        <div class="card">
+          <h2>Every document this server has run</h2>
+          <div class="caveat"><b>Read the confidence honestly.</b> The score measures how faithfully a cropped image was
+            read into SMILES. It cannot see whether the crop held the whole molecule: when the segmenter clips a ring
+            or a substituent, the reading is confident <i>and</i> wrong. High confidence is not "correct" — compare
+            the crop and its rendering against the source figure.</div>
+          <div class="runs" id="runs"></div>
+        </div>
+      </div>
+      <div id="gallery-detail" class="hidden"></div>
+    </section>
+
+    <section id="view-benchmark" class="hidden">
+      <div class="card" id="bench"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="v" id="version"></span>
+    C-MAGE = VisualHeist (figures out of pages) → DECIMER segmentation (structures out of figures) → CXMolScribe
+    (SMILES out of structures). The pipeline's own confidence threshold is 0.8431: above it a structure is filed as
+    high confidence, below it as "review or discard".
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  // ---- mobile guards: kill selection, long-press callout and double-tap zoom (iOS ignores the viewport flags)
+  var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+  document.addEventListener('selectstart', function (e) {
+    if (e.target.closest('input, textarea')) return;
+    if (hoverable && e.target.closest('.smiles')) return;
+    e.preventDefault();
+  });
+  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('input, textarea')) e.preventDefault(); });
+  var lastTap = null;
+  document.addEventListener('touchend', function (e) {
+    if (e.target.closest('button, a, input, label, [role="button"]')) { lastTap = null; return; }
+    var t = e.changedTouches[0], now = Date.now();
+    if (lastTap && now - lastTap.t <= 450 && Math.hypot(t.clientX - lastTap.x, t.clientY - lastTap.y) <= 48) e.preventDefault();
+    lastTap = { x: t.clientX, y: t.clientY, t: now };
+  }, { passive: false });
+
+  // ---- tiny helpers
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, attrs, children) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'class') n.className = attrs[k];
+      else if (k === 'text') n.textContent = attrs[k];
+      else if (k === 'html') n.innerHTML = attrs[k];
+      else if (k.slice(0, 2) === 'on') n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c != null) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return n;
+  }
+  function api(path, opts) {
+    return fetch(path, opts).then(function (r) {
+      return r.text().then(function (t) {
+        var body = null; try { body = t ? JSON.parse(t) : null; } catch (e) { body = { detail: t }; }
+        if (!r.ok) { var err = new Error((body && body.detail) || ('HTTP ' + r.status)); err.status = r.status; throw err; }
+        return body;
+      });
+    });
+  }
+  function fmtTime(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function fmtBytes(b) { return b < 1048576 ? Math.round(b / 1024) + ' KB' : (b / 1048576).toFixed(1) + ' MB'; }
+  function fmtWhen(ts) {
+    if (!ts) return '';
+    var d = new Date(ts * 1000), diff = (Date.now() - d.getTime()) / 1000;
+    var rel = diff < 90 ? 'just now' : diff < 3600 ? Math.round(diff / 60) + ' min ago' : diff < 86400 * 2 ? Math.round(diff / 3600) + ' h ago' : Math.round(diff / 86400) + ' days ago';
+    return rel + ' · ' + d.toLocaleString();
+  }
+  function copyText(text, btn) {
+    var done = function (ok) {
+      var old = btn.textContent; btn.textContent = ok ? 'Copied' : 'Failed';
+      setTimeout(function () { btn.textContent = old; }, 1200);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { fallback(); });
+    } else fallback();
+    function fallback() {
+      var ta = el('textarea', { style: 'position:fixed;top:0;left:0;opacity:0;font-size:16px' }); ta.value = text;
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta); done(ok);
+    }
+  }
+
+  var THRESHOLD = 0.8431;
+  var limits = { max_mb: 20, max_pages: 40 };
+  var CAVEAT = 'A high-confidence result can still be the wrong molecule. Confidence scores how faithfully the crop was read, not whether the crop held the whole structure: a ring or substituent clipped by the segmenter reads confidently — and wrongly. Compare crop and rendering against the source figure.';
+
+  // ---- tabs / routing
+  var tabs = ['extract', 'gallery', 'benchmark'];
+  function showTab(name, push) {
+    tabs.forEach(function (t) {
+      $('view-' + t).classList.toggle('hidden', t !== name);
+    });
+    document.querySelectorAll('nav button').forEach(function (b) { b.classList.toggle('active', b.dataset.tab === name); });
+    if (push !== false) {
+      var q = name === 'extract' ? (currentJob ? '?job=' + currentJob : location.pathname) : '?tab=' + name;
+      history.replaceState(null, '', q);
+    }
+    if (name === 'gallery') loadGallery();
+    if (name === 'benchmark') loadBenchmark();
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll('nav button').forEach(function (b) { b.addEventListener('click', function () { showTab(b.dataset.tab); }); });
+
+  // ---- upload
+  var picked = null, currentJob = null, pollTimer = null, tick = null, lastPoll = null, lastData = null;
+  var fileInput = $('file'), drop = $('drop');
+  function setStatus(msg) { $('status').textContent = msg || ''; }
+  function choose(f) {
+    picked = f; setStatus('');
+    if (!f) { $('picked').innerHTML = '<span>No file chosen yet.</span>'; $('run').disabled = true; return; }
+    var isPdf = /pdf$/i.test(f.name) || f.type === 'application/pdf';
+    $('picked').innerHTML = '';
+    $('picked').appendChild(el('span', { text: f.name + ' · ' + fmtBytes(f.size) + (isPdf ? ' · PDF, all three stages' : ' · image, skips stage 1') }));
+    $('run').disabled = false;
+    if (f.size > limits.max_mb * 1048576) { setStatus('That file is ' + fmtBytes(f.size) + '; the limit is ' + limits.max_mb + ' MB.'); $('run').disabled = true; }
+  }
+  fileInput.addEventListener('change', function () { choose(fileInput.files[0] || null); });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) choose(f); });
+
+  $('run').addEventListener('click', function () {
+    if (!picked) return;
+    var fd = new FormData(); fd.append('file', picked, picked.name);
+    $('run').disabled = true; $('sample').disabled = true; setStatus('');
+    api('/api/jobs', { method: 'POST', body: fd }).then(startJob).catch(function (err) { setStatus(err.message); $('run').disabled = false; $('sample').disabled = false; });
+  });
+  $('sample').addEventListener('click', function () {
+    $('run').disabled = true; $('sample').disabled = true; setStatus('');
+    api('/api/jobs/sample', { method: 'POST' }).then(startJob).catch(function (err) { setStatus(err.message); $('run').disabled = !picked; $('sample').disabled = false; });
+  });
+  $('cancel').addEventListener('click', function () {
+    if (!currentJob) return;
+    $('cancel').disabled = true;
+    api('/api/jobs/' + currentJob, { method: 'DELETE' }).catch(function () {}).then(function () { poll(); });
+  });
+  $('p-log').addEventListener('click', function () { if (currentJob) window.open('/api/jobs/' + currentJob + '/log', '_blank'); });
+  $('error-log').addEventListener('click', function () { if (currentJob) window.open('/api/jobs/' + currentJob + '/log', '_blank'); });
+  $('error-reset').addEventListener('click', resetExtract);
+
+  function resetExtract() {
+    stopPolling(); currentJob = null; lastData = null;
+    $('progress-card').classList.add('hidden'); $('error-card').classList.add('hidden');
+    $('results').innerHTML = ''; $('upload-card').classList.remove('hidden');
+    $('run').disabled = !picked; $('sample').disabled = false; $('cancel').disabled = false;
+    history.replaceState(null, '', location.pathname);
+  }
+  function startJob(job) {
+    currentJob = job.id; lastData = null;
+    history.replaceState(null, '', '?job=' + job.id);
+    $('upload-card').classList.add('hidden'); $('error-card').classList.add('hidden'); $('results').innerHTML = '';
+    $('progress-card').classList.remove('hidden'); $('cancel').disabled = false;
+    render(job); startPolling();
+  }
+  function startPolling() {
+    stopPolling();
+    poll();
+    pollTimer = setInterval(poll, 2000);
+    tick = setInterval(function () {
+      if (!lastData || !lastPoll) return;
+      var extra = (Date.now() - lastPoll) / 1000;
+      if (lastData.status === 'running' || lastData.status === 'queued') {
+        $('p-elapsed').textContent = fmtTime((lastData.started ? lastData.elapsed_s + extra : 0));
+      }
+    }, 1000);
+  }
+  function stopPolling() { if (pollTimer) clearInterval(pollTimer); if (tick) clearInterval(tick); pollTimer = tick = null; }
+  function poll() {
+    if (!currentJob) return;
+    var id = currentJob;
+    api('/api/jobs/' + id).then(function (job) {
+      if (id !== currentJob) return;
+      lastPoll = Date.now(); lastData = job;
+      render(job);
+      if (job.status === 'done' || job.status === 'failed' || job.status === 'cancelled') stopPolling();
+    }).catch(function (err) {
+      if (err.status === 404) { stopPolling(); showError('That job no longer exists on this server.'); }
+    });
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && pollTimer) poll(); });
+
+  function render(job) {
+    if (job.status === 'done') {
+      $('progress-card').classList.add('hidden');
+      renderResults($('results'), job, { onReset: resetExtract });
+      return;
+    }
+    if (job.status === 'failed' || job.status === 'cancelled') { showError(job.error || 'The job ' + job.status + '.'); return; }
+    $('progress-card').classList.remove('hidden');
+    $('p-title').textContent = (job.status === 'queued' ? 'Queued: ' : 'Working on ') + job.filename;
+    $('p-kind').textContent = job.kind === 'pdf' ? job.pages + (job.pages === 1 ? ' page' : ' pages') : 'image';
+    var steps = $('steps'); steps.innerHTML = '';
+    var names = ['Extract figures', 'Segment structures', 'Read into SMILES'];
+    var descs = ['VisualHeist finds figures on each page', 'DECIMER crops each structure', 'CXMolScribe predicts SMILES + confidence'];
+    for (var i = 1; i <= 3; i++) {
+      var cls = 'step';
+      if (i === 1 && job.skips_stage1) cls += ' skip';
+      else if (job.stage > i || (job.status === 'done')) cls += ' done';
+      else if (job.stage === i && job.status === 'running') cls += ' active';
+      var label = i === 1 && job.skips_stage1 ? 'skipped' : (job.stage > i ? 'done' : job.stage === i && job.status === 'running' ? 'running' : 'waiting');
+      steps.appendChild(el('div', { class: cls }, [
+        el('div', { class: 'n', text: 'stage ' + i + ' · ' + label }),
+        el('div', { class: 't', text: names[i - 1] }),
+        el('div', { class: 'd', text: i === 1 && job.skips_stage1 ? 'image uploads go straight to segmentation' : descs[i - 1] })
+      ]));
+    }
+    var p = job.progress || {};
+    $('p-stage').textContent = job.status === 'queued'
+      ? 'Waiting for the server — one job runs at a time.'
+      : (job.stage ? job.stage_name + (job.stage_hint ? ' · ' + job.stage_hint : '') : 'Starting the pipeline…');
+    var counts = $('p-counts'); counts.innerHTML = '';
+    if (job.status === 'running') {
+      counts.appendChild(el('span', { html: '<b>' + (p.figures || 0) + '</b> figures' }));
+      counts.appendChild(el('span', { html: '<b>' + (p.segments || 0) + '</b> structures found' }));
+      counts.appendChild(el('span', { html: '<b>' + (p.read || 0) + '</b> read' }));
+    }
+    $('p-elapsed').textContent = fmtTime(job.elapsed_s || 0);
+    $('p-queue').textContent = job.queue_position ? 'position ' + job.queue_position + ' in the queue' : '';
+  }
+  function showError(msg) {
+    $('progress-card').classList.add('hidden');
+    $('error-card').classList.remove('hidden');
+    $('error-text').textContent = msg;
+  }
+
+  // ---- results (shared by the extract flow and the gallery)
+  function imgUrl(job, kind, name) { return '/api/jobs/' + job.id + '/img/' + kind + '/' + encodeURIComponent(name); }
+  function structCard(s, urlFor) {
+    var card = el('article', { class: 'struct ' + s.tier });
+    var imgs = el('div', { class: 'imgs' });
+    imgs.appendChild(s.segment_image
+      ? el('figure', {}, [el('img', { src: urlFor('segment', s.segment_image), alt: 'cropped structure', loading: 'lazy' }), el('figcaption', { text: 'crop from the document' })])
+      : el('figure', { class: 'none', text: 'no crop saved' }));
+    imgs.appendChild(s.rendered_image
+      ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: 'rendering of the predicted SMILES', loading: 'lazy' }), el('figcaption', { text: 'what the SMILES draws as' })])
+      : el('figure', { class: 'none', text: s.valid ? 'SMILES could not be drawn' : 'no valid SMILES' }));
+    card.appendChild(imgs);
+    var code = el('div', { class: 'smiles' + (s.smiles && s.valid ? '' : ' empty'), text: s.smiles && s.valid ? s.smiles : (s.smiles ? s.smiles + ' (not a valid SMILES)' : 'nothing readable') });
+    var copy = el('button', { class: 'copy', type: 'button', text: 'Copy' });
+    copy.disabled = !(s.smiles && s.valid);
+    copy.addEventListener('click', function () { copyText(s.smiles, copy); });
+    card.appendChild(el('div', { class: 'smiles-row' }, [code, copy]));
+    var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
+    var meta = el('div', { class: 'meta' }, [
+      el('span', { class: 'badge ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
+      el('span', { class: 'conf', style: '--thr:' + (THRESHOLD * 100) + '%' }, [el('i', { style: 'width:' + (pct == null ? 0 : pct * 100) + '%' })]),
+      el('span', { class: 'pct', text: pct == null ? '—' : pct.toFixed(3) }),
+      el('span', { class: 'where', text: whereText(s) })
+    ]);
+    if (s.figure_image) {
+      var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'source figure', loading: 'lazy' })]);
+      var btn = el('button', { class: 'srcbtn', type: 'button', text: 'source figure' });
+      btn.addEventListener('click', function () {
+        var open = src.classList.toggle('hidden');
+        if (!open && !src.firstChild.getAttribute('src')) src.firstChild.src = urlFor('figure', s.figure_image);
+        btn.textContent = open ? 'source figure' : 'hide source';
+      });
+      meta.appendChild(btn);
+      card.appendChild(meta); card.appendChild(src);
+    } else card.appendChild(meta);
+    return card;
+  }
+  function whereText(s) {
+    var m = /_image_(\d+)$/.exec(s.figure || '');
+    var fig = m ? 'figure ' + m[1] : (s.figure || '');
+    return fig + (s.molecule != null ? ' · structure ' + (s.molecule + 1) : '');
+  }
+  function renderResults(container, job, opts) {
+    opts = opts || {};
+    container.innerHTML = '';
+    var r = job.results || { structures: [], counts: {} }, c = r.counts || {};
+    var card = el('div', { class: 'card' });
+    if (opts.back) card.appendChild(el('div', { class: 'back' }, [el('button', { type: 'button', text: '← ' + opts.back.label, onclick: opts.back.fn })]));
+    var head = el('div', { class: 'rhead' }, [
+      el('h2', { text: job.filename }),
+      el('div', { class: 'chips' }, [
+        el('span', { class: 'chip', text: (c.structures || 0) + (c.structures === 1 ? ' structure' : ' structures') }),
+        el('span', { class: 'chip high', text: (c.high || 0) + ' high confidence' }),
+        el('span', { class: 'chip low', text: (c.low || 0) + ' low confidence' }),
+        c.invalid ? el('span', { class: 'chip bad', text: c.invalid + ' unreadable' }) : null,
+        el('span', { class: 'chip', text: (job.kind === 'pdf' ? job.pages + (job.pages === 1 ? ' page' : ' pages') : 'image') + ' · ' + (c.figures || 0) + (c.figures === 1 ? ' figure' : ' figures') })
+      ])
+    ]);
+    card.appendChild(head);
+    if (job.note) card.appendChild(el('div', { class: 'caveat', text: job.note }));
+    card.appendChild(el('div', { class: 'caveat', html: '<b>Read the confidence honestly.</b> ' + CAVEAT }));
+    var acts = el('div', { class: 'actions' });
+    if (r.structures.length) {
+      acts.appendChild(el('a', { class: 'btn', href: '/api/jobs/' + job.id + '/results.csv', text: 'Download CSV' }));
+      var all = el('button', { type: 'button', text: 'Copy all SMILES' });
+      all.addEventListener('click', function () { copyText(r.structures.filter(function (s) { return s.valid; }).map(function (s) { return s.smiles; }).join('\n'), all); });
+      acts.appendChild(all);
+    }
+    if (opts.onReset) acts.appendChild(el('button', { type: 'button', text: 'Run another', onclick: opts.onReset }));
+    card.appendChild(acts);
+    var urlFor = function (kind, name) { return imgUrl(job, kind, name); };
+    if (!r.structures.length) {
+      card.appendChild(el('p', { class: 'empty', text: c.figures ? 'Figures were found, but the segmenter saw no chemical structures in them.' : 'No figures with chemical structures were found in this document.' }));
+    }
+    var high = r.structures.filter(function (s) { return s.tier === 'high'; });
+    var low = r.structures.filter(function (s) { return s.tier !== 'high'; });
+    if (high.length) {
+      card.appendChild(el('h3', { class: 'tier' }, [el('span', { class: 'badge high', text: 'high confidence' }), el('span', { class: 'muted small', text: 'confidence ≥ ' + THRESHOLD + ' — the pipeline would keep these' })]));
+      var g1 = el('div', { class: 'grid' }); high.forEach(function (s) { g1.appendChild(structCard(s, urlFor)); }); card.appendChild(g1);
+    }
+    if (low.length) {
+      card.appendChild(el('h3', { class: 'tier' }, [el('span', { class: 'badge low', text: 'low confidence' }), el('span', { class: 'muted small', text: 'below ' + THRESHOLD + ' — the pipeline files these under "review or discard"; treat them as probably wrong' })]));
+      var g2 = el('div', { class: 'grid' }); low.forEach(function (s) { g2.appendChild(structCard(s, urlFor)); }); card.appendChild(g2);
+    }
+    container.appendChild(card);
+  }
+
+  // ---- gallery
+  function loadGallery() {
+    $('gallery-detail').classList.add('hidden'); $('gallery-list').classList.remove('hidden');
+    var list = $('runs'); list.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/runs').then(function (d) {
+      list.innerHTML = '';
+      if (!d.runs.length) { list.appendChild(el('p', { class: 'empty', text: 'Nothing has been run on this server yet. Completed runs land here and survive restarts.' })); return; }
+      d.runs.forEach(function (run) {
+        var c = run.counts || {};
+        var b = el('button', { class: 'run', type: 'button' });
+        b.appendChild(el('div', { class: 'top' }, [
+          el('span', { class: 'name', text: run.filename }),
+          el('span', { class: 'when', text: fmtWhen(run.finished) + (run.duration_s ? ' · ' + fmtTime(run.duration_s) : '') + (run.origin === 'import' ? ' · imported' : run.origin === 'sample' ? ' · sample' : '') })
+        ]));
+        b.appendChild(el('div', { class: 'chips' }, [
+          el('span', { class: 'chip', text: (c.structures || 0) + (c.structures === 1 ? ' structure' : ' structures') }),
+          el('span', { class: 'chip high', text: (c.high || 0) + ' high' }),
+          el('span', { class: 'chip low', text: (c.low || 0) + ' low' }),
+          el('span', { class: 'chip', text: run.kind === 'pdf' ? run.pages + (run.pages === 1 ? ' page' : ' pages') : 'image' }),
+          run.label ? el('span', { class: 'chip', text: run.label }) : null
+        ]));
+        if (run.thumbs && run.thumbs.length) {
+          var t = el('div', { class: 'thumbs' });
+          run.thumbs.forEach(function (name) { t.appendChild(el('img', { src: '/api/jobs/' + run.id + '/img/segment/' + encodeURIComponent(name), alt: '', loading: 'lazy' })); });
+          b.appendChild(t);
+        }
+        b.addEventListener('click', function () { openRun(run.id); });
+        list.appendChild(b);
+      });
+    }).catch(function (err) { list.innerHTML = ''; list.appendChild(el('p', { class: 'empty', text: 'Could not load the gallery: ' + err.message })); });
+  }
+  function openRun(id) {
+    history.replaceState(null, '', '?tab=gallery&run=' + id);
+    api('/api/jobs/' + id).then(function (job) {
+      $('gallery-list').classList.add('hidden');
+      var d = $('gallery-detail'); d.classList.remove('hidden');
+      renderResults(d, job, { back: { label: 'Gallery', fn: function () { history.replaceState(null, '', '?tab=gallery'); loadGallery(); window.scrollTo(0, 0); } } });
+      window.scrollTo(0, 0);
+    }).catch(function (err) { loadGallery(); });
+  }
+
+  // ---- benchmark
+  function loadBenchmark() {
+    var box = $('bench'); box.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/benchmark').then(function (d) {
+      box.innerHTML = '';
+      box.appendChild(el('h2', { text: d.name || 'Benchmark' }));
+      if (d.description) box.appendChild(el('p', { class: 'muted small', text: d.description }));
+      box.appendChild(el('div', { class: 'caveat', html: '<b>Known answers, so every row gets a verdict.</b> These documents were generated from molecules whose structures are known, so each predicted SMILES is compared with the true one — as RDKit canonical SMILES, with and without stereochemistry, never by string equality. The pipeline\'s confidence sits next to the verdict on purpose: where they disagree is what to look at.' }));
+      if (!d.available || !d.runs.length) {
+        box.appendChild(el('p', { class: 'empty', text: !d.runs_found ? 'No benchmark runs have landed yet. When a pipeline run over the corpus is placed under the configured benchmark directory (with its manifest of expected molecules), it appears here.' : 'Runs were found but no manifest of expected molecules; the comparison needs one.' }));
+        return;
+      }
+      d.runs.forEach(function (run, idx) { box.appendChild(benchRun(run, idx, d)); });
+    }).catch(function (err) { box.innerHTML = ''; box.appendChild(el('p', { class: 'empty', text: 'Could not load the benchmark: ' + err.message })); });
+  }
+  function benchRun(run, idx, d) {
+    var t = run.tally, wrap = el('div', {});
+    if (d.runs.length > 1) wrap.appendChild(el('h3', { class: 'tier', text: 'Run ' + run.name + ' · ' + fmtWhen(run.mtime) }));
+    else wrap.appendChild(el('p', { class: 'muted small', text: 'Run ' + run.name + ' · ' + fmtWhen(run.mtime) }));
+    var tiles = [
+      [t.structures, 'structures read'], [t.match, 'exact match'], [t.stereo, 'match except stereo'], [t.wrong, 'wrong molecule'],
+      [t.invalid, 'invalid SMILES'], [t.found + ' / ' + t.expected, 'expected molecules found'],
+      [t.high_wrong + ' / ' + t.high, 'high confidence, yet wrong', true], [t.low_right + ' / ' + t.low, 'low confidence, yet right']
+    ];
+    var tally = el('div', { class: 'tally' });
+    tiles.forEach(function (x) { tally.appendChild(el('div', { class: x[2] ? 'hot' : '' }, [el('div', { class: 'v', text: String(x[0]) }), el('div', { class: 'l', text: x[1] })])); });
+    wrap.appendChild(tally);
+    var urlFor = function (kind, name) { return '/api/benchmark/' + run.id + '/img/' + kind + '/' + encodeURIComponent(name); };
+    run.pdfs.forEach(function (p) {
+      var sec = el('div', { class: 'pdf' });
+      sec.appendChild(el('h3', {}, [el('span', { text: p.title }), el('code', { text: p.file }), el('span', { class: 'muted small', text: p.found + ' of ' + p.expected + ' expected molecules found' })]));
+      var ex = el('div', { class: 'expect' });
+      p.molecules.forEach(function (m) {
+        var hit = p.matched_keys.indexOf(m.key) >= 0;
+        ex.appendChild(el('span', { class: 'chip ' + (hit ? 'high' : 'bad'), text: (hit ? '✓ ' : '✗ ') + m.label + (hit ? '' : ' — missing') }));
+      });
+      sec.appendChild(ex);
+      if (!p.structures.length) sec.appendChild(el('p', { class: 'muted small', text: 'The pipeline produced no structures for this document.' }));
+      p.structures.forEach(function (s) { sec.appendChild(benchRow(s, urlFor, p)); });
+      wrap.appendChild(sec);
+    });
+    if (run.unassigned && run.unassigned.length) {
+      var sec2 = el('div', { class: 'pdf' });
+      sec2.appendChild(el('h3', {}, [el('span', { text: 'Structures from documents with no molecule-level ground truth' }), el('span', { class: 'muted small', text: run.unassigned.length + ' structures — shown, not scored' })]));
+      run.unassigned.forEach(function (s) { sec2.appendChild(benchRow(s, urlFor, null)); });
+      wrap.appendChild(sec2);
+    }
+    return wrap;
+  }
+  function benchRow(s, urlFor, p) {
+    var row = el('div', { class: 'bench-row ' + s.verdict });
+    var imgs = el('div', { class: 'imgs' });
+    imgs.appendChild(s.segment_image ? el('figure', {}, [el('img', { src: urlFor('segment', s.segment_image), alt: '', loading: 'lazy' }), el('figcaption', { text: 'crop' })]) : el('figure', { class: 'none', text: 'no crop' }));
+    imgs.appendChild(s.rendered_image ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: '', loading: 'lazy' }), el('figcaption', { text: 'predicted, drawn' })]) : el('figure', { class: 'none', text: 'nothing drawn' }));
+    row.appendChild(imgs);
+    var right = el('div', { class: 'pair' });
+    var vlabel = { match: 'exact match', stereo: 'match except stereochemistry', wrong: 'wrong molecule', invalid: 'invalid SMILES', unassigned: 'no document' }[s.verdict] || s.verdict;
+    var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
+    right.appendChild(el('div', { class: 'verdict-line' }, [
+      el('span', { class: 'badge ' + s.verdict, text: vlabel }),
+      el('span', { class: 'badge ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
+      el('span', { class: 'pct', text: pct == null ? '—' : pct.toFixed(3) }),
+      el('span', { text: s.matched_key ? 'matched ' + labelFor(p, s.matched_key)
+        : (s.verdict === 'wrong' && s.closest_key ? 'closest: ' + labelFor(p, s.closest_key) + (s.closest_tanimoto != null ? ' (Tanimoto ' + Number(s.closest_tanimoto).toFixed(2) + ')' : '')
+        : (p && s.verdict !== 'unassigned' ? 'matches none of: ' + p.molecules.map(function (m) { return m.label; }).join(', ') : '')) }),
+      el('span', { class: 'where', text: whereText(s) })
+    ]));
+    var predBox = el('div', {}, [el('label', { text: 'predicted' }), el('div', { class: 'smiles' + (s.valid ? '' : ' empty'), text: s.smiles || 'nothing readable' })]);
+    right.appendChild(predBox);
+    if (s.truth_smiles) right.appendChild(el('div', {}, [el('label', { text: 'true (' + labelFor(p, s.matched_key) + ')' }), el('div', { class: 'smiles', text: s.truth_smiles })]));
+    if (s.figure_image) {
+      var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'source figure', loading: 'lazy' })]);
+      var btn = el('button', { class: 'srcbtn', type: 'button', text: 'source figure' });
+      btn.addEventListener('click', function () {
+        var open = src.classList.toggle('hidden');
+        if (!open && !src.firstChild.getAttribute('src')) src.firstChild.src = urlFor('figure', s.figure_image);
+        btn.textContent = open ? 'source figure' : 'hide source';
+      });
+      right.appendChild(el('div', { class: 'actions' }, [btn])); right.appendChild(src);
+    }
+    row.appendChild(right);
+    return row;
+  }
+  function labelFor(p, key) {
+    if (!p) return key || '';
+    var m = p.molecules.filter(function (x) { return x.key === key; })[0];
+    return m ? m.label : key;
+  }
+
+  // ---- boot
+  api('/api/limits').then(function (l) {
+    limits = l; THRESHOLD = l.threshold || THRESHOLD;
+    $('limits-line').textContent = 'PDF up to ' + l.max_mb + ' MB and ' + l.max_pages + ' pages · PNG, JPEG, TIFF, WebP or BMP up to ' + l.max_mb + ' MB';
+    $('version').textContent = 'v' + l.version;
+    if (!l.sample) $('sample').classList.add('hidden');
+  }).catch(function () {});
+  var params = new URLSearchParams(location.search);
+  if (params.get('job')) {
+    currentJob = params.get('job');
+    $('upload-card').classList.add('hidden'); $('progress-card').classList.remove('hidden');
+    showTab('extract', false); startPolling();
+  } else if (params.get('tab') === 'gallery' && params.get('run')) {
+    showTab('gallery', false); openRun(params.get('run'));
+  } else if (tabs.indexOf(params.get('tab')) > 0) {
+    showTab(params.get('tab'), false);
+  }
+})();
+</script>
+</body>
+</html>

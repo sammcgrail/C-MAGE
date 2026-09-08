@@ -1,0 +1,9 @@
+# Build-context filter for webapp/Dockerfile (BuildKit reads <Dockerfile>.dockerignore
+# next to the Dockerfile in preference to the repository-root .dockerignore).
+# Only webapp/ is copied by this Dockerfile, so exclude everything else.
+*
+!webapp/
+webapp/data/
+webapp/.venv/
+webapp/**/__pycache__/
+webapp/**/*.pyc

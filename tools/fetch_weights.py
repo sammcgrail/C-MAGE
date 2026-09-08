@@ -56,6 +56,16 @@ EXPECTED_BYTES = 272650600
 # received"; this says "the bytes upstream published". Two different claims, and
 # the second is the one that matters if my download had been subtly wrong.
 EXPECTED_MD5 = "edd1e6e469cfff7efa6bf8c38441a529"
+def _optout(name):
+    """True only for an affirmative value.
+
+    `not os.environ.get(name)` is wrong here and was: it treats "0" and
+    "false" as "yes, skip the checksum", so an operator writing
+    DECIMER_ALLOW_UNPINNED=0 to be explicit would silently DISABLE the pin.
+    """
+    return os.environ.get(name, "").strip().lower() in ("1", "true", "yes", "on")
+
+
 UA = "C-MAGE/fetch_weights (+https://github.com/AlexTaylor54/C-MAGE)"
 
 
@@ -76,17 +86,37 @@ def validate(path):
     size = os.path.getsize(path)
     if size < MIN_BYTES:
         return False, f"only {size} bytes (expected ~260 MB) — probably an error page"
+    # The exact size, when we are pinning. A truncated download has valid HDF5
+    # magic and a plausible size, so this is the cheap check that catches it
+    # before the 260 MB checksum read does.
+    if EXPECTED_BYTES and not _optout("DECIMER_ALLOW_UNPINNED") and size != EXPECTED_BYTES:
+        return False, f"{size} bytes, expected exactly {EXPECTED_BYTES} — truncated or a different file"
     with open(path, "rb") as fh:
         if fh.read(8) != HDF5_MAGIC:
             return False, "not an HDF5 file (bad magic)"
     # Checksum last: it is the only check that costs a full read of 260 MB, and
     # it is the only one that can tell the right file from a plausible wrong one.
-    if EXPECTED_SHA256 and not os.environ.get("DECIMER_ALLOW_UNPINNED"):
+    if EXPECTED_SHA256 and not _optout("DECIMER_ALLOW_UNPINNED"):
         got = sha256(path)
         if got != EXPECTED_SHA256:
             return False, (f"sha256 {got[:16]}... does not match the pinned "
                            f"{EXPECTED_SHA256[:16]}... (set DECIMER_ALLOW_UNPINNED=1 to accept)")
     return True, f"{size} bytes"
+
+
+def _unlink(path):
+    try:
+        os.remove(path)
+    except OSError:
+        pass
+
+
+def digest(path, algo="sha256"):
+    h = hashlib.new(algo)
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def sha256(path):
@@ -121,9 +151,16 @@ def try_url(url, dest):
                         if pct % 10 == 0:
                             print(f"\r[fetch_weights] {pct:3d}%  {got >> 20} MB", end="", flush=True)
             print()
+        if total and got != total:
+            _unlink(tmp)
+            return False, f"truncated: got {got} of {total} promised bytes"
     except urllib.error.HTTPError as e:
+        _unlink(tmp)
         return False, f"HTTP {e.code}"
     except Exception as e:                                   # noqa: BLE001
+        # finding: an exception after open(tmp) used to leave dest.part behind,
+        # contradicting this function's own docstring.
+        _unlink(tmp)
         return False, f"{type(e).__name__}: {e}"
 
     ok, why = validate(tmp)
@@ -151,6 +188,10 @@ def main():
         log(f"{'OK  ' if ok else 'MISSING/INVALID'}  {dest}  ({why})")
         if ok:
             log(f"sha256 {sha256(dest)}")
+            md5 = digest(dest, "md5")
+            log(f"md5    {md5}"
+                + ("  == the md5 Zenodo publishes" if md5 == EXPECTED_MD5
+                   else f"  != Zenodo's published {EXPECTED_MD5}"))
         return 0 if ok else 1
     if ok:
         log(f"already cached and valid: {dest} ({why})")

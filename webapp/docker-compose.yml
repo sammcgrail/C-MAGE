@@ -1,0 +1,37 @@
+# C-MAGE web app. Generic; every deploy-specific value is an environment variable
+# with a localhost default, so this file can be committed as-is.
+#
+#   docker build -t cmage:allinone -f Dockerfile.allinone .     # once, the pipeline image
+#   docker compose -f webapp/docker-compose.yml up --build -d    # then the web app
+#
+# Override for your server with a separate env file or compose override, e.g.
+#   CMAGE_PORT=9000 CMAGE_BASE_URL=https://cmage.example.org docker compose ... up -d
+services:
+  cmage-webapp:
+    build:
+      context: ..
+      dockerfile: webapp/Dockerfile
+      args:
+        BASE_IMAGE: ${CMAGE_BASE_IMAGE:-cmage:allinone}
+    image: cmage-webapp
+    container_name: ${CMAGE_CONTAINER:-cmage-webapp}
+    restart: unless-stopped
+    ports:
+      - "${CMAGE_PORT:-8080}:8080"
+    environment:
+      CMAGE_BASE_URL: ${CMAGE_BASE_URL:-}
+      CMAGE_MAX_PDF_MB: ${CMAGE_MAX_PDF_MB:-20}
+      CMAGE_MAX_PAGES: ${CMAGE_MAX_PAGES:-40}
+      CMAGE_MAX_QUEUE: ${CMAGE_MAX_QUEUE:-5}
+      CMAGE_DEVICE: ${CMAGE_DEVICE:-cpu}
+      CMAGE_ADMIN_TOKEN: ${CMAGE_ADMIN_TOKEN:-}
+      CMAGE_BENCHMARK_DIR: /benchmarks
+      OMP_NUM_THREADS: ${CMAGE_THREADS:-6}
+    volumes:
+      - ${CMAGE_DATA_DIR:-./data}:/data
+      - ${CMAGE_BENCHMARK_HOST_DIR:-../benchmarks}:/benchmarks:ro
+    # The three stages are CPU-bound and sequential; give them most of the box
+    # but not all of it.
+    cpus: ${CMAGE_CPUS:-6}
+    mem_limit: ${CMAGE_MEM:-8g}
+    memswap_limit: ${CMAGE_MEM:-8g}

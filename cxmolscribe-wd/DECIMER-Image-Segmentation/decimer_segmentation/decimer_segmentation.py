@@ -397,6 +397,36 @@ def apply_mask(image: np.array, mask: np.array) -> np.array:
         np.array: segmented chemical structure depiction
         Tuple[int]: (y0, x0, y1, x1)
     """
+    # OPT-IN: keep the original pixels inside a padded mask bounding box instead
+    # of erasing everything the mask missed.
+    #
+    # WHY THIS EXISTS. The default path below multiplies by the mask, thresholds,
+    # and forces every non-mask pixel to white before cropping. Ink the mask did
+    # not cover is therefore ERASED, not merely cropped -- and the segment that
+    # reaches stage 3 is a mutilated drawing, inside a crop with clean borders.
+    # That is why the resulting wrong molecule scores HIGH confidence: stage 3
+    # reads what it was given, faithfully, and cannot know a substituent was
+    # deleted. Measured on the repo's own Validation/test_page.pdf, caffeine and
+    # paracetamol are both wrong through the default path at 300 dpi AND at 3x
+    # upscale (so it is not a resolution problem), and both are recovered by
+    # cropping the original pixels at the mask bbox with 15% padding.
+    #
+    # It is OPT-IN and off by default on purpose: padding can pull in a
+    # neighbouring structure's ink on a densely packed figure, which is the very
+    # thing masking exists to prevent. Default behaviour is byte-identical to
+    # upstream. Turn it on for sparse figures where accuracy matters more:
+    #
+    #     DECIMER_BBOX_PAD=0.15      # fraction of bbox size, 0 disables
+    pad_frac = float(os.environ.get("DECIMER_BBOX_PAD", "0") or 0)
+    if pad_frac > 0:
+        _, bbox = get_masked_image(deepcopy(image), mask)
+        x, y, w, h = bbox
+        px, py = int(round(w * pad_frac)), int(round(h * pad_frac))
+        H, W = image.shape[:2]
+        x0, y0 = max(0, x - px), max(0, y - py)
+        x1, y1 = min(W, x + w + px), min(H, y + h + py)
+        return image[y0:y1, x0:x1].copy(), (y0, x0, y1, x1)
+
     # TODO: Further cleanup
     im = deepcopy(image)
     for channel in range(image.shape[2]):

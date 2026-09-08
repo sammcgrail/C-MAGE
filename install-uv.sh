@@ -56,7 +56,10 @@ command -v uv >/dev/null 2>&1 || die "uv is not installed -- https://docs.astral
 if ! command -v pdftoppm >/dev/null 2>&1; then
     if command -v apt-get >/dev/null 2>&1; then
         log "Installing poppler-utils (pdf2image needs pdftoppm)"
-        apt-get install -y -qq poppler-utils
+        # Needs root. Report the command rather than dying inside set -e with
+        # -qq having swallowed the reason.
+        apt-get install -y poppler-utils || die \
+            "could not install poppler-utils. Run: sudo apt-get update && sudo apt-get install -y poppler-utils"
     else
         die "poppler not found. Install it: brew install poppler / dnf install poppler-utils"
     fi
@@ -76,6 +79,12 @@ editable_for(){ case "$1" in visualheist) echo MERMaid ;;
                              cxmolscribe) echo cxmolscribe-wd/MolScribe ;; esac; }
 condaname_for(){ echo "cmage-$1"; }
 
+# Up front, before any work: a missing spec should cost zero minutes, not two
+# completed installs.
+for stage in "${STAGES[@]}"; do
+    [ -f "${REPO_ROOT}/$(reqs_for "$stage")" ] || die "missing requirements file: $(reqs_for "$stage")"
+done
+
 mkdir -p "${REPO_ROOT}/.venvs"
 
 for stage in "${STAGES[@]}"; do
@@ -85,8 +94,14 @@ for stage in "${STAGES[@]}"; do
 
     [ -f "$reqs" ] || die "missing requirements file: ${reqs}"
 
-    if [ -d "$venv" ] && [ "$FORCE" = "no" ]; then
-        log "${stage}: ${venv##*/} already exists (--force to rebuild)"
+    # A directory is not a finished environment. Stamp it only after the editable
+    # install returns, and treat a missing or stale stamp as "rebuild" -- otherwise
+    # an interrupted install leaves a venv that passes verification and dies at
+    # stage runtime, which the installer would then refuse to repair.
+    stamp="${venv}/.cmage-install-complete"
+    want="$(sha256sum "$reqs" | cut -d" " -f1)"
+    if [ -d "$venv" ] && [ "$FORCE" = "no" ] && [ "$(cat "$stamp" 2>/dev/null)" = "$want" ]; then
+        log "${stage}: ${venv##*/} already built (--force to rebuild)"
     else
         [ "$FORCE" = "yes" ] && rm -rf "$venv"
         log "${stage}: creating ${venv##*/} (python $(python_for "$stage"))"
@@ -98,20 +113,29 @@ for stage in "${STAGES[@]}"; do
         # letting the package resolve its own install_requires pulls an
         # incompatible torch. Same reasoning as upstream install.sh.
         VIRTUAL_ENV="$venv" uv pip install -e "$pkg" --no-deps
+        echo "$want" > "$stamp"
     fi
 
     # The conda-named symlink the runners probe for.
-    ln -sfn "$venv" "${REPO_ROOT}/.venvs/$(condaname_for "$stage")"
+    # RELATIVE, not absolute: an absolute link embeds this machine's path and
+    # dangles the moment the repo is moved or cloned elsewhere.
+    ln -sfn "../$(venv_for "$stage")" "${REPO_ROOT}/.venvs/$(condaname_for "$stage")"
 done
 
 log "Verifying the runners can see the environments"
 missing=0
 for stage in "${STAGES[@]}"; do
     p="${REPO_ROOT}/.venvs/$(condaname_for "$stage")/bin/python"
-    if [ -x "$p" ]; then
-        printf '  ok   %-28s %s\n' "$(condaname_for "$stage")" "$("$p" --version 2>&1)"
+    # NOT just "is there an interpreter" -- that is true of an empty venv. Import
+    # the stage's own package. (decimer_segmentation is deliberately NOT imported:
+    # importing it triggers the 260 MB weights download.)
+    probe() { case "$1" in visualheist) echo visualheist ;; decimer) echo decimer_segmentation.complete_structure ;;
+                           cxmolscribe) echo molscribe ;; esac; }
+    if [ -x "$p" ] && "$p" -c "import $(probe "$stage")" >/dev/null 2>&1; then
+        printf '  ok   %-28s %s\\n' "$(condaname_for "$stage")" "$("$p" --version 2>&1)"
     else
-        printf '  FAIL %-28s no interpreter at %s\n' "$(condaname_for "$stage")" "$p"; missing=1
+        printf '  FAIL %-28s cannot import %s (rerun: ./install-uv.sh --force %s)\\n' \
+            "$(condaname_for "$stage")" "$(probe "$stage")" "$stage"; missing=1
     fi
 done
 [ "$missing" -eq 0 ] || die "one or more environments did not build"
