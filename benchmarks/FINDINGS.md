@@ -381,3 +381,61 @@ $PY benchmarks/graded_selftest.py                      # gate: must print GATE: 
 $PY benchmarks/score_run.py --run-dir RUN --manifest MANIFEST --out SCORED
 $PY benchmarks/graded.py --scored SCORED --manifest MANIFEST
 ```
+
+## 5. Our ground truth is the wrong KIND of ground truth for documents
+
+Supplied by the C-MAGE author via Sam, and it reframes everything above:
+
+> For all of my ground truth validation I am comparing the DECIMER-Image-
+> Segmentation result against the generated CXSMILES string and not against any
+> SMILES strings.
+
+The paper grades each prediction **against its own segment image**, by hand,
+against a **manually written reference CXSMILES** — and grades it in two parts
+(Table 3): the **skeleton** (the CXSMILES minus the appendix) and the
+**appendix** (CXMolScribe's translation of the superatoms). `Y` is both correct;
+`YS` is skeleton correct with **no appendix present**.
+
+That is not what this benchmark has been doing. We take a PubChem reference
+SMILES, expand the prediction's appendix into its skeleton, and compare whole
+molecules. Expanding is precisely the "heuristic translation of superatoms to
+SMILES subunits" the paper says CXSMILES exists to avoid, using a 75-entry table
+where the paper's point is that **no encompassing list can exist**.
+
+How much this matters depends entirely on the corpus, and the split is stark:
+
+| corpus | predictions carrying an appendix |
+|---|---|
+| 675 PubChem depictions | **5 of 743 (0.7%)** |
+| 11 published documents | **148 of 242 (61.2%)** |
+
+**The image numbers stand.** With essentially no appendices, every comparison
+there is a `YS`-style skeleton grade and our expansion step is a no-op. 68.4%
+and the 82.5%/84.0% tier are legitimate.
+
+**The document numbers do not.** Split by whether the prediction has an appendix:
+
+| | predictions | matched |
+|---|---|---|
+| no appendix — PubChem SMILES is a valid reference | 94 | 14 (14.9%) |
+| appendix present — PubChem SMILES is **not** a valid reference | 148 | 19, and only by expanding |
+
+For those 148 there is nothing legitimate to compare against: the reference has
+no appendix, so the only options are to expand (wrong by the paper's own
+argument) or to hand-write a reference CXSMILES per segment, which is what the
+authors did and what we have not done.
+
+So the honest statement about the document corpus is **not** "52.9% recall". It
+is: *61% of predictions cannot be scored at all with the ground truth we have.*
+The 18/34 figure was measuring our expansion table as much as the model.
+
+### What would fix it
+
+Write reference **CXSMILES** for the document corpus, appendix included, and
+grade skeleton and appendix separately as the paper does. That is manual work —
+the authors did exactly this because "the novel datasets do not have established
+ground truths". Until then, report document results only over the 94 predictions
+with no appendix, and say the other 148 are unmeasured.
+
+The reference figures to aim at, from the paper: skeletal CXMolScribe 87.3% (ACS)
+and 89.5% (patent documents); appendix 83.5% and 92.4%.
