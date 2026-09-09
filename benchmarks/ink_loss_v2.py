@@ -248,7 +248,16 @@ def main():
     # 0.0, which is indistinguishable from "stage 2 erased the whole structure".
     # That is the failure mode where a null result and a missing result look the
     # same, so the two are separated here rather than averaged together.
-    figs = sorted(args.run_root.glob("*/out/run_*/01_VH_Figures/*.png"))
+    # A run dir counts only once its batch has FINISHED. Restricting to "reached
+    # stage 1" was not enough: a batch mid-pipeline has stage-1 figures and no
+    # stage-2 segments yet, so every one of its drawings reads as retention 0.0 --
+    # totally erased -- while the scorer, which walks the whole manifest, marks
+    # the same drawings as not recovered. The two artefacts line up perfectly and
+    # manufacture the exact result being looked for. The stage-3 workbook is the
+    # marker because it exists only after stage 2 has produced everything it will.
+    runs_done = [r for r in sorted(args.run_root.glob("*/out/run_*"))
+                 if (r / "03_CXMS_Results" / "Completed_HighConfidence_CMAGE.xlsx").is_file()]
+    figs = sorted(f for r in runs_done for f in (r / "01_VH_Figures").glob("*.png"))
     groups_run, figs_per_group = set(), Counter()
     for f in figs:
         g = group_of(f.name, groups.keys())
@@ -258,11 +267,11 @@ def main():
     pages_expected = {g: groups[g]["pages"] for g in groups_run}
     short = {g: (figs_per_group[g], pages_expected[g]) for g in groups_run
              if figs_per_group[g] < pages_expected[g]}
-    print(f"{len(groups_run)} of {len(groups)} groups have stage-1 figures; "
-          f"{len(short)} produced fewer figures than pages", flush=True)
+    print(f"{len(runs_done)} COMPLETED batch runs; {len(groups_run)} of {len(groups)} "
+          f"groups measurable; {len(short)} produced fewer figures than pages", flush=True)
 
     # ---- segments
-    segs = sorted(args.run_root.glob("*/out/run_*/02_DIS_Segments/*.png"))
+    segs = sorted(f for r in runs_done for f in (r / "02_DIS_Segments").glob("*.png"))
     print(f"{len(segs)} stage-2 segments under {args.run_root}", flush=True)
     if not segs:
         raise SystemExit("no segments found -- has the full arm produced output yet?")
@@ -480,7 +489,8 @@ def main():
                     gained_gt_2pct=int((a > 1.02).sum()))
     summary = {"segments": len(rows), "segments_unmatched_to_a_group": unmatched,
                "drawings": len(drawings), "scale_median_bbox_ratio": round(med, 4),
-               "groups_in_manifest": len(groups), "groups_reaching_stage1": len(groups_run),
+               "groups_in_manifest": len(groups), "groups_measurable": len(groups_run),
+               "completed_batch_runs": len(runs_done),
                "groups_with_fewer_figures_than_pages": {k: v for k, v in sorted(short.items())},
                "drawings_seen_but_never_segmented": sum(1 for d in drawings
                                                         if d["n_segments"] == 0),
