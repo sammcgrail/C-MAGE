@@ -505,6 +505,17 @@
           <input type="file" id="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/tiff,image/webp,image/bmp">
         </label>
         <div class="picked muted" id="picked"><span>No file chosen yet.</span></div>
+        <!-- Shown only when the picked file is an IMAGE. A PDF always runs stages
+             1 and 2, so offering the choice there would be an option that does
+             nothing. -->
+        <div class="privacy hidden" id="segment-row">
+          <input type="checkbox" id="segment">
+          <label for="segment">This image is a figure holding several structures
+            <span class="sub">Off by default: an uploaded image is usually one structure already
+              cropped, and segmenting that can only cut ink off it. Tick this for a whole figure
+              with more than one molecule on it — it runs the segmenter first and takes longer.</span>
+          </label>
+        </div>
         <div class="privacy">
           <input type="checkbox" id="publish">
           <label for="publish">Also list this run in the public gallery
@@ -692,12 +703,22 @@
   var picked = null, currentJob = null, pollTimer = null, tick = null, lastPoll = null, lastData = null;
   var fileInput = $('file'), drop = $('drop');
   function setStatus(msg) { $('status').textContent = msg || ''; }
+  function isImage(f) {
+    return !(/pdf$/i.test(f.name) || f.type === 'application/pdf');
+  }
   function choose(f) {
     picked = f; setStatus('');
-    if (!f) { $('picked').innerHTML = '<span>No file chosen yet.</span>'; $('run').disabled = true; return; }
-    var isPdf = /pdf$/i.test(f.name) || f.type === 'application/pdf';
+    if (!f) {
+      $('picked').innerHTML = '<span>No file chosen yet.</span>';
+      $('run').disabled = true; $('segment-row').classList.add('hidden');
+      return;
+    }
+    var isPdf = !isImage(f);
     $('picked').innerHTML = '';
-    $('picked').appendChild(el('span', { text: f.name + ' · ' + fmtBytes(f.size) + (isPdf ? ' · PDF, all three stages' : ' · image, skips stage 1') }));
+    $('picked').appendChild(el('span', { text: f.name + ' · ' + fmtBytes(f.size) + (isPdf ? ' · PDF, all three stages' : ' · image, skips stages 1 and 2') }));
+    // The segmentation choice only exists for an image.
+    $('segment-row').classList.toggle('hidden', isPdf);
+    if (isPdf) $('segment').checked = false;
     $('run').disabled = false;
     if (f.size > limits.max_mb * 1048576) { setStatus('That file is ' + fmtBytes(f.size) + '; the limit is ' + limits.max_mb + ' MB.'); $('run').disabled = true; }
   }
@@ -710,6 +731,7 @@
     if (!picked) return;
     var fd = new FormData(); fd.append('file', picked, picked.name);
     fd.append('publish', $('publish').checked ? '1' : '0');
+    fd.append('segment', (isImage(picked) && $('segment').checked) ? '1' : '0');
     $('run').disabled = true; $('sample').disabled = true; setStatus('');
     api('/api/jobs', { method: 'POST', body: fd }).then(function (job) {
       rememberToken(job.id, job.token); startJob(job);

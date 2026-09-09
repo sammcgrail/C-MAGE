@@ -168,11 +168,12 @@ def _truthy(value: str | None) -> bool:
 
 
 def _start(request: Request, info: dict, filename: str, origin: str,
-           publish: bool = False, sample: bool = False) -> JSONResponse:
+           publish: bool = False, sample: bool = False,
+           segment: bool = False) -> JSONResponse:
     client = _admit(request)
     job, why = store.submit(kind=info["kind"], filename=filename, size=len(info["bytes"]),
                             pages=info["pages"], client=client, origin=origin,
-                            public=publish, sample=sample)
+                            public=publish, sample=sample, segment=segment)
     if job is None:
         raise HTTPException(429, why, headers={"Retry-After": "120"})
     try:
@@ -188,7 +189,8 @@ def _start(request: Request, info: dict, filename: str, origin: str,
 
 @app.post("/api/jobs")
 def create_job(request: Request, file: UploadFile = File(...),
-               publish: str = Form(default="")) -> JSONResponse:
+               publish: str = Form(default=""),
+               segment: str = Form(default="")) -> JSONResponse:
     buf = bytearray()
     while True:
         chunk = file.file.read(1 << 20)
@@ -203,7 +205,13 @@ def create_job(request: Request, file: UploadFile = File(...),
         raise HTTPException(400, str(exc)) from exc
     display = (file.filename or "").strip()[:120] or (f"{info['stem']}{info['ext']}")
     wants_public = _truthy(publish) if publish != "" else config.PUBLISH_UPLOADS_DEFAULT
-    return _start(request, info, display, "upload", publish=wants_public)
+    # An IMAGE upload skips segmentation by default, because it is almost always
+    # one already-cropped structure and segmenting that can only lose ink. But
+    # "almost always" is not always: a figure carrying six molecules uploaded as a
+    # PNG would come back as ONE string, silently, with no way to ask for the other
+    # five. So the choice is exposed rather than assumed.
+    return _start(request, info, display, "upload", publish=wants_public,
+                  segment=_truthy(segment))
 
 
 @app.post("/api/jobs/sample")

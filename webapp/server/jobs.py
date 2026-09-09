@@ -186,14 +186,18 @@ class JobStore:
         return sum(1 for j in self._jobs.values() if j.client == client and j.status not in TERMINAL)
 
     def submit(self, *, kind: str, filename: str, size: int, pages: int, client: str,
-               origin: str = "upload", public: bool = False, sample: bool = False
-               ) -> tuple[Job | None, str | None]:
+               origin: str = "upload", public: bool = False, sample: bool = False,
+               segment: bool = False) -> tuple[Job | None, str | None]:
         """Reserve a job directory. The caller writes the input file, then calls enqueue()."""
         with self._cv:
             if len(self._pending) >= config.MAX_QUEUE:
                 return None, "The queue is full right now — try again in a few minutes."
         job = Job(id=secrets.token_urlsafe(9), kind=kind, filename=filename, size=size, pages=pages,
                   created=_now(), origin=origin, client=client, public=public, sample=sample,
+                  # Only meaningful for an image. A PDF always needs stages 1 and 2,
+                  # and letting the flag ride along on one would read as an option
+                  # that does nothing.
+                  segment=bool(segment) and kind == "image",
                   token=secrets.token_urlsafe(16))
         (job.dir / "input").mkdir(parents=True, exist_ok=False)
         self._save(job)
