@@ -68,11 +68,19 @@ def groups_attempted(run_root, manifest_groups):
     if run_root is None:
         return None
     root = Path(run_root)
-    names = [f.name for f in root.glob("*/out/run_*/01_VH_Figures/*.png")]
+    # Only COMPLETED batches count. A batch mid-pipeline has stage-1 figures and
+    # no predictions yet, so its drawings would be scored as failures -- which is
+    # how `complex` first reported 0/66 = 0.0% while its PDFs were still in
+    # stage 2. The stage-3 workbook exists only once a batch has finished.
+    runs_done = [r for r in sorted(root.glob("*/out/run_*"))
+                 if (r / "03_CXMS_Results" / "Completed_HighConfidence_CMAGE.xlsx").is_file()]
+    names = [f.name for r in runs_done for f in (r / "01_VH_Figures").glob("*.png")]
     if not names:
         try:
             import pandas as pd
-            for x in root.glob("*/out/run_*/02_DIS_Segments/DIS_CMAGE_results.xlsx"):
+            for x in [r / "02_DIS_Segments" / "DIS_CMAGE_results.xlsx" for r in runs_done]:
+                if not x.is_file():
+                    continue
                 col = pd.read_excel(x)["DIS Result File Paths"].tolist()
                 names += [Path(str(v)).name for v in col]
         except Exception:                                          # noqa: BLE001
