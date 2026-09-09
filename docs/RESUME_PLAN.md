@@ -126,3 +126,49 @@ The disciplines that caught them, worth keeping:
 - Deploy from `/root/cmage` with `--build`. A plain `up -d` recreates from a
   stale image and silently reverts.
 - The repo has had several concurrent writers. Commit by explicit path.
+
+---
+
+# Harvest at the stop, 2026-09-09 ~21:45 UTC
+
+Everything below exists on disk and is **unscored or partially scored**. None of
+it is lost; none of it is finished. `/tmp` is wiped at boot, so a full copy is at
+**`/root/cmage-tmp-preserve/`** (958 MB) — check there first if `/tmp` is empty.
+
+## Runs that completed but were never scored
+
+| what | where | state |
+|---|---|---|
+| 17 previously-unrun committed PDFs | `/tmp/cmage-rest/<doc>/out/run_*/` | **7 of 17 documents** reached stage 3. Row-by-row status in `RUN_STATUS.md`. The rest were killed mid-run. |
+| synthetic v2, full arm | `/tmp/cmage-synth2/full/b0*/out/run_*/` | **6 batches** have stage-3 output; b01 is the only one scored. b02–b05 were killed (`rc=137`). |
+| synthetic v2, stage-3 arm | `/tmp/cmage-synth2/stage3/c0*/out/run_*/` | **4 batches** have output; c01+c02 (200 crops) scored, c03 killed mid-run, c04 staged. |
+
+Scoring these is cheap — no pipeline re-run needed, just `score_run.py` /
+`score_cx.py` against the right manifest. **Do this before starting anything new**,
+because it may answer questions currently listed as open.
+
+## Corpora built but never run
+
+- `/tmp/cmage-img/` (234 MB) — **3,920 PNGs, 560 compounds × 7 aligned arms**
+  (PubChem 300px and 1500px, background-remapped, LANCZOS-upscaled, RDKit at two
+  sizes). Ground truth verified: InChIKey matches PubChem on 560/560. Only a
+  50-image smoke test was ever run. This is the corpus that showed a bigger
+  canvas makes things *worse*, and it is ready to run at full size.
+- `/tmp/cmage-nearmiss/` — the graded-verdict analysis inputs; the scorer changes
+  it produced are already committed.
+- `/tmp/cmage-charts/` — the assertion harnesses (`assert-bench.js`,
+  `assert-gallery.js`, `assert-detail.js`) used to verify the site against the
+  rendered DOM. Reusable; not committed.
+
+## Known-contaminated artefacts — do not read
+
+- `benchmarks/report_partial/report.md` — the paired arm-gap table's stage-3
+  column has a denominator covering drawings it never processed, which **inverts
+  the direction** and makes segmentation look helpful. Recompute with stage-3
+  coverage defined as *crops that produced a workbook row*.
+- Any pre-`3ce8da6` copy of `ink_retention_real_documents.json` — prefix-matching
+  bug, see the corrections section above.
+
+## Scheduling
+
+The automatic continuation cron was **removed** at the stop. Restart is manual.
