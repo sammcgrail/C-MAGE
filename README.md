@@ -206,6 +206,100 @@ spreadsheet shows the DECIMER-Image-Segmentation input next to the predicted CXS
 rendering of that CXSMILES, so an incorrect prediction is visible at a glance. The raw 
 confidence value is also present in this row.
 
+## Gotchas — what actually goes wrong, and on which inputs
+
+Every item here cost real time to find. They are input-shape problems, not
+installation problems; the install is covered above and, for Linux aarch64,
+in [`docs/ARM64.md`](docs/ARM64.md).
+
+### Your input is too small, and it fails silently
+
+Below roughly **300 px** the heteroatom labels are a few pixels tall and come
+back as **unbonded `I` and `[HH]` atoms welded onto an otherwise correct
+molecule**. There is no error — you get a plausible structure with junk on it.
+On a corpus of 300x300 depictions, 509 of 743 predictions carried these.
+
+Upscaling 4x with LANCZOS removed them entirely in 10 of 24 worst cases and
+reduced them in the other 14, with none regressing.
+
+### …but a bigger canvas can make it WORSE
+
+Counter-intuitive and worth internalising. Stage 3 resizes every input to
+**384x384** regardless (`dataset.py: A.Resize(384, 384)`). PubChem pins atom
+label type at ~10 px and bond strokes at 1-3 px at *every* canvas size, so
+only the skeleton scales: a 1500x1500 PubChem render arrives at the model with
+**2.6 px glyphs** where the 300x300 one had 12.8. Measured on 50 molecules,
+going 300 -> 1500 px took accuracy from 58% to **zero**.
+
+What matters is the size of the *drawing in the model's 384x384 tensor*, not
+the size of your file. Upscale a small image; do not request a bigger render.
+
+### A near-white background silently disables the crop
+
+`CropWhite` tests `img != (255,255,255)` — **exactly** white. PubChem's
+background is `(245,245,245)`, so on those images the transform crops nothing
+at all and the drawing keeps its full margin before being shrunk to 384x384.
+Measured: 209x263 of a 300x300 frame is drawing, and the other 39% is margin
+that never goes.
+
+```bash
+CROPWHITE_TOLERANCE=15 ./run_pipeline.sh ...     # treat 240..255 as background
+```
+
+Off by default so behaviour matches upstream. If your source has any
+off-white background, set it.
+
+### Sparse figures produce tiny crops
+
+A drawing that is mostly whitespace gives a small mask, and the crop is taken
+from the mask's bounding box. Cisplatin in an 828x777 figure produced a
+**30x26 pixel** segment — far below the floor above, and it scored 0 of 1.
+This is what `DECIMER_BBOX_PAD` is for.
+
+### Stage 1 is slow on the pages with NO chemistry
+
+Backwards from the intuition. VisualHeist runs Florence-2 with
+`num_beams=3, max_new_tokens=1024`; a page with figures finishes in 36-64 s,
+a page with nothing to emit runs the beam search toward the token limit —
+**11 min 43 s** measured on one scanned text page. Drop the text-only pages
+first, or skip stage 1 entirely:
+
+```bash
+./run_pipeline.sh --stages 2,3 --figures DIR --device cpu
+```
+
+Vector PDFs are far cheaper than scans: one vector page measured 15.2 s
+against a 767 s prediction from the scanned-page model.
+
+### The output is CXSMILES, not SMILES
+
+Where the drawing says `OMe`, you get a dummy atom whose label lives in the
+extension block — `*C(=C)c1cc(O)c(O)cc1C=C |$M;;;;;;;;;;;;$|`. That is
+deliberate: the abbreviation as drawn stays recoverable instead of being
+replaced by a guess.
+
+Two consequences that will bite:
+
+- **`Chem.MolToSmiles()` silently drops the extension block.** `*C |$Ph;$|`
+  becomes bare `*C`, abbreviation destroyed, no warning. Use
+  `Chem.MolToCXSmiles()` for anything you store or export.
+- **A raw CXSMILES can never equal an expanded reference SMILES.** Expand
+  before comparing: [`benchmarks/cxsmiles.py`](benchmarks/cxsmiles.py) does it
+  with CXMolScribe's own vocabulary and never guesses an unknown label.
+
+### Images skip stage 1; PDFs do not
+
+Feed an image and stage 1 is bypassed. But the stage picker keys on the
+*filename*, so a PNG named `.pdf` is still routed as an image while the UI
+claims all three stages will run.
+
+### Metal complexes need fragment-aware comparison on both sides
+
+Every metal-containing PubChem reference is a **disconnected** multi-fragment
+SMILES — cisplatin is `[Cl][Pt][Cl]` plus two separate `N` — while the drawing
+shows the metal bonded inside the ring. The drawing is connected, the
+reference is not, and charge states differ.
+
 ## Accuracy — read this before trusting the confidence split
 
 The confidence threshold sorts results into two spreadsheets, and it is easy to
