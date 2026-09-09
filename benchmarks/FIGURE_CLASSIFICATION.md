@@ -1,8 +1,7 @@
 # The denominator was wrong: a third of the "figures" are not chemistry
 
-All 139 stage-1 figures from 20 real-document runs were classified by eye. Labels
-are in `/root/cmage-work/figclass/labels_all.tsv`, the contact sheets used to make
-them in the same directory, and the joined data in `figures_labelled.json`.
+All 139 stage-1 figures from 20 real-document runs were classified by eye. Labels are committed at `benchmarks/figure_labels_real_documents.tsv`; the contact
+sheets used to make them, and the joined data, are in the working tree.
 
 | label | n | zero-segment |
 |---|---|---|
@@ -14,23 +13,23 @@ them in the same directory, and the joined data in `figures_labelled.json`.
 | spectrum | 5 | 2 (40%) |
 | chart | 1 | 1 (100%) |
 
-**95 of 139 figures (68%) carry a drawn structure. 44 (32%) are body text, data
+**94 of 139 figures (68%) carry a drawn structure. 45 (32%) are body text, data
 tables, IR/NMR spectra, journal boilerplate and a bar chart** — VisualHeist
 extracts them as figures; they contain no chemistry.
 
 ## What this does to the headline numbers
 
-| | over all 139 figures | over the 95 structure-bearing |
+| | over all 139 figures | over the 94 structure-bearing |
 |---|---|---|
-| figures producing zero segments | 37 = **26.6%** | 4 = **4.2%** |
+| figures producing zero segments | 37 = **26.6%** | 3 = **3.2%** |
 | median ink retained | **0.291** | **0.590** |
-| mean ink retained | 0.344 | 0.496 |
-| pooled ink retained | 30.1% | 47.6% |
-| figures retaining under half | 61.9% | 44.2% |
+| mean ink retained | 0.344 | 0.502 |
+| pooled ink retained | 30.1% | 48.4% |
+| figures retaining under half | 61.9% | 43.6% |
 
-**"Stage 2 deletes a quarter of all figures" is false.** It deletes 4.2% of the
-figures that contain a structure, and two of those four are Markush generics with
-R groups. What it deletes is mostly text: 75% of non-chemistry figures produce no
+**"Stage 2 deletes a quarter of all figures" is false.** It deletes **3.2%** of the
+figures that contain a structure — three of 94 — and two of those three are Markush
+generics with R groups. What it deletes is mostly text: 75% of non-chemistry figures produce no
 segment, and only 0.9% of non-chemistry ink survives into stage 3. On that axis
 stage 2 is behaving as a filter and behaving well.
 
