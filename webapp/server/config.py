@@ -82,6 +82,14 @@ BENCHMARK_MANIFESTS = [Path(p).resolve() for p in os.environ.get("CMAGE_BENCHMAR
 # Which run directories (relative to BENCHMARK_DIR) the tab shows. Empty = the
 # conventional results/pdf_corpus/run if present, else every run found.
 BENCHMARK_RUNS = [r.strip() for r in os.environ.get("CMAGE_BENCHMARK_RUNS", "").split(",") if r.strip()]
+# Where a visitor can fetch the benchmark corpus itself -- the PDFs the numbers
+# were measured on, with their checksums. A benchmark whose inputs nobody else can
+# get is an anecdote, so the UI always states the in-repository path
+# (CMAGE_CORPUS_PATH); if a browsable URL for this deployment's repository is
+# configured it links to it as well. The URL is an environment value on purpose:
+# it names a host and an account, and neither belongs in this repository.
+CORPUS_PATH = os.environ.get("CMAGE_CORPUS_PATH", "benchmarks/corpus").strip()
+CORPUS_URL = os.environ.get("CMAGE_CORPUS_URL", "").strip()
 
 STATIC_DIR = WEBAPP_DIR / "static"
 VERSION = "0.2.0"

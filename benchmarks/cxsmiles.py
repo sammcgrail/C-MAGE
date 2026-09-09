@@ -1,6 +1,23 @@
 #!/usr/bin/env python3
 """Expand CXSMILES abbreviation labels into full structures, for scoring.
 
+A NOTE ON THE NAMING, because the import line is misleading
+----------------------------------------------------------
+Stage 3 of this pipeline is **CXMolScribe**: the drivers are
+`cxmolscribe-wd/{folder_ms,pipeline_ms}.py`, run in the `cmage-cxmolscribe`
+environment. They import a package that is still *called* `molscribe`, because
+C-MAGE vendored MolScribe into `cxmolscribe-wd/MolScribe/` and never renamed the
+Python package. So `from molscribe.constants import ABBREVIATIONS` below reads as
+if it were reaching for stock MolScribe; it is not. On this box the import
+resolves to `/root/C-MAGE/cxmolscribe-wd/MolScribe/molscribe/`, whose
+`chemistry.py` has the abbreviation lookup commented out — that *is* the
+CXMolScribe modification. Verify it in one line:
+
+    .venv-ms/bin/python -c "import molscribe; print(molscribe.__file__)"
+
+Throughout this file, "CXMolScribe" means the vendored modified package actually
+on the path, and "upstream MolScribe" means thomas0809/MolScribe.
+
 WHY THIS EXISTS — and why the pipeline is right not to do it itself
 -------------------------------------------------------------------
 CXMolScribe emits **CXSMILES**, not plain SMILES, and that is the point of it.
@@ -9,7 +26,7 @@ Where a drawing says `OMe`, the prediction is a dummy atom carrying the label
 
     *c1cc2c(cc1-c1cc(O)c3cc4c(cc3c1)OCO4)OCO2 |$OMe;;;;;;;;;;;;;;;;;$|
 
-This fork's MolScribe deliberately does NOT expand that at prediction time —
+C-MAGE's vendored MolScribe deliberately does NOT expand that at prediction time —
 `chemistry.py:_expand_abbreviation` has its `ABBREVIATIONS` lookup commented out
 so the label survives verbatim, where upstream MolScribe would have substituted a
 guess. Preserving it is strictly more information: the abbreviation as drawn is
@@ -21,7 +38,7 @@ CXSMILES against a fully-expanded reference SMILES can only ever fail, because
 the two are different representations of the same molecule. 162 of 242
 predictions on the expanded PDF corpus were scored "wrong" for this reason alone,
 with nothing wrong with the recognition. **Expansion belongs here, at comparison
-time**, using the same `ABBREVIATIONS` table the model was trained against.
+time**, using CXMolScribe's own `ABBREVIATIONS` table (imported as `molscribe.constants` — C-MAGE never renamed the package, but the tree on the path is the modified one).
 
     cxsmiles.py --smiles '*C |$Ph;$|'        # -> Cc1ccccc1
     cxsmiles.py --csv structures.csv         # add expanded + verdict columns
@@ -45,7 +62,7 @@ except ImportError:                                              # pragma: no co
 # result. A MARKUSH VARIABLE denotes no single molecule — nobody can expand `R1`,
 # and a scorer should not be marked down for it. A MISSING ABBREVIATION does
 # denote a definite group (OTBS is tert-butyldimethylsilyl) that simply is not in
-# MolScribe's 75-entry vocabulary; that one is a coverage gap worth closing.
+# CXMolScribe's 75-entry vocabulary; that one is a coverage gap worth closing.
 _MARKUSH = re.compile(r"^(R\d*|X|Y|Z|Ar|Alk|SR\d*|OR\d*|NR\d*|R[a-z]+|OR[a-z]+)$")
 
 

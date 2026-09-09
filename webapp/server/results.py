@@ -163,15 +163,17 @@ def parse_run(run_dir: Path) -> dict:
     # EXPAND ABBREVIATIONS for every uploaded result, not just for benchmark runs.
     #
     # CXMolScribe emits CXSMILES on purpose: a drawing that says `OMe` becomes a
-    # dummy atom whose label lives in the `|$OMe;$|` extension block, because this
-    # fork's MolScribe deliberately declines to guess an expansion. That is more
+    # dummy atom whose label lives in the `|$OMe;$|` extension block, because
+    # C-MAGE's vendored MolScribe deliberately declines to guess an expansion. That is more
     # information, not less -- but it means the string a user copies out contains a
     # bare `*` that no toolkit can resolve, and `Chem.MolToSmiles()` silently drops
     # the label entirely. Uploads previously got no expansion at all: only the
     # benchmark path ever called canonicalize().
     #
     # So attach all three forms here. Never a guess: an abbreviation outside
-    # MolScribe's own vocabulary lands in `unexpanded` and the user is told.
+    # CXMolScribe's own vocabulary lands in `unexpanded` and the user is told -- split
+    # into `markush` and `missing`, because "R1 stands for a set of groups" and "OTBS
+    # is missing from the vocabulary" are different facts and the UI says which.
     try:
         from . import chem
         recs = chem.canonicalize([s["smiles"] for s in structures])
@@ -181,6 +183,9 @@ def parse_run(run_dir: Path) -> dict:
             st["expanded"] = rec.get("expanded")
             st["abbreviations"] = rec.get("abbreviations") or []
             st["unexpanded"] = rec.get("unexpanded") or []
+            st["markush"] = rec.get("markush") or []
+            st["missing"] = rec.get("missing") or []
+            st["failed"] = rec.get("failed") or []
             st["fragments"] = rec.get("fragments") or 0
     except Exception:                                 # noqa: BLE001
         # RDKit unavailable must degrade to "no expansion", never to no results.
@@ -188,6 +193,8 @@ def parse_run(run_dir: Path) -> dict:
             st.setdefault("cxsmiles", st["smiles"])
             st.setdefault("expanded", None)
             st.setdefault("abbreviations", [])
+            st.setdefault("markush", [])
+            st.setdefault("missing", [])
 
     high = sum(1 for s in structures if s["tier"] == "high")
     return {

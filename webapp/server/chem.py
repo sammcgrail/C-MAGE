@@ -3,10 +3,26 @@
 The web process deliberately has no RDKit dependency. canon.py is executed by
 the stage-3 interpreter (the one that produced the predictions), and results
 are memoised per SMILES string for the life of the process.
+
+Comparison happens on FOUR key pairs, not one, and which pair a number came from
+has to travel with the number:
+
+  raw               the CXSMILES exactly as predicted
+  raw_largest       the same, largest fragment only
+  expanded          abbreviations substituted for the groups they name
+  expanded_largest  both
+
+`expanded` is the one that means what a reader thinks an accuracy means, and
+`raw` is the one a naive harness computes. On this pipeline they differ by a
+factor of two, because CXMolScribe preserves `OMe` as a labelled dummy atom and a
+reference SMILES spells it out -- so the raw comparison is between two different
+representations of the same molecule and can only fail. Keeping all four means the
+page can show WHICH step moved a number rather than asserting it.
 """
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import threading
 from pathlib import Path
@@ -16,6 +32,17 @@ from . import config
 _CANON_SCRIPT = Path(__file__).with_name("canon.py")
 _cache: dict[str, dict] = {}
 _lock = threading.Lock()
+_expander: dict | None = None
+
+# Which canonical forms each comparison uses. The ladder the benchmark tab renders
+# is exactly this dict, in this order, so a row cannot be labelled with a scoring
+# it was not computed under.
+KEYS = {
+    "raw": ("canonical", "flat"),
+    "raw_largest": ("largest", "largest_flat"),
+    "expanded": ("exp_canonical", "exp_flat"),
+    "expanded_largest": ("exp_largest", "exp_largest_flat"),
+}
 
 
 def stage3_python() -> Path | None:
@@ -42,6 +69,50 @@ def canonicalize(smiles: list[str]) -> list[dict]:
         return [dict(_cache.get(s) or {"canonical": None, "flat": None, "valid": False}) for s in smiles]
 
 
+def _env() -> dict:
+    """Environment for the stage-3 subprocess.
+
+    CMAGE_CXSMILES_DIR tells canon.py where the ONE expander lives. It is imported
+    rather than reimplemented: the stereo-preserving join is subtle enough that two
+    copies means two chances to have it wrong, with no way to tell from a number
+    which copy produced it.
+    """
+    return {**os.environ, "CMAGE_CXSMILES_DIR": str(config.BENCHMARK_DIR)}
+
+
+def expander_status() -> dict:
+    """Has the CXSMILES expander passed its stereo gate? Cached for the process.
+
+    Every expanded figure on the benchmark tab depends on this being true, and an
+    expander that emits the wrong stereoisomer does not raise -- it reports a
+    plausibly lower accuracy, which is indistinguishable from the pipeline being
+    worse. So the answer is asked for, and a False answer withholds the figures
+    instead of publishing them.
+    """
+    global _expander
+    with _lock:
+        if _expander is not None:
+            return _expander
+    py = stage3_python()
+    if py is None:
+        res = {"ok": False, "reason": "the stage-3 interpreter is not present, so no "
+                                      "expansion or comparison can be done at all", "cases": []}
+    else:
+        try:
+            proc = subprocess.run([str(py), str(_CANON_SCRIPT), "--selftest"], capture_output=True,
+                                  text=True, timeout=300, cwd=str(config.CMAGE_ROOT), env=_env())
+            res = json.loads(proc.stdout)
+            if not isinstance(res, dict):
+                raise ValueError("selftest did not return an object")
+        except Exception as exc:  # noqa: BLE001 - a gate that errors is a gate that is CLOSED
+            res = {"ok": False, "cases": [],
+                   "reason": f"the expander's stereo gate did not run ({str(exc)[:200]}), so nothing "
+                             f"vouches for the expansion"}
+    with _lock:
+        _expander = res
+    return res
+
+
 def _run(smiles: list[str]) -> list[dict]:
     py = stage3_python()
     empty = [{"canonical": None, "flat": None, "valid": False, "error": "rdkit unavailable"} for _ in smiles]
@@ -49,7 +120,7 @@ def _run(smiles: list[str]) -> list[dict]:
         return empty
     try:
         proc = subprocess.run([str(py), str(_CANON_SCRIPT)], input=json.dumps(smiles), capture_output=True,
-                              text=True, timeout=300, cwd=str(config.CMAGE_ROOT))
+                              text=True, timeout=300, cwd=str(config.CMAGE_ROOT), env=_env())
         if proc.returncode != 0:
             return [dict(e, error=proc.stderr[-300:]) for e in empty]
         out = json.loads(proc.stdout)
@@ -60,7 +131,7 @@ def _run(smiles: list[str]) -> list[dict]:
         return [dict(e, error=str(exc)[:300]) for e in empty]
 
 
-def verdict(pred: dict, truths: list[dict], *, whole: bool = True) -> tuple[str, int | None]:
+def verdict(pred: dict, truths: list[dict], *, mode: str = "expanded") -> tuple[str, int | None]:
     """Compare one canonicalised prediction against candidate truths.
 
     Returns (verdict, index of the matched truth or None):
@@ -69,15 +140,18 @@ def verdict(pred: dict, truths: list[dict], *, whole: bool = True) -> tuple[str,
       'wrong'    a valid molecule that matches none of the candidates
       'invalid'  the prediction is not parseable
 
-    whole=True scores the ENTIRE predicted string -- what a caller gets if it
-    pastes the SMILES straight out. whole=False scores only the largest
-    fragment, which is what the recogniser actually achieved when it appended
-    phantom disconnected atoms to a correct core. The two numbers differ a lot
-    on real corpora and neither one alone is an honest summary, so both are
-    computed and both are reported. Ground truth is always compared whole:
-    a truth SMILES with a real counter-ion is not a phantom.
+    `mode` names one of KEYS. 'raw' scores the CXSMILES exactly as predicted --
+    what a naive harness computes, and what a caller gets if it pastes the string
+    straight out. 'expanded' substitutes the abbreviations the drawing used, which
+    is the only comparison that can succeed against a spelled-out reference. The
+    '_largest' variants drop the phantom disconnected atoms the recogniser
+    sometimes appends to a correct core. No mode is an honest summary on its own,
+    so all four are computed and every figure says which one it came from.
+
+    Ground truth is always compared whole and unexpanded: a truth SMILES with a
+    real counter-ion is not a phantom, and a reference is already spelled out.
     """
-    ck, fk = ("canonical", "flat") if whole else ("largest", "largest_flat")
+    ck, fk = KEYS[mode]
     if not pred.get("valid") or pred.get(ck) is None:
         return "invalid", None
     for i, t in enumerate(truths):

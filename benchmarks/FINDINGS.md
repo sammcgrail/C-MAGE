@@ -89,7 +89,8 @@ in the CXSMILES extension block:
 *c1cc2c(cc1-c1cc(O)c3cc4c(cc3c1)OCO4)OCO2 |$OMe;;;;;;;;;;;;;;;;;$|
 ```
 
-This is **deliberate**, and it is a modification this fork's MolScribe carries:
+This is **deliberate**, and it is a modification C-MAGE's vendored MolScribe carries
+— present in upstream C-MAGE's first commit, not introduced by this fork:
 `chemistry.py:_expand_abbreviation` has its `ABBREVIATIONS` lookup commented out,
 where upstream MolScribe substitutes a guess. Compare:
 
@@ -110,21 +111,64 @@ instead of silently wrong.
 
 I compared those CXSMILES against fully-expanded reference SMILES. That
 comparison can only ever fail — they are different representations of the same
-molecule — so 162 of 242 predictions scored "wrong" with nothing whatever wrong
-with the recognition. Expansion belongs at **comparison** time, using the same
-`ABBREVIATIONS` table the model was trained against. `benchmarks/cxsmiles.py`
-does it, and never guesses: an unknown label is reported rather than approximated.
+molecule — so most of the 148 predictions carrying an abbreviation scored "wrong"
+with nothing whatever wrong with the recognition. Expansion belongs at
+**comparison** time, using the same `ABBREVIATIONS` table the model was trained
+against. `benchmarks/cxsmiles.py` does it, and never guesses: a label it cannot
+expand is reported rather than approximated.
 
-Recall on the 11-document corpus, per-document denominators, one variable:
+Recall on the 11-document corpus, per-document denominators, one variable,
+**stereochemistry required throughout**:
 
 | scoring | recall |
 |---|---|
 | raw CXSMILES vs expanded reference | 9/34 = **26.5%** |
-| + CXSMILES abbreviations expanded | 16/34 = **47.1%** |
-| + largest fragment as well | 18/34 = **52.9%** |
+| + CXSMILES abbreviations expanded | 18/34 = **52.9%** |
+| + largest fragment as well | 18/34 = 52.9% — **it adds nothing here** |
 
 Two documents flip entirely: aglacin B goes 0/3 → 3/3, and the patent OCSR
 benchmark 2/4 → 4/4. The pipeline had read them correctly all along.
+
+The third row is worth reading as a **control**, not as a step. Largest-fragment
+stripping recovers nothing on this corpus — scored on its own, without expansion,
+it moves the naive figure from 9/34 to 9/34 — even though 21 of the 242
+predictions do carry a phantom fragment. That artifact belongs to 300-px
+thumbnails, where it is worth 53 of 97; on documents at publication resolution it
+is worth zero. Both numbers come from the same code path, so the contrast is
+real rather than rhetorical.
+
+**An earlier version of this table read 16/34 = 47.1% in the middle row and put
+the remaining two molecules under "+ largest fragment".** Both halves of that were
+wrong, and the way they were wrong is the subject of the next section.
+
+### The expander had a stereochemistry bug, and it looked exactly like a lower score
+
+The first expander joined the substituent with `RWMol.RemoveAtom` plus `AddBond`.
+That appends the new bond at the END of the anchor atom's bond list — and `@`/`@@`
+and `/`-`\` are both defined *relative to that order*. So the join silently
+emitted a different stereoisomer while producing a perfectly valid molecule: five
+of seven tetrahedral centres flipped, four of five alkene geometries lost.
+
+Nothing raised. The only symptom was two molecules scoring "same skeleton, wrong
+stereochemistry" — which reads exactly like a recogniser that is bad at wedge
+bonds. `Chem.molzip` preserves the anchor's own bond object, and with it parity,
+geometry and bond order; it recovers both:
+
+```
+sorbic acid   */C=C/C=C/C |$COOH;;;;;$|
+  molzip      C/C=C/C=C/C(=O)O     == PubChem CID 643460
+  superseded  C/C=C/C=CC(=O)O      one geometry dropped at the attachment point
+```
+
+`benchmarks/cxsmiles_selftest.py` is the standing guard. It checks six real
+predictions against an independent reference — the label substituted into the
+string *as text*, which cannot reorder anyone's bonds — and it runs the superseded
+algorithm beside the current one as a negative control. The gate closes if a case
+fails **or** if a case that is supposed to discriminate stops discriminating,
+because a control that agrees with the thing it controls for has stopped being
+evidence. The web app asks it before publishing any expanded figure and withholds
+them if it says no; a wrong expansion does not fail loudly, it reports a plausibly
+lower accuracy, and that is indistinguishable from the pipeline being worse.
 
 ```bash
 .venv-ms/bin/python benchmarks/cxsmiles.py --smiles '*C |$Ph;$|'   # -> Cc1ccccc1
@@ -178,6 +222,24 @@ Genuine weaknesses, on documents with complete ground truth and after expansion:
 charged benzo[c]phenanthridinium alkaloids **2 of 9**, and the 1980 hand-inked
 patent scan **0 of 2**. Phantom fragments were rare (0-8 per document against 63
 of 97 on 300 px thumbnails), independently confirming finding 2.
+
+The alkaloid document deserves one qualification, because its 2 of 9 is partly a
+property of the document. Its Scheme 1 is a classification *panel* — generic
+skeletons carrying `OR1`/`OR2`/`OR3`, with the individual alkaloids named in a
+substituent legend underneath rather than drawn — so several of its nine reference
+molecules were never drawn explicitly and could not have been matched by any
+output. It is left in the denominator rather than dropped, which makes the
+headline a floor. The genuine finding underneath survives: quaternary aromatic
+nitrogen is hard for this reader.
+
+Two kinds of label stay unexpanded and they must not be added together. A
+**Markush variable** (`R1`, `X`, `OR2`) denotes a set of molecules rather than one,
+so nobody can expand it and no scorer should be marked down for it. A **missing
+abbreviation** (`OTBS`, `OTHP`, the phosphate esters) denotes a perfectly definite
+group that is simply absent from MolScribe's 75-entry vocabulary — a closable
+coverage gap. `cxsmiles.py:label_class()` makes the split; on this corpus it is 23
+predictions and 36 predictions respectively, plus 3 the expander itself failed on,
+and those counts overlap because one prediction can carry several labels.
 
 Total-synthesis papers are still a poor benchmark corpus, but for a narrower
 reason than I first wrote: not because the abbreviations are unscoreable — they

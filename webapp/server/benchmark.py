@@ -122,7 +122,16 @@ def _run_id(run: Path) -> str:
 
 
 _META_KEYS = ("title", "corpus", "corpus_key", "corpus_detail", "stages", "method", "settings",
-              "note", "source", "seconds", "hardware", "rank")
+              "note", "source", "seconds", "hardware", "rank",
+              # A run may declare that a precision figure would not mean anything on
+              # its corpus. Partial ground truth is the usual reason: a document that
+              # draws 40 compounds and names 5 of them makes every one of the other 35
+              # emitted structures score "wrong" regardless of how well it was read, so
+              # the percentage measures the manifest's coverage, not the pipeline.
+              # precision_reportable: "no" suppresses the number and shows
+              # precision_note in its place. Recall is unaffected -- its denominator is
+              # the molecules known to be drawn, which is exactly what is known.
+              "precision_reportable", "precision_note")
 
 # Sampling facts a manifest may record about the population it was drawn from.
 # They are what turns "97 images" into a claim someone can check: how many exist,
@@ -156,6 +165,14 @@ def _load_manifests() -> tuple[list[dict], dict]:
             continue
         if not isinstance(data, dict):
             continue
+        n_docs = (len(data["groups"]) if isinstance(data.get("groups"), dict)
+                  else len(data.get("pdfs") or []))
+        if not n_docs:
+            # A file under ground_truth/ that names no documents is a provenance or
+            # selection record, not a manifest. Listing it as a corpus put an empty
+            # "0 groups, 0 molecules" row on the page, which reads as a corpus the
+            # pipeline scored nothing on rather than as a file that is not ground truth.
+            continue
         meta["files"].append(path.name)
         key = str(data.get("corpus") or path.stem)
         stats = {k: data[k] for k in _CORPUS_STATS if k in data}
@@ -165,7 +182,10 @@ def _load_manifests() -> tuple[list[dict], dict]:
                                  for g in (data["groups"].values() if isinstance(data.get("groups"), dict)
                                            else (data.get("pdfs") or [])))
         if data.get("excluded"):
-            stats["excluded"] = list(data["excluded"])
+            # A sentence, or a list of names. list("a sentence") is 10 single
+            # characters and renders as garbage, so a string is wrapped, not iterated.
+            stats["excluded"] = ([data["excluded"]] if isinstance(data["excluded"], str)
+                                 else list(data["excluded"]))
         if data.get("pubchem_unverified_files"):
             stats["unverified"] = list(data["pubchem_unverified_files"])
         meta["corpora"][key] = stats
@@ -179,11 +199,13 @@ def _load_manifests() -> tuple[list[dict], dict]:
         if isinstance(data.get("pdfs"), list):
             for p in data["pdfs"]:
                 if isinstance(p, dict) and p.get("file"):
-                    docs.append(_doc(Path(p["file"]).stem, p["file"], p.get("title"), p.get("molecules") or []))
+                    docs.append(_doc(Path(p["file"]).stem, p["file"], p.get("title"), p.get("molecules") or [],
+                                     p.get("drawing_style") or p.get("style")))
         if isinstance(data.get("groups"), dict):
             for stem, g in data["groups"].items():
                 if isinstance(g, dict):
-                    docs.append(_doc(str(stem), g.get("source") or str(stem), g.get("title"), g.get("molecules") or []))
+                    docs.append(_doc(str(stem), g.get("source") or str(stem), g.get("title"),
+                                     g.get("molecules") or [], g.get("drawing_style") or g.get("style")))
     # Later manifests override earlier ones for the same stem.
     by_stem: dict[str, dict] = {}
     for d in docs:
@@ -191,7 +213,7 @@ def _load_manifests() -> tuple[list[dict], dict]:
     return list(by_stem.values()), meta
 
 
-def _doc(stem: str, file: str, title, molecules) -> dict:
+def _doc(stem: str, file: str, title, molecules, style=None) -> dict:
     mols = []
     for i, m in enumerate(molecules):
         if not isinstance(m, dict):
@@ -203,7 +225,50 @@ def _doc(stem: str, file: str, title, molecules) -> dict:
         key = m.get("key") or m.get("name") or (keys[0] if keys else None) or f"{stem}:{m.get('index', i)}"
         label = m.get("label") or m.get("name") or m.get("title") or str(key)
         mols.append({"key": str(key), "label": str(label), "smiles": str(smiles)})
-    return {"stem": stem, "file": file, "title": title or stem, "molecules": mols}
+    # The drawing style is the whole point of a deliberately diverse corpus: a
+    # per-document score means little without knowing whether that document is
+    # ChemDraw vector, a 1980 fax-quality scan, or pen on paper.
+    return {"stem": stem, "file": file, "title": title or stem, "molecules": mols,
+            "style": str(style) if style else ""}
+
+
+# THE FOUR SCORINGS, in the order the page shows them. Each is one comparison of
+# the same prediction against the same reference; the only thing that changes is
+# which representation of the prediction is compared.
+#
+#   *C1=CC=CC=C1 |$OMe;;;;;;$|          the drawing said "OMe", not O-CH3
+#
+# A CXSMILES abbreviation is a `*` dummy atom whose label rides in the `|$...$|`
+# extension block. It is a faithful transcription of what the chemist drew, and
+# comparing it against a spelled-out reference is comparing two different
+# representations of the same molecule -- a comparison that can only fail. So the
+# abbreviations are expanded at COMPARISON time, using the vocabulary the model
+# was trained against, and `raw` is kept beside it to show what the naive
+# comparison would have reported. On the 11-document corpus the two differ by a
+# factor of two, and the difference is entirely representation.
+RUNGS = ("raw", "raw_largest", "expanded", "expanded_largest")
+
+# The ladder the page shows, as a CUMULATIVE chain: each row adds one post-process
+# to the row above it, so a row's delta is what that post-process is worth. Note
+# what is NOT in the chain: `raw_largest`. Fragment stripping and abbreviation
+# expansion are INDEPENDENT post-processes, and threading all four comparisons into
+# one chain produced a negative delta on the corpora where stripping does the work
+# -- a ladder that appears to lose molecules at the step which in fact gains them.
+# `raw_largest` is reported beside the chain as the control that isolates stripping
+# on its own.
+LADDER = ("raw", "expanded", "expanded_largest")
+CONTROL = "raw_largest"
+
+# Human labels, and what each rung adds to the one before. The page renders these
+# rather than carrying its own copy, so a row cannot be captioned with a scoring it
+# was not computed under -- which is exactly the mistake that shipped once already,
+# a largest-fragment caption over a number that stereochemistry had moved.
+RUNG_LABEL = {
+    "raw": "CXSMILES exactly as predicted, against the spelled-out reference",
+    "raw_largest": "the same, largest fragment only",
+    "expanded": "abbreviations expanded to the groups they name",
+    "expanded_largest": "abbreviations expanded AND largest fragment only",
+}
 
 
 def _doc_for(source: str, stems: list[str]) -> str | None:
@@ -245,6 +310,13 @@ def _build() -> dict:
         "name": meta["names"][0] if meta["names"] else "Known-answer corpus",
         "description": " · ".join(meta["descriptions"]),
         "threshold": config.CONFIDENCE_THRESHOLD,
+        "corpus_path": config.CORPUS_PATH,
+        "corpus_url": config.CORPUS_URL,
+        # Has the CXSMILES expander passed its stereo gate? Every expanded figure
+        # depends on it. A broken expander does not raise -- it reports a plausibly
+        # LOWER accuracy, indistinguishable from the pipeline being worse than it
+        # is -- so the answer is asked for and a false answer withholds the figures.
+        "expander": chem.expander_status(),
         "generated": time.time(),
         "corpora": meta["corpora"],
         "runs": [],
@@ -279,10 +351,17 @@ def _build() -> dict:
 
         per_doc: dict[str, dict] = {}
         for d in docs:
-            per_doc[d["stem"]] = {"file": d["file"], "title": d["title"],
+            per_doc[d["stem"]] = {"file": d["file"], "title": d["title"], "style": d["style"],
                                   "molecules": [{k: m.get(k) for k in ("key", "label", "smiles", "canonical", "valid")}
                                                 for m in truth_by_stem[d["stem"]]],
-                                  "structures": [], "matched_keys": [], "frag_matched_keys": []}
+                                  "structures": [],
+                                  # One recovered-molecule set per scoring, plus the
+                                  # subset recovered with stereochemistry REQUIRED.
+                                  # Kept per document because the denominator is per
+                                  # document: summing 11 documents against the corpus
+                                  # total is how 9 of 34 becomes 9 of 374.
+                                  "keys": {m: [] for m in RUNGS}, "exact_keys": [],
+                                  "matched_keys": [], "frag_matched_keys": []}
         unassigned = []
         disagreements = 0
         for s, pred in zip(structs, preds):
@@ -292,25 +371,49 @@ def _build() -> dict:
             #   frag_verdict  the largest fragment alone, dropping phantom atoms
             # Reporting only one of these is the difference between "14% works"
             # and "66% works", so the record carries both and so does the UI.
-            rec = dict(s, pred_canonical=pred.get("canonical"), pred_largest=pred.get("largest"),
-                       fragments=pred.get("fragments") or 0, phantom=chem.phantom_summary(pred))
+            rec = dict(s, pred_canonical=pred.get("exp_canonical"), pred_largest=pred.get("exp_largest"),
+                       raw_canonical=pred.get("canonical"),
+                       fragments=pred.get("fragments") or 0, phantom=chem.phantom_summary(pred),
+                       # The lossless form, and what it means. MolToSmiles drops the
+                       # |$...$| block, so storing `canonical` alone destroyed the
+                       # abbreviation with no warning; both are kept and both shown.
+                       cxsmiles=pred.get("cxsmiles") or s["smiles"],
+                       expanded=pred.get("expanded"),
+                       abbreviations=pred.get("abbreviations") or [],
+                       markush=pred.get("markush") or [],
+                       missing=pred.get("missing") or [],
+                       failed=pred.get("failed") or [])
             if stem is None:
-                rec.update(verdict="unassigned", frag_verdict="unassigned", matched_key=None, truth_smiles=None)
+                rec.update(verdict="unassigned", frag_verdict="unassigned", raw_verdict="unassigned",
+                           raw_frag_verdict="unassigned", matched_key=None, truth_smiles=None)
                 unassigned.append(rec)
                 continue
             truths = truth_by_stem[stem]
-            v, idx = chem.verdict(pred, truths, whole=True)
-            fv, fidx = chem.verdict(pred, truths, whole=False)
-            # Recall is counted separately for the two scorings. Letting a
-            # fragment-only hit fill in matched_key would quietly move the strict
-            # "expected molecules found" number without anything saying so.
-            strict_truth = truths[idx] if idx is not None else None
-            frag_truth = truths[fidx] if fidx is not None else None
-            shown = strict_truth or frag_truth
+            # All four scorings, from the one RDKit canonicalisation. Each is
+            # recorded separately: letting a later rung fill in an earlier rung's
+            # matched key would move a headline number with nothing saying so.
+            hits = {}
+            for mode in RUNGS:
+                v, idx = chem.verdict(pred, truths, mode=mode)
+                hits[mode] = (v, truths[idx] if idx is not None else None)
+            v, strict_truth = hits["expanded"]
+            fv, frag_truth = hits["expanded_largest"]
+            shown = strict_truth or frag_truth or hits["raw"][1]
             rec.update(verdict=v, frag_verdict=fv,
+                       raw_verdict=hits["raw"][0], raw_frag_verdict=hits["raw_largest"][0],
                        matched_key=strict_truth["key"] if strict_truth else None,
                        frag_matched_key=frag_truth["key"] if frag_truth else None,
                        truth_smiles=shown["smiles"] if shown else None)
+            for mode in RUNGS:
+                mv, mt = hits[mode]
+                if mt is not None and mt["key"] not in per_doc[stem]["keys"][mode]:
+                    per_doc[stem]["keys"][mode].append(mt["key"])
+                # Stereochemistry REQUIRED, on the headline scoring. Tracked because
+                # "18 of 34" reads as exact, and if any of it were only stereo-relaxed
+                # the page would have to say so.
+                if mode == "expanded" and mv == "match" and mt is not None \
+                        and mt["key"] not in per_doc[stem]["exact_keys"]:
+                    per_doc[stem]["exact_keys"].append(mt["key"])
             pre = (precomputed or {}).get(s.get("segment_image") or "")
             if pre:
                 # A verdicts.json written by the offline scorer. It is used for the
@@ -340,6 +443,17 @@ def _build() -> dict:
                  "unassigned": len(unassigned), "high": 0, "high_wrong": 0, "low": 0, "low_right": 0,
                  "expected": 0, "found": 0, "frag_found": 0, "documents": 0,
                  "phantom": 0, "rescued": 0, "phantom_atoms": 0,
+                 # Molecules recovered under each of the four scorings, and the
+                 # subset of the headline one that is exact rather than
+                 # stereo-relaxed. These are the ladder the page renders.
+                 "rung_found": {m: 0 for m in RUNGS}, "exact_found": 0,
+                 # Predictions carrying a CXSMILES abbreviation, and what became of
+                 # it. `abbrev_expanded` + `abbrev_markush` + `abbrev_missing` need
+                 # not sum to `abbrev`: one prediction can carry both an expandable
+                 # label and an unexpandable one, so it is counted in more than one.
+                 "abbrev": 0, "abbrev_expanded": 0, "abbrev_markush": 0, "abbrev_missing": 0,
+                 "abbrev_failed": 0, "abbrev_rescued": 0,
+                 "abbrev_labels": {}, "markush_labels": {}, "missing_labels": {},
                  "crosstab": {"high": blank(), "low": blank()},
                  # Confidence of the answers that turned out RIGHT vs WRONG, scored
                  # on the largest fragment. If these two ranges overlap, the score
@@ -349,8 +463,13 @@ def _build() -> dict:
         blocks = []
         for stem in stems:
             block = per_doc[stem]
-            block["found"] = len(block["matched_keys"])
-            block["frag_found"] = len(block["frag_matched_keys"])
+            block["matched_keys"] = list(block["keys"]["expanded"])
+            block["frag_matched_keys"] = list(block["keys"]["expanded_largest"])
+            block["rung_found"] = {m: len(block["keys"][m]) for m in RUNGS}
+            block["found"] = block["rung_found"]["expanded"]
+            block["frag_found"] = block["rung_found"]["expanded_largest"]
+            block["raw_found"] = block["rung_found"]["raw"]
+            block["exact_found"] = len(block["exact_keys"])
             block["expected"] = len(block["molecules"])
             block["missing"] = [m for m in block["molecules"] if m["key"] not in block["matched_keys"]]
             # Documents the run never touched are left out rather than shown as all-missing.
@@ -361,7 +480,40 @@ def _build() -> dict:
             tally["expected"] += block["expected"]
             tally["found"] += block["found"]
             tally["frag_found"] += block["frag_found"]
+            tally["exact_found"] += block["exact_found"]
+            for mode in RUNGS:
+                tally["rung_found"][mode] += block["rung_found"][mode]
+            block["abbrev"] = sum(1 for r in block["structures"] if r.get("abbreviations"))
+            # Per document, because "most of what this document emitted is a Markush
+            # skeleton" is a statement about THAT document's ground truth, and the
+            # corpus-wide figure cannot make it.
+            block["markush"] = sum(1 for r in block["structures"] if r.get("markush"))
+            block["missing"] = sum(1 for r in block["structures"] if r.get("missing"))
             for rec in block["structures"]:
+                if rec.get("abbreviations"):
+                    tally["abbrev"] += 1
+                    if rec.get("markush"):
+                        tally["abbrev_markush"] += 1
+                    if rec.get("missing"):
+                        tally["abbrev_missing"] += 1
+                    if rec.get("failed"):
+                        tally["abbrev_failed"] += 1
+                    if not rec.get("markush") and not rec.get("missing") and not rec.get("failed"):
+                        tally["abbrev_expanded"] += 1
+                    # Expansion turned this prediction from not-a-match into a match.
+                    # The whole case for expanding rests on this count, so it is
+                    # counted rather than argued.
+                    if rec["verdict"] in ("match", "stereo") and rec["raw_verdict"] not in ("match", "stereo"):
+                        tally["abbrev_rescued"] += 1
+                    # Counted once per STRUCTURE, not once per occurrence: one
+                    # pathological prediction repeated a single label 45 times, which
+                    # would otherwise top the vocabulary list.
+                    for bucket, labels in (("abbrev_labels", rec["abbreviations"]),
+                                           ("markush_labels", rec.get("markush") or []),
+                                           ("missing_labels", rec.get("missing") or [])):
+                        for lab in set(labels):
+                            if any(c.isalpha() for c in lab):
+                                tally[bucket][lab] = tally[bucket].get(lab, 0) + 1
                 tier = "high" if rec["tier"] == "high" else "low"
                 cell = tally["crosstab"][tier]
                 cell["n"] += 1
@@ -376,6 +528,12 @@ def _build() -> dict:
                 if rec["fragments"] > 1:
                     tally["phantom"] += 1
                     tally["phantom_atoms"] += rec["fragments"] - 1
+                    # RESCUED BY THE FRAGMENT STRIP, measured against the rung
+                    # immediately below it -- expanded-whole, not raw. Comparing it
+                    # against raw would credit fragment stripping with everything
+                    # expansion did, which is how the third row of this ladder came
+                    # to be captioned "+ largest fragment" over a number that
+                    # stereochemistry had moved.
                     if rec["frag_verdict"] in ("match", "stereo") and not right:
                         tally["rescued"] += 1
                 if tier == "high":
@@ -386,6 +544,8 @@ def _build() -> dict:
                     tally["low"] += 1
                     if right:
                         tally["low_right"] += 1
+        for bucket in ("abbrev_labels", "markush_labels", "missing_labels"):
+            tally[bucket] = sorted(tally[bucket].items(), key=lambda kv: (-kv[1], kv[0]))[:14]
         for key in ("conf_right", "conf_wrong"):
             vals = tally.pop(key)
             tally[key] = {"n": len(vals), "min": min(vals), "max": max(vals),
@@ -397,6 +557,17 @@ def _build() -> dict:
         out["runs"].append({
             "id": rid, "name": str(run.relative_to(config.BENCHMARK_DIR)), "mtime": mtime,
             "tally": tally, "pdfs": blocks, "unassigned": unassigned,
+            # The scoring ladder: one row per comparison, each row's caption bound to
+            # the value it was computed from. `delta` is what this rung added to the
+            # one above it, so a rung that changes nothing says so instead of being
+            # read as the reason for the total.
+            "ladder": [{"mode": m, "label": RUNG_LABEL[m], "expected": tally["expected"],
+                        "found": tally["rung_found"][m],
+                        "delta": tally["rung_found"][m] - (tally["rung_found"][LADDER[i - 1]] if i else 0)}
+                       for i, m in enumerate(LADDER)],
+            "control": {"mode": CONTROL, "label": RUNG_LABEL[CONTROL], "expected": tally["expected"],
+                        "found": tally["rung_found"][CONTROL],
+                        "delta": tally["rung_found"][CONTROL] - tally["rung_found"]["raw"]},
             "meta": _run_meta(run),
             # Verdicts are ALWAYS recomputed here. A verdicts.json, when present,
             # is cross-checked against them; a non-zero disagreement count is a

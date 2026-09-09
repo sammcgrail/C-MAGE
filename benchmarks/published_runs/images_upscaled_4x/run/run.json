@@ -8,5 +8,5 @@
   "settings": "CPU. Input upscaled 4x with PIL LANCZOS; no other change.",
   "note": "What this run is for: it identifies the phantom fragments as largely an input-RESOLUTION artifact. At 300x300 a heteroatom label is a few pixels tall and gets read as an unbonded I or H. Feed this pipeline images bigger than 300 px and most of that disappears. Two things it does not show: it is not evidence that the pipeline is 79% accurate in general (that number is over 24 hand-picked hard cases), and resolution is not the whole story — phantoms survive in 14 of the 24 even at 1200 px, so a largest-fragment post-process is still worth having.",
   "source": "benchmarks/run_stage3_only.sh over 4x-upscaled copies of 24 images from the every7 sample",
-  "rank": 3
+  "rank": 4
 }

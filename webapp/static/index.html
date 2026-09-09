@@ -220,6 +220,76 @@
   .gapnote code { font-size: 12px; background: #0e1118; border-radius: 4px; padding: 1px 5px;
     word-break: break-all; overflow-wrap: anywhere; }
 
+  /* A figure the corpus does not support. It occupies the slot the percentage
+     would have occupied, because an empty slot invites the reader to supply one. */
+  .noprec { border: 1px solid #5a4a1c; background: rgba(245, 158, 11, .08); border-radius: 12px;
+    padding: 12px 14px; margin: 10px 0 4px; }
+  .noprec .v { font-size: 19px; font-weight: 800; color: var(--low); line-height: 1.25; }
+  .noprec .d { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .noprec .d b { color: var(--text); font-weight: 600; }
+
+  /* CXSMILES abbreviations. On a corpus of synthesis schemes these are most of the
+     corpus, and the pairing of what the model SAID against what it MEANS is the
+     most instructive thing on the site, so it gets a block rather than a footnote. */
+  .abbox { border: 1px solid #2f6b62; background: rgba(79, 209, 197, .07); border-radius: 12px;
+    padding: 12px 14px; margin: 10px 0 14px; }
+  .abbox .v { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .abbox .l { font-size: 14px; font-weight: 700; margin-top: 4px; }
+  .abbox .d { font-size: 14px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+  .abbox .d b { color: var(--text); font-weight: 600; }
+  .abbox code, .gapnote code, .pairnote code { font-size: 12px; background: #0e1118; border-radius: 4px;
+    padding: 1px 5px; word-break: break-all; overflow-wrap: anywhere; }
+  .abbox .chips { margin-top: 10px; }
+  .abbox .actions { margin-top: 10px; }
+  .chip.markush { background: var(--stereo-bg); color: var(--stereo); }
+  .chip.missing { background: var(--low-bg); color: var(--low); }
+  .chip.kept { background: rgba(79, 209, 197, .16); color: var(--accent); }
+
+  /* The prediction beside its expansion. Two labelled monospace rows, because the
+     whole point is that they are the same molecule written two ways. */
+  .pair { display: flex; flex-direction: column; gap: 4px; }
+  .pair .lab { font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: .05em; line-height: 1.35; }
+  .pair .lab b { color: var(--text); font-weight: 700; text-transform: none; letter-spacing: 0; }
+  .pair .smiles-row + .lab { margin-top: 6px; }
+  .pairnote { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* A worked example inside the abbreviation block: crop, prediction, expansion. */
+  .ab-ex { display: grid; grid-template-columns: 1fr; gap: 10px; align-items: start;
+    border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; }
+  .ab-ex figure { background: #fff; border-radius: 8px; padding: 6px; }
+  .ab-ex img { width: 100%; max-height: 160px; object-fit: contain; display: block; }
+  .ab-ex figcaption { font-size: 11px; color: #4b5563; text-align: center; line-height: 1.3; margin-top: 4px; }
+  @media (min-width: 720px) { .ab-ex { grid-template-columns: 200px 1fr; } }
+
+  /* The scoring ladder: one row per comparison, and what that comparison added. */
+  table.ladder { border-collapse: collapse; width: 100%; font-size: 14px; }
+  table.ladder th, table.ladder td { border-bottom: 1px solid var(--line); padding: 9px 8px;
+    text-align: right; vertical-align: top; }
+  table.ladder th:first-child, table.ladder td:first-child { text-align: left; }
+  table.ladder thead th { font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: .05em; font-weight: 700; white-space: nowrap; }
+  table.ladder td.what { color: var(--text); line-height: 1.4; }
+  table.ladder td.what small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.4;
+    margin-top: 3px; text-transform: none; letter-spacing: 0; }
+  table.ladder td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+  table.ladder td.pc { font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 18px;
+    font-weight: 800; }
+  table.ladder tr.naive td.pc { color: var(--bad); }
+  table.ladder tr.best td.pc { color: var(--high); }
+  table.ladder td.delta { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--muted); }
+  table.ladder tr.gain td.delta { color: var(--high); }
+  table.ladder tr.control { background: rgba(148, 163, 184, .06); }
+  table.ladder tr.control td { border-bottom: none; }
+
+  /* A figure the corpus does not support. It occupies the slot the percentage
+     would have occupied, because an empty slot invites the reader to supply one. */
+  table.xtab td.doc { white-space: normal; min-width: 148px; }
+  table.xtab td.style { white-space: normal; min-width: 230px; color: var(--muted);
+    text-align: left; font-size: 12px; line-height: 1.4; }
+  table.xtab tr.zero td.big { color: var(--bad); }
+  table.xtab tr.flip td.big { color: var(--high); }
+
   /* crosstab + metadata */
   .xwrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 6px 0 4px; }
   table.xtab { border-collapse: collapse; font-size: 13px; min-width: 100%; }
@@ -608,11 +678,7 @@
       ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: 'rendering of the predicted SMILES', loading: 'lazy' }), el('figcaption', { text: 'what the SMILES draws as' })])
       : el('figure', { class: 'none', text: s.valid ? 'SMILES could not be drawn' : 'no valid SMILES' }));
     card.appendChild(imgs);
-    var code = el('div', { class: 'smiles' + (s.smiles && s.valid ? '' : ' empty'), text: s.smiles && s.valid ? s.smiles : (s.smiles ? s.smiles + ' (not a valid SMILES)' : 'nothing readable') });
-    var copy = el('button', { class: 'copy', type: 'button', text: 'Copy' });
-    copy.disabled = !(s.smiles && s.valid);
-    copy.addEventListener('click', function () { copyText(s.smiles, copy); });
-    card.appendChild(el('div', { class: 'smiles-row' }, [code, copy]));
+    card.appendChild(smilesPair(s));
     var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
     // ONE decimal, deliberately. The three-decimal figure looked like it separated
     // right answers from wrong ones and it does not: on the known-answer corpora the
@@ -625,6 +691,33 @@
       el('span', { class: 'where', text: whereText(s) })
     ]);
     card.appendChild(meta);
+    // Verdicts exist only where a run carries ground truth -- an imported corpus
+    // document, never somebody's upload, which has no known answer to compare with.
+    // Where they do exist the card must show them, because a page of plausible
+    // structures with no verdict on it is the exact thing this tool gets wrong.
+    if (s.verdict) {
+      var line = el('div', { class: 'meta' }, [
+        el('span', { class: 'badge ' + s.verdict, text: VLABEL[s.verdict] || s.verdict }),
+        s.matched ? el('span', { class: 'where', text: 'matched ' + s.matched }) : null
+      ]);
+      // Where expansion changed the verdict, say so ON the card. This is the
+      // finding, and a card that shows only the final verdict hides it.
+      var rawRight = s.raw_verdict === 'match' || s.raw_verdict === 'stereo';
+      var nowRight = s.verdict === 'match' || s.verdict === 'stereo';
+      if (s.raw_verdict && nowRight && !rawRight) {
+        line.appendChild(el('span', { class: 'badge match',
+          title: 'Compared as predicted, this scored ' + (VLABEL[s.raw_verdict] || s.raw_verdict)
+            + '. The recognition was right; the comparison was between a CXSMILES abbreviation and a '
+            + 'spelled-out reference, which cannot match. Expanding the abbreviation is what fixed it.',
+          text: 'matched only once expanded' }));
+      }
+      card.appendChild(line);
+      if (s.truth_smiles && s.verdict !== 'match') {
+        card.appendChild(el('div', {}, [
+          el('div', { class: 'muted small', style: 'margin-bottom:4px', text: 'compared against' }),
+          el('div', { class: 'smiles', text: s.truth_smiles })]));
+      }
+    }
     // The source figure is the ONLY comparison that catches an erased crop, so it is
     // open on arrival rather than behind a button nobody presses.
     if (s.figure_image) {
@@ -634,6 +727,80 @@
       card.appendChild(el('div', { class: 'muted small', text: 'source figure — check the crop against this, not against the rendering' }));
     }
     return card;
+  }
+  // The prediction as CXSMILES, and the same molecule with its abbreviations
+  // expanded, one above the other. Both are shown whenever there is an abbreviation
+  // to show, because they are the same molecule written two ways and seeing the pair
+  // is the only way to understand what the model actually said.
+  //
+  // Storing only the plain SMILES is what destroyed these labels once: MolToSmiles
+  // drops the |$...$| block, so `*C |$Ph;$|` was exported as a bare `*C` with the
+  // abbreviation gone and nothing to say it had been there.
+  function smilesPair(s) {
+    var labels = s.abbreviations || [];
+    var cx = s.cxsmiles || s.smiles;
+    var shownRaw = s.smiles && s.valid ? cx : (s.smiles ? s.smiles + ' (not a valid SMILES)' : 'nothing readable');
+    var wrap = el('div', { class: 'pair' });
+    if (!labels.length) {
+      // No abbreviation: one row, and it is not called CXSMILES, because for this
+      // prediction the two forms are the same string and implying a distinction
+      // would be inventing one.
+      wrap.appendChild(el('div', { class: 'lab', text: 'predicted SMILES' }));
+      wrap.appendChild(smilesRow(shownRaw, s.smiles && s.valid ? cx : null));
+      return wrap;
+    }
+    wrap.appendChild(el('div', { class: 'lab',
+      html: '<b>As predicted</b> — CXSMILES. The drawing used an abbreviation and the reader kept it, '
+        + 'as a <code>*</code> atom labelled in the <code>|$…$|</code> block.' }));
+    wrap.appendChild(smilesRow(shownRaw, s.smiles && s.valid ? cx : null));
+    wrap.appendChild(el('div', { class: 'lab',
+      html: s.expanded ? '<b>What it means</b> — the same molecule with every abbreviation replaced by the group '
+              + 'it names. This is the form to paste into a toolkit.'
+            : '<b>Not expanded</b> — see below for why. Nothing is guessed.' }));
+    wrap.appendChild(s.expanded
+      ? smilesRow(s.expanded, s.expanded)
+      : el('div', { class: 'smiles empty', text: 'no expansion was possible' }));
+    var chips = el('div', { class: 'chips', style: 'margin-top:8px' });
+    var seen = {};
+    labels.forEach(function (x) {
+      if (seen[x]) return;
+      seen[x] = 1;
+      var cls = (s.markush || []).indexOf(x) >= 0 ? 'markush'
+              : (s.missing || []).indexOf(x) >= 0 ? 'missing' : 'kept';
+      var title = cls === 'markush'
+        ? x + ' is a Markush variable: it stands for a set of groups, not one, so no expansion of it exists.'
+        : cls === 'missing'
+          ? x + ' is a real group, but it is not in MolScribe\u2019s vocabulary, so it is reported rather than guessed.'
+          : x + ' was expanded to the group it names.';
+      chips.appendChild(el('span', { class: 'chip ' + cls, title: title, text: x }));
+    });
+    wrap.appendChild(chips);
+    var why = [];
+    if ((s.markush || []).length) {
+      why.push('<b>' + (s.markush || []).join(', ') + '</b> ' + ((s.markush || []).length === 1 ? 'is a Markush '
+        + 'variable' : 'are Markush variables') + ' — a set of groups rather than one, so the document did not '
+        + 'draw a single molecule here and no expansion of it exists.');
+    }
+    if ((s.missing || []).length) {
+      why.push('<b>' + (s.missing || []).join(', ') + '</b> ' + ((s.missing || []).length === 1 ? 'names a real '
+        + 'group that is' : 'name real groups that are') + ' absent from MolScribe\u2019s vocabulary, so '
+        + 'the label is reported rather than approximated. That is a coverage gap, and a closable one.');
+    }
+    if ((s.failed || []).length) {
+      why.push('The expander could not complete the join here: <code>' + esc((s.failed || [])[0]) + '</code>. '
+        + 'That is a defect in the expansion code, not in the reading.');
+    }
+    if (why.length) {
+      wrap.appendChild(el('div', { class: 'pairnote', style: 'margin-top:8px', html: why.join(' ') }));
+    }
+    return wrap;
+  }
+  function smilesRow(text, copyable) {
+    var code = el('div', { class: 'smiles' + (copyable ? '' : ' empty'), text: text });
+    var copy = el('button', { class: 'copy', type: 'button', text: 'Copy' });
+    copy.disabled = !copyable;
+    if (copyable) copy.addEventListener('click', function () { copyText(copyable, copy); });
+    return el('div', { class: 'smiles-row' }, [code, copy]);
   }
   function whereText(s) {
     var m = /_image_(\d+)$/.exec(s.figure || '');
@@ -820,8 +987,46 @@
       });
       box.appendChild(el('p', { class: 'muted small', text: d.runs.length + ' runs, on different corpora. Every number below belongs to the one selected, and they differ a lot — accuracy is not a property of the tool alone.' }));
       box.appendChild(pick);
+      var wac = whatACorpusCannotSee(d);
+      if (wac) box.appendChild(wac);
     }
     box.appendChild(benchRun(d.runs[Math.min(benchPick, d.runs.length - 1)], d));
+  }
+
+  // WHAT A CORPUS OF RENDERED DEPICTIONS CANNOT SEE. Computed by comparing the runs
+  // against each other rather than asserted, because the claim is about the corpora
+  // and the corpora are right here: if abbreviations ever appeared in a rendered-
+  // depiction run this note would say so instead, and it would be a different note.
+  function whatACorpusCannotSee(d) {
+    var runs = d.runs || [];
+    var withAb = runs.filter(function (r) { return (r.tally || {}).abbrev > 0; });
+    var without = runs.filter(function (r) { return !((r.tally || {}).abbrev > 0); });
+    if (!withAb.length || !without.length) return null;
+    // Named by run TITLE, not by the corpus paragraph: the descriptions are two
+    // lines each and three of them inline turn the sentence into a wall.
+    var namesOf = function (list) {
+      return list.map(function (r) { return (r.meta && r.meta.title) || r.name; }).join('; ');
+    };
+    var ab = withAb.reduce(function (a, r) { return a + r.tally.abbrev; }, 0);
+    var tot = withAb.reduce(function (a, r) { return a + r.tally.structures; }, 0);
+    var otherTot = without.reduce(function (a, r) { return a + r.tally.structures; }, 0);
+    var box = el('div', { class: 'caveat' });
+    box.appendChild(el('div', { html: '<b>One class of error is invisible to a benchmark built out of '
+      + 'rendered depictions, and it is the class that dominates real documents.</b> Abbreviations appear in '
+      + ab + ' of ' + tot + ' predictions on the ' + (withAb.length === 1 ? 'one corpus' : withAb.length
+        + ' corpora') + ' made of documents as published — ' + esc(namesOf(withAb)) + ' — and in <b>zero</b> '
+      + 'of the ' + otherTot + ' predictions across all ' + without.length + ' corpora built from rendered '
+      + 'depictions, including the PDF one, whose pages are PubChem depictions embedded in a grid. That is '
+      + 'not a coincidence: a depiction generated from a SMILES string has nothing to abbreviate, because the '
+      + 'generator had the whole structure and drew all of it. A chemist writing a scheme abbreviates '
+      + 'constantly.' }));
+    box.appendChild(el('p', { class: 'muted small', style: 'margin-top:8px', text: 'The consequence is worth '
+      + 'stating plainly, because it applied to this very page: a harness validated only against rendered '
+      + 'depictions will never once exercise the abbreviation path, so it cannot detect that the comparison '
+      + 'is broken there — and it will report a confident accuracy figure for a pipeline it has not fully '
+      + 'tested. Expanding abbreviations changes nothing at all on the rendered-depiction runs below, which '
+      + 'is exactly why the defect survived them. It took documents as published to find it.' }));
+    return box;
   }
 
   function metaBlock(run) {
@@ -866,14 +1071,494 @@
     return heads;
   }
 
+  // Does this run's corpus support a precision figure? Declared by the run, not
+  // guessed here: only the person who built the ground truth knows whether it is
+  // complete enough for "how many emitted structures were right" to mean anything.
+  function precisionOff(run) {
+    return String(((run || {}).meta || {}).precision_reportable || '').toLowerCase() === 'no';
+  }
+
+  // "9, 5, 5, 4, 3, 2, 2, 1, 1, 1, 1" -- the per-document recall denominators,
+  // printed because collapsing them into one corpus-wide denominator is the
+  // specific mistake that turns 9 of 34 into 9 of 374.
+  function docDenoms(run) {
+    return (run.pdfs || []).map(function (p) { return p.expected; })
+      .sort(function (a, b) { return b - a; }).join(' + ');
+  }
+
+  // Recall, on the scoring that means what a reader thinks an accuracy means: the
+  // abbreviations expanded, because a CXSMILES abbreviation compared against a
+  // spelled-out reference cannot match however well the molecule was read. The
+  // NAIVE figure is shown beside it, not hidden, because a visitor who computes
+  // recall the obvious way will get that one and needs to know why it is lower.
+  //
+  // Used instead of the precision headline on a corpus whose ground truth is
+  // partial: recall's denominator is the molecules known to be drawn, which is
+  // exactly the thing a partial manifest DOES know.
+  function recallHead(run) {
+    var t = run.tally, m = run.meta || {};
+    var corpus = m.corpus || (t.documents + ' documents');
+    var heads = el('div', { class: 'heads' });
+    heads.appendChild(el('div', { class: 'head frag' }, [
+      el('div', { class: 'v', text: pctText(t.found, t.expected) }),
+      el('div', { class: 'n', text: t.found + ' of ' + t.expected + ' drawn molecules recovered' }),
+      el('div', { class: 'l', text: 'Recall on ' + corpus + ' — abbreviations expanded' }),
+      el('div', { class: 'd', text: 'Of the ' + t.expected + ' molecules known to be drawn across these '
+        + t.documents + ' documents, this many came back as the same molecule under RDKit canonical '
+        + 'comparison, once each CXSMILES abbreviation was replaced by the group it names. '
+        + (t.exact_found === t.found
+            ? 'All ' + t.found + ' are exact, stereochemistry included \u2014 not one of them needed '
+              + 'stereochemistry relaxed to count.'
+            : t.exact_found + ' of the ' + t.found + ' are exact; the other '
+              + (t.found - t.exact_found) + ' agree only once stereochemistry is ignored.')
+        + ' The denominator is per document \u2014 ' + docDenoms(run) + ' \u2014 summed. Scoring each '
+        + 'single-document run against the whole-corpus manifest instead would make every denominator '
+        + t.expected + ' and report ' + t.found + ' of ' + (t.expected * t.documents) + '.' })
+    ]));
+    heads.appendChild(el('div', { class: 'head strict' }, [
+      el('div', { class: 'v', text: pctText(t.rung_found.raw, t.expected) }),
+      el('div', { class: 'n', text: t.rung_found.raw + ' of ' + t.expected + ' \u2014 the naive figure' }),
+      el('div', { class: 'l', text: 'Same run, same corpus, comparing the CXSMILES as predicted' }),
+      el('div', { class: 'd', text: 'This is what a harness gets if it compares the predicted string '
+        + 'against the reference without expanding anything. It is not a measurement of this pipeline: '
+        + t.abbrev + ' of the ' + t.structures + ' predictions carry an abbreviation, and a string '
+        + 'containing a labelled placeholder cannot equal a reference that spells the group out. The '
+        + 'ladder below shows exactly which step accounts for the difference.' })
+    ]));
+    return heads;
+  }
+
+  // THE SCORING LADDER. One row per comparison, each row's caption bound to the
+  // value it was computed from, and a delta column saying what that row's
+  // post-process was actually worth. Rendered from run.ladder, which the server
+  // builds beside the numbers -- so a row cannot be captioned with a scoring it was
+  // not computed under. That is not hypothetical: a "+ largest fragment" caption
+  // shipped once over a number that stereochemistry had moved.
+  function ladderBlock(run) {
+    var lad = run.ladder || [], ctl = run.control, t = run.tally;
+    if (!lad.length) return null;
+    var wrap = el('div', {});
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Why the naive number is wrong — the same run, scored four ways' }));
+    wrap.appendChild(el('p', { class: 'muted small', text: 'Nothing is re-run between these rows. The '
+      + 'predictions are identical; only the representation being compared changes. Each row adds one '
+      + 'post-process to the row above it, and the last column is what that post-process was worth.' }));
+    var tbl = el('table', { class: 'ladder' });
+    tbl.appendChild(el('thead', {}, [el('tr', {}, [
+      el('th', { text: 'Scoring' }), el('th', { text: 'recovered' }),
+      el('th', { text: 'recall' }), el('th', { text: 'this step added' })])]));
+    var body = el('tbody', {});
+    lad.forEach(function (r, k) {
+      var cls = k === 0 ? 'naive' : (k === lad.length - 1 ? 'best' : '');
+      if (r.delta > 0 && k) cls += ' gain';
+      body.appendChild(el('tr', { class: cls }, [
+        el('td', { class: 'what' }, [
+          document.createTextNode(k === 0 ? 'As predicted' : k === 1 ? '+ expand abbreviations' : '+ largest fragment'),
+          el('small', { text: r.label })]),
+        el('td', { class: 'num', text: r.found + ' of ' + r.expected }),
+        el('td', { class: 'pc', text: pctText(r.found, r.expected) }),
+        el('td', { class: 'delta', text: k === 0 ? '—' : (r.delta > 0 ? '+' + r.delta + ' molecules' : 'nothing') })]));
+    });
+    if (ctl) {
+      body.appendChild(el('tr', { class: 'control' }, [
+        el('td', { class: 'what' }, [
+          document.createTextNode('Control: fragment strip alone'),
+          el('small', { text: ctl.label + ' — no expansion. Shown to isolate the two post-processes from '
+            + 'each other, because they are independent and either one could have been doing the work.' })]),
+        el('td', { class: 'num', text: ctl.found + ' of ' + ctl.expected }),
+        el('td', { class: 'pc', text: pctText(ctl.found, ctl.expected) }),
+        el('td', { class: 'delta', text: ctl.delta > 0 ? '+' + ctl.delta + ' molecules' : 'nothing' })]));
+    }
+    tbl.appendChild(body);
+    wrap.appendChild(el('div', { class: 'xwrap' }, [tbl]));
+    // The reading of the table, derived from the table. Each clause is emitted only
+    // if the rows it describes actually say that, so the copy can go quiet but it
+    // cannot contradict the numbers above it.
+    var expStep = lad[1] || {}, fragStep = lad[2] || {};
+    var says = [];
+    if (expStep.delta > 0) {
+      says.push('<b>Expanding the abbreviations is worth ' + expStep.delta + ' of the ' + expStep.found
+        + ' molecules recovered</b> — more than the pipeline got without it. Those were never misreadings; '
+        + 'the comparison was between two different notations for the same molecule.');
+    }
+    if (fragStep.delta === 0 && ctl && ctl.delta === 0) {
+      says.push('<b>Stripping phantom fragments is worth nothing here, and that is a result, not an '
+        + 'omission.</b> ' + t.phantom + ' of the ' + t.structures + ' predictions do carry a disconnected '
+        + 'extra fragment, and removing them changes no verdict at all — the control row is there to show '
+        + 'that the fragment strip on its own moves the naive figure by ' + ctl.delta + '. That artifact '
+        + 'belongs to small rendered thumbnails, where it dominates; on real documents at real resolution '
+        + 'it does not.');
+    } else if (fragStep.delta > 0) {
+      says.push('Stripping phantom fragments adds a further ' + fragStep.delta + '.');
+    }
+    if (says.length) wrap.appendChild(el('div', { class: 'gapnote', html: says.join(' ') }));
+    return wrap;
+  }
+
+  // The percentage this corpus cannot support, and why -- in the place a reader
+  // looks for it. Saying nothing here would let them assume one.
+  function noPrecisionBlock(run) {
+    var t = run.tally, m = run.meta || {};
+    var box = el('div', { class: 'noprec' });
+    box.appendChild(el('div', { class: 'v', text: 'Precision: not reportable on this corpus' }));
+    box.appendChild(el('div', { class: 'd', html: '<b>' + t.structures + ' structures were emitted against '
+      + t.expected + ' ground-truth molecules.</b> ' + esc(m.precision_note || '') }));
+    return box;
+  }
+
+  // CXSMILES ABBREVIATIONS -- what this corpus is mostly made of, and the reason the
+  // naive number is half the real one. Every figure in this block is counted from the
+  // stored run when the page is built; none of it is transcribed from a report.
+  function abbrevBlock(run, rows, jump) {
+    var t = run.tally, n = t.structures - t.unassigned;
+    if (!t.abbrev) return null;
+    var box = el('div', { class: 'abbox' });
+    box.appendChild(el('div', { class: 'v', text: pctText(t.abbrev, n) }));
+    box.appendChild(el('div', { class: 'l', text: t.abbrev + ' of the ' + n
+      + ' emitted structures carry a CXSMILES abbreviation' }));
+    box.appendChild(el('div', { class: 'd', html: '<b>This is what these documents look like, and it is '
+      + 'the whole reason the naive figure above is half the real one.</b> Chemists draw abbreviated '
+      + 'substituents — <code>OMe</code>, <code>Ph</code>, <code>Boc</code>, <code>CHO</code> — and '
+      + 'CXMolScribe transcribes the abbreviation the chemist actually drew rather than guessing an '
+      + 'expansion: a <code>*</code> dummy atom carrying the label in a CXSMILES <code>|$…$|</code> block. '
+      + 'Keeping it is <i>more</i> information than expanding it would be, because the label as drawn stays '
+      + 'recoverable and an abbreviation nobody knows becomes visible instead of silently wrong. It also '
+      + 'means the string cannot equal a spelled-out reference until something expands it — so the '
+      + 'expansion is done at comparison time, using the vocabulary the model was trained against, and it '
+      + 'never guesses. <b>Expanding rescued ' + t.abbrev_rescued + ' predictions</b> that the raw '
+      + 'comparison scored wrong.' }));
+    if (t.abbrev_labels && t.abbrev_labels.length) {
+      var chips = el('div', { class: 'chips' });
+      chips.appendChild(el('span', { class: 'chip', text: 'labels the reader kept:' }));
+      t.abbrev_labels.forEach(function (kv) {
+        chips.appendChild(el('span', { class: 'chip kept', text: kv[0] + ' × ' + kv[1] }));
+      });
+      box.appendChild(chips);
+      box.appendChild(el('p', { class: 'muted small', style: 'margin-top:6px',
+        text: 'Counted once per structure, not once per occurrence — one pathological prediction repeated a '
+          + 'single label 45 times and would otherwise top this list.' }));
+    }
+    // The two reasons a label stays unexpanded, kept apart. Summing them would read
+    // as one deficiency; they are a property of the document and a gap in the
+    // vocabulary respectively, and only the second is anybody's to fix.
+    var why = [];
+    if (t.abbrev_markush) {
+      why.push('<b>' + t.abbrev_markush + ' carry a Markush variable</b> (' + t.markush_labels.slice(0, 6)
+        .map(function (kv) { return kv[0]; }).join(', ') + '). These denote a <i>set</i> of groups, not one, '
+        + 'so the document never drew a single molecule there and no expansion of them exists. Nothing is '
+        + 'wrong with the reading and no scorer should be marked down for it.');
+    }
+    if (t.abbrev_missing) {
+      why.push('<b>' + t.abbrev_missing + ' carry a group that is real but absent from MolScribe’s '
+        + 'vocabulary</b> (' + t.missing_labels.slice(0, 6).map(function (kv) { return kv[0]; }).join(', ')
+        + '). <code>OTBS</code> is tert-butyldimethylsilyl and nothing is ambiguous about it — it simply is '
+        + 'not in the 75-entry table. That is a coverage gap, and a closable one.');
+    }
+    if (t.abbrev_failed) {
+      why.push('<b>' + t.abbrev_failed + ' could not be expanded because the expansion code failed</b> on '
+        + 'them. That is our defect, not the model’s, and it is counted here rather than folded into either '
+        + 'of the other two.');
+    }
+    if (why.length) {
+      box.appendChild(el('div', { class: 'd', html: 'Not every label can be expanded, and the reasons are '
+        + 'different findings that must not be added together. ' + why.join(' ')
+        + ' These counts overlap: one prediction can carry both an expandable label and an unexpandable one.' }));
+    }
+    // Worked examples out of this run. One open on arrival: the claim above is only
+    // checkable if the reader can see a crop, its CXSMILES, and its expansion.
+    var wanted = abbrevExamples(rows, 3);
+    var exWrap = el('div', {});
+    wanted.forEach(function (r, k) {
+      var ex = abbrevExample(r, run);
+      if (k > 0) ex.classList.add('hidden');
+      exWrap.appendChild(ex);
+    });
+    box.appendChild(exWrap);
+    var acts = el('div', { class: 'actions' });
+    if (wanted.length > 1) {
+      var more = el('button', { type: 'button', text: 'Show ' + (wanted.length - 1) + ' more example'
+        + (wanted.length > 2 ? 's' : '') });
+      var open = false;
+      more.addEventListener('click', function () {
+        open = !open;
+        Array.prototype.slice.call(exWrap.children, 1).forEach(function (c) { c.classList.toggle('hidden', !open); });
+        more.textContent = open ? 'Hide the extra examples' : 'Show ' + (wanted.length - 1)
+          + ' more example' + (wanted.length > 2 ? 's' : '');
+      });
+      acts.appendChild(more);
+    }
+    var all = el('button', { type: 'button', text: 'Show all ' + t.abbrev + ' in the table below' });
+    all.addEventListener('click', function () { jump('abbrev'); });
+    acts.appendChild(all);
+    box.appendChild(acts);
+    return box;
+  }
+
+  // Which rows to SHOW as examples -- nothing counted anywhere depends on this list.
+  // It exists because the shortest abbreviated prediction in the corpus is `* |$Ph$|`,
+  // which is a true example of the notation and teaches a reader nothing. Wanted
+  // instead: a recognisable molecule carrying named groups, and preferably one whose
+  // verdict expansion actually changed, one document each.
+  var AB_KNOWN = ['OMe', 'MeO', 'OCH3', 'H3CO', 'OBn', 'BnO', 'OAc', 'OEt', 'OTf',
+                  'Ph', 'Bn', 'Boc', 'TMS', 'CO2H', 'COOH', 'CO2Et', 'CO2Bn', 'NHCbz', 'CHO', 'OHC',
+                  'Me', 'Et', 'Bu', 'Ac'];
+  function abbrevExamples(rows, want) {
+    var cand = rows.filter(function (r) {
+      if (!(r.abbreviations || []).length || !r.smiles) return false;
+      var len = r.smiles.length;
+      if (len < 40 || len > 200) return false;
+      return (r.abbreviations || []).some(function (l) { return AB_KNOWN.indexOf(l) >= 0; });
+    }).map(function (r) {
+      var named = {};
+      (r.abbreviations || []).forEach(function (l) { if (AB_KNOWN.indexOf(l) >= 0) named[l] = 1; });
+      var rescued = (r.verdict === 'match' || r.verdict === 'stereo')
+        && !(r.raw_verdict === 'match' || r.raw_verdict === 'stereo');
+      return { row: r, rescued: rescued ? 1 : 0, distinct: Object.keys(named).length, len: r.smiles.length };
+    });
+    // Rescued first: a card whose verdict expansion changed is the whole argument.
+    cand.sort(function (a, b) {
+      return (b.rescued - a.rescued) || (b.distinct - a.distinct) || (a.len - b.len);
+    });
+    var out = [], seen = {};
+    cand.forEach(function (c) {
+      if (out.length >= want || seen[c.row.source]) return;
+      seen[c.row.source] = 1; out.push(c.row);
+    });
+    return out;
+  }
+
+  function abbrevExample(r, run) {
+    var urlFor = function (kind, name) { return '/api/benchmark/' + run.id + '/img/' + kind + '/' + encodeURIComponent(name); };
+    var ex = el('div', { class: 'ab-ex' });
+    ex.appendChild(r.segment_image
+      ? el('figure', {}, [el('img', { src: urlFor('segment', r.segment_image), alt: 'the crop the reader was given', loading: 'lazy' }),
+          el('figcaption', { text: 'the crop the reader was given' })])
+      : el('figure', { class: 'none', text: 'no crop stored' }));
+    var side = el('div', {});
+    side.appendChild(smilesPair(r));
+    var doc = r._doc || {};
+    if (r.truth_smiles) {
+      side.appendChild(el('div', { class: 'lab', style: 'margin-top:8px',
+        text: 'compared against — the reference, already spelled out' }));
+      side.appendChild(el('div', { class: 'smiles', text: r.truth_smiles }));
+    }
+    var rescued = (r.verdict === 'match' || r.verdict === 'stereo')
+      && !(r.raw_verdict === 'match' || r.raw_verdict === 'stereo');
+    side.appendChild(el('p', { class: 'muted small', style: 'margin-top:6px',
+      text: (doc.file ? doc.file + ' · ' : '') + whereText(r)
+        + ' · ' + (r.tier === 'high' ? 'high' : 'low') + ' confidence'
+        + (r.confidence == null ? '' : ' ' + r.confidence.toFixed(1))
+        + ' · scored ' + (VLABEL[r.verdict] || r.verdict)
+        + (rescued ? ' — and ' + (VLABEL[r.raw_verdict] || r.raw_verdict).toLowerCase()
+                     + ' before the abbreviations were expanded' : '') }));
+    // The page the crop came off. For an abbreviation this is the evidence that
+    // matters: the figure shows whether the document drew the molecule or drew a
+    // skeleton with the substituents listed underneath it.
+    if (r.figure_image) {
+      var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'the figure this crop came from', loading: 'lazy' })]);
+      // NOT .srcbtn: that class is 122px wide by design and would clip this label.
+      var btn = el('button', { type: 'button', style: 'min-height:38px;font-size:13px;padding:8px 12px;white-space:normal',
+        text: 'show the figure it came from' });
+      btn.addEventListener('click', function () {
+        var closed = src.classList.toggle('hidden');
+        if (!closed && !src.firstChild.getAttribute('src')) src.firstChild.src = urlFor('figure', r.figure_image);
+        btn.textContent = closed ? 'show the figure it came from' : 'hide the figure';
+      });
+      side.appendChild(el('div', { class: 'actions', style: 'margin-top:8px' }, [btn]));
+      side.appendChild(src);
+    }
+    ex.appendChild(side);
+    return ex;
+  }
+
+  // THE EXPANDER'S OWN STEREO GATE, shown rather than asserted. Every expanded figure
+  // on this tab depends on the expansion preserving stereochemistry, and an expander
+  // that does not does NOT raise -- it reports a plausibly lower accuracy, which
+  // looks exactly like the pipeline being worse than it is. So the gate is run and
+  // its cases are printed, including the superseded algorithm's answer beside the
+  // current one. The one case where they differ IS the demonstration.
+  function expanderBlock(d) {
+    var ex = d.expander || {};
+    var cases = (ex.cases || []).filter(function (c) { return c.naive_differs; });
+    var box = el('div', { class: ex.ok ? 'gapnote' : 'caveat' });
+    if (!ex.ok) {
+      box.appendChild(el('div', { html: '<b>Expanded figures are withheld on this deploy.</b> The '
+        + 'expansion is checked against a set of stereochemistry cases before any expanded number is '
+        + 'published, and that check did not pass: ' + esc(ex.reason || 'no reason was reported')
+        + '. A wrong expansion does not fail loudly — it reports a plausibly lower accuracy — so the '
+        + 'figures are withheld rather than shown.' }));
+      return box;
+    }
+    box.appendChild(el('div', { html: '<b>The expansion is checked before any of these numbers are '
+      + 'published.</b> Substituting a group for a labelled placeholder is graph surgery, and the naive way '
+      + 'to do it silently emits the wrong stereoisomer: <code>@</code>/<code>@@</code> and '
+      + '<code>/</code>-<code>\\</code> are defined relative to the order of an atom\u2019s bonds, so a join '
+      + 'that appends the new bond at the end of that list reassigns parity while producing a perfectly '
+      + 'valid molecule. ' + (ex.cases || []).length + ' cases are checked against an independent '
+      + 'reference, and the superseded algorithm is run beside the current one so the check cannot quietly '
+      + 'stop testing anything. It disagrees on ' + esc(String(ex.naive_disagreements || 0)) + ' of them:' }));
+    cases.slice(0, 2).forEach(function (c) {
+      var blk = el('div', { class: 'pair', style: 'margin-top:10px' });
+      blk.appendChild(el('div', { class: 'lab', html: '<b>' + esc(c.name) + '</b>' }));
+      blk.appendChild(el('div', { class: 'lab', text: 'predicted' }));
+      blk.appendChild(el('div', { class: 'smiles', text: c.cxsmiles }));
+      blk.appendChild(el('div', { class: 'lab', text: 'expanded — stereochemistry preserved'
+        + (c.truth ? ', and equal to the reference from PubChem' : '') }));
+      blk.appendChild(el('div', { class: 'smiles', text: c.expanded }));
+      blk.appendChild(el('div', { class: 'lab', text: 'what the superseded join produced — a different molecule' }));
+      blk.appendChild(el('div', { class: 'smiles empty', text: c.naive }));
+      box.appendChild(blk);
+    });
+    box.appendChild(el('p', { class: 'muted small', style: 'margin-top:10px', text: 'Both differences are a '
+      + 'single stereo bond, and both changed a verdict on this corpus. Same prediction, same reference, two '
+      + 'expansions — which is the shortest demonstration on this page that a low number can be an artifact '
+      + 'of the comparison rather than a property of the pipeline.' }));
+    return box;
+  }
+
+  // Per document: its own recall denominator, its own drawing style, and what the
+  // naive comparison would have said about it. Style diversity is the point of this
+  // corpus, so the style travels with every row rather than living in page copy.
+  function perDocBlock(run) {
+    var wrap = el('div', {});
+    var rows = (run.pdfs || []).slice().sort(function (a, b) {
+      return (b.expected - a.expected) || (a.title < b.title ? -1 : 1);
+    });
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Per document — each with its own denominator' }));
+    wrap.appendChild(el('p', { class: 'muted small', text: 'Recall for one document is counted against the '
+      + 'molecules drawn in THAT document, never against the corpus total. The "as predicted" column is what '
+      + 'the same run scores on that document without expanding abbreviations — where the two differ, the '
+      + 'pipeline had read the molecule correctly and only the comparison failed. Read the drawing-style '
+      + 'column beside every row: a per-document score is a score for a style as much as for a document.' }));
+    var tbl = el('table', { class: 'xtab' });
+    tbl.appendChild(el('thead', {}, [el('tr', {}, [
+      el('th', { class: 'rh', text: 'Document' }), el('th', { text: 'drawn' }),
+      el('th', { text: 'as predicted' }), el('th', { text: 'expanded' }),
+      el('th', { text: 'recall' }), el('th', { text: 'emitted' }), el('th', { text: 'abbrev.' }),
+      el('th', { text: 'high' }), el('th', { text: 'low' }), el('th', { class: 'rh', text: 'drawing style' })])]));
+    var body = el('tbody', {});
+    rows.forEach(function (p) {
+      var hi = 0, lo = 0;
+      (p.structures || []).forEach(function (s) { if (s.tier === 'high') hi++; else lo++; });
+      var flipped = (p.found || 0) > (p.raw_found || 0);
+      body.appendChild(el('tr', { class: p.found ? (flipped ? 'flip' : '') : 'zero' }, [
+        el('td', { class: 'rh doc' }, [el('code', { text: p.file || p.title })]),
+        el('td', { text: String(p.expected) }),
+        el('td', { text: (p.raw_found || 0) + ' of ' + p.expected }),
+        el('td', { text: (flipped ? '\u2192 ' : '') + p.found + ' of ' + p.expected }),
+        el('td', { class: 'big', text: pctText(p.found, p.expected) }),
+        el('td', { text: String((p.structures || []).length) }),
+        el('td', { text: String(p.abbrev || 0) }),
+        el('td', { text: String(hi) }), el('td', { text: String(lo) }),
+        el('td', { class: 'style', text: p.style || '—' })]));
+    });
+    tbl.appendChild(body);
+    wrap.appendChild(el('div', { class: 'xwrap' }, [tbl]));
+
+    // Every clause below is derived from the rows just rendered. A sentence naming a
+    // document is emitted only if that document is in this run AND the rows say what
+    // the sentence claims -- so the copy can go quiet, but it cannot go stale into a
+    // claim the table above it contradicts.
+    var nStruct = function (p) { return (p.structures || []).length; };
+    var name = function (p) { return (p.file || p.title || '').replace(/\.pdf$/, ''); };
+    var wrapP = el('div', {});
+
+    // THE FLIPS. This is the clearest demonstration the corpus contains: a document
+    // that went from nothing to everything with no re-run, only a corrected comparison.
+    var flips = rows.filter(function (p) { return (p.found || 0) > (p.raw_found || 0); })
+      .sort(function (a, b) { return (b.found - b.raw_found) - (a.found - a.raw_found); });
+    var whole = flips.filter(function (p) { return p.found === p.expected && !p.raw_found; });
+    if (flips.length) {
+      var lead = whole.length
+        ? '<b>' + whole.map(function (p) { return esc(name(p)) + ' goes from ' + p.raw_found + ' of '
+            + p.expected + ' to ' + p.found + ' of ' + p.expected; }).join(', and ')
+          + '.</b> Nothing about the run changed — those documents were read correctly the first time, and '
+          + 'every one of their molecules was scored wrong because the prediction spelled a methoxy group '
+          + '<code>OMe</code> and the reference spelled it <code>OC</code>. '
+        : '';
+      wrapP.appendChild(el('div', { class: 'gapnote', html: lead
+        + 'Across the corpus, expanding abbreviations changes the score on <b>' + flips.length + ' of the '
+        + rows.length + ' documents</b> (' + flips.map(function (p) {
+            return esc(name(p)) + ' ' + p.raw_found + '\u2192' + p.found; }).join(', ')
+        + '). No document scores lower after expansion, which is what you would expect from a comparison '
+        + 'being fixed rather than loosened.' }));
+    }
+
+    // THE ZEROES, and the two different things a zero can mean.
+    var zero = rows.filter(function (p) { return p.expected && !p.found; });
+    if (zero.length) {
+      var hiWrong = 0;
+      zero.forEach(function (p) {
+        (p.structures || []).forEach(function (x) { if (x.tier === 'high') hiWrong++; });
+      });
+      wrapP.appendChild(el('p', { class: 'muted small', text: zero.length + ' of the ' + rows.length
+        + ' documents recovered nothing even after expansion (red): '
+        + zero.map(function (p) { return name(p) + ' 0 of ' + p.expected; }).join(', ')
+        + '. These are genuine failures, not scoring artifacts'
+        + (hiWrong ? ', and ' + hiWrong + ' of the answers they did emit '
+            + (hiWrong === 1 ? 'was' : 'were') + ' filed HIGH confidence' : '') + '.' }));
+    }
+
+    // A LOW score that is mostly a property of the DOCUMENT, not of the reading.
+    // Keyed on the rows -- a document whose ground truth is largely Markush -- rather
+    // than on a hard-coded file name, and dropped entirely if no row qualifies.
+    var markushLed = rows.filter(function (p) {
+      return p.expected >= 3 && p.found < p.expected && nStruct(p)
+        && (p.markush || 0) >= 3 && p.found / p.expected < 0.5;
+    }).sort(function (a, b) { return (b.markush || 0) - (a.markush || 0); });
+    if (markushLed.length) {
+      var m = markushLed[0];
+      wrapP.appendChild(el('div', { class: 'caveat', html: '<b>The lowest score in the table is partly a '
+        + 'property of the document, not of the reading.</b> <code>' + esc(m.file) + '</code> recovered '
+        + m.found + ' of ' + m.expected + '. Its Scheme 1 is a classification <i>panel</i>: generic '
+        + 'skeletons carrying <code>OR1</code>/<code>OR2</code>/<code>OR3</code> with the individual '
+        + 'alkaloids named in a substituent legend underneath ("dihydrosanguinarine, R¹ = R² = CH₂"), never '
+        + 'drawn as explicit structures. ' + (m.markush || 0) + ' of the ' + nStruct(m) + ' structures it '
+        + 'emitted carry a Markush variable, which is the reader transcribing that panel correctly — and a '
+        + 'Markush skeleton cannot be expanded by anyone, because it denotes a set of molecules rather than '
+        + 'one. Several of this document\u2019s reference molecules could therefore not have been matched by '
+        + 'any output at all. It is left in the denominator rather than quietly dropped, which makes the '
+        + 'headline recall a <b>floor</b>: removing this document would raise it, not lower it. The genuine '
+        + 'finding underneath is still a finding — the charged benzo[c]phenanthridinium alkaloids that ARE '
+        + 'drawn explicitly came back ' + m.found + ' of ' + m.expected + ', and quaternary aromatic '
+        + 'nitrogen is evidently hard for this reader.' }));
+    }
+    wrap.appendChild(wrapP);
+    return wrap;
+  }
+
+  // Where the inputs are. A benchmark whose corpus nobody else can fetch is an anecdote.
+  function corpusBlock(d) {
+    var box = el('div', { class: 'gapnote' });
+    box.appendChild(el('span', { html: '<b>The inputs are committed, with checksums.</b> Every PDF behind '
+      + 'these numbers lives in the repository at <code>' + esc(d.corpus_path || 'benchmarks/corpus')
+      + '</code> beside a <code>README.md</code> giving each file\u2019s licence, page count and drawing '
+      + 'style, and a <code>SHA256SUMS</code> to check them against ('
+      + '<code>sha256sum -c SHA256SUMS</code>). Nothing here needs re-fetching from a journal or a patent '
+      + 'office to reproduce.' }));
+    if (d.corpus_url) {
+      var a = el('a', { class: 'btn', href: d.corpus_url, target: '_blank', rel: 'noopener noreferrer',
+        text: 'Browse the corpus' });
+      box.appendChild(el('div', { class: 'actions', style: 'margin-top:10px' }, [a]));
+    }
+    return box;
+  }
+
+  function esc(t) { var n = document.createElement('span'); n.textContent = t == null ? '' : t; return n.innerHTML; }
+
   // The gap between the two headline numbers, explained with rows out of this run.
   function gapBlock(run, rows) {
     var t = run.tally, n = t.structures - t.unassigned;
     var box = el('div', { class: 'gapnote' });
-    if (!t.phantom) {
-      box.appendChild(el('span', { html: '<b>The two numbers above are close on this corpus.</b> Only ' + t.phantom
-        + ' of ' + n + ' predictions carried a disconnected extra fragment, so there is little for the '
-        + 'largest-fragment score to remove.' }));
+    // No phantoms, or phantoms that rescue nothing, are the same story for a reader:
+    // the two scorings agree, and the artifact the second one exists to strip is not
+    // what is going wrong here. Printing "why the two differ" over a rescue count of
+    // zero would be describing a gap that this run does not have.
+    if (!t.phantom || !t.rescued) {
+      box.appendChild(el('span', { html: '<b>The two numbers above agree on this corpus.</b> '
+        + t.phantom + ' of ' + n + ' predictions (' + pctText(t.phantom, n) + ') carry a disconnected extra '
+        + 'fragment, and stripping them rescues ' + t.rescued + ' — so the phantom-fragment artifact that '
+        + 'dominates the 300-px thumbnail run on this tab explains nothing here. That is itself a result: '
+        + 'the artifact needs small images. It is not evidence that these predictions are clean.' }));
       return box;
     }
     box.appendChild(el('div', { html: '<b>Why the two differ, and why it is not spin.</b> '
@@ -899,9 +1584,20 @@
     return box;
   }
 
-  function crosstab(t) {
+  function crosstab(t, run) {
     var wrap = el('div', {});
     wrap.appendChild(el('h3', { class: 'tier', text: 'Does the confidence score tell you anything?' }));
+    // Every cell below counts EMITTED structures, which is precision's denominator.
+    // Where that denominator is not reportable the cells are still comparable with
+    // each other and are still not accuracies, and the difference has to be said out
+    // loud -- a 0.0% in a table reads as an accuracy whatever the surrounding prose.
+    if (precisionOff(run)) {
+      wrap.appendChild(el('div', { class: 'caveat', html: '<b>Read this table as tier against tier, never as '
+        + 'an accuracy.</b> Every cell counts structures the pipeline emitted, and on this corpus that is the '
+        + 'denominator the ground truth cannot support: "wrong" here holds both misreadings and correct '
+        + 'readings of compounds nobody recorded an answer for. The recall figures at the top of this run '
+        + 'are the accuracy numbers; these cells only compare one tier against the other.' }));
+    }
     var tbl = el('table', { class: 'xtab' });
     var head = el('tr', {}, [el('th', { class: 'rh', text: 'Tier' }), el('th', { text: 'n' }),
       el('th', { text: 'correct' }), el('th', { text: 'exact' }), el('th', { text: '+stereo' }),
@@ -957,6 +1653,11 @@
         return (r.frag_verdict === 'match' || r.frag_verdict === 'stereo') && r.verdict !== 'match' && r.verdict !== 'stereo'; } },
     { key: 'hiwrong', label: 'High confidence, wrong molecule', fn: function (r) {
         return r.tier === 'high' && r.frag_verdict !== 'match' && r.frag_verdict !== 'stereo'; } },
+    { key: 'abbrev', label: 'Carries an abbreviation', fn: function (r) { return (r.abbreviations || []).length > 0; } },
+    { key: 'expfix', label: 'Matched only once expanded', fn: function (r) {
+        return (r.verdict === 'match' || r.verdict === 'stereo')
+          && !(r.raw_verdict === 'match' || r.raw_verdict === 'stereo'); } },
+    { key: 'markush', label: 'Markush — no single molecule', fn: function (r) { return (r.markush || []).length > 0; } },
     { key: 'exact', label: 'Right, whole string', fn: function (r) { return r.verdict === 'match'; } },
     { key: 'invalid', label: 'Unreadable', fn: function (r) { return r.frag_verdict === 'invalid'; } }
   ];
@@ -970,28 +1671,52 @@
     if (m.title) wrap.appendChild(el('h3', { class: 'tier', text: m.title }));
     if (m.corpus) wrap.appendChild(el('p', { class: 'muted small', text: 'Corpus: ' + m.corpus
       + (m.stages ? ' · ' + m.stages : '') }));
-    wrap.appendChild(headline(t));
 
     // flatten every scored structure, keeping its document for the label lookups
     var rows = [];
     run.pdfs.forEach(function (p) { p.structures.forEach(function (s) { rows.push(withDoc(s, p)); }); });
-    wrap.appendChild(gapBlock(run, rows));
+    // Filled in below, once the filter buttons exist; the abbreviation block links into them.
+    var jumpToFilter = function () {};
+    var jump = function (key) { jumpToFilter(key); };
+
+    // On a corpus with PARTIAL ground truth the two precision numbers are not the
+    // headline -- they would measure the manifest's coverage. Recall is, and the
+    // missing percentage is stated where a reader looks for it rather than omitted.
+    if (precisionOff(run)) {
+      wrap.appendChild(recallHead(run));
+      wrap.appendChild(noPrecisionBlock(run));
+      var lb = ladderBlock(run);
+      if (lb) wrap.appendChild(lb);
+      wrap.appendChild(expanderBlock(d));
+      var ab = abbrevBlock(run, rows, jump);
+      if (ab) wrap.appendChild(ab);
+      // gapBlock is deliberately NOT called here. It exists to explain the gap
+      // between a whole-string and a largest-fragment score, and on this corpus the
+      // ladder above has already shown that gap to be zero and said so with the
+      // control row. Printing both would be the same fact twice, in two voices.
+    } else {
+      wrap.appendChild(headline(t));
+      wrap.appendChild(gapBlock(run, rows));
+    }
 
     wrap.appendChild(el('div', { class: 'caveat', html:
       '<b>How every number here is produced.</b> Each predicted SMILES and each true SMILES is turned into an '
       + 'RDKit canonical SMILES and those are compared — never the raw strings, which differ for identical molecules. '
       + 'The comparison runs twice, once with stereochemistry required and once with it stripped. '
-      + 'Recall and precision have <i>different denominators</i> and both are shown: recall counts how many of the '
+      + 'Recall and precision have <i>different denominators</i> and are never mixed: recall counts how many of the '
       + 'molecules actually drawn were recovered, precision counts how many of the structures the pipeline emitted '
       + 'were right. A run that emits nothing scores 0% recall and no precision at all. '
+      + (precisionOff(run) ? '<b>On this run precision is withheld rather than computed</b>, for the reason '
+         + 'given above; every percentage below it is a recall figure or a share of the emitted structures, '
+         + 'labelled as such. ' : '')
       + 'Nothing on this tab is transcribed from an earlier report: the verdicts are recomputed from the stored run '
       + 'and the manifest every time this page is built.' }));
     wrap.appendChild(metaBlock(run));
 
     var tiles = [
       [t.structures, 'structures emitted'], [t.documents, t.documents === 1 ? 'document' : 'documents'],
-      [t.found + ' / ' + t.expected, 'drawn molecules recovered, whole string'],
-      [t.frag_found + ' / ' + t.expected, 'recovered, largest fragment'],
+      [t.found + ' / ' + t.expected, 'recovered, abbreviations expanded'],
+      [t.rung_found.raw + ' / ' + t.expected, 'recovered without expanding — the naive figure'],
       [t.invalid, 'predictions RDKit cannot parse'],
       [t.phantom, 'carry phantom fragments'],
       [t.high_wrong + ' / ' + t.high, 'high confidence, yet wrong', true],
@@ -1003,11 +1728,17 @@
     wrap.appendChild(el('h3', { class: 'tier', text: 'Counts' }));
     wrap.appendChild(tally);
     wrap.appendChild(el('p', { class: 'muted small', text: 'The two "recovered" tiles share one denominator — the '
-      + t.expected + ' molecules actually drawn in this corpus — and the "high confidence, yet wrong" tile is judged '
-      + 'on the whole string. Unassigned structures (' + t.unassigned + ') are excluded from every accuracy figure '
-      + 'because there is no ground truth to compare them with; they are listed at the bottom.' }));
+      + t.expected + ' molecules actually drawn in this corpus — and differ only in whether abbreviations were '
+      + 'expanded before comparing. Unassigned structures (' + t.unassigned + ') are excluded from every accuracy '
+      + 'figure because there is no ground truth to compare them with; they are listed at the bottom.'
+      + (precisionOff(run) ? ' The "high confidence, yet wrong" tile counts EMITTED structures, so it shares the '
+         + 'denominator this corpus cannot support: it includes compounds for which no answer was ever recorded, '
+         + 'and Markush skeletons that denote no single molecule. It is a floor on how often a high-confidence '
+         + 'answer is not the reference molecule, not an error rate.' : '') }));
 
-    wrap.appendChild(crosstab(t));
+    if (precisionOff(run)) wrap.appendChild(perDocBlock(run));
+    wrap.appendChild(corpusBlock(d));
+    wrap.appendChild(crosstab(t, run));
 
     // ---- browsable per-molecule table
     wrap.appendChild(el('h3', { class: 'tier', text: 'Every structure, one row each' }));
@@ -1054,6 +1785,12 @@
       });
       filters.appendChild(b);
     });
+    // Now the buttons exist, the R-group block's "show all of them" can drive them.
+    jumpToFilter = function (key) {
+      var btn = null;
+      FILTERS.forEach(function (f, i) { if (f.key === key) btn = filters.children[i]; });
+      if (btn) { btn.click(); btn.scrollIntoView({ block: 'center' }); }
+    };
     search.addEventListener('input', function () { shown = PAGE; paint(); });
     wrap.appendChild(filters); wrap.appendChild(search); wrap.appendChild(count); wrap.appendChild(list);
     paint();
@@ -1116,8 +1853,32 @@
       right.appendChild(el('div', {}, [el('label', { text: s.fragments + ' fragments — discarded by the fragment score' }),
         el('div', { class: 'phantom', text: s.phantom || '(none)' })]));
     }
-    right.appendChild(el('div', {}, [el('label', { text: 'predicted' }),
-      el('div', { class: 'smiles' + (s.valid ? '' : ' empty'), text: s.smiles || 'nothing readable' })]));
+    // The prediction and its expansion, on the row itself. Without the pair a reader
+    // scrolling the table counts every "wrong molecule" badge as a misreading, and on
+    // this corpus most of them were the comparison rather than the reading.
+    right.appendChild(el('div', {}, [
+      el('label', { text: (s.abbreviations || []).length ? 'predicted — CXSMILES, abbreviation kept' : 'predicted' }),
+      el('div', { class: 'smiles' + (s.valid ? '' : ' empty'), text: s.cxsmiles || s.smiles || 'nothing readable' })]));
+    if ((s.abbreviations || []).length) {
+      var expRow = [el('label', { text: s.expanded ? 'expanded — the same molecule, groups spelled out'
+                                                   : 'not expanded — nothing is guessed' }),
+        el('div', { class: 'smiles' + (s.expanded ? '' : ' empty'),
+          text: s.expanded || 'no expansion was possible' }),
+        el('div', { class: 'chips', style: 'margin-top:6px' }, (s.abbreviations || []).slice(0, 8)
+          .map(function (x) {
+            var cls = (s.markush || []).indexOf(x) >= 0 ? 'markush'
+                    : (s.missing || []).indexOf(x) >= 0 ? 'missing' : 'kept';
+            return el('span', { class: 'chip ' + cls, text: x });
+          }))];
+      var rawRight = s.raw_verdict === 'match' || s.raw_verdict === 'stereo';
+      var nowRight = s.verdict === 'match' || s.verdict === 'stereo';
+      if (s.raw_verdict && nowRight && !rawRight) {
+        expRow.push(el('div', { class: 'muted small', style: 'margin-top:6px',
+          text: 'Compared as predicted this scored ' + (VLABEL[s.raw_verdict] || s.raw_verdict).toLowerCase()
+            + '. Expanding the abbreviation is the only thing that changed.' }));
+      }
+      right.appendChild(el('div', {}, expRow));
+    }
     if (s.fragments > 1 && s.pred_largest) {
       right.appendChild(el('div', {}, [el('label', { text: 'predicted, largest fragment only' }),
         el('div', { class: 'smiles', text: s.pred_largest })]));
@@ -1241,8 +2002,9 @@
       + ' eligible images measured (' + (100 * sample / eligible).toFixed(1) + '%).' }));
     box.appendChild(el('p', { class: 'muted small', text: 'Also worth stating plainly: these are isolated, '
       + 'computer-drawn depictions with no page around them, and the run behind them skipped figure extraction and '
-      + 'segmentation entirely. It measures the SMILES reader, not the pipeline. The other benchmark run — 11 PDFs '
-      + 'through all three stages — is the one to read for what happens to a document.' }));
+      + 'segmentation entirely. It measures the SMILES reader, not the pipeline. The first-ranked benchmark run — '
+      + '11 real published documents through all three stages, eleven different drawing styles — is the one to read '
+      + 'for what happens to a document.' }));
   }
 
   // ---- boot
