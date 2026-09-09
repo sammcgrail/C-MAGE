@@ -1,3 +1,36 @@
+# READ THIS FIRST — state as of 2026-09-09 ~23:00 UTC
+
+This file is append-only and the OLDEST sections are the most wrong. Three of its
+original headline claims have been retracted; the corrections are further down and
+in these files, which are the current word:
+
+| what | where |
+|---|---|
+| what segmentation actually costs, matched scope | `benchmarks/ARM_GAP.md` |
+| the denominator problem — 32% of "figures" are text | `benchmarks/FIGURE_CLASSIFICATION.md` |
+| six real documents, first honest scores | `benchmarks/REAL_DOCUMENT_RESULTS.md` |
+| where the lost ink sits, on real documents | `benchmarks/INK_LOCATION_REAL_DOCUMENTS.md` |
+| two upstream colour bugs + the noise floor | `docs/UPSTREAM_BUGS.md` |
+
+**Retracted from the sections below:** "stage 2 destroys most real figures"
+(the denominator was a third text); the whole-figure fallback for zero-segment
+figures (measured: recovers ink, recovers no molecules); the 37.8/62.2
+outside/inside ink split (synthetic-only, does not survive real figures).
+
+**Standing numbers, all matched-scope:** segmentation costs 8.6 points strict /
+19.9 graded on synthetic; stage-3-only over 1031 cells is 58.0% strict exact and
+77.6% graded; six real documents are 39.3% strict / 69.6% graded precision over
+the five with complete manifests. CXMolScribe is **not deterministic** — 4 of 494
+byte-identical inputs flip, ~1 in 125 — so a difference of a few structures is not
+a difference.
+
+**In flight at this line:** the 7-arm, 3,920-image depiction corpus and a
+channel-swapped copy of one arm (560 PubChem depictions, 97% coloured, all with
+InChIKey-verified answers) — the test that can actually measure what the colour
+bug costs.
+
+---
+
 # Resume plan — written at the pause, 2026-09-09 ~21:00 UTC
 
 The box is being taken down for more RAM, CPU and disk. This is the state and
