@@ -244,6 +244,8 @@
   .chip.markush { background: var(--stereo-bg); color: var(--stereo); }
   .chip.missing { background: var(--low-bg); color: var(--low); }
   .chip.kept { background: rgba(79, 209, 197, .16); color: var(--accent); }
+  /* A chip used INLINE inside a sentence, as a colour key. */
+  p .chip { display: inline; padding: 2px 7px; }
 
   /* The prediction beside its expansion. Two labelled monospace rows, because the
      whole point is that they are the same molecule written two ways. */
@@ -1227,15 +1229,28 @@
       + 'never guesses. <b>Expanding rescued ' + t.abbrev_rescued + ' predictions</b> that the raw '
       + 'comparison scored wrong.' }));
     if (t.abbrev_labels && t.abbrev_labels.length) {
+      // Coloured by what happened to each label, not all one colour: this list
+      // contains three different kinds of thing, and a single caption over a single
+      // colour invites the reader to treat R2 and OMe as the same finding.
+      var mk = {}, ms = {};
+      (t.markush_labels || []).forEach(function (kv) { mk[kv[0]] = 1; });
+      (t.missing_labels || []).forEach(function (kv) { ms[kv[0]] = 1; });
       var chips = el('div', { class: 'chips' });
-      chips.appendChild(el('span', { class: 'chip', text: 'labels the reader kept:' }));
+      chips.appendChild(el('span', { class: 'chip', text: 'labels the drawings used:' }));
       t.abbrev_labels.forEach(function (kv) {
-        chips.appendChild(el('span', { class: 'chip kept', text: kv[0] + ' × ' + kv[1] }));
+        var cls = mk[kv[0]] ? 'markush' : ms[kv[0]] ? 'missing' : 'kept';
+        chips.appendChild(el('span', { class: 'chip ' + cls,
+          title: cls === 'markush' ? kv[0] + ' — a Markush variable; no single molecule to expand to'
+               : cls === 'missing' ? kv[0] + ' — a real group, absent from MolScribe’s vocabulary'
+               : kv[0] + ' — expanded to the group it names',
+          text: kv[0] + ' × ' + kv[1] }));
       });
       box.appendChild(chips);
       box.appendChild(el('p', { class: 'muted small', style: 'margin-top:6px',
-        text: 'Counted once per structure, not once per occurrence — one pathological prediction repeated a '
-          + 'single label 45 times and would otherwise top this list.' }));
+        html: 'Teal expanded cleanly; <span class="chip markush">violet</span> is a Markush variable with no '
+          + 'single molecule behind it; <span class="chip missing">amber</span> is a real group missing from '
+          + 'the vocabulary. Counted once per structure, not once per occurrence — one pathological '
+          + 'prediction repeated a single label 45 times and would otherwise top this list.' }));
     }
     // The two reasons a label stays unexpanded, kept apart. Summing them would read
     // as one deficiency; they are a property of the document and a gap in the
@@ -1468,11 +1483,13 @@
       .sort(function (a, b) { return (b.found - b.raw_found) - (a.found - a.raw_found); });
     var whole = flips.filter(function (p) { return p.found === p.expected && !p.raw_found; });
     if (flips.length) {
+      var one = whole.length === 1;
       var lead = whole.length
         ? '<b>' + whole.map(function (p) { return esc(name(p)) + ' goes from ' + p.raw_found + ' of '
             + p.expected + ' to ' + p.found + ' of ' + p.expected; }).join(', and ')
-          + '.</b> Nothing about the run changed — those documents were read correctly the first time, and '
-          + 'every one of their molecules was scored wrong because the prediction spelled a methoxy group '
+          + '.</b> Nothing about the run changed — ' + (one ? 'that document was' : 'those documents were')
+          + ' read correctly the first time, and every one of ' + (one ? 'its' : 'their')
+          + ' molecules was scored wrong because the prediction spelled a methoxy group '
           + '<code>OMe</code> and the reference spelled it <code>OC</code>. '
         : '';
       wrapP.appendChild(el('div', { class: 'gapnote', html: lead
