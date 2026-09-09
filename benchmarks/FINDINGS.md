@@ -74,3 +74,57 @@ $PY benchmarks/rescore_fragments.py --scored SCORED
 
 Ground truth is PubChem-resolved and pixel-verified; 95 of the 97 carry a
 confirmed CID. Comparison is by RDKit canonical SMILES, never string equality.
+
+## 3. Abbreviations come back as R-groups, and that dominates any naive score
+
+Run the 11-PDF expanded corpus (real documents at 300 dpi, not thumbnails) and
+the strict score collapses. Hand-checking the worst document explains why, and it
+is not a recognition failure.
+
+**162 of the 242 emitted structures (67%) contain an R-group placeholder `*`**
+carrying a CXSMILES abbreviation label — and **every single one of them scored
+wrong or invalid**, which is 71% of the entire "wrong" pile:
+
+```
+*c1cc2c(cc1-c1cc(O)c3cc4c(cc3c1)OCO4)OCO2 |$OMe;;;;;;;;;;;;;;;;;|
+*C(=O)c1cc2c(cc1C#Cc1cc3c(cc1*)OCO3)OCO2  |$Me;;;;;;;;;;;;;;;;;OMe$|
+```
+
+MolScribe **preserves** `OMe`, `MeO`, `Ph`, `Me`, `Bu`, `OTBS`, `OBn`, `R` as
+placeholders instead of expanding them. A SMILES containing `*` can never equal a
+fully-expanded PubChem SMILES, however perfectly the drawing was read. The
+recogniser was right and the comparison was impossible.
+
+Three consequences:
+
+- **Expand abbreviations before comparing anything.** Otherwise the metric
+  measures representation, not recognition — the third time this corpus has
+  produced that failure, after whole-string-vs-fragment and the resolution
+  artifact.
+- **Anything consuming this output must expand them too**, or it receives SMILES
+  no chemistry toolkit will resolve to a real compound.
+- **Total-synthesis papers are the worst possible benchmark corpus.** They draw
+  dozens of abbreviated intermediates per scheme: 42 of 44 emitted structures
+  carried `*` for the macarpine paper, 23 of 24 for aglacin B. The pipeline read
+  the paper correctly; we simply had no ground truth for intermediates and could
+  not have matched them if we had.
+
+### What the expanded corpus does say
+
+With per-document denominators — **not** the whole-corpus denominator, which
+inflates it 11x and is easy to produce by accident:
+
+**recall 9 of 34 = 26.5% exact**, consistent with the 29.6% of the original
+known-answer corpus.
+
+Precision is **not reportable** on this corpus at all: 242 structures emitted
+against 34 ground-truth molecules, because these documents draw dozens of
+compounds each and only those resolvable to a PubChem CID were recorded. An
+emitted structure absent from that partial list scores "wrong" whether or not it
+was read correctly. Report recall, and say which denominator you used.
+
+Weak spots the corpus did expose, on documents with complete ground truth:
+charged benzo[c]phenanthridinium alkaloids recovered **0 of 9**, and a 1980
+hand-inked patent scan **0 of 2**. Phantom fragments were rare here (0-8 per
+document versus 63 of 97 on 300 px thumbnails), which independently confirms
+finding 2 — real documents rendered at 300 dpi do not trigger it.
