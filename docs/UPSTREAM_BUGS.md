@@ -160,8 +160,31 @@ goes from an unparseable string at confidence 0.574 to a fully stereochemical
 CXSMILES at **0.835** once the channels are corrected. That document has no
 reference manifest, so it counts for nothing.
 
-A corpus that CAN answer this exists and has not been run: PubChem's own 2D
-depictions colour nitrogen blue and oxygen red, and 560 of them carry an
-InChIKey-verified answer. Pushed through stage 2 (which is what creates the
-swapped PNG) both ways, that is a powerful test. It is the obvious next
-experiment and it is not done yet.
+### Then it was run, and the answer is a clean null
+
+560 PubChem 2D depictions, 545 of them (97%) carrying colour, every one with an
+InChIKey-verified answer. The same images through stage 3 twice — once as they
+are, once with red and blue exchanged the way `pipeline_dis.py` writes them:
+
+| arm | strict exact | graded exact |
+|---|---|---|
+| correct colour | 63/560 = 11.2% | 324/560 = **57.9%** |
+| R and B swapped | 69/560 = 12.3% | 331/560 = **59.1%** |
+
+Paired over the 560: **31 images correct only when swapped, 24 correct only when
+not.** Net +7 in favour of the wrong colours. Two-sided sign test over the 55
+discordant pairs, **p = 0.42**.
+
+**So the swap costs nothing measurable in recognition.** It remains a real defect —
+anyone who opens a segment sees the wrong colours, and any downstream consumer of
+those PNGs gets them — but it should not be reported as an accuracy bug, and this
+document previously implied it might be.
+
+Worth separating: **16.6% of images changed grade between the two arms.** The model
+is highly sensitive to its input; it simply has no systematic preference between
+the two channel orders. That is not the same claim as "colour does not matter".
+
+One vivid case pointed the other way and was wrong: rifampicin going from an
+unparseable string at 0.574 to a full stereochemical CXSMILES at 0.835 when the
+channels were corrected. It had no reference SMILES, and a single unscorable
+example is an anecdote whichever direction it points.
