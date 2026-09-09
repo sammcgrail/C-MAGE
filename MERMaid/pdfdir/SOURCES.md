@@ -258,3 +258,152 @@ Retrieval routes (all verified with plain curl + a browser User-Agent):
   chloramphenicol and diethylstilbestrol are fine drawings at 3 pages each if more vector probes are wanted.
 - Not pursued: EPA pesticide fact sheets (probe URL 404; site restructured), FDA labels (label text
   is the sponsor's, licence unclear), WHO INN lists (CC BY-NC-SA, non-commercial clause).
+---
+
+# Third survey (2026-09-09): named-drug ground truth, metal centres, non-English, hard negatives
+
+Round two produced 11 usable documents and two selection rules. Both rules were then partly
+superseded by `benchmarks/FINDINGS.md` finding 3: CXSMILES abbreviation labels ARE scoreable now
+(`benchmarks/cxsmiles.py` expands them at comparison time), so the objection to total-synthesis
+papers is narrower than first written -- their intermediates are unscoreable because they have no
+REFERENCE, not because they are abbreviated. The Markush rule stands unchanged and did real work
+again this round.
+
+This survey targeted the six gaps round two left: documents with many specific named
+non-abbreviated structures, metal centres, peptides and macrocycles drawn in full, tables of
+analogues on a shared scaffold, non-English documents, and hard negatives whose figures are not
+chemical structures. Seven documents accepted, 59 molecules, all 59 PubChem-resolved, 12.36 MB.
+
+Every file was checked the same way as before: HTTP status AND Content-Type AND size AND `%PDF-`
+magic AND `pdfinfo` page count AND every page rendered with `pdftoppm` at 100 dpi and looked at,
+plus `pdfimages -list` to establish whether the drawings are vector or raster and at what ppi.
+
+## Accepted
+
+### 14. PMC10180415_approved2022_aa_fluorine.pdf  (21 pages, 3,411,099 bytes, sha256 d1210b112b14...)
+- Wang, Mei, Dhawan, Zhang, Han, Soloshonok, "New Approved Drugs Appearing in the Pharmaceutical
+  Market in 2022 Featuring Fragments of Tailor-Made Amino Acids and Fluorine", Molecules 2023, 28,
+  3651, doi:10.3390/molecules28093651. CC BY 4.0 (MDPI, stated p1).
+- URL https://europepmc.org/articles/PMC10180415?pdf=render
+- Deferred in round two on page count alone; reconsidered because stage 1 costs ~64 s per
+  figure-bearing page, so 21 pages is minutes.
+- ZERO Markush drawings in the whole document. 12 named 2022 FDA approvals, all PubChem-resolvable:
+  adagrasib 138611145, lenacapavir 133082658, oteseconazole 77050711, vonoprazan 15981397,
+  177Lu vipivotide tetraxetan 122706785, mavacamten 117761397, daridorexant 91801202,
+  gadopiclenol 16223405, omidenepag isopropyl 44230999, omidenepag 44230575, taurursodiol 9848818,
+  sodium phenylbutyrate 5258.
+- Fills three gaps at once: named drugs (Fig 1 p2, Fig 2 p3), the corpus's FIRST METAL CENTRES
+  (a 177Lu-DOTA chelate and a Gd-PCTA chelate, both drawn with the metal inside the ring), and a
+  full solid-phase PEPTIDE synthesis with resin beads (Scheme 5, p10).
+- ~85 drawings, 13 figure-bearing pages of 21.
+
+### 15. PMC11771699_macrocycle_drugs.pdf  (24 pages, 6,067,188 bytes, sha256 3844e88c71fd...)
+- Du, Semghouli, Wang, Mei, Kiss, Baecker, Soloshonok, Han, "FDA-approved drugs featuring
+  macrocycles or medium-sized rings", Arch. Pharm. 2025, 358, e2400890, doi:10.1002/ardp.202400890.
+  CC BY (stated in the p1 footer).
+- URL https://europepmc.org/articles/PMC11771699?pdf=render
+- Also deferred in round two on page count. The densest named-drug document found anywhere.
+- 19 resolvable named drugs: Fig 1 p2 is five cyclic METAL complexes (177Lu dotatate 76966897,
+  64Cu dotatate 124220636, 177Lu vipivotide tetraxetan 122706785, gadopiclenol 16223405,
+  flotufolastat F 18 gallium 166177191); Fig 2 p3 is five cyclic PEPTIDES (lurbinectedin 57327016,
+  setmelanotide 11993702, voclosporin 6918486, terlipressin 72081, rezafungin 78318119); Fig 3 p3 is
+  seven more (lorlatinib 71731823, moxidectin 9832912, rifamycin SV 6324616, lefamulin 58076382,
+  pacritinib 46216796, clarithromycin 84029, repotrectinib 135565923) plus vonoprazan 15981397 and
+  amoxicillin 33613.
+- Only COLOURED depictions in the corpus: every macrocyclic ring is overprinted in red, blue or
+  orange, and coordination bonds to the metal are drawn DASHED.
+- ~150 drawings, 17 figure-bearing pages of 24. Schemes 1-17 are dense in Boc/Fmoc/tBu/Trt/Acm/Pbf
+  intermediates; expect most of them to be unscoreable, which is the expected and acceptable outcome
+  for synthesis content.
+
+### 16. ntp_roc_cisplatin.pdf  (2 pages, 134,313 bytes, sha256 a01b6e61e788...)
+- NTP Report on Carcinogens, 15th edition (2021), substance profile: Cisplatin. US Government work
+  (NIEHS/NTP, HHS), public domain.
+- URL https://ntp.niehs.nih.gov/sites/default/files/ntp/roc/content/profiles/cisplatin.pdf
+- Pure vector line art (`pdfimages -list` reports zero raster images), identical layout to the three
+  NTP files already in the corpus -- a single-variable comparison. One drawing: square-planar Pt(II)
+  with explicit Pt, 2 Cl, 2 NH3.
+- Resolve by the printed CAS 15663-27-1 -> CID 5460033. Do NOT resolve by name: "cisplatin" returns
+  CID 5702198 "azane;dichloroplatinum", and CID 441203 is the TRANS isomer.
+- Already run end to end (see below): 0 of 1.
+
+### 17. ntp_roc_pahs.pdf  (9 pages, 382,372 bytes, sha256 93ba10800d41...)
+- NTP Report on Carcinogens, 15th edition (2021): Polycyclic Aromatic Hydrocarbons: 15 Listings.
+  US Government work, public domain.
+- URL .../roc/content/profiles/polycyclicaromatichydrocarbons.pdf
+- The table-of-analogues layout the corpus lacked, and the purest skeleton-reading test available:
+  pp1-2 draw 15 fused-ring aromatics in a two-column list, each with name and CAS, no abbreviations,
+  no stereo, no charges. Four are C20H12 isomers and four are C24H14 isomers, so the test is entirely
+  about ring-fusion position. CIDs: 5954, 9153, 9152, 9158, 2336, 9183, 9177, 5889, 9134, 9126, 9108,
+  9106, 9119, 9131, 19427.
+- Only 2 of 9 pages carry drawings, so the run cost is dominated by the text pages.
+
+### 18. ntp_roc_heterocyclicamines.pdf  (5 pages, 188,698 bytes, sha256 5756d3816201...)
+- NTP RoC 15th ed.: Heterocyclic Amines (Selected). US Government work, public domain.
+- URL .../roc/content/profiles/heterocyclicamines.pdf
+- Smaller companion to the PAH file: MeIQ 62274, MeIQx 62275, IQ 53462, PhIP 1530 -- four analogues
+  on one 2-aminoimidazo-fused scaffold, drawn pp1-3. Optional; drop this one first if trimming.
+
+### 19. CN108503621B_vonoprazan.pdf  (11 pages, 754,825 bytes, sha256 e05494da622c...)
+- CN 108503621 B, "Preparation method of vonoprazan fumarate", CNIPA, granted 2018-09-07 /
+  published 2021-09-14. Published patent document, public record; same basis as the US and EP files.
+- Record https://patents.google.com/patent/CN108503621B/en
+- PDF https://patentimages.storage.googleapis.com/3f/a1/a7/96daaa4952b1ff/CN108503621B.pdf
+- The non-English gap. Whole document is Chinese, including the reagent labels ON the reaction
+  arrows, so the layout and in-scheme text are language-dependent while the drawings are not.
+- A THIRD patent PDF class: body text is vector (Producer iTextSharp) with the schemes inserted as
+  150-ppi indexed raster clippings, against the US files' full-page 300-dpi CCITT rasters and
+  EP0641330B1's 300-dpi CCITT clippings.
+- Every drawing is a specific compound -- it is a process patent, not composition-of-matter, so
+  there is no Markush anywhere. 8 resolvable: vonoprazan fumarate 45375887, vonoprazan 15981397,
+  fumaric acid 444972, the pyrrole-3-carbaldehyde 86232932, the pyrrole-3-carbonitrile 141403376,
+  pyridine-3-sulfonyl chloride 3164136, 5-(2-fluorophenyl)-1H-pyrrole-3-carbonitrile 46908592,
+  2'-fluoroacetophenone 96744.
+- Carries its own negative control: pp10-11 are four HPLC chromatograms with peak tables.
+- Resolution caveat, recorded rather than assumed away: 150 ppi is below the corpus's 300-dpi
+  preference, but one molecule occupies about 290x200 source px, i.e. ~580x400 px once the pipeline
+  renders the page at 300 dpi -- above the ~300 px floor at which the phantom I/[HH] artifact appears.
+  Verified by extracting the p4 clipping and reading it.
+
+### 20. PMC12548288_negative_gromacs_metadump.pdf  (10 pages, 1,425,805 bytes, sha256 9b390a388e91...)
+- Rosinec et al., "Gromacs MetaDump: a tool for extracting GROMACS simulation metadata",
+  J. Cheminform. 2025, 17:160, doi:10.1186/s13321-025-01082-5. CC BY 4.0 (BMC, stated p1).
+- URL https://europepmc.org/articles/PMC12548288?pdf=render
+- HARD NEGATIVE, and a controlled one: same journal and the same Springer/BMC typesetting as
+  PMC11227129 and PMC9185882 already in the corpus, so it varies figure CONTENT while holding
+  document style fixed. Zero chemical structures in 10 pages. Fig 1 a schema box diagram, Figs 2-4
+  code and JSON listings, Fig 5 a flowchart of boxes, diamonds and arrows (the maximally confusable
+  case), Figs 6-7 pie charts, bar charts and histograms.
+- n_expected = 0 by construction. Anything it emits is a false positive; it must NOT be added to any
+  recall denominator.
+
+## Candidates examined and rejected (third survey)
+- PMC12771797 (All-atom protein sequence design, J. Cheminform, 15 p, 5.12 MB, CC BY): fetched as a
+  hard-negative candidate, rejected on content -- Fig 1 p3 draws ring structures labelled
+  "invalid molecule!" and "valid molecule, but different from original". Not a clean negative.
+- PMC12898835 (N-Heterocyclic Carbene Platinum Complexes review, Molecules, 39 p, 7.41 MB, CC BY):
+  sought as a true M-C organometallic; rejected on length and size -- 7.41 MB is 30% of a 25 MB
+  budget for complexes that are novel and therefore not PubChem-resolvable.
+- PMC13148217 (Weil et al., two Pd-NHC complexes, Acta Cryst. 2026, E82, 426-431, 19 p, 4.98 MB,
+  CC BY 4.0): sought as a true M-C organometallic; rejected on CONTENT, which is the more useful
+  reason -- the only 2D drawing in the paper is a generic X-Pd-X with "X = Cl, Br", a Markush by
+  another name. Everything else is 3D ORTEP and packing diagrams. Worth remembering that an Acta
+  Cryst E paper with a SPECIFIC 2D scheme would make an excellent ORTEP-based hard negative.
+- CN109232537B "Preparation method of vonoprazan" (26 p) and CN110590746B "Preparation method of
+  low-impurity vonoprazan fumarate" (14 p): both verified as real PDFs, both rejected against
+  CN108503621B -- one on length, one for duplicating the same chemistry with no new variable.
+- NTP RoC nitroarenes (9 p): same layout and licence as the PAH profile but 5 analogues instead of
+  15 across the same 9 pages. Strictly dominated.
+- Beilstein J. Nanotechnol. probed as a hard-negative source (the /bjnano/content/pdf/2190-4286-V-N
+  route returns 200): NOT pursued because the four articles probed were 3.4 to 13.0 MB each, which a
+  25 MB budget cannot absorb for a document that contributes no ground truth.
+
+## Still open after round three
+- A true M-C ORGANOMETALLIC. Metal CENTRES are now covered six times (Pt, Gd, Lu, Cu, Ga) but all of
+  them are coordination compounds. The blocker is specific and now known: papers reporting NEW
+  complexes are not PubChem-resolvable, so selection rule 3 fails. The resolvable organometallics are
+  the classic named catalysts -- Grubbs II is CID 11147261 and ferrocene is CID 10219726, both
+  verified this round, while "Karstedt's catalyst" and "PEPPSI-IPr" both 404. Look for a short CC-BY
+  paper that DRAWS those, not one that reports new ones.
+- A JP or DE patent, to sit beside the CN one and separate "CJK layout" from "non-English layout".
+- A pharmacopoeia monograph excerpt (the licence question was not resolved this round).

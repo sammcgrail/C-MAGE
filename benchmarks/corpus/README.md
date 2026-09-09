@@ -14,11 +14,15 @@ CIDs for the ground truth are in
 
 Two lessons, both learned by getting it wrong:
 
-- **Avoid total-synthesis papers.** They draw dozens of *abbreviated*
-  intermediates per scheme, MolScribe preserves `OMe`/`Ph`/`OTBS` as R-group
-  placeholders, and a SMILES containing `*` can never match a fully-expanded
-  reference — 42 of 44 emitted structures for the macarpine paper were
-  unscoreable for this reason, with nothing wrong with the recognition.
+- **Total-synthesis papers are weak, but not for the reason first written here.**
+  The claim used to be that a SMILES containing `*` can never match a
+  fully-expanded reference. That is **wrong** and is corrected in
+  [`../FINDINGS.md`](../FINDINGS.md) finding 3: CXMolScribe preserves `OMe`/`Ph`/
+  `OTBS` as CXSMILES labels *on purpose*, and `benchmarks/cxsmiles.py` expands
+  them at comparison time. The real problem is narrower — a synthesis scheme's
+  intermediates have **no reference to score against**. So such a paper is worth
+  taking only if its final compounds are named and PubChem-resolvable, and expect
+  most of its structures to be unscoreable regardless.
 - **Avoid Markush-only patents.** The omeprazole patent looked ideal at a glance —
   ~18 clean drawings — and every one was an R1–R5 generic formula with the
   explicit compounds given only as text. Nothing scorable. Check at 100 dpi
@@ -26,6 +30,18 @@ Two lessons, both learned by getting it wrong:
 
 What works: documents where the *drawn* structures are the named compounds
 themselves, at 300 dpi or better, with names resolvable to a PubChem CID.
+
+- **Resolve by the printed CAS number, never the name.** `name/cisplatin` returns
+  CID 5702198, "azane;dichloroplatinum"; the CAS 15663-27-1 returns CID 5460033,
+  actual cisplatin — and CID 441203 is the *trans* isomer. Some INNs 404
+  entirely: `lutetium Lu 177 vipivotide tetraxetan` resolves only via the synonym
+  `177Lu-PSMA-617`.
+- **Metal complexes need largest-fragment scoring on BOTH sides.** Every
+  metal-containing PubChem reference is a disconnected multi-fragment SMILES —
+  gadopiclenol is 57 heavy atoms plus `[Gd+3]`, cisplatin is `[Cl][Pt][Cl]` plus
+  two `N` — while the *drawing* shows the metal inside the ring, bonded. The
+  drawing is connected and the reference is not, and charge states differ. Same
+  family as findings 1-3: the metric measures representation.
 
 ## Diversity, which is the point
 
@@ -62,3 +78,10 @@ The four `US*` patents are the original corpus and are described in
 ```bash
 cd benchmarks/corpus && sha256sum -c SHA256SUMS
 ```
+| [`PMC10180415_approved2022_aa_fluorine.pdf`](PMC10180415_approved2022_aa_fluorine.pdf) | 21 | CC BY 4.0 | MDPI vector, 600-dpi stencil atom labels; 2022 FDA approvals | 12 | 12 |
+| [`PMC11771699_macrocycle_drugs.pdf`](PMC11771699_macrocycle_drugs.pdf) | 24 | CC BY 4.0 | Wiley vector ChemDraw; macrocycle overprinted in COLOUR | 19 | 19 |
+| [`ntp_roc_cisplatin.pdf`](ntp_roc_cisplatin.pdf) | 2 | US Government work, public domain | Vector line art; square-planar Pt(II) coordination compound | 1 | 1 |
+| [`ntp_roc_pahs.pdf`](ntp_roc_pahs.pdf) | 9 | US Government work, public domain | Vector line art, two-column LIST of 15 analogues with CAS numbers | 15 | 15 |
+| [`ntp_roc_heterocyclicamines.pdf`](ntp_roc_heterocyclicamines.pdf) | 5 | US Government work, public domain | Vector line art, 4 analogues on one fused-imidazo scaffold | 4 | 4 |
+| [`CN108503621B_vonoprazan.pdf`](CN108503621B_vonoprazan.pdf) | 11 | Patent, public record | Chinese CNIPA patent: vector text + 150-ppi raster clippings | 8 | 8 |
+| [`PMC12548288_negative_gromacs_metadump.pdf`](PMC12548288_negative_gromacs_metadump.pdf) | 10 | CC BY 4.0 | Springer/BMC typesetting; **no structures at all** | 0 | 0 |
