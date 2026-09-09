@@ -250,9 +250,23 @@
   /* The prediction beside its expansion. Two labelled monospace rows, because the
      whole point is that they are the same molecule written two ways. */
   .pair { display: flex; flex-direction: column; gap: 4px; }
-  .pair .lab { font-size: 12px; color: var(--muted); text-transform: uppercase;
-    letter-spacing: .05em; line-height: 1.35; }
-  .pair .lab b { color: var(--text); font-weight: 700; text-transform: none; letter-spacing: 0; }
+  /* `.smiles` carries `flex: 1 1 0%` for its use inside `.smiles-row`, a flex ROW.
+     A direct child of `.pair` is in a flex COLUMN, where that would flex vertically. */
+  .pair > .smiles { flex: 0 0 auto; }
+  /* A SMILES shown as the WRONG answer -- what a superseded algorithm produced. It
+     is a real string and must be read as one, so it keeps the monospace box and the
+     left alignment; only the colour says it is the discard.
+     NOT `.smiles empty`: the generic `.empty` rule is defined later at the same
+     specificity and overrides `.smiles`, replacing the 8px padding with 24px and
+     centring the text, so a one-line SMILES rendered twice as tall as the correct
+     one beside it and looked like a placeholder rather than an answer. */
+  .smiles.was { color: var(--bad); }
+  /* Sentence case, not uppercase. These labels are whole sentences -- "the drawing
+     used an abbreviation and the reader kept it, as a * atom labelled in the |$..$|
+     block" -- and uppercasing a sentence is shouting, not labelling. The leading
+     <b> carries the emphasis instead. */
+  .pair .lab { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+  .pair .lab b { color: var(--text); font-weight: 700; }
   .pair .smiles-row + .lab { margin-top: 6px; }
   .pairnote { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
@@ -1420,7 +1434,7 @@
         + (c.truth ? ', and equal to the reference from PubChem' : '') }));
       blk.appendChild(el('div', { class: 'smiles', text: c.expanded }));
       blk.appendChild(el('div', { class: 'lab', text: 'what the superseded join produced — a different molecule' }));
-      blk.appendChild(el('div', { class: 'smiles empty', text: c.naive }));
+      blk.appendChild(el('div', { class: 'smiles was', text: c.naive }));
       box.appendChild(blk);
     });
     box.appendChild(el('p', { class: 'muted small', style: 'margin-top:10px', text: 'Both differences are a '
