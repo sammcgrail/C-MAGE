@@ -159,6 +159,57 @@ ARMS = [
                 "over different corpora is not a finding about either.",
     },
     {
+        "key": "img_rdkit1500",
+        "title": "560 compounds, drawn by RDKit at 1500 px",
+        "short": "RDKit render",
+        "scored": "scored/img_corpus_rdkit_1500",
+        "manifest": "ground_truth/img_manifest_depictions560.json",
+        "stages": "stage 3 only \u2014 one already-cropped structure per image",
+        "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+        "tweak": None,
+        "note": "The same 560 compounds as the two rows below, drawn differently. "
+                "Strokes scale with the canvas. This is the recogniser's ceiling on "
+                "clean input.",
+    },
+    {
+        "key": "img_pubchem300",
+        "title": "The same 560, PubChem's own 300 px depiction",
+        "short": "PubChem 300 px",
+        "scored": "scored/img_corpus_300",
+        "manifest": "ground_truth/img_manifest_depictions560.json",
+        "stages": "stage 3 only \u2014 one already-cropped structure per image",
+        "settings": "stock C-MAGE, unchanged. Only the RENDERING differs from the row above.",
+        "baseline": "img_rdkit1500",
+        "tweak": None,
+        "note": "Identical molecules to the row above. The gap is entirely how the "
+                "picture was drawn. Remapping this arm's near-white background (245) "
+                "to true white takes strict accuracy from 11.2% to 56.6% without "
+                "touching the pipeline. 384 of 560 predictions here carry a phantom "
+                "fragment \u2014 a stray Cl, I or [2H] welded on beside an otherwise "
+                "correct molecule \u2014 which is why this arm has the largest "
+                "cross_check disagreement of any (34 of 560): stripping a stray "
+                "halogen as a hallucination and reading it as a counter-ion are both "
+                "defensible, and the two scorers do it differently. Neither is wrong; "
+                "the disagreement is reported rather than resolved.",
+    },
+    {
+        "key": "img_pubchem1500",
+        "title": "The same 560, PubChem's own 1500 px depiction",
+        "short": "PubChem 1500 px",
+        "scored": "scored/img_corpus_hires",
+        "manifest": "ground_truth/img_manifest_depictions560.json",
+        "stages": "stage 3 only \u2014 one already-cropped structure per image",
+        "settings": "stock C-MAGE, unchanged. Only the RENDERING differs.",
+        "baseline": "img_rdkit1500",
+        "tweak": None,
+        "note": "Zero of 560, 59.6% unparseable, and NOT ONE output above the "
+                "confidence threshold. Not resolution \u2014 RDKit at the same 1500 px "
+                "scores 82.9%. PubChem holds stroke width constant in absolute pixels "
+                "while the canvas grows fivefold, so ink fraction falls to 0.0030 "
+                "against RDKit's 0.0130, and MolScribe's resize makes a hairline "
+                "sub-pixel. The lever is stroke width relative to canvas, not canvas size.",
+    },
+    {
         "key": "docs_round34",
         "title": "Six real documents, patents and papers",
         "short": "6 real documents",
