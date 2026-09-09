@@ -64,6 +64,25 @@ def canon(smiles, stereo=True):
     return Chem.MolToSmiles(mol)
 
 
+def expand_cx(smiles):
+    """Expand CXSMILES abbreviation labels, or return the string unchanged.
+
+    The second representation axis, and the one that cost the most to find.
+    CXMolScribe deliberately preserves `OMe` as a labelled dummy atom rather than
+    guessing an expansion, so a raw prediction can never equal a fully-expanded
+    reference. Expanding here — never at prediction time — is what makes the
+    comparison meaningful. See benchmarks/cxsmiles.py for the detail.
+    """
+    try:
+        from cxsmiles import expand
+    except ImportError:
+        import os, sys as _s
+        _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from cxsmiles import expand
+    out, _note = expand(smiles)
+    return out or smiles
+
+
 def largest_fragment(smiles):
     """The fragment with the most heavy atoms. (mol, n_fragments) or (None, 0).
 
@@ -85,6 +104,9 @@ def main():
     ap.add_argument("--scored", required=True, help="a score_run.py output directory")
     ap.add_argument("--manifest", default=DEFAULT_MANIFEST)
     ap.add_argument("--json", help="also write the summary here")
+    ap.add_argument("--no-expand-cxsmiles", action="store_true",
+                    help="do NOT expand CXSMILES abbreviations first (shows what the "
+                         "unexpanded comparison scores, which is misleadingly low)")
     args = ap.parse_args()
 
     structures = os.path.join(args.scored, "structures.csv")
@@ -109,6 +131,8 @@ def main():
         exact_set = {canon(e) for e in expected} - {None}
         flat_set = {canon(e, stereo=False) for e in expected} - {None}
 
+        if not args.no_expand_cxsmiles:
+            smiles = expand_cx(smiles)
         mol, nfrag = largest_fragment(smiles)
         frag_hist[nfrag] += 1
         if mol is None:

@@ -131,6 +131,29 @@ benchmark 2/4 → 4/4. The pipeline had read them correctly all along.
 .venv-ms/bin/python benchmarks/cxsmiles.py --csv SCORED/structures.csv --out X.csv
 ```
 
+### Which corpora this actually changed — measured, not assumed
+
+Before rewriting every number, I checked where abbreviations even occur. The fix
+matters for exactly one corpus, and saying so is more useful than restating all
+of them:
+
+| corpus | predictions carrying abbreviations | effect of expanding |
+|---|---|---|
+| 97 PubChem depictions, stage 3 only | **0 of 97** | none — 66.0% / 96.2% stand |
+| 24 upscaled worst offenders | **0 of 24** | none — 79.2% stands |
+| 11 known-answer PDFs, full pipeline | 8 of 70 (11%) | **none** — 16/70 and 42.9% high tier are identical either way |
+| 11-document expanded PDF corpus | **148 of 242 (61%)** | recall 26.5% → **52.9%** |
+
+Two things follow. Rendered depictions of single named compounds carry no
+abbreviations at all, so the earlier image-corpus figures were never affected.
+And the known-answer PDFs do contain a few, but expanding them changes nothing —
+those predictions were not near-misses. It is **real documents with synthesis
+content** where this dominates, which is also where the pipeline is most likely to
+be used in anger.
+
+`rescore_fragments.py` now expands by default; `--no-expand-cxsmiles` shows the
+misleading version if you want to see the difference.
+
 ### The lesson, stated generally
 
 This is the **third** time this corpus has produced the same failure, and by now
