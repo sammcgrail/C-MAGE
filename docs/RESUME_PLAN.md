@@ -10,13 +10,13 @@ the plan, written so the next session does not re-derive any of it.
 
 | | |
 |---|---|
-| mean ink retained | 39.8% |
-| **median ink retained** | **29.8%** |
-| figures producing ZERO segments | 35 (26%) |
+| mean ink retained | 34.3% |
+| **median ink retained** | **29.1%** |
+| figures producing ZERO segments | 37 (27.4%) |
 | figures retaining over 90% | 1 (1%) |
 
-A quarter of figures are lost outright. The pregabalin patent lost five,
-including one carrying 49,346 px of structure.
+A quarter of figures are lost outright. The pregabalin patent lost six, including one carrying 145,947 px — the largest
+figure in the document, and hidden by the matching bug described below.
 
 **This is stock C-MAGE.** `complete_structure.py` and `pipeline_dis.py` are
 byte-identical to upstream; `decimer_segmentation.py` differs by three deleted
@@ -49,6 +49,25 @@ absence. Check any headline number against real inputs before trusting it.
   confidence filtering: paper 77.6% (CM-DB) / 82.9% (MEP), this box **84.0%** on
   675 PubChem depictions. Those ran stage-3-only, so they carry no segmentation
   damage — which is exactly why they are comparable and the PDF numbers are not.
+
+## Corrections applied at the pause — read before trusting an earlier number
+
+- The first ink-retention JSON matched segments to figures by name **prefix**, so
+  `image_1` claimed the segments of `image_10..19`. Three figures reported
+  retention above 1.0 (up to 3.49), which is impossible and was the missed tell.
+  Recomputed with an anchored `<figure>_molecule_<n>.png` match and verified by
+  segments-counted == segments-on-disk (569 == 569).
+- **84.0% was mispaired** (see above). Over the images with a reference it is 90.8%.
+- **"Comparable to the paper" was too generous.** The paper's 77.6% is
+  post-segmentation on real documents graded against the segment image; ours is
+  pre-segmentation on clean renders graded against PubChem SMILES. Same range,
+  easier input, different grading — not like-for-like.
+- **Everything under /tmp was copied to `/root/cmage-tmp-preserve/`** (958 MB).
+  `/tmp` is wiped at boot by `systemd-tmpfiles-setup --boot`; this is certain.
+- `benchmarks/report_partial/report.md`'s paired arm-gap table is contaminated —
+  the stage-3 column's denominator covers drawings it never processed, which
+  inverts the direction. **Do not read it; recompute** with stage-3 coverage
+  defined as crops that produced a workbook row.
 
 ## Do this, in order
 

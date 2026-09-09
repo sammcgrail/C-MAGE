@@ -1,16 +1,26 @@
 {
-  "measured": "2026-09-09T21:00Z",
+  "measured": "2026-09-09T21:35Z",
   "what": "ink retained by stage 2, real documents",
-  "method": "pixels darker than 200 in the stage-1 figure vs the sum over its stage-2 segments",
+  "method": "pixels darker than 200/255 in the stage-1 figure vs the sum over its stage-2 segments, matched on <figure>_molecule_<n>.png (an anchored match: a bare prefix makes image_1 claim image_10..19)",
   "figures": 135,
   "documents": 18,
-  "mean_retained": 0.3984,
-  "median_retained": 0.2981,
-  "figures_with_zero_segments": 35,
+  "segments_counted": 569,
+  "segment_files_on_disk": 569,
+  "mean_retained": 0.3426,
+  "median_retained": 0.2908,
+  "figures_with_zero_segments": 37,
   "figures_under_50pct": 46,
-  "figures_over_90pct": 4,
-  "note": "Stock C-MAGE, DECIMER_BBOX_PAD off. Contrast the synthetic corpus, which reported mean 0.993 / median 1.000 -- RDKit line art does not exercise this failure.",
+  "figures_over_90pct": 1,
+  "note": "Stock C-MAGE, DECIMER_BBOX_PAD off. The synthetic corpus reports mean 0.993 / median 1.000 on the same measure and is also correct: RDKit line art does not trip the 0.72 binarisation.",
   "per_figure": [
+    {
+      "document": "EP0641330B1_pregabalin",
+      "figure": "EP0641330B1_pregabalin_image_1",
+      "figure_ink_px": 145947,
+      "segments": 0,
+      "segment_ink_px": 0,
+      "retained": 0.0
+    },
     {
       "document": "EP0641330B1_pregabalin",
       "figure": "EP0641330B1_pregabalin_image_10",
@@ -268,6 +278,14 @@
       "retained": 0.0
     },
     {
+      "document": "PMC11771699_macrocycle_drugs",
+      "figure": "PMC11771699_macrocycle_drugs_image_1",
+      "figure_ink_px": 118298,
+      "segments": 0,
+      "segment_ink_px": 0,
+      "retained": 0.0
+    },
+    {
       "document": "ntp_roc_heterocyclicamines",
       "figure": "ntp_roc_heterocyclicamines_image_1",
       "figure_ink_px": 5250,
@@ -370,14 +388,6 @@
       "segments": 1,
       "segment_ink_px": 7190,
       "retained": 0.0367
-    },
-    {
-      "document": "EP0641330B1_pregabalin",
-      "figure": "EP0641330B1_pregabalin_image_1",
-      "figure_ink_px": 145947,
-      "segments": 2,
-      "segment_ink_px": 5967,
-      "retained": 0.0409
     },
     {
       "document": "bjoc_19-15_pheromones",
@@ -580,6 +590,14 @@
       "retained": 0.3441
     },
     {
+      "document": "US4231938A_lovastatin",
+      "figure": "US4231938A_lovastatin_image_1",
+      "figure_ink_px": 22895,
+      "segments": 2,
+      "segment_ink_px": 7893,
+      "retained": 0.3447
+    },
+    {
       "document": "PMC10180415_approved2022_aa_fluorine",
       "figure": "PMC10180415_approved2022_aa_fluorine_image_4",
       "figure_ink_px": 61873,
@@ -748,14 +766,6 @@
       "retained": 0.6069
     },
     {
-      "document": "US4231938A_lovastatin",
-      "figure": "US4231938A_lovastatin_image_1",
-      "figure_ink_px": 22895,
-      "segments": 3,
-      "segment_ink_px": 14077,
-      "retained": 0.6149
-    },
-    {
       "document": "CN108503621B_vonoprazan",
       "figure": "CN108503621B_vonoprazan_image_2",
       "figure_ink_px": 50709,
@@ -860,6 +870,14 @@
       "retained": 0.6753
     },
     {
+      "document": "PMC10180415_approved2022_aa_fluorine",
+      "figure": "PMC10180415_approved2022_aa_fluorine_image_1",
+      "figure_ink_px": 48692,
+      "segments": 5,
+      "segment_ink_px": 34565,
+      "retained": 0.7099
+    },
+    {
       "document": "ntp_roc_adriamycin",
       "figure": "ntp_roc_adriamycin_image_2",
       "figure_ink_px": 4699,
@@ -922,6 +940,14 @@
       "segments": 12,
       "segment_ink_px": 36116,
       "retained": 0.7525
+    },
+    {
+      "document": "PMC11771699_macrocycle_drugs",
+      "figure": "PMC11771699_macrocycle_drugs_image_2",
+      "figure_ink_px": 78589,
+      "segments": 3,
+      "segment_ink_px": 59237,
+      "retained": 0.7538
     },
     {
       "document": "PMC11771699_macrocycle_drugs",
@@ -1066,30 +1092,6 @@
       "segments": 6,
       "segment_ink_px": 86106,
       "retained": 0.9018
-    },
-    {
-      "document": "PMC11771699_macrocycle_drugs",
-      "figure": "PMC11771699_macrocycle_drugs_image_2",
-      "figure_ink_px": 78589,
-      "segments": 23,
-      "segment_ink_px": 155493,
-      "retained": 1.9786
-    },
-    {
-      "document": "PMC10180415_approved2022_aa_fluorine",
-      "figure": "PMC10180415_approved2022_aa_fluorine_image_1",
-      "figure_ink_px": 48692,
-      "segments": 39,
-      "segment_ink_px": 156231,
-      "retained": 3.2086
-    },
-    {
-      "document": "PMC11771699_macrocycle_drugs",
-      "figure": "PMC11771699_macrocycle_drugs_image_1",
-      "figure_ink_px": 118298,
-      "segments": 95,
-      "segment_ink_px": 412524,
-      "retained": 3.4872
     }
   ]
 }
