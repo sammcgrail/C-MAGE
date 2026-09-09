@@ -52,6 +52,44 @@ def mcnemar(b, c):
     return min(1.0, 2 * tot / (2 ** n))
 
 
+def groups_attempted(run_root, manifest_groups):
+    """Which groups did an arm actually process?
+
+    Needed for the same reason ink_loss_v2 needs it: score_cx walks the WHOLE
+    manifest, so a drawing whose PDF has not been run yet appears in
+    cx_molecules.csv as simply not recovered -- indistinguishable, in every
+    table, from one the pipeline saw and got wrong. On partial data that turns
+    unfinished batches into a fabricated failure rate, and the two arms progress
+    at different speeds so it would corrupt the ARM GAP, which is the finding.
+
+    Full arm: stage-1 figures. Stage-3-only arm: the stage-2 results workbook,
+    which lists every image handed to stage 3 (the crops themselves).
+    """
+    if run_root is None:
+        return None
+    root = Path(run_root)
+    names = [f.name for f in root.glob("*/out/run_*/01_VH_Figures/*.png")]
+    if not names:
+        try:
+            import pandas as pd
+            for x in root.glob("*/out/run_*/02_DIS_Segments/DIS_CMAGE_results.xlsx"):
+                col = pd.read_excel(x)["DIS Result File Paths"].tolist()
+                names += [Path(str(v)).name for v in col]
+        except Exception:                                          # noqa: BLE001
+            return None
+    out = set()
+    for n in names:
+        stem = Path(n).stem
+        if stem.startswith("Image_DIS_VH_File_"):
+            stem = stem[len("Image_DIS_VH_File_"):]
+        stem = stem.rsplit("_molecule_", 1)[0]
+        for k in sorted(manifest_groups, key=len, reverse=True):
+            if stem == k or stem.startswith(k + "_image_"):
+                out.add(k)
+                break
+    return out or None
+
+
 def load(scored):
     out = {}
     p = Path(scored) / "cx_molecules.csv"
@@ -124,11 +162,18 @@ def main():
     ap.add_argument("--stage3", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--ink", type=Path, default=None, help="ink_loss_v2.py output dir")
+    ap.add_argument("--full-run-root", type=Path, default=None,
+                    help="batch run root of the full arm; restricts its denominator "
+                         "to groups that were actually processed")
+    ap.add_argument("--stage3-run-root", type=Path, default=None,
+                    help="batch run root of the stage-3-only arm, likewise")
     args = ap.parse_args()
 
     man = json.loads(args.manifest.read_text())
     full, s3 = load(args.full), load(args.stage3)
     arms = ["full", "stage3"]
+    att = {"full": groups_attempted(args.full_run_root, man["groups"]),
+           "stage3": groups_attempted(args.stage3_run_root, man["groups"])}
     rows = []
     for g, e in man["groups"].items():
         for m in e["molecules"]:
@@ -142,7 +187,8 @@ def main():
                 "has_appendix": m["has_appendix"], "markush": bool(m.get("markush")),
                 "heavy_atoms": m["heavy_atoms"], "number": m["number"],
                 "in_vocab": all(m["appendix_in_vocab"]) if m["has_appendix"] else None,
-                "full": full.get(k), "stage3": s3.get(k),
+                "full": (full.get(k) if (att["full"] is None or g in att["full"]) else None),
+                "stage3": (s3.get(k) if (att["stage3"] is None or g in att["stage3"]) else None),
             })
     core = [r for r in rows if r["arm_of_pdf"] in ("core", "mixed")]
     crossed = [r for r in rows if r["arm_of_pdf"] == "crossed"]
@@ -152,6 +198,14 @@ def main():
     rep = {
         "drawings": len(rows), "scored_full": sum(1 for r in rows if r["full"]),
         "scored_stage3": sum(1 for r in rows if r["stage3"]),
+        "groups_attempted_full": (len(att["full"]) if att["full"] else None),
+        "groups_attempted_stage3": (len(att["stage3"]) if att["stage3"] else None),
+        "groups_in_manifest": len(man["groups"]),
+        "partial_note": ("Denominators are restricted to the groups each arm "
+                         "actually processed. score_cx walks the whole manifest, so "
+                         "without this an unrun PDF is reported as a failure and the "
+                         "two arms -- which progress at different speeds -- would be "
+                         "compared over different corpora."),
         "upper_bound_note": (
             "RDKit line art on exactly white, one drawing convention, no scanner "
             "noise and no overlapping labels. Every number here is an UPPER BOUND "
