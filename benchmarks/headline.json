@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-09T21:24:13+00:00",
- "scoring": "largest fragment by heavy-atom count, after CXSMILES abbreviation expansion; RDKit canonical SMILES on both sides, never string equality",
+ "generated": "2026-09-09T21:32:50+00:00",
+ "scoring": "whole molecule first, then largest fragment by heavy-atom count as a fallback, after CXSMILES abbreviation expansion; RDKit canonical SMILES on both sides, never string equality. Largest-fragment-only is wrong for salts: it drops a counter-ion the reference has.",
  "built_by": "benchmarks/build_headline.py",
  "arms": [
   {
@@ -15,40 +15,40 @@
    "manifest_file": "images_realworld_all.json",
    "emitted": {
     "n": 743,
-    "exact": 462,
+    "exact": 463,
     "stereo": 42,
     "wrong": 128,
-    "invalid": 111
+    "invalid": 110
    },
    "scorable": {
     "n": 675,
-    "exact": 462,
+    "exact": 463,
     "stereo": 42,
-    "wrong": 85,
+    "wrong": 84,
     "invalid": 86
    },
    "tiers": {
     "high": {
      "n": 200,
-     "exact": 165,
+     "exact": 166,
      "stereo": 3,
-     "wrong": 30,
+     "wrong": 29,
      "invalid": 2
     },
     "low": {
      "n": 543,
      "exact": 297,
      "stereo": 39,
-     "wrong": 98,
-     "invalid": 109
+     "wrong": 99,
+     "invalid": 108
     }
    },
    "tiers_scorable": {
     "high": {
      "n": 185,
-     "exact": 165,
+     "exact": 166,
      "stereo": 3,
-     "wrong": 16,
+     "wrong": 15,
      "invalid": 1
     },
     "low": {
@@ -86,6 +86,20 @@
     "105": 1,
     "106": 1,
     "120": 4
+   },
+   "cross_check": {
+    "n": 743,
+    "disagree_on_exact": 0,
+    "graded_available": 0,
+    "headline_exact": 463,
+    "score_run_strict_wrong": 504,
+    "score_run_strict_exact": 75,
+    "headline_stereo": 42,
+    "headline_wrong": 128,
+    "score_run_strict_no-truth": 68,
+    "headline_invalid": 110,
+    "score_run_strict_invalid": 86,
+    "score_run_strict_stereo": 10
    }
   },
   {
@@ -158,6 +172,19 @@
     "9": 2,
     "16": 1,
     "106": 1
+   },
+   "cross_check": {
+    "n": 97,
+    "disagree_on_exact": 0,
+    "graded_available": 0,
+    "headline_exact": 64,
+    "score_run_strict_wrong": 64,
+    "headline_wrong": 11,
+    "headline_stereo": 7,
+    "score_run_strict_exact": 14,
+    "score_run_strict_stereo": 4,
+    "headline_invalid": 15,
+    "score_run_strict_invalid": 15
    }
   },
   {
@@ -225,6 +252,19 @@
     "3": 4,
     "4": 3,
     "5": 4
+   },
+   "cross_check": {
+    "n": 97,
+    "disagree_on_exact": 0,
+    "graded_available": 0,
+    "headline_exact": 75,
+    "score_run_strict_wrong": 27,
+    "headline_invalid": 6,
+    "score_run_strict_invalid": 6,
+    "score_run_strict_exact": 59,
+    "headline_stereo": 6,
+    "score_run_strict_stereo": 5,
+    "headline_wrong": 10
    }
   },
   {
@@ -299,6 +339,18 @@
     "9": 1,
     "10": 1,
     "12": 1
+   },
+   "cross_check": {
+    "n": 97,
+    "disagree_on_exact": 0,
+    "graded_available": 0,
+    "headline_invalid": 37,
+    "score_run_strict_invalid": 37,
+    "headline_exact": 31,
+    "score_run_strict_exact": 19,
+    "score_run_strict_wrong": 41,
+    "headline_wrong": 27,
+    "headline_stereo": 2
    }
   },
   {
@@ -313,47 +365,47 @@
    "manifest_file": "synthetic_manifest_v2.json",
    "emitted": {
     "n": 1031,
-    "exact": 750,
+    "exact": 799,
     "stereo": 50,
-    "wrong": 176,
+    "wrong": 127,
     "invalid": 55
    },
    "scorable": {
     "n": 1031,
-    "exact": 750,
+    "exact": 799,
     "stereo": 50,
-    "wrong": 176,
+    "wrong": 127,
     "invalid": 55
    },
    "tiers": {
     "high": {
      "n": 728,
-     "exact": 607,
+     "exact": 648,
      "stereo": 17,
-     "wrong": 103,
+     "wrong": 62,
      "invalid": 1
     },
     "low": {
      "n": 303,
-     "exact": 143,
+     "exact": 151,
      "stereo": 33,
-     "wrong": 73,
+     "wrong": 65,
      "invalid": 54
     }
    },
    "tiers_scorable": {
     "high": {
      "n": 728,
-     "exact": 607,
+     "exact": 648,
      "stereo": 17,
-     "wrong": 103,
+     "wrong": 62,
      "invalid": 1
     },
     "low": {
      "n": 303,
-     "exact": 143,
+     "exact": 151,
      "stereo": 33,
-     "wrong": 73,
+     "wrong": 65,
      "invalid": 54
     }
    },
@@ -365,6 +417,25 @@
     "3": 18,
     "4": 4,
     "6": 1
+   },
+   "cross_check": {
+    "n": 1031,
+    "disagree_on_exact": 1,
+    "graded_available": 1031,
+    "headline_exact": 799,
+    "score_run_strict_exact": 598,
+    "score_run_graded_exact": 800,
+    "headline_invalid": 55,
+    "score_run_strict_invalid": 55,
+    "score_run_graded_invalid": 55,
+    "score_run_strict_wrong": 325,
+    "headline_stereo": 50,
+    "score_run_strict_stereo": 53,
+    "score_run_graded_stereo": 50,
+    "headline_wrong": 127,
+    "score_run_graded_wrong": 89,
+    "score_run_graded_near": 28,
+    "score_run_graded_salt": 9
    }
   },
   {
@@ -429,6 +500,24 @@
     "0": 26,
     "1": 417,
     "2": 2
+   },
+   "cross_check": {
+    "n": 445,
+    "disagree_on_exact": 0,
+    "graded_available": 445,
+    "headline_exact": 271,
+    "score_run_strict_exact": 206,
+    "score_run_graded_exact": 271,
+    "headline_invalid": 26,
+    "score_run_strict_invalid": 26,
+    "score_run_graded_invalid": 26,
+    "score_run_strict_wrong": 196,
+    "headline_wrong": 125,
+    "score_run_graded_wrong": 110,
+    "headline_stereo": 23,
+    "score_run_graded_stereo": 23,
+    "score_run_strict_stereo": 17,
+    "score_run_graded_near": 15
    }
   },
   {
@@ -443,24 +532,24 @@
    "manifest_file": "pdf_manifest_round34.json",
    "emitted": {
     "n": 160,
-    "exact": 84,
+    "exact": 85,
     "stereo": 0,
-    "wrong": 67,
+    "wrong": 66,
     "invalid": 9
    },
    "scorable": {
     "n": 160,
-    "exact": 84,
+    "exact": 85,
     "stereo": 0,
-    "wrong": 67,
+    "wrong": 66,
     "invalid": 9
    },
    "tiers": {
     "high": {
      "n": 120,
-     "exact": 73,
+     "exact": 74,
      "stereo": 0,
-     "wrong": 47,
+     "wrong": 46,
      "invalid": 0
     },
     "low": {
@@ -474,9 +563,9 @@
    "tiers_scorable": {
     "high": {
      "n": 120,
-     "exact": 73,
+     "exact": 74,
      "stereo": 0,
-     "wrong": 47,
+     "wrong": 46,
      "invalid": 0
     },
     "low": {
@@ -493,6 +582,23 @@
     "1": 141,
     "2": 8,
     "3": 2
+   },
+   "cross_check": {
+    "n": 160,
+    "disagree_on_exact": 2,
+    "graded_available": 160,
+    "headline_invalid": 9,
+    "score_run_strict_invalid": 9,
+    "score_run_graded_invalid": 9,
+    "headline_exact": 85,
+    "score_run_strict_wrong": 116,
+    "score_run_graded_exact": 83,
+    "score_run_strict_exact": 35,
+    "score_run_graded_salt": 2,
+    "score_run_graded_near": 1,
+    "headline_wrong": 66,
+    "score_run_graded_wrong": 64,
+    "score_run_graded_skeleton": 1
    }
   }
  ]

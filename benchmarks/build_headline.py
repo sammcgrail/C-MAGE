@@ -16,6 +16,16 @@ recomputed from those rows here -- verdicts, tier crosstab, fragment histogram -
 using the same RDKit comparison and the same CXSMILES expansion as
 `rescore_fragments.py`. Nothing is transcribed from a report.
 
+Because it re-derives rather than transcribes, its verdict can be printed BESIDE
+score_run.py's -- which is what `cross_check` in each arm does. That is not
+ceremony: on its first run the comparison found a real bug here. This file took
+the largest fragment unconditionally, so for every SALT it dropped the counter-ion
+from the prediction and compared it against a reference that still had one,
+guaranteeing a mismatch. 50 rows of the 1031-cell synthetic arm, 46 of them the
+`salt` stratum and 49 of the 50 already strict-exact by score_run. Whole molecule
+is now tried first and the largest-fragment hammer only fires as a fallback, which
+is what it was always for -- stripping fragments the MODEL hallucinated.
+
     .venv-ms/bin/python benchmarks/build_headline.py            # writes headline.json
 
 TWO DENOMINATORS, ALWAYS BOTH
@@ -209,7 +219,9 @@ def score(arm):
     tiers_scorable = collections.defaultdict(collections.Counter)
     hist = collections.Counter()
     phantom_rows = 0
-    cross = collections.Counter()
+    # Seeded, not left to the Counter: an absent key renders as "None", which
+    # reads as "not measured" when it means "zero disagreements".
+    cross = collections.Counter({"n": 0, "disagree_on_exact": 0, "graded_available": 0})
 
     for row in rows:
         group = row["group"]
@@ -222,17 +234,31 @@ def score(arm):
         expect = truth.get(group, [])
         exact_set = {canon(e) for e in expect} - {None}
         flat_set = {canon(e, stereo=False) for e in expect} - {None}
-        if mol is None:
+        # WHOLE FIRST, largest fragment only as a fallback.
+        # Taking the largest fragment unconditionally is wrong for a SALT: the
+        # reference is the whole salt, the prediction is the whole salt, and
+        # dropping the counter-ion from one side only guarantees a mismatch. That
+        # is not hypothetical -- it silently cost 50 rows on the 1031-cell
+        # synthetic arm (46 of them the `salt` stratum, 49 of the 50 already
+        # strict-exact by score_run.py), and it was invisible until this file's
+        # verdict was printed next to score_run.py's. The largest-fragment hammer
+        # exists to strip fragments the MODEL hallucinated, so it must only fire
+        # when the whole molecule did not already match.
+        whole = Chem.MolFromSmiles(smiles)
+        if whole is None and mol is None:
             verdict = "invalid"
         else:
-            flat = Chem.Mol(mol)
-            Chem.RemoveStereochemistry(flat)
-            if Chem.MolToSmiles(mol) in exact_set:
-                verdict = "exact"
-            elif Chem.MolToSmiles(flat) in flat_set:
-                verdict = "stereo"
-            else:
-                verdict = "wrong"
+            verdict = "wrong"
+            for cand in (whole, mol):
+                if cand is None:
+                    continue
+                flat = Chem.Mol(cand)
+                Chem.RemoveStereochemistry(flat)
+                if Chem.MolToSmiles(cand) in exact_set:
+                    verdict = "exact"
+                    break
+                if Chem.MolToSmiles(flat) in flat_set and verdict != "exact":
+                    verdict = "stereo"
         emitted[verdict] += 1
         tiers[row["tier"]][verdict] += 1
         tiers[row["tier"]]["n"] += 1
@@ -254,6 +280,7 @@ def score(arm):
             cross[f"score_run_strict_{sr}"] += 1
         if srg:
             cross[f"score_run_graded_{srg}"] += 1
+            cross["graded_available"] += 1
         if srg and (srg == "exact") != (verdict == "exact"):
             cross["disagree_on_exact"] += 1
 
@@ -283,6 +310,13 @@ def score(arm):
                            for t, c in sorted(tiers_scorable.items())},
         "phantom_rows": phantom_rows,
         "fragment_histogram": dict(sorted(hist.items())),
+        # R1: this file's verdict beside score_run.py's, from the same rows. They
+        # answer slightly different questions (score_run applies prediction-side
+        # normalisations this does not), so they will not agree exactly -- and a
+        # caption must never pair one number with the other's name. Reported, not
+        # reconciled: a disagreement that is printed is information, one that is
+        # averaged away is a bug waiting to be shipped.
+        "cross_check": dict(cross),
     })
     return out
 
@@ -291,8 +325,11 @@ def main():
     arms = [score(a) for a in ARMS]
     doc = {
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "scoring": "largest fragment by heavy-atom count, after CXSMILES abbreviation "
-                   "expansion; RDKit canonical SMILES on both sides, never string equality",
+        "scoring": "whole molecule first, then largest fragment by heavy-atom count "
+                   "as a fallback, after CXSMILES abbreviation expansion; RDKit "
+                   "canonical SMILES on both sides, never string equality. Largest-"
+                   "fragment-only is wrong for salts: it drops a counter-ion the "
+                   "reference has.",
         "built_by": "benchmarks/build_headline.py",
         "arms": arms,
     }
