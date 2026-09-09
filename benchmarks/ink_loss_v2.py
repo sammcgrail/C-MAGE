@@ -134,6 +134,25 @@ def main():
     print(f"{sum(len(v) for v in refs.values())} reference crops in {len(refs)} groups",
           flush=True)
 
+    # ---- which groups did stage 1 actually SEE?
+    # Without this the denominator is every drawing in the manifest, and a PDF
+    # that has not been run yet -- or one that failed -- contributes retention
+    # 0.0, which is indistinguishable from "stage 2 erased the whole structure".
+    # That is the failure mode where a null result and a missing result look the
+    # same, so the two are separated here rather than averaged together.
+    figs = sorted(args.run_root.glob("*/out/run_*/01_VH_Figures/*.png"))
+    groups_run, figs_per_group = set(), Counter()
+    for f in figs:
+        g = group_of(f.name, groups.keys())
+        if g:
+            groups_run.add(g)
+            figs_per_group[g] += 1
+    pages_expected = {g: groups[g]["pages"] for g in groups_run}
+    short = {g: (figs_per_group[g], pages_expected[g]) for g in groups_run
+             if figs_per_group[g] < pages_expected[g]}
+    print(f"{len(groups_run)} of {len(groups)} groups have stage-1 figures; "
+          f"{len(short)} produced fewer figures than pages", flush=True)
+
     # ---- segments
     segs = sorted(args.run_root.glob("*/out/run_*/02_DIS_Segments/*.png"))
     print(f"{len(segs)} stage-2 segments under {args.run_root}", flush=True)
@@ -147,7 +166,6 @@ def main():
             by_group[g].append(s)
 
     rows, unmatched = [], 0
-    drift = []
     for g, paths in sorted(by_group.items()):
         cands = refs.get(g, [])
         if not cands:
@@ -180,9 +198,9 @@ def main():
                 "cell_bbox_w": ci.get("bbox_w"), "cell_bbox_h": ci.get("bbox_h"),
                 "seg_bbox_w": d[1], "seg_bbox_h": d[2],
             })
-            if ci.get("bbox_w"):
-                drift.append(d[1] / ci["bbox_w"])
         unmatched += len(paths) - len(taken)
+    if not rows:
+        raise SystemExit("no segment matched any drawing -- check --cells and --manifest")
 
     # ---- scale guard: a segment must be a crop of page pixels, not a resize.
     # Compare only the segments that kept most of their ink; a badly clipped
@@ -207,6 +225,8 @@ def main():
         meta[k] = r
     drawings = []
     for g, e in groups.items():
+        if g not in groups_run:
+            continue                     # never reached stage 1: not a measurement
         for m in e["molecules"]:
             k = (g, m["number"])
             ci = cell_ink.get(f"{g}/{m['number']}", {})
@@ -222,6 +242,11 @@ def main():
                 "ink_best_segment": p["best"], "n_segments": p["n_seg"],
                 "retention": round(p["ink_seg"] / ci["ink_px"], 4),
                 "retention_best": round(p["best"] / ci["ink_px"], 4),
+                # absolute loss as well as fractional: 200 px off a 30-atom
+                # structure is one bond, and one bond is the whole mechanism.
+                # A fraction alone hides that a big molecule can lose a bond and
+                # still read as 0.99 retained.
+                "ink_lost_px": ci["ink_px"] - p["ink_seg"],
             })
 
     # ---- join the outcome from score_cx, if it has been run
@@ -261,15 +286,25 @@ def main():
 
     # ---- report
     def stats(xs):
+        if not len(xs):
+            return {"n": 0}
         a = np.array(xs, float)
         return dict(n=len(a), mean=round(float(a.mean()), 4),
                     median=round(float(np.median(a)), 4),
                     p10=round(float(np.percentile(a, 10)), 4),
                     lost_gt_2pct=int((a < 0.98).sum()),
                     lost_gt_10pct=int((a < 0.90).sum()),
-                    none=int((a == 0).sum()))
+                    none=int((a == 0).sum()),
+                    # a segment can also hold MORE ink than the drawing: the mask
+                    # reached into a caption or a neighbour. That is a different
+                    # failure from erasure and is counted apart from it.
+                    gained_gt_2pct=int((a > 1.02).sum()))
     summary = {"segments": len(rows), "segments_unmatched_to_a_group": unmatched,
                "drawings": len(drawings), "scale_median_bbox_ratio": round(med, 4),
+               "groups_in_manifest": len(groups), "groups_reaching_stage1": len(groups_run),
+               "groups_with_fewer_figures_than_pages": {k: v for k, v in sorted(short.items())},
+               "drawings_seen_but_never_segmented": sum(1 for d in drawings
+                                                        if d["n_segments"] == 0),
                "matcher_agrees_with_scorer_on_YYS": agree,
                "matcher_disagrees_with_scorer_on_YYS": miss,
                "overall": stats([d["retention"] for d in drawings])}
@@ -283,9 +318,20 @@ def main():
         x = np.array([d["retention"] for d in have], float)
         y = np.array([1.0 if d["skeleton_ok"] else 0.0 for d in have])
         r = float(np.corrcoef(x, y)[0, 1]) if x.std() and y.std() else float("nan")
-        bins = [(0, .5), (.5, .8), (.8, .9), (.9, .95), (.95, .98), (.98, .995), (.995, 1.01)]
+        # Bins are dense at the TOP because that is where the data is and where
+        # the mechanism lives: a single benzene double bond is ~1-2% of a
+        # structure's ink, so the ibuprofen failure is a retention of ~0.98, not
+        # of 0.5. Coarse bins would put every interesting case in one bucket.
+        bins = [(0, .9), (.9, .95), (.95, .98), (.98, .99), (.99, .995),
+                (.995, .999), (.999, 1.01)]
+        lost_ok = [d["ink_lost_px"] for d in have if d["skeleton_ok"]]
+        lost_no = [d["ink_lost_px"] for d in have if not d["skeleton_ok"]]
         summary["outcome"] = {
             "n": len(have),
+            "ink_lost_px_when_correct": (round(float(np.median(lost_ok)), 1)
+                                         if lost_ok else None),
+            "ink_lost_px_when_wrong": (round(float(np.median(lost_no)), 1)
+                                       if lost_no else None),
             "retention_when_skeleton_correct": stats(ok) if ok else None,
             "retention_when_skeleton_wrong": stats(no) if no else None,
             "point_biserial_r": round(r, 4),
