@@ -75,9 +75,26 @@ naming neither Zenodo nor the cache. `patches/0002` validates before caching;
 `tools/fetch_weights.py` adds retries, mirrors and an offline escape hatch:
 
 ```bash
-DECIMER_WEIGHTS=/mnt/mask_rcnn_molecule.h5 tools/fetch_weights.py   # local copy
+DECIMER_WEIGHTS=/path/to/mask_rcnn_molecule.h5 tools/fetch_weights.py   # local copy
 DECIMER_WEIGHTS_MIRRORS=https://your.mirror/w.h5 tools/fetch_weights.py
+tools/fetch_weights.py --wait 3600                                     # ride out an outage
+tools/fetch_weights.py --check                                         # ~1 s, verifies the cache
 ```
+
+**Keep a local copy and point at it — do not re-fetch while iterating.** Zenodo
+returned 504 three separate times in one day during this work. Once you have the
+file, adopt it and never reach for the network again:
+
+```bash
+mkdir -p ~/cmage-models/decimer
+ln -f ~/.cache/decimer/mask_rcnn_molecule.h5 ~/cmage-models/decimer/   # hardlink: no extra disk
+export DECIMER_WEIGHTS=~/cmage-models/decimer/mask_rcnn_molecule.h5
+```
+
+A hardlink rather than a copy because it costs nothing and keeps the data alive
+even if `~/.cache` is swept. For the slim Docker image, mount it:
+`-v ~/cmage-models:/opt/cmage/models:ro`. A build or test that depends on a third
+party being up is a test that fails for reasons unrelated to your change.
 
 Known-good file: **272,650,600 bytes**, sha256
 `329120facb69e88add819a3216db0fbfef57e9a37d6b6db0f6149819a11d46a5` (pinned).
