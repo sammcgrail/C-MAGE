@@ -125,3 +125,43 @@ keeps **96.2%–99.8%** of their ink.
 The real remaining costs are (1) the colour bugs above, (2) detection — structures it
 never engages with, and (3) 11 non-chemistry figures that DO leak 15 false-positive
 segments into stage 3. Not the masking.
+
+---
+
+## What the colour swap costs, measured — and why the answer is "not yet known"
+
+Both arms ran stage 3 over the SAME 569 segments from 17 documents. The only
+difference is channel order: `stock` is the file as `pipeline_dis.py` wrote it,
+`fixed` has R and B exchanged back. 75 of the 569 (13.2%) actually differ; the
+other 494 are grey and byte-identical, which makes them a built-in control.
+
+    coloured segments, prediction changed by the fix   30 of 75  (40%)
+    grey segments (byte-IDENTICAL input), changed       4 of 494 (0.8%)
+
+That 0.8% is not a bug in the comparison. **CXMolScribe is not deterministic**:
+the same file, the same weights, the same device, twice, disagrees about one
+prediction in 125. Every A/B on this pipeline has that noise floor, and a
+difference of a few structures is not a difference.
+
+The accuracy effect could not be measured on this corpus:
+
+    coloured AND carrying a reference SMILES     44
+    of those, prediction changed by the fix      12
+    graded-exact GAINED                           0
+    graded-exact LOST                             0
+    wrong in BOTH arms                           41 of 44
+
+41 of 44 are wrong either way, so there was almost nothing to gain and nothing to
+lose. **A null result over a population that is 93% wrong regardless is not
+evidence the fix does not help — it is evidence this corpus cannot tell.**
+
+The clearest single case is unscorable: rifampicin in `PMC11771699_macrocycle_drugs`
+goes from an unparseable string at confidence 0.574 to a fully stereochemical
+CXSMILES at **0.835** once the channels are corrected. That document has no
+reference manifest, so it counts for nothing.
+
+A corpus that CAN answer this exists and has not been run: PubChem's own 2D
+depictions colour nitrogen blue and oxygen red, and 560 of them carry an
+InChIKey-verified answer. Pushed through stage 2 (which is what creates the
+swapped PNG) both ways, that is a powerful test. It is the obvious next
+experiment and it is not done yet.
