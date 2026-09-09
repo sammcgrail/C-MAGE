@@ -1,56 +1,70 @@
 #!/usr/bin/env python3
-"""Stop stage 2 from silently deleting a figure before stage 3 ever sees it.
+"""Measure what stage 2 removes before stage 3 ever sees it -- and, optionally, put it back.
 
-WHAT THIS FIXES
----------------
+WHAT THIS MEASURES
+------------------
 Stage 2 (DECIMER segmentation) turns each stage-1 figure into zero or more
-segment images, and writes the segment paths into the spreadsheet that stage 3
-reads. A figure that produces NO segments simply disappears: it is absent from
-the spreadsheet, stage 3 never runs on it, and nothing downstream records that a
-drawing was there at all. Measured on real documents, that is 37 of 135 figures
-(27.4%) -- a quarter of the corpus, gone before recognition is attempted.
+segment images and writes the segment paths into the spreadsheet stage 3 reads.
+A figure that produces NO segments is simply absent from that spreadsheet: stage
+3 never runs on it and nothing downstream records it existed. Across 139 figures
+in 20 real-document runs that is 37 figures (26.6%), and the ink stage 3 sees
+falls to 30.1% of the ink present in the figures.
 
-The failure is invisible by construction. A figure stage 1 never produced and a
-figure stage 2 erased are indistinguishable downstream: both contribute nothing.
-That is the ninth instance of this project's recurring signature, and it is why
-this guard writes a report even when it changes nothing.
+THE FINDING THAT SHOULD STOP YOU ACTING ON THOSE NUMBERS
+--------------------------------------------------------
+Those are counts of INK, not of chemistry, and on real documents most of the
+missing ink is not chemistry. All 26 zero-segment figures in the ground-truthed
+subset were inspected by eye. Three carried a drawn structure -- two of them
+Markush generics with R groups, which have no reference SMILES by construction.
+The other 23 were body text, data tables, journal headers, licence boilerplate,
+a bar chart, culture-medium recipes and an IR spectrum. Stage 1 (VisualHeist)
+extracts them as "figures"; stage 2 is RIGHT to return no segments for them.
+
+So the zero-segment count is mostly evidence of stage 1 over-extracting, not of
+stage 2 destroying structures, and any retention figure computed over all
+stage-1 figures has a denominator full of text. Fix the denominator before
+quoting it: classify figures as structure-bearing first.
+
+Feeding those figures to stage 3 anyway was measured, on the 11 ground-truthed
+documents, against a matched baseline (identical segments in both arms, only the
+26 whole-figure rows added):
+
+    recall   9/34 strict, 18/34 graded   -- IDENTICAL in both arms
+    precision      14/242 = 5.79%  ->  14/268 = 5.22%
+    the 26 recovered figures produced   22 wrong + 4 invalid, all low-confidence,
+                                        median closest-Tanimoto 0.000
+
+It recovers ink and recovers nothing. That is why every rewrite in this tool is
+now opt-in and the default is report-only. The whole-figure fallback DOES work
+for an image upload -- one already-cropped structure, shipped and verified -- and
+does not transfer to a document figure, which is a multi-panel page region.
 
 WHAT IT DOES
 ------------
-Between stage 2 and stage 3:
+By default: measures and reports, changes nothing.
 
   1. Groups segment rows by source figure with an ANCHORED match on
      `Image_DIS_VH_File_<figure>_molecule_<n>.png`. A bare prefix match is wrong
      and has already produced retentions above 1.0 on this project (`image_1`
      claiming the segments of `image_10..19`).
-  2. Any figure with ZERO segments gets its whole-figure path appended to the
-     spreadsheet, so stage 3 sees the drawing instead of nothing. This case is
-     free of the caption confound below: no segment was produced, so there is no
-     claim that anything was correctly excluded.
-  3. Measures ink retention per figure (segment ink / figure ink) and writes it
-     to a JSON report whether or not anything was rewritten. This is the number
-     the benchmark and gallery pages should show per card.
-  4. OPTIONALLY (--enable-lowretention-fallback, default OFF) replaces a
-     single-segment figure whose retention is below --retention-threshold with
-     the whole figure.
-
-WHY (4) IS OFF BY DEFAULT
--------------------------
-On a real document a stage-1 figure usually carries a caption, a scheme label or
-axis text alongside the structure. A segment that correctly excludes that text
-retains less than 100% of the figure's ink and is RIGHT to. So on real figures
-"retention" conflates ink the segmenter wrongly destroyed with ink it correctly
-dropped, and a threshold over that mixture would fire on well-behaved figures.
-Until the real-document ink-location measurement separates the two, the
-threshold branch stays behind a flag. The zero-segment case (2) does not depend
-on that distinction, which is why it is on.
+  2. Measures ink retention per figure (segment ink / figure ink) into a JSON
+     report, whether or not anything is rewritten -- because a figure stage 1
+     never produced and a figure stage 2 erased are otherwise indistinguishable
+     downstream, both contributing nothing.
+  3. --enable-zerosegment-fallback appends the whole figure for figures with no
+     segments. OFF: measured above to add noise, not signal.
+  4. --enable-lowretention-fallback replaces a SINGLE low-retention segment with
+     its whole figure. OFF: on a real figure some lost ink is a caption the
+     segmenter correctly dropped, so a threshold over raw retention would fire on
+     well-behaved figures. Waiting on the real-document ink-location measurement.
 
 INK
 ---
 "Ink" is pixels darker than --ink-threshold (default 200, matching
 benchmarks/ink_retention_real_documents.json). benchmarks/ink_loss_v2.py uses
 250. The report records which value was used and, with --both-thresholds, the
-retention at both, so a reader can see how much the choice moves the answer.
+retention at both, so a reader can see how much the choice moves the answer
+(measured: 0.232 vs 0.260 on the same figure -- small).
 Do not reuse upstream's 0.72 binarisation here: that constant
 (complete_structure.py:282) is the cause of the loss, and measuring the loss
 with the ruler that caused it hides it.
@@ -61,9 +75,9 @@ USAGE
                        --figures RUN/01_VH_Figures \
                        --report RUN/logs/retention.json
 
-Rewrites the spreadsheet in place unless --out-excel is given. Exit status is 0
-even when it changes nothing; a non-zero status means the guard itself failed
-and the caller should not proceed as though stage 2 output were intact.
+Writes nothing unless a fallback flag is given. Exit status is 0 even when it
+changes nothing; non-zero means the guard itself failed and the caller should
+not proceed as though stage 2 output were intact.
 """
 from __future__ import annotations
 
@@ -113,6 +127,10 @@ def main() -> int:
                     help="pixels darker than this are ink (default 200)")
     ap.add_argument("--both-thresholds", action="store_true",
                     help="also report retention at 250, to show threshold sensitivity")
+    ap.add_argument("--enable-zerosegment-fallback", action="store_true",
+                    help="feed the whole figure to stage 3 for figures stage 2 left "
+                         "with no segments (OFF by default -- measured to add noise, "
+                         "see the module docstring)")
     ap.add_argument("--enable-lowretention-fallback", action="store_true",
                     help="also replace a SINGLE low-retention segment with its whole "
                          "figure (off by default -- see the module docstring)")
@@ -223,9 +241,10 @@ def main() -> int:
     added, replaced = [], []
     new_rows = list(rows)
 
-    for stem in zero_segment:
-        new_rows.append(os.path.abspath(os.path.join(args.figures, stems[stem])))
-        added.append(stem)
+    if args.enable_zerosegment_fallback:
+        for stem in zero_segment:
+            new_rows.append(os.path.abspath(os.path.join(args.figures, stems[stem])))
+            added.append(stem)
 
     if args.enable_lowretention_fallback:
         for stem in low_single:
@@ -246,6 +265,7 @@ def main() -> int:
         "segment_rows_matched": matched,
         "segment_rows_unmatched": len(unmatched),
         "figures_with_zero_segments": len(zero_segment),
+        "zerosegment_fallback_enabled": bool(args.enable_zerosegment_fallback),
         "zero_segment_figures": sorted(zero_segment),
         "mean_retained": (float(np.mean(retentions)) if retentions else None),
         "median_retained": (float(np.median(retentions)) if retentions else None),
@@ -274,7 +294,14 @@ def main() -> int:
         print(f"replaced {len(replaced)} single low-retention segment(s) with the "
               f"whole figure: {replaced[:5]}{'...' if len(replaced) > 5 else ''}")
     if not added and not replaced:
-        print("no rewrite needed -- stage 2 kept every figure")
+        if zero_segment or low_single:
+            # Never say "nothing to do" when there IS something and the flag is
+            # simply off -- that reads exactly like a clean run.
+            print(f"no rewrite: {len(zero_segment)} zero-segment and {len(low_single)} "
+                  f"low-retention single-segment figure(s) found, but the "
+                  f"corresponding fallback flag is off (report-only)")
+        else:
+            print("no rewrite needed -- every figure produced at least one segment")
 
     if args.dry_run:
         print("dry run: spreadsheet not written")
