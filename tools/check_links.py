@@ -54,13 +54,22 @@ def main():
     if not args.all:
         docs = [d for d in docs if not d.startswith(VENDORED)]
 
-    broken = checked = 0
+    broken = checked = skipped = 0
     for doc in docs:
         with open(doc) as fh:
             text = strip_code(fh.read())
         for link in re.findall(r"\]\(([^)]+)\)", text):
             link = link.split("#")[0].strip()
             if not link or link.startswith(("http://", "https://", "mailto:")):
+                continue
+            # A target that names no path is not a link. Unfenced SMILES produce
+            # `](` by the dozen -- `[H](...)`, `[C@@H](O)`, `[*](Cl)` -- and every
+            # one of them was reported BROKEN. Twelve permanent false positives is
+            # a checker nobody reads, which is worse than no checker: the one real
+            # break would arrive in a list that is always red. A path has a
+            # separator or a file extension; require one.
+            if "/" not in link and not os.path.splitext(link)[1]:
+                skipped += 1
                 continue
             checked += 1
             target = os.path.normpath(os.path.join(os.path.dirname(doc), link))
@@ -70,7 +79,8 @@ def main():
                 print(f"  BROKEN  {doc} -> {link}  (resolves to {target})")
                 broken += 1
 
-    print(f"checked {checked} relative links across {len(docs)} markdown files, {broken} broken")
+    print(f"checked {checked} relative links across {len(docs)} markdown files, "
+          f"{broken} broken ({skipped} targets skipped as not-a-path, mostly SMILES)")
     # A checker that silently matched nothing would print "0 broken" and exit 0,
     # which is indistinguishable from success. It is not.
     if checked == 0:
