@@ -108,7 +108,19 @@ def load(scored):
     return out
 
 
-def table(rows, key, arms, want="skeleton"):
+def table(rows, key, arms, want="skeleton", paired=False):
+    """Per-bucket recall. `paired` restricts to drawings BOTH arms scored.
+
+    Restricting each arm to its OWN coverage is necessary but not sufficient.
+    The two arms process different drawings at different times -- the full arm
+    walks PDFs alphabetically, the stage-3 arm walks crops round-robin -- so
+    their coverages diverge, and two percentages computed over different
+    subsets of the corpus, printed side by side under the heading "the gap",
+    would be exactly the fabrication this report exists to avoid. The gap is
+    only meaningful on the intersection.
+    """
+    if paired:
+        rows = [r for r in rows if all(r.get(a) is not None for a in arms)]
     by = defaultdict(list)
     for r in rows:
         k = r.get(key)
@@ -212,6 +224,15 @@ def main():
             "on the pipeline against real literature, and `basic` is a control "
             "that should sit near ceiling rather than a result."),
         "core_by_stratum": table(core, "stratum", arms),
+        # THE GAP, on the intersection only. This is the table to read.
+        "PAIRED_core_by_stratum": table(core, "stratum", arms, paired=True),
+        "PAIRED_core_by_size": table(core, "size_bucket", arms, paired=True),
+        "PAIRED_crossed_by_render": table(crossed, "render", arms, paired=True),
+        "paired_n": sum(1 for r in rows if all(r.get(a) is not None for a in arms)),
+        "paired_note": ("The arm GAP is reported only over drawings BOTH arms "
+                        "scored. The arms cover the corpus at different rates and "
+                        "in different orders, so per-arm columns computed over each "
+                        "arm's own coverage are NOT comparable to each other."),
         "core_by_size": table(core, "size_bucket", arms),
         "stereo_by_depth": table([r for r in core if r["stratum"] == "stereo"],
                                  "stereo_bucket", arms),
@@ -287,7 +308,18 @@ def main():
           f"full pipeline scored {rep['scored_full']}, stage-3-only scored "
           f"{rep['scored_stage3']}. Percentages are per DRAWING recall (was this "
           f"structure recovered), with Wilson 95% intervals.", ""]
-    md.append(md_table("Core corpus by stratum", rep["core_by_stratum"], arms))
+    md.append(md_table("THE ARM GAP -- core corpus by stratum, PAIRED",
+                       rep["PAIRED_core_by_stratum"], arms,
+                       f"Only the {rep['paired_n']} drawings BOTH arms scored. "
+                       f"{rep['paired_note']}"))
+    md.append(md_table("THE ARM GAP -- by heavy-atom count, PAIRED",
+                       rep["PAIRED_core_by_size"], arms))
+    md.append(md_table("THE ARM GAP -- crossed render conditions, PAIRED",
+                       rep["PAIRED_crossed_by_render"], arms))
+    md.append(md_table("Per-arm coverage (NOT comparable across columns)",
+                       rep["core_by_stratum"], arms,
+                       "Each column over that arm's own coverage. Use the PAIRED "
+                       "tables above for any statement about the gap."))
     md.append(md_table("Core corpus by heavy-atom count", rep["core_by_size"], arms,
                        "Size is recorded for every drawing, so this cuts ACROSS strata "
                        "-- it is not the `complex` stratum under another name."))
