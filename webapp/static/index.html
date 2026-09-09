@@ -152,7 +152,10 @@
 
   /* gallery */
   .runs { display: flex; flex-direction: column; gap: 10px; }
-  .run { display: block; width: 100%; text-align: left; background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; min-height: 44px; }
+  /* A <button>, so it inherits `white-space: nowrap` from the button rule. That
+     was harmless while the card held only chips and thumbnails; it clips every
+     line of a SMILES the moment one is printed under a crop. */
+  .run { display: block; width: 100%; text-align: left; white-space: normal; background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; min-height: 44px; }
   .run .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
   .run .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
   .run .when { color: var(--muted); font-size: 13px; }
@@ -360,7 +363,13 @@
      put grey text on a bright bar. */
   .cbar .cn { position: absolute; top: 0; height: 24px; display: flex; align-items: center;
     font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
-  .cbar .cn.inside { color: #06201e; font-weight: 700; }
+  /* Printed over the fill when the fill leaves no track to sit on. It gets its OWN
+     backing rather than relying on the bar behind it: an absolutely-positioned
+     sibling is invisible to any contrast check that walks the ancestor chain, and
+     to a reader it is whatever colour that particular bar happens to be. Backing it
+     makes the contrast the same whichever bar it lands on, and measurable. */
+  .cbar .cn.inside { color: var(--text); font-weight: 700; background: rgba(9, 13, 18, .86);
+    padding: 0 6px; border-radius: 5px; }
   .cbar .csubline { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
   /* A reference mark on the track -- the comparison bar's value, so a paired A/B
      reads as a movement rather than as two unrelated numbers. */
@@ -417,6 +426,18 @@
   .tweak .d { font-size: 13px; color: var(--muted); line-height: 1.5; margin-top: 8px; }
   .tweak .d b { color: var(--text); font-weight: 600; }
 
+  /* Reference detail that a reader may want and should not have to scroll past.
+     Open is one tap; closed it costs one line instead of two thousand pixels. */
+  details.fold { border: 1px solid var(--line); background: var(--panel2); border-radius: 10px;
+    padding: 0 12px; margin: 12px 0; }
+  details.fold > summary { list-style: none; cursor: pointer; padding: 12px 0; font-size: 14px;
+    font-weight: 600; min-height: 44px; display: flex; align-items: center; gap: 8px; }
+  details.fold > summary::-webkit-details-marker { display: none; }
+  details.fold > summary::before { content: "▸"; color: var(--accent); font-size: 12px; }
+  details.fold[open] > summary::before { content: "▾"; }
+  details.fold > summary span { color: var(--muted); font-weight: 400; font-size: 13px; }
+  details.fold > div { padding-bottom: 12px; }
+
   /* Two confidence ranges on one axis. The whole finding is that they OVERLAP, and
      a pair of min/max/mean triples in a sentence does not show an overlap. */
   .crange { position: relative; height: 26px; margin-top: 5px; border-radius: 6px;
@@ -443,8 +464,12 @@
     align-items: center; justify-content: center; }
   .pv .shot img { max-width: 100%; max-height: 78px; object-fit: contain; display: block; }
   .pv .lab { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  /* Clamped, not merely clipped. A long SMILES cut off at a fixed height looks like
+     a complete short one; the ellipsis line-clamp adds says it is not. The whole
+     string is one tap away in the run itself, and in the title attribute. */
   .pv .sm { font: 11px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text);
-    word-break: break-all; overflow-wrap: anywhere; max-height: 46px; overflow: hidden; }
+    word-break: break-all; overflow-wrap: anywhere; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
   .pv .sm.exp { color: var(--accent); }
   .pv .sm.none { color: var(--muted); font-style: italic; font-family: inherit; }
   .pv .cf { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);
@@ -1114,7 +1139,7 @@
       el('img', { src: '/api/jobs/' + run.id + '/img/segment/' + encodeURIComponent(s.image),
         alt: 'crop extracted from ' + run.filename, loading: 'lazy' })]));
     var abbrev = (s.abbreviations || []).length > 0;
-    card.appendChild(el('div', { class: 'lab', text: abbrev ? 'as predicted — CXSMILES' : 'predicted SMILES' }));
+    card.appendChild(el('div', { class: 'lab', text: abbrev ? 'as predicted (CXSMILES)' : 'predicted SMILES' }));
     card.appendChild(el('div', { class: 'sm' + (s.cxsmiles && s.valid ? '' : ' none'),
       title: s.cxsmiles || '', text: s.cxsmiles || 'nothing readable' }));
     if (s.expanded) {
@@ -1122,7 +1147,11 @@
       card.appendChild(el('div', { class: 'sm exp', title: s.expanded, text: s.expanded }));
     } else if (abbrev) {
       card.appendChild(el('div', { class: 'lab', text: 'expanded' }));
-      card.appendChild(el('div', { class: 'sm none', text: 'no expansion exists for ' + s.abbreviations.join(', ') }));
+      var uniq = [];
+      s.abbreviations.forEach(function (x) { if (uniq.indexOf(x) < 0) uniq.push(x); });
+      card.appendChild(el('div', { class: 'sm none',
+        text: 'no expansion exists for ' + uniq.slice(0, 3).join(', ')
+          + (uniq.length > 3 ? ' and ' + (uniq.length - 3) + ' more' : '') }));
     }
     var v = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
     card.appendChild(el('div', { class: 'cf' }, [
@@ -1193,6 +1222,11 @@
     return row;
   }
 
+  function fold(summary, hint, node) {
+    return el('details', { class: 'fold' }, [
+      el('summary', {}, [document.createTextNode(summary), hint ? el('span', { text: hint }) : null]),
+      el('div', {}, [node])]);
+  }
   function chart(title, sub, body) {
     var c = el('div', { class: 'chart' });
     if (title) c.appendChild(el('div', { class: 'ctitle', text: title }));
@@ -1309,12 +1343,20 @@
     svg.appendChild(svgEl('line', { x1: 0, y1: ty, x2: W, y2: ty, stroke: '#e6e9f0',
       'stroke-opacity': '.5', 'stroke-dasharray': '3 3', 'stroke-width': 1,
       'vector-effect': 'non-scaling-stroke' }));
+    // A floor. Without it a run whose confidences are all near zero draws a row of
+    // short wide dashes that read as floating marks rather than as bars on an axis.
+    svg.appendChild(svgEl('line', { x1: 0, y1: H - 0.5, x2: W, y2: H - 0.5, stroke: '#3a4359',
+      'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }));
     var step = n ? W / n : W;
+    // preserveAspectRatio="none" stretches x by the card width, so a bar that is 60%
+    // of the step is 90px wide on a desktop card when there are only eight of them.
+    // Fewer bars, thinner bars.
+    var ratio = n < 12 ? 0.3 : 0.6;
     values.forEach(function (v, i) {
       var y = H - Math.max(0, Math.min(1, v)) * H;
       svg.appendChild(svgEl('line', { x1: step * (i + 0.5), y1: H, x2: step * (i + 0.5), y2: y,
         stroke: v >= threshold ? '#4fd1c5' : '#fbbf24',
-        'stroke-width': Math.max(0.6, step * 0.6) }));
+        'stroke-width': Math.max(0.6, step * ratio) }));
     });
     return svg;
   }
@@ -1394,6 +1436,19 @@
     });
   }
   function shortTitle(t) { return String(t || '').split('—')[0].replace(/[,\s]+$/, ''); }
+  // A bar captioned "largest fragment, abbreviations expanded" must carry the number
+  // computed under that scoring. `tally.found` is the expanded rung WITHOUT the
+  // fragment strip: identical on the published-document corpus, 15 against 18 on the
+  // known-answer one. Captioning one with the other is the exact defect the ladder
+  // block exists to prevent, and it does not look wrong.
+  function foundExpandedLargest(t) {
+    var r = t.rung_found || {};
+    return r.expanded_largest != null ? r.expanded_largest
+         : (t.frag_found != null ? t.frag_found : t.found);
+  }
+  // Bar names live in a 148-200px column. "11 real published documents, 34 known
+  // molecules" ellipsises to the same string as its neighbour.
+  function barName(t) { return String(t || '').split(/[—,]/)[0].trim(); }
 
   function corpusRows(d) {
     var rows = [];
@@ -1403,7 +1458,8 @@
     });
     pdfRuns(d).forEach(function (r) {
       var t = r.tally || {};
-      rows.push({ name: shortTitle((r.meta || {}).title) || r.name, num: t.found, den: t.expected, cls: 'hi',
+      rows.push({ name: barName((r.meta || {}).title) || r.name, num: foundExpandedLargest(t),
+        den: t.expected, cls: 'hi',
         sub: 'all three stages — page → figure → crop → SMILES, per-document denominators' });
     });
     rows.sort(function (a, b) { return pctNum(b.num, b.den) - pctNum(a.num, a.den); });
@@ -1441,8 +1497,8 @@
     if (docRun) {
       var t = docRun.tally;
       stats.appendChild(el('div', { class: 'stat' }, [
-        el('div', { class: 'v', text: pctText(t.found, t.expected) }),
-        el('div', { class: 'n', text: t.found + ' of ' + t.expected + ' molecules drawn' }),
+        el('div', { class: 'v', text: pctText(foundExpandedLargest(t), t.expected) }),
+        el('div', { class: 'n', text: foundExpandedLargest(t) + ' of ' + t.expected + ' molecules drawn' }),
         el('div', { class: 'l', text: shortTitle((docRun.meta || {}).title) + ', all three stages' }),
         el('div', { class: 'd', text: 'Stereochemistry required, per-document denominators. '
           + pctText(t.rung_found.raw, t.expected) + ' before the CXSMILES abbreviations are expanded — '
@@ -1532,11 +1588,11 @@
       bars.appendChild(bar({ name: 'the same 97 images, background set to pure white first',
         num: a.scorable.exact, den: a.scorable.n, cls: 'hi',
         mark: pctNum(base.scorable.exact, base.scorable.n) }));
-      bars.appendChild(bar({ name: 'predictions carrying phantom fragments — stock',
-        num: base.phantom_rows, den: base.emitted.n, cls: 'bad' }));
-      bars.appendChild(bar({ name: 'predictions carrying phantom fragments — normalised',
-        num: a.phantom_rows, den: a.emitted.n, cls: 'warn',
-        mark: pctNum(base.phantom_rows, base.emitted.n) }));
+      bars.appendChild(bar({ name: 'phantom fragments — stock', num: base.phantom_rows,
+        den: base.emitted.n, cls: 'bad', sub: 'predictions carrying a disconnected extra atom — fewer is better' }));
+      bars.appendChild(bar({ name: 'phantom fragments — normalised', num: a.phantom_rows,
+        den: a.emitted.n, cls: 'warn', mark: pctNum(base.phantom_rows, base.emitted.n),
+        sub: 'the white tick is where stock sat' }));
       t.appendChild(bars);
       t.appendChild(el('div', { class: 'd', html: '<b>C-MAGE is not modified.</b> ' + esc(a.tweak)
         + ' Same weights, same settings, same scoring — the only difference is the pixels handed in. '
@@ -1923,7 +1979,7 @@
         var flipped = (p.found || 0) > (p.raw_found || 0);
         return { name: name(p), num: p.found, den: p.expected,
           cls: p.found ? (flipped ? 'hi' : '') : 'bad',
-          sub: (p.style || '—') + (flipped ? ' · ' + p.raw_found + ' → ' + p.found
+          sub: String(p.style || '—').split(';')[0] + (flipped ? ' · ' + p.raw_found + ' → ' + p.found
             + ' once abbreviations were expanded' : '') };
       })));
 
@@ -1990,10 +2046,8 @@
         el('td', { text: String(hi) }), el('td', { text: String(lo) })]));
     });
     tbl.appendChild(body);
-    var det = el('details', {}, [el('summary', { class: 'muted small',
-      style: 'cursor:pointer;padding:8px 0', text: 'the same rows as a table' }),
-      el('div', { class: 'xwrap' }, [tbl])]);
-    wrap.appendChild(det);
+    wrap.appendChild(fold('The same rows as a table', 'counts, not shape',
+      el('div', { class: 'xwrap' }, [tbl])));
     return wrap;
   }
 
@@ -2104,7 +2158,9 @@
     { key: 'exact', label: 'Right, whole string', fn: function (r) { return r.verdict === 'match'; } },
     { key: 'invalid', label: 'Unreadable', fn: function (r) { return r.frag_verdict === 'invalid'; } }
   ];
-  var PAGE = 24;
+  // Rows in the browsable per-structure list. 24 opened about 13 000 px of card on a
+  // phone before the reader had asked for any of it; "show more" is one tap.
+  var PAGE = 8;
 
   function benchRun(run, d) {
     var t = run.tally, m = run.meta || {}, wrap = el('div', {});
@@ -2130,7 +2186,8 @@
       wrap.appendChild(noPrecisionBlock(run));
       var lb = ladderBlock(run);
       if (lb) wrap.appendChild(lb);
-      wrap.appendChild(expanderBlock(d));
+      wrap.appendChild(fold('Is the abbreviation expansion itself trustworthy?',
+        'the stereochemistry gate, and what it caught', expanderBlock(d)));
       var ab = abbrevBlock(run, rows, jump);
       if (ab) wrap.appendChild(ab);
       // gapBlock is deliberately NOT called here. It exists to explain the gap
@@ -2150,7 +2207,8 @@
          + 'percentage below is a recall figure or a share of the emitted structures, labelled as such. ' : '')
       + 'Nothing is transcribed from an earlier report: the verdicts are recomputed from the stored run and '
       + 'the manifest every time this page is built.' }));
-    wrap.appendChild(metaBlock(run));
+    wrap.appendChild(fold('What was measured, exactly', 'corpus, stages, scoring, hardware',
+      metaBlock(run)));
 
     var tiles = [
       [t.structures, 'structures emitted'], [t.documents, t.documents === 1 ? 'document' : 'documents'],
