@@ -107,25 +107,7 @@ class CropWhite(A.DualTransform):
         assert "image" in kwargs
         img = kwargs["image"]
         height, width, _ = img.shape
-        # OPT-IN TOLERANCE. `img != self.value` demands EXACTLY (255,255,255), so a
-        # background that is merely near-white defeats this crop completely and it
-        # silently keeps the whole frame. PubChem depictions have a (245,245,245)
-        # background, so on every PubChem image this transform has always been a
-        # no-op: measured on the benchmark corpus, the drawing occupies 209x263 of
-        # a 300x300 frame and the remaining 39% of margin is never removed. The
-        # model then resizes whatever survives to 384x384, so the structure —
-        # already carrying ~10 px atom labels — is shrunk by a further quarter.
-        #
-        # Off by default so behaviour stays byte-identical to upstream. Set the
-        # tolerance to treat near-white as white:
-        #
-        #     CROPWHITE_TOLERANCE=15    # 240..255 counts as background
-        import os as _os
-        _tol = int(_os.environ.get("CROPWHITE_TOLERANCE", "0") or 0)
-        if _tol > 0:
-            x = (img < (np.array(self.value) - _tol)).sum(axis=2)
-        else:
-            x = (img != self.value).sum(axis=2)
+        x = (img != self.value).sum(axis=2)
         if x.sum() == 0:
             return params
         row_sum = x.sum(axis=1)
