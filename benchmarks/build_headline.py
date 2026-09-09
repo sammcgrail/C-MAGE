@@ -114,6 +114,53 @@ ARMS = [
         "note": "Third arm of the same A/B. Same 97 images, same weights, same "
                 "scoring as the two rows above.",
     },
+    {
+        "key": "synth_stage3_1031",
+        "title": "1031 synthetic cells, stage 3 only",
+        "short": "synthetic, stage 3 only",
+        "scored": "scored/synth_stage3_1031",
+        "manifest": "ground_truth/synthetic_manifest_v2.json",
+        "stages": "stage 3 only \u2014 one already-cropped structure per image",
+        "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+        "tweak": None,
+        "note": "Every cell of the synthetic v2 corpus, one structure per image, so "
+                "recall and precision are the same number. RDKit line art on pure "
+                "white: an upper bound, not a result. Sharded 4 ways round-robin "
+                "over crop_order.txt, so every shard is an interleaved sample.",
+    },
+    {
+        "key": "synth_full_matched",
+        "title": "The same corpus through the full pipeline",
+        "short": "synthetic, full pipeline",
+        "scored": "scored/synth_full_matched",
+        "manifest": "ground_truth/synthetic_manifest_v2.json",
+        "stages": "stages 1+2+3 \u2014 figure extraction, segmentation, then recognition",
+        "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+        "baseline": "synth_stage3_1031",
+        "tweak": None,
+        "note": "The segmentation A/B. Compare it to the row above ONLY over the 38 "
+                "documents both arms cover (451 molecules): full 46.3% strict exact "
+                "against 54.3%, 60.9% graded against 79.2%. Segmentation costs 8.6 "
+                "points strict and 19.9 graded. Do not compare the raw totals \u2014 "
+                "this arm covers 38 of the 87 documents and the gap between two arms "
+                "over different corpora is not a finding about either.",
+    },
+    {
+        "key": "docs_round34",
+        "title": "Six real documents, patents and papers",
+        "short": "6 real documents",
+        "scored": "scored/docs_round34",
+        "manifest": "ground_truth/pdf_manifest_round34.json",
+        "stages": "stages 1+2+3 \u2014 the whole pipeline on real PDFs",
+        "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+        "tweak": None,
+        "note": "Ground truth built from the documents themselves: 75 compounds, each "
+                "needing a PubChem name match and a reading of the drawing to agree. "
+                "43 further drawn compounds are recorded unresolved rather than "
+                "guessed. PMC10180415 draws 84 and the manifest resolves 41, so its "
+                "precision is a LOWER BOUND; over the other five, precision is 39.3% "
+                "strict and 69.6% graded.",
+    },
 ]
 
 
@@ -162,6 +209,7 @@ def score(arm):
     tiers_scorable = collections.defaultdict(collections.Counter)
     hist = collections.Counter()
     phantom_rows = 0
+    cross = collections.Counter()
 
     for row in rows:
         group = row["group"]
@@ -188,6 +236,27 @@ def score(arm):
         emitted[verdict] += 1
         tiers[row["tier"]][verdict] += 1
         tiers[row["tier"]]["n"] += 1
+        # R1 cross-check. score_run.py already graded this row and its verdict is
+        # carried in the CSV. This function deliberately RE-DERIVES the comparison
+        # rather than transcribing it, so the two are independent -- which only
+        # buys anything if the disagreement is reported instead of hidden. On the
+        # 1031-cell synthetic arm they differ on 50 rows (4.8%), all of them rows
+        # this function calls `wrong` and score_run grades `exact`: score_run
+        # applies prediction-side normalisations (`decoded`, `dephantom`) that this
+        # one does not. Neither is the "right" number; they answer slightly
+        # different questions, and a caption must never pair one with the other's
+        # name.
+        sr = row.get("verdict") or ""
+        srg = row.get("grade") or ""
+        cross["n"] += 1
+        cross[f"headline_{verdict}"] += 1
+        if sr:
+            cross[f"score_run_strict_{sr}"] += 1
+        if srg:
+            cross[f"score_run_graded_{srg}"] += 1
+        if srg and (srg == "exact") != (verdict == "exact"):
+            cross["disagree_on_exact"] += 1
+
         if group in truth:
             scorable[verdict] += 1
             scorable["n"] += 1

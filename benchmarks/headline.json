@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-09T17:01:35+00:00",
+ "generated": "2026-09-09T21:24:13+00:00",
  "scoring": "largest fragment by heavy-atom count, after CXSMILES abbreviation expansion; RDKit canonical SMILES on both sides, never string equality",
  "built_by": "benchmarks/build_headline.py",
  "arms": [
@@ -299,6 +299,200 @@
     "9": 1,
     "10": 1,
     "12": 1
+   }
+  },
+  {
+   "key": "synth_stage3_1031",
+   "title": "1031 synthetic cells, stage 3 only",
+   "short": "synthetic, stage 3 only",
+   "stages": "stage 3 only \u2014 one already-cropped structure per image",
+   "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+   "tweak": null,
+   "note": "Every cell of the synthetic v2 corpus, one structure per image, so recall and precision are the same number. RDKit line art on pure white: an upper bound, not a result. Sharded 4 ways round-robin over crop_order.txt, so every shard is an interleaved sample.",
+   "source": "scored/synth_stage3_1031/structures.csv",
+   "manifest_file": "synthetic_manifest_v2.json",
+   "emitted": {
+    "n": 1031,
+    "exact": 750,
+    "stereo": 50,
+    "wrong": 176,
+    "invalid": 55
+   },
+   "scorable": {
+    "n": 1031,
+    "exact": 750,
+    "stereo": 50,
+    "wrong": 176,
+    "invalid": 55
+   },
+   "tiers": {
+    "high": {
+     "n": 728,
+     "exact": 607,
+     "stereo": 17,
+     "wrong": 103,
+     "invalid": 1
+    },
+    "low": {
+     "n": 303,
+     "exact": 143,
+     "stereo": 33,
+     "wrong": 73,
+     "invalid": 54
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 728,
+     "exact": 607,
+     "stereo": 17,
+     "wrong": 103,
+     "invalid": 1
+    },
+    "low": {
+     "n": 303,
+     "exact": 143,
+     "stereo": 33,
+     "wrong": 73,
+     "invalid": 54
+    }
+   },
+   "phantom_rows": 71,
+   "fragment_histogram": {
+    "0": 55,
+    "1": 905,
+    "2": 48,
+    "3": 18,
+    "4": 4,
+    "6": 1
+   }
+  },
+  {
+   "key": "synth_full_matched",
+   "title": "The same corpus through the full pipeline",
+   "short": "synthetic, full pipeline",
+   "stages": "stages 1+2+3 \u2014 figure extraction, segmentation, then recognition",
+   "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+   "baseline": "synth_stage3_1031",
+   "tweak": null,
+   "note": "The segmentation A/B. Compare it to the row above ONLY over the 38 documents both arms cover (451 molecules): full 46.3% strict exact against 54.3%, 60.9% graded against 79.2%. Segmentation costs 8.6 points strict and 19.9 graded. Do not compare the raw totals \u2014 this arm covers 38 of the 87 documents and the gap between two arms over different corpora is not a finding about either.",
+   "source": "scored/synth_full_matched/structures.csv",
+   "manifest_file": "synthetic_manifest_v2.json",
+   "emitted": {
+    "n": 445,
+    "exact": 271,
+    "stereo": 23,
+    "wrong": 125,
+    "invalid": 26
+   },
+   "scorable": {
+    "n": 445,
+    "exact": 271,
+    "stereo": 23,
+    "wrong": 125,
+    "invalid": 26
+   },
+   "tiers": {
+    "high": {
+     "n": 295,
+     "exact": 201,
+     "stereo": 14,
+     "wrong": 80,
+     "invalid": 0
+    },
+    "low": {
+     "n": 150,
+     "exact": 70,
+     "stereo": 9,
+     "wrong": 45,
+     "invalid": 26
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 295,
+     "exact": 201,
+     "stereo": 14,
+     "wrong": 80,
+     "invalid": 0
+    },
+    "low": {
+     "n": 150,
+     "exact": 70,
+     "stereo": 9,
+     "wrong": 45,
+     "invalid": 26
+    }
+   },
+   "phantom_rows": 2,
+   "fragment_histogram": {
+    "0": 26,
+    "1": 417,
+    "2": 2
+   }
+  },
+  {
+   "key": "docs_round34",
+   "title": "Six real documents, patents and papers",
+   "short": "6 real documents",
+   "stages": "stages 1+2+3 \u2014 the whole pipeline on real PDFs",
+   "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+   "tweak": null,
+   "note": "Ground truth built from the documents themselves: 75 compounds, each needing a PubChem name match and a reading of the drawing to agree. 43 further drawn compounds are recorded unresolved rather than guessed. PMC10180415 draws 84 and the manifest resolves 41, so its precision is a LOWER BOUND; over the other five, precision is 39.3% strict and 69.6% graded.",
+   "source": "scored/docs_round34/structures.csv",
+   "manifest_file": "pdf_manifest_round34.json",
+   "emitted": {
+    "n": 160,
+    "exact": 84,
+    "stereo": 0,
+    "wrong": 67,
+    "invalid": 9
+   },
+   "scorable": {
+    "n": 160,
+    "exact": 84,
+    "stereo": 0,
+    "wrong": 67,
+    "invalid": 9
+   },
+   "tiers": {
+    "high": {
+     "n": 120,
+     "exact": 73,
+     "stereo": 0,
+     "wrong": 47,
+     "invalid": 0
+    },
+    "low": {
+     "n": 40,
+     "exact": 11,
+     "stereo": 0,
+     "wrong": 20,
+     "invalid": 9
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 120,
+     "exact": 73,
+     "stereo": 0,
+     "wrong": 47,
+     "invalid": 0
+    },
+    "low": {
+     "n": 40,
+     "exact": 11,
+     "stereo": 0,
+     "wrong": 20,
+     "invalid": 9
+    }
+   },
+   "phantom_rows": 10,
+   "fragment_histogram": {
+    "0": 9,
+    "1": 141,
+    "2": 8,
+    "3": 2
    }
   }
  ]
