@@ -51,11 +51,16 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from scipy.signal import fftconvolve
+from scipy.stats import fisher_exact
 
 INK = 250
 PROF = 24                 # profile grid; coarse on purpose -- damage must not
                           # break the match, only the ink count
 DIS_PREFIX = "Image_DIS_VH_File_"
+
+
+def pct_(k, n):
+    return None if not n else round(100.0 * k / n, 1)
 
 
 def descriptor(path_or_img):
@@ -529,8 +534,45 @@ def main():
                 (.995, .999), (.999, 1.01)]
         lost_ok = [d["ink_lost_px"] for d in have if d["skeleton_ok"]]
         lost_no = [d["ink_lost_px"] for d in have if not d["skeleton_ok"]]
+        # THE QUESTION, in its sharpest form: does a structure that lost ink at
+        # the mask boundary grade wrong at a materially higher rate than one that
+        # lost none? An overall correlation coefficient over a variable whose
+        # median is exactly 1.0 is dominated by the untouched majority and will
+        # look weak whatever the tail does. A 2x2 on lost-nothing vs lost-
+        # anything asks the question the fix depends on.
+        zero = [d for d in have if d["ink_lost_px"] == 0]
+        lossy_o = [d for d in have if d["ink_lost_px"] > 0]
+        zk = sum(1 for d in zero if d["skeleton_ok"])
+        lk = sum(1 for d in lossy_o if d["skeleton_ok"])
+        fail_z = (len(zero) - zk) / len(zero) if zero else None
+        fail_l = (len(lossy_o) - lk) / len(lossy_o) if lossy_o else None
+        try:
+            _, pf = fisher_exact([[zk, len(zero) - zk], [lk, len(lossy_o) - lk]])
+        except Exception:                                         # noqa: BLE001
+            pf = None
+        px_bins = [(0, 0), (1, 100), (101, 500), (501, 10 ** 9)]
         summary["outcome"] = {
             "n": len(have),
+            "tail_clustering": {
+                "lost_nothing": {"n": len(zero), "skeleton_correct": zk,
+                                 "pct_correct": pct_(zk, len(zero)),
+                                 "pct_wrong": pct_(len(zero) - zk, len(zero))},
+                "lost_anything": {"n": len(lossy_o), "skeleton_correct": lk,
+                                  "pct_correct": pct_(lk, len(lossy_o)),
+                                  "pct_wrong": pct_(len(lossy_o) - lk, len(lossy_o))},
+                "relative_risk_of_a_wrong_skeleton": (
+                    round(fail_l / fail_z, 2) if fail_z else None),
+                "p_fisher_exact": (round(float(pf), 6) if pf is not None else None),
+            },
+            "by_absolute_px_lost": {
+                f"{a}-{b}" if b < 10 ** 9 else f"{a}+": {
+                    "n": sum(1 for d in have if a <= d["ink_lost_px"] <= b),
+                    "skeleton_correct": sum(1 for d in have
+                                            if a <= d["ink_lost_px"] <= b and d["skeleton_ok"]),
+                    "pct": pct_(sum(1 for d in have if a <= d["ink_lost_px"] <= b
+                                    and d["skeleton_ok"]),
+                                sum(1 for d in have if a <= d["ink_lost_px"] <= b)),
+                } for a, b in px_bins},
             "ink_lost_px_when_correct": (round(float(np.median(lost_ok)), 1)
                                          if lost_ok else None),
             "ink_lost_px_when_wrong": (round(float(np.median(lost_no)), 1)
