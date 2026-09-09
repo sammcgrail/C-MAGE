@@ -234,20 +234,34 @@ going 300 -> 1500 px took accuracy from 58% to **zero**.
 What matters is the size of the *drawing in the model's 384x384 tensor*, not
 the size of your file. Upscale a small image; do not request a bigger render.
 
-### A near-white background silently disables the crop
+### A near-white background costs you ~11 points — normalise your INPUT
 
 `CropWhite` tests `img != (255,255,255)` — **exactly** white. PubChem's
 background is `(245,245,245)`, so on those images the transform crops nothing
-at all and the drawing keeps its full margin before being shrunk to 384x384.
-Measured: 209x263 of a 300x300 frame is drawing, and the other 39% is margin
-that never goes.
+and the drawing keeps its full margin before being shrunk to 384x384.
+Measured: 209x263 of a 300x300 frame is drawing; the other 39% never goes.
 
-```bash
-CROPWHITE_TOLERANCE=15 ./run_pipeline.sh ...     # treat 240..255 as background
+**Fix it in your input, not in the pipeline.** Map near-white to white before
+you feed it in:
+
+```python
+a = np.array(Image.open(f).convert("RGB"))
+a[(a >= 240).all(axis=2)] = 255
 ```
 
-Off by default so behaviour matches upstream. If your source has any
-off-white background, set it.
+Measured on the 97-image benchmark, one variable, largest-fragment scoring:
+
+| | exact | predictions carrying phantom fragments |
+|---|---|---|
+| stock C-MAGE, PubChem images as downloaded | 66.0% | 63 of 97 |
+| **same images, background mapped 245 -> 255** | **77.3%** | **18 of 97** |
+
+**Do not "fix" this by loosening `CropWhite`'s threshold instead.** That was
+tried: cropping correctly but leaving the background grey scored **32.0%**,
+half of stock, with invalid predictions rising from 15 to 37. The phantom
+count fell, which looks like a win if it is the only thing you watch — it fell
+because the model stopped producing molecules. The model was trained on white
+backgrounds; give it white backgrounds.
 
 ### Sparse figures produce tiny crops
 
