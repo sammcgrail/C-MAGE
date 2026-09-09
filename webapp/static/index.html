@@ -553,7 +553,7 @@
       <div id="gallery-detail" class="hidden"></div>
     </section>
 
-    <section id="view-benchmark" class="hidden"><div class="warn" style="margin:14px 0"><b>Stage 2 loses most of a real figure.</b> Measured over 135 figures in 18 documents: median <b>29.1%</b> of the drawing's ink survives segmentation, and 27% of figures produce no segment at all. Every result below carries that loss. Image uploads now skip segmentation.</div>
+    <section id="view-benchmark" class="hidden"><div class="warn" style="margin:14px 0"><b>Segmentation costs about 20 points.</b> Same 38 documents through both arms: full pipeline <b>60.9%</b> correct, recognition alone <b>79.2%</b>. On real figures that carry a structure, segmentation keeps a median <b>59%</b> of the drawing's ink. Image uploads skip it entirely.</div>
       <div class="card" id="bench"></div>
     </section>
 
@@ -1409,6 +1409,18 @@
     return armsOf(d).filter(function (a) { return !a.tweak; })
       .sort(function (a, b) { return b.scorable.n - a.scorable.n; });
   }
+  // The headline stat is NOT simply the biggest arm. Sorting by size alone put a
+  // synthetic RDKit-line-art arm at the top the moment one was added, and a
+  // ceiling presented as a headline is a worse error than a small denominator.
+  // An arm nominates itself with `lead`; failing that, the largest arm that is
+  // not flagged an upper bound; failing that, the largest.
+  function leadArm(d) {
+    var stock = stockArms(d);
+    var chosen = null;
+    stock.forEach(function (a) { if (!chosen && a.lead) chosen = a; });
+    if (!chosen) stock.forEach(function (a) { if (!chosen && !a.upper_bound) chosen = a; });
+    return chosen || stock[0];
+  }
   // The PDF runs, which report RECALL against the molecules a document is known to
   // draw. That is the only measure defined on all four corpora, so it is the one the
   // comparison chart uses -- on the depiction corpora one image holds one molecule
@@ -1437,8 +1449,14 @@
   function corpusRows(d) {
     var rows = [];
     stockArms(d).forEach(function (a) {
+      // The arm's OWN stages string. This row used to hardcode "stage 3 only",
+      // which quietly mislabelled every full-pipeline arm added afterwards as a
+      // recognition-only measurement -- the two things the page exists to tell
+      // apart.
+      var sub = a.stages || 'stage 3 only — the CXSMILES reader';
+      if (a.upper_bound) sub += ' · synthetic line art, an upper bound';
       rows.push({ name: a.short || a.title, num: a.scorable.exact, den: a.scorable.n, cls: 'hi',
-        sub: 'stage 3 only — the SMILES reader' });
+        sub: sub });
     });
     pdfRuns(d).forEach(function (r) {
       var t = r.tally || {};
@@ -1452,7 +1470,7 @@
 
   function headlineBlock(d) {
     var by = armIndex(d), stock = stockArms(d), wrap = el('div', {});
-    var full = stock[0], samp = stock[stock.length - 1];
+    var full = leadArm(d), samp = stock[stock.length - 1];
     var docRun = pdfRuns(d)[0];
     if (!full && !docRun) return null;
 
@@ -1463,7 +1481,7 @@
         el('div', { class: 'v', text: pctText(full.scorable.exact, full.scorable.n) }),
         el('div', { class: 'n', text: full.scorable.exact + ' of ' + full.scorable.n
           + ' depictions that carry a reference' }),
-        el('div', { class: 'l', text: full.title + ', stage 3 only' }),
+        el('div', { class: 'l', text: full.title + (full.stages ? ' — ' + full.stages : '') }),
         el('div', { class: 'd', text: pctText(full.emitted.exact, full.emitted.n) + ' over all '
           + full.emitted.n + ' emitted, counting the ' + (full.emitted.n - full.scorable.n)
           + ' with no reference as failures.' })]));

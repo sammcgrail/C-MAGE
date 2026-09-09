@@ -1,10 +1,11 @@
 {
- "generated": "2026-09-09T21:32:50+00:00",
+ "generated": "2026-09-09T21:49:14+00:00",
  "scoring": "whole molecule first, then largest fragment by heavy-atom count as a fallback, after CXSMILES abbreviation expansion; RDKit canonical SMILES on both sides, never string equality. Largest-fragment-only is wrong for salts: it drops a counter-ion the reference has.",
  "built_by": "benchmarks/build_headline.py",
  "arms": [
   {
    "key": "images_all675",
+   "lead": true,
    "title": "743 PubChem depictions",
    "short": "743 depictions",
    "stages": "stage 3 only \u2014 no figure extraction, no segmentation",
@@ -355,7 +356,8 @@
   },
   {
    "key": "synth_stage3_1031",
-   "title": "1031 synthetic cells, stage 3 only",
+   "upper_bound": true,
+   "title": "1031 synthetic cells",
    "short": "synthetic, stage 3 only",
    "stages": "stage 3 only \u2014 one already-cropped structure per image",
    "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
@@ -440,6 +442,7 @@
   },
   {
    "key": "synth_full_matched",
+   "upper_bound": true,
    "title": "The same corpus through the full pipeline",
    "short": "synthetic, full pipeline",
    "stages": "stages 1+2+3 \u2014 figure extraction, segmentation, then recognition",

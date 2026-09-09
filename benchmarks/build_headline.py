@@ -67,6 +67,7 @@ from cxsmiles import expand                                      # noqa: E402
 ARMS = [
     {
         "key": "images_all675",
+        "lead": True,          # the headline stat: real depictions, not line art
         "title": "743 PubChem depictions",
         "short": "743 depictions",
         "scored": "scored/images_all675",
@@ -126,7 +127,8 @@ ARMS = [
     },
     {
         "key": "synth_stage3_1031",
-        "title": "1031 synthetic cells, stage 3 only",
+        "upper_bound": True,   # RDKit line art on pure white -- a ceiling, not a result
+        "title": "1031 synthetic cells",
         "short": "synthetic, stage 3 only",
         "scored": "scored/synth_stage3_1031",
         "manifest": "ground_truth/synthetic_manifest_v2.json",
@@ -140,6 +142,7 @@ ARMS = [
     },
     {
         "key": "synth_full_matched",
+        "upper_bound": True,
         "title": "The same corpus through the full pipeline",
         "short": "synthetic, full pipeline",
         "scored": "scored/synth_full_matched",
