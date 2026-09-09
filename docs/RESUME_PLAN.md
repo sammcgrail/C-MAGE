@@ -172,3 +172,65 @@ because it may answer questions currently listed as open.
 ## Scheduling
 
 The automatic continuation cron was **removed** at the stop. Restart is manual.
+
+---
+
+# Correction to the harvest, 2026-09-09 ~21:0x UTC (post-restart, verified on disk)
+
+The harvest table above **overcounts what was actually scoreable**. It counted
+directories; the check that matters is whether a run wrote
+`03_CXMS_Results/Completed_HighConfidence_CMAGE.xlsx`. Re-inventoried:
+
+| harvest claimed | actually on disk |
+|---|---|
+| 7 of 17 documents reached stage 3 | **6** did. The 7th (`PMC11771699_macrocycle_drugs`) stopped after stage 2. |
+| synthetic full arm: 6 batches have stage-3 output | **1** (b01). b02/b05/b06 have segments only; b03/b04 have neither. |
+| synthetic stage-3 arm: 4 batches have output | **2** (c01, c02). c03 died `rc=137` (OOM on the old 16 GB box), c04 was staged and never started. |
+
+And the instruction "scoring these is cheap, just run the scorer against the right
+manifest" **does not hold for the six documents at all**, because no manifest
+contains their ground truth:
+
+- `pdf_corpus_round3_manifest.json`, `..._round4_...`, `..._expanded_...` are
+  **corpus-SELECTION records**. Entries sit under `accepted` and carry
+  `filename, id, source_url, licence, drawing_style, structure_pages,
+  est_structures` — **provenance only, no SMILES**.
+- The scoreable manifests are `pdf_manifest.json` and `pdf_manifest_expanded.json`,
+  which have a `groups` dict with `molecules: [{index, name, cid, smiles, ...}]`.
+  None of the six documents appear in either.
+
+Running `score_run.py` against a selection record would have produced a full set
+of `no-truth` verdicts and a summary that renders as a real report — the ninth
+instance of this project's recurring signature: **a failure whose output is
+indistinguishable from the measurement**. Ground truth for those six has to be
+built first; that work is under way, output at
+`benchmarks/ground_truth/pdf_manifest_round34.json`.
+
+Also corrected: b01/c01/c02 were scored with `score_cx.py` only. There are no
+`score_run.py` outputs (`structures.csv`, `molecules.csv`, `summary.json`) for
+any synthetic v2 batch. Both scorers answer different questions and both are
+needed.
+
+## What was started instead
+
+- **Stage-3-only arm over the whole 1031-cell corpus** — `/root/cmage-work/s3arm/`,
+  4 shards, round-robin over `crop_order.txt` so every shard and every prefix of
+  a shard is a valid interleaved sample (R2). Supersedes the c01–c04 batching.
+- **Full arm completed offline for b02/b05/b06** — `/root/cmage-work/fullarm/`.
+  Their existing `02_DIS_Segments` fed to stage 3, which is exactly what the full
+  pipeline would have done next. 302 segments, taking the full arm from 143
+  structures to 445. **Label it the full arm, not the stage-3-only arm** — the
+  inputs are segments, not whole cells.
+
+## Durability change
+
+`/tmp` was wiped by the reboot, as predicted. The preserved snapshot is now
+restored to **`/root/cmage-work/`** (durable), with `/tmp/cmage-*` symlinked to it
+so every committed path and `crop_order.txt` entry still resolves.
+`/root/cmage-tmp-preserve/` is untouched as the pristine copy.
+
+## Hardware
+
+8 -> 16 vCPU, 16 -> 32 GB, 153 -> 305 GiB. Measured on the new box: 7 concurrent
+stage-3 workers at ~1 GB RSS each, load ~8/16, ~1 image/s aggregate with
+`OMP_NUM_THREADS` capped at 3-4 per worker. The c03 `rc=137` OOM should not recur.
