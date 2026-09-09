@@ -75,56 +75,88 @@ $PY benchmarks/rescore_fragments.py --scored SCORED
 Ground truth is PubChem-resolved and pixel-verified; 95 of the 97 carry a
 confirmed CID. Comparison is by RDKit canonical SMILES, never string equality.
 
-## 3. Abbreviations come back as R-groups, and that dominates any naive score
+## 3. CXSMILES stores abbreviations on purpose — score against it, not around it
 
-Run the 11-PDF expanded corpus (real documents at 300 dpi, not thumbnails) and
-the strict score collapses. Hand-checking the worst document explains why, and it
-is not a recognition failure.
+**This section previously recorded a pipeline shortcoming. That was my error, and
+the correction roughly doubles the measured accuracy.** Keeping the wrong version
+described here because the mistake is an easy one to repeat.
 
-**162 of the 242 emitted structures (67%) contain an R-group placeholder `*`**
-carrying a CXSMILES abbreviation label — and **every single one of them scored
-wrong or invalid**, which is 71% of the entire "wrong" pile:
+CXMolScribe emits **CXSMILES**, not plain SMILES, and that is the whole point of
+it. Where a drawing says `OMe`, the prediction is a dummy atom carrying the label
+in the CXSMILES extension block:
 
 ```
-*c1cc2c(cc1-c1cc(O)c3cc4c(cc3c1)OCO4)OCO2 |$OMe;;;;;;;;;;;;;;;;;|
-*C(=O)c1cc2c(cc1C#Cc1cc3c(cc1*)OCO3)OCO2  |$Me;;;;;;;;;;;;;;;;;OMe$|
+*c1cc2c(cc1-c1cc(O)c3cc4c(cc3c1)OCO4)OCO2 |$OMe;;;;;;;;;;;;;;;;;$|
 ```
 
-MolScribe **preserves** `OMe`, `MeO`, `Ph`, `Me`, `Bu`, `OTBS`, `OBn`, `R` as
-placeholders instead of expanding them. A SMILES containing `*` can never equal a
-fully-expanded PubChem SMILES, however perfectly the drawing was read. The
-recogniser was right and the comparison was impossible.
+This is **deliberate**, and it is a modification this fork's MolScribe carries:
+`chemistry.py:_expand_abbreviation` has its `ABBREVIATIONS` lookup commented out,
+where upstream MolScribe substitutes a guess. Compare:
 
-Three consequences:
+```python
+# upstream MolScribe — destroys the abbreviation
+if abbrev in ABBREVIATIONS:
+    return ABBREVIATIONS[abbrev].smiles
 
-- **Expand abbreviations before comparing anything.** Otherwise the metric
-  measures representation, not recognition — the third time this corpus has
-  produced that failure, after whole-string-vs-fragment and the resolution
-  artifact.
-- **Anything consuming this output must expand them too**, or it receives SMILES
-  no chemistry toolkit will resolve to a real compound.
-- **Total-synthesis papers are the worst possible benchmark corpus.** They draw
-  dozens of abbreviated intermediates per scheme: 42 of 44 emitted structures
-  carried `*` for the macarpine paper, 23 of 24 for aglacin B. The pipeline read
-  the paper correctly; we simply had no ground truth for intermediates and could
-  not have matched them if we had.
+# CXMolScribe — preserves it as a labelled superatom
+    return f'[{abbrev}]'
+```
 
-### What the expanded corpus does say
+Preserving it is strictly more information. The abbreviation as drawn stays
+recoverable, and an abbreviation the vocabulary does not know becomes **visible**
+instead of silently wrong.
 
-With per-document denominators — **not** the whole-corpus denominator, which
-inflates it 11x and is easy to produce by accident:
+### The scoring error, and what it cost
 
-**recall 9 of 34 = 26.5% exact**, consistent with the 29.6% of the original
-known-answer corpus.
+I compared those CXSMILES against fully-expanded reference SMILES. That
+comparison can only ever fail — they are different representations of the same
+molecule — so 162 of 242 predictions scored "wrong" with nothing whatever wrong
+with the recognition. Expansion belongs at **comparison** time, using the same
+`ABBREVIATIONS` table the model was trained against. `benchmarks/cxsmiles.py`
+does it, and never guesses: an unknown label is reported rather than approximated.
 
-Precision is **not reportable** on this corpus at all: 242 structures emitted
-against 34 ground-truth molecules, because these documents draw dozens of
-compounds each and only those resolvable to a PubChem CID were recorded. An
-emitted structure absent from that partial list scores "wrong" whether or not it
-was read correctly. Report recall, and say which denominator you used.
+Recall on the 11-document corpus, per-document denominators, one variable:
 
-Weak spots the corpus did expose, on documents with complete ground truth:
-charged benzo[c]phenanthridinium alkaloids recovered **0 of 9**, and a 1980
-hand-inked patent scan **0 of 2**. Phantom fragments were rare here (0-8 per
-document versus 63 of 97 on 300 px thumbnails), which independently confirms
-finding 2 — real documents rendered at 300 dpi do not trigger it.
+| scoring | recall |
+|---|---|
+| raw CXSMILES vs expanded reference | 9/34 = **26.5%** |
+| + CXSMILES abbreviations expanded | 16/34 = **47.1%** |
+| + largest fragment as well | 18/34 = **52.9%** |
+
+Two documents flip entirely: aglacin B goes 0/3 → 3/3, and the patent OCSR
+benchmark 2/4 → 4/4. The pipeline had read them correctly all along.
+
+```bash
+.venv-ms/bin/python benchmarks/cxsmiles.py --smiles '*C |$Ph;$|'   # -> Cc1ccccc1
+.venv-ms/bin/python benchmarks/cxsmiles.py --csv SCORED/structures.csv --out X.csv
+```
+
+### The lesson, stated generally
+
+This is the **third** time this corpus has produced the same failure, and by now
+it deserves a name: *the metric measured representation, not recognition.* First
+whole-string versus largest-fragment (14.4% vs 66.0%), then the resolution
+artifact, now CXSMILES versus plain SMILES. Every time, the pipeline was better
+than the number said, and every time the tell was the same — a hand-check of one
+prediction showed a chemically sensible answer scored wrong.
+
+**Before reporting any accuracy figure, expand abbreviations, strip phantom
+fragments, and hand-check one "wrong" answer.** If it looks right to a chemist,
+the metric is the thing that is broken.
+
+### What the corpus does say, corrected
+
+Precision remains **not reportable** here: 242 structures emitted against 34
+ground-truth molecules, because these documents draw dozens of compounds each and
+only the PubChem-resolvable ones were recorded. An emitted structure absent from
+a partial ground truth scores "wrong" regardless of correctness.
+
+Genuine weaknesses, on documents with complete ground truth and after expansion:
+charged benzo[c]phenanthridinium alkaloids **2 of 9**, and the 1980 hand-inked
+patent scan **0 of 2**. Phantom fragments were rare (0-8 per document against 63
+of 97 on 300 px thumbnails), independently confirming finding 2.
+
+Total-synthesis papers are still a poor benchmark corpus, but for a narrower
+reason than I first wrote: not because the abbreviations are unscoreable — they
+are, now — but because the intermediates they draw have no reference to score
+against.
