@@ -326,7 +326,9 @@ def stratum_table(rows, key="stratum"):
     for x in rows:
         by[x[key]].append(x)
     out = {}
-    for s, xs in sorted(by.items()):
+    # None-safe: a stratum key can legitimately be absent (see below), and a bare
+    # sorted() then raises comparing None with str.
+    for s, xs in sorted(by.items(), key=lambda kv: (kv[0] is None, str(kv[0]))):
         c = Counter(x["letter"] for x in xs)
         n = len(xs)
         skel = sum(c[k] for k in SKELETON_OK)
@@ -386,8 +388,14 @@ def main():
         # group stratum, which is unambiguous wherever the group is pure
         strata_in_group = {x["stratum"] for x in refs[g]}
         rec["group_pure"] = len(strata_in_group) == 1
+        # A MIXED group has no single stratum, so the row takes the stratum of
+        # whatever it was assigned to -- but an INVALID prediction is assigned to
+        # nothing, and the pair (mixed group, invalid prediction) left the key as
+        # None and crashed stratum_table's sort. It is named rather than left
+        # None so it appears in the table as its own row instead of vanishing
+        # into one: an unreadable prediction on a mixed page is a real outcome.
         rec["stratum"] = (next(iter(strata_in_group)) if rec["group_pure"]
-                          else rec["assigned_stratum"])
+                          else (rec["assigned_stratum"] or "unassigned"))
         gr = graded_mod.grade_prediction(r["smiles"], gref[g])
         rec["plain_grade"] = gr["grade"]
         rec["plain_match"] = gr["graded_match"]
