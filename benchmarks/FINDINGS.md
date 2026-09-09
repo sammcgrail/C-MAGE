@@ -1,7 +1,10 @@
 # What the benchmark actually found
 
-Two results, both of which change how you should read this pipeline's output.
-Neither is ARM-specific.
+Four results, all of which change how you should read this pipeline's output.
+None is ARM-specific. Sections 1-3 are three separate occasions on which a low
+number turned out to be the metric measuring representation rather than
+recognition; section 4 is the fourth, and quantifies how much of the strict
+`wrong` pile that accounts for.
 
 ## 1. Scoring the whole SMILES string measures an artifact, not recognition
 
@@ -267,7 +270,7 @@ completely and neither lever helps the other — the same asymmetry section 3 fo
 
 | what had to be relaxed | images | documents |
 |---|---|---|
-| phantom `I`/`[HH]` fragments dropped | 405 | 0 |
+| phantom `I`/`[HH]` fragments dropped | 409 | 0 |
 | CXSMILES abbreviation decoded | 0 | 20 |
 | tautomer | 3 | 0 |
 | protonation (`charge`) | 9 | 1 |
@@ -291,7 +294,7 @@ would otherwise rediscover as "poor recognition":
 tautomer    sildenafil   pred  CCCc1nn(C)c2c(=O)nc(-c3cc(S(=O)(=O)N4CCN(C)CC4)ccc3OCC)[nH]c12
                          ref   CCCc1nn(C)c2c(=O)[nH]c(-c3cc(S(=O)(=O)N4CCN(C)CC4)ccc3OCC)nc12
 charge      ciprofloxacin  C(=O)[O-] drawn where the reference has C(=O)O   (9 cases: 6 carboxylates, 3 ammonium)
-salt        osimertinib  free base predicted, reference is the mesylate     (20 cases, 12 of them a stray HCl)
+salt        osimertinib  free base predicted, reference is the mesylate     (20 cases; 15 are a stray `Cl` fragment on the prediction, 2 lithium, 1 iodide)
 skeleton    thiamine pyrophosphate: one phosphate O drawn protonated. The Uncharger
             cannot fix it because the thiazolium is a permanent cation, so only the
             InChIKey connectivity block catches it.
@@ -340,15 +343,20 @@ Consequences, stated as rules:
   not a spectator ion.
 - **The phantom rule stays narrow.** Only *neutral* fragments whose atoms are all H
   and/or I. `[I-]` is a genuine counter-ion and survives to be handled by name;
-  `CC`, `CCl` and `C` survive too, which is why 11 predictions carrying a stray
-  methane or ethane grade `near` rather than `exact` and only the second
-  largest-fragment column rescues them. Verified: not one of the 709 reference
+  `CC`, `CCl` and `C` survive too, which is why 11 predictions grade `near` rather
+  than `exact` and only the second largest-fragment column rescues them — 6 carrying
+  a stray methane, 3 a stray ethane, 1 `CC.CCl`, and atazanavir carrying a real
+  14-heavy-atom second fragment that no narrow rule should ever discard. Verified: not one of the 709 reference
   molecules across both manifests carries a neutral H/I-only fragment, so this step
   cannot fabricate a match against a reference that legitimately had one.
 - **Duplicate collapse is counted apart from phantom removal.** One crop holding
   two copies of the same drawing (letrozole, disulfiram) is a different claim from a
   misread label. Merging the two counters once put `Cl` in a field labelled
-  "phantoms dropped".
+  "phantoms dropped", and naming both fields `dropped_*` produced a row flagged
+  `dedup=False` beside a non-empty `dropped_duplicates` — a field lying about its
+  own meaning. They are now `phantom_frags` / `duplicate_frags` (what the
+  prediction carries) and `dropped_by_largest` (what the hammer actually
+  discarded).
 
 ### Two negative results, which are the most useful part
 
