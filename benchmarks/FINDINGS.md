@@ -62,9 +62,14 @@ Two things follow:
 ## Reproducing
 
 ```bash
+# The scoring scripts need RDKit and openpyxl, which live ONLY in the stage-3
+# venv. Their #!/usr/bin/env python3 resolves to whatever python3 is on PATH,
+# which is NOT that interpreter -- so call them through it explicitly.
+PY=.venv-ms/bin/python
+
 benchmarks/run_stage3_only.sh --images DIR --out OUT --device cpu
-benchmarks/score_run.py --run-dir OUT/run_* --manifest benchmarks/ground_truth/images_realworld_every7.json --out SCORED
-benchmarks/rescore_fragments.py --scored SCORED
+$PY benchmarks/score_run.py --run-dir OUT/run_* --manifest benchmarks/ground_truth/images_realworld_every7.json --out SCORED
+$PY benchmarks/rescore_fragments.py --scored SCORED
 ```
 
 Ground truth is PubChem-resolved and pixel-verified; 95 of the 97 carry a
