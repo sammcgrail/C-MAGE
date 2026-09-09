@@ -403,6 +403,17 @@ def main():
             continue
         b = boundary_split(cp, sp[0])
         if b:
+            # TWO INDEPENDENT VIEWS OF ONE QUANTITY, compared on every drawing.
+            # `ink_lost_px` is a difference of ink COUNTS; `lost_total` is a
+            # pixel-wise XOR after exact alignment. They must agree. They did not
+            # for phenytoin (366 vs 8667) and that disagreement is the ONLY thing
+            # that exposed a mis-assigned segment whose retention had read a
+            # perfectly plausible 0.967 -- because a count ratio cannot tell two
+            # molecules of similar ink apart. Checking it here makes that catch a
+            # standing gate instead of a lucky glance.
+            b["count_lost_px"] = d["ink_lost_px"]
+            b["views_disagree"] = abs(b["lost_total"] - d["ink_lost_px"]) > max(
+                40, 0.25 * max(1, d["ink_lost_px"]))
             b.update({"group": d["group"], "name": d["name"], "render": d["render"],
                       "stratum": d["stratum"], "retention": d["retention"]})
             mech.append(b)
@@ -474,6 +485,15 @@ def main():
                    [r["align_overlap_ratio"] for r in rows])), 4) if rows else None),
                "loss_mechanism": ({
                    "drawings_examined": len(mech),
+                   # a non-zero count here means the count view and the pixel
+                   # view of the same loss disagree, which is how a mis-assigned
+                   # segment announces itself. It must stay at zero.
+                   "drawings_where_the_two_views_disagree": sum(
+                       1 for m in mech if m["views_disagree"]),
+                   "disagreeing_examples": [
+                       {"name": m["name"], "count_lost_px": m["count_lost_px"],
+                        "pixel_lost_px": m["lost_total"]}
+                       for m in mech if m["views_disagree"]][:8],
                    "total_lost_px": sum(m["lost_total"] for m in mech),
                    "lost_outside_crop_rect_px": sum(m["lost_outside_rect"] for m in mech),
                    "lost_inside_rect_masked_out_px": sum(m["lost_inside_rect"] for m in mech),
