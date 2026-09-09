@@ -59,4 +59,4 @@ Carried from `ROUND34_GROUNDTRUTH_NOTES.md`, all recorded in the manifest entrie
 - **pahs** — the fine isomer assignment rests on the printed CAS number; the drawing
   confirms only ring count, size and topology.
 
-Scored run: `/root/cmage-work/scored/round34/`.
+Scored run: `<work>/scored/round34/`.

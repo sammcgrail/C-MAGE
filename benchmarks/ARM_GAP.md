@@ -58,6 +58,6 @@ is measured separately — see `docs/RESUME_PLAN.md` and `tools/retention_guard.
 for why the real-document ink figures need a structure-bearing denominator before
 they can be quoted.
 
-Runs: `/root/cmage-work/scored/fullarm_merged/` and `/root/cmage-work/scored/s3arm_merged/`.
+Runs: `<work>/scored/fullarm_merged/` and `<work>/scored/s3arm_merged/`.
 The stage-3 arm was sharded 4 ways round-robin over `crop_order.txt`, so every shard
 and every prefix of a shard is a valid interleaved sample of the whole.
