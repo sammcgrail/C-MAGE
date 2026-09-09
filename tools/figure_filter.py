@@ -13,19 +13,45 @@ that a drawn structure does not: its ink lies in narrow horizontal bands of very
 regular height, repeated down the page. A structure's ink is sparse, spread in
 two dimensions, and its connected components vary wildly in size.
 
+  band_count          number of contiguous runs of inked pixel rows
+  band_regularity     how uniform the heights of those bands are (1 = identical)
+  tall_ratio          tallest band / median band -- a drawing among text lines
   rows_with_ink       fraction of pixel rows carrying any ink
-  band_regularity     how uniform the heights of the ink bands are
-  comp_height_cv      coefficient of variation of connected-component heights
   fill                ink pixels / bounding-box area
   aspect              width / height of the figure
 
 Everything is computed from the figure alone. No model, no weights, ~15 ms.
 
-CALIBRATION. Thresholds were fitted against 139 real figures classified by eye,
-twice, independently, with the two passes agreeing exactly
-(`benchmarks/figure_labels_real_documents.tsv`). Run this file directly to
-re-evaluate against that file and print the confusion matrix -- do not change a
-threshold without re-running it.
+MEASURED, on the 139 real figures with hand labels:
+
+    drops that ARE text            17
+    drops that had a structure      1   (a Markush formula with three lines of
+                                         German legal text under it)
+    precision of a drop         17/18 = 94.4%
+    recall over text            17/45 = 37.8%
+
+    false-positive segments it removes    5 of 15
+    REAL segments lost to a wrong drop    0
+
+Strictly positive on this corpus, and small: it takes out a third of the junk and
+costs nothing, because the one figure it wrongly drops produced no segment anyway.
+NOT wired into the pipeline. Stock C-MAGE does not do this; run it deliberately.
+
+CALIBRATION, AND A WARNING ABOUT HOW THE LABELS WERE MADE. The labels in
+`benchmarks/figure_labels_real_documents.tsv` come from classifying all 139
+figures by eye, twice, independently. The two passes agreed exactly -- and were
+both WRONG about `ntp_roc_pahs_image_3`, a pure data table of PAH melting points
+and vapour pressures with no structure anywhere on it, which both called a
+structure. THIS FILTER found it, by disagreeing with both; opening the file
+settles it in one look.
+
+Two independent readers agreeing is only evidence if they are independent in the
+way that matters. Both had read the same low-resolution contact sheets, so they
+shared a failure mode and their agreement measured nothing. That label is fixed.
+Assume others like it remain.
+
+Run this file directly to re-evaluate and print the confusion matrix. Do not
+change a threshold without re-running it.
 
     tools/figure_filter.py --labels benchmarks/figure_labels_real_documents.tsv \\
                            --figures-json <work>/figclass/figures.json
