@@ -81,8 +81,34 @@ def manifest_paths() -> list[Path]:
     return found
 
 
+def headline_path() -> Path:
+    """Compact chart summaries for arms too big to publish as whole runs.
+
+    Written by `benchmarks/build_headline.py` from the committed
+    `scored/<arm>/structures.csv`. Optional: absent, the tab simply shows the
+    published runs and no cross-corpus chart.
+    """
+    return config.BENCHMARK_DIR / "headline.json"
+
+
+def _load_headline() -> dict | None:
+    try:
+        data = json.loads(headline_path().read_text())
+    except (OSError, ValueError):
+        return None
+    # A file that parses but carries no arms is a build that half-ran. Treat it as
+    # absent rather than letting the tab render an empty chart frame, which reads
+    # as "measured zero" instead of "not measured".
+    return data if isinstance(data, dict) and data.get("arms") else None
+
+
 def _signature() -> str:
     parts = [str(config.BENCHMARK_DIR)]
+    try:
+        st = headline_path().stat()
+        parts.append(f"headline:{st.st_mtime_ns}:{st.st_size}")
+    except OSError:
+        parts.append("headline:missing")
     for p in manifest_paths() + _find_runs():
         try:
             st = p.stat()
@@ -319,6 +345,9 @@ def _build() -> dict:
         "expander": chem.expander_status(),
         "generated": time.time(),
         "corpora": meta["corpora"],
+        # Cross-corpus summaries (see headline_path). Not a substitute for the
+        # runs below: no crops, no per-structure rows, only what a chart needs.
+        "headline": _load_headline(),
         "runs": [],
         "_runs": [],
     }

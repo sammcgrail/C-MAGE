@@ -284,15 +284,63 @@ class JobStore:
             return self._pending.index(job_id) + 1 if job_id in self._pending else None
 
     # ------------------------------------------------------------------ views
+    # How many crops the gallery card previews. Six was the old thumbnail-strip
+    # count and it stays: each preview now carries its SMILES underneath, so the
+    # row is taller and a larger number would bury the next run.
+    PREVIEW_N = 6
+
     def summary(self, job: Job) -> dict:
+        """One gallery card.
+
+        Carries the SMILES, not just the crop. A strip of bare thumbnails asks the
+        reader to take on faith that the pipeline read them -- which is the one
+        thing this tool must never be taken on faith about -- so every previewed
+        crop travels with the string it was read as, the expansion when the two
+        differ, and the confidence. `confidences` is every structure in the run,
+        not just the previewed six, because it draws the card's sparkline and a
+        sparkline over a truncated series is a different distribution.
+        """
         counts = (job.results or {}).get("counts") or {}
         structs = (job.results or {}).get("structures") or []
+        withimg = [s for s in structs if s.get("segment_image")]
         return {
             "id": job.id, "kind": job.kind, "filename": job.filename, "label": job.label,
             "origin": job.origin, "pages": job.pages, "created": job.created, "finished": job.finished,
             "duration_s": (job.finished - job.started) if job.started and job.finished else None,
             "counts": counts, "note": job.note, "public": bool(job.public),
-            "thumbs": [s["segment_image"] for s in structs if s.get("segment_image")][:6],
+            "thumbs": [s["segment_image"] for s in withimg][:self.PREVIEW_N],
+            "previews": [self._preview(s) for s in withimg[:self.PREVIEW_N]],
+            # Rounded: three decimals is already more precision than the score
+            # separates, and this is a plot, not a measurement.
+            "confidences": [round(s["confidence"], 3) for s in structs
+                            if isinstance(s.get("confidence"), (int, float))],
+            "tiers": [s.get("tier") for s in structs],
+            # Present only on imported corpus runs, where a known answer exists.
+            "verdicts": [s.get("verdict") for s in structs if s.get("verdict")],
+        }
+
+    @staticmethod
+    def _preview(s: dict) -> dict:
+        """A crop plus what the pipeline said it was.
+
+        `cxsmiles` and `expanded` are both sent whenever they differ, because that
+        difference IS the finding on any document a chemist drew: `*C |$OMe$|` and
+        the spelled-out methoxy are the same molecule written two ways, and showing
+        only one of them hides either the notation or the chemistry.
+        """
+        cx = s.get("cxsmiles") or s.get("smiles") or ""
+        expanded = s.get("expanded") or ""
+        return {
+            "image": s["segment_image"],
+            "cxsmiles": cx,
+            # Only when it says something the line above does not.
+            "expanded": expanded if expanded and expanded != cx else "",
+            "confidence": s.get("confidence"),
+            "tier": s.get("tier"),
+            "valid": bool(s.get("valid")),
+            "abbreviations": s.get("abbreviations") or [],
+            "verdict": s.get("verdict"),
+            "fragments": s.get("fragments"),
         }
 
     def public(self, job: Job) -> dict:

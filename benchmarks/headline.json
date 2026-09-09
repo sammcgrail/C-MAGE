@@ -1,0 +1,305 @@
+{
+ "generated": "2026-09-09T17:01:35+00:00",
+ "scoring": "largest fragment by heavy-atom count, after CXSMILES abbreviation expansion; RDKit canonical SMILES on both sides, never string equality",
+ "built_by": "benchmarks/build_headline.py",
+ "arms": [
+  {
+   "key": "images_all675",
+   "title": "743 PubChem depictions",
+   "short": "743 depictions",
+   "stages": "stage 3 only \u2014 no figure extraction, no segmentation",
+   "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+   "tweak": null,
+   "note": "The whole molecules_realworld corpus, not a stride sample. 675 of the 743 images carry a reference SMILES; the other 68 are emitted and unscorable.",
+   "source": "scored/images_all675/structures.csv",
+   "manifest_file": "images_realworld_all.json",
+   "emitted": {
+    "n": 743,
+    "exact": 462,
+    "stereo": 42,
+    "wrong": 128,
+    "invalid": 111
+   },
+   "scorable": {
+    "n": 675,
+    "exact": 462,
+    "stereo": 42,
+    "wrong": 85,
+    "invalid": 86
+   },
+   "tiers": {
+    "high": {
+     "n": 200,
+     "exact": 165,
+     "stereo": 3,
+     "wrong": 30,
+     "invalid": 2
+    },
+    "low": {
+     "n": 543,
+     "exact": 297,
+     "stereo": 39,
+     "wrong": 98,
+     "invalid": 109
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 185,
+     "exact": 165,
+     "stereo": 3,
+     "wrong": 16,
+     "invalid": 1
+    },
+    "low": {
+     "n": 490,
+     "exact": 297,
+     "stereo": 39,
+     "wrong": 69,
+     "invalid": 85
+    }
+   },
+   "phantom_rows": 509,
+   "fragment_histogram": {
+    "0": 111,
+    "1": 123,
+    "2": 78,
+    "3": 123,
+    "4": 108,
+    "5": 90,
+    "6": 45,
+    "7": 22,
+    "8": 15,
+    "9": 6,
+    "10": 1,
+    "11": 2,
+    "12": 1,
+    "13": 1,
+    "14": 1,
+    "16": 3,
+    "18": 2,
+    "41": 1,
+    "68": 1,
+    "84": 1,
+    "85": 1,
+    "103": 1,
+    "105": 1,
+    "106": 1,
+    "120": 4
+   }
+  },
+  {
+   "key": "images97_stock",
+   "title": "97-image stride sample",
+   "short": "97 sample",
+   "stages": "stage 3 only \u2014 no figure extraction, no segmentation",
+   "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
+   "tweak": null,
+   "note": "Every 7th image of the 675 that carry an answer. Reproduces the published 97-image run exactly.",
+   "source": "scored/images97_stock/structures.csv",
+   "manifest_file": "images_realworld_every7.json",
+   "emitted": {
+    "n": 97,
+    "exact": 64,
+    "stereo": 7,
+    "wrong": 11,
+    "invalid": 15
+   },
+   "scorable": {
+    "n": 97,
+    "exact": 64,
+    "stereo": 7,
+    "wrong": 11,
+    "invalid": 15
+   },
+   "tiers": {
+    "high": {
+     "n": 26,
+     "exact": 25,
+     "stereo": 0,
+     "wrong": 1,
+     "invalid": 0
+    },
+    "low": {
+     "n": 71,
+     "exact": 39,
+     "stereo": 7,
+     "wrong": 10,
+     "invalid": 15
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 26,
+     "exact": 25,
+     "stereo": 0,
+     "wrong": 1,
+     "invalid": 0
+    },
+    "low": {
+     "n": 71,
+     "exact": 39,
+     "stereo": 7,
+     "wrong": 10,
+     "invalid": 15
+    }
+   },
+   "phantom_rows": 63,
+   "fragment_histogram": {
+    "0": 15,
+    "1": 19,
+    "2": 6,
+    "3": 14,
+    "4": 19,
+    "5": 10,
+    "6": 5,
+    "7": 3,
+    "8": 2,
+    "9": 2,
+    "16": 1,
+    "106": 1
+   }
+  },
+  {
+   "key": "images97_remap245",
+   "title": "The same 97, background remapped 245 \u2192 255",
+   "short": "97 sample, input normalised",
+   "stages": "stage 3 only \u2014 no figure extraction, no segmentation",
+   "settings": "stock C-MAGE, unchanged. The INPUT was changed, not the pipeline.",
+   "baseline": "images97_stock",
+   "tweak": "Pixels at 245,245,245 \u2014 the near-white page background these PNGs ship with \u2014 were set to pure white before upload. Nothing in C-MAGE was modified, and the same normalisation is one line of PIL in any caller's own code.",
+   "note": "A paired A/B against the row above: same 97 images, same weights, same settings, same scoring.",
+   "source": "scored/images97_remap245/structures.csv",
+   "manifest_file": "images_realworld_every7.json",
+   "emitted": {
+    "n": 97,
+    "exact": 75,
+    "stereo": 6,
+    "wrong": 10,
+    "invalid": 6
+   },
+   "scorable": {
+    "n": 97,
+    "exact": 75,
+    "stereo": 6,
+    "wrong": 10,
+    "invalid": 6
+   },
+   "tiers": {
+    "high": {
+     "n": 68,
+     "exact": 62,
+     "stereo": 2,
+     "wrong": 4,
+     "invalid": 0
+    },
+    "low": {
+     "n": 29,
+     "exact": 13,
+     "stereo": 4,
+     "wrong": 6,
+     "invalid": 6
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 68,
+     "exact": 62,
+     "stereo": 2,
+     "wrong": 4,
+     "invalid": 0
+    },
+    "low": {
+     "n": 29,
+     "exact": 13,
+     "stereo": 4,
+     "wrong": 6,
+     "invalid": 6
+    }
+   },
+   "phantom_rows": 18,
+   "fragment_histogram": {
+    "0": 6,
+    "1": 73,
+    "2": 7,
+    "3": 4,
+    "4": 3,
+    "5": 4
+   }
+  },
+  {
+   "key": "images97_cropwhite_tol15",
+   "title": "The same 97, CropWhite tolerance loosened to 15",
+   "short": "97 sample, segmenter loosened",
+   "stages": "stage 3 only \u2014 no figure extraction, no segmentation",
+   "settings": "C-MAGE MODIFIED: CropWhite's exact-white test relaxed to a tolerance of 15.",
+   "baseline": "images97_stock",
+   "tweak": "The same near-white background, attacked inside the pipeline instead of in the input.",
+   "rejected": "Measured worse than stock and reverted. It is recorded here so the claim 'we tried the other fix' is checkable, and it is not offered as an option.",
+   "note": "Third arm of the same A/B. Same 97 images, same weights, same scoring as the two rows above.",
+   "source": "scored/images97_cropwhite_tol15/structures.csv",
+   "manifest_file": "images_realworld_every7.json",
+   "emitted": {
+    "n": 97,
+    "exact": 31,
+    "stereo": 2,
+    "wrong": 27,
+    "invalid": 37
+   },
+   "scorable": {
+    "n": 97,
+    "exact": 31,
+    "stereo": 2,
+    "wrong": 27,
+    "invalid": 37
+   },
+   "tiers": {
+    "high": {
+     "n": 11,
+     "exact": 9,
+     "stereo": 0,
+     "wrong": 2,
+     "invalid": 0
+    },
+    "low": {
+     "n": 86,
+     "exact": 22,
+     "stereo": 2,
+     "wrong": 25,
+     "invalid": 37
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 11,
+     "exact": 9,
+     "stereo": 0,
+     "wrong": 2,
+     "invalid": 0
+    },
+    "low": {
+     "n": 86,
+     "exact": 22,
+     "stereo": 2,
+     "wrong": 25,
+     "invalid": 37
+    }
+   },
+   "phantom_rows": 24,
+   "fragment_histogram": {
+    "0": 37,
+    "1": 36,
+    "2": 7,
+    "3": 5,
+    "4": 4,
+    "5": 2,
+    "6": 1,
+    "7": 1,
+    "8": 1,
+    "9": 1,
+    "10": 1,
+    "12": 1
+   }
+  }
+ ]
+}
