@@ -41,6 +41,19 @@ except ImportError:                                              # pragma: no co
              "(.venv-ms/bin/python)")
 
 
+# Two kinds of label cannot be expanded, and lumping them together misreads the
+# result. A MARKUSH VARIABLE denotes no single molecule — nobody can expand `R1`,
+# and a scorer should not be marked down for it. A MISSING ABBREVIATION does
+# denote a definite group (OTBS is tert-butyldimethylsilyl) that simply is not in
+# MolScribe's 75-entry vocabulary; that one is a coverage gap worth closing.
+_MARKUSH = re.compile(r"^(R\d*|X|Y|Z|Ar|Alk|SR\d*|OR\d*|NR\d*|R[a-z]+|OR[a-z]+)$")
+
+
+def label_class(label):
+    """'markush' | 'missing' — why a label could not be expanded."""
+    return "markush" if _MARKUSH.match(label or "") else "missing"
+
+
 def parse(cx):
     """Split a CXSMILES into (core SMILES, [per-atom label]).
 
@@ -58,49 +71,90 @@ def parse(cx):
 def expand(cx):
     """(expanded_smiles, note). note is 'ok', or names what could not be expanded.
 
+    Joins with **Chem.molzip**, not RWMol surgery, and that choice is the whole
+    correctness story. An earlier version did `RemoveAtom` + `AddBond`, which
+    appends the new bond at the END of the anchor's bond list — and `@`/`@@` is
+    defined relative to bond order, so 5 of 7 tetrahedral centres FLIPPED and 4 of
+    5 alkene E/Z assignments were lost. It also silently downgraded a double bond
+    to the dummy into a single bond. It produced wrong stereoisomers that parsed
+    cleanly, which is the worst kind of wrong. `molzip` keeps the anchor's own bond
+    object, so parity, E/Z and bond order all survive.
+
     Never guesses: an abbreviation absent from ABBREVIATIONS is reported, not
-    approximated. That is the property the CXSMILES representation buys.
+    approximated. A label on an atom that is not a dummy is also refused — deleting
+    a real atom because it carried a label is not an expansion.
     """
     core, labels = parse(cx)
     if not any(labels):
         mol = Chem.MolFromSmiles(core)
         return (Chem.MolToSmiles(mol), "no abbreviations") if mol else (None, "unparseable")
 
-    mol = Chem.MolFromSmiles(core, sanitize=False)
+    # removeHs=False keeps explicit [H] atoms, so the label list stays aligned with
+    # atom indices. Sanitising here would silently drop them and misalign everything.
+    params = Chem.SmilesParserParams()
+    params.removeHs = False
+    params.sanitize = False
+    mol = Chem.MolFromSmiles(core, params)
     if mol is None:
         return None, "unparseable core"
+
     rw = Chem.RWMol(mol)
     unknown = []
-    # Descending index: removing an atom renumbers everything above it.
-    for i in range(rw.GetNumAtoms() - 1, -1, -1):
+    frags = []
+    tag = 1
+    for i in range(rw.GetNumAtoms()):
         label = labels[i] if i < len(labels) else ""
-        if not label:
+        if not label or not any(c.isalpha() for c in label):
             continue
-        entry = ABBREVIATIONS.get(label)
-        smi = getattr(entry, "smiles", None)
-        if smi is None:
-            unknown.append(label)
+        atom = rw.GetAtomWithIdx(i)
+        if atom.GetSymbol() != "*":
+            # A label on a real atom is not an attachment point.
+            unknown.append(f"{label}(on {atom.GetSymbol()})")
             continue
-        frag = Chem.MolFromSmiles(smi, sanitize=False)
+        smi = getattr(ABBREVIATIONS.get(label), "smiles", None)
+        # Belt and braces: a table entry can be absent, None, or a string RDKit
+        # refuses — and RDKit raises TypeError rather than returning None for some
+        # of those. Any failure here means "unknown", never a guess.
+        frag = None
+        if isinstance(smi, str) and smi:
+            try:
+                frag = Chem.MolFromSmiles(smi, params)
+            except Exception:                                    # noqa: BLE001
+                frag = None
         if frag is None:
             unknown.append(label)
             continue
-        nbrs = [n.GetIdx() for n in rw.GetAtomWithIdx(i).GetNeighbors()]
-        if len(nbrs) != 1:
-            # A label on a bridging atom has no single attachment point; leaving
-            # it alone is honest, substituting arbitrarily is not.
-            unknown.append(f"{label}(attachments={len(nbrs)})")
-            continue
-        anchor, offset = nbrs[0], rw.GetNumAtoms()
-        rw.InsertMol(frag)
-        rw.AddBond(anchor, offset, Chem.BondType.SINGLE)
-        rw.RemoveAtom(i)
+        # The abbreviation's radical atom is its attachment point; every entry in
+        # the table has exactly one and it is atom 0.
+        fw = Chem.RWMol(frag)
+        star = fw.AddAtom(Chem.Atom(0))
+        fw.GetAtomWithIdx(star).SetAtomMapNum(tag)
+        fw.AddBond(0, star, Chem.BondType.SINGLE)
+        # Radical electron consumed by the new bond.
+        a0 = fw.GetAtomWithIdx(0)
+        a0.SetNumRadicalElectrons(max(0, a0.GetNumRadicalElectrons() - 1))
+        frags.append(fw.GetMol())
+        atom.SetAtomMapNum(tag)
+        tag += 1
+
+    if not frags:
+        try:
+            out = rw.GetMol()
+            Chem.SanitizeMol(out)
+            return Chem.MolToSmiles(out), (",".join(unknown) if unknown else "ok")
+        except Exception as e:                                   # noqa: BLE001
+            return None, f"{type(e).__name__}"
+
+    combined = rw.GetMol()
+    for f in frags:
+        combined = Chem.CombineMols(combined, f)
     try:
-        out = rw.GetMol()
-        Chem.SanitizeMol(out)
+        zipped = Chem.molzip(combined)
+        Chem.SanitizeMol(zipped)
+        Chem.AssignStereochemistry(zipped, cleanIt=True, force=True)
+        return Chem.MolToSmiles(zipped), (",".join(unknown) if unknown else "ok")
     except Exception as e:                                       # noqa: BLE001
         return None, f"{type(e).__name__}: {e}"
-    return Chem.MolToSmiles(out), (",".join(unknown) if unknown else "ok")
 
 
 def canon(smi, stereo=True):
@@ -163,6 +217,22 @@ def main():
     print(f"{n} predictions: {stats['expanded']} abbreviations expanded, "
           f"{stats['no_abbrev']} had none, {stats['unknown']} had an unknown label, "
           f"{stats['failed']} unparseable")
+
+    # Split the unexpandable, because the two classes mean different things.
+    markush, missing = {}, {}
+    for r in rows:
+        for lab in (r.get("expansion_note") or "").split(","):
+            lab = lab.split("(")[0].strip()
+            if not lab or lab in ("ok", "no abbreviations"):
+                continue
+            d = markush if label_class(lab) == "markush" else missing
+            d[lab] = d.get(lab, 0) + 1
+    if markush:
+        print(f"  Markush variables, not expandable by anyone ({sum(markush.values())} "
+              f"occurrences): {', '.join(sorted(markush))}")
+    if missing:
+        print(f"  real abbreviations missing from the vocabulary ({sum(missing.values())} "
+              f"occurrences): {', '.join(sorted(missing))}")
     return 0
 
 
