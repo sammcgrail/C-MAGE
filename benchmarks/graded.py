@@ -387,10 +387,23 @@ def compare(p, r):
     return "wrong", t
 
 
-BLANK = {"grade": "invalid", "grade_largest": "invalid", "matched_name": None,
-         "matched_name_largest": None, "closest_name": None, "decoded": False,
+# Field names are prefixed `graded_` where score_run.py already owns the plain
+# name. `matched_name` and `closest_name` are STRICT columns over there, and an
+# earlier version of this dict quietly overwrote both for all 426 rows that reached
+# a matched grade -- the strict recall survived only because it also gates on
+# `verdict`, which is luck, not design. score_run.py now asserts the key sets are
+# disjoint so the next collision fails loudly instead of silently rewriting a
+# column somebody is reading as the strict answer.
+BLANK = {"grade": "invalid", "grade_largest": "invalid", "graded_match": None,
+         "graded_match_largest": None, "graded_closest": None, "decoded": False,
          "dephantom": False, "dedup": False, "largest": False, "best_tanimoto": None,
-         "n_fragments": None, "dropped_phantoms": "", "dropped_duplicates": "",
+         # `phantom_frags` / `duplicate_frags` are what this prediction CARRIES, not
+         # what the winning variant dropped -- they are populated whether or not the
+         # dephantom variant is the one selected. `dropped_by_largest` is the other
+         # kind and is only set when the hammer actually won. Naming these
+         # "dropped_*" once produced a row flagged dedup=False with a non-empty
+         # "dropped_duplicates", which is a field lying about its own meaning.
+         "n_fragments": None, "phantom_frags": "", "duplicate_frags": "",
          "dropped_by_largest": "", "formula_pred": None, "formula_ref": None,
          "formula_match": None, "elem_delta": None, "heavy_delta": None,
          "skeleton_match": False, "expansion_note": ""}
@@ -421,8 +434,8 @@ def grade_prediction(raw_smiles, refs):
         dp, phantoms, dupes = dephantom(m)
         if phantoms or dupes:
             variants.append((c0 + 1, dec, bool(phantoms), bool(dupes), False, dp, []))
-            out["dropped_phantoms"] = ".".join(phantoms)
-            out["dropped_duplicates"] = ".".join(dupes)
+            out["phantom_frags"] = ".".join(phantoms)
+            out["duplicate_frags"] = ".".join(dupes)
         src = dp if (phantoms or dupes) else m
         lf, nf = largest_fragment(src)
         if nf > 1 and lf is not None:
@@ -447,11 +460,11 @@ def grade_prediction(raw_smiles, refs):
     best = pick([v for v in variants if not v[4]])          # no largest-fragment hammer
     best_lg = pick(variants)                                # hammer allowed
     _, _, _, g, name, dec, dph, ddup, _lg, t, r, _gone = best
-    out.update(grade=g, decoded=dec, dephantom=dph, dedup=ddup, closest_name=name,
+    out.update(grade=g, decoded=dec, dephantom=dph, dedup=ddup, graded_closest=name,
                best_tanimoto=None if t is None else round(t, 3),
-               matched_name=name if g in MATCHED else None)
+               graded_match=name if g in MATCHED else None)
     out["grade_largest"] = best_lg[3]
-    out["matched_name_largest"] = best_lg[4] if best_lg[3] in MATCHED else None
+    out["graded_match_largest"] = best_lg[4] if best_lg[3] in MATCHED else None
     out["largest"] = bool(best_lg[8])
     if best_lg[8]:
         out["dropped_by_largest"] = ".".join(best_lg[11])

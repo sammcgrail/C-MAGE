@@ -7,12 +7,33 @@ source group (PDF stem or image stem, carried in the segment file name), and
 compares predicted and expected SMILES with RDKit canonical forms -- never by
 string equality.
 
-Verdict per emitted structure:
+Verdict per emitted structure -- THE STRICT METRIC, unchanged:
   exact    canonical isomeric SMILES equal to a molecule drawn in that group
   stereo   equal after dropping stereochemistry (right connectivity, stereo off)
   wrong    parses, but is not any molecule drawn in that group
   invalid  RDKit cannot parse it (includes the pipeline's literal "<invalid>")
   no-truth the group is not in the manifest (reported, excluded from precision)
+
+`wrong` above is doing far too much work, and that is a property of the metric
+rather than of the pipeline. Most of it is the same molecule written differently:
+
+    675 PubChem depictions   504 wrong, of which 426 (84.5%) ARE the drawn molecule
+    11 published documents   212 wrong, of which  20 ( 9.4%) ARE the drawn molecule
+
+So every structure also gets a GRADE from benchmarks/graded.py, which names the
+loosest relaxation needed before the two sides agree -- exact, stereo, tautomer,
+charge, salt, skeleton, near, wrong, invalid -- plus flags for the two lossless
+prediction-side normalisations (`decoded`, `dephantom`) and a second grade
+allowing the largest-fragment hammer. The strict counts above are computed
+independently and are byte-identical with or without --no-graded; the graded
+counts are reported beside them and are never merged into one figure. Reporting
+only the graded number would be the same mistake in the other direction: a caller
+that pastes the SMILES straight out gets the strict one.
+
+`near` is a DIAGNOSTIC, not a pass. Morgan fingerprints are stereo-blind, so two
+diastereomers can score Tanimoto 1.000, and carboplatin-minus-its-platinum scores
+0.889 against carboplatin. benchmarks/graded_selftest.py is the standing gate on
+exactly that failure -- run it before quoting any graded number.
 
 Two denominators, reported separately and never merged:
   recall    = drawn molecules recovered / drawn molecules in the manifest
@@ -23,7 +44,7 @@ Correctness is cross-tabulated against the pipeline's own confidence split
 (threshold 0.8431: >= is "high", else "low"; "<invalid>" is always low).
 
 Outputs in --out:
-  structures.csv   one row per emitted structure (verdict, confidence, tier, closest molecule, Tanimoto)
+  structures.csv   one row per emitted structure (verdict, grade, confidence, tier, closest molecule, Tanimoto)
   molecules.csv    one row per drawn molecule (recovered exact / stereo / no)
   summary.json     all totals, per-group table, confidence cross-tab
   summary.md       the same as a readable table
@@ -172,6 +193,10 @@ def main():
     ap.add_argument("--threshold", type=float, default=THRESHOLD)
     ap.add_argument("--sheets", action="store_true", help="write hand-review contact sheets")
     ap.add_argument("--label", default=None, help="free-text label for this run in summary")
+    ap.add_argument("--no-graded", action="store_true",
+                    help="skip the graded verdicts (benchmarks/graded.py). The strict "
+                         "numbers are identical either way; this only drops the columns "
+                         "that show what the strict `wrong` pile is actually made of.")
     args = ap.parse_args()
 
     manifest = json.loads(args.manifest.read_text())
@@ -241,19 +266,58 @@ def main():
             rec["closest_name"], rec["closest_tanimoto"], rec["closest_heavy"] = best[1]["name"], round(best[0], 3), best[1]["heavy"]
         structs.append(rec)
 
+    # ---- graded verdicts: how close is each `wrong` really?
+    # Computed AFTER and entirely SEPARATELY from the strict verdict above, and it
+    # never writes to rec["verdict"]. That separation is the point: the strict
+    # number has to stay recomputable and unflattered, or the graded one is just a
+    # nicer number with no baseline to argue with.
+    graded = None
+    if not args.no_graded:
+        try:
+            import graded as graded_mod
+        except ImportError as e:                                 # pragma: no cover
+            print(f"warning: graded verdicts unavailable ({e}); strict numbers unaffected")
+            graded_mod = None
+        if graded_mod is not None:
+            graded = graded_mod
+            # A graded field must never overwrite a strict one. It did: `matched_name`
+            # and `closest_name` exist on both sides, and grading silently rewrote
+            # both on 426 of 743 rows -- invisible in every summary number, because
+            # the recall query also gates on `verdict`. Fail loudly instead.
+            clash = set(graded.BLANK) & set(structs[0]) - {"grade", "grade_largest"}
+            if clash:
+                raise SystemExit(f"graded.py fields collide with strict fields: {sorted(clash)}")
+            gref = {g: [(e["name"], graded.ref_forms(e["mol"])) for e in entry["molecules"]]
+                    for g, entry in expected.items()}
+            for rec in structs:
+                if rec["verdict"] == "no-truth":
+                    rec.update(dict(graded.BLANK, grade="no-truth", grade_largest="no-truth"))
+                else:
+                    rec.update(graded.grade_prediction(rec["smiles"], gref[rec["group"]]))
+
     # ---- recall: per drawn molecule
     mol_rows = []
+    grade_rank = (lambda g: graded.RANK.get(g, 99)) if graded else (lambda g: 99)
     for g, entry in expected.items():
         in_group = [s for s in structs if s["group"] == g]
         for e in entry["molecules"]:
             ex = [s for s in in_group if s["verdict"] == "exact" and s["matched_name"] == e["name"]]
             st = [s for s in in_group if s["verdict"] == "stereo" and s["matched_name"] == e["name"]]
             rec = "exact" if ex else ("stereo" if st else "no")
-            mol_rows.append({"group": g, "source": entry["source"], "name": e["name"], "label": e["label"],
-                             "heavy_atoms": e["heavy"], "recovered": rec,
-                             "structures_in_group": len(in_group),
-                             "best_confidence": max([s["confidence"] or 0 for s in ex + st], default=None),
-                             "matching_structures": len(ex) + len(st)})
+            row = {"group": g, "source": entry["source"], "name": e["name"], "label": e["label"],
+                   "heavy_atoms": e["heavy"], "recovered": rec,
+                   "structures_in_group": len(in_group),
+                   "best_confidence": max([s["confidence"] or 0 for s in ex + st], default=None),
+                   "matching_structures": len(ex) + len(st)}
+            if graded:
+                # The tightest grade at which ANY structure in the group is this
+                # molecule. "no" only when nothing in the group reached a matched
+                # grade -- a `near` structure does not recover a molecule.
+                hits = [s["grade"] for s in in_group if s["graded_match"] == e["name"]]
+                hits_lg = [s["grade_largest"] for s in in_group if s["graded_match_largest"] == e["name"]]
+                row["recovered_grade"] = min(hits, key=grade_rank) if hits else "no"
+                row["recovered_grade_largest"] = min(hits_lg, key=grade_rank) if hits_lg else "no"
+            mol_rows.append(row)
 
     scored = [s for s in structs if s["verdict"] != "no-truth"]
     no_truth = [s for s in structs if s["verdict"] == "no-truth"]
@@ -285,6 +349,24 @@ def main():
         "tier_disagreements_with_threshold": sum(1 for s in scored if s["tier"] != s["tier_by_threshold"]),
         "per_group": [],
     }
+    if graded:
+        summary["graded"] = graded.tally(scored)
+        summary["graded"]["recall"] = {
+            "denominator": n_mols,
+            "by_grade": {gr: sum(1 for m in mol_rows if m["recovered_grade"] == gr)
+                         for gr in graded.ALL_GRADES + ["no"]
+                         if any(m["recovered_grade"] == gr for m in mol_rows)},
+            "by_grade_with_largest_fragment": {
+                gr: sum(1 for m in mol_rows if m["recovered_grade_largest"] == gr)
+                for gr in graded.ALL_GRADES + ["no"]
+                if any(m["recovered_grade_largest"] == gr for m in mol_rows)},
+            "recovered_same_molecule": sum(1 for m in mol_rows
+                                           if m["recovered_grade"] in graded.MATCHED),
+        }
+        summary["graded"]["note"] = (
+            "Read beside summary['precision'] and summary['recall'], never instead of "
+            "them. `near` is a diagnostic, not a pass: Morgan fingerprints are "
+            "stereo-blind. Gate: benchmarks/graded_selftest.py")
     r, p = summary["recall"], summary["precision"]
     r["recall_exact"] = round(r["recovered_exact"] / n_mols, 4) if n_mols else None
     r["recall_exact_or_stereo"] = round(r["recovered_exact_or_stereo"] / n_mols, 4) if n_mols else None
@@ -317,6 +399,11 @@ def main():
     args.out.mkdir(parents=True, exist_ok=True)
     s_fields = ["group", "figure", "segment", "file_name", "tier", "tier_by_threshold", "confidence", "verdict", "matched_name",
                 "closest_name", "closest_tanimoto", "pred_heavy", "closest_heavy", "smiles"]
+    if graded:
+        s_fields[s_fields.index("smiles"):s_fields.index("smiles")] = [
+            "grade", "grade_largest", "graded_match", "decoded", "dephantom", "dedup", "largest",
+            "best_tanimoto", "skeleton_match", "formula_match", "elem_delta",
+            "n_fragments", "phantom_frags", "duplicate_frags", "dropped_by_largest"]
     with open(args.out / "structures.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=s_fields, extrasaction="ignore")
         w.writeheader()
@@ -333,6 +420,9 @@ def main():
     list_key = "pdfs" if corpus == "pdfs" else "images"
     verdicts = {"corpus": corpus, "threshold": args.threshold, "verdict_values": ["exact", "stereo", "wrong", "invalid"],
                 list_key: []}
+    if graded:
+        verdicts["grade_values"] = graded.ALL_GRADES
+        verdicts["near_tanimoto_threshold"] = graded.NEAR_TANIMOTO
     for g, entry in expected.items():
         verdicts[list_key].append({
             "group": g, "file": entry["source"],
@@ -342,7 +432,11 @@ def main():
                             "rendered_dir": "highconfidence_images" if s["tier"] == HIGH else "lowconfidence_images",
                             "smiles": s["smiles"], "confidence": s["confidence"], "tier": s["tier"],
                             "verdict": s["verdict"], "matched_key": s["matched_name"],
-                            "closest_key": s["closest_name"], "closest_tanimoto": s["closest_tanimoto"]}
+                            "closest_key": s["closest_name"], "closest_tanimoto": s["closest_tanimoto"],
+                            **({"grade": s["grade"], "grade_largest": s["grade_largest"],
+                                "decoded": s["decoded"], "dephantom": s["dephantom"],
+                                "largest": s["largest"], "best_tanimoto": s["best_tanimoto"]}
+                               if graded else {})}
                            for s in structs if s["group"] == g]})
     if no_truth:
         verdicts["structures_without_truth"] = [{"group": s["group"], "segment_image": s["file_name"], "smiles": s["smiles"],
@@ -364,6 +458,34 @@ def main():
     for tier in (HIGH, LOW):
         c = summary["confidence_crosstab"][tier]
         md.append(f"| {tier} | {c['total']} | {c['exact']} | {c['stereo']} | {c['wrong']} | {c['invalid']} | {c['fraction_wrong_or_invalid']} | {c['fraction_exact']} |")
+    if graded:
+        gt = summary["graded"]
+        md += ["", "## Graded verdicts -- what the strict `wrong` pile is made of", "",
+               f"The strict counts above are unchanged. Below, each structure is graded by the",
+               f"LOOSEST relaxation needed before it and the drawn molecule agree. `near` "
+               f"(Tanimoto >= {gt['near_tanimoto_threshold']}) is a **diagnostic, not a pass** -- Morgan fingerprints",
+               "are stereo-blind, so two diastereomers score 1.000. Gate: `graded_selftest.py`.", "",
+               "| grade | structures | % | + largest fragment | needed decode | needed dephantom |",
+               "|---|---|---|---|---|---|"]
+        for gname in graded.ALL_GRADES:
+            n = gt["grade"][gname]
+            if not n and not gt["grade_with_largest_fragment"][gname]:
+                continue
+            nn = gt["normalisation_needed"].get(gname, {})
+            md.append(f"| {gname} | {n} | {round(n / n_struct * 100, 1) if n_struct else 0}% | "
+                      f"{gt['grade_with_largest_fragment'][gname]} | {nn.get('decoded', 0)} | {nn.get('dephantom', 0)} |")
+        sw = gt["strict_wrong"]
+        md += ["", f"Of the **{sw['denominator']}** structures the strict metric calls `wrong`:", "",
+               f"- same molecule, different representation: **{sw['same_molecule_different_representation']}**"
+               f" ({round(sw.get('fraction_same_molecule', 0) * 100, 1)}%)",
+               f"- near-miss (skeleton match or Tanimoto >= {gt['near_tanimoto_threshold']}): {sw['near_miss_skeleton_or_tanimoto']}",
+               f"- genuinely different molecule: {sw['genuinely_different_molecule']}",
+               "",
+               "| recall | molecules |", "|---|---|",
+               f"| strict, stereo required | {r['recovered_exact']}/{n_mols} |",
+               f"| any matched grade (exact/stereo/tautomer/charge/salt) | {gt['recall']['recovered_same_molecule']}/{n_mols} |",
+               "", "Recall by grade: " + ", ".join(f"{k} {v}" for k, v in gt["recall"]["by_grade"].items()),
+               ""]
     md += ["", "## Per group", "", "| group | drawn | figs | segs | structs | rec.exact | rec.stereo | exact | stereo | wrong | invalid | high | low |",
            "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for g in summary["per_group"]:

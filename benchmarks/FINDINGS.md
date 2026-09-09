@@ -245,3 +245,131 @@ Total-synthesis papers are still a poor benchmark corpus, but for a narrower
 reason than I first wrote: not because the abbreviations are unscoreable — they
 are, now — but because the intermediates they draw have no reference to score
 against.
+
+## 4. Most of `wrong` is not a wrong molecule — the fourth time this has happened
+
+Section 3 ended by naming the pattern: *the metric measured representation, not
+recognition*, three times over. This is the fourth, found by grading every
+prediction the scorer calls `wrong` on four axes it had never looked at —
+tautomer, protonation, counter-ion, and InChIKey connectivity — rather than
+looking for another whole-corpus post-process.
+
+| | 675 PubChem depictions, stage 3 only | 11 published documents, all 3 stages |
+|---|---|---|
+| structures with ground truth | 675 | 242 |
+| **strict `wrong`** | **504** | **212** |
+| of those, the same molecule written differently | **426 = 84.5%** | **20 = 9.4%** |
+| near-miss (skeleton match, or Tanimoto ≥ 0.85) | 16 | 0 |
+| genuinely a different molecule | 62 | 192 |
+
+The two corpora are worth reading against each other, because the *reason* differs
+completely and neither lever helps the other — the same asymmetry section 3 found:
+
+| what had to be relaxed | images | documents |
+|---|---|---|
+| phantom `I`/`[HH]` fragments dropped | 405 | 0 |
+| CXSMILES abbreviation decoded | 0 | 20 |
+| tautomer | 3 | 0 |
+| protonation (`charge`) | 9 | 1 |
+| counter-ion or solvate (`salt`) | 20 | 0 |
+
+`benchmarks/graded.py` computes this and `score_run.py` now reports it in every
+`summary.json`, `summary.md` and `structures.csv`, beside the strict counts and
+never merged with them. `--no-graded` reproduces the previous output byte for
+byte; that was verified against a pre-existing scored directory, file by file.
+
+Independent agreement worth noting: graded recall on the document corpus is
+**18/34**, which is the same number `rescore_fragments.py --expand-cxsmiles`
+reports by a completely different code path, and the strict 9/34 is unchanged.
+
+### Six new residual classes, each small and each real
+
+Naming them matters more than their size, because each one is a thing a reader
+would otherwise rediscover as "poor recognition":
+
+```
+tautomer    sildenafil   pred  CCCc1nn(C)c2c(=O)nc(-c3cc(S(=O)(=O)N4CCN(C)CC4)ccc3OCC)[nH]c12
+                         ref   CCCc1nn(C)c2c(=O)[nH]c(-c3cc(S(=O)(=O)N4CCN(C)CC4)ccc3OCC)nc12
+charge      ciprofloxacin  C(=O)[O-] drawn where the reference has C(=O)O   (9 cases: 6 carboxylates, 3 ammonium)
+salt        osimertinib  free base predicted, reference is the mesylate     (20 cases, 12 of them a stray HCl)
+skeleton    thiamine pyrophosphate: one phosphate O drawn protonated. The Uncharger
+            cannot fix it because the thiazolium is a permanent cation, so only the
+            InChIKey connectivity block catches it.
+near        carboplatin without its platinum, Tanimoto 0.889 — CLOSE AND WRONG
+decoded     pregabalin  *C[C@@H](CN)CC(C)C |$CO2H;;;;;;;;$|  (documents only, 19 cases)
+```
+
+### Where the lines are, and the two ways a grader like this goes bad
+
+A grading scheme loose enough to pass a genuinely different molecule is worse than
+the strict metric it replaces, because it yields a friendlier number and no error.
+Both failures below were **live false passes** in the first draft, and both were
+found by hand-checking, not by a test:
+
+- **Reference-side fragment selection.** Comparing the prediction's largest
+  fragment against the *reference's* largest fragment graded carboplatin `exact`
+  while the prediction had dropped the platinum. Gone: the reference is only ever
+  normalised by rules that name what they remove.
+- **`rdMolStandardize.FragmentParent` is `LargestFragmentChooser`** wearing a
+  chemistry name. Using it for the `salt` rung silently reintroduced the hammer —
+  33 image predictions reached `salt` only because it binned their phantom
+  `I`/`[HH]` — and it strips `[Pt+2]` clean off carboplatin's reference.
+  `SaltRemover`'s curated patterns take a mesylate and an iodide and leave
+  `[Pt+2]`, propylene glycol and succinic acid alone.
+
+Consequences, stated as rules:
+
+- **`near` is a diagnostic, never a pass.** Morgan fingerprints are stereo-blind:
+  on this manifest, 18 of 197,506 distinct molecule pairs reach Tanimoto ≥ 0.85 and
+  **seven of them sit at exactly 1.000 because they are enantiomer pairs**
+  (levomilnacipran/milnacipran, esketamine/ketamine, citalopram/escitalopram,
+  cetirizine/levocetirizine, bupivacaine/levobupivacaine, esomeprazole/omeprazole,
+  galactose/glucose). A `near` structure does not recover a molecule and is not
+  counted in graded recall.
+- **0.85 because that is where these corpora separate**, not by convention. Nothing
+  graded `wrong` exceeds 0.845 on the images or 0.657 on the documents, so no
+  genuine miss is being dressed up; and the near buckets (16 and 0) are small enough
+  to read end to end, which is the only way to know a bucket. The closest call is
+  strychnine-plus-one-carbon at 0.845 — a real homologue, correctly `wrong`, and
+  0.01 from the line. Treat the threshold as arbitrary within ±0.01 and never
+  quote `near` as accuracy.
+- **A metal blocks the salt rung**, two ways: present on one side only
+  (carboplatin), or carrying any bond on either side (oxaliplatin's prediction
+  draws Pt covalently, and fragment normalisation then matches the
+  diaminocyclohexane *ligand* on both sides). A coordinated metal is the compound,
+  not a spectator ion.
+- **The phantom rule stays narrow.** Only *neutral* fragments whose atoms are all H
+  and/or I. `[I-]` is a genuine counter-ion and survives to be handled by name;
+  `CC`, `CCl` and `C` survive too, which is why 11 predictions carrying a stray
+  methane or ethane grade `near` rather than `exact` and only the second
+  largest-fragment column rescues them. Verified: not one of the 709 reference
+  molecules across both manifests carries a neutral H/I-only fragment, so this step
+  cannot fabricate a match against a reference that legitimately had one.
+- **Duplicate collapse is counted apart from phantom removal.** One crop holding
+  two copies of the same drawing (letrozole, disulfiram) is a different claim from a
+  misread label. Merging the two counters once put `Cl` in a field labelled
+  "phantoms dropped".
+
+### Two negative results, which are the most useful part
+
+- **`rdMolStandardize.Normalizer` rescues nothing.** It was the obvious next rung,
+  because three residual misses look like charge-notation errors. They are not:
+  isosorbide dinitrate's `O[N+](=O)O`, zidovudine's `N=[N+]=N` and pregabalin's
+  `CN=NN` each carry an extra *hydrogen* where the reference has a negative charge.
+  RDKit already normalises pentavalent nitro at parse time, so there is no notation
+  left to fix and no rung was added.
+- **`rescore_fragments.py`'s largest-fragment rule loses a correct answer.**
+  Methylene blue's reference is legitimately two fragments (cation + `[Cl-]`) and
+  the prediction matches it exactly; reducing the prediction to its largest
+  fragment turns an `exact` into a miss. It is one structure in 743 and it does not
+  move the headline, but it is the same class of error in the opposite direction:
+  a post-process applied to a corpus where its premise does not hold.
+
+Reproduce:
+
+```bash
+PY=.venv-ms/bin/python
+$PY benchmarks/graded_selftest.py                      # gate: must print GATE: open
+$PY benchmarks/score_run.py --run-dir RUN --manifest MANIFEST --out SCORED
+$PY benchmarks/graded.py --scored SCORED --manifest MANIFEST
+```

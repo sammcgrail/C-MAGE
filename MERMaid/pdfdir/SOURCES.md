@@ -407,3 +407,207 @@ plus `pdfimages -list` to establish whether the drawings are vector or raster an
   paper that DRAWS those, not one that reports new ones.
 - A JP or DE patent, to sit beside the CN one and separate "CJK layout" from "non-English layout".
 - A pharmacopoeia monograph excerpt (the licence question was not resolved this round).
+# Proposed addition to MERMaid/pdfdir/SOURCES.md
+
+---
+
+# Fourth survey (2026-09-09): patents only — salts, synthesis routes, deuterium, non-English
+
+Round three closed the metal-centre, non-English-CJK and hard-negative gaps and left four open:
+a synthesis route whose intermediates are specific and isolable, a salt or polymorph document that
+draws the counterion, an old typewritten scan whose structures are not generic, and a Latin-script
+non-English patent. This survey looked only at PATENTS, because a patent is a public record and
+redistribution needs no licence argument. Six documents accepted, 88 pages, 6.05 MB, 41 catalogued
+molecules of which 40 are PubChem-resolved. Nine candidates fetched and rejected.
+
+**The round-1 retrieval route is dead from this box.** `patents.google.com/patent/<ID>/en` now
+answers **HTTP 503, "your computer or network may be sending automated queries"**, so the
+`citation_pdf_url` trick cannot be used with curl. Three routes that do work, all verified:
+
+- **US documents: `https://patentimages.storage.googleapis.com/pdfs/US<number>.pdf`** — no kind
+  code, no hash. 200, `application/octet-stream`, real `%PDF-`. Round one recorded this form as
+  403; it is not, at least for US. Checked against two committed files: US4231938 gives 10 pages
+  and US6699871 gives 23, matching. The bytes differ slightly from the hashed-path copies
+  (871216 vs 872095 for US4231938), so it is a separately generated file, not a mirror. The same
+  URL shape 403s for CN, EP, DE and JP.
+- **Any country:** resolve the hashed `patentimages` path with a server-side fetcher instead of
+  curl — that path is not rate-limited — then curl the hashed URL, which is not blocked either.
+  Control: asking a fetcher for every `patentimages` URL on the CN108503621B record page returned
+  exactly the hashed path already recorded in round three, so the method is not inventing URLs.
+  When a fetcher answers NONE the document genuinely has no PDF (DE19942809A1, a withdrawn German
+  application, is one).
+- **EP documents: `https://data.epo.org/publication-server/rest/v1.2/patents/EP<number>NW<kind>/document.pdf`**
+  — unauthenticated, and **no publication date is needed in the path**, unlike the date form.
+  Byte-identical size to the committed EP0641330B1.pdf. `/rest/v1.2/publication-dates` lists every
+  publication date and `/publication-dates/<YYYYMMDD>/patents` lists every document published that
+  day (2343 B1s on one date), which makes the EP corpus browsable. Two traps: the server honours a
+  `Range:` header only sometimes, so pipe through `head -c` rather than trusting a 206; and the
+  root element's `lang` attribute is the only reliable language flag — the B540 title block always
+  lists de/en/fr in that order regardless of the language of proceedings, and every B1 carries
+  German and French CLAIMS, so a naive grep for `lang="de"` over a whole document matches
+  everything.
+
+## Accepted
+
+### 21. US7326708B2_sitagliptin_phosphate.pdf  (15 pages, 1,277,699 bytes, sha256 29fac05a2cdf...)
+- US 7,326,708 B2, Cypes et al., Merck & Co., granted 2008-02-05, "Phosphoric acid salt of a
+  dipeptidyl peptidase-IV inhibitor" — the sitagliptin phosphate salt-and-polymorph patent.
+- PDF https://patentimages.storage.googleapis.com/pdfs/US7326708.pdf
+- The best file of the round, and it fills three gaps at once.
+  **Salt:** the counterion is DRAWN. Formula I is sitagliptin plus a separate `.H3PO4`; the Example
+  page draws the monohydrate as `.H3PO4 .H2O`; compound 1-4 is drawn with its own separate `HCl`.
+  Free base, anhydrous salt and hydrate are three depictions differing only by dotted-off fragments.
+  **Synthesis route:** Scheme 1 (p10) and Scheme 2 (p11) give eleven specific, isolable,
+  individually named intermediates, every one PubChem-resolvable.
+  **Built-in negatives:** pp2-6 are five instrument plots — XRPD, 13C CPMAS NMR, 19F MAS NMR, TGA,
+  DSC. Anything emitted there is a false positive, in a document that is otherwise all positives.
+- ZERO Markush. It is a process and salt patent, not composition-of-matter, so there is no genus.
+- Two resolution traps recorded rather than smoothed over. `sitagliptin phosphate` by name AND
+  CAS 654671-78-0 both return the MONOHYDRATE (CID 11591741); the anhydrous salt (CID 6451150) came
+  only from a fastidentity SMILES search. And CAS 764667-64-3 for compound 2-3 returns CID 54711477,
+  which is compound **2-2** — a wrong answer that happens to be another compound in the same scheme.
+- Deliberately pairs with the round-one US6699871B2_sitagliptin.pdf: same drug, same scanner, one
+  drawn as an R-substituted genus and one as a specific salt.
+
+### 22. US5273995A_atorvastatin_calcium.pdf  (10 pages, 765,709 bytes, sha256 6bbed1fe2bb4...)
+- US 5,273,995, Bruce D. Roth, Warner-Lambert, granted 1993-12-28 — the atorvastatin hemicalcium
+  patent. PDF https://patentimages.storage.googleapis.com/pdfs/US5273995.pdf
+- The salt gap done properly: p9 draws the CALCIUM salt with an explicit `Ca2+` outside a
+  subscripted bracket and m.w. 1155.4 printed beside it, and p4 draws the same anion twice as the
+  mono-sodium salt (`CO2Na`), once per enantiomer.
+- It is simultaneously a RESOLUTION patent. Scheme 1 (pp3-4) runs the trans racemate through
+  (R)-1-phenylethylamine and draws both diastereomeric amides and then both enantiomeric lactones
+  side by side — a pipeline that drops stereo scores the same molecule twice. Scheme 2 adds four
+  numbered intermediates and one bracketed Mg2+ enolate with dashed coordination bonds.
+- Zero Markush; the only non-atom labels are Ph and CONHPh, which cxsmiles.py expands.
+- Resolution trap: the [S(R*R*)] lactone is the ENANTIOMER of atorvastatin lactone, and a
+  fastidentity `same_connectivity` search returns CID 49849495, the (2S,4R) DIASTEREOMER. Inverting
+  every centre of CID 6483036 in RDKit and searching `same_stereo` gives the right record, 13923665.
+
+### 23. US8524733B2_deutetrabenazine.pdf  (27 pages, 2,223,459 bytes, sha256 917bb8bc886a...)
+- US 8,524,733 B2, Gant and Shahbaz, Auspex Pharmaceuticals, granted 2013-09-03, "Benzoquinoline
+  inhibitors of vesicular monoamine transporter 2" — deutetrabenazine / Austedo.
+- PDF https://patentimages.storage.googleapis.com/pdfs/US8524733.pdf
+- The ISOTOPE gap, and a recognition mode nothing else in the corpus has: deuterium drawn as an
+  explicit `D` atom label, 6 to 17 of them crowded onto one depiction.
+- Examples 1 and 2 (pp13-14) are the SAME four-step synthesis run with CH3I and with CD3I —
+  a controlled isotope pair on an identical skeleton, with every intermediate named and resolvable.
+  pp15-26 then give a gallery of about 140 explicitly deuterated analogues, roughly 12 per page,
+  every D position committed. Expect nearly all of the gallery to be unscoreable: they are
+  hypothetical analogues and are not in PubChem. That is the accepted outcome for analogue content.
+- NOT Markush-free, and it is listed anyway: formula I (R1-R23) appears on p1 and p4 and Schemes
+  I and II on pp11-12 are generic. Four generic drawings against roughly 150 committed ones.
+- PubChem's deutetrabenazine record (CID 73442840) really does carry the six `[2H]`, so the
+  reference is isotope-aware even though the displayed formula collapses to C19H27NO3.
+
+### 24. US4943590A_escitalopram.pdf  (9 pages, 702,550 bytes, sha256 c4eea8f65384...)
+- US 4,943,590, Boegesoe and Perregaard, H. Lundbeck A/S, granted 1990-07-24 — the escitalopram
+  patent. PDF https://patentimages.storage.googleapis.com/pdfs/US4943590.pdf
+- Reaction Scheme I (p3) draws the racemic diol, both Mosher acid chlorides, both diastereomeric
+  esters, potassium tert-butoxide, and then (+)- and (-)-citalopram SEPARATELY: the same 2D
+  skeleton twice, differing only in one wedge and a printed sign. The sharpest stereo test here.
+- Also a deliberate HARD POSITIVE for depiction style. The art is SEMI-CONDENSED — rings drawn as
+  skeletons, side chains written as inline text on the bond (`CH2CH2CH2N(CH3)2`, `CH2OH`), reagents
+  spelled out atom by atom (`KO-C(CH3)3`, `CH3-SO2-Cl`). This is close to the style round two
+  rejected US3385886A ibuprofen for, and the difference matters: ibuprofen's schemes had no drawn
+  ring system at all, whereas here every ring is drawn and only the chains are text. Expect low
+  recall; that is the measurement, and it separates "cannot see the drawing" from "cannot read a
+  condensed side chain".
+- Resolution trap: CAS 64372-56-1 for the diol returns CID 10193515, a ring-closed carboxamide with
+  the SAME molecular formula C20H23FN2O2 and a different structure. The IUPAC name and an
+  independent SMILES identity search agree on CID 10132164. Formula agreement is not identity.
+
+### 25. DE60100786T2_citalopram_german.pdf  (10 pages, 179,024 bytes, sha256 865fa1932cc2...)
+- DE 601 00 786 T2, H. Lundbeck A/S, published by the Deutsches Patent- und Markenamt 2004-07-15,
+  "Kristalline Base von Citalopram, und Hydrochlorid- oder Hydrobromidsalz davon" — the German
+  translation of EP 1 227 088 B1.
+- PDF https://patentimages.storage.googleapis.com/d2/ab/84/7ab1a1a0af00a6/DE60100786T2.pdf
+- The Latin-script NON-ENGLISH gap. Whole specification in German, including the substituent prose
+  ("worin Z Halogen, -O-SO2-(CF2)n-CF3 ... ist") and the table headers ("Tablettengehalt",
+  "Zerbroeckelbarkeit"), so layout and in-figure text are language-dependent while the drawings are
+  not — exactly what CN108503621B does for CJK, now with the CJK variable removed.
+- A FOURTH patent PDF class: Acrobat Distiller 5.0.5 vector text with the structures inserted as
+  300-302 ppi CCITT **stencil** clippings (`pdfimages -list` reports type `stencil`, not `image`),
+  against the US files' full-page 300-dpi rasters, EP0641330B1's 300-dpi CCITT image clippings and
+  CN108503621B's 150-ppi indexed rasters.
+- First inorganic counter-anion in the corpus: a 1-butyl-3-methylimidazolium hexafluorophosphate on
+  p4, drawn with an N+ on the ring and a separate PF6-.
+- Honest limitation: only 3 specific drawings in 10 pages (citalopram twice, the ionic liquid once;
+  formula II with a Z substituent is generic and appears twice). A cheap style-and-language probe,
+  not a structure-rich document. It pairs with US4943590A — same molecule, same applicant, two
+  languages, two PDF classes, two drawing styles. 179 kB is the cheapest file in the corpus.
+
+### 26. US4117118A_cyclosporin.pdf  (17 pages, 1,195,115 bytes, sha256 c83a01ae7308...)
+- US 4,117,118, Haerri, Ruegger, Dreyfuss and Kobel, Sandoz Ltd., granted 1978-09-26, "Organic
+  compounds" — the original cyclosporin isolation patent.
+- PDF https://patentimages.storage.googleapis.com/pdfs/US4117118.pdf
+- Two properties nothing else has. **Size:** cyclosporin A is 85 heavy atoms drawn as one connected
+  object filling half a page, by far the largest single depiction in the corpus and a direct test
+  of whether the segmenter emits one structure or several. **Stereo as text:** a printed D, L or R
+  beside each alpha carbon is the only configuration information in the drawing — there is not one
+  wedge in it — and the R letters are an excellent trap, because an OCSR tool has every reason to
+  read `R` as an R-group.
+- pp2-7 are FIG 1-6, the UV, IR and 90 MHz 1H NMR spectra: six more built-in negatives.
+- **Only one of its two structures is scored, and the reason is the most useful thing in this
+  round.** The document draws F-1 and F-2 and says they are cyclosporins A and B. At 300 dpi both
+  drawings carry a CH2-CH3 side chain at the residue between MeBmt and sarcosine, i.e. Abu, which
+  is cyclosporin A's residue 2 — cyclosporin B is [Ala2]. And the empirical formula printed for
+  F-1, C61H109N11O12, is PubChem's formula for cyclosporin **B** (CID 12797522), not for A
+  (C62H111N11O12, CID 5284373). Name, formula and drawing are three identity signals and no two of
+  them agree. F-1 is scored against cyclosporin A because the DRAWING is unambiguous; F-2 is
+  recorded as drawn-and-not-scored. Settle it against the 1976 Helv. Chim. Acta papers the patent
+  cites before adding it to any denominator.
+
+## Candidates examined and rejected (fourth survey)
+
+- **US4879303A amlodipine besylate** (Pfizer 1989, 4 p, 440,359 B): the ideal salt-versus-salt
+  comparison on paper — one parent, seven counterions, four pages — and it contains no structures
+  at all. Front page says "11 Claims, No Drawings" and Table 1 lists besylate, tosylate, mesylate,
+  succinate, salicylate, maleate, acetate and hydrochloride as WORDS. Fetched, rendered, rejected.
+- **US4346227A pravastatin / ML-236B** (Sankyo 1982, 23 p): formulae (I)-(XIII) across the spec and
+  the claims all carry R1 ("a hydrogen atom or a C1-C5 alkyl group") and formula (I) additionally
+  says "wherein R represents a group of formula". The only specific drawings are ML-236B as lactone
+  and as the ring-opened acid — three in 23 pages, in the same 1980s hand-inked statin art
+  US4231938A already provides. Its p23 is a Certificate of Correction that REDRAWS a structural
+  formula inside the certificate box, which is a genuinely odd page type if anyone wants one.
+- **US3904682A naproxen** (Syntex 1975, 18 p): a textbook Markush trap. The schemes on pp5-10 look
+  like specific synthesis art at a glance and every position is R1/R2/R3/R4/R11/"Alkyl". Naproxen
+  itself is never drawn.
+- **US4517359A azithromycin** (Pliva 1985, 6 p): six pages and a title that is one compound's full
+  IUPAC name, and both of its drawings are generic — formula (1) is the macrolide with R1-R5 and
+  formula (2) is R6-O-CO-O-R7. The eleven examples are text.
+- **US4199569A ivermectin / C-076** (Merck 1980, 10 p): the avermectin macrolide is drawn twice and
+  both drawings carry R1/R2/R3 keyed to an A1a/A1b/A2a/A2b/B1a/B1b/B2a/B2b variant table; the
+  disaccharide is drawn under "wherein R is the 4'-(alpha-L-oleandrosyl)-alpha-L-oleandrose group";
+  the catalyst is written [(R4)3P]3RhX.
+- **US4110165A clavulanic acid** (Beecham 1978, 23 p): fetched and validated, not inspected —
+  23 pages was already over budget once the cyclosporin file had covered the pre-1980 slot.
+- **DE602005004834T2 methylphenidate** (Ipca, DPMA 2009, 6 p) and **DE69929462T2 sertraline HCl
+  Form V** (Teva, DPMA 2006, 14 p): both real German T2 documents in the same new PDF class, both
+  rejected on density. `pdfimages -list` finds exactly two 300-ppi stencils in the methylphenidate
+  file; the sertraline record exposes one structure image and one table image for 14 pages. Both
+  are strictly dominated by DE60100786T2's nine clippings in ten pages.
+- **EP3655396B1** ("Polymorphs of 5-fluoro-4-imino-3-methyl-1-tosyl-3,4-dihydropyrimidin-2-one",
+  39 p, 706,410 B), **EP3760607B1** (period-4 transition-metal-catalysed amide-to-ester process,
+  50 p, 1,047,755 B), **EP3736272B1** (piperazine and piperidine VDAC inhibitors, 59 p,
+  3,866,445 B): all three fetched from the EPO publication server as German-language candidates and
+  all three are **English** — see the language-flag trap above. Kept here as a record of the modern
+  EP B1 format, which is Callas pdfaPilot vector text with 300-ppi CCITT structure clippings, 80 to
+  214 of them per document; EP3760607B1 is additionally an organometallic-catalysis process patent
+  and would be worth a second look for the M-C gap if 50 pages ever becomes affordable.
+- Not pursued: DPMA DEPATISnet's `action=pdf&docid=` endpoint returns a JavaScript shell, not a
+  PDF, so DE documents have to come through Google Patents.
+
+## What is still open after round four
+
+- **A true M-C organometallic** — unchanged from round three. EP3760607B1 is the closest thing seen
+  (a manganese/period-4 complex catalysing amide-to-ester conversion) and it is 50 pages of English.
+- **A JP patent.** DE is now covered by DE60100786T2, so the remaining value of a JP document is a
+  second CJK sample rather than a new axis; low priority.
+- **An old typewritten patent whose structures are specific, beyond the two now committed.** Four
+  1970s-80s candidates were fetched this round and every one was Markush-dominated. The reason is
+  structural: that era's chemical patents claim genera. US4231938A lovastatin and US4117118A
+  cyclosporin are in the corpus precisely because a FERMENTATION product has no genus to claim, so
+  the way to find more old specific-structure art is to look for isolated natural products —
+  clavulanic acid, mupirocin, the early cephalosporins — not for drug classes.
+- **A pharmacopoeia monograph excerpt** — licence question still unresolved.
