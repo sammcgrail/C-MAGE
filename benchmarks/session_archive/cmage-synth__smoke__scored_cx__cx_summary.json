@@ -1,0 +1,170 @@
+{
+ "label": "smoke",
+ "run_dir_name": "run_20260909-175555",
+ "manifest": "manifest.json",
+ "corpus": "synthetic_cx",
+ "generated": "2026-09-09T17:59:59+00:00",
+ "letters_note": "Y/YS given by the paper; A/N/NS are the symmetric completion and are this scorer's reading, not a quotation.",
+ "upper_bound_note": "RDKit line art on pure white: cleaner than any real figure. Every figure here is an UPPER BOUND, and the `basic` stratum is a control that should sit near ceiling rather than a result.",
+ "markush_note": "markush structures have no single molecule. Their skeleton grade is meaningful; their plain-SMILES column is not, and the plain-SMILES headline excludes them.",
+ "structures_graded": 10,
+ "structures_without_ground_truth": 0,
+ "letters": {
+  "Y": 6,
+  "YS": 0,
+  "A": 0,
+  "N": 4,
+  "NS": 0,
+  "invalid": 0
+ },
+ "skeleton_correct": 6,
+ "skeleton_pct": 60.0,
+ "appendix_denominator": 6,
+ "appendix_correct": 6,
+ "appendix_pct": 100.0,
+ "skeleton_expanded_correct": 8,
+ "skeleton_expanded_pct": 80.0,
+ "plain_exact": 8,
+ "plain_exact_pct": 80.0,
+ "plain_exact_no_markush": 8,
+ "plain_denominator_no_markush": 10,
+ "plain_matched_graded": 8,
+ "ambiguous_assignments": 0,
+ "predictions_carrying_an_appendix": 10,
+ "references_carrying_an_appendix": 10,
+ "by_stratum": {
+  "abbreviated": {
+   "structures": 10,
+   "Y": 6,
+   "YS": 0,
+   "A": 0,
+   "N": 4,
+   "NS": 0,
+   "invalid": 0,
+   "skeleton_correct": 6,
+   "skeleton_pct": 60.0,
+   "with_appendix": 6,
+   "appendix_correct": 6,
+   "appendix_pct": 100.0,
+   "skeleton_expanded": 8,
+   "skeleton_expanded_pct": 80.0,
+   "skeleton_strict_stereo_relaxed": 6,
+   "ambiguous_assignments": 0
+  }
+ },
+ "by_group": {
+  "synth_abbrev_1": {
+   "structures": 10,
+   "Y": 6,
+   "YS": 0,
+   "A": 0,
+   "N": 4,
+   "NS": 0,
+   "invalid": 0,
+   "skeleton_correct": 6,
+   "skeleton_pct": 60.0,
+   "with_appendix": 6,
+   "appendix_correct": 6,
+   "appendix_pct": 100.0,
+   "skeleton_expanded": 8,
+   "skeleton_expanded_pct": 80.0,
+   "skeleton_strict_stereo_relaxed": 6,
+   "ambiguous_assignments": 0
+  }
+ },
+ "by_tier": {
+  "high": {
+   "structures": 7,
+   "Y": 5,
+   "YS": 0,
+   "A": 0,
+   "N": 2,
+   "NS": 0,
+   "invalid": 0,
+   "skeleton_correct": 5,
+   "skeleton_pct": 71.4,
+   "with_appendix": 5,
+   "appendix_correct": 5,
+   "appendix_pct": 100.0,
+   "skeleton_expanded": 6,
+   "skeleton_expanded_pct": 85.7,
+   "skeleton_strict_stereo_relaxed": 5,
+   "ambiguous_assignments": 0
+  },
+  "low": {
+   "structures": 3,
+   "Y": 1,
+   "YS": 0,
+   "A": 0,
+   "N": 2,
+   "NS": 0,
+   "invalid": 0,
+   "skeleton_correct": 1,
+   "skeleton_pct": 33.3,
+   "with_appendix": 1,
+   "appendix_correct": 1,
+   "appendix_pct": 100.0,
+   "skeleton_expanded": 2,
+   "skeleton_expanded_pct": 66.7,
+   "skeleton_strict_stereo_relaxed": 1,
+   "ambiguous_assignments": 0
+  }
+ },
+ "recall": {
+  "denominator": 100,
+  "skeleton_recovered": 6,
+  "full_recovered": 6,
+  "expanded_recovered": 8,
+  "plain_recovered": 8,
+  "by_stratum": {
+   "abbreviated": {
+    "drawn": 22,
+    "skeleton_recovered": 6,
+    "full_recovered": 6,
+    "expanded_recovered": 8,
+    "plain_recovered": 8,
+    "never_assigned": 12
+   },
+   "basic": {
+    "drawn": 22,
+    "skeleton_recovered": 0,
+    "full_recovered": 0,
+    "expanded_recovered": 0,
+    "plain_recovered": 0,
+    "never_assigned": 22
+   },
+   "complex": {
+    "drawn": 12,
+    "skeleton_recovered": 0,
+    "full_recovered": 0,
+    "expanded_recovered": 0,
+    "plain_recovered": 0,
+    "never_assigned": 12
+   },
+   "markush": {
+    "drawn": 11,
+    "skeleton_recovered": 0,
+    "full_recovered": 0,
+    "expanded_recovered": 0,
+    "plain_recovered": 0,
+    "never_assigned": 11
+   },
+   "salt": {
+    "drawn": 11,
+    "skeleton_recovered": 0,
+    "full_recovered": 0,
+    "expanded_recovered": 0,
+    "plain_recovered": 0,
+    "never_assigned": 11
+   },
+   "stereo": {
+    "drawn": 22,
+    "skeleton_recovered": 0,
+    "full_recovered": 0,
+    "expanded_recovered": 0,
+    "plain_recovered": 0,
+    "never_assigned": 22
+   }
+  }
+ }
+}

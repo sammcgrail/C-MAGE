@@ -1,0 +1,72 @@
+{
+ "label": null,
+ "run_dir_name": "run_20260909-005959",
+ "manifest": "PMC13390035_patent_ocsr_benchmark.json",
+ "corpus": "pdfs",
+ "generated": "2026-09-09T01:09:12+00:00",
+ "threshold": 0.8431,
+ "figures_from_stage1": 6,
+ "segments_from_stage2": 32,
+ "structures_emitted_total": 32,
+ "structures_for_groups_without_truth": 0,
+ "drawn_molecules": 4,
+ "recall": {
+  "denominator": 4,
+  "recovered_exact": 2,
+  "recovered_exact_or_stereo": 2,
+  "not_recovered": 2,
+  "groups_with_no_structure_at_all": 0,
+  "recall_exact": 0.5,
+  "recall_exact_or_stereo": 0.5
+ },
+ "precision": {
+  "denominator": 32,
+  "exact": 2,
+  "stereo": 0,
+  "wrong": 29,
+  "invalid": 1,
+  "precision_exact": 0.0625,
+  "precision_exact_or_stereo": 0.0625
+ },
+ "confidence_crosstab": {
+  "high": {
+   "exact": 1,
+   "stereo": 0,
+   "wrong": 16,
+   "invalid": 0,
+   "total": 17,
+   "fraction_wrong_or_invalid": 0.9412,
+   "fraction_exact": 0.0588,
+   "fraction_exact_or_stereo": 0.0588
+  },
+  "low": {
+   "exact": 1,
+   "stereo": 0,
+   "wrong": 13,
+   "invalid": 1,
+   "total": 15,
+   "fraction_wrong_or_invalid": 0.9333,
+   "fraction_exact": 0.0667,
+   "fraction_exact_or_stereo": 0.0667
+  }
+ },
+ "tier_disagreements_with_threshold": 0,
+ "per_group": [
+  {
+   "group": "PMC13390035_patent_ocsr_benchmark",
+   "source": "PMC13390035_patent_ocsr_benchmark.pdf",
+   "drawn": 4,
+   "figures": 6,
+   "segments": 32,
+   "structures": 32,
+   "recovered_exact": 2,
+   "recovered_stereo": 0,
+   "exact": 2,
+   "stereo": 0,
+   "wrong": 29,
+   "invalid": 1,
+   "high": 17,
+   "low": 15
+  }
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "label": null,
+ "run_dir_name": "run_20260909-010232",
+ "manifest": "PMC9185882_decimer_handdrawn_dataset.json",
+ "corpus": "pdfs",
+ "generated": "2026-09-09T01:09:13+00:00",
+ "threshold": 0.8431,
+ "figures_from_stage1": 4,
+ "segments_from_stage2": 35,
+ "structures_emitted_total": 35,
+ "structures_for_groups_without_truth": 0,
+ "drawn_molecules": 2,
+ "recall": {
+  "denominator": 2,
+  "recovered_exact": 1,
+  "recovered_exact_or_stereo": 1,
+  "not_recovered": 1,
+  "groups_with_no_structure_at_all": 0,
+  "recall_exact": 0.5,
+  "recall_exact_or_stereo": 0.5
+ },
+ "precision": {
+  "denominator": 35,
+  "exact": 1,
+  "stereo": 0,
+  "wrong": 27,
+  "invalid": 7,
+  "precision_exact": 0.0286,
+  "precision_exact_or_stereo": 0.0286
+ },
+ "confidence_crosstab": {
+  "high": {
+   "exact": 1,
+   "stereo": 0,
+   "wrong": 2,
+   "invalid": 0,
+   "total": 3,
+   "fraction_wrong_or_invalid": 0.6667,
+   "fraction_exact": 0.3333,
+   "fraction_exact_or_stereo": 0.3333
+  },
+  "low": {
+   "exact": 0,
+   "stereo": 0,
+   "wrong": 25,
+   "invalid": 7,
+   "total": 32,
+   "fraction_wrong_or_invalid": 1.0,
+   "fraction_exact": 0.0,
+   "fraction_exact_or_stereo": 0.0
+  }
+ },
+ "tier_disagreements_with_threshold": 0,
+ "per_group": [
+  {
+   "group": "PMC9185882_decimer_handdrawn_dataset",
+   "source": "PMC9185882_decimer_handdrawn_dataset.pdf",
+   "drawn": 2,
+   "figures": 4,
+   "segments": 35,
+   "structures": 35,
+   "recovered_exact": 1,
+   "recovered_stereo": 0,
+   "exact": 1,
+   "stereo": 0,
+   "wrong": 27,
+   "invalid": 7,
+   "high": 3,
+   "low": 32
+  }
+ ]
+}
