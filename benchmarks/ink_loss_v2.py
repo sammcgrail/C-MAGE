@@ -50,6 +50,7 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
+from scipy.signal import fftconvolve
 
 INK = 250
 PROF = 24                 # profile grid; coarse on purpose -- damage must not
@@ -90,6 +91,102 @@ def sim(a, b):
     return c * (0.5 + 0.5 * ar) * (0.5 + 0.5 * sz)
 
 
+def align_fft(clean_mask, seg_mask):
+    """Exact best overlay of a segment on a clean crop, over ALL offsets.
+
+    The two images are the same page rendered twice, so a correctly matched
+    segment overlays its drawing pixel for pixel -- measured, not assumed: every
+    drawing that lost no ink by count aligns at an overlap ratio of exactly
+    1.000. That makes overlap the gold standard for deciding WHICH drawing a
+    segment came from, and the coarse profile match only a prefilter.
+
+    It has to be all offsets rather than a window around the bounding-box
+    corners: when the lost ink is at an extreme of the structure the segment's
+    corner corresponds to a different point of the clean crop, which is exactly
+    the case the measurement exists to catch.
+    """
+    c = clean_mask.astype(np.float32)
+    g = seg_mask.astype(np.float32)
+    if c.sum() == 0 or g.sum() == 0:
+        return None, 0
+    corr = fftconvolve(c, g[::-1, ::-1], mode="full")
+    idx = int(np.argmax(corr))
+    iy, ix = divmod(idx, corr.shape[1])
+    dy = iy - (g.shape[0] - 1)
+    dx = ix - (g.shape[1] - 1)
+    return (dy, dx), int(round(float(corr.max())))
+
+
+def align(clean_mask, seg_mask, window=10):
+    """Best (dy, dx) placing the segment's ink on the clean crop's ink.
+
+    Started from the two ink bounding-box corners and refined by overlap,
+    because corner alignment is exactly wrong in the case that matters: if the
+    ink lost was at the top-left extreme, the segment's corner corresponds to a
+    DIFFERENT point of the clean crop, and a corner-only alignment would move
+    the whole structure and report the entire molecule as displaced.
+    """
+    cz, sz = np.argwhere(clean_mask), np.argwhere(seg_mask)
+    if cz.size == 0 or sz.size == 0:
+        return None, 0
+    dy0, dx0 = cz.min(0) - sz.min(0)
+    H, W = clean_mask.shape
+    h, w = seg_mask.shape
+    best, bestoff = -1, None
+    for dy in range(dy0 - window, dy0 + window + 1):
+        for dx in range(dx0 - window, dx0 + window + 1):
+            y0, x0 = max(0, dy), max(0, dx)
+            y1, x1 = min(H, dy + h), min(W, dx + w)
+            if y1 <= y0 or x1 <= x0:
+                continue
+            sub = seg_mask[y0 - dy:y1 - dy, x0 - dx:x1 - dx]
+            ov = int((clean_mask[y0:y1, x0:x1] & sub).sum())
+            if ov > best:
+                best, bestoff = ov, (dy, dx)
+    return bestoff, best
+
+
+def boundary_split(clean_path, seg_path):
+    """Where did the lost ink go? Two mechanisms, two different fixes.
+
+    outside_rect  ink that falls OUTSIDE the segment's crop rectangle. This is
+                  what DECIMER_BBOX_PAD fixes: the crop simply did not reach it.
+    inside_rect   ink INSIDE the rectangle that the instance mask removed
+                  anyway. Padding cannot fix this; only dilating the mask can.
+
+    Reported apart because a number that merges them supports neither fix, and
+    a wholesale crop change (the CropWhite threshold experiment) moves both in
+    directions that partly cancel.
+    """
+    c = np.array(Image.open(clean_path).convert("L")) < INK
+    g = np.array(Image.open(seg_path).convert("L")) < INK
+    off, _ = align_fft(c, g)
+    if off is None:
+        return None
+    dy, dx = off
+    H, W = c.shape
+    h, w = g.shape
+    placed = np.zeros_like(c)
+    rect = np.zeros_like(c)
+    y0, x0 = max(0, dy), max(0, dx)
+    y1, x1 = min(H, dy + h), min(W, dx + w)
+    if y1 <= y0 or x1 <= x0:
+        return None
+    placed[y0:y1, x0:x1] = g[y0 - dy:y1 - dy, x0 - dx:x1 - dx]
+    rect[y0:y1, x0:x1] = True
+    lost = c & ~placed
+    out = int((lost & ~rect).sum())
+    ins = int((lost & rect).sum())
+    d_edge = None
+    if ins:
+        ys, xs = np.nonzero(lost & rect)
+        d_edge = float(np.median(np.minimum.reduce(
+            [ys - y0, (y1 - 1) - ys, xs - x0, (x1 - 1) - xs])))
+    return {"lost_total": int(lost.sum()), "lost_outside_rect": out,
+            "lost_inside_rect": ins, "median_inside_dist_to_rect_edge": d_edge,
+            "clean_ink": int(c.sum()), "seg_ink": int(g.sum())}
+
+
 def group_of(name, known):
     stem = Path(name).stem
     if stem.startswith(DIS_PREFIX):
@@ -112,6 +209,12 @@ def main():
     ap.add_argument("--scored", type=Path, default=None,
                     help="score_cx output dir for the full arm (for the outcome join)")
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--verify-top", type=int, default=3,
+                    help="profile candidates re-ranked by exact pixel overlap")
+    ap.add_argument("--min-overlap", type=float, default=0.5,
+                    help="below this a segment is not confidently ANY drawing")
+    ap.add_argument("--boundary-sample", type=int, default=400,
+                    help="how many lossy drawings to split by loss MECHANISM")
     ap.add_argument("--max-scale-drift", type=float, default=0.08,
                     help="fail if segments are systematically a different size "
                          "from the page pixels they claim to be crops of")
@@ -165,7 +268,7 @@ def main():
         if g:
             by_group[g].append(s)
 
-    rows, unmatched = [], 0
+    rows, unmatched, low_overlap = [], 0, []
     for g, paths in sorted(by_group.items()):
         cands = refs.get(g, [])
         if not cands:
@@ -179,11 +282,43 @@ def main():
             for i, (m, rd) in enumerate(cands):
                 scored.append((sim(d, rd), p, i, d))
         scored.sort(key=lambda x: -x[0])
-        taken = set()
+        # Profile score alone mis-assigns: phenytoin's segment scored top against
+        # a drawing it overlays at 0.229, i.e. a different molecule of a similar
+        # coarse shape. Its "retention" would then have compared two different
+        # structures and fed the correlation as noise. So the top few profile
+        # candidates are re-ranked by ACTUAL overlap, which is exact here.
+        best_for = {}
         for score, p, i, d in scored:
+            best_for.setdefault(p, []).append((score, i, d))
+        taken = set()
+        verified = {}
+        for p, cand_list in best_for.items():
+            gmask = np.array(Image.open(p).convert("L")) < INK
+            best = (-1.0, None, None)
+            for score, i, d in cand_list[:args.verify_top]:
+                m, rd = cands[i]
+                cp = args.cells / f"{g}_image_{m['number']}.png"
+                if not cp.exists():
+                    continue
+                cmask = np.array(Image.open(cp).convert("L")) < INK
+                _, ov = align_fft(cmask, gmask)
+                ratio = ov / max(1, min(int(cmask.sum()), int(gmask.sum())))
+                if ratio > best[0]:
+                    best = (ratio, i, d)
+            if best[1] is not None:
+                verified[p] = best
+        for p, (ratio, i, d) in verified.items():
+            score = ratio
             if p in taken:
                 continue
             taken.add(p)
+            if ratio < args.min_overlap:
+                # not confidently ANY drawing in this group. Counted, never
+                # folded into a retention figure -- a segment attributed to the
+                # wrong molecule contributes pure noise to the very correlation
+                # it would be feeding.
+                low_overlap.append((p.name, round(ratio, 3)))
+                continue
             m, rd = cands[i]
             key = f"{g}/{m['number']}"
             ci = cell_ink.get(key, {})
@@ -193,7 +328,8 @@ def main():
                 "per_page": m["per_page"], "bond_line_width": m["bond_line_width"],
                 "heavy_atoms": m["heavy_atoms"], "size_bucket": m["size_bucket"],
                 "arm": groups[g]["arm"],
-                "segment": p.name, "match_score": round(score, 4),
+                "segment": p.name, "segment_path": str(p),
+                "match_score": round(score, 4), "align_overlap_ratio": round(ratio, 4),
                 "ink_cell": ci.get("ink_px"), "ink_seg": d[0],
                 "cell_bbox_w": ci.get("bbox_w"), "cell_bbox_h": ci.get("bbox_h"),
                 "seg_bbox_w": d[1], "seg_bbox_h": d[2],
@@ -248,6 +384,33 @@ def main():
                 # still read as 0.99 retained.
                 "ink_lost_px": ci["ink_px"] - p["ink_seg"],
             })
+
+    args.out.mkdir(parents=True, exist_ok=True)
+
+    # ---- split the loss by MECHANISM on the drawings that actually lost ink
+    seg_for = {}
+    for r in rows:
+        k = (r["group"], r["number"])
+        if k not in seg_for or r["ink_seg"] > seg_for[k][1]:
+            seg_for[k] = (r["segment_path"], r["ink_seg"])
+    lossy = sorted((d for d in drawings if d["ink_lost_px"] > 0 and d["n_segments"] == 1),
+                   key=lambda d: -d["ink_lost_px"])[:args.boundary_sample]
+    mech = []
+    for d in lossy:
+        sp = seg_for.get((d["group"], d["number"]))
+        cp = args.cells / f"{d['group']}_image_{d['number']}.png"
+        if not sp or not cp.exists():
+            continue
+        b = boundary_split(cp, sp[0])
+        if b:
+            b.update({"group": d["group"], "name": d["name"], "render": d["render"],
+                      "stratum": d["stratum"], "retention": d["retention"]})
+            mech.append(b)
+    if mech:
+        with open(args.out / "ink_mechanism.csv", "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(mech[0].keys()))
+            w.writeheader()
+            w.writerows(mech)
 
     # ---- join the outcome from score_cx, if it has been run
     agree = miss = 0
@@ -305,6 +468,26 @@ def main():
                "groups_with_fewer_figures_than_pages": {k: v for k, v in sorted(short.items())},
                "drawings_seen_but_never_segmented": sum(1 for d in drawings
                                                         if d["n_segments"] == 0),
+               "segments_below_min_overlap": len(low_overlap),
+               "segments_below_min_overlap_examples": low_overlap[:10],
+               "median_align_overlap_ratio": (round(float(np.median(
+                   [r["align_overlap_ratio"] for r in rows])), 4) if rows else None),
+               "loss_mechanism": ({
+                   "drawings_examined": len(mech),
+                   "total_lost_px": sum(m["lost_total"] for m in mech),
+                   "lost_outside_crop_rect_px": sum(m["lost_outside_rect"] for m in mech),
+                   "lost_inside_rect_masked_out_px": sum(m["lost_inside_rect"] for m in mech),
+                   "pct_of_loss_fixable_by_padding": (
+                       round(100.0 * sum(m["lost_outside_rect"] for m in mech)
+                             / max(1, sum(m["lost_total"] for m in mech)), 1)),
+                   "median_inside_dist_to_rect_edge_px": (
+                       round(float(np.median([m["median_inside_dist_to_rect_edge"]
+                                              for m in mech
+                                              if m["median_inside_dist_to_rect_edge"]
+                                              is not None])), 1)
+                       if any(m["median_inside_dist_to_rect_edge"] is not None for m in mech)
+                       else None),
+               } if mech else None),
                "matcher_agrees_with_scorer_on_YYS": agree,
                "matcher_disagrees_with_scorer_on_YYS": miss,
                "overall": stats([d["retention"] for d in drawings])}
