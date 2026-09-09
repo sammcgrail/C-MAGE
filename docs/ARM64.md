@@ -265,6 +265,13 @@ does exactly that and is the right tool for it.
 | 2 DECIMER | 4 figures → 5 segments | 24 s (+260 MB model) |
 | 3 MolScribe | 5 segments → 5 CXSMILES | 10 s (+1.1 GB model) |
 
-A 14-page patent takes minutes; budget accordingly.
+Those are all figure-BEARING pages. Do not extrapolate them to a whole document:
+stage 1 runs Florence-2 with `num_beams=3, max_new_tokens=1024` per page, so a page
+with **nothing to emit** runs the beam search on toward the token limit — 11 min 43 s
+measured on one text page, against 36-64 s for a page with figures. The expensive
+pages are the ones with no chemistry on them, which is the opposite of the intuition.
+A 14-page patent is therefore **hours, not minutes**, unless you drop the text-only
+pages first or skip stage 1 with `--stages 2,3 --figures DIR`. Per-page measurements
+in [`DOCKER.md`](DOCKER.md).
 
 [uv]: https://docs.astral.sh/uv/

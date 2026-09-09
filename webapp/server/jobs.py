@@ -238,10 +238,16 @@ class JobStore:
 
         Two ways to prove it, and they cover different situations:
           * the owner token minted at upload and returned exactly once, or
-          * knowing the id of a run that is NOT listed anywhere -- an unlisted
-            id is only ever held by whoever uploaded it.
+          * knowing the id of a run that is NOT listed anywhere.
         A listed run's id is public by construction, so id-knowledge stops
         counting the moment it is published.
+
+        The id-knowledge arm is DELIBERATELY WEAK: an unlisted id also travels
+        in a shared results link, in the `job` column of an exported CSV and in
+        every image URL, so holding one does not establish consent. Callers must
+        therefore only accept it for actions that REDUCE exposure -- deleting or
+        unlisting. Anything that increases exposure must demand the token; see
+        `_may_manage(require_token=...)` in app.py.
         """
         return bool(token and job.token and secrets.compare_digest(token, job.token)) or not job.public
 

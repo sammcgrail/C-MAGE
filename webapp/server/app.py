@@ -127,17 +127,26 @@ def _is_admin(request: Request) -> bool:
     return bool(config.ADMIN_TOKEN) and secrets.compare_digest(token, config.ADMIN_TOKEN)
 
 
-def _may_manage(job: jobs.Job, request: Request, *, unlisting: bool) -> bool:
-    """May this caller delete or unlist this run?
+def _may_manage(job: jobs.Job, request: Request, *, require_token: bool) -> bool:
+    """May this caller manage this run?
 
     The operator always may. Otherwise the caller must hold the owner token from
-    the upload response -- except while the run is unlisted, where knowing the id
-    is itself proof of ownership, because nothing has ever published it. Once a
-    run IS listed its id is on a public page, so `unlisting` demands the token.
+    the upload response -- except for actions the caller may take on an UNLISTED
+    run purely by knowing its id, where id-knowledge stands in for the token.
+
+    That substitution is only ever safe for actions that REDUCE exposure. It was
+    once accepted for publishing too, and that failed open: an unlisted id leaks
+    through a shared results link, the `job` column of an exported CSV, a browser
+    history or a screen share, and none of those imply consent to publish. So a
+    stranger holding a leaked id could push somebody else's private document,
+    filename and page images into the world-readable gallery -- the exact
+    exposure the private-by-default change existed to prevent. Publishing now
+    always demands the token; deleting or unlisting your own unlisted run does
+    not, because the worst it can do is destroy data the caller already has.
     """
     if _is_admin(request):
         return True
-    if unlisting:
+    if require_token:
         token = request.headers.get("x-job-token", "")
         return bool(token and job.token and secrets.compare_digest(token, job.token))
     return store.owns(job, request.headers.get("x-job-token", ""))
@@ -240,7 +249,9 @@ def job_publish(job_id: str, request: Request, publish: str = Form(default="1"))
     if job.status != "done":
         raise HTTPException(409, "Only a finished run can be listed.")
     wanted = _truthy(publish)
-    if not _may_manage(job, request, unlisting=(job.public and not wanted)):
+    # Publishing ALWAYS needs the token (it increases exposure). Unlisting needs it
+    # only once the run is listed, i.e. once its id has been made public anyway.
+    if not _may_manage(job, request, require_token=(wanted or job.public)):
         raise HTTPException(403, "Only the person who uploaded this run can change whether it is listed.")
     store.set_public(job.id, wanted)
     return {"id": job.id, "public": wanted}
@@ -334,7 +345,7 @@ def gallery_delete(job_id: str, request: Request) -> dict:
     somebody else's.
     """
     job = _job_or_404(job_id)
-    if not _may_manage(job, request, unlisting=bool(job.public)):
+    if not _may_manage(job, request, require_token=bool(job.public)):
         raise HTTPException(403, "Only the person who uploaded this run, or the operator, can delete it.")
     if not store.delete(job.id):
         raise HTTPException(409, "That job is still running; cancel it first.")

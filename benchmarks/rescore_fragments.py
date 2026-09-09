@@ -120,6 +120,19 @@ def main():
     if not rows:
         sys.exit(f"{structures} has no rows -- nothing to score")
 
+    # --manifest DEFAULTS to the images corpus, so pointing --scored at a PDF run
+    # and forgetting it compares 242 predictions against 97 unrelated molecules
+    # and prints a calm "0 exact, 0.0%" -- a wrong answer that looks exactly like
+    # a real one. Refuse instead: if not one scored group is in this manifest, the
+    # manifest is the wrong one.
+    scored_groups = {r["group"] for r in rows}
+    if not (scored_groups & set(truth)):
+        sys.exit(f"none of the {len(scored_groups)} groups in {structures} appear in "
+                 f"{os.path.basename(args.manifest)} -- wrong manifest for this run.\n"
+                 f"  scored:   {', '.join(sorted(scored_groups)[:3])} ...\n"
+                 f"  manifest: {', '.join(sorted(truth)[:3])} ...\n"
+                 f"  pass --manifest for the corpus this run was scored against.")
+
     verdicts = collections.Counter()
     by_tier = collections.Counter()
     frag_hist = collections.Counter()

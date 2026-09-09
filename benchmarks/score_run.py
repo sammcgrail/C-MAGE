@@ -70,12 +70,22 @@ def canon(mol, stereo=True):
     return Chem.MolToSmiles(mol, isomericSmiles=stereo) if mol is not None else None
 
 
-def group_key(path, corpus):
+def group_key(path, groups=()):
     """Segment or image file -> (group, figure index, segment index).
 
     Stage 2 names segments Image_DIS_VH_File_<figure stem>_molecule_<k>.png and
     stage 1 names figures <pdf stem>_image_<n>.png. For an image corpus the figure
     stem is the image stem itself. A raw image path (stage-3-only run) has neither.
+
+    Resolve against the manifest's own group names rather than the corpus LABEL.
+    The `_image_<n>` strip used to be gated on `corpus == "pdfs"`, a literal string
+    equality, and renaming the expanded PDF manifest's corpus to `pdfs_expanded`
+    (needed so it stopped colliding with the original in the server's corpora dict)
+    silently turned that gate off: every structure landed in a group named
+    `EP0641330B1_pregabalin_image_4`, matched no manifest entry, was counted as
+    "no ground truth" and excluded, and the run scored a clean 0/34 with no error
+    and no warning -- a failure indistinguishable from an honest null result.
+    Matching real group names cannot be broken by renaming a corpus.
     """
     stem = Path(path).stem
     if stem.startswith(DIS_PREFIX):
@@ -84,9 +94,10 @@ def group_key(path, corpus):
     m = re.match(r"^(.*)_molecule_(\d+)$", stem)
     if m:
         stem, seg = m.group(1), int(m.group(2))
-    if corpus == "pdfs":
+    known = set(groups or ())
+    if stem not in known:                       # an image corpus' stem IS the group
         m = re.match(r"^(.*)_image_(\d+)$", stem)
-        if m:
+        if m and (not known or m.group(1) in known):
             stem, fig = m.group(1), int(m.group(2))
     return stem, fig, seg
 
@@ -200,7 +211,7 @@ def main():
 
     structs = []
     for r in rows:
-        g, fig, seg = group_key(r["file"], corpus)
+        g, fig, seg = group_key(r["file"], expected)
         mol = parse_mol(r["smiles"])
         rec = {"group": g, "figure": fig, "segment": seg, "file": r["file"], "file_name": Path(r["file"]).name,
                "smiles": r["smiles"], "confidence": r["confidence"], "tier": r["tier"],
@@ -292,8 +303,8 @@ def main():
         mols = [m for m in mol_rows if m["group"] == g]
         summary["per_group"].append({
             "group": g, "source": entry["source"], "drawn": len(mols),
-            "figures": sum(1 for f in figures if group_key(f, corpus)[0] == g) if figures else None,
-            "segments": sum(1 for f in seg_list if group_key(f, corpus)[0] == g) if seg_list else None,
+            "figures": sum(1 for f in figures if group_key(f, expected)[0] == g) if figures else None,
+            "segments": sum(1 for f in seg_list if group_key(f, expected)[0] == g) if seg_list else None,
             "structures": len(in_group),
             "recovered_exact": sum(1 for m in mols if m["recovered"] == "exact"),
             "recovered_stereo": sum(1 for m in mols if m["recovered"] == "stereo"),
