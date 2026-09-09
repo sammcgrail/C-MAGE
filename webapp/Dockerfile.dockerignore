@@ -3,6 +3,9 @@
 # Only webapp/ is copied by this Dockerfile, so exclude everything else.
 *
 !webapp/
+# One script, not the tree: stage 3 cannot run alone without the stage-2 workbook
+# this writes, and benchmarks/ otherwise carries ~21 MB of corpus PDFs.
+!benchmarks/run_stage3_only.sh
 webapp/data/
 webapp/.venv/
 webapp/**/__pycache__/

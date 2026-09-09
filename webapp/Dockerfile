@@ -36,6 +36,12 @@ RUN --mount=type=cache,target=/var/cache/uv \
     && UV_CACHE_DIR=/var/cache/uv VIRTUAL_ENV=/opt/cmage/webapp/.venv uv pip install -r /opt/cmage/webapp/requirements.txt \
     && apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
+# Stage 3 cannot run alone: it reads stage 2's workbook to learn which crops to
+# translate. This harness writes that workbook from raw images instead, which is
+# how a single-structure image upload skips segmentation. One script, not the
+# whole benchmarks tree -- that carries ~21 MB of corpus PDFs the app never uses.
+COPY benchmarks/run_stage3_only.sh /opt/cmage/benchmarks/run_stage3_only.sh
+
 COPY webapp/ /opt/cmage/webapp/
 RUN chmod +x /opt/cmage/webapp/entrypoint.sh && mkdir -p /data
 

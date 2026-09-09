@@ -70,6 +70,12 @@ class Job:
                                    # uploaded this" for unlisting and deleting.
     sample: bool = False           # the one canonical demo run, reused by every
                                    # visitor instead of re-running the pipeline
+    segment: bool = False          # run stage 2 on an IMAGE upload? Default no:
+                                   # an image upload is almost always one already
+                                   # cropped structure, and segmenting that can
+                                   # only lose ink. Set true for a figure that
+                                   # genuinely holds several molecules. Ignored
+                                   # for PDFs, which always need stages 1 and 2.
 
     @property
     def dir(self) -> Path:
@@ -353,6 +359,7 @@ class JobStore:
             "started": job.started, "finished": job.finished, "error": job.error, "note": job.note,
             "stage": job.stage, "stage_name": STAGE_NAMES.get(job.stage, ""), "stage_hint": STAGE_HINTS.get(job.stage, ""),
             "skips_stage1": job.kind == "image",
+            "skips_stage2": job.kind == "image" and not job.segment,
             "elapsed_s": ((job.finished or now) - job.started) if job.started else 0,
             "stage_elapsed_s": ((job.finished or now) - job.stage_started) if job.stage_started else 0,
             "queue_position": self.position(job.id),
@@ -392,7 +399,25 @@ class JobStore:
         in_dir, out_dir = job.dir / "input", job.dir / "out"
         out_dir.mkdir(exist_ok=True)
         cmd = [sys.executable, str(config.CMAGE_ROOT / "run_pipeline.py"), "--out", str(out_dir), "--device", config.DEVICE]
-        if job.kind == "image":
+        if job.kind == "image" and not job.segment:
+            # SINGLE-STRUCTURE IMAGE: skip stage 2 entirely.
+            #
+            # Segmentation can only lose ink on an image that is already one
+            # cropped structure -- there is nothing to separate, and DECIMER's
+            # instance mask deletes pixels it does not cover. Measured on the
+            # same caffeine figure: through stage 2 it returns
+            # `C=C1C(N)=C(N)NC(=O)N1C` (the `C=C` is the dangling bond where the
+            # carbonyl oxygen was erased); stage 3 alone returns
+            # `Cn1c(=O)c2c(ncn2C)n(C)c1=O` at 0.898, which is correct. On the
+            # synthetic corpus simple drugs score 22/22 this way against 12/22
+            # through the full pipeline.
+            #
+            # `--stages 3` cannot run alone -- stage 3 reads stage 2's workbook to
+            # learn which crops to translate -- so use the harness that writes
+            # that workbook from the raw images instead.
+            cmd = [str(config.CMAGE_ROOT / "benchmarks" / "run_stage3_only.sh"),
+                   "--images", str(in_dir), "--out", str(out_dir), "--device", config.DEVICE]
+        elif job.kind == "image":
             cmd += ["--stages", "2,3", "--figures", str(in_dir)]
         else:
             cmd += ["--stages", "1,2,3", "--pdfs", str(in_dir)]
