@@ -24,10 +24,36 @@ the five with complete manifests. CXMolScribe is **not deterministic** — 4 of 
 byte-identical inputs flip, ~1 in 125 — so a difference of a few structures is not
 a difference.
 
-**In flight at this line:** the 7-arm, 3,920-image depiction corpus and a
-channel-swapped copy of one arm (560 PubChem depictions, 97% coloured, all with
-InChIKey-verified answers) — the test that can actually measure what the colour
-bug costs.
+**Both finished.** `benchmarks/RENDERING_ARMS.md`:
+
+- The **confidence score is the stable thing**: 88.3%–94.1% graded-exact among
+  high-confidence outputs on every arm that produces any, across arms whose overall
+  accuracy differs eightfold. Rendering changes how OFTEN the model commits
+  (111/560 to 404/560), not how right it is when it does. Quote precision after
+  confidence filtering.
+- **PubChem's 1500 px render scores 0 of 560**, 59.6% unparseable, not one output
+  above threshold. Not resolution — RDKit at the same 1500 px scores 82.9%. Ink
+  fraction 0.0030 against RDKit's 0.0130. The lever is **stroke width relative to
+  canvas**, not canvas size.
+- **The colour swap costs nothing measurable.** 324/560 correct-colour against
+  331/560 swapped; paired, 31 gains and 24 losses, sign test p = 0.42. Still a real
+  defect, not an accuracy bug — `docs/UPSTREAM_BUGS.md` says so explicitly now.
+- Background remap confirmed at +45 points strict (11.2% → 56.6%), input-side only.
+
+**Nothing is in flight.** Repo clean and pushed, site deployed and purged, mobile
+gate passing.
+
+## Next, if picking this up cold
+
+1. `tools/figure_filter.py` is written, measured (94.4% precision on a drop, 0 real
+   segments lost) and NOT wired in. Deciding whether to wire it is a judgement call
+   about stock-vs-modified, not more measurement.
+2. The 11 non-chemistry figures that leak 15 false-positive segments: 5 of those 15
+   are removed by the filter above. The other 10 need a different idea.
+3. The three real detection failures are all one drawing style in one 1994 EPO
+   patent — sparse label-and-line skeletal drawings. Worth building a small corpus
+   of that style before claiming DECIMER cannot see it.
+4. No upstream PR has been opened. `docs/UPSTREAM_BUGS.md` is written for it.
 
 ---
 
