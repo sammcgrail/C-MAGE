@@ -292,11 +292,24 @@ def job_csv(job_id: str, request: Request) -> Response:
     base = _base_url(request)
     out = io.StringIO()
     w = csv.writer(out)
-    w.writerow(["n", "confidence_tier", "confidence", "smiles", "valid", "source", "figure", "structure",
+    # THREE structure columns, not one, because they answer different questions.
+    #   cxsmiles  what the model actually said, LOSSLESS -- keeps the |$OMe;$|
+    #             abbreviation labels CXMolScribe deliberately emits
+    #   smiles     the same string with the extension block dropped. Convenient,
+    #             and quietly WRONG for an abbreviated structure: `*C |$Ph;$|`
+    #             becomes bare `*C`, so the abbreviation is gone with no warning.
+    #   expanded_smiles  abbreviations substituted for real fragments, using
+    #             MolScribe's own vocabulary. This is the column to paste into a
+    #             toolkit. Empty when there was nothing to expand; `abbreviations`
+    #             names any label the vocabulary did not know, never a guess.
+    w.writerow(["n", "confidence_tier", "confidence", "cxsmiles", "smiles", "expanded_smiles",
+                "abbreviations", "valid", "source", "figure", "structure",
                 "segment_image", "rendered_image", "figure_image", "document", "job"])
     for i, s in enumerate(job.results["structures"], 1):
         img = lambda kind, name: f"{base}/api/jobs/{job.id}/img/{kind}/{name}" if name else ""  # noqa: E731
-        w.writerow(_csv_row([i, s["tier"], "" if s["confidence"] is None else f"{s['confidence']:.6f}", s["smiles"],
+        w.writerow(_csv_row([i, s["tier"], "" if s["confidence"] is None else f"{s['confidence']:.6f}",
+                             s.get("cxsmiles") or s["smiles"], s.get("plain_smiles") or s["smiles"],
+                             s.get("expanded") or "", ";".join(s.get("abbreviations") or []),
                              int(bool(s["valid"])), s["source"], s["figure"], "" if s["molecule"] is None else s["molecule"],
                              img("segment", s["segment_image"]), img("render", s["rendered_image"]),
                              img("figure", s["figure_image"]), job.filename, job.id]))

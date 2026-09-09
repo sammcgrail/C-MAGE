@@ -159,6 +159,36 @@ def parse_run(run_dir: Path) -> dict:
         })
 
     structures.sort(key=lambda s: (natural_key(s["figure"]), s["molecule"] if s["molecule"] is not None else -1))
+
+    # EXPAND ABBREVIATIONS for every uploaded result, not just for benchmark runs.
+    #
+    # CXMolScribe emits CXSMILES on purpose: a drawing that says `OMe` becomes a
+    # dummy atom whose label lives in the `|$OMe;$|` extension block, because this
+    # fork's MolScribe deliberately declines to guess an expansion. That is more
+    # information, not less -- but it means the string a user copies out contains a
+    # bare `*` that no toolkit can resolve, and `Chem.MolToSmiles()` silently drops
+    # the label entirely. Uploads previously got no expansion at all: only the
+    # benchmark path ever called canonicalize().
+    #
+    # So attach all three forms here. Never a guess: an abbreviation outside
+    # MolScribe's own vocabulary lands in `unexpanded` and the user is told.
+    try:
+        from . import chem
+        recs = chem.canonicalize([s["smiles"] for s in structures])
+        for st, rec in zip(structures, recs):
+            st["plain_smiles"] = rec.get("canonical")
+            st["cxsmiles"] = rec.get("cxsmiles") or st["smiles"]
+            st["expanded"] = rec.get("expanded")
+            st["abbreviations"] = rec.get("abbreviations") or []
+            st["unexpanded"] = rec.get("unexpanded") or []
+            st["fragments"] = rec.get("fragments") or 0
+    except Exception:                                 # noqa: BLE001
+        # RDKit unavailable must degrade to "no expansion", never to no results.
+        for st in structures:
+            st.setdefault("cxsmiles", st["smiles"])
+            st.setdefault("expanded", None)
+            st.setdefault("abbreviations", [])
+
     high = sum(1 for s in structures if s["tier"] == "high")
     return {
         "structures": structures,
