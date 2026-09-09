@@ -1534,8 +1534,17 @@
     // ---- accuracy by corpus
     var rows = corpusRows(d);
     if (rows.length > 1) {
-      wrap.appendChild(barChart('Accuracy by corpus',
-        'Molecules known to be drawn, read back as the same molecule. Denominators differ.', rows));
+      // "by corpus" stopped being true when the rendering arms arrived: three of
+      // these bars are the SAME 560 molecules drawn differently, and two more are
+      // one synthetic corpus through different stages. The count on each bar is the
+      // denominator, and the line under it says what varied — because a bar chart
+      // whose rows are not the same kind of thing is the easiest way there is to
+      // read a difference that is not there.
+      wrap.appendChild(barChart('Accuracy, and what was varied',
+        'Molecules known to be drawn, read back as the same molecule. Rows are NOT '
+        + 'all the same corpus: some differ by document set, some by rendering of the '
+        + 'same 560 molecules, some by which stages ran. Read the line under each bar '
+        + 'before comparing two of them.', rows));
     }
 
     // ---- confidence tier, with n, because n IS the finding
