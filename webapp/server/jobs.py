@@ -312,13 +312,19 @@ class JobStore:
         """
         counts = (job.results or {}).get("counts") or {}
         structs = (job.results or {}).get("structures") or []
-        withimg = [s for s in structs if s.get("segment_image")]
+        # A run that skipped segmentation has no crops, so the card had no image at
+        # all -- which reads as "nothing was found" rather than "the whole image WAS
+        # the crop". Fall back to the source figure and say which kind it is, so the
+        # client asks the right endpoint for it.
+        withimg = [s for s in structs if s.get("segment_image") or s.get("figure_image")]
         return {
             "id": job.id, "kind": job.kind, "filename": job.filename, "label": job.label,
             "origin": job.origin, "pages": job.pages, "created": job.created, "finished": job.finished,
             "duration_s": (job.finished - job.started) if job.started and job.finished else None,
             "counts": counts, "note": job.note, "public": bool(job.public),
-            "thumbs": [s["segment_image"] for s in withimg][:self.PREVIEW_N],
+            "thumbs": [s.get("segment_image") or s["figure_image"] for s in withimg][:self.PREVIEW_N],
+            "thumb_kind": ("segment" if any(s.get("segment_image") for s in withimg)
+                           else "figure"),
             "previews": [self._preview(s) for s in withimg[:self.PREVIEW_N]],
             # Rounded: three decimals is already more precision than the score
             # separates, and this is a plot, not a measurement.
@@ -341,7 +347,8 @@ class JobStore:
         cx = s.get("cxsmiles") or s.get("smiles") or ""
         expanded = s.get("expanded") or ""
         return {
-            "image": s["segment_image"],
+            "image": s.get("segment_image") or s.get("figure_image") or "",
+            "image_kind": "segment" if s.get("segment_image") else "figure",
             "cxsmiles": cx,
             # Only when it says something the line above does not.
             "expanded": expanded if expanded and expanded != cx else "",

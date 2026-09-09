@@ -1130,7 +1130,8 @@
     } else if (run.thumbs && run.thumbs.length) {
       // Older stored runs, before the payload carried the strings.
       var t = el('div', { class: 'thumbs' });
-      run.thumbs.forEach(function (nm) { t.appendChild(el('img', { src: '/api/jobs/' + run.id + '/img/segment/' + encodeURIComponent(nm), alt: '', loading: 'lazy' })); });
+      var tk = run.thumb_kind || 'segment';
+      run.thumbs.forEach(function (nm) { t.appendChild(el('img', { src: '/api/jobs/' + run.id + '/img/' + tk + '/' + encodeURIComponent(nm), alt: '', loading: 'lazy' })); });
       b.appendChild(t);
     }
     b.addEventListener('click', function () { openRun(run.id); });
@@ -1142,8 +1143,10 @@
   function previewCard(run, s) {
     var card = el('div', { class: 'pv' });
     card.appendChild(el('div', { class: 'shot' }, [
-      el('img', { src: '/api/jobs/' + run.id + '/img/segment/' + encodeURIComponent(s.image),
-        alt: 'crop extracted from ' + run.filename, loading: 'lazy' })]));
+      el('img', { src: '/api/jobs/' + run.id + '/img/' + (s.image_kind || 'segment') + '/'
+          + encodeURIComponent(s.image),
+        alt: ((s.image_kind === 'figure') ? 'the uploaded image, read whole, from '
+              : 'crop extracted from ') + run.filename, loading: 'lazy' })]));
     var abbrev = (s.abbreviations || []).length > 0;
     card.appendChild(el('div', { class: 'lab', text: abbrev ? 'CXSMILES' : 'predicted' }));
     card.appendChild(el('div', { class: 'sm' + (s.cxsmiles && s.valid ? '' : ' none'),
