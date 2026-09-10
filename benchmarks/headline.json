@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-10T02:17:33+00:00",
+ "generated": "2026-09-10T02:51:09+00:00",
  "scoring": "whole molecule first, then largest fragment by heavy-atom count as a fallback, after CXSMILES abbreviation expansion; RDKit canonical SMILES on both sides, never string equality. Largest-fragment-only is wrong for salts: it drops a counter-ion the reference has.",
  "built_by": "benchmarks/build_headline.py",
  "arms": [
@@ -793,6 +793,96 @@
     "score_run_strict_invalid": 627,
     "score_run_graded_invalid": 627,
     "score_run_graded_salt": 1
+   }
+  },
+  {
+   "key": "img_pubchem_rerender",
+   "title": "The same 560, PubChem's depiction RE-RENDERED at 1500 px",
+   "short": "PubChem re-rendered",
+   "stages": "stage 3 only \u2014 one already-cropped structure per image",
+   "settings": "stock C-MAGE, unchanged. The INPUT was redrawn, not the pipeline.",
+   "baseline": "img_pubchem1500",
+   "tweak": null,
+   "note": "PubChem's own 2D coordinates, redrawn with the stroke width scaled to the canvas instead of held constant. Same layout, same orientation; only the strokes differ. Takes the 1500 px arm from 0.0% to 61.1% and from ZERO high-confidence outputs to 353. Against the realistic baseline (PubChem at 300 px) it barely moves graded accuracy, 57.9% to 61.1%, and moves STRICT accuracy fifty points, 11.2% to 61.1% \u2014 because what it repairs is phantom fragments, 68.6% of predictions down to 10.5%. It does not recognise more molecules; it stops corrupting the ones already right.",
+   "source": "scored/pubchem_rerender/structures.csv",
+   "manifest_file": "img_manifest_depictions560.json",
+   "emitted": {
+    "n": 560,
+    "exact": 343,
+    "stereo": 46,
+    "wrong": 107,
+    "invalid": 64
+   },
+   "scorable": {
+    "n": 560,
+    "exact": 343,
+    "stereo": 46,
+    "wrong": 107,
+    "invalid": 64
+   },
+   "tiers": {
+    "high": {
+     "n": 353,
+     "exact": 313,
+     "stereo": 11,
+     "wrong": 27,
+     "invalid": 2
+    },
+    "low": {
+     "n": 207,
+     "exact": 30,
+     "stereo": 35,
+     "wrong": 80,
+     "invalid": 62
+    }
+   },
+   "tiers_scorable": {
+    "high": {
+     "n": 353,
+     "exact": 313,
+     "stereo": 11,
+     "wrong": 27,
+     "invalid": 2
+    },
+    "low": {
+     "n": 207,
+     "exact": 30,
+     "stereo": 35,
+     "wrong": 80,
+     "invalid": 62
+    }
+   },
+   "phantom_rows": 59,
+   "fragment_histogram": {
+    "0": 64,
+    "1": 437,
+    "2": 25,
+    "3": 19,
+    "4": 9,
+    "5": 3,
+    "6": 2,
+    "8": 1
+   },
+   "cross_check": {
+    "n": 560,
+    "disagree_on_exact": 1,
+    "graded_available": 560,
+    "headline_exact": 343,
+    "score_run_strict_exact": 342,
+    "score_run_graded_exact": 342,
+    "headline_wrong": 107,
+    "score_run_strict_wrong": 106,
+    "score_run_graded_wrong": 88,
+    "headline_stereo": 46,
+    "score_run_strict_stereo": 48,
+    "score_run_graded_stereo": 47,
+    "score_run_graded_skeleton": 3,
+    "headline_invalid": 64,
+    "score_run_strict_invalid": 64,
+    "score_run_graded_invalid": 64,
+    "score_run_graded_near": 9,
+    "score_run_graded_charge": 3,
+    "score_run_graded_salt": 4
    }
   },
   {

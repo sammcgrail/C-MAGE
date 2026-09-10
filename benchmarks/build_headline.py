@@ -210,6 +210,25 @@ ARMS = [
                 "sub-pixel. The lever is stroke width relative to canvas, not canvas size.",
     },
     {
+        "key": "img_pubchem_rerender",
+        "title": "The same 560, PubChem's depiction RE-RENDERED at 1500 px",
+        "short": "PubChem re-rendered",
+        "scored": "scored/pubchem_rerender",
+        "manifest": "ground_truth/img_manifest_depictions560.json",
+        "stages": "stage 3 only \u2014 one already-cropped structure per image",
+        "settings": "stock C-MAGE, unchanged. The INPUT was redrawn, not the pipeline.",
+        "baseline": "img_pubchem1500",
+        "tweak": None,
+        "note": "PubChem's own 2D coordinates, redrawn with the stroke width scaled to "
+                "the canvas instead of held constant. Same layout, same orientation; only "
+                "the strokes differ. Takes the 1500 px arm from 0.0% to 61.1% and from "
+                "ZERO high-confidence outputs to 353. Against the realistic baseline "
+                "(PubChem at 300 px) it barely moves graded accuracy, 57.9% to 61.1%, and "
+                "moves STRICT accuracy fifty points, 11.2% to 61.1% \u2014 because what it "
+                "repairs is phantom fragments, 68.6% of predictions down to 10.5%. It does "
+                "not recognise more molecules; it stops corrupting the ones already right.",
+    },
+    {
         "key": "docs_round34",
         "title": "Six real documents, patents and papers",
         "short": "6 real documents",
