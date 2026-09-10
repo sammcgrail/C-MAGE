@@ -392,3 +392,13 @@ if __name__ == "__main__":
                        "deliberately not quoted: the denominator would be every structure "
                        "drawn, and only a sixth of those are catalogued.")
         write("pdfs", d)
+    if which in ("sonnet", "all"):
+        # Sonnet's payload quotes the corpus size, so it MUST be rebuilt whenever
+        # the corpus grows. Chaining it here means `build_wall.py all` cannot
+        # leave one tab claiming 1,710 while the other says 2,510 -- there is no
+        # separate step anybody has to remember.
+        import subprocess
+        r = subprocess.run(["/root/C-MAGE/.venv-ms/bin/python",
+                            "/root/C-MAGE/tools/build_sonnet.py"],
+                           capture_output=True, text=True)
+        print(r.stdout.rstrip() or r.stderr[-300:])
