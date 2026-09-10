@@ -50,29 +50,29 @@ input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(-
 /* the wall */
 .wall{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));
   padding-top:4px}
-.t{position:relative;background:#fff;border-radius:7px;overflow:hidden;cursor:pointer;
+.t{position:relative;background:#fff;overflow:hidden;cursor:pointer;
   border:0;padding:0;display:block;aspect-ratio:1;
   content-visibility:auto;contain-intrinsic-size:var(--tile)}
 .t img{width:100%;height:100%;object-fit:contain;display:block}
 .t::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--invalid)}
 .t.exact::after{background:var(--exact)} .t.stereo::after{background:var(--stereo)}
 .t.wrong::after{background:var(--wrong)} .t.invalid::after{background:var(--invalid)}
-.t b{position:absolute;top:0;right:0;background:rgba(13,17,23,.82);color:#fff;
-  font-size:10px;font-weight:600;padding:2px 5px;border-radius:0 0 0 6px}
+.t b{position:absolute;top:0;right:0;background:rgba(13,17,23,.88);color:#fff;
+  font-size:10px;font-weight:600;padding:2px 5px}
 .t u{position:absolute;left:0;right:0;bottom:4px;background:rgba(13,17,23,.82);color:#fff;
   font-size:9.5px;text-decoration:none;padding:2px 4px;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;display:block}
 .more{grid-column:1/-1;text-align:center;color:var(--dim);padding:18px;font-size:13px}
 
 /* detail sheet */
-dialog{border:0;padding:0;background:var(--panel);color:var(--ink);border-radius:12px;
+dialog{border:0;padding:0;background:var(--panel);color:var(--ink);border-radius:4px;
   max-width:620px;width:calc(100% - 24px);max-height:88vh}
 dialog::backdrop{background:rgba(0,0,0,.72)}
 .sheet{padding:18px}
 .sheet h3{margin:0 0 4px;font-size:19px}
 .sheet .meta{color:var(--dim);font-size:13px;margin-bottom:14px}
 .pics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.pics figure{margin:0;background:#fff;border-radius:8px;overflow:hidden}
+.pics figure{margin:0;background:#fff;overflow:hidden}
 .pics img{width:100%;display:block}
 .pics figcaption{background:var(--panel);color:var(--dim);font-size:11px;padding:4px 6px;text-align:center}
 .kv{margin-bottom:11px}
@@ -177,9 +177,18 @@ function openSheet(r){
     + (r.c != null ? ' &nbsp;confidence ' + r.c + '%' : '')
     + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '') + '</div>'
     + '<div class="pics"><figure><img src="/wall/' + DATA.dir + '/' + encodeURIComponent(r.k)
-    + '.png" alt=""><figcaption>what the reader was given</figcaption></figure></div>'
+    + '.png" alt=""><figcaption>Input</figcaption></figure>'
+    + (r.p ? '<figure><img src="/wall/' + DATA.dir + '_pred/' + encodeURIComponent(r.k)
+      + '.png" alt=""><figcaption>Read back</figcaption></figure>' : '')
+    + '</div>'
     + '<div class="kv"><label>Predicted</label><code>' + esc(r.s || "(nothing emitted)") + '</code></div>'
-    + (r.t ? '<div class="kv"><label>Expected</label><code>' + esc(r.t) + '</code></div>' : '')
+    /* A correct answer is often written differently from the reference -- an
+       aromatic ring against a Kekule one is the same molecule and RDKit scores it
+       exact. Two visibly different strings under "expected" and "predicted" with
+       an EXACT badge above them reads like a bug, so the label says which it is. */
+    + (r.t ? '<div class="kv"><label>Expected'
+        + (v === "exact" && r.t !== r.s ? ' — same molecule, written differently' : '')
+        + '</label><code>' + esc(r.t) + '</code></div>' : '')
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy predicted</button> '
     + '<button class="ghost" onclick="document.getElementById(\'sheet\').close()">Close</button>';

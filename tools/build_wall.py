@@ -41,6 +41,36 @@ def thumb(src: Path, dst: Path) -> int:
     return dst.stat().st_size
 
 
+def render_pred(smiles: str, dst: Path) -> bool:
+    """Draw the molecule the reader actually returned.
+
+    Two SMILES for one molecule routinely look nothing alike -- an aromatic ring
+    written lowercase against the same ring written Kekule, opened at a different
+    atom. Side by side with the input picture, a drawing settles in one glance
+    what comparing two strings cannot."""
+    if dst.exists():
+        return True
+    if not smiles:
+        return False
+    from rdkit import Chem, RDLogger
+    from rdkit.Chem.Draw import rdMolDraw2D
+    RDLogger.DisableLog("rdApp.*")
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return False
+    d = rdMolDraw2D.MolDraw2DCairo(TILE, TILE)
+    o = d.drawOptions()
+    o.bondLineWidth = max(1, round(TILE / 150))
+    o.padding = 0.06
+    try:
+        rdMolDraw2D.PrepareAndDrawMolecule(d, mol)
+        d.FinishDrawing()
+        dst.write_bytes(d.GetDrawingText())
+        return True
+    except Exception:
+        return False
+
+
 def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> list[dict]:
     out_img.mkdir(parents=True, exist_ok=True)
     index: dict[str, Path] = {}
@@ -61,6 +91,9 @@ def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> l
                 continue
             key = fn.rsplit(".", 1)[0]
             bytes_ += thumb(src, out_img / f"{key}.png")
+            pred_dir = out_img.parent / (out_img.name + "_pred")
+            pred_dir.mkdir(parents=True, exist_ok=True)
+            has_pred = render_pred(r.get("smiles") or "", pred_dir / f"{key}.png")
             conf = r.get("confidence") or ""
             rows.append({
                 "k": key,
@@ -69,6 +102,7 @@ def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> l
                 "g": r.get("grade") or "",
                 "c": round(float(conf) * 100) if conf else None,
                 "s": r.get("smiles") or "",
+                "p": 1 if has_pred else 0,
             })
     print(f"  rows {len(rows)}  no-image {missing}  thumbs {bytes_/1e6:.1f} MB")
     return rows

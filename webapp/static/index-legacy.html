@@ -488,11 +488,13 @@
 <div class="wrap">
   <header>
     <div class="brand">C-MAGE<small>chemical structures out of PDFs and figures, as CXSMILES</small></div>
+    <!-- This page is now the upload flow only, served at /upload. The Gallery,
+         Benchmark and Ringleader tabs moved to the new single-page benchmark at
+         /; their markup and JS are still below but unreachable from the nav, so
+         the upload path keeps working untouched while the rest is retired. -->
     <nav>
       <button data-tab="extract" class="active" type="button">Extract</button>
-      <button data-tab="gallery" type="button">Gallery</button>
-      <button data-tab="benchmark" type="button">Benchmark</button>
-      <button data-tab="ringleader" type="button">Ringleader</button>
+      <a href="/" style="align-self:center;margin-left:auto;font-size:14px">Benchmark &rarr;</a>
     </nav>
   </header>
 
