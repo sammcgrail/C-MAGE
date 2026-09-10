@@ -105,3 +105,43 @@ the recogniser, not the pipeline. For what the pipeline costs on top, see
 `ARM_GAP.md`; for real documents, `REAL_DOCUMENT_RESULTS.md`.
 
 Scored runs: `<work>/scored/img_*` and `<work>/scored/colour_*`.
+
+---
+
+## Replication on 250 independent compounds
+
+The seven arms were repeated on **250 new compounds**, disjoint from the 560 by both
+CID and InChIKey (verified 250/250, zero overlap), deliberately weighted toward
+classes the first set was thin on — organometallics, boron and phosphorus drugs,
+large peptides, fused polyheterocycles, deuterated drugs.
+
+| rendering | new 250, graded exact | original 560, graded exact |
+|---|---|---|
+| RDKit 300 px | 67.6% | 78.8% |
+| PubChem 300 px + background remapped | 59.6% | 72.3% |
+| PubChem 300 px + remap, upscaled | 60.4% | 70.5% |
+| PubChem 300 px LANCZOS-upscaled | 57.2% | 69.6% |
+| PubChem 300 px, as supplied | 49.2% | 57.9% |
+
+Every arm falls about ten points, because the new compounds are harder — and the
+**ordering is unchanged**. The rendering effect is a property of the rendering, not
+of which molecules happened to be in the first corpus.
+
+## A mechanism that was nearly published on manufactured evidence
+
+After the ink-fraction explanation failed, a contact sheet of PubChem 1500 px
+figures appeared to show **no atom labels at all** — no N, no O, 15-crown-5 reduced
+to a bare circle, glucose to a plain hexagon. It is a clean, satisfying story: the
+model is handed an unlabelled carbon skeleton, so of course it scores zero, and no
+resampling could ever fix it.
+
+It is false. Cropping one image at **1:1** instead of viewing a thumbnail shows the
+N and O glyphs drawn perfectly. The contact sheet had scaled 1500 px down to 190 px,
+which erases small glyphs — **the inspection method had produced the evidence for
+its own conclusion.**
+
+Recorded because the near-miss is the lesson: three explanations for this failure
+have now been advanced and two of them were wrong, one of them refuted by a
+measurement designed to confirm it. The remaining honest statement is at the top of
+this file: PubChem's 1500 px render scores zero, RDKit's does not, and resampling
+does not recover it. **Why is not established.** Do not fill that gap with a story.
