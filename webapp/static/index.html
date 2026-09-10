@@ -71,6 +71,23 @@ main{max-width:1400px;margin:0 auto;
 .cmp .track{height:7px;background:#0b0f14;margin-top:9px;overflow:hidden}
 .cmp .track i{display:block;height:100%;background:var(--acc)}
 .cmp .side.lead .track i{background:var(--exact)}
+/* Four outcomes, one stacked bar. "Sonnet was wrong" and "Sonnet was wrong where
+   the pipeline was right" are different facts and only the second is interesting
+   here, so the tile colour and the bar both key on the OUTCOME, not on either
+   reader's verdict alone. */
+.stack{display:flex;height:26px;overflow:hidden;margin:2px 0 9px;background:var(--panel);
+  border:1px solid var(--line)}
+.stack i{display:block;height:100%;position:relative;min-width:2px}
+.stack i span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#06090d}
+.o-both{background:var(--exact)} .o-sonnet{background:var(--acc)}
+.o-cxms{background:var(--stereo)} .o-neither{background:var(--wrong)}
+.key{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:14px}
+.key b{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--dim);font-size:12.5px}
+.key b i{width:10px;height:10px;display:block}
+.key b u{text-decoration:none;color:var(--ink);font-weight:700}
+.t.o-both::after{background:var(--exact)} .t.o-sonnet::after{background:var(--acc)}
+.t.o-cxms::after{background:var(--stereo)} .t.o-neither::after{background:var(--wrong)}
 .prog{margin:0 0 14px}
 .prog .lbl{display:flex;justify-content:space-between;gap:8px;color:var(--dim);
   font-size:12.5px;margin-bottom:5px}
@@ -235,6 +252,10 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
 var VERDICTS = [["all","All"],["exact","Exact"],["stereo","Stereo only"],
                 ["wrong","Wrong"],["invalid","Unparseable"],["high","High confidence"]];
+/* The Sonnet tab filters by who got it right, not by Sonnet's verdict -- the
+   interesting subsets are "only one of them managed it". */
+var OUTCOMES = [["all","All"],["both","Both right"],["sonnet","Sonnet only"],
+                ["cxms","CXMolScribe only"],["neither","Neither"]];
 var $ = function(s){ return document.querySelector(s); };
 function el(tag, cls, txt){ var n=document.createElement(tag); if(cls)n.className=cls;
   if(txt!=null)n.textContent=txt; return n; }
@@ -244,18 +265,26 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){
 /* A tile's colour is its verdict. `exact` and `stereo` are the two that mean the
    reader got the right molecule; everything else is a miss of some kind. */
 function cls(r){ return ["exact","stereo","wrong","invalid"].indexOf(r.v) >= 0 ? r.v : "invalid"; }
+/* On the Sonnet tab a tile is coloured by WHO got it right, which is the question
+   the tab exists to answer. Everywhere else it falls back to the verdict. */
+function tileCls(r){ return r.o ? "o-" + r.o : cls(r); }
 
 function match(r){
   if (DOC && r.d !== DOC) return false;
   if (Q && (r.n||"").toLowerCase().indexOf(Q) < 0) return false;
   if (FILTER === "all") return true;
   if (FILTER === "high") return (r.c||0) >= DATA.threshold;
+  if (r.o) return r.o === FILTER;
   return cls(r) === FILTER;
 }
 
 function counts(rows){
-  var c = {all:rows.length, exact:0, stereo:0, wrong:0, invalid:0, high:0};
-  rows.forEach(function(r){ c[cls(r)]++; if((r.c||0) >= DATA.threshold) c.high++; });
+  var c = {all:rows.length, exact:0, stereo:0, wrong:0, invalid:0, high:0,
+           both:0, sonnet:0, cxms:0, neither:0};
+  rows.forEach(function(r){
+    c[cls(r)]++; if (r.o) c[r.o]++;
+    if((r.c||0) >= DATA.threshold) c.high++;
+  });
   return c;
 }
 
@@ -275,7 +304,7 @@ function prefetchPred(r){
 }
 
 function tile(r){
-  var b = el("button", "t " + cls(r));
+  var b = el("button", "t " + tileCls(r));
   b.innerHTML = '<img loading="lazy" decoding="async" src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt="">'
     + (r.c != null ? "<b>" + r.c + "</b>" : "")
@@ -368,10 +397,12 @@ var io = new IntersectionObserver(function(es){
 
 function chipbar(rows){
   var c = counts(rows), bar = el("div", "bar");
-  VERDICTS.forEach(function(p){
+  var set = (DATA.compare && DATA.compare.breakdown) ? OUTCOMES : VERDICTS;
+  set.forEach(function(p){
     var b = el("button", "chip");
     var colour = {exact:"var(--exact)",stereo:"var(--stereo)",wrong:"var(--wrong)",
-                  invalid:"var(--invalid)"}[p[0]];
+                  invalid:"var(--invalid)",both:"var(--exact)",sonnet:"var(--acc)",
+                  cxms:"var(--stereo)",neither:"var(--wrong)"}[p[0]];
     b.innerHTML = (colour ? '<span class="dot" style="background:' + colour + '"></span>' : "")
       + p[1] + "<i>" + (c[p[0]] || 0) + "</i>";
     b.setAttribute("aria-pressed", FILTER === p[0]);
@@ -463,6 +494,15 @@ function render(){
           + '<div class="of">' + x.exact + ' of ' + c.n + ' exactly right</div>'
           + '<div class="track"><i style="width:' + x.pct + '%"></i></div></div>';
       }).join("") + '</div>'
+      + (c.breakdown ? '<div class="stack">' + c.breakdown.map(function(x){
+          return x.n ? '<i class="o-' + x.key + '" style="width:'
+            + (x.n / c.n * 100) + '%" title="' + esc(x.label) + ': ' + x.n + '">'
+            + (x.n / c.n > 0.07 ? '<span>' + x.n + '</span>' : '') + '</i>' : '';
+        }).join("") + '</div>'
+        + '<div class="key">' + c.breakdown.map(function(x){
+          return '<b><i class="o-' + x.key + '"></i>' + esc(x.label)
+            + ' <u>' + x.n + '</u></b>';
+        }).join("") + '</div>' : '')
       + '<div class="prog"><div class="lbl"><span>Read so far</span><span>'
       + c.n + ' of ' + c.corpus + '</span></div><div class="track"><i style="width:'
       + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'

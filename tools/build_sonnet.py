@@ -75,8 +75,17 @@ def main() -> int:
             continue
         thumb(Path(src_img), img / f"{k}.png")
         has = render_pred(r.get("sonnet_smiles") or "", pred / f"{k}.png")
+        # The tile's colour is the OUTCOME, not Sonnet's verdict alone. "Sonnet was
+        # wrong" and "Sonnet was wrong where the pipeline was right" are different
+        # facts, and the second is the one this tab exists to show.
+        sv = r["sonnet_verdict"] == "exact"
+        ov = r["ocr_verdict"] == "exact"
+        outcome = ("both" if sv and ov else
+                   "sonnet" if sv else
+                   "cxms" if ov else "neither")
         rows.append({
             "k": k, "n": r["name"], "v": r["sonnet_verdict"], "g": r["sonnet_verdict"],
+            "o": outcome,
             "c": None, "s": r.get("sonnet_smiles") or "", "t": r["truth"],
             "p": 1 if has else 0,
             "r": relate(r.get("sonnet_smiles") or "", r["truth"]),
@@ -103,14 +112,25 @@ def main() -> int:
                 {"label": "CXMolScribe", "exact": o_ex, "pct": round(o_ex / n * 100, 1)},
             ],
             "agree": both, "either": either,
+            # Ordered worst-understood to best so the stacked bar reads left to
+            # right as "who got it": both, then each alone, then neither.
+            "breakdown": [
+                {"key": "both", "label": "Both right",
+                 "n": sum(1 for r in rows if r["o"] == "both")},
+                {"key": "sonnet", "label": "Sonnet only",
+                 "n": sum(1 for r in rows if r["o"] == "sonnet")},
+                {"key": "cxms", "label": "CXMolScribe only",
+                 "n": sum(1 for r in rows if r["o"] == "cxms")},
+                {"key": "neither", "label": "Neither",
+                 "n": sum(1 for r in rows if r["o"] == "neither")},
+            ],
         },
         "prompt": PROMPT_TEXT, "promptNote": PROMPT_NOTE,
         "stats": {"n": n, "exact": s_ex, "strict_pct": round(s_ex / n * 100, 1)},
         "heroLabel": f"of {n} — against CXMolScribe's {o_ex} on the same {n}",
         "threshold": round(THRESHOLD * 100),
-        "headline": (
-            f"A general vision model reading the same drawings, scored by the same rule. "
-            f"They agree on {both} of {n} and between them read {either}."),
+        "headline": ("A general vision model reading the same drawings, scored by the "
+                     "same rule as the pipeline."),
         "footer": (
             "Sample is a deterministic stride over the sorted corpus, not a hand-pick. "
             "Filenames were anonymised before the model saw them, because the corpus names "
