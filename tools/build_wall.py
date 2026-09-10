@@ -65,7 +65,13 @@ def render_pred(smiles: str, dst: Path) -> bool:
     try:
         rdMolDraw2D.PrepareAndDrawMolecule(d, mol)
         d.FinishDrawing()
-        dst.write_bytes(d.GetDrawingText())
+        # Quantise like the input tiles. RDKit writes a full-colour PNG; these are
+        # line drawings, so a 32-colour palette is invisible here and roughly
+        # thirds the file. That matters because the page PREFETCHES every one of
+        # these as its tile appears -- 13 MB of prefetch is a stall, 5 MB is not.
+        import io as _io
+        Image.open(_io.BytesIO(d.GetDrawingText())).convert("RGB") \
+             .quantize(colors=32, method=Image.MEDIANCUT).save(dst, optimize=True)
         return True
     except Exception:
         return False

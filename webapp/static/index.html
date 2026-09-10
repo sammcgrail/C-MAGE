@@ -165,12 +165,30 @@ function counts(rows){
   return c;
 }
 
+/* Prefetch the read-back drawing the moment its tile's own thumbnail has landed.
+   Without this the detail sheet opens on a blank frame and fills in afterwards,
+   because the sheet is the FIRST time that URL is requested. Keying the prefetch
+   to the tile's load event rather than to page load keeps it bounded to tiles
+   that actually rendered -- 300 at a time, ~4 KB each -- instead of pulling all
+   1,126 up front. Cached ones fire onload immediately, so this still works on a
+   second visit. */
+function prefetchPred(r){
+  if (!r.p || r._pf) return;
+  r._pf = true;
+  var i = new Image();
+  i.decoding = "async";
+  i.src = "/wall/" + DATA.dir + "_pred/" + encodeURIComponent(r.k) + ".png";
+}
+
 function tile(r){
   var b = el("button", "t " + cls(r));
   b.innerHTML = '<img loading="lazy" decoding="async" src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt="">'
     + (r.c != null ? "<b>" + r.c + "</b>" : "")
     + "<u>" + esc(r.n) + "</u>";
+  var im = b.firstChild;
+  if (im.complete) prefetchPred(r);
+  else im.addEventListener("load", function(){ prefetchPred(r); }, {once: true});
   b.onclick = function(){ openSheet(r); };
   return b;
 }
@@ -206,7 +224,7 @@ function openSheet(r){
     + '<div class="meta"><span class="badge ' + v + '">' + esc(names[v] || v) + '</span>'
     + (r.c != null ? ' &nbsp;confidence ' + r.c + '%' : '')
     + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '') + '</div>'
-    + '<div class="pics"><figure><img src="/wall/' + DATA.dir + '/' + encodeURIComponent(r.k)
+    + '<div class="pics"><figure><img decoding="sync" src="/wall/' + DATA.dir + '/' + encodeURIComponent(r.k)
     + '.png" alt=""><figcaption>Input</figcaption></figure>'
     + (r.p ? '<figure><img src="/wall/' + DATA.dir + '_pred/' + encodeURIComponent(r.k)
       + '.png" alt=""><figcaption>Read back</figcaption></figure>' : '')
