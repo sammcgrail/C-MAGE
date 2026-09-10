@@ -46,11 +46,46 @@ confidence threshold**. It is not resolution: RDKit at the same 1500 px scores
 
 PubChem holds stroke width roughly constant in absolute pixels while the canvas
 grows five-fold, so the drawing becomes hairline-thin relative to the image.
-MolScribe resizes its input down to a fixed working size; a line that is one or
-two pixels wide in a 1500 px image is sub-pixel by then, and it is gone.
 
-**The lever is stroke width relative to canvas, not canvas size.** A bigger render
-of the same molecule is worse unless the strokes scale with it.
+### That mechanism was tested and it is WRONG — or nowhere near sufficient
+
+The paragraph that used to sit here said "the lever is stroke width relative to
+canvas". So five interventions were built to move exactly that, and scored against
+the same 560 answers:
+
+| intervention | ink fraction reached | graded exact |
+|---|---|---|
+| PubChem 300 px + background remapped (the existing best) | ~0.0180 | **72.3%** |
+| PubChem 300 px, untouched | 0.0151 | 57.9% |
+| PubChem 300 px + 3 px ink dilation | 0.0408 | 36.1% |
+| autoscale until ink fraction hits RDKit's | 0.0060 | 2.0% |
+| **1500 px + proportional dilation** | **0.0130 — identical to RDKit 1500** | **0.0%** |
+| 1500 px downscaled to 300 px (± remap) | 0.0042 | 0.0% |
+
+The fifth row settles it. Ink fraction was raised to exactly the value of the
+best-scoring arm and the score stayed at zero. **Ink fraction correlates with score
+across natively-rendered arms and does not cause it.** Every intervention that
+moved ink fraction alone made things worse.
+
+Two facts to keep, and the honest gap between them:
+
+- PubChem's 1500 px render scores 0/560; RDKit's 1500 px render scores 82.9%. So it
+  is not resolution.
+- Native PubChem 300 px scores 57.9%, but the 1500 px render **downscaled** to
+  300 px scores 0.0%. So whatever the 1500 px render lacks is not recoverable by
+  resampling — and it is not merely thinness, because thickening does not help
+  either.
+
+What the downscale measurement does show: LANCZOS resampling of a hairline turns it
+into faint grey rather than a thin black line — ink fraction *fell* to 0.0042
+because the strokes rose above the 200 threshold entirely. So the strokes are faint
+as well as thin, which is why contrast-restoring transforms were tried next
+(recorded below). Whether they help is a measurement, not a deduction; the last
+deduction on this page cost five arms.
+
+**Practical guidance, which is boring and holds:** request 300 px from PubChem and
+remap the near-white background to true white. 72.3% against 57.9% untouched and
+0.0% for the 1500 px render. Nothing invented here beat it.
 
 ### 3. Remapping the background is worth 45 points, and it is not a pipeline change
 
