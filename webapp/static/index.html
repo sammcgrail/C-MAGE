@@ -564,7 +564,7 @@
       <div id="gallery-detail" class="hidden"></div>
     </section>
 
-    <section id="view-benchmark" class="hidden"><div class="warn" style="margin:14px 0"><b>Segmentation costs about 20 points.</b> Same 38 documents through both arms: full pipeline <b>60.9%</b> correct, recognition alone <b>79.2%</b>. On real figures that carry a structure, segmentation keeps a median <b>59%</b> of the drawing's ink. Image uploads skip it entirely.</div>
+    <section id="view-benchmark" class="hidden"><div class="card" style="margin:14px 0"><h2>How to read this page</h2><p class="muted small" style="margin:6px 0 10px">Three separate questions. Mixing them is the commonest way to read a difference that is not there, so every number below states its own denominator and what was varied.</p><ol class="muted small" style="margin:0 0 12px 18px;line-height:1.55"><li><b>Can the reader read one clean structure?</b> Stage 3 alone, one already-cropped molecule per image. <b>80.2%</b> on 810 RDKit renders, <b>68.6%</b> on real PubChem depictions — the gap is the drawing, not the molecules.</li><li><b>What does segmentation cost?</b> The same 38 documents through both arms: <b>60.9%</b> with it, <b>79.2%</b> without. About 19 points.</li><li><b>Does it work on a real document, end to end?</b> Six patents and papers with ground truth built from the documents: <b>39.3%</b> strict, <b>69.6%</b> allowing a different notation for the same molecule.</li></ol><p class="muted small" style="margin:0 0 8px"><b>An arm</b> is one corpus at one setting. Two arms are comparable only when they share the same molecules <i>and</i> the same scope — a paired A/B. Where a comparison is not matched it is labelled as not comparable rather than quietly plotted beside its neighbour.</p><p class="muted small" style="margin:0"><b>Two numbers, never one.</b> <i>Strict</i> is what you get pasting the string into a database. <i>Graded</i> allows the same molecule written differently — a tautomer, a salt, an expanded abbreviation. On real documents 43% of what the strict metric calls wrong is the right molecule in another notation.</p></div><div class="warn" style="margin:14px 0"><b>Rendering matters more than anything in the pipeline.</b> The same 810 molecules score <b>80.2%</b> drawn by RDKit and <b>0.0%</b> from PubChem’s own 1500&nbsp;px render — not one correct answer. Nine attempts to repair those images by resampling all failed. Render at the size you want; do not resample.</div>
       <div class="card" id="bench"></div>
     </section>
 
@@ -938,7 +938,7 @@
       var title = cls === 'markush'
         ? x + ' is a Markush variable: it stands for a set of groups, not one, so no expansion of it exists.'
         : cls === 'missing'
-          ? x + ' is a real group, but it is not in MolScribe\u2019s vocabulary, so it is reported rather than guessed.'
+          ? x + ' is a real group, but it is not in CXMolScribe\u2019s vocabulary, so it is reported rather than guessed.'
           : x + ' was expanded to the group it names.';
       chips.appendChild(el('span', { class: 'chip ' + cls, title: title, text: x }));
     });
@@ -948,7 +948,7 @@
       why.push('<b>' + (s.markush || []).join(', ') + '</b> — Markush, no single molecule to expand to.');
     }
     if ((s.missing || []).length) {
-      why.push('<b>' + (s.missing || []).join(', ') + '</b> — absent from MolScribe\u2019s vocabulary.');
+      why.push('<b>' + (s.missing || []).join(', ') + '</b> — absent from CXMolScribe\u2019s vocabulary.');
     }
     if ((s.failed || []).length) {
       why.push('Expansion failed here: <code>' + esc((s.failed || [])[0]) + '</code>.');
@@ -1779,7 +1779,7 @@
         { name: 'expanded to the group they name', num: t.abbrev_expanded, den: t.abbrev, cls: 'hi' },
         { name: 'a Markush variable — no single molecule exists to expand to', num: t.abbrev_markush,
           den: t.abbrev, cls: 'warn' },
-        { name: 'a real group absent from MolScribe’s vocabulary', num: t.abbrev_missing, den: t.abbrev,
+        { name: 'a real group absent from CXMolScribe’s vocabulary', num: t.abbrev_missing, den: t.abbrev,
           cls: 'warn' },
         { name: 'the expansion code failed — our defect, not the model’s', num: t.abbrev_failed,
           den: t.abbrev, cls: 'bad' }
@@ -1797,7 +1797,7 @@
         var cls = mk[kv[0]] ? 'markush' : ms[kv[0]] ? 'missing' : 'kept';
         chips.appendChild(el('span', { class: 'chip ' + cls,
           title: cls === 'markush' ? kv[0] + ' — a Markush variable; no single molecule to expand to'
-               : cls === 'missing' ? kv[0] + ' — a real group, absent from MolScribe’s vocabulary'
+               : cls === 'missing' ? kv[0] + ' — a real group, absent from CXMolScribe’s vocabulary'
                : kv[0] + ' — expanded to the group it names',
           text: kv[0] + ' × ' + kv[1] }));
       });
