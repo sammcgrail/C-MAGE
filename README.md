@@ -206,6 +206,36 @@ spreadsheet shows the DECIMER-Image-Segmentation input next to the predicted CXS
 rendering of that CXSMILES, so an incorrect prediction is visible at a glance. The raw 
 confidence value is also present in this row.
 
+## Input rendering matters more than anything in the pipeline
+
+The same 1010 molecules, fed one-per-image straight to stage 3, span **81 points**
+purely on how the picture was drawn:
+
+| input | strict | |
+|---|---|---|
+| RDKit at 1500 px | 81.1% | strokes scale with the canvas |
+| PubChem 1500 px, **re-rendered** | 61.1% | see below |
+| PubChem 300 px, background remapped to white | 56.6% | 70.2% graded |
+| PubChem 300 px, as supplied | 11.2% | 59.1% graded; 69% carry a phantom fragment |
+| **PubChem 1500 px, as supplied** | **0.0%** | 0 of 1010, and not one high-confidence output |
+
+**Do not fetch PubChem depictions at 1500 px.** Zero correct across three
+independently built compound sets. PubChem cannot serve a usable large image at
+all — its PUG SVG endpoint returns 400 and the `imgsrv` service its own site uses
+ignores `width`/`height`.
+
+**If you need a large image, re-render it — do not resample.** Nine resampling
+repairs were measured (downscale, Otsu, contrast stretch, dilation, bbox crop,
+min-pool …) and all nine scored 0–36%. `tools/rerender_pubchem.py` fetches each
+compound's 2D SDF, which carries PubChem's own atom coordinates, and redraws with
+the stroke width scaled to the canvas: same layout, only the strokes change.
+0.0% → 61.1%.
+
+What that repairs is **phantom fragments, not recognition** — 68.6% of predictions
+carrying a stray disconnected atom down to 10.5%, which is why *strict* accuracy
+moves fifty points while *graded* barely moves. Detail: `benchmarks/PUBCHEM_RERENDER.md`
+and `benchmarks/RENDERING_ARMS.md`.
+
 ## Gotchas — what actually goes wrong, and on which inputs
 
 Every item here cost real time to find. They are input-shape problems, not
