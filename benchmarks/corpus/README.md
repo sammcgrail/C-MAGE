@@ -125,3 +125,42 @@ be identified with confidence (see below).
 `US6699871B2_sitagliptin.pdf`, and that is the point: one draws sitagliptin as an R-substituted
 Markush genus and the other draws it as a specific dihydrogenphosphate salt with the counterion
 attached. Same molecule, opposite ends of the specific/generic axis, same scanner.
+
+## Round-5 rows (11 pharmaceutical patents: drawing styles and languages)
+
+Append to the diversity table, same column order. `drawn` counts depictions,
+`scored` counts distinct compounds that resolve — they differ wherever a document
+draws one molecule more than once.
+
+| [`JP6924794B2_afuresertib.pdf`](JP6924794B2_afuresertib.pdf) | 26 | Patent, public record | Japanese JPO vector; two-component salt drawn as free base · HCl; PXRD negatives | 1 | 1 |
+| [`KR101146095B1_canagliflozin.pdf`](KR101146095B1_canagliflozin.pdf) | 8 | Patent, public record | Korean KIPO vector — HANGUL, a new script; C-glycoside free base; XRPD/IR negatives | 1 | 1 |
+| [`CN103025753A_ezatiostat.pdf`](CN103025753A_ezatiostat.pdf) | 30 | Patent, public record | Chinese CNIPA 300-dpi full-page RASTER scan (iText-wrapped); one tripeptide diethyl ester | 1 | 1 |
+| [`RU2405786C2_asenapine.pdf`](RU2405786C2_asenapine.pdf) | 14 | Patent, public record | Russian Rospatent — CYRILLIC, a new script; salt drawn as base + full cis maleic acid | 3 | 2 |
+| [`KR102514961B1_edoxaban.pdf`](KR102514961B1_edoxaban.pdf) | 13 | Patent, public record | Korean KIPO vector; salt components juxtaposed with NO dot glyph; XRPD/NMR/DSC negatives | 3 | 2 |
+| [`US4110165_clavulanic_acid.pdf`](US4110165_clavulanic_acid.pdf) | 4 | Patent, public record | 1978 HAND-INKED draftsman art (4-pp extract); same molecule flat and stereo-wedged; Na/K salts; IR negative | 5 | 3 |
+| [`JP6724082B2_vortioxetine.pdf`](JP6724082B2_vortioxetine.pdf) | 2 | Patent, public record | Japanese JPO vector (2-pp extract of 50); specific API + named reagents + R-group Markush | 7 | 4 |
+| [`US3781268_kanamycin.pdf`](US3781268_kanamycin.pdf) | 2 | Patent, public record | 1973 freehand chair-conformation sugars, typewriter labels, no wedges (2-pp extract) | 8 | 2 |
+| [`EP0308341NWB1_perindopril.pdf`](EP0308341NWB1_perindopril.pdf) | 17 | Patent, public record | French EPO B1, 300-dpi JBIG2 scan; skeletons with S/R LETTERS + condensed formulae + drawn salts | 14 | 8 |
+| [`US4194047_thienamycin.pdf`](US4194047_thienamycin.pdf) | 3 | Patent, public record | 1980 hand-inked carbapenems (3-pp extract); a `Th` bracket abbreviates the whole nucleus | 16 | 5 |
+| [`EP3337801B1_finerenone.pdf`](EP3337801B1_finerenone.pdf) | 6 | Patent, public record | German EPO B1 (6-pp extract of 74); dense ChemDraw vector, 21 specific synthesis intermediates | 21 | 21 |
+
+Round-5 arithmetic: **80 drawn, 50 scored**, plus 24 generic and 2 unresolved
+depictions held in `unscoreable`. Scripts added: **Cyrillic** and **Korean**, both
+new to the corpus, alongside Japanese, a second Chinese in a scanned class, and
+native French and German EPO grants. Ground truth and the per-document caveats are
+in [`../ground_truth/ROUND5_GROUNDTRUTH_NOTES.md`](../ground_truth/ROUND5_GROUNDTRUTH_NOTES.md).
+
+### Two more lessons, both learned by getting it wrong again
+
+- **A 1970s patent is not automatically a good hand-inked candidate.** Four were
+  rejected in this round for the *omeprazole* reason — every drawing is an R-group
+  genus and the specific compounds appear only as text in the examples: captopril
+  (US4046889), cimetidine (US3950333), acyclovir (US4199574) and finasteride
+  (US4760071). What works instead is a *process* or *isolation* patent, which has
+  to draw its actual intermediates: clavulanic acid, kanamycin and thienamycin all
+  do. Render a structure page before accepting.
+- **An abbreviation bracket is not a structure.** US4194047 draws six depictions in
+  which a bracket labelled `Th` stands for the entire bicyclic thienamycin nucleus.
+  Expanding it yields a chemically correct molecule that was never drawn, so those
+  depictions are `generic`, not ground truth. The same discipline excludes
+  US3781268's amikacin, which exists only behind a two-member `R3` variable.
