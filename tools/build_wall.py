@@ -136,6 +136,40 @@ def hit_rows(rs):
     return rs
 
 
+def build_pdfs() -> dict:
+    """PDFs tab: the whole pipeline on real documents -- figures out, segments out,
+    structures read. Tiles are the SEGMENT crops, i.e. what the reader was actually
+    handed after stages 1 and 2, not the page."""
+    print("pdfs tab (full pipeline, per-document runs)")
+    csv_path = ROOT / "scored/pdfs_all/structures.csv"
+    if not csv_path.exists():
+        raise SystemExit("no scored corpus run yet -- run tools/score_all_pdfs.py first")
+    seg_dirs = sorted(Path("/root/cmage-work/allpdfs/runs").glob("*/out/run_*/02_DIS_Segments"))
+    rows = rows_from([csv_path], seg_dirs, WALL / "pdf")
+
+    by_key = {r["k"]: r for r in rows}
+    for r in csv.DictReader(open(csv_path)):
+        t = by_key.get(r["file_name"].rsplit(".", 1)[0])
+        if t:
+            t["d"] = r["group"]
+            t["n"] = r.get("matched_name") or r.get("closest_name") or "unmatched"
+
+    # Per-document recall. The denominator is that document's OWN ground truth,
+    # never the corpus total -- summing 138 documents' hits over one global
+    # denominator is the classic way to report a number nobody can reproduce.
+    truth = json.load(open(ROOT / "ground_truth/pdf_manifest_all.json"))["groups"]
+    docs = []
+    for g, v in sorted(truth.items()):
+        expected = {m["inchikey"] for m in (v.get("molecules") or []) if m.get("inchikey")}
+        if not expected:
+            continue
+        got = {r["n"] for r in rows if r.get("d") == g and r["v"] in ("exact", "stereo")}
+        docs.append({"name": g, "expected": len(expected), "found": len(got)})
+    docs = [d for d in docs if any(r.get("d") == d["name"] for r in rows)]
+    print(f"  documents with structures {len(docs)}  tiles {len(rows)}")
+    return {"arm": "full pipeline", "rows": rows, "docs": docs}
+
+
 THRESHOLD = 0.8431          # the published confidence cut, not a round number
 
 
@@ -165,3 +199,19 @@ if __name__ == "__main__":
                        "extraction and no segmentation. Scored against PubChem structures "
                        "fetched in the same request batch as the images.")
         write("images", d)
+    if which in ("pdfs", "all"):
+        d = build_pdfs()
+        s = stats(d["rows"], threshold=round(THRESHOLD * 100))
+        d["dir"] = "pdf"
+        exp = sum(x["expected"] for x in d["docs"])
+        fnd = sum(x["found"] for x in d["docs"])
+        d["headline"] = (
+            f"Whole documents, unedited: figures found, structures cut out, then read. "
+            f"{s['graded_pct']}% right if a tautomer or salt may differ. Across "
+            f"{len(d['docs'])} documents the pipeline recovered {fnd} of the {exp} "
+            f"compounds their ground truth catalogues.")
+        d["footer"] = ("Stages 1+2+3 on the committed PDF corpus. Recall is per document "
+                       "against that document's own ground truth. A patent draws far more "
+                       "than it catalogues, so a tile with no expected answer is a real "
+                       "structure that was read, not an error.")
+        write("pdfs", d)
