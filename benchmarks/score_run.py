@@ -251,6 +251,23 @@ def main():
         else:
             iso, flat = canon(mol, True), canon(mol, False)
             exp = expected[g]["molecules"]
+            if not exp:
+                # This document catalogues NO scoreable molecule -- everything it
+                # draws is a generic Markush formula, recorded as unscoreable by
+                # design. Two things went wrong here before this branch existed.
+                #
+                # `max()` over an empty candidate list raised, and score_all_pdfs
+                # counted that as FAILED, so three documents vanished from the
+                # corpus entirely -- which reads as a corpus smaller than it is.
+                #
+                # Worse, had it not raised, the `next(..., None)` lookups above
+                # would each miss on the empty list and every structure in those
+                # documents would have been graded `wrong` against nothing at all.
+                # A prediction with no reference is not incorrect; it is unscored.
+                # The crash was, by luck, protecting the number.
+                rec["verdict"] = "no-truth"
+                structs.append(rec)
+                continue
             hit = next((e for e in exp if e["iso"] == iso), None)
             if hit:
                 rec["verdict"], rec["matched_name"] = "exact", hit["name"]
@@ -260,10 +277,11 @@ def main():
                     rec["verdict"], rec["matched_name"] = "stereo", hit["name"]
                 else:
                     rec["verdict"] = "wrong"
-            fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, 2048)
-            sims = [(DataStructs.TanimotoSimilarity(fp, e["fp"]), e) for e in exp]
-            best = max(sims, key=lambda t: t[0])
-            rec["closest_name"], rec["closest_tanimoto"], rec["closest_heavy"] = best[1]["name"], round(best[0], 3), best[1]["heavy"]
+            if exp:
+                fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, 2048)
+                sims = [(DataStructs.TanimotoSimilarity(fp, e["fp"]), e) for e in exp]
+                best = max(sims, key=lambda t: t[0])
+                rec["closest_name"], rec["closest_tanimoto"], rec["closest_heavy"] = best[1]["name"], round(best[0], 3), best[1]["heavy"]
         structs.append(rec)
 
     # ---- graded verdicts: how close is each `wrong` really?
