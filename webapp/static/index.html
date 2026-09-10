@@ -25,7 +25,15 @@ body{user-select:none;-webkit-user-select:none}
    input that pushes a grid child past its track and clips whatever sits beside
    it. Flex and grid children default to min-width:auto, i.e. "never shrink below
    my content"; these override that. */
-.hrow>*,.bar>*,.wall>*,.pics>*,.doc>*,.shead>*{min-width:0}
+.hrow>*,.wall>*,.pics>*,.doc>*,.shead>*{min-width:0}
+/* NOT .bar>*. The filter bar is a horizontally SCROLLING strip, and min-width:0
+   there lets every chip shrink to zero so they stack on top of one another --
+   which is exactly what it did on a real phone. Children of a scroll strip must
+   keep their natural width and let the container scroll; children of a grid track
+   must shrink so they do not clip a neighbour. The two rules are opposites and
+   applying one blanket rule to both broke the visible one. */
+.bar>*{flex:0 0 auto}
+.bar input[type=search]{flex:0 0 180px}
 html,body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   -webkit-text-size-adjust:100%}
@@ -159,10 +167,20 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .err{background:#4a1513;color:#f87171;padding:12px 14px;border-radius:8px;margin:16px 0}
 @media(max-width:560px){
   .big{font-size:40px} .hrow{gap:8px;padding:9px 12px} .brand span{display:none}
-  .seg{margin-left:0;flex:1 1 auto;justify-content:center}
+  .seg{margin-left:0;flex:1 1 auto;justify-content:center;overflow-x:auto;
+    scrollbar-width:none}
+  .seg::-webkit-scrollbar{display:none}
   .seg button{padding:7px 8px;font-size:12.5px}
-  .brand{font-size:14px}
-  #try{padding:8px 9px;font-size:12px} :root{--tile:96px}
+  .brand{font-size:14px;overflow:hidden;text-overflow:ellipsis}
+  #try{padding:8px 9px;font-size:12px}
+}
+/* Below ~360px three tabs plus a brand plus a button genuinely do not fit on one
+   line at a legible size. Drop the wordmark rather than shrink the type further
+   or let the tab strip spill its labels -- the tabs are the navigation, the
+   wordmark is decoration. */
+@media(max-width:359px){
+  .brand{display:none}
+  .seg button{padding:7px 7px;font-size:12px} :root{--tile:96px}
   dialog{width:100%;max-width:none;max-height:92dvh;border-radius:0;
     margin:auto auto 0;align-self:end}
   .pics img{max-height:26dvh}
