@@ -164,3 +164,55 @@ in [`../ground_truth/ROUND5_GROUNDTRUTH_NOTES.md`](../ground_truth/ROUND5_GROUND
   Expanding it yields a chemically correct molecule that was never drawn, so those
   depictions are `generic`, not ground truth. The same discipline excludes
   US3781268's amikacin, which exists only behind a two-member `R3` variable.
+
+## Round 6 — recent oncology patents
+
+Ten patents, priority dates 2011–2024, one or two per modern small-molecule
+oncology scaffold class: EGFR, BTK and CDK4/6 kinase inhibitors, KRAS G12C, two
+PARP inhibitors, a PROTAC degrader, an ADC payload/linker, a SERD and a menin
+inhibitor. Same column order as the table above; **drawn** here is the number of
+distinct compounds the ground truth catalogues (resolved + generic + unresolved
+rows), **scored** the number carrying a PubChem CID. The *depiction* count is much
+larger — 598 across the ten — and is in
+[`../ground_truth/ROUND6_GROUNDTRUTH_NOTES.md`](../ground_truth/ROUND6_GROUNDTRUTH_NOTES.md).
+
+| file | pages | licence | drawing style | drawn | scored |
+|---|---|---|---|---|---|
+| [`EP2736895B1_osimertinib.pdf`](EP2736895B1_osimertinib.pdf) | 104 | Patent, public record | EPO B1 vector + 300-dpi CCITT clippings; 21 full-page XRPD/DSC sheets; mesylate drawn as an ION PAIR | 17 | 10 |
+| [`EP3630761B1_sotorasib.pdf`](EP3630761B1_sotorasib.pdf) | 26 | Patent, public record | EPO B1 vector; complete named 7-step route; ATROPISOMER claims drawn identically; trilingual claims | 15 | 13 |
+| [`US12011442B2_abemaciclib.pdf`](US12011442B2_abemaciclib.pdf) | 14 | Patent, public record | USPTO scan, NO text layer; 9 figure sheets and ONE 2D structure; FIG 2 is a 3D ORTEP | 1 | 1 |
+| [`WO2021259732A1_zanubrutinib.pdf`](WO2021259732A1_zanubrutinib.pdf) | 60 | Patent, public record | WIPO A1 raster, no text layer; VARIABLE-STOICHIOMETRY co-crystal (n = 0.8–1.2); 2 ORTEPs + a flowchart | 7 | 4 |
+| [`WO2017215166A1_talazoparib.pdf`](WO2017215166A1_talazoparib.pdf) | 26 | Patent, public record | WIPO A1 raster; wedges AND printed CIP letters; a spurious ChemDraw `(Z)` on an aromatic triazole | 12 | 10 |
+| [`US11629137B2_niraparib.pdf`](US11629137B2_niraparib.pdf) | 46 | Patent, public record | USPTO scan, no text layer; FIG 2 prints a MOLECULAR WEIGHT under every structure; named phosphine ligands | 17 | 14 |
+| [`CN114085213A_vepdegestrant.pdf`](CN114085213A_vepdegestrant.pdf) | 23 | Patent, public record | CNIPA vector Chinese + 48 raster clippings; a 54-heavy-atom PROTAC; header/footer stamps as decoys | 7 | 6 |
+| [`WO2025055671A1_elacestrant.pdf`](WO2025055671A1_elacestrant.pdf) | 28 | Patent, public record | Chinese-language WIPO A1, NO text layer at all; three routes to one drug; salt cued by the text `2HCl` | 5 | 2 |
+| [`US9463252B2_auristatin_MMAF.pdf`](US9463252B2_auristatin_MMAF.pdf) | 27 | Patent, public record | USPTO scan (27-pp extract of 63); Markush + squiggly-valence fragments + RESIN-BEAD solid-phase species | 5 | 0 |
+| [`US12018032B2_icovamenib.pdf`](US12018032B2_icovamenib.pdf) | 98 | Patent, public record | USPTO scan, no text layer; 37 non-structure figure sheets; ~20 DEUTERATED analogues; atom-numbered figure | 4 | 1 |
+
+Round-6 arithmetic: **90 catalogued compounds, 61 scored**, plus 14 generic and 15
+unresolved rows, over 598 depictions. **Quote 61 with any recall figure from this
+round**, or 38 if you drop the five recall-only groups. One file,
+`US9463252B2_auristatin_MMAF.pdf`, scores **zero by design** — it is the round's
+Markush stratum and the corpus's cleanest false-positive test.
+
+### Three more lessons
+
+- **The retrieval routes rot.** The round-4 recipe — fetch
+  `patents.google.com/patent/<ID>/en`, or
+  `patentimages.storage.googleapis.com/pdfs/US<n>.pdf` — now returns 503 and 403
+  respectively for anything modern, as do USPTO `image-ppubs`, Espacenet and
+  Justia. Two routes that work are recorded in
+  [`../ground_truth/pdf_corpus_round6_manifest.json`](../ground_truth/pdf_corpus_round6_manifest.json):
+  the EPO publication server for granted EP documents (B1 only; an A1 request
+  returns HTTP 500), and a read-through proxy asked for HTML, which reaches both
+  the Google Patents page and its `xhr/query` search endpoint and hands back the
+  hashed `patentimages` URL that plain `curl` can then fetch.
+- **A search-engine summary is not a patent number.** `EP2989196B1` was returned as
+  the zanubrutinib patent and is in fact *Nouvelle algue radiorésistante du genre
+  Coccomyxa*. Fetch the document and read its own title page; every number in this
+  round was verified that way.
+- **A wrong wedge resolves cleanly to the wrong molecule.** The cereblon fragment
+  of ARV-471 written `[C@@H]` instead of `[C@H]` returns CID 177775766, a real
+  record for the *(3R)* enantiomer — same formula, same skeleton InChIKey block,
+  different stereo layer, no warning of any kind. Where a stereocentre matters,
+  pin it on a printed name, not on a structure search.
