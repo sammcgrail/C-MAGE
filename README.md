@@ -283,18 +283,28 @@ Measured on the 97-image benchmark, one variable, largest-fragment scoring:
 
 | | exact | predictions carrying phantom fragments |
 |---|---|---|
-| stock C-MAGE, PubChem images as downloaded | 66.0% | 63 of 97 |
-| **same images, background mapped 245 -> 255** | **77.3%** | **18 of 97** |
+| stock C-MAGE, PubChem images as downloaded | 67.0% | 63 of 97 |
+| **same images, background mapped 245 -> 255** | **78.4%** | **18 of 97** |
 
-> All three exact figures in this section (66.0, 77.3, and the 32.0 below) were
-> measured before the 2026-09-10 `rescore_fragments.py` fix, which strips the
+> All three exact figures in this section (67.0, 78.4, and the 32.0 below) are
+> re-measured after the 2026-09-10 `rescore_fragments.py` fix, which strips the
 > largest fragment from BOTH sides of the comparison rather than only the
-> prediction. On this corpus that is worth about +1 point — the stock arm
-> re-measures at **67.0%** — because 95 of these 97 references are a single
-> fragment. The two arms above have not been re-measured yet, so all three are
-> left as originally measured rather than mixing one corrected number with two
-> uncorrected ones. The COMPARISON is unaffected: the fix moves every arm the
-> same way and cannot move one by 11 points.
+> prediction. Previously 66.0, 77.3 and 32.0.
+>
+> The note that stood here said the other two arms could not be re-measured
+> because their run directories under `/tmp` had been cleared. That was true and
+> it did not matter: `rescore_fragments.py` reads a `score_run.py` OUTPUT
+> directory, not a pipeline run, and all three survive under
+> `benchmarks/scored/images97_*`. The blocker was a misread of the tool's own
+> `--scored` argument, not missing data — worth recording, because "the inputs
+> are gone" is an unusually convincing reason to stop looking.
+>
+> The fix is worth about +1 point on this corpus, since 95 of these 97 references
+> are a single fragment. The one that moves is metoprolol succinate, drawn as two
+> metoprolol units and a succinic acid, which a prediction reduced to one fragment
+> could never match against an unstripped reference. The COMPARISON was never
+> affected: the fix moves every arm the same way and cannot move one by 11 points.
+> The 32.0% arm does not move at all.
 
 **Do not "fix" this by loosening `CropWhite`'s threshold instead.** That was
 tried: cropping correctly but leaving the background grey scored **32.0%**,
