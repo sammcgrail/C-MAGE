@@ -33,8 +33,12 @@ def main() -> int:
             skipped += 1
             continue
         if stem not in truth:
+            # No ground truth for this document -- but it RAN, and what it read is
+            # still worth showing. Skipping it dropped 11 real documents off the
+            # page entirely. Score it against the manifest anyway: score_run marks
+            # every row `no-truth`, which is honest, and the structures appear on
+            # the wall as grey tiles instead of vanishing.
             nogt += 1
-            continue
         tmp = Path(f"/tmp/score_{stem}")
         r = subprocess.run([PY_, str(BENCH / "score_run.py"), "--run-dir", str(run),
                             "--manifest", str(MANIFEST), "--out", str(tmp),

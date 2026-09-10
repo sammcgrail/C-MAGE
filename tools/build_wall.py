@@ -164,7 +164,8 @@ def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> l
         for p in d.glob("*.png"):
             index.setdefault(p.name, p)
 
-    rows, missing, bytes_ = [], 0, 0
+    rows, missing, bytes_, dupes = [], 0, 0, 0
+    seen: set[str] = set()
     for cp in csv_paths:
         if not cp.exists():
             print(f"  MISSING csv {cp}", file=sys.stderr)
@@ -176,6 +177,15 @@ def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> l
                 missing += 1
                 continue
             key = fn.rsplit(".", 1)[0]
+            # The scored/ tree holds BOTH per-batch runs and pooled supersets of
+            # those same runs, so globbing it counts many compounds twice. 1,710
+            # compounds came out as 3,530 rows -- a corpus that looks twice its
+            # real size, with every duplicate tile a second opinion on one image
+            # (CXMolScribe is not deterministic, so the two need not even agree).
+            if key in seen:
+                dupes += 1
+                continue
+            seen.add(key)
             bytes_ += thumb(src, out_img / f"{key}.png")
             pred_dir = out_img.parent / (out_img.name + "_pred")
             pred_dir.mkdir(parents=True, exist_ok=True)
@@ -190,7 +200,9 @@ def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> l
                 "s": r.get("smiles") or "",
                 "p": 1 if has_pred else 0,
             })
-    print(f"  rows {len(rows)}  no-image {missing}  thumbs {bytes_/1e6:.1f} MB")
+    print(f"  rows {len(rows)}  duplicates dropped {dupes}  no-image {missing}  "
+          f"thumbs {bytes_/1e6:.1f} MB")
+    assert len(rows) == len(seen), "row count and distinct-key count disagree"
     return rows
 
 
@@ -213,9 +225,11 @@ def truth_index(manifests: list[Path]) -> dict[str, dict]:
 def build_images() -> dict:
     """Raw-images tab: the best arm, RDKit's own layout at 1500 px, 1210 compounds."""
     print("images tab (arm: corpus_rdkit_1500)")
+    # Every batch that has been scored on this arm. Globbed rather than listed,
+    # so a new batch appears on the page the moment its scores are published and
+    # nobody has to remember to add a line here.
     rows = rows_from(
-        [ROOT / "scored/pooled1010_corpus_rdkit_1500/structures.csv",
-         ROOT / "scored/batch7_corpus_rdkit_1500/structures.csv"],
+        sorted(ROOT.glob("scored/*corpus_rdkit_1500/structures.csv")),
         # All FOUR batches. Globbing only three silently dropped 200 rows as
         # "no image" -- a miss that looks exactly like a corpus that is smaller
         # than you thought, which is why the count is printed and checked.
@@ -298,6 +312,15 @@ def build_pdfs() -> dict:
             continue
         found = {r["n"] for r in mine if r["v"] in ("exact", "stereo")} & expected
         docs.append({"name": g, "expected": len(expected), "found": len(found)})
+
+    # The 11 documents with no ground truth still RAN and their structures are on
+    # the wall; without a row here they are the only tiles you cannot filter to.
+    # expected=0 renders an empty bar, which is honest -- there was nothing to
+    # recover, not nothing recovered.
+    grounded = {d["name"] for d in docs}
+    for g in sorted({r["d"] for r in rows if r.get("d")} - grounded):
+        docs.append({"name": g, "expected": 0,
+                     "found": sum(1 for r in rows if r.get("d") == g), "nogt": True})
     print(f"  documents with structures {len(docs)}  tiles {len(rows)}")
     return {"arm": "full pipeline", "rows": rows, "docs": docs}
 
