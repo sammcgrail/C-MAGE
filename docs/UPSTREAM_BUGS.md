@@ -27,7 +27,7 @@ writes PNG figures — the array that reaches `Image.fromarray` is BGR. PIL inte
 it as RGB and writes the file with the red and blue channels exchanged.
 
 The round trip then hides it. Stage 3 reads the segment with
-`MolScribe/molscribe/interface.py:154-155`:
+`cxmolscribe-wd/MolScribe/molscribe/interface.py:154-155`:
 
 ```python
 image = cv2.imread(path)

@@ -76,6 +76,45 @@ Two facts to keep, and the honest gap between them:
   resampling — and it is not merely thinness, because thickening does not help
   either.
 
+### Nine transforms have now been tried; all nine failed
+
+| transform | graded exact |
+|---|---|
+| PubChem 300 px + background remap (best known, no rescue involved) | **72.3%** |
+| PubChem 300 px + 3 px ink dilation | 36.1% |
+| autoscale to a target ink fraction | 2.0% |
+| 1500 px cropped to the drawing's bounding box | 1.2% |
+| 1500 px + proportional dilation | 0.0% |
+| 1500 px → 300 px LANCZOS | 0.0% |
+| 1500 px → 300 px + background remap | 0.0% |
+| 1500 px → 300 px + Otsu binarise | 0.0% |
+| 1500 px → 300 px + contrast stretch | 0.0% |
+| 1500 px thicken → 300 px → Otsu | 0.0% |
+| **1500 px → 300 px by MIN-POOL (darkest pixel per block)** | **0.0%** |
+
+The last one deserves its own note, because it was **predicted by the second
+mechanism and refuted it**. Measuring what the recogniser actually receives — every
+arm resized to CXMolScribe's 384 px working size (`MolScribe/molscribe/dataset.py:50`,
+albumentations `A.Resize`, bilinear) — gave a clean separator:
+
+| arm | median darkest pixel after the resize | has any near-black pixel | score |
+|---|---|---|---|
+| **PubChem 1500 px** | **110** | 31% | **0.0%** |
+| RDKit 1500 px | 0 | 98% | 82.9% |
+| PubChem 300 px | 2 | 100% | 57.9% |
+
+After downsampling, PubChem's 1500 px images contain no dark pixels at all. So
+min-pooling was built to preserve the darkest pixel in each block instead of
+averaging — and it lands exactly on target, median darkest pixel **0** and ink
+fraction **0.0178**, indistinguishable on both measures from arms that score 57–83%.
+
+It scores **0/560**. Darkness is a correlate and not the cause either.
+
+**Three mechanisms proposed, three refuted, each by a measurement built to confirm
+it.** What survives is empirical and worth more than the stories: every arm that
+works is a NATIVE render at its own size, and no resampling of a render has ever
+recovered one. Re-render at the size you want; do not resample.
+
 What the downscale measurement does show: LANCZOS resampling of a hairline turns it
 into faint grey rather than a thin black line — ink fraction *fell* to 0.0042
 because the strokes rose above the 200 threshold entirely. So the strokes are faint
