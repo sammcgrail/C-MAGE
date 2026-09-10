@@ -40,7 +40,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
 .seg{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;padding:2px;margin-left:auto}
 .seg button{appearance:none;background:none;border:0;color:var(--dim);font:inherit;
-  font-size:14px;padding:7px 13px;border-radius:6px;cursor:pointer;min-height:38px}
+  font-size:14px;padding:7px 13px;border-radius:6px;cursor:pointer;min-height:38px;
+  white-space:nowrap}
 .seg button[aria-selected=true]{background:var(--acc);color:#fff;font-weight:600}
 .ghost{appearance:none;background:none;border:1px solid var(--line);color:var(--ink);
   font:inherit;font-size:13px;padding:8px 12px;border-radius:7px;cursor:pointer;min-height:38px}
@@ -153,7 +154,10 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .err{background:#4a1513;color:#f87171;padding:12px 14px;border-radius:8px;margin:16px 0}
 @media(max-width:560px){
   .big{font-size:40px} .hrow{gap:8px;padding:9px 12px} .brand span{display:none}
-  .seg button{padding:7px 10px;font-size:13px} :root{--tile:96px}
+  .seg{margin-left:0;flex:1 1 auto;justify-content:center}
+  .seg button{padding:7px 8px;font-size:12.5px}
+  .brand{font-size:14px}
+  #try{padding:8px 9px;font-size:12px} :root{--tile:96px}
   dialog{width:100%;max-width:none;max-height:92dvh;border-radius:0;
     margin:auto auto 0;align-self:end}
   .pics img{max-height:26dvh}
@@ -168,6 +172,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
     <div class="seg" role="tablist">
       <button role="tab" id="tab-images" aria-selected="true">Raw images</button>
       <button role="tab" id="tab-pdfs" aria-selected="false">PDFs</button>
+      <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet</button>
     </div>
     <button class="ghost" id="try">Try a file</button>
   </div>
@@ -271,6 +276,7 @@ function openSheet(r){
     + '<h3>' + esc(r.n) + '</h3>'
     + '<div class="meta"><span class="badge ' + v + '">' + esc(names[v] || v) + '</span>'
     + (r.c != null ? ' &nbsp;confidence ' + r.c + '%' : '')
+    + (r.sconf ? ' &nbsp;model said ' + esc(r.sconf) : '')
     + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '') + '</div>';
   $("#sheetBody").innerHTML =
       '<div class="pics"><figure><img decoding="sync" src="/wall/' + DATA.dir + '/'
@@ -280,6 +286,12 @@ function openSheet(r){
     + '</div>'
     + '<div class="kv"><label>Predicted</label><code>' + esc(r.s || "(nothing emitted)") + '</code></div>'
     + (r.t ? '<div class="kv"><label>Expected</label><code>' + esc(r.t) + '</code></div>' : '')
+    /* On the Sonnet arm every row carries BOTH readings. Showing only one would
+       hide the actual finding, which is not that either is better overall but
+       that they miss different molecules. */
+    + (r.ocr ? '<div class="kv"><label>CXMolScribe read ('
+        + esc(r.ocrv) + (r.ocrc != null ? ', confidence ' + r.ocrc + '%' : '')
+        + ')</label><code>' + esc(r.ocr) + '</code></div>' : '')
     + verdictNote(r)
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy predicted</button>';
@@ -414,8 +426,8 @@ function render(){
 
 function load(tab){
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
-  $("#tab-pdfs").setAttribute("aria-selected", tab === "pdfs");
-  $("#tab-images").setAttribute("aria-selected", tab === "images");
+  ["pdfs","images","sonnet"].forEach(function(t){
+    $("#tab-" + t).setAttribute("aria-selected", tab === t); });
   $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
   fetch("/wall/" + tab + ".json").then(function(r){
     if (!r.ok) throw new Error("no data for this tab yet (HTTP " + r.status + ")");
@@ -430,6 +442,7 @@ function load(tab){
 }
 
 $("#tab-pdfs").onclick = function(){ load("pdfs"); };
+$("#tab-sonnet").onclick = function(){ load("sonnet"); };
 $("#tab-images").onclick = function(){ load("images"); };
 $("#try").onclick = function(){ location.href = "/upload"; };
 $("#sheet").onclick = function(e){ if (e.target.id === "sheet") $("#sheet").close(); };
@@ -444,5 +457,6 @@ document.addEventListener("selectstart", function(e){
 /* Raw images is the default: it is the cleaner measurement (one already-cropped
    depiction per image, no figure extraction to go wrong) and the bigger corpus.
    ?tab=pdfs still deep-links to the document run. */
-load(new URLSearchParams(location.search).get("tab") === "pdfs" ? "pdfs" : "images");
+(function(){ var t = new URLSearchParams(location.search).get("tab");
+  load(t === "pdfs" || t === "sonnet" ? t : "images"); })();
 </script>
