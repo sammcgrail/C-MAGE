@@ -556,6 +556,22 @@
       <div id="gallery-list">
         <div class="card">
           <h2>Runs that were published here</h2>
+          <p class="muted small" style="margin:6px 0 4px">Whole documents through the whole
+            pipeline, unedited — figures found, structures cropped, each crop read into CXSMILES.
+            Nothing here is curated for flattery: the corpus was chosen to span drawing styles,
+            including 1970s hand-inked patents and scans in Cyrillic, Korean, Japanese, Chinese,
+            French and German.</p>
+          <p class="muted small" style="margin:0 0 4px"><b>Most results are low confidence, and
+            that is the honest picture.</b> Segmentation costs about 19 points before the reader
+            sees anything, and a real figure often carries text, spectra or several molecules at
+            once. The confidence score separates well — on the depiction benchmark 88–94% of
+            high-confidence answers are right, against roughly a third of low-confidence ones —
+            so the tier is the first thing to read on a card, not the string.</p>
+          <p class="muted small" style="margin:0 0 4px"><b>Reading a card.</b> <i>Predicted</i> is
+            the raw CXSMILES. <i>Expanded</i> appears when the drawing used an abbreviation
+            (<code>OMe</code>, <code>Ph</code>) and shows the same molecule spelled out; the two
+            are one molecule written two ways. A <code>[*]</code> is a group the drawing named but
+            did not draw — reported, never guessed.</p>
 
           <div class="caveat" id="gallery-caveat"></div>
           <div class="runs" id="runs"></div>
