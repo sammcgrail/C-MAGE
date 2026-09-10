@@ -59,6 +59,26 @@ main{max-width:1400px;margin:0 auto;
 
 /* hero */
 .hero{padding:22px 0 14px;border-bottom:1px solid var(--line)}
+/* Two readers, one denominator, at the SAME type size. A single big percentage
+   with the other score in prose beneath reads as a headline plus a footnote; the
+   point of this tab is that the two numbers are directly comparable. */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.cmp .side{background:var(--panel);border:1px solid var(--line);padding:13px 14px;min-width:0}
+.cmp .who{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.6px;
+  margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmp .pc{font-size:34px;font-weight:800;line-height:1;letter-spacing:-1px}
+.cmp .of{color:var(--dim);font-size:12px;margin-top:5px}
+.cmp .track{height:7px;background:#0b0f14;margin-top:9px;overflow:hidden}
+.cmp .track i{display:block;height:100%;background:var(--acc)}
+.cmp .side.lead .track i{background:var(--exact)}
+.prog{margin:0 0 14px}
+.prog .lbl{display:flex;justify-content:space-between;gap:8px;color:var(--dim);
+  font-size:12.5px;margin-bottom:5px}
+.prog .track{height:8px;background:var(--panel);border:1px solid var(--line);overflow:hidden}
+.prog .track i{display:block;height:100%;background:var(--acc);min-width:2px}
+.pre{background:#0b0f14;border:1px solid var(--line);padding:12px;margin-top:10px;
+  font:11.5px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
+  color:var(--dim);user-select:text;-webkit-user-select:text;max-height:52vh;overflow-y:auto}
 .big{font-size:52px;font-weight:800;line-height:1;letter-spacing:-1.5px}
 .big small{font-size:17px;font-weight:500;color:var(--dim);letter-spacing:0;margin-left:8px}
 .sub{color:var(--dim);font-size:14px;margin-top:8px}
@@ -432,15 +452,42 @@ function render(){
      images tab reports accuracy over structures read; the PDFs tab reports
      RECALL over compounds catalogued, because those documents draw six times
      more than they list. The label ships with the payload. */
-  hero.innerHTML = '<div class="big">' + s.strict_pct + '%<small>'
-    + esc(DATA.heroLabel || ("of " + s.n + " structures exactly right")) + '</small></div>'
-    + '<div class="sub">' + esc(DATA.headline) + '</div>';
+  var c = DATA.compare;
+  if (c) {
+    var best = Math.max.apply(null, c.sides.map(function(x){ return x.pct; }));
+    hero.innerHTML =
+      '<div class="cmp">' + c.sides.map(function(x){
+        return '<div class="side' + (x.pct === best ? ' lead' : '') + '">'
+          + '<div class="who">' + esc(x.label) + '</div>'
+          + '<div class="pc">' + x.pct + '%</div>'
+          + '<div class="of">' + x.exact + ' of ' + c.n + ' exactly right</div>'
+          + '<div class="track"><i style="width:' + x.pct + '%"></i></div></div>';
+      }).join("") + '</div>'
+      + '<div class="prog"><div class="lbl"><span>Read so far</span><span>'
+      + c.n + ' of ' + c.corpus + '</span></div><div class="track"><i style="width:'
+      + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'
+      + '<div class="sub">' + esc(DATA.headline) + '</div>';
+  } else {
+    hero.innerHTML = '<div class="big">' + s.strict_pct + '%<small>'
+      + esc(DATA.heroLabel || ("of " + s.n + " structures exactly right")) + '</small></div>'
+      + '<div class="sub">' + esc(DATA.headline) + '</div>';
+  }
   v.appendChild(hero);
   var ds = docsStrip(); if (ds) v.appendChild(ds);
   v.appendChild(chipbar(DATA.rows));
   var head = el("div", "sub"); head.id = "count"; v.appendChild(head);
   var wall = el("div", "wall"); wall.id = "wall"; v.appendChild(wall);
-  v.appendChild(armsTable());
+  if (DATA.prompt){
+    var pd = el("details");
+    pd.appendChild(el("summary", null, "The prompt the model was given"));
+    if (DATA.promptNote) pd.appendChild(el("p", "sub", DATA.promptNote));
+    pd.appendChild(el("div", "pre", DATA.prompt));
+    v.appendChild(pd);
+  }
+  /* The render-arms table answers "which way of DRAWING the molecule works best".
+     That question does not exist on the Sonnet tab, which holds one arm read two
+     ways, so the fold was an invitation to an answer about something else. */
+  if (DATA.arms && DATA.arms.length) v.appendChild(armsTable());
   var f = el("footer");
   f.innerHTML = esc(DATA.footer || "");
   v.appendChild(f);

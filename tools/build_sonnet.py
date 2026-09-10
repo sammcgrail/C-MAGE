@@ -20,6 +20,36 @@ sys.path.insert(0, "/root/C-MAGE/tools")
 from build_wall import WALL, THRESHOLD, render_pred, thumb, relate     # noqa: E402
 
 
+PROMPT_TEXT = """Read ten chemical structure drawings and give the SMILES for each.
+
+Images (use the Read tool on each — they render as images):
+/tmp/blind_<slot>/img01.png … img10.png
+
+For each, write the SMILES for the structure depicted. Stereochemistry where the
+drawing shows it (wedge/hash, E/Z). All fragments if more than one is drawn
+(salts, counter-ions), dot-separated.
+
+RULES:
+- Work from the DRAWING. If you recognise the molecule you may cross-check, but
+  the drawing is the authority — say so if they conflict.
+- COUNT THE ATOMS EXPLICITLY before writing. An earlier batch read a chain with
+  one extra CH2, turning lactic acid into 3-hydroxybutyric acid, at high stated
+  confidence. Count ring vertices and chain carbons.
+- Exactly one SMILES per image. UNREADABLE rather than a guess, with a reason.
+- Do NOT use RDKit or any cheminformatics tool to canonicalise or improve your
+  answer. I want your reading.
+
+OUTPUT — a JSON array:
+[{"img": "img01", "smiles": "...", "name_if_recognised": "...",
+  "confidence": "high|medium|low"}, ...]
+All ten, in order."""
+
+PROMPT_NOTE = ("The file paths are anonymised before the model sees them. The corpus names "
+               "images after their compounds — lactic_acid_cid612.png — so a model handed the "
+               "real path can answer from the string without looking at the drawing, and would "
+               "score well for entirely the wrong reason.")
+
+
 def main() -> int:
     # Read the append-only results file, not a snapshot. The batch harness appends
     # to it, so the tab reflects every batch scored so far with no separate step to
@@ -60,16 +90,27 @@ def main() -> int:
     o_ex = sum(1 for r in rows if r["ocrv"] == "exact")
     both = sum(1 for r in rows if r["v"] == "exact" and r["ocrv"] == "exact")
     either = sum(1 for r in rows if r["v"] == "exact" or r["ocrv"] == "exact")
+    corpus_n = len(json.load(open(WALL / "images.json"))["rows"])
     d = {
         "arm": "Sonnet", "dir": "sonnet", "rows": rows,
+        # Two readers, one denominator, shown at the same size. A single big
+        # percentage with the other reader's score in prose underneath reads as a
+        # headline plus a footnote; the point here is that they are comparable.
+        "compare": {
+            "n": n, "corpus": corpus_n,
+            "sides": [
+                {"label": "Sonnet", "exact": s_ex, "pct": round(s_ex / n * 100, 1)},
+                {"label": "CXMolScribe", "exact": o_ex, "pct": round(o_ex / n * 100, 1)},
+            ],
+            "agree": both, "either": either,
+        },
+        "prompt": PROMPT_TEXT, "promptNote": PROMPT_NOTE,
         "stats": {"n": n, "exact": s_ex, "strict_pct": round(s_ex / n * 100, 1)},
         "heroLabel": f"of {n} — against CXMolScribe's {o_ex} on the same {n}",
         "threshold": round(THRESHOLD * 100),
         "headline": (
             f"A general vision model reading the same drawings, scored by the same rule. "
-            f"Sonnet {s_ex} of {n}, the pipeline {o_ex} of {n}. They agree on {both} and "
-            f"between them get {either}. Running in batches of ten over the whole "
-            f"corpus; this tab shows every image read so far."),
+            f"They agree on {both} of {n} and between them read {either}."),
         "footer": (
             "Sample is a deterministic stride over the sorted corpus, not a hand-pick. "
             "Filenames were anonymised before the model saw them, because the corpus names "
