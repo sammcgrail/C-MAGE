@@ -26,7 +26,17 @@ from pathlib import Path
 
 WORK = Path("/root/cmage-work/sonnet")
 RESULTS = WORK / "results.jsonl"
-BLIND = Path("/tmp/blind_batch")
+# Each concurrent worker gets its OWN blind directory and its own pending file.
+# A single shared /tmp/blind_batch would let two workers overwrite each other's
+# images between prepare and read, and the scoring would then attribute one
+# worker's answers to the other's compounds -- silently, since both are valid
+# SMILES for real molecules.
+def blind_dir(slot: str) -> Path:
+    return Path(f"/tmp/blind_{slot}")
+
+
+def pending_path(slot: str) -> Path:
+    return WORK / f"pending_{slot}.json"
 WALL = Path("/root/C-MAGE/benchmarks/wall")
 
 
@@ -49,12 +59,21 @@ def image_index() -> dict[str, str]:
     return idx
 
 
-def cmd_next(n: int) -> int:
+def cmd_next(n: int, slot: str = "a") -> int:
     rows, have, idx = corpus(), done_keys(), image_index()
-    todo = [r for r in rows if r["k"] not in have][:n]
+    # Skip anything another worker has already claimed but not yet scored, or two
+    # workers started at the same moment read the same ten images.
+    claimed = set()
+    for pp in WORK.glob("pending_*.json"):
+        try:
+            claimed |= {b["k"] for b in json.load(open(pp))}
+        except Exception:
+            pass
+    todo = [r for r in rows if r["k"] not in have and r["k"] not in claimed][:n]
     if not todo:
         print("NOTHING LEFT")
         return 0
+    BLIND = blind_dir(slot)
     shutil.rmtree(BLIND, ignore_errors=True)
     BLIND.mkdir(parents=True)
     WORK.mkdir(parents=True, exist_ok=True)
@@ -68,19 +87,19 @@ def cmd_next(n: int) -> int:
         batch.append({"slot": f"img{i:02d}", "k": r["k"], "truth": r.get("t"),
                       "name": r["n"], "ocr_smiles": r["s"], "ocr_verdict": r["v"],
                       "ocr_conf": r["c"]})
-    json.dump(batch, open(WORK / "pending.json", "w"), indent=1)
+    json.dump(batch, open(pending_path(slot), "w"), indent=1)
     leak = [b for b in batch if any(t in b["slot"].lower() for t in ("cid", "acid", "_"))]
     assert not leak, f"anonymisation failed: {leak}"
-    print(f"prepared {len(batch)}  done {len(have)}  remaining {len(rows)-len(have)-len(batch)}")
+    print(f"[{slot}] prepared {len(batch)}  done {len(have)}  claimed-elsewhere {len(claimed)}  remaining {len(rows)-len(have)-len(claimed)-len(batch)}")
     for b in batch:
         print(f"  {BLIND}/{b['slot']}.png")
     return 0
 
 
-def cmd_score(answers_path: str) -> int:
+def cmd_score(answers_path: str, slot: str = "a") -> int:
     from rdkit import Chem, RDLogger
     RDLogger.DisableLog("rdApp.*")
-    batch = json.load(open(WORK / "pending.json"))
+    batch = json.load(open(pending_path(slot)))
     ans = {a["img"]: a for a in json.load(open(answers_path))}
 
     def canon(s, stereo=True):
@@ -107,12 +126,15 @@ def cmd_score(answers_path: str) -> int:
             fh.write(json.dumps(dict(b, sonnet_smiles=pred, sonnet_verdict=v,
                                      sonnet_conf=a.get("confidence"),
                                      sonnet_name=a.get("name_if_recognised"))) + "\n")
+    pending_path(slot).unlink(missing_ok=True)     # release the claim
     tot = len(done_keys())
-    print(f"batch: sonnet {s_ex}/{len(batch)}  cxmolscribe {o_ex}/{len(batch)}   cumulative {tot}")
+    print(f"[{slot}] sonnet {s_ex}/{len(batch)}  cxmolscribe {o_ex}/{len(batch)}   cumulative {tot}")
     return 0
 
 
 if __name__ == "__main__":
     if sys.argv[1] == "next":
-        sys.exit(cmd_next(int(sys.argv[2]) if len(sys.argv) > 2 else 10))
-    sys.exit(cmd_score(sys.argv[2] if len(sys.argv) > 2 else "/tmp/sonnet_answers.json"))
+        sys.exit(cmd_next(int(sys.argv[2]) if len(sys.argv) > 2 else 10,
+                          sys.argv[3] if len(sys.argv) > 3 else "a"))
+    sys.exit(cmd_score(sys.argv[2] if len(sys.argv) > 2 else "/tmp/sonnet_answers.json",
+                       sys.argv[3] if len(sys.argv) > 3 else "a"))
