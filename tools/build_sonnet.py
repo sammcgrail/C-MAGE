@@ -58,8 +58,9 @@ def main() -> int:
     rows_in = [json.loads(l) for l in open(src) if l.strip()]
     img = WALL / "sonnet"
     pred = WALL / "sonnet_pred"
-    img.mkdir(parents=True, exist_ok=True)
-    pred.mkdir(parents=True, exist_ok=True)
+    ocr = WALL / "sonnet_ocr"
+    for dd in (img, pred, ocr):
+        dd.mkdir(parents=True, exist_ok=True)
 
     import glob
     idx = {}
@@ -75,6 +76,11 @@ def main() -> int:
             continue
         thumb(Path(src_img), img / f"{k}.png")
         has = render_pred(r.get("sonnet_smiles") or "", pred / f"{k}.png")
+        # Draw the PIPELINE's answer as well. On this corpus the two readers
+        # disagree in ways a SMILES string hides: CXMolScribe returns iodine as a
+        # `J` abbreviation label here, which is invisible in the text and obvious
+        # the moment it is drawn beside the input.
+        has_ocr = render_pred(r.get("ocr_smiles") or "", ocr / f"{k}.png")
         # The tile's colour is the OUTCOME, not Sonnet's verdict alone. "Sonnet was
         # wrong" and "Sonnet was wrong where the pipeline was right" are different
         # facts, and the second is the one this tab exists to show.
@@ -91,6 +97,7 @@ def main() -> int:
             "r": relate(r.get("sonnet_smiles") or "", r["truth"]),
             # Both readings travel with the row so the sheet can show them together.
             "ocr": r["ocr_smiles"], "ocrv": r["ocr_verdict"], "ocrc": r["ocr_conf"],
+            "po": 1 if has_ocr else 0,
             "sconf": r.get("sonnet_conf"),
         })
 

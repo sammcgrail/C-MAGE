@@ -82,7 +82,10 @@ main{max-width:1400px;margin:0 auto;
   font-size:11px;font-weight:700;color:#06090d}
 .o-exact{background:var(--exact)} .o-stereo{background:var(--stereo)}
 .o-wrong{background:var(--wrong)} .o-invalid{background:var(--invalid)}
-.o-notruth{background:#3d4450}
+.o-notruth{background:#3d4450} .o-misread{background:var(--wrong)}
+.o-unmatched{background:#c2410c}
+.t.o-misread::after{background:var(--wrong)} .t.o-unmatched::after{background:#c2410c}
+.t.o-notruth::after{background:#3d4450}
 /* One labelled bar per secondary measure, so a number and what it is are never
    more than a line apart. */
 .mbar{margin-bottom:11px}
@@ -138,8 +141,8 @@ input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(-
   content-visibility:auto;contain-intrinsic-size:var(--tile)}
 .t img{width:100%;height:100%;object-fit:contain;display:block}
 .t::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--invalid)}
-.t.exact::after{background:var(--exact)} .t.stereo::after{background:var(--stereo)}
-.t.wrong::after{background:var(--wrong)} .t.invalid::after{background:var(--invalid)}
+.t.o-exact::after{background:var(--exact)} .t.o-stereo::after{background:var(--stereo)}
+.t.o-wrong::after{background:var(--wrong)} .t.o-invalid::after{background:var(--invalid)}
 .t b{position:absolute;top:0;right:0;background:rgba(13,17,23,.88);color:#fff;
   font-size:10px;font-weight:600;padding:2px 5px}
 .t u{position:absolute;left:0;right:0;bottom:4px;background:rgba(13,17,23,.82);color:#fff;
@@ -174,6 +177,8 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
    is the point -- stacked, the second one is below the fold and the reader has to
    remember the first. */
 .pics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.pics3{grid-template-columns:repeat(3,1fr)}
+.pics1{grid-template-columns:1fr}
 .pics figure{margin:0;background:#fff;overflow:hidden}
 .pics img{width:100%;display:block;max-height:34dvh;object-fit:contain}
 .pics figcaption{background:var(--panel);color:var(--dim);font-size:11px;padding:4px 6px;text-align:center}
@@ -237,6 +242,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   dialog{width:100%;max-width:none;max-height:92dvh;border-radius:0;
     margin:auto auto 0;align-self:end}
   .pics img{max-height:26dvh}
+  .pics3 img{max-height:17dvh}
   .kv code{font-size:12px}
   .note{font-size:12.5px}
 }
@@ -280,10 +286,15 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){
 
 /* A tile's colour is its verdict. `exact` and `stereo` are the two that mean the
    reader got the right molecule; everything else is a miss of some kind. */
-function cls(r){ return ["exact","stereo","wrong","invalid"].indexOf(r.v) >= 0 ? r.v : "invalid"; }
+var KNOWN = ["exact","stereo","misread","wrong","unmatched","invalid"];
+/* Anything unrecognised used to fall through to "invalid", which quietly counted
+   1,026 no-ground-truth rows as Unparseable in the chips while the legend beside
+   them said 231. An unknown verdict gets its own bucket now instead of borrowing
+   somebody else's. */
+function cls(r){ return KNOWN.indexOf(r.v) >= 0 ? r.v : "notruth"; }
 /* On the Sonnet tab a tile is coloured by WHO got it right, which is the question
    the tab exists to answer. Everywhere else it falls back to the verdict. */
-function tileCls(r){ return r.o ? "o-" + r.o : cls(r); }
+function tileCls(r){ return r.o ? "o-" + r.o : "o-" + cls(r); }
 
 function match(r){
   if (DOC && r.d !== DOC) return false;
@@ -295,8 +306,8 @@ function match(r){
 }
 
 function counts(rows){
-  var c = {all:rows.length, exact:0, stereo:0, wrong:0, invalid:0, high:0,
-           both:0, sonnet:0, cxms:0, neither:0};
+  var c = {all:rows.length, exact:0, stereo:0, misread:0, wrong:0, unmatched:0,
+           invalid:0, notruth:0, high:0, both:0, sonnet:0, cxms:0, neither:0};
   rows.forEach(function(r){
     c[cls(r)]++; if (r.o) c[r.o]++;
     if((r.c||0) >= DATA.threshold) c.high++;
@@ -312,11 +323,13 @@ function counts(rows){
    1,126 up front. Cached ones fire onload immediately, so this still works on a
    second visit. */
 function prefetchPred(r){
-  if (!r.p || r._pf) return;
+  if ((!r.p && !r.po) || r._pf) return;
   r._pf = true;
   var i = new Image();
   i.decoding = "async";
   i.src = "/wall/" + DATA.dir + "_pred/" + encodeURIComponent(r.k) + ".png";
+  if (r.po) { var j = new Image(); j.decoding = "async";
+    j.src = "/wall/" + DATA.dir + "_ocr/" + encodeURIComponent(r.k) + ".png"; }
 }
 
 function tile(r){
@@ -366,12 +379,21 @@ function openSheet(r){
     + (r.c != null ? ' &nbsp;confidence ' + r.c + '%' : '')
     + (r.sconf ? ' &nbsp;model said ' + esc(r.sconf) : '')
     + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '') + '</div>';
-  $("#sheetBody").innerHTML =
-      '<div class="pics"><figure><img decoding="sync" src="/wall/' + DATA.dir + '/'
+  /* Up to three pictures: what was given, and what each reader returned. A SMILES
+     string hides the interesting disagreements -- CXMolScribe emits iodine as a
+     `J` abbreviation label on some inputs, which is invisible in the text and
+     unmistakable once drawn. */
+  var pics = '<figure><img decoding="sync" src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt=""><figcaption>Input</figcaption></figure>'
     + (r.p ? '<figure><img decoding="sync" src="/wall/' + DATA.dir + '_pred/'
-      + encodeURIComponent(r.k) + '.png" alt=""><figcaption>Read back</figcaption></figure>' : '')
-    + '</div>'
+      + encodeURIComponent(r.k) + '.png" alt=""><figcaption>'
+      + (r.ocr ? 'Sonnet read' : 'Read back') + '</figcaption></figure>' : '')
+    + (r.po ? '<figure><img decoding="sync" src="/wall/' + DATA.dir + '_ocr/'
+      + encodeURIComponent(r.k) + '.png" alt=""><figcaption>CXMolScribe read'
+      + '</figcaption></figure>' : '');
+  var n = (pics.match(/<figure/g) || []).length;
+  $("#sheetBody").innerHTML =
+      '<div class="pics pics' + n + '">' + pics + '</div>'
     + '<div class="kv"><label>Predicted</label><code>' + esc(r.s || "(nothing emitted)") + '</code></div>'
     + (r.t ? '<div class="kv"><label>Expected</label><code>' + esc(r.t) + '</code></div>' : '')
     /* On the Sonnet arm every row carries BOTH readings. Showing only one would
@@ -413,10 +435,19 @@ var io = new IntersectionObserver(function(es){
 
 function chipbar(rows){
   var c = counts(rows), bar = el("div", "bar");
-  var set = (DATA.compare && DATA.compare.breakdown) ? OUTCOMES : VERDICTS;
+  /* Chips are built from the SAME breakdown that draws the stacked bar, so the
+     two can never name different buckets or different totals. */
+  var set = (DATA.compare && DATA.compare.breakdown) ? OUTCOMES
+    : (DATA.breakdown ? [["all","All"]].concat(DATA.breakdown.map(function(x){
+        return [x.key, x.label]; })) : VERDICTS);
   set.forEach(function(p){
+    /* A chip reading "Stereo only 0" is a filter guaranteed to show nothing.
+       Hide empty buckets, but never "All" and never the one currently selected,
+       or the active filter vanishes from the bar you used to set it. */
+    if (p[0] !== "all" && !c[p[0]] && FILTER !== p[0]) return;
     var b = el("button", "chip");
     var colour = {exact:"var(--exact)",stereo:"var(--stereo)",wrong:"var(--wrong)",
+                  misread:"var(--wrong)",unmatched:"#c2410c",notruth:"#3d4450",
                   invalid:"var(--invalid)",both:"var(--exact)",sonnet:"var(--acc)",
                   cxms:"var(--stereo)",neither:"var(--wrong)"}[p[0]];
     b.innerHTML = (colour ? '<span class="dot" style="background:' + colour + '"></span>' : "")
@@ -547,7 +578,10 @@ function render(){
   }
   v.appendChild(hero);
   var ds = docsStrip(); if (ds) v.appendChild(ds);
-  v.appendChild(chipbar(DATA.rows));
+  /* Count over the rows in SCOPE, not the whole corpus. With a document selected
+     the chips read "All 4484 / Exact 795" beside a wall showing 42 tiles, which is
+     two different questions answered on one line. */
+  v.appendChild(chipbar(DATA.rows.filter(function(r){ return !DOC || r.d === DOC; })));
   var head = el("div", "sub"); head.id = "count"; v.appendChild(head);
   var wall = el("div", "wall"); wall.id = "wall"; v.appendChild(wall);
   if (DATA.prompt){

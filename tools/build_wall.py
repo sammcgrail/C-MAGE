@@ -266,7 +266,9 @@ def verdict_breakdown(rows: list[dict]) -> list[dict]:
     at."""
     order = [("exact", "Exact", lambda r: r["v"] == "exact"),
              ("stereo", "Stereo only", lambda r: r["v"] == "stereo"),
+             ("misread", "Misread a catalogued compound", lambda r: r["v"] == "misread"),
              ("wrong", "Wrong", lambda r: r["v"] == "wrong"),
+             ("unmatched", "Read, not in the catalogue", lambda r: r["v"] == "unmatched"),
              ("invalid", "Unparseable", lambda r: r["v"] == "invalid"),
              ("notruth", "No ground truth", lambda r: r["v"] == "no-truth")]
     out = []
@@ -307,9 +309,24 @@ def build_pdfs() -> dict:
     by_key = {r["k"]: r for r in rows}
     for r in csv.DictReader(open(csv_path)):
         t = by_key.get(r["file_name"].rsplit(".", 1)[0])
-        if t:
-            t["d"] = r["group"]
-            t["n"] = r.get("matched_name") or r.get("closest_name") or "unmatched"
+        if not t:
+            continue
+        t["d"] = r["group"]
+        t["n"] = r.get("matched_name") or r.get("closest_name") or "unmatched"
+        # "Wrong" is a claim, and on this corpus it is usually not supportable.
+        # These documents draw ~7x more structures than their ground truth
+        # catalogues, so a prediction matching nothing is far more often a real
+        # molecule nobody listed than a misreading. Tanimoto to the NEAREST
+        # catalogued compound separates the two cases as well as anything can:
+        # a near-miss of something catalogued is plausibly a misread; a molecule
+        # unlike anything catalogued cannot be called wrong on this evidence.
+        if t["v"] == "wrong":
+            try:
+                tan = float(r.get("closest_tanimoto") or 0)
+            except ValueError:
+                tan = 0.0
+            t["v"] = "misread" if tan >= 0.85 else "unmatched"
+            t["tan"] = round(tan, 2)
 
     # Per-document recall. The denominator is that document's OWN ground truth,
     # never the corpus total -- summing 138 documents' hits over one global
@@ -444,8 +461,8 @@ if __name__ == "__main__":
         ]
         d["headline"] = (
             f"Whole documents, unedited. Precision is not quoted here: only a seventh of "
-            f"what these documents draw is catalogued by anyone, so most of the red above "
-            f"is a real molecule nobody listed.")
+            f"what these documents draw is catalogued by anyone, so a structure matching "
+            f"nothing is usually a real molecule nobody listed rather than a misreading.")
         d["footer"] = ("Stages 1+2+3 on all 149 committed PDFs, 1,900 pages, zero pipeline "
                        "failures. Recall is per document against that document's own "
                        "ground truth. Precision is NOT reportable on this corpus and is "
