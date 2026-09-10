@@ -84,6 +84,12 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:20px;
   text-transform:uppercase;letter-spacing:.4px}
 .badge.exact{background:#0f3d20;color:#4ade80} .badge.stereo{background:#3d3010;color:#fbbf24}
+.note{background:#0b0f14;border:1px solid var(--line);border-left:3px solid var(--acc);
+  padding:10px 12px;margin:12px 0;font-size:13px;color:var(--dim);line-height:1.45}
+.note b{color:var(--ink)}
+.note code{display:block;margin-top:7px;background:none;border:0;padding:0;
+  font:12px/1.5 ui-monospace,Menlo,monospace;color:var(--ink);word-break:break-all;
+  user-select:text;-webkit-user-select:text}
 .badge.wrong{background:#4a1513;color:#f87171} .badge.invalid{background:#21262d;color:var(--dim)}
 
 /* docs strip + arms */
@@ -169,6 +175,30 @@ function tile(r){
   return b;
 }
 
+/* Say what RDKit actually found, per row, rather than leaving the reader to diff
+   two strings. The three cases are genuinely different and must not share wording:
+   an exact match really does canonicalise to ONE identical string; a close match
+   never will, and only agrees once something is discarded; and that something is
+   not always stereochemistry -- Acetone-D6 is graded the same way because the
+   reference carries six deuteriums and the reader saw three. */
+function verdictNote(r){
+  var x = r.r;
+  if (!x) return "";
+  if (x.how === "identical")
+    return '<div class="note"><b>RDKit: identical.</b> Both strings parse to the same '
+      + 'molecule and the same canonical form — they are two ways of writing it.'
+      + '<code>' + esc(x.canon) + '</code></div>';
+  if (x.how === "different") return "";
+  var bits = [];
+  if (x.stereo) bits.push(x.stereo[0] + " of " + x.stereo[1] + " stereocentre"
+    + (x.stereo[1] === 1 ? "" : "s") + " disagree");
+  if (x.geom) bits.push(x.geom + " double-bond geometr" + (x.geom === 1 ? "y" : "ies") + " disagree");
+  if (x.iso) bits.push("isotope labels differ — " + x.iso[0] + " read against " + x.iso[1] + " expected");
+  return '<div class="note"><b>RDKit: same skeleton, not the same molecule.</b> '
+    + (bits.length ? bits.join("; ") + "." : "They differ only in stereochemistry.")
+    + ' Identical once that is discarded:<code>' + esc(x.canon || "") + '</code></div>';
+}
+
 function openSheet(r){
   var v = cls(r), names = {exact:"Exact match", stereo:"Right skeleton, stereochemistry differs",
     wrong:"Different molecule", invalid:"Not parseable"};
@@ -182,13 +212,8 @@ function openSheet(r){
       + '.png" alt=""><figcaption>Read back</figcaption></figure>' : '')
     + '</div>'
     + '<div class="kv"><label>Predicted</label><code>' + esc(r.s || "(nothing emitted)") + '</code></div>'
-    /* A correct answer is often written differently from the reference -- an
-       aromatic ring against a Kekule one is the same molecule and RDKit scores it
-       exact. Two visibly different strings under "expected" and "predicted" with
-       an EXACT badge above them reads like a bug, so the label says which it is. */
-    + (r.t ? '<div class="kv"><label>Expected'
-        + (v === "exact" && r.t !== r.s ? ' — same molecule, written differently' : '')
-        + '</label><code>' + esc(r.t) + '</code></div>' : '')
+    + (r.t ? '<div class="kv"><label>Expected</label><code>' + esc(r.t) + '</code></div>' : '')
+    + verdictNote(r)
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy predicted</button> '
     + '<button class="ghost" onclick="document.getElementById(\'sheet\').close()">Close</button>';

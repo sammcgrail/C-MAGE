@@ -71,6 +71,86 @@ def render_pred(smiles: str, dst: Path) -> bool:
         return False
 
 
+def relate(pred: str, truth: str) -> dict:
+    """State the exact relationship between the two strings, computed, not asserted.
+
+    Two SMILES for one molecule usually look nothing alike, so an EXACT badge over
+    two visibly different strings reads like a bug. But the honest note is not the
+    same in every case, and the graded ladder's `stereo` rung hides two quite
+    different failures behind one word:
+
+      Caffeine      exact -- the two really do canonicalise to one identical string.
+      Acetone-D6    graded `stereo`, but no stereocentre is involved. The reference
+                    carries six deuteriums and the reader saw three. Calling that
+                    "stereochemistry differs" would be false, and calling it
+                    "identical" would be false in the reader's favour.
+
+    So the difference is attributed: stereocentres, isotope labels, or both.
+    """
+    from rdkit import Chem, RDLogger
+    RDLogger.DisableLog("rdApp.*")
+    if not pred or not truth:
+        return {}
+    a, b = Chem.MolFromSmiles(pred), Chem.MolFromSmiles(truth)
+    if a is None or b is None:
+        return {}
+    if Chem.MolToSmiles(a) == Chem.MolToSmiles(b):
+        return {"how": "identical", "canon": Chem.MolToSmiles(a)}
+
+    def strip(m, stereo=False, iso=False):
+        m = Chem.Mol(m)
+        if iso:
+            # Zeroing the isotope is NOT enough. [2H] is an explicit hydrogen ATOM,
+            # so acetone-d6 read as -d3 still differs by three explicit H after the
+            # label is cleared, and the isotope branch never fires -- the check
+            # passes silently and the note goes missing. Drop the H atoms too.
+            for at in m.GetAtoms():
+                at.SetIsotope(0)
+            try:
+                m = Chem.RemoveHs(m)
+            except Exception:
+                pass
+        return Chem.MolToSmiles(m, isomericSmiles=not stereo)
+
+    def iso_count(m):
+        return sum(1 for at in m.GetAtoms() if at.GetIsotope())
+
+    
+
+    def centres(m):
+        return dict(Chem.FindMolChiralCenters(m, includeUnassigned=True,
+                                              useLegacyImplementation=False))
+
+    same_wo_stereo = strip(a, stereo=True) == strip(b, stereo=True)
+    same_wo_iso = strip(a, iso=True) == strip(b, iso=True)
+    if not (same_wo_stereo or same_wo_iso):
+        return {"how": "different"}
+
+    out = {"how": "close", "canon": strip(a, stereo=True, iso=True)}
+    ia, ib = iso_count(a), iso_count(b)
+    if ia != ib:
+        out["iso"] = [ia, ib]
+    pa, pb = centres(a), centres(b)
+    keys = set(pa) | set(pb)
+    d = sum(1 for k in keys if pa.get(k) != pb.get(k))
+    if d:
+        # Denominator is the UNION, not max(len). One molecule can carry centres
+        # the other does not, and max() then reports 14 of 7 -- a number that
+        # cannot be true and that nobody would trust the rest of the page after.
+        out["stereo"] = [d, len(keys)]
+
+    def bonds(m):
+        return {b.GetIdx(): str(b.GetStereo()) for b in m.GetBonds()
+                if str(b.GetStereo()) != "STEREONONE"}
+    ba, bb = bonds(a), bonds(b)
+    nb = sum(1 for k in set(ba) | set(bb) if ba.get(k) != bb.get(k))
+    if nb:
+        out["geom"] = nb
+    if not (out.get("iso") or out.get("stereo") or out.get("geom")):
+        out["how"] = "close_other"
+    return out
+
+
 def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> list[dict]:
     out_img.mkdir(parents=True, exist_ok=True)
     index: dict[str, Path] = {}
@@ -144,6 +224,9 @@ def build_images() -> dict:
         if t:
             r["t"] = t["t"]
             r["n"] = t["n"]
+            rel = relate(r.get("s") or "", t["t"])
+            if rel:
+                r["r"] = rel
             hit += 1
     print(f"  truth matched {hit}/{len(rows)}")
     if hit != len(rows):
