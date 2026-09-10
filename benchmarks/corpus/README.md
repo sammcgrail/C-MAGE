@@ -386,3 +386,76 @@ twenty-five groups included. Ground truth and the per-document caveats are in
   a valid document.** A 63-page patent came out with 115 `=== PAGE` markers and a
   paragraph from p2 filed under p13; only a page render disagreed. Check the
   marker count against `pdfinfo` before trusting any OCR text.
+
+## Round 10 — immunology and inflammation, respiratory, dermatology, ophthalmology
+
+Twenty-five patents, priority dates 2015–2024: nine in immunology and inflammation
+(six chemically distinct JAK-family inhibitors plus a TYK2, two S1P₁ modulators, a
+BTK inhibitor and a dissociative glucocorticoid), six respiratory (a PDE3/4, a
+LAMA, a P2X3 antagonist, an IP agonist, a triple angiokinase inhibitor and a CFTR
+corrector intermediate), five dermatology (an AhR agonist, a pan-JAK, a retinoid,
+a Src/tubulin inhibitor and a topical antiandrogen steroid) and five ophthalmology
+(two ROCK documents on one drug, a NO-donating prostaglandin, a RASP inhibitor and
+an isoxazoline). Same column order as the tables above; **drawn** here is the
+number of distinct compounds the ground truth catalogues (resolved + generic +
+unresolved rows), **scored** the number carrying a PubChem CID. The *depiction*
+count is much larger — 749 across the twenty-five — and is in
+[`../ground_truth/ROUND10_GROUNDTRUTH_NOTES.md`](../ground_truth/ROUND10_GROUNDTRUTH_NOTES.md).
+
+| file | pages | licence | drawing style | drawn | scored |
+|---|---|---|---|---|---|
+| [`US10526350B2_baricitinib.pdf`](US10526350B2_baricitinib.pdf) | 8 | Patent, public record | USPTO scan + OCR text layer; 37 inline depictions and "No Drawings" on the front page; every formula named in full | 9 | 9 |
+| [`US10815227B2_filgotinib.pdf`](US10815227B2_filgotinib.pdf) | 19 | Patent, public record | USPTO scan + OCR; formulae (I)–(XVII), boronate esters and an acylthiourea; three resolution routes in one file | 18 | 16 |
+| [`US11613529B2_deucravacitinib.pdf`](US11613529B2_deucravacitinib.pdf) | 18 | Patent, public record | USPTO scan, NO text layer; deuterium as a condensed `CD3`; a `Zn(0.5)` HEMI-carboxylate; 5 instrument sheets | 10 | 8 |
+| [`US11680050B2_ozanimod.pdf`](US11680050B2_ozanimod.pdf) | 10 | Patent, public record | USPTO scan, no text layer (10-pp extract of 40); 25 drawing sheets inc. PHOTOMICROGRAPHS vs 2 depictions | 1 | 1 |
+| [`US12049463B2_tolebrutinib.pdf`](US12049463B2_tolebrutinib.pdf) | 19 | Patent, public record | USPTO scan, no text layer (19-pp extract of 24); phenoxy drawn as the condensed label `O–Ph` | 1 | 1 |
+| [`US20230002439A1_vamorolone.pdf`](US20230002439A1_vamorolone.pdf) | 14 | Patent, public record | USPTO pre-grant scan (14-pp extract of 36); STEROID, 5 stereocentres; a greyscale raster HEATMAP | 2 | 1 |
+| [`WO2020261041A1_abrocitinib.pdf`](WO2020261041A1_abrocitinib.pdf) | 32 | Patent, public record | WIPO A1 raster, no text layer; ONE structure; *cis* drawn but the reference carries no stereo | 1 | 1 |
+| [`WO2021005484A1_upadacitinib.pdf`](WO2021005484A1_upadacitinib.pdf) | 36 | Patent, public record | WIPO A1 raster; nine compounds drawn INSIDE A TABLE against their names; 16 Markush formulae | 11 | 9 |
+| [`WO2023152691A1_ponesimod.pdf`](WO2023152691A1_ponesimod.pdf) | 20 | Patent, public record | WIPO A1 raster (20-pp extract of 41); printed name MORE specified than PubChem's record | 10 | 9 |
+| [`CN118530179A_elexacaftor.pdf`](CN118530179A_elexacaftor.pdf) | 13 | Patent, public record | CNIPA vector, CHINESE; a ruled ANNOTATION RECTANGLE inside a structure; Boc as `NBoc` | 6 | 6 |
+| [`EP3344607B1_selexipag.pdf`](EP3344607B1_selexipag.pdf) | 30 | Patent, public record | EPO B1 vector; 4 depictions against 14 full-page figures in SEVEN analytical modalities | 3 | 3 |
+| [`EP3747864B1_nintedanib.pdf`](EP3747864B1_nintedanib.pdf) | 12 | Patent, public record | EPO B1 vector, trilingual claims; `name/nintedanib` returns the wrong TAUTOMER | 7 | 6 |
+| [`US11491155B2_ensifentrine.pdf`](US11491155B2_ensifentrine.pdf) | 14 | Patent, public record | USPTO scan + OCR (14-pp extract of 28); 1 structure vs 12 figures in 4 classes + 17 pp of tables | 1 | 1 |
+| [`WO2022049604A1_revefenacin.pdf`](WO2022049604A1_revefenacin.pdf) | 18 | Patent, public record | WIPO A1 raster (18-pp extract of 48); a COUNTER-ION genus (`X⁻`); 44 heavy atoms, achiral | 5 | 3 |
+| [`WO2022083476A1_gefapixant.pdf`](WO2022083476A1_gefapixant.pdf) | 25 | Patent, public record | WIPO A1 raster, CHINESE; abstract figure OVERLAYS the structure on the XRPD plot | 1 | 1 |
+| [`EP4302831B1_tirbanibulin.pdf`](EP4302831B1_tirbanibulin.pdf) | 17 | Patent, public record | EPO B1 vector; an ION-PAIR diHCl salt; trilingual claims triple every claim structure | 18 | 13 |
+| [`US11597692B2_tapinarof.pdf`](US11597692B2_tapinarof.pdf) | 18 | Patent, public record | USPTO scan, no text layer (18-pp extract of 40); a SQUIGGLY bond = undefined stereocentre | 9 | 8 |
+| [`US20250215046A1_clascoterone.pdf`](US20250215046A1_clascoterone.pdf) | 10 | Patent, public record | USPTO pre-grant scan; STEROID; a Markush with exactly TWO members; the round's only IR spectrum | 5 | 3 |
+| [`WO2024180493A1_delgocitinib.pdf`](WO2024180493A1_delgocitinib.pdf) | 18 | Patent, public record | WIPO A1 raster (18-pp extract of 69); 1 structure, a diazaspiro quaternary centre, 49 pp of peak lists | 1 | 1 |
+| [`WO2024182418A1_trifarotene.pdf`](WO2024182418A1_trifarotene.pdf) | 21 | Patent, public record | WIPO A1 raster (21-pp extract of 44); a LANDSCAPE drawing sheet naming ten compounds — one caption WRONG | 12 | 10 |
+| [`US10584100B2_netarsudil.pdf`](US10584100B2_netarsudil.pdf) | 14 | Patent, public record | USPTO scan + OCR; 7 PXRD sheets vs ONE structure; stereo given three ways at once | 1 | 1 |
+| [`US11345664B2_netarsudil_process.pdf`](US11345664B2_netarsudil_process.pdf) | 14 | Patent, public record | USPTO scan + OCR; "Formula I" and "Formula 1" on one page are DIFFERENT compounds | 6 | 2 |
+| [`US10870621B2_latanoprostene_bunod.pdf`](US10870621B2_latanoprostene_bunod.pdf) | 6 | Patent, public record | USPTO scan + OCR; 27 depictions, ZERO figures; five stereocentres + a cis alkene on every one | 8 | 8 |
+| [`US20220009893A1_reproxalap.pdf`](US20220009893A1_reproxalap.pdf) | 8 | Patent, public record | USPTO pre-grant scan (8-pp extract of 14); the front-page abstract figure is itself a diffractogram | 1 | 1 |
+| [`WO2023107660A1_lotilaner.pdf`](WO2023107660A1_lotilaner.pdf) | 17 | Patent, public record | WIPO A1 raster (17-pp extract of 63); a QUATERNARY stereocentre; 24 figure sheets inc. ssNMR | 1 | 1 |
+
+Round-10 arithmetic: **148 catalogued compounds, 123 scored**, plus 11 generic and
+14 unresolved rows, over 749 depictions, in 19.9 MB. **Quote 123 with any recall
+figure from this round**, or 35 if you drop the twelve recall-only groups. Eleven
+files are page extracts (declared per group and tabulated in the notes); in those,
+every page number in the ground truth refers to the *original* publication.
+
+### Four more lessons
+
+- **A PubChem name lookup can hand back a different molecule in silence.**
+  `/compound/name/nintedanib` returns CID 135423438 — the 2-hydroxyindole
+  **tautomer**, same formula, same forty heavy atoms, no stereocentre, no warning.
+  Where the document prints a systematic name, parse it: `py2opsin` (OPSIN) →
+  RDKit → InChIKey → `/compound/inchikey/` is deterministic and cannot substitute
+  a tautomer or drop a stereodescriptor. It cannot parse INNs, so keep both routes.
+- **Sometimes the document is more specific than the reference.** Round 6 found
+  references that over-specified; this round found three that under-specify.
+  Ponesimod's printed name fixes `(2Z,5Z)` and `(2R)` while PubChem leaves the
+  propylimino C=N open — and the fully specified InChIKey has no PubChem record at
+  all. Abrocitinib's *cis* has the same problem. A faithful reading scores
+  `stereo`, not `exact`, and that is the reference's fault, not the tool's.
+- **A title is not a screen, the same way "No Drawings" is not.** `US11993605B2`
+  is titled "Processes for the preparation of (3S,4R)-3-ethyl-4-…" and is a
+  229-page, 17.7 MB *clinical* document: ninety pharmacology figure sheets and
+  almost no chemistry. Fetch it and render a page before believing the title.
+- **An EP A1 cannot be retrieved from this server at all.** The EPO publication
+  server serves B1 only (A1 → HTTP 500) *and* Google's patentimages has no PDF for
+  an EP A1. Use the WO twin. Conversely `patents.google.com/xhr/query` now answers
+  **plain curl** (~0.7 s) even though `/patent/<ID>/en` still 503s — only the
+  search endpoint is open, and it captchas after 15–20 queries.
