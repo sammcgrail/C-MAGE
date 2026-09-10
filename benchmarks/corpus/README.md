@@ -459,3 +459,125 @@ every page number in the ground truth refers to the *original* publication.
   an EP A1. Use the WO twin. Conversely `patents.google.com/xhr/query` now answers
   **plain curl** (~0.7 s) even though `/patent/<ID>/en` still 503s — only the
   search endpoint is open, and it captchas after 15–20 queries.
+
+
+## Round 8 — recent CNS, neurology, psychiatry, pain and anaesthesia patents
+
+Twenty-five patent documents, priority dates 2011–2024, covering migraine, epilepsy,
+Parkinson's disease, multiple sclerosis, narcolepsy, schizophrenia, depression,
+tardive dyskinesia, Rett syndrome, acute pain, pruritus and general anaesthesia.
+Same column order as the tables above; **drawn** here is the number of distinct
+compounds the ground truth catalogues (resolved + generic + unresolved rows),
+**scored** the number carrying a PubChem CID. The *depiction* count is much larger —
+2,073 across the twenty-five — and is in
+[`../ground_truth/ROUND8_GROUNDTRUTH_NOTES.md`](../ground_truth/ROUND8_GROUNDTRUTH_NOTES.md).
+
+**Every file in this round is a page extract.** The twenty-five originals total
+1,207 pages and 89.2 MB; these extracts are 224 pages and 16.1 MB, largest file
+1.37 MB. `pages_kept` in
+[`../ground_truth/pdf_corpus_round8_manifest.json`](../ground_truth/pdf_corpus_round8_manifest.json)
+records exactly which pages of each publication were kept.
+
+| file | pages | licence | drawing style | drawn | scored |
+|---|---|---|---|---|---|
+| [`US12071423B2_lasmiditan.pdf`](US12071423B2_lasmiditan.pdf) | 13 | Patent, public record | USPTO scan, no extractable text; 3 numbered schemes + 6 Preparations; FOUR lasmiditan salts as separate rows | 17 | 14 |
+| [`US11447448B2_solriamfetol.pdf`](US11447448B2_solriamfetol.pdf) | 11 | Patent, public record | USPTO scan; a NINE-STRUCTURE IMPURITY TABLE with a printed IUPAC name beside each; 4 aroyl tartrate resolving agents | 19 | 15 |
+| [`US11820776B2_remimazolam.pdf`](US11820776B2_remimazolam.pdf) | 13 | Patent, public record | USPTO scan; 19 NMR/MS/XRPD sheets; formula (IV) drawn FLAT in Scheme 1 and HASHED in claim 1; amidine tautomer differs from PubChem's | 17 | 13 |
+| [`US20220402886A1_pitolisant.pdf`](US20220402886A1_pitolisant.pdf) | 10 | Patent, public record | USPTO pre-grant scan; 6 XRPD sheets; deschloro impurity series; a spiro quaternary ammonium bromide | 15 | 13 |
+| [`US12258348B2_lumateperone.pdf`](US12258348B2_lumateperone.pdf) | 11 | Patent, public record | USPTO scan; 4 of 13 drawing sheets are full-page SCHEMES; 1:1 vs 1:2 tosylate on facing pages; cis racemate drawn as two structures | 14 | 11 |
+| [`US9718795B2_cariprazine.pdf`](US9718795B2_cariprazine.pdf) | 11 | Patent, public record | USPTO scan, WHOLE document kept; every molecule a trans-1,4-cyclohexane and PubChem has NO stereo-specified record for any | 13 | 11 |
+| [`US10358440B2_brexpiprazole.pdf`](US10358440B2_brexpiprazole.pdf) | 14 | Patent, public record | USPTO scan; 5 figure sheets; a spiro quaternary ammonium; a 48-heavy-atom bis-adduct impurity | 11 | 9 |
+| [`US9630955B2_opicapone.pdf`](US9630955B2_opicapone.pdf) | 12 | Patent, public record | USPTO scan, coarsest line art in the round; 6 full-page scheme sheets; acid chloride drawn INSIDE SQUARE BRACKETS | 10 | 8 |
+| [`US11174272B2_soticlestat.pdf`](US11174272B2_soticlestat.pdf) | 8 | Patent, public record | USPTO scan; an entire ring replaced by 'Ht' INSIDE A CIRCLE; three table rows share the printed mass 374.2 | 9 | 6 |
+| [`WO2023152711A1_cenobamate.pdf`](WO2023152711A1_cenobamate.pdf) | 12 | Patent, public record | WIPO A1; page content is vector PATHS, zero embedded fonts, so no text layer despite looking typeset; 19 lettered Markush formulae with PG/Lg/R/X/M; tetrazole attached through N2 | 8 | 6 |
+| [`WO2025122953A1_suzetrigine.pdf`](WO2025122953A1_suzetrigine.pdf) | 4 | Patent, public record | WIPO A1 trimmed from 209 pp; the drug is NAMED THROUGHOUT AND NEVER DRAWN; TMS label; only Si in the corpus | 6 | 6 |
+| [`US10577433B2_sugammadex.pdf`](US10577433B2_sugammadex.pdf) | 7 | Patent, public record | USPTO scan; LARGEST structures in the corpus - 128-heavy-atom cyclodextrin macrocycles, 32 stereocentres per box; X at 8 positions | 7 | 5 |
+| [`US10588898B2_oliceridine.pdf`](US10588898B2_oliceridine.pdf) | 11 | Patent, public record | USPTO scan; Markush with a VARIABLE RING SIZE '( )n'; 500-row name+structure table; 26 dropped pages are bare NAME LISTS | 8 | 5 |
+| [`US10899752B2_m1pam_benzoxazinones.pdf`](US10899752B2_m1pam_benzoxazinones.pdf) | 10 | Patent, public record | USPTO scan; TABLE 1 row Ex.2 draws a DIFFERENT MOLECULE from its own printed name and mass - it draws Ex.6 | 9 | 5 |
+| [`US11919905B2_benzodiazepine_anaesthetics.pdf`](US11919905B2_benzodiazepine_anaesthetics.pdf) | 11 | Patent, public record | USPTO scan; 3 pharmacology figure sheets; drawn intermediates confirmed by printed ESI-MS to 0.01 Da but absent from PubChem | 8 | 5 |
+| [`US20230181470A1_xanomeline_trospium.pdf`](US20230181470A1_xanomeline_trospium.pdf) | 4 | Patent, public record | USPTO pre-grant scan; 43 drawing sheets and NOT ONE is chemistry - 28 are TABLES typeset as figures; both structures are CATIONS | 6 | 5 |
+| [`US11993581B2_nav18_pyridazines.pdf`](US11993581B2_nav18_pyridazines.pdf) | 10 | Patent, public record | USPTO scan; the SQUIGGLY-FRAGMENT table - only the variable fragment drawn, full IUPAC name in the next column | 7 | 4 |
+| [`US20210024461A1_esketamine.pdf`](US20210024461A1_esketamine.pdf) | 10 | Patent, public record | USPTO pre-grant scan; racemate, (S) and (R) ketamine drawn on ONE page; every counter-ion is the literal text '.(S)-CSA' | 6 | 4 |
+| [`US10844058B2_valbenazine.pdf`](US10844058B2_valbenazine.pdf) | 8 | Patent, public record | USPTO scan; 18 drawing sheets, one a SCANNING ELECTRON MICROGRAPH; four-wedge valbenazine beside FLAT tetrabenazine | 5 | 3 |
+| [`US11111223B2_ozanimod.pdf`](US11111223B2_ozanimod.pdf) | 6 | Patent, public record | USPTO scan; TWENTY-FIVE drawing sheets, ~50 traces plus a polarised-light photomicrograph, and TWO structures in the grant | 3 | 2 |
+| [`US20230338546A1_difelikefalin.pdf`](US20230338546A1_difelikefalin.pdf) | 11 | Patent, public record | USPTO pre-grant scan; a TETRAPEPTIDE drawn atom by atom; D-configuration stated only in the shorthand caption; FIG. 9 is photographs | 4 | 2 |
+| [`WO2023175632A1_rimegepant.pdf`](WO2023175632A1_rimegepant.pdf) | 4 | Patent, public record | WIPO A1 raster, no extractable text; salt cued by the condensed text '0.5 H2SO4'; PubChem's obvious name hit is the wrong hydrate | 3 | 2 |
+| [`CA3224298A1_trofinetide.pdf`](CA3224298A1_trofinetide.pdf) | 4 | Patent, public record | CIPO application; ONE structure in 58 pages; among 13 drawing sheets a 3-D ORTEP thermal-ellipsoid plot; hydrate is 'x H2O' | 3 | 1 |
+| [`WO2022217008A1_zavegepant.pdf`](WO2022217008A1_zavegepant.pdf) | 5 | Patent, public record | WIPO A1 raster; 17 instrument sheets, 2 structures; a 55-heavy-atom drawing run across the page width | 3 | 1 |
+| [`WO2023119327A1_ubrogepant.pdf`](WO2023119327A1_ubrogepant.pdf) | 4 | Patent, public record | WIPO A1, vector; drawn exactly 3 times in 19 pages; 4 stereocentres, one a QUATERNARY SPIRO carbon | 1 | 1 |
+
+Round-8 arithmetic: **212 catalogued compounds, 157 scored**, plus 17 generic and 38
+unresolved rows, over 2,073 depictions. **Quote 157 with any recall figure from this
+round**, or 120 if you drop the six recall-only groups (`US9630955B2_opicapone`,
+`US12258348B2_lumateperone`, `US20230338546A1_difelikefalin`,
+`US11174272B2_soticlestat`, `US10588898B2_oliceridine`,
+`US10899752B2_m1pam_benzoxazinones`), each of which draws a gallery of 66–600
+depictions of which only a handful are catalogued.
+
+**One overlap to count once — and ten more found while checking it.**
+`US11111223B2_ozanimod` here and `US11680050B2_ozanimod` in round 10 are two
+different patents about the same drug, added minutes apart by two agents working
+concurrently. Nothing collides and `score_run.py` matches per group, so no scored
+run is affected.
+
+Checking that overlap by InChIKey across every round turned up **11 molecules that
+appear in two patents each**, of 663 catalogued rows and **652 distinct
+structures** — 1.7% double-weighted, not 0.2%. Four are ordinary counter-ions and
+reagents (methanesulfonic acid, benzenesulfonic acid, pyridine-3-sulfonyl chloride,
+clavulanic acid); the rest are drugs a second patent re-draws: netarsudil (two
+round-10 patents), vonoprazan, lenacapavir, oteseconazole, ibrexafungerp,
+nacubactam, ozanimod. Deduplicate by InChIKey before quoting a whole-corpus recall
+figure; per-group scoring needs no change.
+
+Regenerate the list with:
+
+```
+python3 - <<'EOF'
+import glob, json, collections, re
+keys = collections.defaultdict(set)
+for f in sorted(glob.glob('benchmarks/ground_truth/pdf_manifest_round*.json')):
+    r = re.search(r'round(\d+)', f).group(1)
+    for g, v in json.load(open(f))['groups'].items():
+        for m in v.get('molecules') or []:
+            if m.get('inchikey'):
+                keys[m['inchikey']].add(f"r{r}:{g}")
+for k, v in sorted(keys.items()):
+    if len(v) > 1:
+        print(k, ' | '.join(sorted(v)))
+EOF
+```
+
+### Five lessons
+
+- **A patent can draw the wrong molecule beside a correct name.** In
+  `US10899752B2`, TABLE 1 Example 2 prints a name and a mass that agree with each
+  other (C22H25ClN2O3, [M+H]+ 401.16, CID 124155830) and a *structure* that is
+  neither: the drawn N-substituent is a 4-hydroxy**oxan**-3-yl, which is Example
+  **6**'s molecule, whose own name and mass (403.1) are printed one page later. Two
+  views against one. The row is `unresolved` by design and both pages are in the
+  extract. **Reconcile name, drawing and printed mass before entering any row; when
+  they disagree, say so rather than picking.**
+- **Derive a derivative's SMILES by editing the parent's string, never by retyping
+  the stereocentre.** In `US10588898B2` a hand-written SMILES for oliceridine's
+  precursor silently returned **CID 68314404, the (9S) enantiomer**, and the error
+  propagated to two more rows before RDKit's CIP assignment caught it. The right
+  records are 68314401, 68314127 and 68314514. Note also that the CIP *letter* at
+  that carbon changes between the amine and its derivatives because substituent
+  priorities change — so "R" cannot be carried between rows by hand either.
+- **Equal printed mass is not identity.** `US11174272B2` prints `374.2` for
+  soticlestat, for a positional isomer of it nine pages later, and for a third
+  compound that is not even an isomer (one C swapped for one N). All three are in the
+  extract.
+- **Four salt-drawing conventions appear in this one round** — a condensed
+  `0.5 H2SO4` label, the counter-ion drawn twice, a bracket with subscript 2, and a
+  bare three-letter acronym `.(S)-CSA` — plus an ion pair drawn as circled charges
+  and a cation drawn with no counter-ion at all. A salt row can be right in
+  composition and wrong in every string.
+- **The search endpoint hands you the PDF URL.** `patents.google.com/xhr/query`,
+  reached through a read-through proxy, returns a `pdf` field with the hashed
+  `patentimages` path for every hit, so the per-patent page fetch can be skipped
+  entirely. Every PDF in this round was fetched that way. Two limits: Google
+  rate-limits after ~6 rapid queries, and the phrasing *"process for the preparation
+  of `<drug>`"* silently **drops the drug name** for about half of these compounds —
+  cariprazine, brexpiprazole, opicapone, ozanimod, pitolisant and sugammadex all
+  returned the same six irrelevant hits.
