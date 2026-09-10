@@ -115,17 +115,24 @@ CID and InChIKey (verified 250/250, zero overlap), deliberately weighted toward
 classes the first set was thin on — organometallics, boron and phosphorus drugs,
 large peptides, fused polyheterocycles, deuterated drugs.
 
-| rendering | new 250, graded exact | original 560, graded exact |
-|---|---|---|
-| RDKit 300 px | 67.6% | 78.8% |
-| PubChem 300 px + background remapped | 59.6% | 72.3% |
-| PubChem 300 px + remap, upscaled | 60.4% | 70.5% |
-| PubChem 300 px LANCZOS-upscaled | 57.2% | 69.6% |
-| PubChem 300 px, as supplied | 49.2% | 57.9% |
+| rendering | new 250 | original 560 | delta |
+|---|---|---|---|
+| RDKit 1500 px | 74.4% | 82.9% | −8.5 |
+| RDKit 300 px | 67.6% | 78.8% | −11.2 |
+| PubChem 300 px + remap, upscaled | 60.4% | 70.5% | −10.1 |
+| PubChem 300 px + background remapped | 59.6% | 72.3% | −12.7 |
+| PubChem 300 px LANCZOS-upscaled | 57.2% | 69.6% | −12.4 |
+| PubChem 300 px, as supplied | 49.2% | 57.9% | −8.7 |
+| **PubChem 1500 px, as supplied** | **0.0%** | **0.0%** | **±0.0** |
 
-Every arm falls about ten points, because the new compounds are harder — and the
-**ordering is unchanged**. The rendering effect is a property of the rendering, not
-of which molecules happened to be in the first corpus.
+Every arm falls between 8 and 13 points, because the new compounds are harder — and
+the **ordering is unchanged, all seven rows**. The rendering effect is a property of
+the rendering, not of which molecules happened to be in the first corpus.
+
+The last row is the one to note: **0 of 560 and 0 of 250 — not one correct answer
+from PubChem's 1500 px render across 810 compounds.** A failure that total, and that
+stable across two independent compound sets, is a property of the input format, not
+a tail of hard molecules.
 
 ## A mechanism that was nearly published on manufactured evidence
 
