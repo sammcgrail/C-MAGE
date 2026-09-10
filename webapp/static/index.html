@@ -432,7 +432,7 @@ function docsStrip(){
       + '<span class="rb"><i style="width:' + Math.min(100, pct) + '%"></i></span>'
       /* No ground truth: show what it READ, not a recall fraction. "8/0" would be
          nonsense and "0/0" would read as a failure rather than as nothing asked. */
-      + '<span class="n">' + (d.nogt ? d.found + " read" : d.found + "/" + d.expected)
+      + '<span class="n">' + (d.nogt ? (d.read || 0) + " read" : d.found + "/" + d.expected)
       + "</span>";
     b.setAttribute("aria-pressed", DOC === d.name);
     b.onclick = function(){ DOC = (DOC === d.name ? null : d.name); SHOWN = STEP; render(); };

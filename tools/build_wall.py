@@ -319,8 +319,12 @@ def build_pdfs() -> dict:
     # recover, not nothing recovered.
     grounded = {d["name"] for d in docs}
     for g in sorted({r["d"] for r in rows if r.get("d")} - grounded):
-        docs.append({"name": g, "expected": 0,
-                     "found": sum(1 for r in rows if r.get("d") == g), "nogt": True})
+        # `read`, NOT `found`. `found` means "catalogued compounds recovered" and
+        # is summed into the headline; putting a raw structure count in it made the
+        # page announce "recovered 1398 of the 697 compounds", 200.6%. Two units in
+        # one field, summed without noticing -- the field name was the whole bug.
+        docs.append({"name": g, "expected": 0, "found": 0, "nogt": True,
+                     "read": sum(1 for r in rows if r.get("d") == g)})
     print(f"  documents with structures {len(docs)}  tiles {len(rows)}")
     return {"arm": "full pipeline", "rows": rows, "docs": docs}
 
@@ -363,8 +367,13 @@ if __name__ == "__main__":
         d = build_pdfs()
         s = stats(d["rows"], threshold=round(THRESHOLD * 100))
         d["dir"] = "pdf"
-        exp = sum(x["expected"] for x in d["docs"])
-        fnd = sum(x["found"] for x in d["docs"])
+        # Sum ONLY over documents that have ground truth. A document with none
+        # contributes to neither numerator nor denominator; it is unscored, not a
+        # zero, and averaging it in would understate recall by a silent constant.
+        scored_docs = [x for x in d["docs"] if not x.get("nogt")]
+        exp = sum(x["expected"] for x in scored_docs)
+        fnd = sum(x["found"] for x in scored_docs)
+        assert fnd <= exp, f"recall over 100%: {fnd} of {exp} — units mixed again"
         drawn = len(d["rows"])
         # RECALL is the headline here, not accuracy. These documents draw 6x more
         # structures than their ground truth catalogues, so a prediction counted
@@ -382,10 +391,12 @@ if __name__ == "__main__":
         d["heroLabel"] = f"of {exp} catalogued compounds recovered"
         d["headline"] = (
             f"Whole documents, unedited: figures found, structures cut out, then read. "
-            f"Across {len(d['docs'])} documents the pipeline recovered {fnd} of the {exp} "
+            f"Across {len(scored_docs)} documents the pipeline recovered {fnd} of the {exp} "
             f"compounds their ground truth catalogues. It read {drawn} structures in "
             f"total — these documents draw about six times more than they catalogue, so "
-            f"most of the rest are real molecules nobody listed, not mistakes.")
+            f"most of the rest are real molecules nobody listed, not mistakes. "
+            f"{len(d['docs']) - len(scored_docs)} further documents have no ground truth at "
+            f"all; their structures are shown and left unscored.")
         d["footer"] = ("Stages 1+2+3 on all 149 committed PDFs, 1,900 pages, zero pipeline "
                        "failures. Recall is per document against that document's own "
                        "ground truth. Precision is NOT reportable on this corpus and is "
