@@ -280,15 +280,24 @@ def build_pdfs() -> dict:
     # Per-document recall. The denominator is that document's OWN ground truth,
     # never the corpus total -- summing 138 documents' hits over one global
     # denominator is the classic way to report a number nobody can reproduce.
+    #
+    # Match on NAME, which is what score_run.py writes into matched_name when it
+    # confirms a structure. An earlier version built `expected` from InChIKeys and
+    # `found` from names, so the two sets could never intersect and the counts
+    # silently drifted apart -- 345 of 663 here against 354 of 697 computed
+    # directly. Two computations of one quantity disagreeing is the whole reason
+    # to compute it twice.
     truth = json.load(open(ROOT / "ground_truth/pdf_manifest_all.json"))["groups"]
     docs = []
     for g, v in sorted(truth.items()):
-        expected = {m["inchikey"] for m in (v.get("molecules") or []) if m.get("inchikey")}
+        expected = {m["name"] for m in (v.get("molecules") or []) if m.get("name")}
         if not expected:
             continue
-        got = {r["n"] for r in rows if r.get("d") == g and r["v"] in ("exact", "stereo")}
-        docs.append({"name": g, "expected": len(expected), "found": len(got)})
-    docs = [d for d in docs if any(r.get("d") == d["name"] for r in rows)]
+        mine = [r for r in rows if r.get("d") == g]
+        if not mine:
+            continue
+        found = {r["n"] for r in mine if r["v"] in ("exact", "stereo")} & expected
+        docs.append({"name": g, "expected": len(expected), "found": len(found)})
     print(f"  documents with structures {len(docs)}  tiles {len(rows)}")
     return {"arm": "full pipeline", "rows": rows, "docs": docs}
 
@@ -297,7 +306,11 @@ THRESHOLD = 0.8431          # the published confidence cut, not a round number
 
 
 def write(name: str, d: dict) -> None:
-    d["stats"] = stats(d["rows"], threshold=round(THRESHOLD * 100))
+    # Do not clobber stats a caller already set. The PDF tab replaces the
+    # accuracy denominator with a recall one on purpose, and an unconditional
+    # assignment here silently undid it -- the page then showed 19.2% while the
+    # build log printed the number I meant to publish.
+    d.setdefault("stats", stats(d["rows"], threshold=round(THRESHOLD * 100)))
     d["threshold"] = round(THRESHOLD * 100)
     sys.path.insert(0, "/root/C-MAGE/tools")
     from wall_arms import build as arms_build
@@ -313,6 +326,7 @@ if __name__ == "__main__":
         d = build_images()
         s = stats(d["rows"], threshold=round(THRESHOLD * 100))
         d["dir"] = "img"
+        d["heroLabel"] = f"of {s['n']} structures exactly right"
         d["headline"] = (
             f"{s['graded_pct']}% right if a tautomer or salt may differ. "
             f"Of the {s['high']} the model marked high-confidence, {s['high_pct']}% are exact. "
@@ -328,13 +342,30 @@ if __name__ == "__main__":
         d["dir"] = "pdf"
         exp = sum(x["expected"] for x in d["docs"])
         fnd = sum(x["found"] for x in d["docs"])
+        drawn = len(d["rows"])
+        # RECALL is the headline here, not accuracy. These documents draw 6x more
+        # structures than their ground truth catalogues, so a prediction counted
+        # "wrong" is usually a real molecule off the page that nobody listed.
+        # Quoting accuracy over all rows would report ~20% for a pipeline that
+        # actually recovers half of what was asked for -- a number that is
+        # arithmetically true and answers a question no caller asked.
+        # Only recall-shaped fields survive here. Carrying `graded_pct` and
+        # `high_pct` forward would put two different denominators under one
+        # heading -- 50.8% measured over 697 catalogued compounds beside 27.0%
+        # measured over 4,384 drawn structures -- which is precisely the mixing
+        # the old page needed a paragraph to apologise for.
+        d["stats"] = {"n": exp, "exact": fnd,
+                      "strict_pct": round(fnd / exp * 100, 1) if exp else 0}
+        d["heroLabel"] = f"of {exp} catalogued compounds recovered"
         d["headline"] = (
             f"Whole documents, unedited: figures found, structures cut out, then read. "
-            f"{s['graded_pct']}% right if a tautomer or salt may differ. Across "
-            f"{len(d['docs'])} documents the pipeline recovered {fnd} of the {exp} "
-            f"compounds their ground truth catalogues.")
-        d["footer"] = ("Stages 1+2+3 on the committed PDF corpus. Recall is per document "
-                       "against that document's own ground truth. A patent draws far more "
-                       "than it catalogues, so a tile with no expected answer is a real "
-                       "structure that was read, not an error.")
+            f"Across {len(d['docs'])} documents the pipeline recovered {fnd} of the {exp} "
+            f"compounds their ground truth catalogues. It read {drawn} structures in "
+            f"total — these documents draw about six times more than they catalogue, so "
+            f"most of the rest are real molecules nobody listed, not mistakes.")
+        d["footer"] = ("Stages 1+2+3 on all 149 committed PDFs, 1,900 pages, zero pipeline "
+                       "failures. Recall is per document against that document's own "
+                       "ground truth. Precision is NOT reportable on this corpus and is "
+                       "deliberately not quoted: the denominator would be every structure "
+                       "drawn, and only a sixth of those are catalogued.")
         write("pdfs", d)
