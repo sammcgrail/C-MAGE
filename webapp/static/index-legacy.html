@@ -1,0 +1,2501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0d12">
+<meta name="description" content="Upload a PDF or a figure image and get back every chemical structure it contains as CXSMILES, with the cropped image and the pipeline's confidence.">
+<title>C-MAGE — chemical structures from PDFs</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nGPkFwn4zzCAgIWJlW0g7R91AG4HvLiewCChuYDmDmCU1M0b3onwydkQBhnjNQPnADmLTQz47MBwwIPDMQwKtkswFGovgtBX47AbBJPHpwYbYFR0bCM6DWjO/QVnX09mIyhODCA6CtRnfGFgYGBguHHtFtRSNbgcTExDS41Bc+4vhpsZPEQ7gFHVexLRIaA6+R2KpRpaanAaBm7nChFtOQMDAwOjesAMkrNhCtdkBgYGBoY533JJ1YrpAM3QeWSVA0msvQwMDAwM834XU+QAirMhpfrJd8Bv6jiAkavnBNlFceO5ZAYGBgaGeqO5ZDuAhenPX5I0vPBYBWdPPwehX7ksR1EjsSOMaPMY+VoOERUCz3zWMjAwMDCwCcoSVPvr/WMGBgYGBqktwQTVEgyBJwEbiLYYBmBqYY6W2RDAwMDAwBAS47B1zZID3shqmZj+/GVAxyExDlthbGoAmFnrFuz1RrcLawhsmLPLmwlNDBaspEQBsgNwAUaxkm1EpYF7MTuJUQYHBTwTtm6asd2bkDpGiYLNJGXDOwl7CKpRWeBCtHkkZ8MCnglbt03YiNdnTAzEm8kok7F2gNuEVErpow4YdcCQdQAAaZSo8sgEIX8AAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nGPkFwn4zzCAgIWJlW0g7R91AG4HvLiewCChuYDmDmCU1M0b3onwydkQBhnjNQPnADmLTQz47MBwwIPDMQwKtkswFGovgtBX47AbBJPHpwYbYFR0bCM6DWjO/QVnX09mIyhODCA6CtRnfGFgYGBguHHtFtRSNbgcTExDS41Bc+4vhpsZPEQ7gFHVexLRIaA6+R2KpRpaanAaBm7nChFtOQMDAwOjesAMkrNhCtdkBgYGBoY533JJ1YrpAM3QeWSVA0msvQwMDAwM834XU+QAirMhpfrJd8Bv6jiAkavnBNlFceO5ZAYGBgaGeqO5ZDuAhenPX5I0vPBYBWdPPwehX7ksR1EjsSOMaPMY+VoOERUCz3zWMjAwMDCwCcoSVPvr/WMGBgYGBqktwQTVEgyBJwEbiLYYBmBqYY6W2RDAwMDAwBAS47B1zZID3shqmZj+/GVAxyExDlthbGoAmFnrFuz1RrcLawhsmLPLmwlNDBaspEQBsgNwAUaxkm1EpYF7MTuJUQYHBTwTtm6asd2bkDpGiYLNJGXDOwl7CKpRWeBCtHkkZ8MCnglbt03YiNdnTAzEm8kok7F2gNuEVErpow4YdcCQdQAAaZSo8sgEIX8AAAAASUVORK5CYII=">
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  html, body {
+    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none;
+  }
+  input, select, textarea { font-size: 16px; touch-action: auto; }
+  .card, .panel, .bucket, .struct, .run, .bench-row, .imgs figure, .smiles-row, .meta, .tally > div { min-width: 0; overflow: hidden; }
+
+  :root {
+    --bg: #0b0d12; --panel: #131722; --panel2: #1a1f2c; --line: #262d3c;
+    --text: #e6e9f0; --muted: #9aa3b7; --accent: #4fd1c5; --accent-ink: #06201e;
+    --high: #6ee7b7; --high-bg: rgba(52, 211, 153, .14);
+    --low: #fbbf24; --low-bg: rgba(245, 158, 11, .16);
+    --bad: #fca5a5; --bad-bg: rgba(248, 113, 113, .16);
+    --stereo: #c4b5fd; --stereo-bg: rgba(167, 139, 250, .18);
+    --gray: #b5bccb; --gray-bg: rgba(148, 163, 184, .16);
+  }
+  html { background: var(--bg); }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100dvh;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+             max(24px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 6px 4px 14px; }
+  .brand { font-weight: 800; font-size: 22px; letter-spacing: .02em; }
+  .brand small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); letter-spacing: 0; }
+  nav { display: flex; gap: 6px; margin-left: auto; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { flex-shrink: 0; white-space: nowrap; }
+  @media (max-width: 460px) { nav button { padding: 0 9px; font-size: 14px; } }
+  button, .btn {
+    font: inherit; color: var(--text); background: var(--panel2); border: 1px solid var(--line);
+    border-radius: 10px; min-height: 44px; padding: 0 16px; cursor: pointer; display: inline-flex;
+    align-items: center; justify-content: center; gap: 8px; text-decoration: none; white-space: nowrap;
+  }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+  nav button.active { border-color: var(--accent); color: var(--accent); }
+  @media (hover: hover) {
+    button:not(:disabled):hover { border-color: #3a4359; background: #202637; }
+    button.primary:not(:disabled):hover { background: #6ee0d5; border-color: #6ee0d5; }
+  }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+  .card h2 { font-size: 17px; margin-bottom: 10px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .hidden { display: none !important; }
+
+  /* upload */
+  .drop {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    gap: 6px; min-height: 132px; padding: 18px; border: 2px dashed #34405a; border-radius: 12px;
+    background: var(--panel2); cursor: pointer; position: relative;
+  }
+  .drop.over { border-color: var(--accent); background: #1c2533; }
+  .drop strong { font-size: 17px; }
+  .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  .picked { height: 44px; display: flex; align-items: center; gap: 8px; margin-top: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .picked span { overflow: hidden; text-overflow: ellipsis; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .status { min-height: 44px; display: flex; align-items: center; color: var(--bad); font-size: 14px; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+  .note b { color: var(--text); font-weight: 600; }
+
+  /* progress */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+  .step { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 10px 8px; min-width: 0; height: 104px; overflow: hidden; }
+  .step .n { font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .step .t { font-weight: 600; font-size: 14px; margin: 3px 0 4px; line-height: 1.25; }
+  .step .d { font-size: 12px; color: var(--muted); line-height: 1.3; }
+  .step.active { border-color: var(--accent); }
+  .step.active .n { color: var(--accent); }
+  .step.done { border-color: #2f7f6e; }
+  .step.done .n { color: var(--high); }
+  .step.skip { opacity: .6; }
+  .pline { height: 24px; display: flex; gap: 14px; align-items: center; white-space: nowrap; overflow: hidden; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; color: var(--muted); font-size: 14px; }
+  /* the stage line changes text between stages: two fixed lines, clamped, so nothing below it moves */
+  .pline.stage { height: 44px; white-space: normal; align-items: flex-start; line-height: 1.35; padding-top: 2px; }
+  .pline.stage .pulse { margin-top: 5px; }
+  .pline.stage span:last-child { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pline b { color: var(--text); font-weight: 600; }
+  .pulse { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: pulse 1.2s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes pulse { 0%, 100% { opacity: .35; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+  /* results */
+  .rhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 8px; }
+  .rhead h2 { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--gray-bg); color: var(--gray); white-space: nowrap; }
+  .chip.high { background: var(--high-bg); color: var(--high); }
+  .chip.low { background: var(--low-bg); color: var(--low); }
+  .chip.bad { background: var(--bad-bg); color: var(--bad); }
+  .chip.stereo { background: var(--stereo-bg); color: var(--stereo); }
+  .caveat { border: 1px solid #5a4a1c; background: rgba(245, 158, 11, .08); border-radius: 10px; padding: 10px 12px; font-size: 14px; line-height: 1.5; margin: 10px 0 14px; }
+  .caveat b { color: var(--low); }
+  h3.tier { font-size: 15px; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .struct { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .struct.low { border-color: #5a4a1c; }
+  .imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .imgs figure { background: #fff; border-radius: 8px; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .imgs img { max-width: 100%; height: 110px; object-fit: contain; display: block; }
+  .imgs figcaption { font-size: 11px; color: #4b5563; text-align: center; line-height: 1.2; height: 14px; overflow: hidden; white-space: nowrap; width: 100%; text-overflow: ellipsis; }
+  .imgs figure.none { background: #202637; color: var(--muted); font-size: 12px; justify-content: center; text-align: center; min-height: 138px; }
+  .smiles-row { display: flex; gap: 8px; align-items: stretch; }
+  .smiles { flex: 1; min-width: 0; font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #0e1118; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; word-break: break-all; overflow-wrap: anywhere; max-height: 92px; overflow-y: auto; touch-action: pan-y pinch-zoom; }
+  .smiles.empty { color: var(--muted); font-style: italic; }
+  @media (hover: hover) { .smiles { -webkit-user-select: text; user-select: text; } }
+  .copy { width: 84px; flex-shrink: 0; padding: 0; font-size: 14px; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
+  .badge { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+  .badge.high { background: var(--high-bg); color: var(--high); }
+  .badge.low { background: var(--low-bg); color: var(--low); }
+  .badge.match { background: var(--high-bg); color: var(--high); }
+  .badge.stereo { background: var(--stereo-bg); color: var(--stereo); }
+  .badge.wrong { background: var(--bad-bg); color: var(--bad); }
+  .badge.invalid, .badge.unassigned, .badge.missing { background: var(--gray-bg); color: var(--gray); }
+  .conf { position: relative; flex: 1; min-width: 80px; height: 8px; border-radius: 4px; background: #2a3242; overflow: visible; }
+  .conf i { display: block; height: 100%; border-radius: 4px; background: var(--high); }
+  .struct.low .conf i { background: var(--low); }
+  .conf::after { content: ""; position: absolute; top: -3px; bottom: -3px; left: var(--thr, 84.31%); width: 2px; background: #e6e9f0; opacity: .7; }
+  .pct { font-variant-numeric: tabular-nums; width: 4.2em; text-align: right; color: var(--text); }
+  .where { white-space: nowrap; }
+  .srcbtn { min-height: 32px; padding: 0 10px; font-size: 13px; width: 122px; }
+  .source { background: #fff; border-radius: 8px; padding: 6px; }
+  .source img { width: 100%; max-height: 420px; object-fit: contain; display: block; }
+  .empty { color: var(--muted); padding: 24px 8px; text-align: center; line-height: 1.5; }
+
+  /* gallery */
+  .runs { display: flex; flex-direction: column; gap: 10px; }
+  /* A <button>, so it inherits `white-space: nowrap` from the button rule. That
+     was harmless while the card held only chips and thumbnails; it clips every
+     line of a SMILES the moment one is printed under a crop. */
+  .run { display: block; width: 100%; text-align: left; white-space: normal; background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; min-height: 44px; }
+  .run .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .run .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .run .when { color: var(--muted); font-size: 13px; }
+  .run .chips { margin-top: 6px; }
+  .thumbs { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; overflow-y: hidden; touch-action: pan-x pinch-zoom; scrollbar-width: none; height: 62px; }
+  .thumbs::-webkit-scrollbar { display: none; }
+  .thumbs img { height: 56px; width: 72px; object-fit: contain; background: #fff; border-radius: 6px; flex-shrink: 0; padding: 2px; }
+  .back { margin-bottom: 12px; }
+
+  /* benchmark */
+  .tally { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 10px 0 6px; }
+  .tally > div { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; min-height: 66px; }
+  .tally .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .tally .l { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+  .tally .hot { border-color: #7f2f2f; }
+  .tally .hot .v { color: var(--bad); }
+  .pdf { margin-top: 18px; }
+  .pdf h3 { font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .pdf h3 code { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .expect { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+  .bench-row { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .bench-row.wrong { border-color: #7f2f2f; }
+  .bench-row.stereo { border-color: #4b3f80; }
+  .bench-row .imgs img { height: 96px; }
+  .pair { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .pair label { font-size: 12px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .verdict-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
+  @media (min-width: 720px) {
+    .bench-row { grid-template-columns: 300px 1fr; }
+  }
+
+  /* Confidence is a SELF-REPORT, so it gets a neutral badge. Green is reserved for
+     a verdict checked against a known answer -- the benchmark tab -- because a
+     green "HIGH CONFIDENCE" chip reads as "this is correct" and undoes every
+     warning printed beside it. Amber for the low tier stays: that one is a real
+     warning, and warnings may look like warnings. */
+  .badge.tier, .chip.tier { background: var(--gray-bg); color: var(--gray); }
+  .chip.tier.low { background: var(--low-bg); color: var(--low); }
+  .badge.tier.low { background: var(--low-bg); color: var(--low); }
+  .conf i { background: var(--gray); }
+  .struct.low .conf i, .bench-row .conf i { background: var(--low); }
+
+  /* privacy */
+  .privacy { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line);
+    background: var(--panel2); border-radius: 10px; padding: 10px 12px; margin: 12px 0 0; }
+  .privacy input { width: 20px; height: 20px; margin: 2px 0 0; flex-shrink: 0; accent-color: var(--accent); }
+  .privacy label { font-size: 14px; line-height: 1.45; }
+  .privacy .sub { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .visibility { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 13px;
+    color: var(--muted); border: 1px solid var(--line); background: var(--panel2);
+    border-radius: 10px; padding: 10px 12px; margin: 10px 0 4px; }
+  .danger { border-color: #7f2f2f; color: var(--bad); }
+
+  /* benchmark headline: both numbers, adjacent, never one alone */
+  .heads { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 12px 0 4px; }
+  .head { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .head .v { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .head .n { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .head .l { font-size: 14px; font-weight: 700; margin-top: 6px; }
+  .head .d { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  .head.strict { border-color: #7f2f2f; }
+  .head.frag { border-color: #3f6b5c; }
+  .gapnote { border: 1px solid var(--line); background: var(--panel2); border-radius: 10px;
+    padding: 10px 12px; font-size: 14px; line-height: 1.5; margin: 10px 0 14px; }
+  .gapnote code { font-size: 12px; background: #0e1118; border-radius: 4px; padding: 1px 5px;
+    word-break: break-all; overflow-wrap: anywhere; }
+
+  /* A figure the corpus does not support. It occupies the slot the percentage
+     would have occupied, because an empty slot invites the reader to supply one. */
+  .noprec { border: 1px solid #5a4a1c; background: rgba(245, 158, 11, .08); border-radius: 12px;
+    padding: 12px 14px; margin: 10px 0 4px; }
+  .noprec .v { font-size: 19px; font-weight: 800; color: var(--low); line-height: 1.25; }
+  .noprec .d { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .noprec .d b { color: var(--text); font-weight: 600; }
+
+  /* CXSMILES abbreviations. On a corpus of synthesis schemes these are most of the
+     corpus, and the pairing of what the model SAID against what it MEANS is the
+     most instructive thing on the site, so it gets a block rather than a footnote. */
+  .abbox { border: 1px solid #2f6b62; background: rgba(79, 209, 197, .07); border-radius: 12px;
+    padding: 12px 14px; margin: 10px 0 14px; }
+  .abbox .v { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .abbox .l { font-size: 14px; font-weight: 700; margin-top: 4px; }
+  .abbox .d { font-size: 14px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+  .abbox .d b { color: var(--text); font-weight: 600; }
+  .abbox code, .gapnote code, .pairnote code { font-size: 12px; background: #0e1118; border-radius: 4px;
+    padding: 1px 5px; word-break: break-all; overflow-wrap: anywhere; }
+  .abbox .chips { margin-top: 10px; }
+  .abbox .actions { margin-top: 10px; }
+  .chip.markush { background: var(--stereo-bg); color: var(--stereo); }
+  .chip.missing { background: var(--low-bg); color: var(--low); }
+  .chip.kept { background: rgba(79, 209, 197, .16); color: var(--accent); }
+  /* A chip used INLINE inside a sentence, as a colour key. */
+  p .chip { display: inline; padding: 2px 7px; }
+
+  /* The prediction beside its expansion. Two labelled monospace rows, because the
+     whole point is that they are the same molecule written two ways. */
+  .pair { display: flex; flex-direction: column; gap: 4px; }
+  /* `.smiles` carries `flex: 1 1 0%` for its use inside `.smiles-row`, a flex ROW.
+     A direct child of `.pair` is in a flex COLUMN, where that would flex vertically. */
+  .pair > .smiles { flex: 0 0 auto; }
+  /* A SMILES shown as the WRONG answer -- what a superseded algorithm produced. It
+     is a real string and must be read as one, so it keeps the monospace box and the
+     left alignment; only the colour says it is the discard.
+     NOT `.smiles empty`: the generic `.empty` rule is defined later at the same
+     specificity and overrides `.smiles`, replacing the 8px padding with 24px and
+     centring the text, so a one-line SMILES rendered twice as tall as the correct
+     one beside it and looked like a placeholder rather than an answer. */
+  .smiles.was { color: var(--bad); }
+  /* Sentence case, not uppercase. These labels are whole sentences -- "the drawing
+     used an abbreviation and the reader kept it, as a * atom labelled in the |$..$|
+     block" -- and uppercasing a sentence is shouting, not labelling. The leading
+     <b> carries the emphasis instead. */
+  .pair .lab { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+  .pair .lab b { color: var(--text); font-weight: 700; }
+  .pair .smiles-row + .lab { margin-top: 6px; }
+  .pairnote { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* A worked example inside the abbreviation block: crop, prediction, expansion. */
+  .ab-ex { display: grid; grid-template-columns: 1fr; gap: 10px; align-items: start;
+    border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; }
+  .ab-ex figure { background: #fff; border-radius: 8px; padding: 6px; }
+  .ab-ex img { width: 100%; max-height: 160px; object-fit: contain; display: block; }
+  .ab-ex figcaption { font-size: 11px; color: #4b5563; text-align: center; line-height: 1.3; margin-top: 4px; }
+  @media (min-width: 720px) { .ab-ex { grid-template-columns: 200px 1fr; } }
+
+  /* The scoring ladder: one row per comparison, and what that comparison added. */
+  table.ladder { border-collapse: collapse; width: 100%; font-size: 14px; }
+  table.ladder th, table.ladder td { border-bottom: 1px solid var(--line); padding: 9px 8px;
+    text-align: right; vertical-align: top; }
+  table.ladder th:first-child, table.ladder td:first-child { text-align: left; }
+  table.ladder thead th { font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: .05em; font-weight: 700; white-space: nowrap; }
+  table.ladder td.what { color: var(--text); line-height: 1.4; }
+  table.ladder td.what small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.4;
+    margin-top: 3px; text-transform: none; letter-spacing: 0; }
+  table.ladder td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+  table.ladder td.pc { font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 18px;
+    font-weight: 800; }
+  table.ladder tr.naive td.pc { color: var(--bad); }
+  table.ladder tr.best td.pc { color: var(--high); }
+  table.ladder td.delta { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--muted); }
+  table.ladder tr.gain td.delta { color: var(--high); }
+  table.ladder tr.control { background: rgba(148, 163, 184, .06); }
+  table.ladder tr.control td { border-bottom: none; }
+
+  /* A figure the corpus does not support. It occupies the slot the percentage
+     would have occupied, because an empty slot invites the reader to supply one. */
+  table.xtab td.doc { white-space: normal; min-width: 148px; }
+  table.xtab td.style { white-space: normal; min-width: 230px; color: var(--muted);
+    text-align: left; font-size: 12px; line-height: 1.4; }
+  table.xtab tr.zero td.big { color: var(--bad); }
+  table.xtab tr.flip td.big { color: var(--high); }
+
+  /* crosstab + metadata */
+  .xwrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 6px 0 4px; }
+  table.xtab { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+  table.xtab th, table.xtab td { border: 1px solid var(--line); padding: 7px 9px; text-align: right;
+    white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.xtab th { color: var(--muted); font-weight: 600; text-align: right; background: var(--panel2); }
+  table.xtab th.rh, table.xtab td.rh { text-align: left; }
+  table.xtab td.big { font-weight: 700; }
+  .kv { margin: 8px 0 0; font-size: 13px; line-height: 1.5; }
+  .kv div { display: flex; gap: 8px; padding: 5px 0; border-top: 1px solid var(--line); }
+  .kv dt { color: var(--muted); flex: 0 0 108px; }
+  .kv dd { margin: 0; flex: 1; min-width: 0; }
+  .runpick { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 2px; }
+  .runpick button { min-height: 40px; height: auto; font-size: 14px; padding: 9px 12px;
+    white-space: normal; text-align: left; line-height: 1.3; }
+  .runpick button.active { border-color: var(--accent); color: var(--accent); }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 10px; }
+  .filters button { min-height: 38px; height: auto; font-size: 13px; padding: 8px 11px;
+    white-space: normal; text-align: left; line-height: 1.3; }
+  .filters button.active { border-color: var(--accent); color: var(--accent); }
+  .phantom { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--low); word-break: break-all; overflow-wrap: anywhere; }
+  .more { width: 100%; margin-top: 6px; }
+
+  /* ---------------------------------------------------------------- charts
+     Hand-rolled, no library and no new runtime dependency. A bar is a div whose
+     width is a percentage; a sparkline is a dozen lines of SVG.
+
+     Bars are HTML rather than SVG on purpose. An <svg width="100%"> scales its
+     type with the card, so a label sized for a 1000px desktop card renders at
+     about 4px on a 390px phone -- and the phone is the primary viewport here.
+     Real text at a real CSS size cannot do that. SVG is used only for the
+     sparklines, which carry no type at all. */
+  .chart { margin: 14px 0 12px; }
+  .chart .ctitle { font-size: 15px; font-weight: 700; margin: 0 0 3px; }
+  .chart .csub { font-size: 13px; color: var(--muted); line-height: 1.45; margin: 0 0 10px; }
+  .cbars { display: flex; flex-direction: column; gap: 11px; }
+  .cbar .crow1 { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .cbar .cname { font-size: 14px; font-weight: 600; min-width: 0; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap; }
+  .cbar .cval { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums;
+    white-space: nowrap; flex-shrink: 0; }
+  .cbar .ctrack { position: relative; height: 24px; margin-top: 4px; border-radius: 6px;
+    background: #0e1118; border: 1px solid var(--line); overflow: hidden; }
+  .cbar .cfill { position: absolute; top: 0; bottom: 0; left: 0; background: var(--gray); }
+  .cbar.hi .cfill { background: var(--accent); }
+  .cbar.warn .cfill { background: var(--low); }
+  .cbar.bad .cfill { background: var(--bad); }
+  /* The denominator, printed ON the bar. Sits in the empty part of the track --
+     muted grey on #0e1118 -- and flips to dark ink inside the fill only when the
+     fill leaves no room, which is the one case where the other placement would
+     put grey text on a bright bar. */
+  .cbar .cn { position: absolute; top: 0; height: 24px; display: flex; align-items: center;
+    font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+  /* Printed over the fill when the fill leaves no track to sit on. It gets its OWN
+     backing rather than relying on the bar behind it: an absolutely-positioned
+     sibling is invisible to any contrast check that walks the ancestor chain, and
+     to a reader it is whatever colour that particular bar happens to be. Backing it
+     makes the contrast the same whichever bar it lands on, and measurable. */
+  .cbar .cn.inside { color: var(--text); font-weight: 700; background: rgba(9, 13, 18, .86);
+    padding: 0 6px; border-radius: 5px; }
+  .cbar .csubline { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+  /* A reference mark on the track -- the comparison bar's value, so a paired A/B
+     reads as a movement rather than as two unrelated numbers. */
+  .cbar .cmark { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--text);
+    opacity: .55; }
+
+  /* Grouped bars: two tiers side by side, n on each. */
+  .cgroup { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; }
+  .cgroup:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+  .cgroup .gname { font-size: 13.5px; font-weight: 600; margin-bottom: 7px; }
+
+  /* Column charts: the scoring ladder and the fragment histogram. */
+  .ccols { display: flex; align-items: flex-end; gap: 6px; height: 132px; margin-top: 4px; }
+  .ccol { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end;
+    height: 100%; }
+  .ccol .cstack { display: flex; flex-direction: column; justify-content: flex-end; width: 100%;
+    border-radius: 5px 5px 0 0; overflow: hidden; background: #0e1118; }
+  /* Explicit: a flex item's percentage height resolves against the container, but
+     only if it is not also allowed to shrink to fit its (empty) content first. */
+  .ccol .cstack > i { display: block; width: 100%; flex: 0 0 auto; }
+  .ccol .cgain { background: var(--accent); }
+  .ccol .cbase { background: #3a4c62; }
+  .ccol .ctop { font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; text-align: center;
+    margin-bottom: 3px; }
+  .ccol.zero .ctop { color: var(--muted); }
+  .cfoot { display: flex; gap: 6px; margin-top: 6px; }
+  .cfoot > div { flex: 1 1 0; min-width: 0; font-size: 11px; line-height: 1.25; color: var(--muted);
+    text-align: center; overflow-wrap: anywhere; }
+  .cfoot b { display: block; color: var(--text); font-size: 11.5px; font-weight: 700; }
+  .clegend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted);
+    margin-top: 8px; align-items: center; }
+  .clegend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px;
+    vertical-align: -1px; }
+
+  /* A big number with its denominator glued on. Three across on a phone is too
+     narrow for these, so they stack until there is room. */
+  .stats { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 12px 0 6px; }
+  .stat { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .stat .v { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.02; }
+  .stat .n { font-size: 13px; color: var(--muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 13.5px; font-weight: 700; margin-top: 7px; line-height: 1.35; }
+  .stat .d { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .stat.lead { border-color: #2f6b62; }
+  @media (min-width: 560px) { .stats { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .stats.three { grid-template-columns: repeat(3, 1fr); } }
+
+  /* An arm that is NOT stock C-MAGE. Marked wherever it appears so it can never be
+     read as the pipeline's own number. */
+  .tweak { border: 1px solid #4b5b7a; background: rgba(96, 130, 190, .09); border-radius: 12px;
+    padding: 12px 14px; margin: 12px 0; }
+  .tweak .tflag { font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: #a8c0e6; }
+  .tweak .ttitle { font-size: 15px; font-weight: 700; margin: 3px 0 6px; }
+  .tweak .d { font-size: 13px; color: var(--muted); line-height: 1.5; margin-top: 8px; }
+  .tweak .d b { color: var(--text); font-weight: 600; }
+
+  /* Reference detail that a reader may want and should not have to scroll past.
+     Open is one tap; closed it costs one line instead of two thousand pixels. */
+  details.fold { border: 1px solid var(--line); background: var(--panel2); border-radius: 10px;
+    padding: 0 12px; margin: 12px 0; }
+  details.fold > summary { list-style: none; cursor: pointer; padding: 12px 0; font-size: 14px;
+    font-weight: 600; min-height: 44px; display: flex; align-items: center; gap: 8px; }
+  details.fold > summary::-webkit-details-marker { display: none; }
+  details.fold > summary::before { content: "▸"; color: var(--accent); font-size: 12px; }
+  details.fold[open] > summary::before { content: "▾"; }
+  details.fold > summary span { color: var(--muted); font-weight: 400; font-size: 13px; }
+  details.fold > div { padding-bottom: 12px; }
+
+  /* Two confidence ranges on one axis. The whole finding is that they OVERLAP, and
+     a pair of min/max/mean triples in a sentence does not show an overlap. */
+  .crange { position: relative; height: 26px; margin-top: 5px; border-radius: 6px;
+    background: #0e1118; border: 1px solid var(--line); }
+  .crange .span { position: absolute; top: 4px; bottom: 4px; border-radius: 4px; opacity: .5; }
+  .crange .mean { position: absolute; top: 2px; bottom: 2px; width: 2px; }
+  .crange .thr { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--text);
+    opacity: .65; }
+  .caxis { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted);
+    margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  /* Sparkline: one tick per structure, height = confidence, the tier threshold
+     drawn across it. No axis, no type -- the card's own numbers carry those. */
+  .spark { display: block; width: 100%; height: 34px; }
+  .sparkwrap { margin-top: 8px; }
+  .sparkcap { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+
+  /* Gallery previews: the crop WITH what it was read as, never the crop alone. */
+  .previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 8px;
+    margin-top: 10px; }
+  .pv { background: #0e1118; border: 1px solid var(--line); border-radius: 10px; padding: 6px;
+    display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .pv .shot { background: #fff; border-radius: 6px; padding: 3px; height: 84px; display: flex;
+    align-items: center; justify-content: center; }
+  .pv .shot img { max-width: 100%; max-height: 78px; object-fit: contain; display: block; }
+  .pv .lab { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  /* Clamped, not merely clipped. A long SMILES cut off at a fixed height looks like
+     a complete short one; the ellipsis line-clamp adds says it is not. The whole
+     string is one tap away in the run itself, and in the title attribute. */
+  .pv .sm { font: 11px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text);
+    word-break: break-all; overflow-wrap: anywhere; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+  .pv .sm.exp { color: var(--accent); }
+  .pv .sm.none { color: var(--muted); font-style: italic; font-family: inherit; }
+  .pv .cf { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);
+    font-variant-numeric: tabular-nums; }
+  .pv .cf .conf { height: 5px; }
+  .pv .cf .pct { width: auto; font-size: 11px; }
+
+  @media (min-width: 720px) {
+    .heads { grid-template-columns: 1fr 1fr; }
+  }
+  footer { color: var(--muted); font-size: 13px; padding: 18px 4px 0; line-height: 1.5; }
+  footer .v { float: right; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">C-MAGE<small>chemical structures out of PDFs and figures, as CXSMILES</small></div>
+    <nav>
+      <button data-tab="extract" class="active" type="button">Extract</button>
+      <button data-tab="gallery" type="button">Gallery</button>
+      <button data-tab="benchmark" type="button">Benchmark</button>
+      <button data-tab="ringleader" type="button">Ringleader</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="view-extract">
+      <div class="card" id="upload-card">
+        <label class="drop" id="drop" for="file">
+          <strong>Drop a PDF or a figure image here, or tap to choose</strong>
+          <span class="muted small" id="limits-line">PDF up to 20 MB and 40 pages · PNG, JPEG, TIFF, WebP or BMP</span>
+          <input type="file" id="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/tiff,image/webp,image/bmp">
+        </label>
+        <div class="picked muted" id="picked"><span>No file chosen yet.</span></div>
+        <!-- Shown only when the picked file is an IMAGE. A PDF always runs stages
+             1 and 2, so offering the choice there would be an option that does
+             nothing. -->
+        <div class="privacy hidden" id="segment-row">
+          <input type="checkbox" id="segment">
+          <label for="segment">This image is a figure holding several structures
+            <span class="sub">Off by default: an uploaded image is usually one structure already
+              cropped, and segmenting that can only cut ink off it. Tick this for a whole figure
+              with more than one molecule on it — it runs the segmenter first and takes longer.</span>
+          </label>
+        </div>
+        <div class="privacy">
+          <input type="checkbox" id="publish">
+          <label for="publish">Also list this run in the public gallery
+            <span class="sub">Off by default. Publishing shows the file name, the figures and every
+              predicted structure to anyone.</span>
+          </label>
+        </div>
+        <div class="actions">
+          <button class="primary" id="run" type="button" disabled>Extract structures</button>
+          <button id="sample" type="button">See the one-page sample</button>
+        </div>
+        <div class="status" id="status"></div>
+        <p class="note">
+          <b>Images are the fast path.</b> A PDF runs all three stages and takes minutes on this CPU server;
+          an image skips figure extraction and comes back in seconds. One job at a time.
+        </p>
+      </div>
+
+      <div class="card hidden" id="progress-card">
+        <div class="rhead"><h2 id="p-title">Working…</h2><span class="chip" id="p-kind"></span></div>
+        <div class="steps" id="steps"></div>
+        <div class="pline stage"><span class="pulse" id="pulse"></span><span id="p-stage"></span></div>
+        <div class="pline" id="p-counts"></div>
+        <div class="pline"><span>elapsed <b id="p-elapsed">0:00</b></span><span id="p-queue"></span></div>
+        <div class="actions"><button id="cancel" type="button">Cancel</button><button id="p-log" type="button">View log</button></div>
+      </div>
+
+      <div class="card hidden" id="error-card">
+        <h2>That did not work</h2>
+        <p id="error-text"></p>
+        <div class="actions"><button id="error-log" type="button">View log</button><button id="error-reset" type="button">Start over</button></div>
+      </div>
+
+      <div id="results"></div>
+    </section>
+
+    <section id="view-gallery" class="hidden">
+      <div id="gallery-list">
+        <div class="card">
+          <h2>Runs that were published here</h2>
+          <p class="muted small" style="margin:6px 0 4px">Whole documents through the whole
+            pipeline, unedited — figures found, structures cropped, each crop read into CXSMILES.
+            Nothing here is curated for flattery: the corpus was chosen to span drawing styles,
+            including 1970s hand-inked patents and scans in Cyrillic, Korean, Japanese, Chinese,
+            French and German.</p>
+          <p class="muted small" style="margin:0 0 4px"><b>Most results are low confidence, and
+            that is the honest picture.</b> Segmentation costs about 19 points before the reader
+            sees anything, and a real figure often carries text, spectra or several molecules at
+            once. The confidence score separates well — on the depiction benchmark 88–94% of
+            high-confidence answers are right, against roughly a third of low-confidence ones —
+            so the tier is the first thing to read on a card, not the string.</p>
+          <p class="muted small" style="margin:0 0 4px"><b>Reading a card.</b> <i>Predicted</i> is
+            the raw CXSMILES. <i>Expanded</i> appears when the drawing used an abbreviation
+            (<code>OMe</code>, <code>Ph</code>) and shows the same molecule spelled out; the two
+            are one molecule written two ways. A <code>[*]</code> is a group the drawing named but
+            did not draw — reported, never guessed.</p>
+
+          <div class="caveat" id="gallery-caveat"></div>
+          <div class="runs" id="runs"></div>
+        </div>
+      </div>
+      <div id="gallery-detail" class="hidden"></div>
+    </section>
+
+    <section id="view-benchmark" class="hidden"><div class="card" style="margin:14px 0"><h2>How to read this page</h2><p class="muted small" style="margin:6px 0 10px">Three separate questions. Mixing them is the commonest way to read a difference that is not there, so every number below states its own denominator and what was varied.</p><ol class="muted small" style="margin:0 0 12px 18px;line-height:1.55"><li><b>Can the reader read one clean structure?</b> Stage 3 alone, one already-cropped molecule per image. <b>81.1%</b> on 1010 RDKit renders, <b>59.1%</b> on the same 1010 as PubChem draws them — the gap is the drawing, not the molecules.</li><li><b>What does segmentation cost?</b> The same 38 documents through both arms: <b>60.9%</b> with it, <b>79.2%</b> without. About 19 points.</li><li><b>Does it work on a real document, end to end?</b> Six patents and papers with ground truth built from the documents: <b>39.3%</b> strict, <b>69.6%</b> allowing a different notation for the same molecule.</li></ol><p class="muted small" style="margin:0 0 8px"><b>An arm</b> is one corpus at one setting. Two arms are comparable only when they share the same molecules <i>and</i> the same scope — a paired A/B. Where a comparison is not matched it is labelled as not comparable rather than quietly plotted beside its neighbour.</p><p class="muted small" style="margin:0"><b>Two numbers, never one.</b> <i>Strict</i> is what you get pasting the string into a database. <i>Graded</i> allows the same molecule written differently — a tautomer, a salt, an expanded abbreviation. On real documents 43% of what the strict metric calls wrong is the right molecule in another notation.</p></div><div class="warn" style="margin:14px 0"><b>Rendering matters more than anything in the pipeline.</b> The same 1010 molecules score <b>81.1%</b> drawn by RDKit and <b>0.0%</b> from PubChem’s own 1500&nbsp;px render — not one correct answer, across three independently built compound sets. Nine attempts to repair those images by <i>resampling</i> all failed; <b>re-rendering</b> them from PubChem’s own atom coordinates, with the stroke width scaled to the canvas, gets <b>61.1%</b>. What that repairs is phantom fragments — a stray disconnected atom welded on beside the molecule — down from 69% of predictions to 10%. Render at the size you want; never resample.</div>
+      <div class="card" id="bench"></div>
+    </section>
+
+    <section id="view-ringleader" class="hidden">
+      <div class="card" id="ring"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="v" id="version"></span>
+    VisualHeist (figures) → DECIMER (structures) → CXMolScribe (CXSMILES). High confidence = score ≥ 0.8431.
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  // ---- mobile guards: kill selection, long-press callout and double-tap zoom (iOS ignores the viewport flags)
+  var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+  document.addEventListener('selectstart', function (e) {
+    if (e.target.closest('input, textarea')) return;
+    if (hoverable && e.target.closest('.smiles')) return;
+    e.preventDefault();
+  });
+  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('input, textarea')) e.preventDefault(); });
+  var lastTap = null;
+  document.addEventListener('touchend', function (e) {
+    if (e.target.closest('button, a, input, label, [role="button"]')) { lastTap = null; return; }
+    var t = e.changedTouches[0], now = Date.now();
+    if (lastTap && now - lastTap.t <= 450 && Math.hypot(t.clientX - lastTap.x, t.clientY - lastTap.y) <= 48) e.preventDefault();
+    lastTap = { x: t.clientX, y: t.clientY, t: now };
+  }, { passive: false });
+
+  // ---- tiny helpers
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, attrs, children) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'class') n.className = attrs[k];
+      else if (k === 'text') n.textContent = attrs[k];
+      else if (k === 'html') n.innerHTML = attrs[k];
+      else if (k.slice(0, 2) === 'on') n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c != null) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return n;
+  }
+  function api(path, opts) {
+    return fetch(path, opts).then(function (r) {
+      return r.text().then(function (t) {
+        var body = null; try { body = t ? JSON.parse(t) : null; } catch (e) { body = { detail: t }; }
+        if (!r.ok) { var err = new Error((body && body.detail) || ('HTTP ' + r.status)); err.status = r.status; throw err; }
+        return body;
+      });
+    });
+  }
+  function fmtTime(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function fmtBytes(b) { return b < 1048576 ? Math.round(b / 1024) + ' KB' : (b / 1048576).toFixed(1) + ' MB'; }
+  function fmtWhen(ts) {
+    if (!ts) return '';
+    var d = new Date(ts * 1000), diff = (Date.now() - d.getTime()) / 1000;
+    var rel = diff < 90 ? 'just now' : diff < 3600 ? Math.round(diff / 60) + ' min ago' : diff < 86400 * 2 ? Math.round(diff / 3600) + ' h ago' : Math.round(diff / 86400) + ' days ago';
+    return rel + ' · ' + d.toLocaleString();
+  }
+  function copyText(text, btn) {
+    var done = function (ok) {
+      var old = btn.textContent; btn.textContent = ok ? 'Copied' : 'Failed';
+      setTimeout(function () { btn.textContent = old; }, 1200);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { fallback(); });
+    } else fallback();
+    function fallback() {
+      var ta = el('textarea', { style: 'position:fixed;top:0;left:0;opacity:0;font-size:16px' }); ta.value = text;
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta); done(ok);
+    }
+  }
+
+  var THRESHOLD = 0.8431;
+  var limits = { max_mb: 20, max_pages: 40 };
+  // Rewritten 2026-09-08. The old wording said the failure was "a ring or substituent
+  // CLIPPED by the segmenter" and told the reader to "compare crop and rendering".
+  // Both halves were wrong and the second was actively harmful: the mechanism is
+  // ERASURE (apply_mask() whites out every pixel the mask missed and only then crops),
+  // so the crop has clean, ink-free borders and the rendering agrees with it exactly.
+  // A chemist who ran the suggested check was reassured by the very failure it warned
+  // about. The only comparison that can catch it is crop against SOURCE.
+  var CAVEAT = 'A high confidence score is not a correctness guarantee — check the crop against the '
+    + '<b>source figure</b> under each result, never against the rendering.';
+
+  // ---- tabs / routing
+  var tabs = ['extract', 'gallery', 'benchmark', 'ringleader'];
+  function showTab(name, push) {
+    tabs.forEach(function (t) {
+      $('view-' + t).classList.toggle('hidden', t !== name);
+    });
+    document.querySelectorAll('nav button').forEach(function (b) { b.classList.toggle('active', b.dataset.tab === name); });
+    if (push !== false) {
+      var q = name === 'extract' ? (currentJob ? '?job=' + currentJob : location.pathname) : '?tab=' + name;
+      history.replaceState(null, '', q);
+    }
+    if (name === 'gallery') loadGallery();
+    if (name === 'benchmark') loadBenchmark();
+    if (name === 'ringleader') loadRingleader();
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll('nav button').forEach(function (b) { b.addEventListener('click', function () { showTab(b.dataset.tab); }); });
+
+  // ---- owner tokens. POST /api/jobs returns one, once. It is what lets the person
+  // who uploaded a run delete it or unlist it afterwards without an operator token,
+  // so it is kept in this browser and never displayed.
+  var TOKENS = 'cmage.owner.v1';
+  function tokenStore() {
+    try { return JSON.parse(localStorage.getItem(TOKENS) || '{}') || {}; } catch (e) { return {}; }
+  }
+  function rememberToken(id, token) {
+    if (!id || !token) return;
+    try {
+      var all = tokenStore(); all[id] = token;
+      var keys = Object.keys(all);
+      if (keys.length > 60) delete all[keys[0]];
+      localStorage.setItem(TOKENS, JSON.stringify(all));
+    } catch (e) { /* private mode: the id-knowledge path still works while unlisted */ }
+  }
+  function forgetToken(id) {
+    try { var all = tokenStore(); delete all[id]; localStorage.setItem(TOKENS, JSON.stringify(all)); } catch (e) {}
+  }
+  function ownerHeaders(id) {
+    var t = tokenStore()[id];
+    return t ? { 'X-Job-Token': t } : {};
+  }
+
+  // ---- upload
+  var picked = null, currentJob = null, pollTimer = null, tick = null, lastPoll = null, lastData = null;
+  var fileInput = $('file'), drop = $('drop');
+  function setStatus(msg) { $('status').textContent = msg || ''; }
+  function isImage(f) {
+    return !(/pdf$/i.test(f.name) || f.type === 'application/pdf');
+  }
+  function choose(f) {
+    picked = f; setStatus('');
+    if (!f) {
+      $('picked').innerHTML = '<span>No file chosen yet.</span>';
+      $('run').disabled = true; $('segment-row').classList.add('hidden');
+      return;
+    }
+    var isPdf = !isImage(f);
+    $('picked').innerHTML = '';
+    $('picked').appendChild(el('span', { text: f.name + ' · ' + fmtBytes(f.size) + (isPdf ? ' · PDF, all three stages' : ' · image, skips stages 1 and 2') }));
+    // The segmentation choice only exists for an image.
+    $('segment-row').classList.toggle('hidden', isPdf);
+    if (isPdf) $('segment').checked = false;
+    $('run').disabled = false;
+    if (f.size > limits.max_mb * 1048576) { setStatus('That file is ' + fmtBytes(f.size) + '; the limit is ' + limits.max_mb + ' MB.'); $('run').disabled = true; }
+  }
+  fileInput.addEventListener('change', function () { choose(fileInput.files[0] || null); });
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) choose(f); });
+
+  $('run').addEventListener('click', function () {
+    if (!picked) return;
+    var fd = new FormData(); fd.append('file', picked, picked.name);
+    fd.append('publish', $('publish').checked ? '1' : '0');
+    fd.append('segment', (isImage(picked) && $('segment').checked) ? '1' : '0');
+    $('run').disabled = true; $('sample').disabled = true; setStatus('');
+    api('/api/jobs', { method: 'POST', body: fd }).then(function (job) {
+      rememberToken(job.id, job.token); startJob(job);
+    }).catch(function (err) { setStatus(err.message); $('run').disabled = false; $('sample').disabled = false; });
+  });
+  $('sample').addEventListener('click', function () {
+    $('run').disabled = true; $('sample').disabled = true; setStatus('');
+    api('/api/jobs/sample', { method: 'POST' }).then(startJob).catch(function (err) { setStatus(err.message); $('run').disabled = !picked; $('sample').disabled = false; });
+    // no rememberToken(): the sample is one shared run reused by every visitor, not this
+    // visitor's upload, so nobody gets owner rights over it by pressing a demo button.
+  });
+  $('cancel').addEventListener('click', function () {
+    if (!currentJob) return;
+    $('cancel').disabled = true;
+    api('/api/jobs/' + currentJob, { method: 'DELETE' }).catch(function () {}).then(function () { poll(); });
+  });
+  $('p-log').addEventListener('click', function () { if (currentJob) window.open('/api/jobs/' + currentJob + '/log', '_blank'); });
+  $('error-log').addEventListener('click', function () { if (currentJob) window.open('/api/jobs/' + currentJob + '/log', '_blank'); });
+  $('error-reset').addEventListener('click', resetExtract);
+
+  function resetExtract() {
+    stopPolling(); currentJob = null; lastData = null;
+    $('progress-card').classList.add('hidden'); $('error-card').classList.add('hidden');
+    $('results').innerHTML = ''; $('upload-card').classList.remove('hidden');
+    $('run').disabled = !picked; $('sample').disabled = false; $('cancel').disabled = false;
+    history.replaceState(null, '', location.pathname);
+  }
+  function startJob(job) {
+    currentJob = job.id; lastData = null;
+    history.replaceState(null, '', '?job=' + job.id);
+    $('upload-card').classList.add('hidden'); $('error-card').classList.add('hidden'); $('results').innerHTML = '';
+    $('progress-card').classList.remove('hidden'); $('cancel').disabled = false;
+    render(job); startPolling();
+  }
+  function startPolling() {
+    stopPolling();
+    poll();
+    pollTimer = setInterval(poll, 2000);
+    tick = setInterval(function () {
+      if (!lastData || !lastPoll) return;
+      var extra = (Date.now() - lastPoll) / 1000;
+      if (lastData.status === 'running' || lastData.status === 'queued') {
+        $('p-elapsed').textContent = fmtTime((lastData.started ? lastData.elapsed_s + extra : 0));
+      }
+    }, 1000);
+  }
+  function stopPolling() { if (pollTimer) clearInterval(pollTimer); if (tick) clearInterval(tick); pollTimer = tick = null; }
+  function poll() {
+    if (!currentJob) return;
+    var id = currentJob;
+    api('/api/jobs/' + id).then(function (job) {
+      if (id !== currentJob) return;
+      lastPoll = Date.now(); lastData = job;
+      render(job);
+      if (job.status === 'done' || job.status === 'failed' || job.status === 'cancelled') stopPolling();
+    }).catch(function (err) {
+      if (err.status === 404) { stopPolling(); showError('That job no longer exists on this server.'); }
+    });
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && pollTimer) poll(); });
+
+  function render(job) {
+    if (job.status === 'done') {
+      $('progress-card').classList.add('hidden');
+      renderResults($('results'), job, { onReset: resetExtract });
+      return;
+    }
+    if (job.status === 'failed' || job.status === 'cancelled') { showError(job.error || 'The job ' + job.status + '.'); return; }
+    $('progress-card').classList.remove('hidden');
+    $('p-title').textContent = (job.status === 'queued' ? 'Queued: ' : 'Working on ') + job.filename;
+    $('p-kind').textContent = job.kind === 'pdf' ? job.pages + (job.pages === 1 ? ' page' : ' pages') : 'image';
+    var steps = $('steps'); steps.innerHTML = '';
+    var names = ['Extract figures', 'Segment structures', 'Read into CXSMILES'];
+    var descs = ['VisualHeist finds figures on each page', 'DECIMER crops each structure', 'CXMolScribe predicts CXSMILES + confidence'];
+    for (var i = 1; i <= 3; i++) {
+      var cls = 'step';
+      if (i === 1 && job.skips_stage1) cls += ' skip';
+      else if (job.stage > i || (job.status === 'done')) cls += ' done';
+      else if (job.stage === i && job.status === 'running') cls += ' active';
+      var label = i === 1 && job.skips_stage1 ? 'skipped' : (job.stage > i ? 'done' : job.stage === i && job.status === 'running' ? 'running' : 'waiting');
+      steps.appendChild(el('div', { class: cls }, [
+        el('div', { class: 'n', text: 'stage ' + i + ' · ' + label }),
+        el('div', { class: 't', text: names[i - 1] }),
+        el('div', { class: 'd', text: i === 1 && job.skips_stage1 ? 'image uploads go straight to segmentation' : descs[i - 1] })
+      ]));
+    }
+    var p = job.progress || {};
+    $('p-stage').textContent = job.status === 'queued'
+      ? 'Waiting for the server — one job runs at a time.'
+      : (job.stage ? job.stage_name + (job.stage_hint ? ' · ' + job.stage_hint : '') : 'Starting the pipeline…');
+    var counts = $('p-counts'); counts.innerHTML = '';
+    if (job.status === 'running') {
+      counts.appendChild(el('span', { html: '<b>' + (p.figures || 0) + '</b> figures' }));
+      counts.appendChild(el('span', { html: '<b>' + (p.segments || 0) + '</b> structures found' }));
+      counts.appendChild(el('span', { html: '<b>' + (p.read || 0) + '</b> read' }));
+    }
+    $('p-elapsed').textContent = fmtTime(job.elapsed_s || 0);
+    $('p-queue').textContent = job.queue_position ? 'position ' + job.queue_position + ' in the queue' : '';
+  }
+  function showError(msg) {
+    $('progress-card').classList.add('hidden');
+    $('error-card').classList.remove('hidden');
+    $('error-text').textContent = msg;
+  }
+
+  // ---- results (shared by the extract flow and the gallery)
+  function imgUrl(job, kind, name) { return '/api/jobs/' + job.id + '/img/' + kind + '/' + encodeURIComponent(name); }
+  function structCard(s, urlFor) {
+    var card = el('article', { class: 'struct ' + s.tier });
+    var imgs = el('div', { class: 'imgs' });
+    imgs.appendChild(s.segment_image
+      ? el('figure', {}, [el('img', { src: urlFor('segment', s.segment_image), alt: 'cropped structure', loading: 'lazy' }), el('figcaption', { text: 'crop from the document' })])
+      : el('figure', { class: 'none', text: 'no crop saved' }));
+    imgs.appendChild(s.rendered_image
+      ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: 'rendering of the predicted SMILES', loading: 'lazy' }), el('figcaption', { text: 'what the SMILES draws as' })])
+      : el('figure', { class: 'none', text: s.valid ? 'SMILES could not be drawn' : 'no valid SMILES' }));
+    card.appendChild(imgs);
+    card.appendChild(smilesPair(s));
+    var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
+    // ONE decimal, deliberately. The three-decimal figure looked like it separated
+    // right answers from wrong ones and it does not: on the known-answer corpora the
+    // wrong readings score inside the same range as the correct ones. Full precision
+    // is in the CSV, where it is data rather than a claim.
+    var meta = el('div', { class: 'meta' }, [
+      el('span', { class: 'badge tier ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
+      el('span', { class: 'conf', style: '--thr:' + (THRESHOLD * 100) + '%' }, [el('i', { style: 'width:' + (pct == null ? 0 : pct * 100) + '%' })]),
+      el('span', { class: 'pct', title: pct == null ? '' : 'exact score ' + pct.toFixed(6), text: pct == null ? '—' : pct.toFixed(1) }),
+      el('span', { class: 'where', text: whereText(s) })
+    ]);
+    card.appendChild(meta);
+    // Verdicts exist only where a run carries ground truth -- an imported corpus
+    // document, never somebody's upload, which has no known answer to compare with.
+    // Where they do exist the card must show them, because a page of plausible
+    // structures with no verdict on it is the exact thing this tool gets wrong.
+    if (s.verdict) {
+      var line = el('div', { class: 'meta' }, [
+        el('span', { class: 'badge ' + s.verdict, text: VLABEL[s.verdict] || s.verdict }),
+        s.matched ? el('span', { class: 'where', text: 'matched ' + s.matched }) : null
+      ]);
+      // Where expansion changed the verdict, say so ON the card. This is the
+      // finding, and a card that shows only the final verdict hides it.
+      var rawRight = s.raw_verdict === 'match' || s.raw_verdict === 'stereo';
+      var nowRight = s.verdict === 'match' || s.verdict === 'stereo';
+      if (s.raw_verdict && nowRight && !rawRight) {
+        line.appendChild(el('span', { class: 'badge match',
+          title: 'Compared as predicted, this scored ' + (VLABEL[s.raw_verdict] || s.raw_verdict)
+            + '. The recognition was right; the comparison was between a CXSMILES abbreviation and a '
+            + 'spelled-out reference, which cannot match. Expanding the abbreviation is what fixed it.',
+          text: 'matched only once expanded' }));
+      }
+      card.appendChild(line);
+      if (s.truth_smiles && s.verdict !== 'match') {
+        card.appendChild(el('div', {}, [
+          el('div', { class: 'muted small', style: 'margin-bottom:4px', text: 'compared against' }),
+          el('div', { class: 'smiles', text: s.truth_smiles })]));
+      }
+    }
+    // The source figure is the ONLY comparison that catches an erased crop, so it is
+    // open on arrival rather than behind a button nobody presses.
+    if (s.figure_image) {
+      card.appendChild(el('div', { class: 'source' }, [
+        el('img', { alt: 'the figure this crop came from', loading: 'lazy', src: urlFor('figure', s.figure_image) })
+      ]));
+      card.appendChild(el('div', { class: 'muted small', text: 'source figure' }));
+    }
+    return card;
+  }
+  // The prediction as CXSMILES, and the same molecule with its abbreviations
+  // expanded, one above the other. Both are shown whenever there is an abbreviation
+  // to show, because they are the same molecule written two ways and seeing the pair
+  // is the only way to understand what the model actually said.
+  //
+  // Storing only the plain SMILES is what destroyed these labels once: MolToSmiles
+  // drops the |$...$| block, so `*C |$Ph;$|` was exported as a bare `*C` with the
+  // abbreviation gone and nothing to say it had been there.
+  function smilesPair(s) {
+    var labels = s.abbreviations || [];
+    var cx = s.cxsmiles || s.smiles;
+    var shownRaw = s.smiles && s.valid ? cx : (s.smiles ? s.smiles + ' (not a valid SMILES)' : 'nothing readable');
+    var wrap = el('div', { class: 'pair' });
+    if (!labels.length) {
+      // No abbreviation: one row, and it is not called CXSMILES, because for this
+      // prediction the two forms are the same string and implying a distinction
+      // would be inventing one.
+      wrap.appendChild(el('div', { class: 'lab', text: 'predicted SMILES' }));
+      wrap.appendChild(smilesRow(shownRaw, s.smiles && s.valid ? cx : null));
+      return wrap;
+    }
+    wrap.appendChild(el('div', { class: 'lab', html: '<b>As predicted</b> — CXSMILES' }));
+    wrap.appendChild(smilesRow(shownRaw, s.smiles && s.valid ? cx : null));
+    wrap.appendChild(el('div', { class: 'lab',
+      html: s.expanded ? '<b>Expanded</b> — the same molecule, groups spelled out'
+            : '<b>Not expanded</b> — nothing is guessed' }));
+    wrap.appendChild(s.expanded
+      ? smilesRow(s.expanded, s.expanded)
+      : el('div', { class: 'smiles empty', text: 'no expansion was possible' }));
+    var chips = el('div', { class: 'chips', style: 'margin-top:8px' });
+    var seen = {};
+    labels.forEach(function (x) {
+      if (seen[x]) return;
+      seen[x] = 1;
+      var cls = (s.markush || []).indexOf(x) >= 0 ? 'markush'
+              : (s.missing || []).indexOf(x) >= 0 ? 'missing' : 'kept';
+      var title = cls === 'markush'
+        ? x + ' is a Markush variable: it stands for a set of groups, not one, so no expansion of it exists.'
+        : cls === 'missing'
+          ? x + ' is a real group, but it is not in CXMolScribe\u2019s vocabulary, so it is reported rather than guessed.'
+          : x + ' was expanded to the group it names.';
+      chips.appendChild(el('span', { class: 'chip ' + cls, title: title, text: x }));
+    });
+    wrap.appendChild(chips);
+    var why = [];
+    if ((s.markush || []).length) {
+      why.push('<b>' + (s.markush || []).join(', ') + '</b> — Markush, no single molecule to expand to.');
+    }
+    if ((s.missing || []).length) {
+      why.push('<b>' + (s.missing || []).join(', ') + '</b> — absent from CXMolScribe\u2019s vocabulary.');
+    }
+    if ((s.failed || []).length) {
+      why.push('Expansion failed here: <code>' + esc((s.failed || [])[0]) + '</code>.');
+    }
+    if (why.length) {
+      wrap.appendChild(el('div', { class: 'pairnote', style: 'margin-top:8px', html: why.join(' ') }));
+    }
+    return wrap;
+  }
+  function smilesRow(text, copyable) {
+    var code = el('div', { class: 'smiles' + (copyable ? '' : ' empty'), text: text });
+    var copy = el('button', { class: 'copy', type: 'button', text: 'Copy' });
+    copy.disabled = !copyable;
+    if (copyable) copy.addEventListener('click', function () { copyText(copyable, copy); });
+    return el('div', { class: 'smiles-row' }, [code, copy]);
+  }
+  function whereText(s) {
+    var m = /_image_(\d+)$/.exec(s.figure || '');
+    var fig = m ? 'figure ' + m[1] : (s.figure || '');
+    return fig + (s.molecule != null ? ' · structure ' + (s.molecule + 1) : '');
+  }
+  // Who can see this run, and the controls to change that. Both actions authenticate
+  // with the owner token from the upload (or, while the run is unlisted, with the fact
+  // that the caller knows an id nothing has published). Before this existed, DELETE
+  // needed an admin token that was unset in production, so a run could never be
+  // withdrawn by anyone at all -- including the operator.
+  function visibilityRow(job, opts) {
+    var row = el('div', { class: 'visibility' });
+    // A published run belonging to somebody else: state the visibility, offer nothing.
+    // Showing buttons that can only answer 403 is worse than showing none.
+    var mine = !job.public || !!tokenStore()[job.id];
+    var state = el('span', {});
+    var pubBtn = el('button', { class: 'srcbtn', type: 'button' });
+    var delBtn = el('button', { class: 'srcbtn danger', type: 'button', text: 'Delete this run' });
+    function paint() {
+      state.innerHTML = '';
+      state.appendChild(el('b', { text: job.public ? 'Listed in the public gallery.' : 'Private.' }));
+      state.appendChild(document.createTextNode(job.public
+        ? ' Anyone can see the file name, the figures and every structure.'
+        : ' Only someone with this page\u2019s link can see it. Unpublished uploads are deleted after '
+          + (limits.upload_ttl_hours || 72) + ' hours.'));
+      pubBtn.textContent = job.public ? 'Unlist it' : 'Publish it';
+      pubBtn.style.width = 'auto';
+    }
+    paint();
+    function fail(err) { state.appendChild(el('div', { class: 'muted small', text: err.message })); }
+    pubBtn.addEventListener('click', function () {
+      var want = job.public ? '0' : '1';
+      pubBtn.disabled = true;
+      var fd = new FormData(); fd.append('publish', want);
+      api('/api/jobs/' + job.id + '/publish', { method: 'POST', body: fd, headers: ownerHeaders(job.id) })
+        .then(function (d) { job.public = d.public; paint(); })
+        .catch(fail).then(function () { pubBtn.disabled = false; });
+    });
+    delBtn.addEventListener('click', function () {
+      if (!window.confirm('Delete this run and everything stored for it? This cannot be undone.')) return;
+      delBtn.disabled = true;
+      api('/api/runs/' + job.id, { method: 'DELETE', headers: ownerHeaders(job.id) })
+        .then(function () {
+          forgetToken(job.id);
+          if (opts && opts.onDeleted) opts.onDeleted();
+          else if (opts && opts.onReset) opts.onReset();
+        })
+        .catch(function (err) { fail(err); delBtn.disabled = false; });
+    });
+    row.appendChild(state);
+    if (mine) row.appendChild(el('span', { class: 'chips' }, [pubBtn, delBtn]));
+    return row;
+  }
+
+  function renderResults(container, job, opts) {
+    opts = opts || {};
+    container.innerHTML = '';
+    var r = job.results || { structures: [], counts: {} }, c = r.counts || {};
+    var card = el('div', { class: 'card' });
+    if (opts.back) card.appendChild(el('div', { class: 'back' }, [el('button', { type: 'button', text: '← ' + opts.back.label, onclick: opts.back.fn })]));
+    var head = el('div', { class: 'rhead' }, [
+      el('h2', { text: job.filename }),
+      el('div', { class: 'chips' }, [
+        el('span', { class: 'chip', text: (c.structures || 0) + (c.structures === 1 ? ' structure' : ' structures') }),
+        el('span', { class: 'chip tier', text: (c.high || 0) + ' high confidence' }),
+        el('span', { class: 'chip tier low', text: (c.low || 0) + ' low confidence' }),
+        c.invalid ? el('span', { class: 'chip bad', text: c.invalid + ' unreadable' }) : null,
+        el('span', { class: 'chip', text: (job.kind === 'pdf' ? job.pages + (job.pages === 1 ? ' page' : ' pages') : 'image') + ' · ' + (c.figures || 0) + (c.figures === 1 ? ' figure' : ' figures') })
+      ])
+    ]);
+    card.appendChild(head);
+    if (job.note) card.appendChild(el('div', { class: 'caveat', text: job.note }));
+    card.appendChild(el('div', { class: 'caveat', html: '<b>Read the confidence honestly.</b> ' + CAVEAT }));
+    if (opts.manage !== false) card.appendChild(visibilityRow(job, opts));
+    var acts = el('div', { class: 'actions' });
+    if (r.structures.length) {
+      acts.appendChild(el('a', { class: 'btn', href: '/api/jobs/' + job.id + '/results.csv', text: 'Download CSV' }));
+      // CXSMILES, not `s.smiles`. The plain field has had the |$OMe;$| extension
+      // block dropped, so copying it silently discards every superatom label the
+      // model emitted -- the exact loss the CSV grew three columns to avoid, and
+      // the one this button was quietly reintroducing.
+      var all = el('button', { type: 'button', text: 'Copy all CXSMILES' });
+      all.addEventListener('click', function () { copyText(r.structures.filter(function (s) { return s.valid; }).map(function (s) { return s.cxsmiles || s.smiles; }).join('\n'), all); });
+      acts.appendChild(all);
+    }
+    if (opts.onReset) acts.appendChild(el('button', { type: 'button', text: 'Run another', onclick: opts.onReset }));
+    card.appendChild(acts);
+    var urlFor = function (kind, name) { return imgUrl(job, kind, name); };
+    if (!r.structures.length) {
+      card.appendChild(el('p', { class: 'empty', text: c.figures ? 'Figures were found, but the segmenter saw no chemical structures in them.' : 'No figures with chemical structures were found in this document.' }));
+    }
+    var high = r.structures.filter(function (s) { return s.tier === 'high'; });
+    var low = r.structures.filter(function (s) { return s.tier !== 'high'; });
+    if (high.length) {
+      card.appendChild(el('h3', { class: 'tier' }, [el('span', { class: 'badge high', text: 'high confidence' }), el('span', { class: 'muted small', text: '≥ ' + THRESHOLD })]));
+      var g1 = el('div', { class: 'grid' }); high.forEach(function (s) { g1.appendChild(structCard(s, urlFor)); }); card.appendChild(g1);
+    }
+    if (low.length) {
+      card.appendChild(el('h3', { class: 'tier' }, [el('span', { class: 'badge low', text: 'low confidence' }), el('span', { class: 'muted small', text: 'below ' + THRESHOLD + ' — review or discard' })]));
+      var g2 = el('div', { class: 'grid' }); low.forEach(function (s) { g2.appendChild(structCard(s, urlFor)); }); card.appendChild(g2);
+    }
+    container.appendChild(card);
+  }
+
+  // ---- gallery
+  //
+  // A card used to be a name, four chips and a strip of bare crops. A crop with no
+  // string under it asks the reader to take on faith that the pipeline read it --
+  // the one thing this tool must never be taken on faith about -- so every previewed
+  // crop now carries the CXSMILES it was read as, the expansion where the two differ,
+  // and its confidence. The sparkline above them is every structure in the run, not
+  // just the previewed six.
+  function loadGallery() {
+    $('gallery-detail').classList.add('hidden'); $('gallery-list').classList.remove('hidden');
+    $('gallery-caveat').innerHTML = '<b>Read the confidence honestly.</b> ' + CAVEAT;
+    var list = $('runs'); list.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/runs').then(function (d) {
+      list.innerHTML = '';
+      if (!d.runs.length) { list.appendChild(el('p', { class: 'empty', text: 'Nothing has been published here yet. Uploads are private by default, so this list stays empty until someone chooses to publish a run.' })); return; }
+      d.runs.forEach(function (run) { list.appendChild(runCard(run)); });
+    }).catch(function (err) { list.innerHTML = ''; list.appendChild(el('p', { class: 'empty', text: 'Could not load the gallery: ' + err.message })); });
+  }
+
+  function runCard(run) {
+    var c = run.counts || {};
+    var b = el('button', { class: 'run', type: 'button' });
+    b.appendChild(el('div', { class: 'top' }, [
+      el('span', { class: 'name', text: run.filename }),
+      el('span', { class: 'when', text: fmtWhen(run.finished).split(' · ')[0] + (run.origin === 'import' ? ' · imported' : run.origin === 'sample' ? ' · sample' : '') })
+    ]));
+    b.appendChild(el('div', { class: 'chips' }, [
+      el('span', { class: 'chip', text: (c.structures || 0) + (c.structures === 1 ? ' structure' : ' structures') }),
+      el('span', { class: 'chip tier', text: (c.high || 0) + ' high' }),
+      el('span', { class: 'chip tier low', text: (c.low || 0) + ' low' }),
+      el('span', { class: 'chip', text: run.kind === 'pdf' ? run.pages + (run.pages === 1 ? ' page' : ' pages') : 'image' }),
+      run.label ? el('span', { class: 'chip', text: String(run.label).split(/[,;:(]/)[0].trim() }) : null
+    ]));
+
+    // Per-document sparkline: one tick per structure, height = confidence, the tier
+    // threshold across it. The shape says in a glance what four chips cannot -- a
+    // document read confidently throughout, or one where everything sat on the floor.
+    var conf = run.confidences || [];
+    if (conf.length) {
+      var above = conf.filter(function (v) { return v >= THRESHOLD; }).length;
+      var wrapS = el('div', { class: 'sparkwrap' }, [sparkline(conf, THRESHOLD)]);
+      wrapS.appendChild(el('div', { class: 'sparkcap', text: above + ' of ' + conf.length
+        + ' ≥ ' + THRESHOLD }));
+      b.appendChild(wrapS);
+    }
+
+    // Four, not six: a 2x2 block on a phone. Every structure is in the run itself,
+    // one tap away, and the count line below says how many that is.
+    var pv = (run.previews || []).slice(0, 4);
+    if (pv.length) {
+      var grid = el('div', { class: 'previews' });
+      pv.forEach(function (s) { grid.appendChild(previewCard(run, s)); });
+      b.appendChild(grid);
+      var rest = (c.structures || 0) - pv.length;
+      if (rest > 0) {
+        b.appendChild(el('div', { class: 'sparkcap', style: 'margin-top:8px',
+          text: '+' + rest + ' more inside' }));
+      }
+    } else if (run.thumbs && run.thumbs.length) {
+      // Older stored runs, before the payload carried the strings.
+      var t = el('div', { class: 'thumbs' });
+      var tk = run.thumb_kind || 'segment';
+      run.thumbs.forEach(function (nm) { t.appendChild(el('img', { src: '/api/jobs/' + run.id + '/img/' + tk + '/' + encodeURIComponent(nm), alt: '', loading: 'lazy' })); });
+      b.appendChild(t);
+    }
+    b.addEventListener('click', function () { openRun(run.id); });
+    return b;
+  }
+
+  // The crop, and directly beneath it what the pipeline said it was: the CXSMILES as
+  // predicted, the expansion where the drawing carried an abbreviation, the score.
+  function previewCard(run, s) {
+    var card = el('div', { class: 'pv' });
+    card.appendChild(el('div', { class: 'shot' }, [
+      el('img', { src: '/api/jobs/' + run.id + '/img/' + (s.image_kind || 'segment') + '/'
+          + encodeURIComponent(s.image),
+        alt: ((s.image_kind === 'figure') ? 'the uploaded image, read whole, from '
+              : 'crop extracted from ') + run.filename, loading: 'lazy' })]));
+    var abbrev = (s.abbreviations || []).length > 0;
+    card.appendChild(el('div', { class: 'lab', text: abbrev ? 'CXSMILES' : 'predicted' }));
+    card.appendChild(el('div', { class: 'sm' + (s.cxsmiles && s.valid ? '' : ' none'),
+      title: s.cxsmiles || '', text: s.cxsmiles || 'nothing readable' }));
+    if (s.expanded) {
+      card.appendChild(el('div', { class: 'lab', text: 'expanded' }));
+      card.appendChild(el('div', { class: 'sm exp', title: s.expanded, text: s.expanded }));
+    } else if (abbrev) {
+      card.appendChild(el('div', { class: 'lab', text: 'expanded' }));
+      var uniq = [];
+      s.abbreviations.forEach(function (x) { if (uniq.indexOf(x) < 0) uniq.push(x); });
+      card.appendChild(el('div', { class: 'sm none',
+        text: 'none for ' + uniq.slice(0, 3).join(', ')
+          + (uniq.length > 3 ? ' +' + (uniq.length - 3) : '') }));
+    }
+    var v = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
+    card.appendChild(el('div', { class: 'cf' }, [
+      el('span', { class: 'conf', style: '--thr:' + (THRESHOLD * 100) + '%' },
+        [el('i', { style: 'width:' + (v == null ? 0 : v * 100) + '%'
+          + (s.tier === 'high' ? '' : ';background:var(--low)') })]),
+      el('span', { class: 'pct', text: v == null ? '—' : v.toFixed(1) })
+    ]));
+    return card;
+  }
+
+  function openRun(id) {
+    history.replaceState(null, '', '?tab=gallery&run=' + id);
+    api('/api/jobs/' + id).then(function (job) {
+      $('gallery-list').classList.add('hidden');
+      var d = $('gallery-detail'); d.classList.remove('hidden');
+      var toList = function () { history.replaceState(null, '', '?tab=gallery'); loadGallery(); window.scrollTo(0, 0); };
+      renderResults(d, job, { back: { label: 'Gallery', fn: toList }, onDeleted: toList });
+      window.scrollTo(0, 0);
+    }).catch(function (err) { loadGallery(); });
+  }
+
+  // ---- charts
+  //
+  // Everything on this page that used to be a paragraph of arithmetic. Bars are
+  // HTML divs and sparklines are inline SVG: no charting library, no new runtime
+  // dependency, and every label stays real text at a real CSS size. See the CSS
+  // block for why an <svg width="100%"> is the wrong container for a chart that
+  // has to be legible at 390px AND at 1000px.
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs, children) {
+    var n = document.createElementNS(SVGNS, tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (attrs[k] !== '' && attrs[k] != null) n.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) n.appendChild(c); });
+    return n;
+  }
+  function pctNum(n, d) { return d ? 100 * n / d : 0; }
+
+  // One horizontal bar, with its DENOMINATOR printed on the track. The denominator
+  // is not decoration: 96.2% and 84.0% are the same finding measured on 26 and on
+  // 200 observations, and a bar chart that shows only the heights says they are
+  // two results. o = {name, num, den, cls, sub, mark, valueText}
+  function bar(o) {
+    var v = o.value != null ? o.value : pctNum(o.num, o.den);
+    var wide = v >= 62;
+    var row = el('div', { class: 'cbar ' + (o.cls || '') });
+    row.appendChild(el('div', { class: 'crow1' }, [
+      el('span', { class: 'cname', title: o.name, text: o.name }),
+      el('span', { class: 'cval', text: o.valueText || (o.den ? v.toFixed(1) + '%' : '—') })
+    ]));
+    var track = el('div', { class: 'ctrack' });
+    track.appendChild(el('i', { class: 'cfill', style: 'width:' + Math.max(0, Math.min(100, v)) + '%' }));
+    if (o.mark != null) {
+      track.appendChild(el('i', { class: 'cmark', style: 'left:' + Math.max(0, Math.min(100, o.mark)) + '%',
+        title: 'for comparison: ' + o.mark.toFixed(1) + '%' }));
+    }
+    if (o.den) {
+      track.appendChild(el('span', {
+        class: 'cn' + (wide ? ' inside' : ''),
+        style: wide ? 'right:calc(' + (100 - v) + '% + 8px)' : 'left:calc(' + v + '% + 8px)',
+        text: o.num + ' of ' + o.den
+      }));
+    }
+    row.appendChild(track);
+    if (o.sub) row.appendChild(el('div', { class: 'csubline', text: o.sub }));
+    return row;
+  }
+
+  function fold(summary, hint, node) {
+    return el('details', { class: 'fold' }, [
+      el('summary', {}, [document.createTextNode(summary), hint ? el('span', { text: hint }) : null]),
+      el('div', {}, [node])]);
+  }
+  function chart(title, sub, body) {
+    var c = el('div', { class: 'chart' });
+    if (title) c.appendChild(el('div', { class: 'ctitle', text: title }));
+    if (sub) c.appendChild(el('div', { class: 'csub', html: sub }));
+    (body || []).forEach(function (n) { if (n) c.appendChild(n); });
+    return c;
+  }
+  function barChart(title, sub, rows) {
+    var box = el('div', { class: 'cbars' });
+    rows.forEach(function (r) { box.appendChild(bar(r)); });
+    return chart(title, sub, [box]);
+  }
+
+  // The scoring ladder, as columns that each carry the one below them. The muted
+  // part is what the previous scoring already had; the bright part is what this
+  // step added. A step that adds nothing is a flat column, which is the result --
+  // "largest fragment" is worth 53 molecules on 300px thumbnails and worth exactly
+  // zero on real documents, and a table of four similar percentages hides that.
+  function stepChart(title, sub, steps, scale) {
+    var cols = el('div', { class: 'ccols' }), foot = el('div', { class: 'cfoot' });
+    var top = Math.max(scale || 0, 1);
+    steps.forEach(function (st, i) {
+      var prev = i ? steps[i - 1].found : 0;
+      var h = 100 * st.found / top, base = 100 * Math.min(prev, st.found) / top;
+      var col = el('div', { class: 'ccol' + (i && st.found === prev ? ' zero' : '') });
+      col.appendChild(el('div', { class: 'ctop', text: (100 * st.found / (st.expected || top)).toFixed(0) + '%' }));
+      var stack = el('div', { class: 'cstack', style: 'height:' + h + '%' });
+      stack.appendChild(el('i', { class: 'cgain', style: 'height:' + Math.max(0, h - base) + '%' }));
+      stack.appendChild(el('i', { class: 'cbase', style: 'height:' + base + '%' }));
+      col.appendChild(stack);
+      cols.appendChild(col);
+      foot.appendChild(el('div', {}, [
+        el('b', { text: st.short }),
+        document.createTextNode(st.found + ' of ' + st.expected
+          + (i ? (st.found > prev ? ' · +' + (st.found - prev) : ' · +0') : ''))
+      ]));
+    });
+    var legend = el('div', { class: 'clegend' }, [
+      el('span', { html: '<i style="background:#3a4c62"></i>already recovered by the step to its left' }),
+      el('span', { html: '<i style="background:var(--accent)"></i>what this step added' })
+    ]);
+    return chart(title, sub, [cols, foot, legend]);
+  }
+
+  // Fragment-count histogram. Bucketed, because the raw distribution runs from 1 to
+  // 120 and 24 of the 25 bins would be a hairline. The tail is a bucket of its own
+  // and the worst single prediction is named, because "one prediction carried 120
+  // disconnected atoms" is the fact that makes the artifact concrete.
+  var FRAG_BUCKETS = [[1, 1, '1'], [2, 2, '2'], [3, 3, '3'], [4, 4, '4'], [5, 5, '5'],
+                      [6, 9, '6–9'], [10, 19, '10–19'], [20, 1e9, '20+']];
+  function histChart(title, sub, hist) {
+    var counts = FRAG_BUCKETS.map(function (b) {
+      var n = 0;
+      Object.keys(hist).forEach(function (k) {
+        var v = Number(k);
+        if (v >= b[0] && v <= b[1]) n += hist[k];
+      });
+      return n;
+    });
+    var top = Math.max.apply(null, counts.concat([1]));
+    var cols = el('div', { class: 'ccols' }), foot = el('div', { class: 'cfoot' });
+    counts.forEach(function (n, i) {
+      var col = el('div', { class: 'ccol' + (n ? '' : ' zero') });
+      col.appendChild(el('div', { class: 'ctop', text: String(n) }));
+      var stack = el('div', { class: 'cstack', style: 'height:' + (100 * n / top) + '%' });
+      stack.appendChild(el('i', { class: i ? 'cgain' : 'cbase', style: 'height:100%' }));
+      col.appendChild(stack);
+      cols.appendChild(col);
+      foot.appendChild(el('div', {}, [el('b', { text: FRAG_BUCKETS[i][2] })]));
+    });
+    var legend = el('div', { class: 'clegend' }, [
+      el('span', { html: '<i style="background:#3a4c62"></i>one fragment — nothing to strip' }),
+      el('span', { html: '<i style="background:var(--accent)"></i>carries phantom fragments' })
+    ]);
+    return chart(title, sub, [cols, foot,
+      el('div', { class: 'csub', style: 'margin:8px 0 0', text: 'fragments in the predicted SMILES' }), legend]);
+  }
+
+  // Two confidence ranges drawn on one axis, with the tier threshold across them.
+  // rows = [{name, min, max, mean, n, colour}]
+  function rangeChart(title, sub, rows, threshold) {
+    var body = el('div', {});
+    rows.forEach(function (r) {
+      body.appendChild(el('div', { class: 'crow1', style: 'margin-top:8px' }, [
+        el('span', { class: 'cname', text: r.name }),
+        el('span', { class: 'cn', style: 'position:static', text: 'n = ' + r.n })
+      ]));
+      var track = el('div', { class: 'crange' });
+      var lo = Math.max(0, Math.min(1, r.min)) * 100, hi = Math.max(0, Math.min(1, r.max)) * 100;
+      track.appendChild(el('i', { class: 'span', style: 'left:' + lo + '%;width:' + Math.max(0.6, hi - lo)
+        + '%;background:' + r.colour }));
+      track.appendChild(el('i', { class: 'mean', style: 'left:' + (Math.max(0, Math.min(1, r.mean)) * 100)
+        + '%;background:' + r.colour, title: 'mean ' + r.mean.toFixed(3) }));
+      track.appendChild(el('i', { class: 'thr', style: 'left:' + (threshold * 100) + '%',
+        title: 'tier threshold ' + threshold }));
+      body.appendChild(track);
+      body.appendChild(el('div', { class: 'csubline', text: r.min.toFixed(3) + ' to ' + r.max.toFixed(3)
+        + ', mean ' + r.mean.toFixed(3) }));
+    });
+    body.appendChild(el('div', { class: 'caxis' }, [
+      el('span', { text: '0' }), el('span', { text: 'confidence' }), el('span', { text: '1' })]));
+    return chart(title, sub, [body]);
+  }
+
+  // One tick per structure, height = the pipeline's own confidence, with the
+  // 0.8431 tier threshold drawn across. preserveAspectRatio="none" is deliberate:
+  // the ticks should fill whatever width the card has, and the sparkline carries no
+  // type, so nothing here can be distorted into illegibility.
+  function sparkline(values, threshold) {
+    var W = 100, H = 32, n = values.length;
+    var svg = svgEl('svg', { class: 'spark', viewBox: '0 0 ' + W + ' ' + H,
+      preserveAspectRatio: 'none', focusable: 'false', 'aria-hidden': 'true' });
+    var ty = H - Math.max(0, Math.min(1, threshold)) * H;
+    svg.appendChild(svgEl('line', { x1: 0, y1: ty, x2: W, y2: ty, stroke: '#e6e9f0',
+      'stroke-opacity': '.5', 'stroke-dasharray': '3 3', 'stroke-width': 1,
+      'vector-effect': 'non-scaling-stroke' }));
+    // A floor. Without it a run whose confidences are all near zero draws a row of
+    // short wide dashes that read as floating marks rather than as bars on an axis.
+    svg.appendChild(svgEl('line', { x1: 0, y1: H - 0.5, x2: W, y2: H - 0.5, stroke: '#3a4359',
+      'stroke-width': 1, 'vector-effect': 'non-scaling-stroke' }));
+    var step = n ? W / n : W;
+    // preserveAspectRatio="none" stretches x by the card width, so a bar that is 60%
+    // of the step is 90px wide on a desktop card when there are only eight of them.
+    // Fewer bars, thinner bars.
+    var ratio = n < 12 ? 0.3 : 0.6;
+    values.forEach(function (v, i) {
+      var y = H - Math.max(0, Math.min(1, v)) * H;
+      svg.appendChild(svgEl('line', { x1: step * (i + 0.5), y1: H, x2: step * (i + 0.5), y2: y,
+        stroke: v >= threshold ? '#4fd1c5' : '#fbbf24',
+        'stroke-width': Math.max(0.6, step * ratio) }));
+    });
+    return svg;
+  }
+
+  // ---- benchmark
+  //
+  // Two numbers, always together. Scored on the whole predicted SMILES this
+  // pipeline is at 14.4% exact on the 97-image set; scored on the largest fragment
+  // of the same predictions it is at 66.0%, because it keeps hanging unbonded I and
+  // [HH] off an otherwise correct core. Publishing 66% alone tells a chemist the
+  // raw output is usable, which it is not. Publishing 14.4% alone tells them to
+  // throw the tool away, when a one-line post-process recovers most of it. So the
+  // page renders both side by side and refuses to have a single headline.
+  var benchData = null;
+  var benchPick = 0;
+
+  function pctText(n, d) { return d ? (100 * n / d).toFixed(1) + '%' : '—'; }
+
+  function loadBenchmark() {
+    var box = $('bench');
+    if (benchData) { paintBenchmark(); return; }
+    box.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/benchmark').then(function (d) { benchData = d; paintBenchmark(); })
+      .catch(function (err) { box.innerHTML = ''; box.appendChild(el('p', { class: 'empty', text: 'Could not load the benchmark: ' + err.message })); });
+  }
+
+  function paintBenchmark() {
+    var d = benchData, box = $('bench');
+    box.innerHTML = '';
+    box.appendChild(el('h2', { text: 'Measured against known answers' }));
+    if (!d.available || !d.runs.length) {
+      box.appendChild(el('p', { class: 'empty', text: !d.runs_found
+        ? 'No benchmark runs have landed yet. When a pipeline run over the corpus is placed under the configured benchmark directory (with its manifest of expected molecules), it appears here.'
+        : 'Runs were found but no manifest of expected molecules; the comparison needs one.' }));
+      return;
+    }
+    var head = headlineBlock(d);
+    if (head) box.appendChild(head);
+    if (d.runs.length > 1) {
+      box.appendChild(el('h3', { class: 'tier', text: 'One run at a time, in full' }));
+      box.appendChild(el('p', { class: 'muted small', text: d.runs.length
+        + ' stored runs. Every number below belongs to the one selected.' }));
+      var pick = el('div', { class: 'runpick' });
+      d.runs.forEach(function (r, i) {
+        var b = el('button', { type: 'button', class: i === benchPick ? 'active' : '',
+          text: (r.meta && r.meta.title) || r.name });
+        b.addEventListener('click', function () { benchPick = i; paintBenchmark(); window.scrollTo(0, 0); });
+        pick.appendChild(b);
+      });
+      box.appendChild(pick);
+      var wac = whatACorpusCannotSee(d);
+      if (wac) box.appendChild(wac);
+    }
+    box.appendChild(benchRun(d.runs[Math.min(benchPick, d.runs.length - 1)], d));
+  }
+
+  // ---------------------------------------------------------------- the headline
+  //
+  // Stock C-MAGE, as the project ships it, on every corpus that has been measured --
+  // four charts and about a paragraph, where this block used to be about a page of
+  // arithmetic in prose. Everything is read from the API: `headline` for the arms
+  // that exist only as scored rows, `runs` for the ones published whole.
+  function armsOf(d) { return ((d.headline || {}).arms) || []; }
+  function armIndex(d) { var by = {}; armsOf(d).forEach(function (a) { by[a.key] = a; }); return by; }
+  function stockArms(d) {
+    return armsOf(d).filter(function (a) { return !a.tweak; })
+      .sort(function (a, b) { return b.scorable.n - a.scorable.n; });
+  }
+  // The headline stat is NOT simply the biggest arm. Sorting by size alone put a
+  // synthetic RDKit-line-art arm at the top the moment one was added, and a
+  // ceiling presented as a headline is a worse error than a small denominator.
+  // An arm nominates itself with `lead`; failing that, the largest arm that is
+  // not flagged an upper bound; failing that, the largest.
+  function leadArm(d) {
+    var stock = stockArms(d);
+    var chosen = null;
+    stock.forEach(function (a) { if (!chosen && a.lead) chosen = a; });
+    if (!chosen) stock.forEach(function (a) { if (!chosen && !a.upper_bound) chosen = a; });
+    return chosen || stock[0];
+  }
+  // The PDF runs, which report RECALL against the molecules a document is known to
+  // draw. That is the only measure defined on all four corpora, so it is the one the
+  // comparison chart uses -- on the depiction corpora one image holds one molecule
+  // and emits one structure, so recall, precision and per-structure accuracy are the
+  // same number there, and mixing them would not show.
+  function pdfRuns(d) {
+    return (d.runs || []).filter(function (r) {
+      return String(((r.meta || {}).corpus_key) || '').indexOf('pdfs') === 0;
+    });
+  }
+  function shortTitle(t) { return String(t || '').split('—')[0].replace(/[,\s]+$/, ''); }
+  // A bar captioned "largest fragment, abbreviations expanded" must carry the number
+  // computed under that scoring. `tally.found` is the expanded rung WITHOUT the
+  // fragment strip: identical on the published-document corpus, 15 against 18 on the
+  // known-answer one. Captioning one with the other is the exact defect the ladder
+  // block exists to prevent, and it does not look wrong.
+  function foundExpandedLargest(t) {
+    var r = t.rung_found || {};
+    return r.expanded_largest != null ? r.expanded_largest
+         : (t.frag_found != null ? t.frag_found : t.found);
+  }
+  // Bar names live in a 148-200px column. "11 real published documents, 34 known
+  // molecules" ellipsises to the same string as its neighbour.
+  function barName(t) { return String(t || '').split(/[—,]/)[0].trim(); }
+
+  function corpusRows(d) {
+    var rows = [];
+    stockArms(d).forEach(function (a) {
+      // The arm's OWN stages string. This row used to hardcode "stage 3 only",
+      // which quietly mislabelled every full-pipeline arm added afterwards as a
+      // recognition-only measurement -- the two things the page exists to tell
+      // apart.
+      var sub = a.stages || 'stage 3 only — the CXSMILES reader';
+      if (a.upper_bound) sub += ' · synthetic line art, an upper bound';
+      rows.push({ name: a.short || a.title, num: a.scorable.exact, den: a.scorable.n, cls: 'hi',
+        sub: sub });
+    });
+    pdfRuns(d).forEach(function (r) {
+      var t = r.tally || {};
+      rows.push({ name: barName((r.meta || {}).title) || r.name, num: foundExpandedLargest(t),
+        den: t.expected, cls: 'hi',
+        sub: 'all three stages, per-document denominators' });
+    });
+    rows.sort(function (a, b) { return pctNum(b.num, b.den) - pctNum(a.num, a.den); });
+    return rows;
+  }
+
+  function headlineBlock(d) {
+    var by = armIndex(d), stock = stockArms(d), wrap = el('div', {});
+    var full = leadArm(d), samp = stock[stock.length - 1];
+    var docRun = pdfRuns(d)[0];
+    if (!full && !docRun) return null;
+
+    // ---- three numbers, each glued to its denominator
+    var stats = el('div', { class: 'stats three' });
+    if (full) {
+      stats.appendChild(el('div', { class: 'stat lead' }, [
+        el('div', { class: 'v', text: pctText(full.scorable.exact, full.scorable.n) }),
+        el('div', { class: 'n', text: full.scorable.exact + ' of ' + full.scorable.n
+          + ' depictions that carry a reference' }),
+        el('div', { class: 'l', text: full.title + (full.stages ? ' — ' + full.stages : '') }),
+        el('div', { class: 'd', text: pctText(full.emitted.exact, full.emitted.n) + ' over all '
+          + full.emitted.n + ' emitted, counting the ' + (full.emitted.n - full.scorable.n)
+          + ' with no reference as failures.' })]));
+    }
+    if (samp && samp !== full) {
+      stats.appendChild(el('div', { class: 'stat' }, [
+        el('div', { class: 'v', text: pctText(samp.scorable.exact, samp.scorable.n) }),
+        el('div', { class: 'n', text: samp.scorable.exact + ' of ' + samp.scorable.n }),
+        el('div', { class: 'l', text: samp.title }),
+        el('div', { class: 'd', text: 'Every 7th image of the corpus above.' })]));
+    }
+    if (docRun) {
+      var t = docRun.tally;
+      stats.appendChild(el('div', { class: 'stat' }, [
+        el('div', { class: 'v', text: pctText(foundExpandedLargest(t), t.expected) }),
+        el('div', { class: 'n', text: foundExpandedLargest(t) + ' of ' + t.expected + ' molecules drawn' }),
+        el('div', { class: 'l', text: shortTitle((docRun.meta || {}).title) + ', all three stages' }),
+        el('div', { class: 'd', text: 'Per-document denominators, stereochemistry required. '
+          + pctText(t.rung_found.raw, t.expected) + ' before abbreviations are expanded.' })]));
+    }
+    wrap.appendChild(stats);
+    wrap.appendChild(el('p', { class: 'muted small', text: 'Stock C-MAGE, CPU. Largest fragment, '
+      + 'CXSMILES abbreviations expanded, RDKit canonical on both sides.' }));
+
+    // ---- accuracy by corpus
+    var rows = corpusRows(d);
+    if (rows.length > 1) {
+      // "by corpus" stopped being true when the rendering arms arrived: three of
+      // these bars are the SAME 560 molecules drawn differently, and two more are
+      // one synthetic corpus through different stages. The count on each bar is the
+      // denominator, and the line under it says what varied — because a bar chart
+      // whose rows are not the same kind of thing is the easiest way there is to
+      // read a difference that is not there.
+      wrap.appendChild(barChart('Accuracy, and what was varied',
+        'Molecules known to be drawn, read back as the same molecule. Rows are NOT '
+        + 'all the same corpus: some differ by document set, some by rendering of the '
+        + 'same 1010 molecules, some by which stages ran. Read the line under each bar '
+        + 'before comparing two of them.', rows));
+    }
+
+    // ---- confidence tier, with n, because n IS the finding
+    var tierRows = stock.filter(function (a) { return a.tiers && a.tiers.high && a.tiers.low; });
+    if (tierRows.length) {
+      var groups = el('div', {});
+      tierRows.slice().reverse().forEach(function (a) {
+        var g = el('div', { class: 'cgroup' });
+        g.appendChild(el('div', { class: 'gname', text: a.short || a.title }));
+        var bars = el('div', { class: 'cbars' });
+        ['high', 'low'].forEach(function (k) {
+          var c = a.tiers[k];
+          bars.appendChild(bar({ name: k + ' confidence', num: c.exact, den: c.n,
+            cls: k === 'high' ? 'hi' : 'warn' }));
+        });
+        g.appendChild(bars);
+        groups.appendChild(g);
+      });
+      var small = tierRows[tierRows.length - 1], big = tierRows[0];
+      wrap.appendChild(chart('Does the confidence score tell you anything?',
+        'Share of each tier that was exactly right.', [groups]));
+      if (small && big && small !== big) {
+        var sh = small.tiers.high, bh = big.tiers.high;
+        wrap.appendChild(el('div', { class: 'caveat', html: '<b>A high confidence score is not a '
+          + 'correctness guarantee.</b> The two high bars are one measurement at two sample sizes: '
+          + sh.exact + ' of ' + sh.n + ' is ' + pctText(sh.exact, sh.n) + ', ' + bh.exact + ' of ' + bh.n
+          + ' is ' + pctText(bh.exact, bh.n) + ' (' + pctText(bh.exact + bh.stereo, bh.n)
+          + ' ignoring stereochemistry).' }));
+      }
+    }
+
+    // ---- phantom fragments
+    var hist = full && full.fragment_histogram;
+    if (hist) {
+      var maxFrag = 0, tail = 0;
+      Object.keys(hist).forEach(function (k) {
+        if (Number(k) > maxFrag) maxFrag = Number(k);
+        if (Number(k) >= 20) tail += hist[k];
+      });
+      wrap.appendChild(histChart('How many fragments came back in one prediction',
+        'Past the first bar: a disconnected <code>I</code> or <code>[HH]</code> welded on beside the '
+        + 'molecule.', hist));
+      wrap.appendChild(el('p', { class: 'muted small', text: full.phantom_rows + ' of ' + full.emitted.n
+        + ' predictions carry at least one; ' + tail + ' carry twenty or more; the worst carried ' + maxFrag
+        + '.' }));
+    }
+
+    // ---- the input-side tweak, flagged as a tweak
+    armsOf(d).filter(function (a) { return a.tweak && !a.rejected; }).forEach(function (a) {
+      var base = by[a.baseline];
+      if (!base) return;
+      var gain = pctNum(a.scorable.exact, a.scorable.n) - pctNum(base.scorable.exact, base.scorable.n);
+      var t = el('div', { class: 'tweak' });
+      t.appendChild(el('div', { class: 'tflag', text: 'not the pipeline — something done to the input' }));
+      t.appendChild(el('div', { class: 'ttitle', text: 'Normalise the input and you gain '
+        + gain.toFixed(0) + ' points' }));
+      var bars = el('div', { class: 'cbars' });
+      bars.appendChild(bar({ name: 'stock C-MAGE, image as supplied', num: base.scorable.exact,
+        den: base.scorable.n }));
+      bars.appendChild(bar({ name: 'the same 97 images, background set to pure white first',
+        num: a.scorable.exact, den: a.scorable.n, cls: 'hi',
+        mark: pctNum(base.scorable.exact, base.scorable.n) }));
+      bars.appendChild(bar({ name: 'phantom fragments — stock', num: base.phantom_rows,
+        den: base.emitted.n, cls: 'bad', sub: 'carrying a disconnected extra atom — fewer is better' }));
+      bars.appendChild(bar({ name: 'phantom fragments — normalised', num: a.phantom_rows,
+        den: a.emitted.n, cls: 'warn', mark: pctNum(base.phantom_rows, base.emitted.n),
+        sub: 'the white tick is where stock sat' }));
+      t.appendChild(bars);
+      t.appendChild(el('div', { class: 'd', html: '<b>C-MAGE is not modified</b> — only the pixels '
+        + 'handed in.' }));
+      wrap.appendChild(t);
+    });
+    return wrap;
+  }
+
+  // WHAT A CORPUS OF RENDERED DEPICTIONS CANNOT SEE. Computed by comparing the runs
+  // against each other rather than asserted: if abbreviations ever appeared in a
+  // rendered-depiction run this note would say so instead.
+  function whatACorpusCannotSee(d) {
+    var runs = d.runs || [];
+    var withAb = runs.filter(function (r) { return (r.tally || {}).abbrev > 0; });
+    var without = runs.filter(function (r) { return !((r.tally || {}).abbrev > 0); });
+    if (!withAb.length || !without.length) return null;
+    var ab = withAb.reduce(function (a, r) { return a + r.tally.abbrev; }, 0);
+    var tot = withAb.reduce(function (a, r) { return a + r.tally.structures; }, 0);
+    var otherTot = without.reduce(function (a, r) { return a + r.tally.structures; }, 0);
+    var box = el('div', { class: 'caveat' });
+    box.appendChild(el('div', { html: '<b>Abbreviations: ' + ab + ' of ' + tot + ' predictions on '
+      + 'published documents, <b>0</b> of ' + otherTot + ' on rendered depictions.</b> A depiction '
+      + 'generated from a SMILES has nothing to abbreviate.' }));
+    return box;
+  }
+
+  function metaBlock(run) {
+    var m = run.meta || {}, wrap = el('div', {});
+    wrap.appendChild(el('h3', { class: 'tier', text: 'What was measured, exactly' }));
+    var kv = el('dl', { class: 'kv' });
+    [['Corpus', m.corpus], ['Detail', m.corpus_detail], ['Stages run', m.stages],
+     ['Scoring', m.method], ['Settings', m.settings], ['Hardware', m.hardware],
+     ['Produced by', m.source]].forEach(function (r) {
+      if (r[1]) kv.appendChild(el('div', {}, [el('dt', { text: r[0] }), el('dd', { text: r[1] })]));
+    });
+    kv.appendChild(el('div', {}, [el('dt', { text: 'Stored at' }), el('dd', {}, [el('code', { text: run.name })])]));
+    if (run.cross_checked) {
+      kv.appendChild(el('div', {}, [el('dt', { text: 'Cross-check' }), el('dd', { text:
+        'This run also carries verdicts from the offline scorer. They are not trusted in place of the '
+        + 'recomputation above — they are compared with it, and they disagree on '
+        + run.cross_check_disagreements + ' of ' + run.tally.structures + ' structures.' })]));
+    }
+    wrap.appendChild(kv);
+    // m.note is the run's own history — what a scoring bug turned out to be, what was
+    // superseded. FINDINGS.md and the git log hold that; the page shows the numbers.
+    return wrap;
+  }
+
+  function headline(t) {
+    var n = t.structures - t.unassigned;
+    var heads = el('div', {});
+    heads.appendChild(barChart('Exact, two ways of scoring the same predictions',
+      'Same predictions, two representations.', [
+        { name: 'the whole predicted SMILES', num: t.match, den: n, cls: 'bad',
+          sub: 'pasted straight into a database' },
+        { name: 'the largest fragment only', num: t.frag_match, den: n, cls: 'hi',
+          sub: 'ignoring disconnected atoms it added' }
+      ]));
+    heads.appendChild(el('p', { class: 'muted small', text: 'Ignoring stereochemistry: '
+      + pctText(t.match + t.stereo, n) + ' and ' + pctText(t.frag_match + t.frag_stereo, n)
+      + '. One denominator for both bars: ' + n + ' structures scored in this run.' }));
+    return heads;
+  }
+
+  // Does this run's corpus support a precision figure? Declared by the run, not
+  // guessed here: only the person who built the ground truth knows whether it is
+  // complete enough for "how many emitted structures were right" to mean anything.
+  function precisionOff(run) {
+    return String(((run || {}).meta || {}).precision_reportable || '').toLowerCase() === 'no';
+  }
+
+  // "9, 5, 5, 4, 3, 2, 2, 1, 1, 1, 1" -- the per-document recall denominators,
+  // printed because collapsing them into one corpus-wide denominator is the
+  // specific mistake that turns 9 of 34 into 9 of 374.
+  function docDenoms(run) {
+    return (run.pdfs || []).map(function (p) { return p.expected; })
+      .sort(function (a, b) { return b - a; }).join(' + ');
+  }
+
+  // Recall, on the scoring that means what a reader thinks an accuracy means: the
+  // abbreviations expanded, because a CXSMILES abbreviation compared against a
+  // spelled-out reference cannot match however well the molecule was read. The
+  // NAIVE figure is shown beside it, not hidden, because a visitor who computes
+  // recall the obvious way will get that one and needs to know why it is lower.
+  //
+  // Used instead of the precision headline on a corpus whose ground truth is
+  // partial: recall's denominator is the molecules known to be drawn, which is
+  // exactly the thing a partial manifest DOES know.
+  function recallHead(run) {
+    var t = run.tally, m = run.meta || {};
+    var wrap = el('div', {});
+    wrap.appendChild(barChart('Recall',
+      t.expected + ' molecules known to be drawn across ' + t.documents + ' documents.', [
+        { name: 'abbreviations expanded', num: t.found, den: t.expected, cls: 'hi',
+          sub: t.exact_found === t.found
+            ? 'all ' + t.found + ' exact, stereochemistry included'
+            : t.exact_found + ' exact; ' + (t.found - t.exact_found) + ' only once stereochemistry is ignored' },
+        { name: 'the CXSMILES as predicted — the naive figure', num: t.rung_found.raw, den: t.expected,
+          cls: 'bad', sub: t.abbrev + ' of ' + t.structures + ' predictions carry an abbreviation' }
+      ]));
+    wrap.appendChild(el('p', { class: 'muted small', text: 'Per-document denominators, summed: '
+      + docDenoms(run) + '.' }));
+    return wrap;
+  }
+
+  // THE SCORING LADDER. One row per comparison, each row's caption bound to the
+  // value it was computed from, and a delta column saying what that row's
+  // post-process was actually worth. Rendered from run.ladder, which the server
+  // builds beside the numbers -- so a row cannot be captioned with a scoring it was
+  // not computed under. That is not hypothetical: a "+ largest fragment" caption
+  // shipped once over a number that stereochemistry had moved.
+  function ladderBlock(run) {
+    var lad = run.ladder || [], ctl = run.control, t = run.tally;
+    if (!lad.length) return null;
+    var SHORT = ['as predicted', '+ expand abbreviations', '+ largest fragment'];
+    var steps = lad.map(function (r, k) {
+      return { found: r.found, expected: r.expected, short: SHORT[k] || r.mode, label: r.label };
+    });
+    var wrap = el('div', {});
+    wrap.appendChild(stepChart('The same run, scored three ways',
+      'Identical predictions, three comparisons.', steps, t.expected));
+    if (ctl) {
+      wrap.appendChild(el('p', { class: 'muted small', text: 'Control — largest fragment alone, no '
+        + 'expansion: ' + ctl.found + ' of ' + ctl.expected + ' (' + pctText(ctl.found, ctl.expected)
+        + '), ' + (ctl.delta > 0 ? '+' + ctl.delta : 'no change') + ' on the first column.' }));
+    }
+    var expStep = lad[1] || {}, fragStep = lad[2] || {};
+    var says = [];
+    if (expStep.delta > 0) {
+      says.push('<b>Expanding abbreviations: +' + expStep.delta + ' of ' + expStep.found + '.</b>');
+    }
+    if (fragStep.delta === 0 && ctl && ctl.delta === 0) {
+      says.push('<b>Stripping phantom fragments: +0</b> — ' + t.phantom + ' of ' + t.structures
+        + ' carry one, none change a verdict.');
+    } else if (fragStep.delta > 0) {
+      says.push('Stripping phantom fragments: +' + fragStep.delta + '.');
+    }
+    if (says.length) wrap.appendChild(el('div', { class: 'gapnote', html: says.join(' ') }));
+    return wrap;
+  }
+
+  // The percentage this corpus cannot support, and why -- in the place a reader
+  // looks for it. Saying nothing here would let them assume one.
+  function noPrecisionBlock(run) {
+    var t = run.tally, m = run.meta || {};
+    var box = el('div', { class: 'noprec' });
+    box.appendChild(el('div', { class: 'v', text: 'Precision: not reportable on this corpus' }));
+    box.appendChild(el('div', { class: 'd', html: '<b>' + t.structures + ' emitted against '
+      + t.expected + ' ground-truth molecules.</b> Most have no reference, so precision would measure '
+      + 'the manifest, not the pipeline.' }));
+    return box;
+  }
+
+  // CXSMILES ABBREVIATIONS -- what this corpus is mostly made of, and the reason the
+  // naive number is half the real one. Every figure in this block is counted from the
+  // stored run when the page is built; none of it is transcribed from a report.
+  function abbrevBlock(run, rows, jump) {
+    var t = run.tally, n = t.structures - t.unassigned;
+    if (!t.abbrev) return null;
+    var box = el('div', { class: 'abbox' });
+    box.appendChild(barChart('What the drawings actually said',
+      'A drawn abbreviation is kept as a <code>*</code> atom labelled in a CXSMILES <code>|$…$|</code> '
+      + 'block.', [
+        { name: 'carry a CXSMILES abbreviation', num: t.abbrev, den: n, cls: 'hi' },
+        { name: 'expanded to the group they name', num: t.abbrev_expanded, den: t.abbrev, cls: 'hi' },
+        { name: 'a Markush variable — no single molecule exists to expand to', num: t.abbrev_markush,
+          den: t.abbrev, cls: 'warn' },
+        { name: 'a real group absent from CXMolScribe’s vocabulary', num: t.abbrev_missing, den: t.abbrev,
+          cls: 'warn' },
+        { name: 'the expansion code failed — our defect, not the model’s', num: t.abbrev_failed,
+          den: t.abbrev, cls: 'bad' }
+      ]));
+    box.appendChild(el('div', { class: 'd', html: '<b>Expanding rescued ' + t.abbrev_rescued
+      + '</b> the raw comparison scored wrong. The last three categories overlap; they do not sum to '
+      + t.abbrev + '.' }));
+    if (t.abbrev_labels && t.abbrev_labels.length) {
+      var mk = {}, ms = {};
+      (t.markush_labels || []).forEach(function (kv) { mk[kv[0]] = 1; });
+      (t.missing_labels || []).forEach(function (kv) { ms[kv[0]] = 1; });
+      var chips = el('div', { class: 'chips' });
+      chips.appendChild(el('span', { class: 'chip', text: 'labels the drawings used:' }));
+      t.abbrev_labels.forEach(function (kv) {
+        var cls = mk[kv[0]] ? 'markush' : ms[kv[0]] ? 'missing' : 'kept';
+        chips.appendChild(el('span', { class: 'chip ' + cls,
+          title: cls === 'markush' ? kv[0] + ' — a Markush variable; no single molecule to expand to'
+               : cls === 'missing' ? kv[0] + ' — a real group, absent from CXMolScribe’s vocabulary'
+               : kv[0] + ' — expanded to the group it names',
+          text: kv[0] + ' × ' + kv[1] }));
+      });
+      box.appendChild(chips);
+      box.appendChild(el('p', { class: 'muted small', style: 'margin-top:6px',
+        html: 'Teal expanded; <span class="chip markush">violet</span> Markush; '
+          + '<span class="chip missing">amber</span> not in the vocabulary. Once per structure.' }));
+    }
+    var wanted = abbrevExamples(rows, 3);
+    var exWrap = el('div', {});
+    wanted.forEach(function (r, k) {
+      var ex = abbrevExample(r, run);
+      if (k > 0) ex.classList.add('hidden');
+      exWrap.appendChild(ex);
+    });
+    // Behind a fold. An example is an illustration, not a number, and open it put a
+    // crop and three long strings between two charts.
+    var exBox = el('div', {}, [exWrap]);
+    if (wanted.length > 1) {
+      var more = el('button', { type: 'button', text: 'Show ' + (wanted.length - 1) + ' more' });
+      var open = false;
+      more.addEventListener('click', function () {
+        open = !open;
+        Array.prototype.slice.call(exWrap.children, 1).forEach(function (c) { c.classList.toggle('hidden', !open); });
+        more.textContent = open ? 'Hide the extra examples' : 'Show ' + (wanted.length - 1) + ' more';
+      });
+      exBox.appendChild(el('div', { class: 'actions' }, [more]));
+    }
+    box.appendChild(fold('What one looks like', 'crop, prediction, expansion, reference', exBox));
+    var all = el('button', { type: 'button', text: 'Show all ' + t.abbrev + ' in the table' });
+    all.addEventListener('click', function () { jump('abbrev'); });
+    box.appendChild(el('div', { class: 'actions' }, [all]));
+    return box;
+  }
+
+  // Which rows to SHOW as examples -- nothing counted anywhere depends on this list.
+  // It exists because the shortest abbreviated prediction in the corpus is `* |$Ph$|`,
+  // which is a true example of the notation and teaches a reader nothing. Wanted
+  // instead: a recognisable molecule carrying named groups, and preferably one whose
+  // verdict expansion actually changed, one document each.
+  var AB_KNOWN = ['OMe', 'MeO', 'OCH3', 'H3CO', 'OBn', 'BnO', 'OAc', 'OEt', 'OTf',
+                  'Ph', 'Bn', 'Boc', 'TMS', 'CO2H', 'COOH', 'CO2Et', 'CO2Bn', 'NHCbz', 'CHO', 'OHC',
+                  'Me', 'Et', 'Bu', 'Ac'];
+  function abbrevExamples(rows, want) {
+    var cand = rows.filter(function (r) {
+      if (!(r.abbreviations || []).length || !r.smiles) return false;
+      var len = r.smiles.length;
+      if (len < 40 || len > 200) return false;
+      return (r.abbreviations || []).some(function (l) { return AB_KNOWN.indexOf(l) >= 0; });
+    }).map(function (r) {
+      var named = {};
+      (r.abbreviations || []).forEach(function (l) { if (AB_KNOWN.indexOf(l) >= 0) named[l] = 1; });
+      var rescued = (r.verdict === 'match' || r.verdict === 'stereo')
+        && !(r.raw_verdict === 'match' || r.raw_verdict === 'stereo');
+      return { row: r, rescued: rescued ? 1 : 0, distinct: Object.keys(named).length, len: r.smiles.length };
+    });
+    // Rescued first: a card whose verdict expansion changed is the whole argument.
+    cand.sort(function (a, b) {
+      return (b.rescued - a.rescued) || (b.distinct - a.distinct) || (a.len - b.len);
+    });
+    var out = [], seen = {};
+    cand.forEach(function (c) {
+      if (out.length >= want || seen[c.row.source]) return;
+      seen[c.row.source] = 1; out.push(c.row);
+    });
+    return out;
+  }
+
+  function abbrevExample(r, run) {
+    var urlFor = function (kind, name) { return '/api/benchmark/' + run.id + '/img/' + kind + '/' + encodeURIComponent(name); };
+    var ex = el('div', { class: 'ab-ex' });
+    ex.appendChild(r.segment_image
+      ? el('figure', {}, [el('img', { src: urlFor('segment', r.segment_image), alt: 'the crop the reader was given', loading: 'lazy' }),
+          el('figcaption', { text: 'the crop the reader was given' })])
+      : el('figure', { class: 'none', text: 'no crop stored' }));
+    var side = el('div', {});
+    side.appendChild(smilesPair(r));
+    var doc = r._doc || {};
+    if (r.truth_smiles) {
+      side.appendChild(el('div', { class: 'lab', style: 'margin-top:8px', text: 'reference' }));
+      side.appendChild(el('div', { class: 'smiles', text: r.truth_smiles }));
+    }
+    var rescued = (r.verdict === 'match' || r.verdict === 'stereo')
+      && !(r.raw_verdict === 'match' || r.raw_verdict === 'stereo');
+    side.appendChild(el('p', { class: 'muted small', style: 'margin-top:6px',
+      text: (doc.file ? doc.file + ' · ' : '') + whereText(r)
+        + ' · ' + (r.tier === 'high' ? 'high' : 'low') + ' confidence'
+        + (r.confidence == null ? '' : ' ' + r.confidence.toFixed(1))
+        + ' · ' + (VLABEL[r.verdict] || r.verdict)
+        + (rescued ? ' · ' + (VLABEL[r.raw_verdict] || r.raw_verdict).toLowerCase()
+                     + ' before expansion' : '') }));
+    // The page the crop came off. For an abbreviation this is the evidence that
+    // matters: the figure shows whether the document drew the molecule or drew a
+    // skeleton with the substituents listed underneath it.
+    if (r.figure_image) {
+      var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'the figure this crop came from', loading: 'lazy' })]);
+      // NOT .srcbtn: that class is 122px wide by design and would clip this label.
+      var btn = el('button', { type: 'button', style: 'min-height:38px;font-size:13px;padding:8px 12px;white-space:normal',
+        text: 'show the figure it came from' });
+      btn.addEventListener('click', function () {
+        var closed = src.classList.toggle('hidden');
+        if (!closed && !src.firstChild.getAttribute('src')) src.firstChild.src = urlFor('figure', r.figure_image);
+        btn.textContent = closed ? 'show the figure it came from' : 'hide the figure';
+      });
+      side.appendChild(el('div', { class: 'actions', style: 'margin-top:8px' }, [btn]));
+      side.appendChild(src);
+    }
+    ex.appendChild(side);
+    return ex;
+  }
+
+  // THE EXPANDER'S OWN STEREO GATE, shown rather than asserted. Every expanded figure
+  // on this tab depends on the expansion preserving stereochemistry, and an expander
+  // that does not does NOT raise -- it reports a plausibly lower accuracy, which
+  // looks exactly like the pipeline being worse than it is. So the gate is run and
+  // its cases are printed, including the superseded algorithm's answer beside the
+  // current one. The one case where they differ IS the demonstration.
+  function expanderBlock(d) {
+    var ex = d.expander || {};
+    var cases = (ex.cases || []).filter(function (c) { return c.naive_differs; });
+    var box = el('div', { class: ex.ok ? 'gapnote' : 'caveat' });
+    if (!ex.ok) {
+      box.appendChild(el('div', { html: '<b>Expanded figures are withheld on this deploy.</b> The '
+        + 'expansion is checked against a set of stereochemistry cases before any expanded number is '
+        + 'published, and that check did not pass: ' + esc(ex.reason || 'no reason was reported')
+        + '. A wrong expansion does not fail loudly — it reports a plausibly lower accuracy — so the '
+        + 'figures are withheld rather than shown.' }));
+      return box;
+    }
+    box.appendChild(el('div', { html: '<b>The expansion is checked before any of these numbers are '
+      + 'published.</b> Substituting a group for a labelled placeholder is graph surgery, and the naive '
+      + 'join silently emits the wrong stereoisomer — a valid molecule, a different one. '
+      + (ex.cases || []).length + ' cases are checked against an independent reference with the superseded '
+      + 'algorithm run beside the current one; it disagrees on '
+      + esc(String(ex.naive_disagreements || 0)) + ':' }));
+    cases.slice(0, 2).forEach(function (c) {
+      var blk = el('div', { class: 'pair', style: 'margin-top:10px' });
+      blk.appendChild(el('div', { class: 'lab', html: '<b>' + esc(c.name) + '</b>' }));
+      blk.appendChild(el('div', { class: 'lab', text: 'predicted' }));
+      blk.appendChild(el('div', { class: 'smiles', text: c.cxsmiles }));
+      blk.appendChild(el('div', { class: 'lab', text: 'expanded — stereochemistry preserved'
+        + (c.truth ? ', and equal to the reference from PubChem' : '') }));
+      blk.appendChild(el('div', { class: 'smiles', text: c.expanded }));
+      blk.appendChild(el('div', { class: 'lab', text: 'what the superseded join produced — a different molecule' }));
+      blk.appendChild(el('div', { class: 'smiles was', text: c.naive }));
+      box.appendChild(blk);
+    });
+    box.appendChild(el('p', { class: 'muted small', style: 'margin-top:10px', text: 'One stereo bond each, '
+      + 'and both changed a verdict on this corpus — the shortest demonstration here that a low number can '
+      + 'be an artifact of the comparison rather than a property of the pipeline.' }));
+    return box;
+  }
+
+  // Per document: its own recall denominator, its own drawing style, and what the
+  // naive comparison would have said about it. Style diversity is the point of this
+  // corpus, so the style travels with every row rather than living in page copy.
+  function perDocBlock(run) {
+    var wrap = el('div', {});
+    var rows = (run.pdfs || []).slice().sort(function (a, b) {
+      return pctNum(b.found, b.expected) - pctNum(a.found, a.expected) || (b.expected - a.expected);
+    });
+    var name = function (p) { return (p.file || p.title || '').replace(/\.pdf$/, ''); };
+
+    // One bar per document, sorted by what came back. The drawing style rides on
+    // every bar: a per-document score is a score for a STYLE as much as for a
+    // document, and this corpus was assembled for style diversity.
+    wrap.appendChild(barChart('Per document — each against its own denominator',
+      'Counted against the molecules drawn in THAT document.', rows.map(function (p) {
+        var flipped = (p.found || 0) > (p.raw_found || 0);
+        return { name: name(p), num: p.found, den: p.expected,
+          cls: p.found ? (flipped ? 'hi' : '') : 'bad',
+          sub: String(p.style || '—').split(/[;:(]/)[0].split(',')[0].trim()
+            + (flipped ? ' · ' + p.raw_found + '→' + p.found + ' expanded' : '') };
+      })));
+
+    var flips = rows.filter(function (p) { return (p.found || 0) > (p.raw_found || 0); });
+    var zero = rows.filter(function (p) { return p.expected && !p.found; });
+    var says = [];
+    if (flips.length) {
+      says.push('<b>Expanding abbreviations lifts ' + flips.length + ' of ' + rows.length
+        + ' documents</b> and lowers none.');
+    }
+    if (zero.length) {
+      var hiWrong = 0;
+      zero.forEach(function (p) {
+        (p.structures || []).forEach(function (x) { if (x.tier === 'high') hiWrong++; });
+      });
+      says.push('<b>' + zero.length + ' recovered nothing</b> (red)'
+        + (hiWrong ? ', and ' + hiWrong + ' of what they did emit was filed high confidence' : '') + '.');
+    }
+    if (says.length) wrap.appendChild(el('div', { class: 'gapnote', html: says.join(' ') }));
+
+    // A low score that is partly a property of the DOCUMENT. Keyed on the rows, so
+    // it disappears if no document qualifies rather than going stale into a claim.
+    var markushLed = rows.filter(function (p) {
+      return p.expected >= 3 && p.found < p.expected && (p.structures || []).length
+        && (p.markush || 0) >= 3 && p.found / p.expected < 0.5;
+    }).sort(function (a, b) { return (b.markush || 0) - (a.markush || 0); });
+    if (markushLed.length) {
+      var m = markushLed[0];
+      wrap.appendChild(el('div', { class: 'caveat', html: '<b>The lowest bar is partly the document.</b> '
+        + '<code>' + esc(m.file) + '</code> draws a Markush panel: ' + (m.markush || 0) + ' of its '
+        + (m.structures || []).length + ' structures carry a variable nothing can expand, so the bar '
+        + 'is a floor.' }));
+    }
+
+    // The full table, for anyone who wants the counts rather than the shape.
+    var tbl = el('table', { class: 'xtab' });
+    tbl.appendChild(el('thead', {}, [el('tr', {}, [
+      el('th', { class: 'rh', text: 'Document' }), el('th', { text: 'drawn' }),
+      el('th', { text: 'as predicted' }), el('th', { text: 'expanded' }),
+      el('th', { text: 'recall' }), el('th', { text: 'emitted' }), el('th', { text: 'abbrev.' }),
+      el('th', { text: 'high' }), el('th', { text: 'low' })])]));
+    var body = el('tbody', {});
+    rows.forEach(function (p) {
+      var hi = 0, lo = 0;
+      (p.structures || []).forEach(function (x) { if (x.tier === 'high') hi++; else lo++; });
+      var flipped = (p.found || 0) > (p.raw_found || 0);
+      body.appendChild(el('tr', { class: p.found ? (flipped ? 'flip' : '') : 'zero' }, [
+        el('td', { class: 'rh doc' }, [el('code', { text: p.file || p.title })]),
+        el('td', { text: String(p.expected) }),
+        el('td', { text: (p.raw_found || 0) + ' of ' + p.expected }),
+        el('td', { text: (flipped ? '→ ' : '') + p.found + ' of ' + p.expected }),
+        el('td', { class: 'big', text: pctText(p.found, p.expected) }),
+        el('td', { text: String((p.structures || []).length) }),
+        el('td', { text: String(p.abbrev || 0) }),
+        el('td', { text: String(hi) }), el('td', { text: String(lo) })]));
+    });
+    tbl.appendChild(body);
+    wrap.appendChild(fold('The same rows as a table', 'counts, not shape',
+      el('div', { class: 'xwrap' }, [tbl])));
+    return wrap;
+  }
+
+  // Where the inputs are. A benchmark whose corpus nobody else can fetch is an anecdote.
+  function corpusBlock(d) {
+    var box = el('div', { class: 'gapnote' });
+    box.appendChild(el('span', { html: '<b>Inputs committed:</b> <code>'
+      + esc(d.corpus_path || 'benchmarks/corpus') + '</code>, with <code>SHA256SUMS</code>.' }));
+    if (d.corpus_url) {
+      box.appendChild(el('div', { class: 'actions', style: 'margin-top:10px' }, [
+        el('a', { class: 'btn', href: d.corpus_url, target: '_blank', rel: 'noopener noreferrer',
+          text: 'Browse the corpus' })]));
+    }
+    return box;
+  }
+
+  function esc(t) { var n = document.createElement('span'); n.textContent = t == null ? '' : t; return n.innerHTML; }
+
+  // The gap between the two headline numbers, explained with rows out of this run.
+  function gapBlock(run, rows) {
+    var t = run.tally, n = t.structures - t.unassigned;
+    var box = el('div', { class: 'gapnote' });
+    if (!t.phantom || !t.rescued) {
+      box.appendChild(el('span', { html: '<b>The two bars above agree on this corpus.</b> ' + t.phantom
+        + ' of ' + n + ' predictions carry a disconnected extra fragment and stripping them rescues '
+        + t.rescued + '. The artifact needs small images; it is not evidence these predictions are clean.' }));
+      return box;
+    }
+    box.appendChild(el('div', { html: '<b>The gap is one artifact, not a scoring trick.</b> ' + t.phantom
+      + ' of ' + n + ' predictions (' + pctText(t.phantom, n) + ') carry phantom <i>disconnected</i> atoms '
+      + 'on a core that is otherwise right — almost all <code>I</code> or <code>[HH]</code>, the signature '
+      + 'of a small heteroatom label read as an unbonded atom. Stripping them rescues ' + t.rescued
+      + '. The strict number is not pessimism (the string really is unusable as written) and the fragment '
+      + 'number is not flattery (the molecule really was recognised).' }));
+    var worst = rows.filter(function (r) { return r.fragments > 1 && (r.frag_verdict === 'match' || r.frag_verdict === 'stereo'); })
+      .sort(function (a, b) { return b.fragments - a.fragments; });
+    var picks = [];
+    if (worst.length) picks.push(worst[0]);
+    var small = worst.slice().sort(function (a, b) { return (a.smiles || '').length - (b.smiles || '').length; });
+    if (small.length && small[0] !== picks[0]) picks.push(small[0]);
+    picks.forEach(function (r) {
+      box.appendChild(el('div', { style: 'margin-top:8px' }, [
+        el('div', { class: 'muted small', text: (r.matched_key || r.frag_matched_key || r.source) + ' — '
+          + r.fragments + ' fragments, ' + (r.phantom || 'none') + ' discarded' }),
+        el('div', { class: 'smiles', text: r.smiles })
+      ]));
+    });
+    return box;
+  }
+
+  function crosstab(t, run) {
+    var wrap = el('div', {});
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Does the confidence score tell you anything here?' }));
+    if (precisionOff(run)) {
+      wrap.appendChild(el('p', { class: 'muted small', text: 'Tier against tier, not an accuracy: '
+        + '"wrong" includes compounds nobody recorded an answer for.' }));
+    }
+    var hi = t.crosstab.high, lo = t.crosstab.low;
+    var rows = [
+      { name: 'high confidence — largest fragment', num: hi.frag_match + hi.frag_stereo, den: hi.n, cls: 'hi' },
+      { name: 'low confidence — largest fragment', num: lo.frag_match + lo.frag_stereo, den: lo.n, cls: 'warn' },
+      { name: 'high confidence — whole string', num: hi.match + hi.stereo, den: hi.n },
+      { name: 'low confidence — whole string', num: lo.match + lo.stereo, den: lo.n }
+    ];
+    wrap.appendChild(barChart('', 'Correct = exact, or exact ignoring stereochemistry.', rows));
+    var hiRight = hi.frag_match + hi.frag_stereo, loRight = lo.frag_match + lo.frag_stereo;
+    var useful = hi.n && lo.n && (hiRight / hi.n) - (loRight / lo.n) >= 0.1;
+    wrap.appendChild(el('div', { class: 'gapnote', html: (useful
+      ? '<b>Worth using here</b> — work the high tier first.'
+      : '<b>Close to useless here</b> — sorting by it would not find the errors.')
+      + ' Not a correctness check.' }));
+    if (t.conf_right && t.conf_wrong) {
+      wrap.appendChild(rangeChart('Where the score actually lands',
+        'Right against wrong. The white line is the tier threshold.', [
+          { name: 'turned out right', min: t.conf_right.min, max: t.conf_right.max, mean: t.conf_right.mean,
+            n: t.conf_right.n, colour: 'var(--high)' },
+          { name: 'turned out wrong', min: t.conf_wrong.min, max: t.conf_wrong.max, mean: t.conf_wrong.mean,
+            n: t.conf_wrong.n, colour: 'var(--bad)' }
+        ], THRESHOLD));
+      wrap.appendChild(el('p', { class: 'muted small', text: t.conf_wrong.max >= t.conf_right.min
+        ? 'The ranges overlap: no threshold separates them cleanly.'
+        : 'The ranges do not overlap in this run.' }));
+    }
+    return wrap;
+  }
+
+  var FILTERS = [
+    { key: 'all', label: 'All', fn: function () { return true; } },
+    { key: 'phantom', label: 'Phantom fragments', fn: function (r) { return r.fragments > 1; } },
+    { key: 'rescued', label: 'Rescued by stripping them', fn: function (r) {
+        return (r.frag_verdict === 'match' || r.frag_verdict === 'stereo') && r.verdict !== 'match' && r.verdict !== 'stereo'; } },
+    { key: 'hiwrong', label: 'High confidence, wrong molecule', fn: function (r) {
+        return r.tier === 'high' && r.frag_verdict !== 'match' && r.frag_verdict !== 'stereo'; } },
+    { key: 'abbrev', label: 'Carries an abbreviation', fn: function (r) { return (r.abbreviations || []).length > 0; } },
+    { key: 'expfix', label: 'Matched only once expanded', fn: function (r) {
+        return (r.verdict === 'match' || r.verdict === 'stereo')
+          && !(r.raw_verdict === 'match' || r.raw_verdict === 'stereo'); } },
+    { key: 'markush', label: 'Markush — no single molecule', fn: function (r) { return (r.markush || []).length > 0; } },
+    { key: 'exact', label: 'Right, whole string', fn: function (r) { return r.verdict === 'match'; } },
+    { key: 'invalid', label: 'Unreadable', fn: function (r) { return r.frag_verdict === 'invalid'; } }
+  ];
+  // Rows in the browsable per-structure list. 24 opened about 13 000 px of card on a
+  // phone before the reader had asked for any of it; "show more" is one tap.
+  var PAGE = 3;
+
+  function benchRun(run, d) {
+    var t = run.tally, m = run.meta || {}, wrap = el('div', {});
+    // Headline first, corpus label glued to it, methodology directly under. The
+    // numbers are the point of the page and a wall of method above them buries it;
+    // but a number with no corpus attached is not a fact, so the corpus comes too.
+    // With more than one run stored the picker directly above already carries this
+    // title on its active button; printing it again is the same string twice.
+    if (m.title && (d.runs || []).length < 2) wrap.appendChild(el('h3', { class: 'tier', text: m.title }));
+    // The pipeline chain is in the footer, so the stages line drops its first
+    // sentence when that sentence is just the chain again.
+    var stg = String(m.stages || '');
+    if (stg.length > 60) stg = stg.replace(/^[^.]*\.\s*/, '');
+    if (m.corpus) wrap.appendChild(el('p', { class: 'muted small', text: 'Corpus: ' + m.corpus
+      + (stg ? ' · ' + stg : '') }));
+
+    // flatten every scored structure, keeping its document for the label lookups
+    var rows = [];
+    run.pdfs.forEach(function (p) { p.structures.forEach(function (s) { rows.push(withDoc(s, p)); }); });
+    // Filled in below, once the filter buttons exist; the abbreviation block links into them.
+    var jumpToFilter = function () {};
+    var jump = function (key) { jumpToFilter(key); };
+
+    // On a corpus with PARTIAL ground truth the two precision numbers are not the
+    // headline -- they would measure the manifest's coverage. Recall is, and the
+    // missing percentage is stated where a reader looks for it rather than omitted.
+    if (precisionOff(run)) {
+      wrap.appendChild(recallHead(run));
+      wrap.appendChild(noPrecisionBlock(run));
+      var lb = ladderBlock(run);
+      if (lb) wrap.appendChild(lb);
+      wrap.appendChild(fold('Is the abbreviation expansion itself trustworthy?',
+        'the stereochemistry gate, and what it caught', expanderBlock(d)));
+      var ab = abbrevBlock(run, rows, jump);
+      if (ab) wrap.appendChild(ab);
+      // gapBlock is deliberately NOT called here. It exists to explain the gap
+      // between a whole-string and a largest-fragment score, and on this corpus the
+      // ladder above has already shown that gap to be zero and said so with the
+      // control row. Printing both would be the same fact twice, in two voices.
+    } else {
+      wrap.appendChild(headline(t));
+      wrap.appendChild(gapBlock(run, rows));
+    }
+
+    wrap.appendChild(el('p', { class: 'muted small', html: 'RDKit canonical SMILES on both sides, '
+      + 'with and without stereochemistry.' }));
+    wrap.appendChild(fold('What was measured, exactly', 'corpus, stages, scoring, hardware',
+      metaBlock(run)));
+
+    var tiles = [
+      [t.structures, 'structures emitted'], [t.documents, t.documents === 1 ? 'document' : 'documents'],
+      [t.found + ' / ' + t.expected, 'recovered, abbreviations expanded'],
+      [t.rung_found.raw + ' / ' + t.expected, 'recovered without expanding — the naive figure'],
+      [t.invalid, 'predictions RDKit cannot parse'],
+      [t.phantom, 'carry phantom fragments'],
+      [t.high_wrong + ' / ' + t.high, 'high confidence, yet wrong', true],
+      [t.low_right + ' / ' + t.low, 'low confidence, yet right']
+    ];
+    var tally = el('div', { class: 'tally' });
+    tiles.forEach(function (x) { tally.appendChild(el('div', { class: x[2] ? 'hot' : '' }, [
+      el('div', { class: 'v', text: String(x[0]) }), el('div', { class: 'l', title: x[1], text: x[1] })])); });
+    wrap.appendChild(el('h3', { class: 'tier', text: 'Counts' }));
+    wrap.appendChild(tally);
+    wrap.appendChild(el('p', { class: 'muted small', text: (t.unassigned
+      ? t.unassigned + ' unassigned structures are excluded. ' : '')
+      + (precisionOff(run) ? '"High confidence, yet wrong" counts emitted structures: a floor, not an '
+         + 'error rate.' : '') }));
+
+    if (precisionOff(run)) wrap.appendChild(perDocBlock(run));
+    wrap.appendChild(corpusBlock(d));
+    wrap.appendChild(crosstab(t, run));
+
+    // ---- browsable per-molecule table. Closed on arrival: it is a browser, not a
+    // finding, and open it added several screens of text nobody had asked for yet.
+    var browse = el('div', {});
+    var filters = el('div', { class: 'filters' });
+    var list = el('div', {});
+    var count = el('p', { class: 'muted small' });
+    var search = el('input', { type: 'search', placeholder: 'filter by molecule or file name',
+      style: 'width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);margin-bottom:10px' });
+    var active = 'all', shown = PAGE;
+    var urlFor = function (kind, name) { return '/api/benchmark/' + run.id + '/img/' + kind + '/' + encodeURIComponent(name); };
+
+    function matching() {
+      var f = FILTERS.filter(function (x) { return x.key === active; })[0].fn;
+      var q = (search.value || '').trim().toLowerCase();
+      return rows.filter(function (r) {
+        if (!f(r)) return false;
+        if (!q) return true;
+        return ((r.matched_key || '') + ' ' + (r.frag_matched_key || '') + ' ' + (r.closest_key || '') + ' '
+          + r.source + ' ' + (r._doc.title || '')).toLowerCase().indexOf(q) >= 0;
+      });
+    }
+    function paint() {
+      var hits = matching();
+      list.innerHTML = '';
+      hits.slice(0, shown).forEach(function (r) { list.appendChild(benchRow(r, urlFor)); });
+      count.textContent = hits.length + (hits.length === 1 ? ' structure' : ' structures')
+        + (hits.length > shown ? ' — showing the first ' + shown : '') + '.';
+      if (hits.length > shown) {
+        var more = el('button', { class: 'more', type: 'button', text: 'Show ' + Math.min(PAGE, hits.length - shown) + ' more' });
+        more.addEventListener('click', function () { shown += PAGE; paint(); });
+        list.appendChild(more);
+      }
+      if (!hits.length) list.appendChild(el('p', { class: 'empty', text: 'Nothing matches that filter — which for some of these filters is the good outcome.' }));
+    }
+    FILTERS.forEach(function (f) {
+      var hits = rows.filter(f.fn).length;
+      var b = el('button', { type: 'button', class: f.key === active ? 'active' : '', text: f.label + ' (' + hits + ')' });
+      b.addEventListener('click', function () {
+        active = f.key; shown = PAGE;
+        filters.querySelectorAll('button').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active'); paint();
+      });
+      filters.appendChild(b);
+    });
+    // Now the buttons exist, the R-group block's "show all of them" can drive them.
+    jumpToFilter = function (key) {
+      var btn = null;
+      FILTERS.forEach(function (f, i) { if (f.key === key) btn = filters.children[i]; });
+      // The list lives in a closed <details>; open it before scrolling, or the jump
+      // lands on a summary line and the rows it promised are not there.
+      if (btn) { browseFold.open = true; btn.click(); btn.scrollIntoView({ block: 'center' }); }
+    };
+    search.addEventListener('input', function () { shown = PAGE; paint(); });
+    browse.appendChild(filters); browse.appendChild(search); browse.appendChild(count); browse.appendChild(list);
+    var browseFold = fold('Every structure, one row each', rows.length + ' rows', browse);
+    wrap.appendChild(browseFold);
+    paint();
+
+    // ---- documents whose expected molecules were never recovered
+    var missed = run.pdfs.filter(function (p) { return p.missing && p.missing.length; });
+    if (missed.length) {
+      wrap.appendChild(el('h3', { class: 'tier', text: 'Drawn, never recovered' }));
+      wrap.appendChild(el('p', { class: 'muted small', text: 'Nothing emitted matched these.' }));
+      var ex = el('div', { class: 'expect' });
+      missed.forEach(function (p) {
+        p.missing.forEach(function (m) { ex.appendChild(el('span', { class: 'chip bad', text: m.label })); });
+      });
+      wrap.appendChild(ex);
+    }
+
+    if (run.unassigned && run.unassigned.length) {
+      var sec2 = el('div', { class: 'pdf' });
+      sec2.appendChild(el('h3', {}, [el('span', { text: 'Shown, not scored' }),
+        el('span', { class: 'muted small', text: run.unassigned.length + ' structures with no molecule-level ground truth' })]));
+      run.unassigned.slice(0, PAGE).forEach(function (s) { sec2.appendChild(benchRow(withDoc(s, null), urlFor)); });
+      if (run.unassigned.length > PAGE) sec2.appendChild(el('p', { class: 'muted small', text: 'and ' + (run.unassigned.length - PAGE) + ' more.' }));
+      wrap.appendChild(sec2);
+    }
+    return wrap;
+  }
+  function withDoc(s, p) { var r = {}; Object.keys(s).forEach(function (k) { r[k] = s[k]; }); r._doc = p || {}; return r; }
+
+  var VLABEL = { match: 'exact match', stereo: 'match except stereochemistry', wrong: 'wrong molecule',
+                 invalid: 'unreadable SMILES', unassigned: 'no ground truth' };
+
+  function benchRow(s, urlFor) {
+    var p = s._doc || {};
+    var row = el('div', { class: 'bench-row ' + s.frag_verdict });
+    var imgs = el('div', { class: 'imgs' });
+    imgs.appendChild(s.segment_image
+      ? el('figure', {}, [el('img', { src: urlFor('segment', s.segment_image), alt: 'the image stage 3 was given', loading: 'lazy' }),
+          el('figcaption', { text: 'input to the reader' })])
+      : el('figure', { class: 'none', text: 'no input image stored' }));
+    imgs.appendChild(s.rendered_image
+      ? el('figure', {}, [el('img', { src: urlFor('render', s.rendered_image), alt: 'the predicted SMILES, drawn', loading: 'lazy' }),
+          el('figcaption', { text: 'prediction, drawn' })])
+      : el('figure', { class: 'none', text: s.valid ? 'could not be drawn' : 'nothing readable' }));
+    row.appendChild(imgs);
+
+    var right = el('div', { class: 'pair' });
+    var pct = s.confidence == null ? null : Math.max(0, Math.min(1, s.confidence));
+    right.appendChild(el('div', { class: 'verdict-line' }, [
+      el('span', { class: 'badge ' + s.verdict, text: 'whole string: ' + (VLABEL[s.verdict] || s.verdict) }),
+      el('span', { class: 'badge ' + s.frag_verdict, text: 'largest fragment: ' + (VLABEL[s.frag_verdict] || s.frag_verdict) })
+    ]));
+    right.appendChild(el('div', { class: 'verdict-line' }, [
+      el('span', { class: 'badge tier ' + s.tier, text: s.tier === 'high' ? 'high confidence' : 'low confidence' }),
+      el('span', { class: 'conf', style: '--thr:' + (THRESHOLD * 100) + '%' }, [el('i', { style: 'width:' + (pct == null ? 0 : pct * 100) + '%' })]),
+      el('span', { class: 'pct', text: pct == null ? '—' : pct.toFixed(3) }),
+      el('span', { class: 'where', text: (s.matched_key || s.frag_matched_key || labelFor(p, s.closest_key) || s.source) })
+    ]));
+    if (s.fragments > 1) {
+      right.appendChild(el('div', {}, [el('label', { text: s.fragments + ' fragments — discarded' }),
+        el('div', { class: 'phantom', text: s.phantom || '(none)' })]));
+    }
+    // The prediction and its expansion, on the row itself. Without the pair a reader
+    // scrolling the table counts every "wrong molecule" badge as a misreading, and on
+    // this corpus most of them were the comparison rather than the reading.
+    right.appendChild(el('div', {}, [
+      el('label', { text: (s.abbreviations || []).length ? 'predicted (CXSMILES)' : 'predicted' }),
+      el('div', { class: 'smiles' + (s.valid ? '' : ' empty'), text: s.cxsmiles || s.smiles || 'nothing readable' })]));
+    if ((s.abbreviations || []).length) {
+      var expRow = [el('label', { text: s.expanded ? 'expanded' : 'not expanded' }),
+        el('div', { class: 'smiles' + (s.expanded ? '' : ' empty'),
+          text: s.expanded || 'no expansion exists' }),
+        el('div', { class: 'chips', style: 'margin-top:6px' }, (s.abbreviations || []).slice(0, 8)
+          .map(function (x) {
+            var cls = (s.markush || []).indexOf(x) >= 0 ? 'markush'
+                    : (s.missing || []).indexOf(x) >= 0 ? 'missing' : 'kept';
+            return el('span', { class: 'chip ' + cls, text: x });
+          }))];
+      var rawRight = s.raw_verdict === 'match' || s.raw_verdict === 'stereo';
+      var nowRight = s.verdict === 'match' || s.verdict === 'stereo';
+      if (s.raw_verdict && nowRight && !rawRight) {
+        expRow.push(el('div', { class: 'muted small', style: 'margin-top:6px',
+          text: 'as predicted: ' + (VLABEL[s.raw_verdict] || s.raw_verdict).toLowerCase() }));
+      }
+      right.appendChild(el('div', {}, expRow));
+    }
+    if (s.fragments > 1 && s.pred_largest) {
+      right.appendChild(el('div', {}, [el('label', { text: 'largest fragment' }),
+        el('div', { class: 'smiles', text: s.pred_largest })]));
+    }
+    if (s.truth_smiles) {
+      right.appendChild(el('div', {}, [el('label', { text: 'true — ' + (labelFor(p, s.matched_key || s.frag_matched_key) || 'from the manifest') }),
+        el('div', { class: 'smiles', text: s.truth_smiles })]));
+    } else if (p.molecules && p.molecules.length && s.verdict !== 'unassigned') {
+      right.appendChild(el('div', {}, [el('label', { text: 'compared against' }),
+        el('div', { class: 'muted small', text: p.molecules.map(function (m) { return m.label; }).join(', ') })]));
+    }
+    if (s.closest_key && s.frag_verdict === 'wrong') {
+      right.appendChild(el('div', { class: 'muted small', text: 'nearest in document: '
+        + labelFor(p, s.closest_key) + (s.closest_tanimoto != null ? ' (Tanimoto ' + Number(s.closest_tanimoto).toFixed(2) + ')' : '') }));
+    }
+    if (s.figure_image) {
+      var src = el('div', { class: 'source hidden' }, [el('img', { alt: 'source figure', loading: 'lazy' })]);
+      var btn = el('button', { class: 'srcbtn', type: 'button', text: 'source figure' });
+      btn.addEventListener('click', function () {
+        var open = src.classList.toggle('hidden');
+        if (!open && !src.firstChild.getAttribute('src')) src.firstChild.src = urlFor('figure', s.figure_image);
+        btn.textContent = open ? 'source figure' : 'hide source';
+      });
+      right.appendChild(el('div', { class: 'actions' }, [btn])); right.appendChild(src);
+    }
+    row.appendChild(right);
+    return row;
+  }
+  function labelFor(p, key) {
+    if (!key) return '';
+    if (!p || !p.molecules) return key;
+    var m = p.molecules.filter(function (x) { return x.key === key; })[0];
+    return m ? m.label : key;
+  }
+
+  // ---- ringleader
+  //
+  // The 743-image molecules_realworld corpus. The Benchmark tab's 97-image run is a
+  // stride sample of EXACTLY this corpus, so this tab reads the same run rather than
+  // measuring anything again: two tabs quoting two independently-derived accuracies
+  // for the same images would eventually disagree, and the disagreement would be
+  // invisible. What this tab adds is the sampling arithmetic and the coverage.
+  function loadRingleader() {
+    var box = $('ring');
+    if (benchData) { paintRingleader(); return; }
+    box.innerHTML = '<p class="empty">Loading…</p>';
+    api('/api/benchmark').then(function (d) { benchData = d; paintRingleader(); })
+      .catch(function (err) { box.innerHTML = ''; box.appendChild(el('p', { class: 'empty', text: 'Could not load it: ' + err.message })); });
+  }
+
+  function paintRingleader() {
+    var d = benchData, box = $('ring');
+    box.innerHTML = '';
+    box.appendChild(el('h2', { text: 'The molecules_realworld corpus' }));
+    var c = (d.corpora || {}).images;
+    // The upscaled subset also carries corpus_key 'images'; this tab is about the
+    // whole stride sample, so take the best-ranked images run rather than the last one.
+    var idx = -1, best = 1e9;
+    (d.runs || []).forEach(function (r, i) {
+      if (!r.meta || r.meta.corpus_key !== 'images') return;
+      var rank = Number(r.meta.rank) || 99;
+      if (rank < best) { best = rank; idx = i; }
+    });
+    if (!c || idx < 0) {
+      box.appendChild(el('p', { class: 'empty', text: 'The single-molecule corpus manifest or its run is not installed on this server, so there is nothing to report. This tab does not estimate.' }));
+      return;
+    }
+    var run = d.runs[idx], t = run.tally;
+    var eligible = c.population_size, all = c.images_dir_file_count, sample = c.sample_size;
+    var blank = c.files_with_empty_smiles;
+
+    box.appendChild(el('p', { class: 'note', text: all + ' single-molecule PNG depictions, one compound per '
+      + 'file — the source of the 97-image benchmark.' }));
+
+    box.appendChild(el('h3', { class: 'tier', text: 'How the 97 were chosen' }));
+    var steps = el('div', { class: 'tally' });
+    [[all, 'PNG files in the corpus'], [blank, 'have no SMILES — not scorable'],
+     [eligible, 'eligible: a file and an answer'], ['every ' + c.step + 'th', 'taken from index ' + c.offset],
+     [sample, 'in the benchmark sample'], [c.pubchem_verified + ' / ' + sample, 'pixel-verified against PubChem']
+    ].forEach(function (x) {
+      steps.appendChild(el('div', {}, [el('div', { class: 'v', text: String(x[0]) }), el('div', { class: 'l', title: x[1], text: x[1] })]));
+    });
+    box.appendChild(steps);
+    box.appendChild(el('p', { class: 'muted small', text: 'A fixed stride, not a random draw: reproducible, '
+      + 'but not a random sample, so the figures below carry no error bar.'
+      + (c.unverified && c.unverified.length ? ' ' + c.unverified.length + ' of ' + sample
+         + ' are unverified against PubChem (' + c.unverified.join(', ') + ').' : '') }));
+
+    box.appendChild(el('h3', { class: 'tier', text: 'Result on the sample' }));
+    box.appendChild(headline(t));
+    box.appendChild(el('div', { class: 'gapnote', html: '<b>The same stored run as the Benchmark tab</b>, not a '
+      + 'second measurement.' }));
+    var go = el('button', { type: 'button', text: 'Open it in Benchmark' });
+    go.addEventListener('click', function () { benchPick = idx; showTab('benchmark'); });
+    box.appendChild(el('div', { class: 'actions' }, [go]));
+
+    box.appendChild(el('h3', { class: 'tier', text: 'What has not been measured' }));
+    var notRun = eligible - sample;
+    var per = Number(run.meta && run.meta.seconds) / (t.structures || 1);
+    var line = notRun + ' of the ' + eligible + ' eligible images have never been run — '
+      + (100 * notRun / eligible).toFixed(0) + '% of the corpus. ';
+    if (isFinite(per) && per > 0) {
+      line += t.structures + ' images took ' + Math.round(Number(run.meta.seconds)) + ' s of CPU ('
+        + per.toFixed(1) + ' s each); the other ' + notRun + ' would be about '
+        + Math.round(per * notRun / 60) + ' minutes.';
+    } else {
+      line += 'Nothing here describes them.';
+    }
+    box.appendChild(el('p', { class: 'note', text: line }));
+    var bar = el('div', { class: 'conf', style: '--thr:100%;height:14px;margin:10px 0' },
+      [el('i', { style: 'width:' + (100 * sample / eligible).toFixed(1) + '%;background:var(--accent)' })]);
+    box.appendChild(bar);
+    box.appendChild(el('p', { class: 'muted small', text: 'Coverage: ' + sample + ' of ' + eligible
+      + ' eligible images measured (' + (100 * sample / eligible).toFixed(1) + '%).' }));
+    box.appendChild(el('p', { class: 'muted small', text: 'Isolated computer-drawn depictions, stage 3 only: '
+      + 'this measures the SMILES reader, not the pipeline.' }));
+  }
+
+  // ---- boot
+  api('/api/limits').then(function (l) {
+    limits = l; THRESHOLD = l.threshold || THRESHOLD;
+    $('limits-line').textContent = 'PDF up to ' + l.max_mb + ' MB and ' + l.max_pages + ' pages · PNG, JPEG, TIFF, WebP or BMP up to ' + l.max_mb + ' MB';
+    $('version').textContent = 'v' + l.version;
+    if (!l.sample) $('sample').classList.add('hidden');
+  }).catch(function () {});
+  var params = new URLSearchParams(location.search);
+  if (params.get('job')) {
+    currentJob = params.get('job');
+    $('upload-card').classList.add('hidden'); $('progress-card').classList.remove('hidden');
+    showTab('extract', false); startPolling();
+  } else if (params.get('tab') === 'gallery' && params.get('run')) {
+    showTab('gallery', false); openRun(params.get('run'));
+  } else if (tabs.indexOf(params.get('tab')) > 0) {
+    showTab(params.get('tab'), false);
+  }
+})();
+</script>
+</body>
+</html>
