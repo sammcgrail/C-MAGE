@@ -80,6 +80,22 @@ main{max-width:1400px;margin:0 auto;
 .stack i{display:block;height:100%;position:relative;min-width:2px}
 .stack i span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:700;color:#06090d}
+.o-exact{background:var(--exact)} .o-stereo{background:var(--stereo)}
+.o-wrong{background:var(--wrong)} .o-invalid{background:var(--invalid)}
+.o-notruth{background:#3d4450}
+/* One labelled bar per secondary measure, so a number and what it is are never
+   more than a line apart. */
+.mbar{margin-bottom:11px}
+.mbar .lbl{display:flex;justify-content:space-between;gap:6px 10px;color:var(--dim);
+  font-size:12.5px;margin-bottom:4px;flex-wrap:wrap}
+.mbar .lbl>span{min-width:0}
+/* nowrap on the VALUE only. A long label plus a nowrap value on one flex line
+   cannot fit 320px, and the pair pushed the whole document 54px wide. The label
+   wraps; the number never splits across lines. */
+.mbar .lbl b{color:var(--ink);font-weight:700;white-space:nowrap;margin-left:auto}
+.mbar .track{height:9px;background:var(--panel);border:1px solid var(--line);overflow:hidden}
+.mbar .track i{display:block;height:100%;background:var(--acc);min-width:2px}
+.mbar.good .track i{background:var(--exact)}
 .o-both{background:var(--exact)} .o-sonnet{background:var(--acc)}
 .o-cxms{background:var(--stereo)} .o-neither{background:var(--wrong)}
 .key{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:14px}
@@ -473,6 +489,21 @@ function docsStrip(){
   return wrap;
 }
 
+/* Shared by all three tabs so they read the same way. Segment order is fixed by
+   the payload, never sorted by size -- a bar that reorders itself between builds
+   cannot be compared with the one you looked at yesterday. */
+function stackOf(parts, total){
+  if (!parts || !parts.length || !total) return "";
+  return '<div class="stack">' + parts.map(function(x){
+      return x.n ? '<i class="o-' + x.key + '" style="width:' + (x.n / total * 100)
+        + '%" title="' + esc(x.label) + ': ' + x.n + '">'
+        + (x.n / total > 0.07 ? '<span>' + x.n + '</span>' : '') + '</i>' : '';
+    }).join("") + '</div>'
+    + '<div class="key">' + parts.map(function(x){
+      return '<b><i class="o-' + x.key + '"></i>' + esc(x.label) + ' <u>' + x.n + '</u></b>';
+    }).join("") + '</div>';
+}
+
 function render(){
   var v = $("#view");
   v.innerHTML = "";
@@ -494,22 +525,24 @@ function render(){
           + '<div class="of">' + x.exact + ' of ' + c.n + ' exactly right</div>'
           + '<div class="track"><i style="width:' + x.pct + '%"></i></div></div>';
       }).join("") + '</div>'
-      + (c.breakdown ? '<div class="stack">' + c.breakdown.map(function(x){
-          return x.n ? '<i class="o-' + x.key + '" style="width:'
-            + (x.n / c.n * 100) + '%" title="' + esc(x.label) + ': ' + x.n + '">'
-            + (x.n / c.n > 0.07 ? '<span>' + x.n + '</span>' : '') + '</i>' : '';
-        }).join("") + '</div>'
-        + '<div class="key">' + c.breakdown.map(function(x){
-          return '<b><i class="o-' + x.key + '"></i>' + esc(x.label)
-            + ' <u>' + x.n + '</u></b>';
-        }).join("") + '</div>' : '')
+      + stackOf(c.breakdown, c.n)
       + '<div class="prog"><div class="lbl"><span>Read so far</span><span>'
       + c.n + ' of ' + c.corpus + '</span></div><div class="track"><i style="width:'
       + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'
       + '<div class="sub">' + esc(DATA.headline) + '</div>';
   } else {
+    /* Same visual language as the Sonnet tab: one headline number, a stacked bar
+       of where every structure landed, then one labelled bar per secondary
+       measure. What used to be three sentences of prose is now the bars. */
     hero.innerHTML = '<div class="big">' + s.strict_pct + '%<small>'
       + esc(DATA.heroLabel || ("of " + s.n + " structures exactly right")) + '</small></div>'
+      + stackOf(DATA.breakdown, (DATA.breakdown || []).reduce(function(a, x){ return a + x.n; }, 0))
+      + (DATA.bars || []).map(function(x){
+          return '<div class="mbar' + (x.good ? ' good' : '') + '">'
+            + '<div class="lbl"><span>' + esc(x.label) + '</span><b>' + x.pct + '% <span style="color:var(--dim);font-weight:400">'
+            + esc(x.text) + '</span></b></div>'
+            + '<div class="track"><i style="width:' + Math.min(100, x.pct) + '%"></i></div></div>';
+        }).join("")
       + '<div class="sub">' + esc(DATA.headline) + '</div>';
   }
   v.appendChild(hero);

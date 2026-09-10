@@ -257,6 +257,26 @@ def build_images() -> dict:
     return {"arm": "RDKit 1500", "rows": rows}
 
 
+def verdict_breakdown(rows: list[dict]) -> list[dict]:
+    """The four scoring outcomes as a stacked bar, in a fixed order.
+
+    Sorted by MEANING, never by size: exact, then right-skeleton, then wrong, then
+    unreadable. A bar re-ordered by whichever bucket happens to be largest changes
+    shape between builds and stops being comparable with the last one you looked
+    at."""
+    order = [("exact", "Exact", lambda r: r["v"] == "exact"),
+             ("stereo", "Stereo only", lambda r: r["v"] == "stereo"),
+             ("wrong", "Wrong", lambda r: r["v"] == "wrong"),
+             ("invalid", "Unparseable", lambda r: r["v"] == "invalid"),
+             ("notruth", "No ground truth", lambda r: r["v"] == "no-truth")]
+    out = []
+    for key, label, test in order:
+        n = sum(1 for r in rows if test(r))
+        if n:
+            out.append({"key": key, "label": label, "n": n})
+    return out
+
+
 def stats(rows: list[dict], threshold: int = 84) -> dict:
     n = len(rows)
     ex = sum(1 for r in rows if r["v"] == "exact")
@@ -332,6 +352,23 @@ def build_pdfs() -> dict:
 THRESHOLD = 0.8431          # the published confidence cut, not a round number
 
 
+def _check_rounded(d: dict, path: str = "") -> None:
+    """Refuse to publish a percentage with float noise in it.
+
+    13.4790175981434916% reached the page. It is not wrong, it just reads as a
+    machine leaking instead of a measurement, and no reviewer will catch every
+    one by eye.
+    """
+    if isinstance(d, dict):
+        for k, v in d.items():
+            if k in ("pct", "strict_pct", "graded_pct", "high_pct") and isinstance(v, float):
+                assert round(v, 1) == v, f"unrounded percentage at {path}.{k}: {v}"
+            _check_rounded(v, f"{path}.{k}")
+    elif isinstance(d, list):
+        for i, v in enumerate(d):
+            _check_rounded(v, f"{path}[{i}]")
+
+
 def write(name: str, d: dict) -> None:
     # Do not clobber stats a caller already set. The PDF tab replaces the
     # accuracy denominator with a recall one on purpose, and an unconditional
@@ -342,6 +379,7 @@ def write(name: str, d: dict) -> None:
     sys.path.insert(0, "/root/C-MAGE/tools")
     from wall_arms import build as arms_build
     d["arms"], d["armsNote"] = arms_build(THRESHOLD)
+    _check_rounded(d, name)
     json.dump(d, open(WALL / f"{name}.json", "w"), separators=(",", ":"))
     print(f"  payload {os.path.getsize(WALL / (name + '.json'))/1e6:.2f} MB  {json.dumps(d['stats'])}")
 
@@ -354,11 +392,14 @@ if __name__ == "__main__":
         s = stats(d["rows"], threshold=round(THRESHOLD * 100))
         d["dir"] = "img"
         d["heroLabel"] = f"of {s['n']} structures exactly right"
-        d["headline"] = (
-            f"{s['graded_pct']}% right if a tautomer or salt may differ. "
-            f"Of the {s['high']} the model marked high-confidence, {s['high_pct']}% are exact. "
-            f"Input is RDKit's own 1500 px layout — the best of eight ways of drawing "
-            f"the same molecules, catalogued below.")
+        d["breakdown"] = verdict_breakdown(d["rows"])
+        d["bars"] = [
+            {"label": "Graded — a tautomer or salt may differ", "pct": s["graded_pct"],
+             "text": f"{s['graded']} of {s['n']}"},
+            {"label": "Right when the model was confident", "pct": s["high_pct"],
+             "text": f"{s['high_exact']} of {s['high']}", "good": True},
+        ]
+        d["headline"] = "Input is RDKit's own 1500 px layout, the best of eight — catalogued below."
         d["footer"] = ("Stage 3 only: one already-cropped depiction per image, no figure "
                        "extraction and no segmentation. Scored against PubChem structures "
                        "fetched in the same request batch as the images.")
@@ -389,14 +430,22 @@ if __name__ == "__main__":
         d["stats"] = {"n": exp, "exact": fnd,
                       "strict_pct": round(fnd / exp * 100, 1) if exp else 0}
         d["heroLabel"] = f"of {exp} catalogued compounds recovered"
+        d["breakdown"] = verdict_breakdown(d["rows"])
+        d["bars"] = [
+            {"label": "Compounds recovered, per document ground truth", "pct": d["stats"]["strict_pct"],
+             "text": f"{fnd} of {exp}", "good": True},
+            # Rounded. An unrounded float printed as 13.4790175981434916% on the
+            # page, which reads as a machine leaking rather than a measurement.
+            # Framed as the share of what was read that anyone catalogued, because
+            # that is the number which justifies not quoting precision at all.
+            {"label": "Share of what was read that anyone catalogued",
+             "pct": round(exp / drawn * 100, 1),
+             "text": f"{exp} of {drawn}"},
+        ]
         d["headline"] = (
-            f"Whole documents, unedited: figures found, structures cut out, then read. "
-            f"Across {len(scored_docs)} documents the pipeline recovered {fnd} of the {exp} "
-            f"compounds their ground truth catalogues. It read {drawn} structures in "
-            f"total — these documents draw about six times more than they catalogue, so "
-            f"most of the rest are real molecules nobody listed, not mistakes. "
-            f"{len(d['docs']) - len(scored_docs)} further documents have no ground truth at "
-            f"all; their structures are shown and left unscored.")
+            f"Whole documents, unedited. Precision is not quoted here: only a seventh of "
+            f"what these documents draw is catalogued by anyone, so most of the red above "
+            f"is a real molecule nobody listed.")
         d["footer"] = ("Stages 1+2+3 on all 149 committed PDFs, 1,900 pages, zero pipeline "
                        "failures. Recall is per document against that document's own "
                        "ground truth. Precision is NOT reportable on this corpus and is "
