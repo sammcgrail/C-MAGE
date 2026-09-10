@@ -160,10 +160,10 @@ ARMS = [
     },
     {
         "key": "img_rdkit1500",
-        "title": "810 compounds, drawn by RDKit at 1500 px",
+        "title": "1010 compounds, drawn by RDKit at 1500 px",
         "short": "RDKit render",
-        "scored": "scored/pooled810_corpus_rdkit_1500",
-        "manifest": "ground_truth/img_manifest_depictions810.json",
+        "scored": "scored/pooled1010_corpus_rdkit_1500",
+        "manifest": "ground_truth/img_manifest_depictions1010.json",
         "stages": "stage 3 only \u2014 one already-cropped structure per image",
         "settings": "stock C-MAGE, pipeline defaults, DECIMER_BBOX_PAD unset",
         "tweak": None,
@@ -173,10 +173,10 @@ ARMS = [
     },
     {
         "key": "img_pubchem300",
-        "title": "The same 810, PubChem's own 300 px depiction",
+        "title": "The same 1010, PubChem's own 300 px depiction",
         "short": "PubChem 300 px",
-        "scored": "scored/pooled810_corpus_300",
-        "manifest": "ground_truth/img_manifest_depictions810.json",
+        "scored": "scored/pooled1010_corpus_300",
+        "manifest": "ground_truth/img_manifest_depictions1010.json",
         "stages": "stage 3 only \u2014 one already-cropped structure per image",
         "settings": "stock C-MAGE, unchanged. Only the RENDERING differs from the row above.",
         "baseline": "img_rdkit1500",
@@ -194,15 +194,15 @@ ARMS = [
     },
     {
         "key": "img_pubchem1500",
-        "title": "The same 810, PubChem's own 1500 px depiction",
+        "title": "The same 1010, PubChem's own 1500 px depiction",
         "short": "PubChem 1500 px",
-        "scored": "scored/pooled810_corpus_hires",
-        "manifest": "ground_truth/img_manifest_depictions810.json",
+        "scored": "scored/pooled1010_corpus_hires",
+        "manifest": "ground_truth/img_manifest_depictions1010.json",
         "stages": "stage 3 only \u2014 one already-cropped structure per image",
         "settings": "stock C-MAGE, unchanged. Only the RENDERING differs.",
         "baseline": "img_rdkit1500",
         "tweak": None,
-        "note": "Zero of 810 \u2014 0/560 and 0/250 on two independent compound sets \u2014 and NOT ONE output above the "
+        "note": "Zero of 1010 \u2014 0/560, 0/250 and 0/200 on three independently built compound sets \u2014 and NOT ONE output above the "
                 "confidence threshold. Not resolution \u2014 RDKit at the same 1500 px "
                 "scores 82.9%. PubChem holds stroke width constant in absolute pixels "
                 "while the canvas grows fivefold, so ink fraction falls to 0.0030 "
