@@ -145,6 +145,8 @@ input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(-
 .t.o-wrong::after{background:var(--wrong)} .t.o-invalid::after{background:var(--invalid)}
 .t b{position:absolute;top:0;right:0;background:rgba(13,17,23,.88);color:#fff;
   font-size:10px;font-weight:600;padding:2px 5px}
+.t em{position:absolute;top:0;left:0;background:rgba(13,17,23,.88);color:#fff;
+  font-size:10px;font-style:normal;font-weight:600;padding:2px 5px}
 .t u{position:absolute;left:0;right:0;bottom:4px;background:rgba(13,17,23,.82);color:#fff;
   font-size:9.5px;text-decoration:none;padding:2px 4px;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;display:block}
@@ -337,6 +339,7 @@ function tile(r){
   b.innerHTML = '<img loading="lazy" decoding="async" src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt="">'
     + (r.c != null ? "<b>" + r.c + "</b>" : "")
+    + (r.dup > 1 ? '<em>&times;' + r.dup + '</em>' : "")
     + "<u>" + esc(r.n) + "</u>";
   var im = b.firstChild;
   if (im.complete) prefetchPred(r);
@@ -378,7 +381,9 @@ function openSheet(r){
     + '<div class="meta"><span class="badge ' + v + '">' + esc(names[v] || v) + '</span>'
     + (r.c != null ? ' &nbsp;confidence ' + r.c + '%' : '')
     + (r.sconf ? ' &nbsp;model said ' + esc(r.sconf) : '')
-    + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '') + '</div>';
+    + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '')
+    + (r.dup > 1 ? ' &nbsp;·&nbsp; drawn ' + r.dup + ' times in this document' : '')
+    + '</div>';
   /* Up to three pictures: what was given, and what each reader returned. A SMILES
      string hides the interesting disagreements -- CXMolScribe emits iodine as a
      `J` abbreviation label on some inputs, which is invisible in the text and

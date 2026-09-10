@@ -328,6 +328,38 @@ def build_pdfs() -> dict:
             t["v"] = "misread" if tan >= 0.85 else "unmatched"
             t["tan"] = round(tan, 2)
 
+    # COLLAPSE REPEATS WITHIN A DOCUMENT. A patent redraws the same intermediate in
+    # every scheme it appears in, so the pipeline reads it once per scheme and the
+    # wall showed it once per scheme too -- 154 tiles for filgotinib's 28 distinct
+    # structures. These are NOT pipeline duplicates: the crops differ pixel for
+    # pixel and come from different figures. The document really does draw it
+    # repeatedly, and the reader really did read it each time.
+    #
+    # So they are collapsed for DISPLAY, keeping the most confident reading and
+    # carrying the count, rather than dropped. 4,484 tiles -> 3,185.
+    from rdkit import Chem, RDLogger
+    RDLogger.DisableLog("rdApp.*")
+
+    def canon(sm):
+        if not sm:
+            return None
+        m = Chem.MolFromSmiles(sm)
+        return Chem.MolToSmiles(m) if m else None
+
+    best: dict = {}
+    for r in rows:
+        key = (r.get("d"), canon(r.get("s")) or ("!" + r["k"]))
+        cur = best.get(key)
+        if cur is None or (r.get("c") or 0) > (cur.get("c") or 0):
+            if cur is not None:
+                r["dup"] = cur.get("dup", 1) + 1
+            best[key] = r
+        else:
+            cur["dup"] = cur.get("dup", 1) + 1
+    collapsed = list(best.values())
+    print(f"  collapsed repeats within a document: {len(rows)} -> {len(collapsed)} tiles")
+    rows = collapsed
+
     # Per-document recall. The denominator is that document's OWN ground truth,
     # never the corpus total -- summing 138 documents' hits over one global
     # denominator is the classic way to report a number nobody can reproduce.
@@ -455,9 +487,9 @@ if __name__ == "__main__":
             # page, which reads as a machine leaking rather than a measurement.
             # Framed as the share of what was read that anyone catalogued, because
             # that is the number which justifies not quoting precision at all.
-            {"label": "Share of what was read that anyone catalogued",
+            {"label": "Share of what was drawn that anyone catalogued",
              "pct": round(exp / drawn * 100, 1),
-             "text": f"{exp} of {drawn}"},
+             "text": f"{exp} of {drawn} distinct"},
         ]
         d["headline"] = (
             f"Whole documents, unedited. Precision is not quoted here: only a seventh of "
