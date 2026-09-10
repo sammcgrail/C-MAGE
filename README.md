@@ -286,6 +286,16 @@ Measured on the 97-image benchmark, one variable, largest-fragment scoring:
 | stock C-MAGE, PubChem images as downloaded | 66.0% | 63 of 97 |
 | **same images, background mapped 245 -> 255** | **77.3%** | **18 of 97** |
 
+> All three exact figures in this section (66.0, 77.3, and the 32.0 below) were
+> measured before the 2026-09-10 `rescore_fragments.py` fix, which strips the
+> largest fragment from BOTH sides of the comparison rather than only the
+> prediction. On this corpus that is worth about +1 point — the stock arm
+> re-measures at **67.0%** — because 95 of these 97 references are a single
+> fragment. The two arms above have not been re-measured yet, so all three are
+> left as originally measured rather than mixing one corrected number with two
+> uncorrected ones. The COMPARISON is unaffected: the fix moves every arm the
+> same way and cannot move one by 11 points.
+
 **Do not "fix" this by loosening `CropWhite`'s threshold instead.** That was
 tried: cropping correctly but leaving the background grey scored **32.0%**,
 half of stock, with invalid predictions rising from 15 to 37. The phantom

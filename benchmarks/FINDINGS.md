@@ -13,7 +13,16 @@ recognition; section 4 is the fourth, and quantifies how much of the strict
 | scoring | exact | exact or stereo |
 |---|---|---|
 | whole predicted SMILES | **14.4%** | 18.6% |
-| largest fragment only | **66.0%** | 73.2% |
+| largest fragment only | **67.0%** | 74.2% |
+
+> 67.0% was **66.0%** until 2026-09-10. `rescore_fragments.py` stripped the
+> prediction to its largest fragment but compared it against the WHOLE reference,
+> so a reference that is legitimately several fragments could never match. 95 of
+> these 97 references are single-fragment, so it cost exactly one compound here
+> (`toprol`, metoprolol succinate, drawn 2:1). On a 500-compound pharmaceutical
+> batch with 79 multi-fragment references it cost 58, and made largest-fragment
+> scoring look actively harmful. The high-confidence tier is unaffected.
+
 
 That is not a scoring trick, and the gap is the finding. 63 of the 97
 predictions carry phantom **disconnected** atoms appended to a correct core,
@@ -186,7 +195,7 @@ of them:
 
 | corpus | predictions carrying abbreviations | effect of expanding |
 |---|---|---|
-| 97 PubChem depictions, stage 3 only | **0 of 97** | none — 66.0% / 96.2% stand |
+| 97 PubChem depictions, stage 3 only | **0 of 97** | none — 67.0% / 96.2% stand |
 | 24 upscaled worst offenders | **0 of 24** | none — 79.2% stands |
 | 11 known-answer PDFs, full pipeline | 8 of 70 (11%) | **none** — 16/70 and 42.9% high tier are identical either way |
 | 11-document expanded PDF corpus | **148 of 242 (61%)** | recall 26.5% → **52.9%** |
@@ -205,7 +214,7 @@ misleading version if you want to see the difference.
 
 This is the **third** time this corpus has produced the same failure, and by now
 it deserves a name: *the metric measured representation, not recognition.* First
-whole-string versus largest-fragment (14.4% vs 66.0%), then the resolution
+whole-string versus largest-fragment (14.4% vs 67.0%), then the resolution
 artifact, now CXSMILES versus plain SMILES. Every time, the pipeline was better
 than the number said, and every time the tell was the same — a hand-check of one
 prediction showed a chemically sensible answer scored wrong.
