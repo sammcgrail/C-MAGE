@@ -98,6 +98,21 @@ def largest_fragment(smiles):
     return max(frags, key=lambda f: f.GetNumHeavyAtoms()), len(frags)
 
 
+def _lf_canon(smiles, stereo=True):
+    """Canonical SMILES of a REFERENCE reduced to its largest fragment, or None.
+
+    The mirror of largest_fragment() applied to ground truth, so the comparison
+    is symmetric. Returns None when the reference does not parse.
+    """
+    mol, _ = largest_fragment(smiles)
+    if mol is None:
+        return None
+    if not stereo:
+        mol = Chem.Mol(mol)
+        Chem.RemoveStereochemistry(mol)
+    return canon(Chem.MolToSmiles(mol), stereo)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -141,8 +156,24 @@ def main():
     for row in rows:
         group, smiles, tier = row["group"], row["smiles"], row["tier"]
         expected = truth.get(group, [])
+        # BOTH SIDES get the largest-fragment treatment, because that is what this
+        # metric means. Stripping only the PREDICTION makes the comparison
+        # asymmetric, and a reference that is legitimately more than one fragment
+        # -- any salt, any co-crystal, any counter-ion -- then cannot be matched by
+        # a prediction that has just been reduced to one. It reads as recognition
+        # failure and is nothing of the kind.
+        #
+        # Invisible on the 97 PubChem depictions this script was written against,
+        # where every reference is a single fragment and stripping it is a no-op.
+        # On a 500-compound pharmaceutical batch with 79 multi-fragment references
+        # it silently deleted 58 matches that score_run.py scored exact -- the
+        # ENTIRE 417-vs-359 gap between the two tools on that arm -- while the
+        # script's own "rescued: 0" line correctly said the strip had gained
+        # nothing. Two numbers in adjacent columns, one of them wrong.
         exact_set = {canon(e) for e in expected} - {None}
         flat_set = {canon(e, stereo=False) for e in expected} - {None}
+        exact_set |= {c for c in (_lf_canon(e, True) for e in expected) if c}
+        flat_set |= {c for c in (_lf_canon(e, False) for e in expected) if c}
 
         if not args.no_expand_cxsmiles:
             smiles = expand_cx(smiles)
