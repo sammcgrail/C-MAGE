@@ -80,12 +80,16 @@ main{max-width:1400px;margin:0 auto;
 .stack i{display:block;height:100%;position:relative;min-width:2px}
 .stack i span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:700;color:#06090d}
-.o-exact{background:var(--exact)} .o-stereo{background:var(--stereo)}
-.o-wrong{background:var(--wrong)} .o-invalid{background:var(--invalid)}
-.o-notruth{background:#3d4450} .o-misread{background:var(--wrong)}
-.o-unmatched{background:#c2410c}
-.t.o-misread::after{background:var(--wrong)} .t.o-unmatched::after{background:#c2410c}
-.t.o-notruth::after{background:#3d4450}
+/* Five states, three populations. Green and amber are CHECKED AND RIGHT, red is
+   CHECKED AND WRONG, slate is NOT CHECKABLE, dark is NOTHING CAME OUT. The slate
+   is deliberately not a warning colour: those structures are neither right nor
+   wrong and colouring them red was the whole confusion. */
+.o-matched{background:var(--exact)} .o-stereo{background:var(--stereo)}
+.o-misread{background:var(--wrong)} .o-noref{background:#475569}
+.o-unreadable{background:#1f242b;box-shadow:inset 0 0 0 1px #333b45}
+.t.o-matched::after{background:var(--exact)} .t.o-stereo::after{background:var(--stereo)}
+.t.o-misread::after{background:var(--wrong)} .t.o-noref::after{background:#475569}
+.t.o-unreadable::after{background:#333b45}
 /* One labelled bar per secondary measure, so a number and what it is are never
    more than a line apart. */
 .mbar{margin-bottom:11px}
@@ -288,12 +292,15 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){
 
 /* A tile's colour is its verdict. `exact` and `stereo` are the two that mean the
    reader got the right molecule; everything else is a miss of some kind. */
-var KNOWN = ["exact","stereo","misread","wrong","unmatched","invalid"];
+/* One place that turns a scored verdict into a display state, so the tiles, the
+   chips and the stacked bar cannot drift apart the way they did. */
+var STATE = {exact:"matched", stereo:"stereo", misread:"misread", wrong:"misread",
+             unmatched:"noref", "no-truth":"noref", invalid:"unreadable"};
 /* Anything unrecognised used to fall through to "invalid", which quietly counted
    1,026 no-ground-truth rows as Unparseable in the chips while the legend beside
    them said 231. An unknown verdict gets its own bucket now instead of borrowing
    somebody else's. */
-function cls(r){ return KNOWN.indexOf(r.v) >= 0 ? r.v : "notruth"; }
+function cls(r){ return STATE[r.v] || "noref"; }
 /* On the Sonnet tab a tile is coloured by WHO got it right, which is the question
    the tab exists to answer. Everywhere else it falls back to the verdict. */
 function tileCls(r){ return r.o ? "o-" + r.o : "o-" + cls(r); }
@@ -308,22 +315,26 @@ function match(r){
 }
 
 function counts(rows){
-  var c = {all:rows.length, exact:0, stereo:0, misread:0, wrong:0, unmatched:0,
-           invalid:0, notruth:0, high:0, both:0, sonnet:0, cxms:0, neither:0};
+  /* Buckets are seeded from the payload's own breakdown rather than a hard-coded
+     list. The hard-coded list is exactly what broke when the state names changed:
+     cls() returned "matched" while the counter only knew "exact", so every chip
+     read undefined and the whole bar disappeared except All. */
+  var c = {all: rows.length, high: 0};
+  ((DATA.breakdown || []).concat(
+    (DATA.compare && DATA.compare.breakdown) || [])).forEach(function(x){ c[x.key] = 0; });
   rows.forEach(function(r){
-    c[cls(r)]++; if (r.o) c[r.o]++;
-    if((r.c||0) >= DATA.threshold) c.high++;
+    var k = r.o || cls(r);
+    c[k] = (c[k] || 0) + 1;
+    if ((r.c || 0) >= DATA.threshold) c.high++;
   });
   return c;
 }
 
 /* Prefetch the read-back drawing the moment its tile's own thumbnail has landed.
    Without this the detail sheet opens on a blank frame and fills in afterwards,
-   because the sheet is the FIRST time that URL is requested. Keying the prefetch
-   to the tile's load event rather than to page load keeps it bounded to tiles
-   that actually rendered -- 300 at a time, ~4 KB each -- instead of pulling all
-   1,126 up front. Cached ones fire onload immediately, so this still works on a
-   second visit. */
+   because the sheet is the FIRST time that URL is requested. Keyed to the tile's
+   load event rather than page load, so it stays bounded to tiles that actually
+   rendered. */
 function prefetchPred(r){
   if ((!r.p && !r.po) || r._pf) return;
   r._pf = true;
@@ -451,10 +462,9 @@ function chipbar(rows){
        or the active filter vanishes from the bar you used to set it. */
     if (p[0] !== "all" && !c[p[0]] && FILTER !== p[0]) return;
     var b = el("button", "chip");
-    var colour = {exact:"var(--exact)",stereo:"var(--stereo)",wrong:"var(--wrong)",
-                  misread:"var(--wrong)",unmatched:"#c2410c",notruth:"#3d4450",
-                  invalid:"var(--invalid)",both:"var(--exact)",sonnet:"var(--acc)",
-                  cxms:"var(--stereo)",neither:"var(--wrong)"}[p[0]];
+    var colour = {matched:"var(--exact)",stereo:"var(--stereo)",misread:"var(--wrong)",
+                  noref:"#475569",unreadable:"#333b45",both:"var(--exact)",
+                  sonnet:"var(--acc)",cxms:"var(--stereo)",neither:"var(--wrong)"}[p[0]];
     b.innerHTML = (colour ? '<span class="dot" style="background:' + colour + '"></span>' : "")
       + p[1] + "<i>" + (c[p[0]] || 0) + "</i>";
     b.setAttribute("aria-pressed", FILTER === p[0]);
@@ -537,7 +547,14 @@ function stackOf(parts, total){
     }).join("") + '</div>'
     + '<div class="key">' + parts.map(function(x){
       return '<b><i class="o-' + x.key + '"></i>' + esc(x.label) + ' <u>' + x.n + '</u></b>';
-    }).join("") + '</div>';
+    }).join("") + '</div>'
+    /* Name the three populations once, under the legend. Without this the reader
+       has to infer that grey is not a failure. */
+    + (parts.some(function(x){ return x.key === "noref"; })
+        ? '<p class="sub" style="margin:-4px 0 14px">Green and amber were checked '
+          + 'against a reference and were right. Red was checked and was wrong. '
+          + 'Slate had no reference to check against — neither right nor wrong. '
+          + 'Dark produced nothing usable.</p>' : '');
 }
 
 function render(){

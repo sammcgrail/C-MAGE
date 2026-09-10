@@ -264,13 +264,27 @@ def verdict_breakdown(rows: list[dict]) -> list[dict]:
     unreadable. A bar re-ordered by whichever bucket happens to be largest changes
     shape between builds and stops being comparable with the last one you looked
     at."""
-    order = [("exact", "Exact", lambda r: r["v"] == "exact"),
-             ("stereo", "Stereo only", lambda r: r["v"] == "stereo"),
-             ("misread", "Misread a catalogued compound", lambda r: r["v"] == "misread"),
-             ("wrong", "Wrong", lambda r: r["v"] == "wrong"),
-             ("unmatched", "Read, not in the catalogue", lambda r: r["v"] == "unmatched"),
-             ("invalid", "Unparseable", lambda r: r["v"] == "invalid"),
-             ("notruth", "No ground truth", lambda r: r["v"] == "no-truth")]
+    # THREE POPULATIONS, and they answer different questions. The old vocabulary
+    # mixed them, so a document could read "1/2 recovered" beside chips that never
+    # said "exact" -- the 1 was a stereo match, and nothing on the page said stereo
+    # counted as recovered.
+    #
+    #   CHECKED    a reference exists, so right or wrong is knowable
+    #   NO REFERENCE  the structure was read and nobody catalogued it. NOT wrong.
+    #                 This merges two states that were listed separately on a
+    #                 technicality -- "not in this document's catalogue" and "this
+    #                 document has no catalogue" are the same fact to a reader.
+    #   UNREADABLE  nothing usable came out
+    order = [("matched", "Matched the reference",
+              lambda r: r["v"] == "exact"),
+             ("stereo", "Matched, stereochemistry differs",
+              lambda r: r["v"] == "stereo"),
+             ("misread", "A reference exists and this is not it",
+              lambda r: r["v"] in ("misread", "wrong")),
+             ("noref", "No reference to check against",
+              lambda r: r["v"] in ("unmatched", "no-truth")),
+             ("unreadable", "Unreadable — nothing usable produced",
+              lambda r: r["v"] == "invalid")]
     out = []
     for key, label, test in order:
         n = sum(1 for r in rows if test(r))
@@ -443,9 +457,9 @@ if __name__ == "__main__":
         d["heroLabel"] = f"of {s['n']} structures exactly right"
         d["breakdown"] = verdict_breakdown(d["rows"])
         d["bars"] = [
-            {"label": "Graded — a tautomer or salt may differ", "pct": s["graded_pct"],
+            {"label": "Right if a tautomer or salt may differ", "pct": s["graded_pct"],
              "text": f"{s['graded']} of {s['n']}"},
-            {"label": "Right when the model was confident", "pct": s["high_pct"],
+            {"label": "Right when the model said it was confident", "pct": s["high_pct"],
              "text": f"{s['high_exact']} of {s['high']}", "good": True},
         ]
         d["headline"] = "Input is RDKit's own 1500 px layout, the best of eight — catalogued below."
@@ -480,21 +494,26 @@ if __name__ == "__main__":
                       "strict_pct": round(fnd / exp * 100, 1) if exp else 0}
         d["heroLabel"] = f"of {exp} catalogued compounds recovered"
         d["breakdown"] = verdict_breakdown(d["rows"])
+        checked = sum(x["n"] for x in d["breakdown"]
+                      if x["key"] in ("matched", "stereo", "misread"))
+        right = sum(x["n"] for x in d["breakdown"] if x["key"] in ("matched", "stereo"))
         d["bars"] = [
-            {"label": "Compounds recovered, per document ground truth", "pct": d["stats"]["strict_pct"],
-             "text": f"{fnd} of {exp}", "good": True},
+            {"label": "Of the compounds the ground truth lists, how many were found",
+             "pct": d["stats"]["strict_pct"], "text": f"{fnd} of {exp}", "good": True},
+            {"label": "Of the structures that COULD be checked, how many were right",
+             "pct": round(right / checked * 100, 1) if checked else 0,
+             "text": f"{right} of {checked}", "good": True},
             # Rounded. An unrounded float printed as 13.4790175981434916% on the
             # page, which reads as a machine leaking rather than a measurement.
             # Framed as the share of what was read that anyone catalogued, because
             # that is the number which justifies not quoting precision at all.
-            {"label": "Share of what was drawn that anyone catalogued",
-             "pct": round(exp / drawn * 100, 1),
-             "text": f"{exp} of {drawn} distinct"},
+
         ]
         d["headline"] = (
-            f"Whole documents, unedited. Precision is not quoted here: only a seventh of "
-            f"what these documents draw is catalogued by anyone, so a structure matching "
-            f"nothing is usually a real molecule nobody listed rather than a misreading.")
+            f"Whole documents, unedited. Most of what these documents draw was never "
+            f"catalogued by anyone, so those structures have no reference to check "
+            f"against — they are neither right nor wrong, and the grey band below is "
+            f"them.")
         d["footer"] = ("Stages 1+2+3 on all 149 committed PDFs, 1,900 pages, zero pipeline "
                        "failures. Recall is per document against that document's own "
                        "ground truth. Precision is NOT reportable on this corpus and is "
