@@ -87,10 +87,15 @@ input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(-
 .more{grid-column:1/-1;text-align:center;color:var(--dim);padding:18px;font-size:13px}
 
 /* detail sheet */
+/* display MUST NOT be set on the bare `dialog` selector. The UA stylesheet hides a
+   closed dialog with `dialog:not([open]){display:none}`, but author styles beat the
+   UA stylesheet regardless of specificity -- so `dialog{display:flex}` un-hid every
+   closed dialog and it rendered inline at the foot of the page. Scope it to [open]
+   and restate the closed case explicitly rather than relying on the UA rule. */
 dialog{border:0;padding:0;background:var(--panel);color:var(--ink);border-radius:4px;
-  max-width:620px;width:calc(100% - 24px);max-height:86dvh;overflow:hidden;
-  display:flex;flex-direction:column}
-dialog[open]{display:flex}
+  max-width:620px;width:calc(100% - 24px);max-height:86dvh;overflow:hidden}
+dialog:not([open]){display:none}
+dialog[open]{display:flex;flex-direction:column}
 dialog::backdrop{background:rgba(0,0,0,.72)}
 /* Header stays put. The molecule's name and its verdict are the two things you
    opened this for; scrolled off the top they are worse than absent, because the

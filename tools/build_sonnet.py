@@ -21,16 +21,29 @@ from build_wall import WALL, THRESHOLD, render_pred, thumb, relate     # noqa: E
 
 
 def main() -> int:
-    rows_in = json.load(open("/tmp/sonnet10_scored.json"))
+    # Read the append-only results file, not a snapshot. The batch harness appends
+    # to it, so the tab reflects every batch scored so far with no separate step to
+    # forget.
+    src = Path("/root/cmage-work/sonnet/results.jsonl")
+    rows_in = [json.loads(l) for l in open(src) if l.strip()]
     img = WALL / "sonnet"
     pred = WALL / "sonnet_pred"
     img.mkdir(parents=True, exist_ok=True)
     pred.mkdir(parents=True, exist_ok=True)
 
+    import glob
+    idx = {}
+    for dd in sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500")):
+        for pth in glob.glob(dd + "/*.png"):
+            idx.setdefault(os.path.basename(pth), pth)
+
     rows = []
     for r in rows_in:
         k = r["k"]
-        thumb(Path(r["path"]), img / f"{k}.png")
+        src_img = idx.get(k + ".png")
+        if not src_img:
+            continue
+        thumb(Path(src_img), img / f"{k}.png")
         has = render_pred(r.get("sonnet_smiles") or "", pred / f"{k}.png")
         rows.append({
             "k": k, "n": r["name"], "v": r["sonnet_verdict"], "g": r["sonnet_verdict"],
@@ -55,8 +68,8 @@ def main() -> int:
         "headline": (
             f"A general vision model reading the same drawings, scored by the same rule. "
             f"Sonnet {s_ex} of {n}, the pipeline {o_ex} of {n}. They agree on {both} and "
-            f"between them get {either} — they fail on DIFFERENT molecules, which is the "
-            f"result worth having from a sample this small."),
+            f"between them get {either}. Running in batches of ten over the whole "
+            f"corpus; this tab shows every image read so far."),
         "footer": (
             "Sample is a deterministic stride over the sorted corpus, not a hand-pick. "
             "Filenames were anonymised before the model saw them, because the corpus names "
