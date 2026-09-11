@@ -44,10 +44,27 @@ OUTPUT — a JSON array:
   "confidence": "high|medium|low"}, ...]
 All ten, in order."""
 
-PROMPT_NOTE = ("The file paths are anonymised before the model sees them. The corpus names "
-               "images after their compounds — lactic_acid_cid612.png — so a model handed the "
-               "real path can answer from the string without looking at the drawing, and would "
-               "score well for entirely the wrong reason.")
+PROMPT_NOTE = (
+    "The file paths are anonymised before the model sees them. The corpus names images after "
+    "their compounds — lactic_acid_cid612.png — so a model handed the real path can answer "
+    "from the string without looking at the drawing, and would score well for entirely the "
+    "wrong reason.\n\n"
+    "WHAT THIS ARM ACTUALLY IS. Sonnet running inside Claude Code, with a shell, a Python "
+    "interpreter and RDKit available — not a single vision API call. The prompt asks it not "
+    "to use a cheminformatics toolkit, and it used one anyway: across 260 images the readers "
+    "wrote 110 helper scripts, 107 of which import RDKit. Chem.MolToSmiles appears 80 times "
+    "(canonicalising their own answer), AssignStereochemistry 73 times (deriving R/S rather "
+    "than reading the wedge), SanitizeMol 32 times (repairing valence). Only 10 calls draw "
+    "anything, so this was computation rather than a visual double-check.\n\n"
+    "That is a real capability and it is not disqualifying — but it is NOT the same test as "
+    "the pipeline faces. CXMolScribe emits its answer in one pass with no chance to "
+    "canonicalise or repair it, and round-tripping a string through RDKit turns some "
+    "near-misses into exact matches. Read this arm as 'an agent with chemistry tools', not "
+    "as 'the model'. A bare API call would be a different and cheaper arm; it has not been "
+    "run.\n\n"
+    "One reader's own summary stated that no cheminformatics tool was used at any point. "
+    "Its working directory contains 36 scripts that import RDKit. Self-reports were not "
+    "taken at face value anywhere else in this benchmark and should not be here.")
 
 
 def main() -> int:
@@ -115,7 +132,7 @@ def main() -> int:
         "compare": {
             "n": n, "corpus": corpus_n,
             "sides": [
-                {"label": "Sonnet", "exact": s_ex, "pct": round(s_ex / n * 100, 1)},
+                {"label": "Sonnet + tools", "exact": s_ex, "pct": round(s_ex / n * 100, 1)},
                 {"label": "CXMolScribe", "exact": o_ex, "pct": round(o_ex / n * 100, 1)},
             ],
             "agree": both, "either": either,
@@ -136,8 +153,10 @@ def main() -> int:
         "stats": {"n": n, "exact": s_ex, "strict_pct": round(s_ex / n * 100, 1)},
         "heroLabel": f"of {n} — against CXMolScribe's {o_ex} on the same {n}",
         "threshold": round(THRESHOLD * 100),
-        "headline": ("A general vision model reading the same drawings, scored by the "
-                     "same rule as the pipeline."),
+        "headline": ("A general vision model reading the same drawings, scored by the same "
+                     "rule as the pipeline. Not a bare model call: it runs in an agent loop "
+                     "with a Python interpreter and RDKit, and it used them — see the method "
+                     "below."),
         "footer": (
             "Sample is a deterministic stride over the sorted corpus, not a hand-pick. "
             "Filenames were anonymised before the model saw them, because the corpus names "
