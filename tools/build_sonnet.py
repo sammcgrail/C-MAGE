@@ -114,6 +114,9 @@ def main() -> int:
             "r": relate(r.get("sonnet_smiles") or "", r["truth"]),
             # Both readings travel with the row so the sheet can show them together.
             "ocr": r["ocr_smiles"], "ocrv": r["ocr_verdict"], "ocrc": r["ocr_conf"],
+            # On this tab the extension block comes from the PIPELINE's string --
+            # Sonnet was asked for SMILES and returned SMILES, so it has none.
+            "cx": 1 if "|$" in (r.get("ocr_smiles") or "") else 0,
             "po": 1 if has_ocr else 0,
             "sconf": r.get("sonnet_conf"),
         })
@@ -150,6 +153,8 @@ def main() -> int:
             ],
         },
         "prompt": PROMPT_TEXT, "promptNote": PROMPT_NOTE,
+        "cx": sum(1 for r in rows if r.get("cx")),
+        "cxLabel": "CXMolScribe returned CXSMILES",
         "stats": {"n": n, "exact": s_ex, "strict_pct": round(s_ex / n * 100, 1)},
         "heroLabel": f"of {n} — against CXMolScribe's {o_ex} on the same {n}",
         "threshold": round(THRESHOLD * 100),

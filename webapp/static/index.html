@@ -132,6 +132,7 @@ main{max-width:1400px;margin:0 auto;
   font:inherit;font-size:13px;padding:7px 12px;border-radius:20px;cursor:pointer;min-height:36px}
 .chip[aria-pressed=true]{border-color:var(--acc);color:var(--ink);background:#12233c}
 .chip i{font-style:normal;opacity:.65;margin-left:5px}
+.chipdiv{flex:0 0 1px;align-self:stretch;background:var(--line);margin:0 4px}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
 input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(--line);
   color:var(--ink);font:inherit;font-size:16px;padding:6px 13px;border-radius:20px;
@@ -319,6 +320,7 @@ function match(r){
   if (Q && (r.n||"").toLowerCase().indexOf(Q) < 0) return false;
   if (FILTER === "all") return true;
   if (FILTER === "high") return (r.c||0) >= DATA.threshold;
+  if (FILTER === "cx") return !!r.cx;
   if (r.o) return r.o === FILTER;
   return cls(r) === FILTER;
 }
@@ -539,6 +541,18 @@ function chipbar(rows){
     b.onclick = function(){ FILTER = p[0]; SHOWN = STEP; render(); };
     bar.appendChild(b);
   });
+  /* A different axis from the five scoring states: this asks what the OUTPUT
+     carries, not whether it was right. Separated by a rule so it does not read as
+     a sixth verdict. */
+  if (DATA.cx) {
+    bar.appendChild(el("span", "chipdiv"));
+    var cxb = el("button", "chip");
+    cxb.innerHTML = '<span class="dot" style="background:var(--acc)"></span>'
+      + esc(DATA.cxLabel || "Has CXSMILES labels") + "<i>" + DATA.cx + "</i>";
+    cxb.setAttribute("aria-pressed", FILTER === "cx");
+    cxb.onclick = function(){ FILTER = (FILTER === "cx" ? "all" : "cx"); SHOWN = STEP; render(); };
+    bar.appendChild(cxb);
+  }
   var s = el("input"); s.type = "search"; s.placeholder = "Search name"; s.value = Q;
   s.oninput = function(){ Q = s.value.trim().toLowerCase(); SHOWN = STEP; paint(); };
   bar.appendChild(s);

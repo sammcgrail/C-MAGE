@@ -199,6 +199,10 @@ def rows_from(csv_paths: list[Path], image_dirs: list[Path], out_img: Path) -> l
                 "c": round(float(conf) * 100) if conf else None,
                 "s": r.get("smiles") or "",
                 "p": 1 if has_pred else 0,
+                # Carries a CXSMILES extension block. A property of the OUTPUT, not
+                # a verdict, so it is filtered on its own axis rather than mixed
+                # into the five scoring states.
+                "cx": 1 if "|$" in (r.get("smiles") or "") else 0,
             })
     print(f"  rows {len(rows)}  duplicates dropped {dupes}  no-image {missing}  "
           f"thumbs {bytes_/1e6:.1f} MB")
@@ -291,6 +295,10 @@ def verdict_breakdown(rows: list[dict]) -> list[dict]:
         if n:
             out.append({"key": key, "label": label, "n": n})
     return out
+
+
+def cx_count(rows: list[dict]) -> int:
+    return sum(1 for r in rows if r.get("cx"))
 
 
 def stats(rows: list[dict], threshold: int = 84) -> dict:
@@ -456,6 +464,7 @@ if __name__ == "__main__":
         d["dir"] = "img"
         d["heroLabel"] = f"of {s['n']} structures exactly right"
         d["breakdown"] = verdict_breakdown(d["rows"])
+        d["cx"] = cx_count(d["rows"])
         d["bars"] = [
             {"label": "Right if a tautomer or salt may differ", "pct": s["graded_pct"],
              "text": f"{s['graded']} of {s['n']}"},
@@ -494,6 +503,7 @@ if __name__ == "__main__":
                       "strict_pct": round(fnd / exp * 100, 1) if exp else 0}
         d["heroLabel"] = f"of {exp} catalogued compounds recovered"
         d["breakdown"] = verdict_breakdown(d["rows"])
+        d["cx"] = cx_count(d["rows"])
         checked = sum(x["n"] for x in d["breakdown"]
                       if x["key"] in ("matched", "stereo", "misread"))
         right = sum(x["n"] for x in d["breakdown"] if x["key"] in ("matched", "stereo"))
