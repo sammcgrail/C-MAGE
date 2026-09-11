@@ -54,13 +54,7 @@ The first corpus was almost entirely PubChem-rendered depictions, which is why i
 | [`PMC11227129_decimer_handdrawn_caffeine.pdf`](PMC11227129_decimer_handdrawn_caffeine.pdf) | 11 | CC BY 4.0 | Springer/BMC typesetting | 1 | 1 |
 | [`PMC13390035_patent_ocsr_benchmark.pdf`](PMC13390035_patent_ocsr_benchmark.pdf) | 8 | CC BY 4.0 | ACS typesetting | 7 | 4 |
 | [`PMC9185882_decimer_handdrawn_dataset.pdf`](PMC9185882_decimer_handdrawn_dataset.pdf) | 4 | CC BY 4.0 | Genuinely HAND-DRAWN structures (pen on paper, scanned | 2 | 2 |
-| [`US4231938A_lovastatin.pdf`](US4231938A_lovastatin.pdf) | 10 | Patent, public record | 1980 USPTO scan, 300-dpi CCITT page raster | 2 | 2 |
-| [`bjoc_18-169_macarpine.pdf`](bjoc_18-169_macarpine.pdf) | 7 | CC BY 4.0 | ChemDraw vector, Beilstein typesetting | 9 | 9 |
 | [`bjoc_19-15_pheromones.pdf`](bjoc_19-15_pheromones.pdf) | 9 | CC BY 4.0 | ChemDraw vector | 5 | 5 |
-| [`bjoc_21-197_aglacinB.pdf`](bjoc_21-197_aglacinB.pdf) | 5 | CC BY 4.0 | ChemDraw vector, Beilstein two-column typesetting | 4 | 3 |
-| [`ntp_roc_adriamycin.pdf`](ntp_roc_adriamycin.pdf) | 2 | US Government work, public domain | Vector line art | 1 | 1 |
-| [`ntp_roc_azacitidine.pdf`](ntp_roc_azacitidine.pdf) | 2 | US Government work, public domain | Vector line art | 1 | 1 |
-| [`ntp_roc_basicred9.pdf`](ntp_roc_basicred9.pdf) | 2 | US Government work, public domain | Vector line art in a 2-column government report | 1 | 1 |
 **drawn** is how many named molecules the document actually draws; **scored** is how
 many of those resolve to a PubChem CID or a printed SMILES and therefore enter the
 benchmark denominator. They differ for exactly two files — aglacin E is not in
@@ -81,16 +75,12 @@ cd benchmarks/corpus && sha256sum -c SHA256SUMS
 ```
 | [`PMC10180415_approved2022_aa_fluorine.pdf`](PMC10180415_approved2022_aa_fluorine.pdf) | 21 | CC BY 4.0 | MDPI vector, 600-dpi stencil atom labels; 2022 FDA approvals | 12 | 12 |
 | [`PMC11771699_macrocycle_drugs.pdf`](PMC11771699_macrocycle_drugs.pdf) | 24 | CC BY 4.0 | Wiley vector ChemDraw; macrocycle overprinted in COLOUR | 19 | 19 |
-| [`ntp_roc_cisplatin.pdf`](ntp_roc_cisplatin.pdf) | 2 | US Government work, public domain | Vector line art; square-planar Pt(II) coordination compound | 1 | 1 |
 | [`ntp_roc_pahs.pdf`](ntp_roc_pahs.pdf) | 9 | US Government work, public domain | Vector line art, two-column LIST of 15 analogues with CAS numbers | 15 | 15 |
-| [`ntp_roc_heterocyclicamines.pdf`](ntp_roc_heterocyclicamines.pdf) | 5 | US Government work, public domain | Vector line art, 4 analogues on one fused-imidazo scaffold | 4 | 4 |
-| [`CN108503621B_vonoprazan.pdf`](CN108503621B_vonoprazan.pdf) | 11 | Patent, public record | Chinese CNIPA patent: vector text + 150-ppi raster clippings | 8 | 8 |
 | [`PMC12548288_negative_gromacs_metadump.pdf`](PMC12548288_negative_gromacs_metadump.pdf) | 10 | CC BY 4.0 | Springer/BMC typesetting; **no structures at all** | 0 | 0 |
 # Proposed rows for benchmarks/corpus/README.md
 
 Append to the diversity table, same column order:
 
-| [`DE60100786T2_citalopram_german.pdf`](DE60100786T2_citalopram_german.pdf) | 10 | Patent, public record | German DPMA translation of an EP B1: vector text + 300-ppi CCITT **stencil** clippings | 2 | 2 |
 | [`US4117118A_cyclosporin.pdf`](US4117118A_cyclosporin.pdf) | 17 | Patent, public record | 1978 scan; condensed peptide backbone, stereo printed as D/L/R **letters**, not wedges | 2 | 1 |
 | [`US4943590A_escitalopram.pdf`](US4943590A_escitalopram.pdf) | 9 | Patent, public record | 1990 USPTO scan; semi-condensed art — ring skeletons, side chains as inline text | 8 | 8 |
 | [`US5273995A_atorvastatin_calcium.pdf`](US5273995A_atorvastatin_calcium.pdf) | 10 | Patent, public record | 1993 USPTO scan; Ph/CONHPh labels, R/S stereo letters, Ca(2+) drawn outside a bracket | 8 | 8 |
@@ -132,17 +122,8 @@ Append to the diversity table, same column order. `drawn` counts depictions,
 `scored` counts distinct compounds that resolve — they differ wherever a document
 draws one molecule more than once.
 
-| [`JP6924794B2_afuresertib.pdf`](JP6924794B2_afuresertib.pdf) | 26 | Patent, public record | Japanese JPO vector; two-component salt drawn as free base · HCl; PXRD negatives | 1 | 1 |
-| [`KR101146095B1_canagliflozin.pdf`](KR101146095B1_canagliflozin.pdf) | 8 | Patent, public record | Korean KIPO vector — HANGUL, a new script; C-glycoside free base; XRPD/IR negatives | 1 | 1 |
-| [`CN103025753A_ezatiostat.pdf`](CN103025753A_ezatiostat.pdf) | 30 | Patent, public record | Chinese CNIPA 300-dpi full-page RASTER scan (iText-wrapped); one tripeptide diethyl ester | 1 | 1 |
 | [`RU2405786C2_asenapine.pdf`](RU2405786C2_asenapine.pdf) | 14 | Patent, public record | Russian Rospatent — CYRILLIC, a new script; salt drawn as base + full cis maleic acid | 3 | 2 |
-| [`KR102514961B1_edoxaban.pdf`](KR102514961B1_edoxaban.pdf) | 13 | Patent, public record | Korean KIPO vector; salt components juxtaposed with NO dot glyph; XRPD/NMR/DSC negatives | 3 | 2 |
-| [`US4110165_clavulanic_acid.pdf`](US4110165_clavulanic_acid.pdf) | 4 | Patent, public record | 1978 HAND-INKED draftsman art (4-pp extract); same molecule flat and stereo-wedged; Na/K salts; IR negative | 5 | 3 |
-| [`JP6724082B2_vortioxetine.pdf`](JP6724082B2_vortioxetine.pdf) | 2 | Patent, public record | Japanese JPO vector (2-pp extract of 50); specific API + named reagents + R-group Markush | 7 | 4 |
-| [`US3781268_kanamycin.pdf`](US3781268_kanamycin.pdf) | 2 | Patent, public record | 1973 freehand chair-conformation sugars, typewriter labels, no wedges (2-pp extract) | 8 | 2 |
-| [`EP0308341NWB1_perindopril.pdf`](EP0308341NWB1_perindopril.pdf) | 17 | Patent, public record | French EPO B1, 300-dpi JBIG2 scan; skeletons with S/R LETTERS + condensed formulae + drawn salts | 14 | 8 |
 | [`US4194047_thienamycin.pdf`](US4194047_thienamycin.pdf) | 3 | Patent, public record | 1980 hand-inked carbapenems (3-pp extract); a `Th` bracket abbreviates the whole nucleus | 16 | 5 |
-| [`EP3337801B1_finerenone.pdf`](EP3337801B1_finerenone.pdf) | 6 | Patent, public record | German EPO B1 (6-pp extract of 74); dense ChemDraw vector, 21 specific synthesis intermediates | 21 | 21 |
 
 Round-5 arithmetic: **80 drawn, 50 scored**, plus 24 generic and 2 unresolved
 depictions held in `unscoreable`. Scripts added: **Cyrillic** and **Korean**, both
@@ -180,11 +161,9 @@ larger — 598 across the ten — and is in
 |---|---|---|---|---|---|
 | [`EP2736895B1_osimertinib.pdf`](EP2736895B1_osimertinib.pdf) | 104 | Patent, public record | EPO B1 vector + 300-dpi CCITT clippings; 21 full-page XRPD/DSC sheets; mesylate drawn as an ION PAIR | 17 | 10 |
 | [`EP3630761B1_sotorasib.pdf`](EP3630761B1_sotorasib.pdf) | 26 | Patent, public record | EPO B1 vector; complete named 7-step route; ATROPISOMER claims drawn identically; trilingual claims | 15 | 13 |
-| [`US12011442B2_abemaciclib.pdf`](US12011442B2_abemaciclib.pdf) | 14 | Patent, public record | USPTO scan, NO text layer; 9 figure sheets and ONE 2D structure; FIG 2 is a 3D ORTEP | 1 | 1 |
 | [`WO2021259732A1_zanubrutinib.pdf`](WO2021259732A1_zanubrutinib.pdf) | 60 | Patent, public record | WIPO A1 raster, no text layer; VARIABLE-STOICHIOMETRY co-crystal (n = 0.8–1.2); 2 ORTEPs + a flowchart | 7 | 4 |
 | [`WO2017215166A1_talazoparib.pdf`](WO2017215166A1_talazoparib.pdf) | 26 | Patent, public record | WIPO A1 raster; wedges AND printed CIP letters; a spurious ChemDraw `(Z)` on an aromatic triazole | 12 | 10 |
 | [`US11629137B2_niraparib.pdf`](US11629137B2_niraparib.pdf) | 46 | Patent, public record | USPTO scan, no text layer; FIG 2 prints a MOLECULAR WEIGHT under every structure; named phosphine ligands | 17 | 14 |
-| [`CN114085213A_vepdegestrant.pdf`](CN114085213A_vepdegestrant.pdf) | 23 | Patent, public record | CNIPA vector Chinese + 48 raster clippings; a 54-heavy-atom PROTAC; header/footer stamps as decoys | 7 | 6 |
 | [`WO2025055671A1_elacestrant.pdf`](WO2025055671A1_elacestrant.pdf) | 28 | Patent, public record | Chinese-language WIPO A1, NO text layer at all; three routes to one drug; salt cued by the text `2HCl` | 5 | 2 |
 | [`US9463252B2_auristatin_MMAF.pdf`](US9463252B2_auristatin_MMAF.pdf) | 27 | Patent, public record | USPTO scan (27-pp extract of 63); Markush + squiggly-valence fragments + RESIN-BEAD solid-phase species | 5 | 0 |
 | [`US12018032B2_icovamenib.pdf`](US12018032B2_icovamenib.pdf) | 98 | Patent, public record | USPTO scan, no text layer; 37 non-structure figure sheets; ~20 DEUTERATED analogues; atom-numbered figure | 4 | 1 |
@@ -231,7 +210,6 @@ the twenty-five — and is in
 
 | file | pages | licence | drawing style | drawn | scored |
 |---|---|---|---|---|---|
-| [`EP3067355B1_nacubactam.pdf`](EP3067355B1_nacubactam.pdf) | 9 | Patent, public record | EPO B1 vector; a PROCESS patent that draws almost everything generically (R1/R3/P1/P2), incl. a 12-member gallery of protecting-group placeholders | 8 | 2 |
 | [`EP3189841B1_cefiderocol.pdf`](EP3189841B1_cefiderocol.pdf) | 13 | Patent, public record | EPO B1 vector; TRILINGUAL claims each redrawing all four formulae; the drug drawn as two different PROTOMERS with one InChIKey | 4 | 2 |
 | [`EP3299356B1_pleuromutilin.pdf`](EP3299356B1_pleuromutilin.pdf) | 9 | Patent, public record | EPO B1 vector; 5-6-8 fused DITERPENE, 8 wedge-only stereocentres; one wedge among three ring centres = under-specified | 4 | 2 |
 | [`EP3529236B1_eravacycline.pdf`](EP3529236B1_eravacycline.pdf) | 14 | Patent, public record | EPO B1 vector; p25 impurity gallery puts a compound and its C-4 EPIMER 400 px apart, one wedge different; salt written both `2HCl` and as floating `HCl` | 10 | 5 |
@@ -239,21 +217,16 @@ the twenty-five — and is in
 | [`EP3643719B1_spiropyrimidinetriones.pdf`](EP3643719B1_spiropyrimidinetriones.pdf) | 10 | Patent, public record | EPO B1 vector; 18 fully drawn, fully NAMED compounds, none in PubChem; genus uses `*`/`**` stereo markers and a DASHED OPTIONAL-RING arc | 2 | 0 |
 | [`EP3719020B1_BLI_gallery.pdf`](EP3719020B1_BLI_gallery.pdf) | 9 | Patent, public record | EPO B1 vector; ONE figure draws six named beta-lactamase inhibitors in THREE charge conventions (neutral / external Na+ / inner salt) | 8 | 7 |
 | [`EP3868768B1_contezolid_acefosamil.pdf`](EP3868768B1_contezolid_acefosamil.pdf) | 14 | Patent, public record | EPO B1 vector, complete grant; trilingual claims + 3 full-page XRPD/DSC sheets kept as negatives | 3 | 2 |
-| [`EP4003521B1_telacebec.pdf`](EP4003521B1_telacebec.pdf) | 7 | Patent, public record | EPO B1 vector; only 3 structures in 156 pp, ~78 of which are instrument plots; ditosylate written as a BRACKET with subscript 2 | 4 | 2 |
 | [`EP4121058B1_oxazolidinone_TB.pdf`](EP4121058B1_oxazolidinone_TB.pdf) | 17 | Patent, public record | EPO B1 vector, complete grant; a 7-step named route on ONE page; NHCbz / OAc / NHAc condensed labels | 10 | 9 |
 | [`EP3221308B1_olorofim.pdf`](EP3221308B1_olorofim.pdf) | 11 | Patent, public record | EPO B1 vector; three ISOTOPOLOGUES with explicit D labels, plus two competitor drugs drawn as grey halftone scans | 10 | 8 |
-| [`EP3247711B1_ibrexafungerp.pdf`](EP3247711B1_ibrexafungerp.pdf) | 8 | Patent, public record | EPO B1 vector; 11-stereocentre triterpene with ATOM POSITION NUMBERS printed inside the skeleton; 17-acid salt table never drawn | 2 | 1 |
 | [`EP3720438B1_gwt1_antifungals.pdf`](EP3720438B1_gwt1_antifungals.pdf) | 9 | Patent, public record | EPO B1 vector; a congeneric series of flat, achiral analogues in 500-620 px clippings, 2-4 per page | 8 | 6 |
 | [`EP3810115B1_manogepix_prodrugs.pdf`](EP3810115B1_manogepix_prodrugs.pdf) | 10 | Patent, public record | EPO B1 vector; specific and generic drawn on ONE page; a circled `A` ring placeholder; a drawn ISOCYANATE | 5 | 3 |
-| [`EP4069690B1_opelconazole.pdf`](EP4069690B1_opelconazole.pdf) | 9 | Patent, public record | EPO B1 vector; a 1,2,4-triazole azole with two adjacent THF stereocentres, one bold and one hashed wedge | 1 | 1 |
 | [`EP3578557B1_cipargamin.pdf`](EP3578557B1_cipargamin.pdf) | 8 | Patent, public record | EPO B1 vector; a 6-step route to a SPIRO quaternary centre, drawn almost entirely behind CO2H/NHAc/CO2Me/NHBoc/OMs labels | 8 | 6 |
 | [`EP3743419B1_antiparasitic_tetrazoles.pdf`](EP3743419B1_antiparasitic_tetrazoles.pdf) | 7 | Patent, public record | EPO B1 vector; three (2R)/(2S) DIASTEREOMER pairs and two TETRAZOLE N-1/N-2 REGIOISOMER pairs, partners drawn on the same page | 10 | 8 |
 | [`EP4061375B1_antimalarial_markush.pdf`](EP4061375B1_antimalarial_markush.pdf) | 9 | Patent, public record | EPO B1 vector; genus-only - floating substituent `R10(m)` whose bond crosses the ring, and a scheme whose protecting group is a variable | 3 | 0 |
 | [`EP3321253B1_tecovirimat.pdf`](EP3321253B1_tecovirimat.pdf) | 19 | Patent, public record | EPO B1 vector, complete grant; a rigid POLYCYCLIC CAGE with six explicit stereo hydrogens and no CIP letters | 9 | 9 |
-| [`EP3473629B1_baloxavir_route.pdf`](EP3473629B1_baloxavir_route.pdf) | 6 | Patent, public record | EPO B1 vector; a 7-member route with Japanese-style `[Chem. n]` headings and NOT ONE chemical name; every box drawn flat | 9 | 7 |
 | [`EP3512863B1_ethynyl_nucleosides.pdf`](EP3512863B1_ethynyl_nucleosides.pdf) | 6 | Patent, public record | EPO B1 vector; a PHOSPHORUS stereocentre drawn as a WAVY bond beside four hard-wedge sugar centres; 2-ethynyl reads as methyl at low dpi | 5 | 3 |
 | [`EP3544977B1_pritelivir.pdf`](EP3544977B1_pritelivir.pdf) | 9 | Patent, public record | EPO B1 whose structure clippings are SCANNED GREYSCALE rasters; each captioned with its molecular formula and mass | 3 | 2 |
-| [`EP3668859B1_lenacapavir.pdf`](EP3668859B1_lenacapavir.pdf) | 9 | Patent, public record | EPO B1 vector; ATROPISOMERS drawn side by side and claimed separately; the claimed sodium salt is never drawn | 2 | 2 |
 | [`EP3953330B1_nirmatrelvir.pdf`](EP3953330B1_nirmatrelvir.pdf) | 7 | Patent, public record | EPO B1 vector; two schemes drawing 16 resolvable species incl. six unlabelled REAGENTS/SOLVENTS; a PROTEIN SEQUENCE LISTING page | 19 | 16 |
 | [`EP4079746B1_molnupiravir.pdf`](EP4079746B1_molnupiravir.pdf) | 13 | Patent, public record | EPO B1 vector, complete grant; RIBOFURANOSIDES with an anomeric centre; `NH2.H2SO4` as a condensed atom label | 7 | 5 |
 
@@ -327,26 +300,16 @@ round), **scored** the number of distinct compounds carrying a PubChem CID.
 
 | file | pages | licence | drawing style | drawn | scored |
 |---|---|---|---|---|---|
-| [`EP3525784B1_sparsentan.pdf`](EP3525784B1_sparsentan.pdf) | 2 | Patent, public record | EPO B1, English, vector text + 300-ppi CCITT clippings; condensed `O2S` sulfonyl; 6 intermediates bracketed "not isolated" | 10 | 8 |
-| [`US11078230B2_omaveloxolone.pdf`](US11078230B2_omaveloxolone.pdf) | 2 | Patent, public record | USPTO scan, no text layer; pentacyclic triterpenoid, 7 ring-fusion stereocentres; **139 non-chemical drawing sheets** in the original | 1 | 1 |
-| [`US11208391B2_tafamidis.pdf`](US11208391B2_tafamidis.pdf) | 1 | Patent, public record | USPTO scan; two-component solids drawn as VERTICAL STACKS with no connector; printed name joins components with an asterisk | 4 | 4 |
 | [`US11370739B2_sacubitril.pdf`](US11370739B2_sacubitril.pdf) | 1 | Patent, public record | USPTO scan; the corpus's first WAVY BONDS, alongside a bold and a hashed wedge on one page | 3 | 3 |
 | [`US11465970B2_roxadustat_intermediates.pdf`](US11465970B2_roxadustat_intermediates.pdf) | 2 | Patent, public record | USPTO scan; generic and specific structures side by side, same column, same style; "19 Claims, No Drawings" | 9 | 2 |
-| [`US11479577B2_chenodeoxycholic_acid.pdf`](US11479577B2_chenodeoxycholic_acid.pdf) | 1 | Patent, public record | USPTO scan; 27 numerals and ring letters A–D printed INSIDE the structure box; 9 wedged stereocentres | 2 | 1 |
-| [`US11680058B2_aprocitentan.pdf`](US11680058B2_aprocitentan.pdf) | 2 | Patent, public record | USPTO scan; 13 XRPD sheets BEFORE any text; the corpus's only sulfamide | 1 | 1 |
 | [`US12247024B2_aficamten.pdf`](US12247024B2_aficamten.pdf) | 2 | Patent, public record | USPTO scan; a drawn DPPA inversion, a sulfoxide stereocentre, four compounds whose two enantiomers both exist in PubChem | 15 | 12 |
 | [`US12269811B2_omecamtiv_mecarbil.pdf`](US12269811B2_omecamtiv_mecarbil.pdf) | 5 | Patent, public record | USPTO scan; Schemes 1–3 + a DVS plot. **The document draws its own drug substance WRONG in Scheme 1** and correctly twice elsewhere | 26 | 13 |
 | [`US20240238266A1_iptacopan.pdf`](US20240238266A1_iptacopan.pdf) | 1 | Patent, public record | USPTO pre-grant scan; salt+hydrate cued by two stacked words `HCl`/`H2O` beside identical line art | 2 | 2 |
-| [`US20240246949A1_lanifibranor.pdf`](US20240246949A1_lanifibranor.pdf) | 2 | Patent, public record | USPTO pre-grant scan; one structure, eleven XRPD sheets; pages kept in reverse order | 1 | 1 |
 | [`US20240391897A1_obicetrapib.pdf`](US20240391897A1_obicetrapib.pdf) | 1 | Patent, public record | USPTO pre-grant scan; **four salt notations on one page**, incl. a bracketed anion with subscript 2 and a Ca²⁺ outside | 9 | 9 |
 | [`WO2020051014A1_tenapanor.pdf`](WO2020051014A1_tenapanor.pdf) | 2 | Patent, public record | WIPO A1 scan; 76-heavy-atom SYMMETRIC dimer drawn at a 9:1 aspect ratio; ion-pair di-HCl | 7 | 4 |
-| [`WO2021137144A1_ertugliflozin.pdf`](WO2021137144A1_ertugliflozin.pdf) | 1 | Patent, public record | WIPO A1 scan, oversized media box; a CO-CRYSTAL drawn as two complete molecules with no connector | 2 | 2 |
 | [`WO2022006427A1_vadadustat_intermediates.pdf`](WO2022006427A1_vadadustat_intermediates.pdf) | 2 | Patent, public record | WIPO A1 scan; a Cl/Br/F halogen triplet, structures set mid-sentence, a quinoid ion pair with no PubChem record | 9 | 3 |
 | [`WO2022149161A1_bempedoic_acid.pdf`](WO2022149161A1_bempedoic_acid.pdf) | 2 | Patent, public record | WIPO A1 scan; **the corpus's only ring-free stratum** — six acyclic C15 zigzags where identity is vertex count | 6 | 3 |
-| [`WO2023034364A1_vericiguat.pdf`](WO2023034364A1_vericiguat.pdf) | 3 | Patent, public record | WIPO A1 scan; HAIRLINE structure at ~1/3 the stroke weight of the body text; 13 XRPD sheets in the original | 1 | 1 |
-| [`WO2023052652A1_acoramidis.pdf`](WO2023052652A1_acoramidis.pdf) | 4 | Patent, public record | WIPO A1 scan; free base and salt separated only by the bare word `HCl` | 2 | 2 |
 | [`WO2023209729A1_imeglimin.pdf`](WO2023209729A1_imeglimin.pdf) | 2 | Patent, public record | WIPO A1 scan; **racemate vs single enantiomer, same line art, one wedge apart**; 8–11 heavy-atom molecules | 5 | 4 |
-| [`WO2024022998A1_daprodustat.pdf`](WO2024022998A1_daprodustat.pdf) | 1 | Patent, public record | WIPO A1 scan, sans-serif body text; a TAUTOMER PAIR named twice on one page, only one matching the picture | 1 | 1 |
 | [`WO2024167899A1_milvexian.pdf`](WO2024167899A1_milvexian.pdf) | 1 | Patent, public record | WIPO A1 scan; the corpus's first MACROCYCLIC drug in a patent, ring closed through three heteroaryls | 1 | 1 |
 | [`WO2024201358A1_pemafibrate.pdf`](WO2024201358A1_pemafibrate.pdf) | 2 | Patent, public record | WIPO A1 scan; a Mitsunobu INVERSION drawn with the same hash on both sides of the step | 6 | 6 |
 | [`WO2024228213A1_danuglipron.pdf`](WO2024228213A1_danuglipron.pdf) | 1 | Patent, public record | WIPO A1 scan; one stereocentre in 41 heavy atoms, on a four-membered oxetane | 1 | 1 |
@@ -407,28 +370,19 @@ count is much larger — 749 across the twenty-five — and is in
 | [`US10526350B2_baricitinib.pdf`](US10526350B2_baricitinib.pdf) | 8 | Patent, public record | USPTO scan + OCR text layer; 37 inline depictions and "No Drawings" on the front page; every formula named in full | 9 | 9 |
 | [`US10815227B2_filgotinib.pdf`](US10815227B2_filgotinib.pdf) | 19 | Patent, public record | USPTO scan + OCR; formulae (I)–(XVII), boronate esters and an acylthiourea; three resolution routes in one file | 18 | 16 |
 | [`US11613529B2_deucravacitinib.pdf`](US11613529B2_deucravacitinib.pdf) | 18 | Patent, public record | USPTO scan, NO text layer; deuterium as a condensed `CD3`; a `Zn(0.5)` HEMI-carboxylate; 5 instrument sheets | 10 | 8 |
-| [`US11680050B2_ozanimod.pdf`](US11680050B2_ozanimod.pdf) | 10 | Patent, public record | USPTO scan, no text layer (10-pp extract of 40); 25 drawing sheets inc. PHOTOMICROGRAPHS vs 2 depictions | 1 | 1 |
-| [`US12049463B2_tolebrutinib.pdf`](US12049463B2_tolebrutinib.pdf) | 19 | Patent, public record | USPTO scan, no text layer (19-pp extract of 24); phenoxy drawn as the condensed label `O–Ph` | 1 | 1 |
 | [`US20230002439A1_vamorolone.pdf`](US20230002439A1_vamorolone.pdf) | 14 | Patent, public record | USPTO pre-grant scan (14-pp extract of 36); STEROID, 5 stereocentres; a greyscale raster HEATMAP | 2 | 1 |
-| [`WO2020261041A1_abrocitinib.pdf`](WO2020261041A1_abrocitinib.pdf) | 32 | Patent, public record | WIPO A1 raster, no text layer; ONE structure; *cis* drawn but the reference carries no stereo | 1 | 1 |
 | [`WO2021005484A1_upadacitinib.pdf`](WO2021005484A1_upadacitinib.pdf) | 36 | Patent, public record | WIPO A1 raster; nine compounds drawn INSIDE A TABLE against their names; 16 Markush formulae | 11 | 9 |
 | [`WO2023152691A1_ponesimod.pdf`](WO2023152691A1_ponesimod.pdf) | 20 | Patent, public record | WIPO A1 raster (20-pp extract of 41); printed name MORE specified than PubChem's record | 10 | 9 |
-| [`CN118530179A_elexacaftor.pdf`](CN118530179A_elexacaftor.pdf) | 13 | Patent, public record | CNIPA vector, CHINESE; a ruled ANNOTATION RECTANGLE inside a structure; Boc as `NBoc` | 6 | 6 |
 | [`EP3344607B1_selexipag.pdf`](EP3344607B1_selexipag.pdf) | 30 | Patent, public record | EPO B1 vector; 4 depictions against 14 full-page figures in SEVEN analytical modalities | 3 | 3 |
 | [`EP3747864B1_nintedanib.pdf`](EP3747864B1_nintedanib.pdf) | 12 | Patent, public record | EPO B1 vector, trilingual claims; `name/nintedanib` returns the wrong TAUTOMER | 7 | 6 |
-| [`US11491155B2_ensifentrine.pdf`](US11491155B2_ensifentrine.pdf) | 14 | Patent, public record | USPTO scan + OCR (14-pp extract of 28); 1 structure vs 12 figures in 4 classes + 17 pp of tables | 1 | 1 |
 | [`WO2022049604A1_revefenacin.pdf`](WO2022049604A1_revefenacin.pdf) | 18 | Patent, public record | WIPO A1 raster (18-pp extract of 48); a COUNTER-ION genus (`X⁻`); 44 heavy atoms, achiral | 5 | 3 |
 | [`WO2022083476A1_gefapixant.pdf`](WO2022083476A1_gefapixant.pdf) | 25 | Patent, public record | WIPO A1 raster, CHINESE; abstract figure OVERLAYS the structure on the XRPD plot | 1 | 1 |
 | [`EP4302831B1_tirbanibulin.pdf`](EP4302831B1_tirbanibulin.pdf) | 17 | Patent, public record | EPO B1 vector; an ION-PAIR diHCl salt; trilingual claims triple every claim structure | 18 | 13 |
 | [`US11597692B2_tapinarof.pdf`](US11597692B2_tapinarof.pdf) | 18 | Patent, public record | USPTO scan, no text layer (18-pp extract of 40); a SQUIGGLY bond = undefined stereocentre | 9 | 8 |
 | [`US20250215046A1_clascoterone.pdf`](US20250215046A1_clascoterone.pdf) | 10 | Patent, public record | USPTO pre-grant scan; STEROID; a Markush with exactly TWO members; the round's only IR spectrum | 5 | 3 |
-| [`WO2024180493A1_delgocitinib.pdf`](WO2024180493A1_delgocitinib.pdf) | 18 | Patent, public record | WIPO A1 raster (18-pp extract of 69); 1 structure, a diazaspiro quaternary centre, 49 pp of peak lists | 1 | 1 |
 | [`WO2024182418A1_trifarotene.pdf`](WO2024182418A1_trifarotene.pdf) | 21 | Patent, public record | WIPO A1 raster (21-pp extract of 44); a LANDSCAPE drawing sheet naming ten compounds — one caption WRONG | 12 | 10 |
-| [`US10584100B2_netarsudil.pdf`](US10584100B2_netarsudil.pdf) | 14 | Patent, public record | USPTO scan + OCR; 7 PXRD sheets vs ONE structure; stereo given three ways at once | 1 | 1 |
 | [`US11345664B2_netarsudil_process.pdf`](US11345664B2_netarsudil_process.pdf) | 14 | Patent, public record | USPTO scan + OCR; "Formula I" and "Formula 1" on one page are DIFFERENT compounds | 6 | 2 |
 | [`US10870621B2_latanoprostene_bunod.pdf`](US10870621B2_latanoprostene_bunod.pdf) | 6 | Patent, public record | USPTO scan + OCR; 27 depictions, ZERO figures; five stereocentres + a cis alkene on every one | 8 | 8 |
-| [`US20220009893A1_reproxalap.pdf`](US20220009893A1_reproxalap.pdf) | 8 | Patent, public record | USPTO pre-grant scan (8-pp extract of 14); the front-page abstract figure is itself a diffractogram | 1 | 1 |
-| [`WO2023107660A1_lotilaner.pdf`](WO2023107660A1_lotilaner.pdf) | 17 | Patent, public record | WIPO A1 raster (17-pp extract of 63); a QUATERNARY stereocentre; 24 figure sheets inc. ssNMR | 1 | 1 |
 
 Round-10 arithmetic: **148 catalogued compounds, 123 scored**, plus 11 generic and
 14 unresolved rows, over 749 depictions, in 19.9 MB. **Quote 123 with any recall
@@ -490,21 +444,14 @@ records exactly which pages of each publication were kept.
 | [`US9630955B2_opicapone.pdf`](US9630955B2_opicapone.pdf) | 12 | Patent, public record | USPTO scan, coarsest line art in the round; 6 full-page scheme sheets; acid chloride drawn INSIDE SQUARE BRACKETS | 10 | 8 |
 | [`US11174272B2_soticlestat.pdf`](US11174272B2_soticlestat.pdf) | 8 | Patent, public record | USPTO scan; an entire ring replaced by 'Ht' INSIDE A CIRCLE; three table rows share the printed mass 374.2 | 9 | 6 |
 | [`WO2023152711A1_cenobamate.pdf`](WO2023152711A1_cenobamate.pdf) | 12 | Patent, public record | WIPO A1; page content is vector PATHS, zero embedded fonts, so no text layer despite looking typeset; 19 lettered Markush formulae with PG/Lg/R/X/M; tetrazole attached through N2 | 8 | 6 |
-| [`WO2025122953A1_suzetrigine.pdf`](WO2025122953A1_suzetrigine.pdf) | 4 | Patent, public record | WIPO A1 trimmed from 209 pp; the drug is NAMED THROUGHOUT AND NEVER DRAWN; TMS label; only Si in the corpus | 6 | 6 |
-| [`US10577433B2_sugammadex.pdf`](US10577433B2_sugammadex.pdf) | 7 | Patent, public record | USPTO scan; LARGEST structures in the corpus - 128-heavy-atom cyclodextrin macrocycles, 32 stereocentres per box; X at 8 positions | 7 | 5 |
 | [`US10588898B2_oliceridine.pdf`](US10588898B2_oliceridine.pdf) | 11 | Patent, public record | USPTO scan; Markush with a VARIABLE RING SIZE '( )n'; 500-row name+structure table; 26 dropped pages are bare NAME LISTS | 8 | 5 |
 | [`US10899752B2_m1pam_benzoxazinones.pdf`](US10899752B2_m1pam_benzoxazinones.pdf) | 10 | Patent, public record | USPTO scan; TABLE 1 row Ex.2 draws a DIFFERENT MOLECULE from its own printed name and mass - it draws Ex.6 | 9 | 5 |
 | [`US11919905B2_benzodiazepine_anaesthetics.pdf`](US11919905B2_benzodiazepine_anaesthetics.pdf) | 11 | Patent, public record | USPTO scan; 3 pharmacology figure sheets; drawn intermediates confirmed by printed ESI-MS to 0.01 Da but absent from PubChem | 8 | 5 |
-| [`US20230181470A1_xanomeline_trospium.pdf`](US20230181470A1_xanomeline_trospium.pdf) | 4 | Patent, public record | USPTO pre-grant scan; 43 drawing sheets and NOT ONE is chemistry - 28 are TABLES typeset as figures; both structures are CATIONS | 6 | 5 |
 | [`US11993581B2_nav18_pyridazines.pdf`](US11993581B2_nav18_pyridazines.pdf) | 10 | Patent, public record | USPTO scan; the SQUIGGLY-FRAGMENT table - only the variable fragment drawn, full IUPAC name in the next column | 7 | 4 |
 | [`US20210024461A1_esketamine.pdf`](US20210024461A1_esketamine.pdf) | 10 | Patent, public record | USPTO pre-grant scan; racemate, (S) and (R) ketamine drawn on ONE page; every counter-ion is the literal text '.(S)-CSA' | 6 | 4 |
-| [`US10844058B2_valbenazine.pdf`](US10844058B2_valbenazine.pdf) | 8 | Patent, public record | USPTO scan; 18 drawing sheets, one a SCANNING ELECTRON MICROGRAPH; four-wedge valbenazine beside FLAT tetrabenazine | 5 | 3 |
-| [`US11111223B2_ozanimod.pdf`](US11111223B2_ozanimod.pdf) | 6 | Patent, public record | USPTO scan; TWENTY-FIVE drawing sheets, ~50 traces plus a polarised-light photomicrograph, and TWO structures in the grant | 3 | 2 |
 | [`US20230338546A1_difelikefalin.pdf`](US20230338546A1_difelikefalin.pdf) | 11 | Patent, public record | USPTO pre-grant scan; a TETRAPEPTIDE drawn atom by atom; D-configuration stated only in the shorthand caption; FIG. 9 is photographs | 4 | 2 |
-| [`WO2023175632A1_rimegepant.pdf`](WO2023175632A1_rimegepant.pdf) | 4 | Patent, public record | WIPO A1 raster, no extractable text; salt cued by the condensed text '0.5 H2SO4'; PubChem's obvious name hit is the wrong hydrate | 3 | 2 |
 | [`CA3224298A1_trofinetide.pdf`](CA3224298A1_trofinetide.pdf) | 4 | Patent, public record | CIPO application; ONE structure in 58 pages; among 13 drawing sheets a 3-D ORTEP thermal-ellipsoid plot; hydrate is 'x H2O' | 3 | 1 |
 | [`WO2022217008A1_zavegepant.pdf`](WO2022217008A1_zavegepant.pdf) | 5 | Patent, public record | WIPO A1 raster; 17 instrument sheets, 2 structures; a 55-heavy-atom drawing run across the page width | 3 | 1 |
-| [`WO2023119327A1_ubrogepant.pdf`](WO2023119327A1_ubrogepant.pdf) | 4 | Patent, public record | WIPO A1, vector; drawn exactly 3 times in 19 pages; 4 stereocentres, one a QUATERNARY SPIRO carbon | 1 | 1 |
 
 Round-8 arithmetic: **212 catalogued compounds, 157 scored**, plus 17 generic and 38
 unresolved rows, over 2,073 depictions. **Quote 157 with any recall figure from this
