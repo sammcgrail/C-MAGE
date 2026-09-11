@@ -22,6 +22,7 @@ import json
 import os
 import shutil
 import sys
+import time
 from pathlib import Path
 
 WORK = Path("/root/cmage-work/sonnet")
@@ -101,6 +102,22 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
     RDLogger.DisableLog("rdApp.*")
     batch = json.load(open(pending_path(slot)))
     ans = {a["img"]: a for a in json.load(open(answers_path))}
+
+    # The answers file lives at a FIXED path per slot and is overwritten each round.
+    # Scoring a STALE one against a fresh claim is silent and total: every row gets a
+    # valid SMILES for a real molecule, just the wrong one, and the batch reads as a
+    # catastrophic model failure rather than a bookkeeping error. It happened once --
+    # round 4's answers scored against round 5's images, so aspirin came back "wrong"
+    # holding a macrocyclic peptide and atenolol came back "wrong" holding anthracene.
+    # The answers must postdate the claim they are being scored against.
+    if os.path.getmtime(answers_path) < os.path.getmtime(pending_path(slot)):
+        raise SystemExit(
+            f"[{slot}] REFUSING: {answers_path} is OLDER than the claim it would be "
+            f"scored against ({pending_path(slot)}).\n"
+            f"  answers  {time.strftime('%F %T', time.localtime(os.path.getmtime(answers_path)))}\n"
+            f"  claim    {time.strftime('%F %T', time.localtime(os.path.getmtime(pending_path(slot))))}\n"
+            f"  The reader for this slot has not written yet, or wrote elsewhere. "
+            f"Scoring now would attribute one batch's answers to another batch's images.")
 
     def canon(s, stereo=True):
         if not s:
