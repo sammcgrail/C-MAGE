@@ -207,6 +207,9 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .badge.misread{background:#4a1513;color:#f87171}
 .badge.noref{background:#2a323d;color:#cbd5e1}
 .badge.unreadable{background:#1b1f25;color:var(--dim)}
+.cxnote{margin:7px 0 0;font-size:12px;line-height:1.5;color:var(--dim)}
+.cxnote code{display:inline;background:#161b22;border:0;padding:1px 4px;font-size:11.5px}
+.cxnote b{color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
 .kv label .dim{color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400}
 .meta .badge{margin-right:6px;margin-bottom:4px;display:inline-block}
 .badge.wrong{background:#4a1513;color:#f87171} .badge.invalid{background:#21262d;color:var(--dim)}
@@ -371,6 +374,47 @@ function tile(r){
    never will, and only agrees once something is discarded; and that something is
    not always stereochemistry -- Acetone-D6 is graded the same way because the
    reference carries six deuteriums and the reader saw three. */
+/* CXSMILES is the whole reason this fork exists, and it was being printed
+   unlabelled. `Chem.MolToSmiles` silently drops the |$...$| block; CXMolScribe
+   calls MolToCXSmiles and keeps it, which is what preserves an abbreviation the
+   drawing spelled as text. Shown without a name it reads as line noise. */
+function cxLabels(sm){
+  var m = /\|\$(.*?)\$\|/.exec(sm || "");
+  if (!m) return null;
+  var seen = {}, out = [];
+  m[1].split(";").forEach(function(x){
+    x = x.trim();
+    if (x && !seen[x]) { seen[x] = 1; out.push(x); }
+  });
+  return out;
+}
+
+function smilesField(label, sm, extra){
+  var labs = cxLabels(sm);
+  return '<div class="kv"><label>' + esc(label)
+    + (labs ? ' <span class="dim">&mdash; CXSMILES</span>' : '')
+    + (extra || '') + '</label><code>' + esc(sm) + '</code>'
+    /* `*` in that block is an attachment point, not something the drawing spelled
+       out. Listing it beside a real abbreviation implies the reader saw a glyph
+       that was never there. */
+    + (function(){
+        if (!labs) return '';
+        var real = labs.filter(function(x){ return x !== '*'; });
+        var star = labs.length !== real.length;
+        if (!real.length && !star) return '';
+        return '<p class="cxnote">The <code>|$…$|</code> block is the CXSMILES extension, '
+          + 'which plain SMILES drops silently. '
+          + (real.length
+              ? 'Abbreviation' + (real.length > 1 ? 's' : '') + ' the drawing spelled out as '
+                + 'text rather than as structure, kept verbatim: <b>'
+                + real.map(esc).join('</b>, <b>') + '</b>. '
+              : '')
+          + (star ? 'The <code>*</code> entries are attachment points, not labels.' : '')
+          + '</p>';
+      })()
+    + '</div>';
+}
+
 function verdictNote(r){
   var x = r.r;
   if (!x) return "";
@@ -436,13 +480,10 @@ function openSheet(r){
 
   $("#sheetBody").innerHTML =
       '<div class="pics pics' + npics + '">' + pics + '</div>'
-    + '<div class="kv"><label>' + esc(meLabel) + ' read'
-      + (twoReaders ? sconf : conf) + '</label><code>'
-      + esc(r.s || "(nothing emitted)") + '</code></div>'
-    + (r.ocr ? '<div class="kv"><label>CXMolScribe read' + conf + '</label><code>'
-      + esc(r.ocr) + '</code></div>' : '')
-    + (r.t ? '<div class="kv"><label>Reference — what the ground truth says</label><code>'
-      + esc(r.t) + '</code></div>'
+    + smilesField(meLabel + " read", r.s || "(nothing emitted)",
+                  twoReaders ? sconf : conf)
+    + (r.ocr ? smilesField("CXMolScribe read", r.ocr, conf) : "")
+    + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
     + verdictNote(r)
