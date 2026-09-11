@@ -203,6 +203,12 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .note code{display:block;margin-top:7px;background:none;border:0;padding:0;
   font:12px/1.5 ui-monospace,Menlo,monospace;color:var(--ink);word-break:break-all;
   user-select:text;-webkit-user-select:text}
+.badge.matched{background:#0f3d20;color:#4ade80}
+.badge.misread{background:#4a1513;color:#f87171}
+.badge.noref{background:#2a323d;color:#cbd5e1}
+.badge.unreadable{background:#1b1f25;color:var(--dim)}
+.kv label .dim{color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400}
+.meta .badge{margin-right:6px;margin-bottom:4px;display:inline-block}
 .badge.wrong{background:#4a1513;color:#f87171} .badge.invalid{background:#21262d;color:var(--dim)}
 
 /* docs strip + arms */
@@ -384,43 +390,64 @@ function verdictNote(r){
 }
 
 function openSheet(r){
-  var v = cls(r), names = {exact:"Exact match", stereo:"Right skeleton, stereochemistry differs",
-    wrong:"Different molecule", invalid:"Not parseable"};
+  var v = cls(r);
+  var VERD = {matched:"matched the reference", stereo:"matched, stereochemistry differs",
+              misread:"a reference exists and this is not it",
+              noref:"no reference to check against", unreadable:"nothing usable produced"};
+  /* Name the reader on every single line. "PREDICTED" and "EXPECTED" do not say
+     WHOSE, and on a tab that shows two readers side by side that is the one thing
+     the labels have to carry. */
+  var twoReaders = !!r.ocr;
+  var meLabel = twoReaders ? "Sonnet" : "CXMolScribe";
+  var ocrState = r.ocrv === "exact" ? "matched" : r.ocrv === "stereo" ? "stereo"
+               : r.ocrv === "invalid" ? "unreadable" : "misread";
+  function badge(who, state){
+    return '<span class="badge ' + state + '">' + esc(who) + ' &middot; '
+      + esc(VERD[state] || state) + '</span>';
+  }
   $("#sheetHead").innerHTML =
       '<button class="sclose" aria-label="Close" onclick="document.getElementById(\'sheet\').close()">&times;</button>'
     + '<h3>' + esc(r.n) + '</h3>'
-    + '<div class="meta"><span class="badge ' + v + '">' + esc(names[v] || v) + '</span>'
-    + (r.c != null ? ' &nbsp;confidence ' + r.c + '%' : '')
-    + (r.sconf ? ' &nbsp;model said ' + esc(r.sconf) : '')
-    + (r.d ? ' &nbsp;·&nbsp; ' + esc(r.d) : '')
-    + (r.dup > 1 ? ' &nbsp;·&nbsp; drawn ' + r.dup + ' times in this document' : '')
+    + '<div class="meta">' + badge(meLabel, v)
+    + (twoReaders ? " " + badge("CXMolScribe", ocrState) : "")
+    + (r.d ? '<div style="margin-top:6px">' + esc(r.d)
+        + (r.dup > 1 ? ' &middot; drawn ' + r.dup + ' times in this document' : '') + '</div>' : '')
     + '</div>';
-  /* Up to three pictures: what was given, and what each reader returned. A SMILES
-     string hides the interesting disagreements -- CXMolScribe emits iodine as a
-     `J` abbreviation label on some inputs, which is invisible in the text and
-     unmistakable once drawn. */
+
   var pics = '<figure><img decoding="sync" src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt=""><figcaption>Input</figcaption></figure>'
     + (r.p ? '<figure><img decoding="sync" src="/wall/' + DATA.dir + '_pred/'
-      + encodeURIComponent(r.k) + '.png" alt=""><figcaption>'
-      + (r.ocr ? 'Sonnet read' : 'Read back') + '</figcaption></figure>' : '')
+      + encodeURIComponent(r.k) + '.png" alt=""><figcaption>' + esc(meLabel)
+      + ' read</figcaption></figure>' : '')
     + (r.po ? '<figure><img decoding="sync" src="/wall/' + DATA.dir + '_ocr/'
       + encodeURIComponent(r.k) + '.png" alt=""><figcaption>CXMolScribe read'
       + '</figcaption></figure>' : '');
-  var n = (pics.match(/<figure/g) || []).length;
+  var npics = (pics.match(/<figure/g) || []).length;
+
+  /* Confidence belongs to whoever produced it, and the two are not the same kind
+     of thing: CXMolScribe emits a calibrated score, Sonnet states a self-rating.
+     "model said high" said neither whose nor which. */
+  /* On the Sonnet tab the pipeline's confidence lives in `ocrc`, because `c` is
+     the row's own reader. Reading only `c` there left CXMolScribe's score off the
+     one page built to compare the two. */
+  var ocrConf = (r.ocrc != null ? r.ocrc : r.c);
+  var conf = ocrConf != null ? ' <span class="dim">confidence ' + ocrConf + '%</span>' : '';
+  var sconf = r.sconf ? ' <span class="dim">rated itself ' + esc(r.sconf) + '</span>' : '';
+
   $("#sheetBody").innerHTML =
-      '<div class="pics pics' + n + '">' + pics + '</div>'
-    + '<div class="kv"><label>Predicted</label><code>' + esc(r.s || "(nothing emitted)") + '</code></div>'
-    + (r.t ? '<div class="kv"><label>Expected</label><code>' + esc(r.t) + '</code></div>' : '')
-    /* On the Sonnet arm every row carries BOTH readings. Showing only one would
-       hide the actual finding, which is not that either is better overall but
-       that they miss different molecules. */
-    + (r.ocr ? '<div class="kv"><label>CXMolScribe read ('
-        + esc(r.ocrv) + (r.ocrc != null ? ', confidence ' + r.ocrc + '%' : '')
-        + ')</label><code>' + esc(r.ocr) + '</code></div>' : '')
+      '<div class="pics pics' + npics + '">' + pics + '</div>'
+    + '<div class="kv"><label>' + esc(meLabel) + ' read'
+      + (twoReaders ? sconf : conf) + '</label><code>'
+      + esc(r.s || "(nothing emitted)") + '</code></div>'
+    + (r.ocr ? '<div class="kv"><label>CXMolScribe read' + conf + '</label><code>'
+      + esc(r.ocr) + '</code></div>' : '')
+    + (r.t ? '<div class="kv"><label>Reference — what the ground truth says</label><code>'
+      + esc(r.t) + '</code></div>'
+      : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
+        + 'structure, so neither reading can be called right or wrong</code></div>')
     + verdictNote(r)
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
-    + JSON.stringify(r.s || "") + ')">Copy predicted</button>';
+    + JSON.stringify(r.s || "") + ')">Copy ' + esc(meLabel) + '\u2019s reading</button>';
   $("#sheetBody").scrollTop = 0;
   $("#sheet").showModal();
 }
