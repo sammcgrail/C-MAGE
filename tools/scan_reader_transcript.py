@@ -46,10 +46,13 @@ NET_CODE = re.compile(r"\burlopen\b|urllib\.request|\brequests\.(?:get|post|Sess
                       r"|\bpubchempy\b|\bhttpx\b|\baiohttp\b|socket\.create_connection|chembl_webresource",
                       re.I)
 # Where reference answers live on this box. Readers get their toolkit from the RDKit venv
-# inside the repo, so the venv is carved out. The rest of the repo is not.
+# inside the repo, so the venv is carved out. The rest of the repo is not. Earlier readers'
+# transcripts and task outputs hold the PubChem responses they fetched, so reading one is
+# reading the key second-hand.
 ANSWER_PATH = re.compile(r"/root/cmage-work|/root/C-MAGE(?!/\.venv)|(?:localhost|127\.0\.0\.1):20079"
                          r"|sebland\.com|\b(?:images|sonnet|pdfs)\.json\b|\bresults\.jsonl\b"
-                         r"|\bexcluded\.jsonl\b|\bpending_\w*\.json\b")
+                         r"|\bexcluded\.jsonl\b|\bpending_\w*\.json\b"
+                         r"|/root/\.claude\b|/tmp/claude-\d")
 CONTENT_SEARCH = re.compile(r"\b(?:grep|rg|ag)\b[^|;&\n]*\s-\w*[rR]")
 VETTED = {"Bash", "Read", "Write", "Edit", "MultiEdit", "Glob", "Grep", "ToolSearch", "TodoWrite"}
 # URL and query words that name an API, never a compound.
@@ -233,6 +236,9 @@ def selftest() -> int:
         ("Bash", {"command": "python3 -c \"import pubchempy as p; print(p.get_compounds(n, 'name'))\""},
          "network-code", None),
         ("Read", {"file_path": "/root/C-MAGE/benchmarks/wall/images.json"}, "answer-path", None),
+        ("Read", {"file_path": "/root/.claude/projects/p/s/subagents/agent-a1d6b4e506749af12.jsonl"},
+         "answer-path", None),
+        ("Bash", {"command": "tail -c 4000 /tmp/claude-0/p/s/tasks/a1d6b4e506749af12.output"}, "answer-path", None),
         ("Bash", {"command": "grep -ri diminazene /root 2>/dev/null | head"}, "content-search", None),
         ("Grep", {"pattern": "berberine", "path": "/root"}, "content-search", "img01"),
         ("mcp__chem__lookup", {"name": "berberine"}, "unvetted-tool", "img01"),
