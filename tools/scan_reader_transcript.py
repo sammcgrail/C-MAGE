@@ -4,9 +4,10 @@
 The benchmark's reference answers are PubChem IsomericSMILES. A reader that fetches the
 structure of the compound in front of it copies the key instead of reading the drawing,
 and the row scores exact for the wrong reason. Readers have done this after being told
-not to. Their own reports are wrong in BOTH directions: one denied using RDKit while
-importing it in 107 of 110 scripts, and another disclosed a diminazene lookup that its
-transcript shows it never made. Only the transcript is evidence.
+not to. Their own reports are wrong in BOTH directions. One said it used no
+cheminformatics tool while its working directory held 36 scripts importing RDKit.
+Another disclosed a diminazene lookup that its transcript shows it never made. Only the
+transcript is evidence.
 
 The first screen was a grep for the PubChem domain. It was checked against a reader whose
 five PubChem lookups were known and it recovered all five, yet it would still have passed
