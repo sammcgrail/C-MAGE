@@ -11,8 +11,20 @@ ANS="/tmp/sonnet_answers_${SLOT}.json"
 PY=/root/C-MAGE/.venv-ms/bin/python
 
 [ -f "$ANS" ] || { echo "no answers for slot $SLOT at $ANS"; exit 2; }
-[ -f "/root/cmage-work/sonnet/pending_${SLOT}.json" ] || {
+PENDING="/root/cmage-work/sonnet/pending_${SLOT}.json"
+[ -f "$PENDING" ] || {
   echo "slot $SLOT has no outstanding claim -- already scored"; exit 0; }
+
+# The answers must be NEWER than the claim they are scored against. Answer files
+# persist in /tmp between waves, and slot names are reused, so /tmp/sonnet_answers_a
+# from the PREVIOUS wave sits there looking exactly like this wave's output. Scoring
+# it would attribute last wave's readings to this wave's compounds -- silently,
+# because every one of them is a valid SMILES for a real molecule. This nearly
+# happened on 2026-09-14 and was only caught by deleting the files by hand.
+if [ ! "$ANS" -nt "$PENDING" ]; then
+  echo "REFUSING: $ANS is older than the claim $PENDING -- it belongs to a previous wave"
+  exit 3
+fi
 
 $PY /root/C-MAGE/tools/sonnet_batch.py score "$ANS" "$SLOT"
 # `all` chains the Sonnet build, so the two tabs cannot report different corpus sizes.
