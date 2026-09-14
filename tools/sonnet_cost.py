@@ -6,6 +6,13 @@ This answers "what would the same work cost on the API". Every reader transcript
 the API's own `usage` for each request, and those token counts are priced at Anthropic's
 published rates.
 
+THE TALLY COUNTS PUBLISHED READS ONLY. A reading excluded for a lookup was re-run clean,
+and the re-run is the reading the page shows. So the cost of each run is split evenly
+over the images it read, and the shares belonging to excluded readings are left out of
+the headline figure. Even is an estimate: one reader works on all its images in a single
+context, so nothing finer is recorded. Everything spent, excluded readings included,
+stays in the JSON as cost_usd_all.
+
 Three details decide whether the number is right:
 
 - DEDUPLICATE BY MESSAGE ID. Claude Code writes one transcript record per content block,
@@ -13,8 +20,7 @@ Three details decide whether the number is right:
   response once per block: for one reader, 391 records were 203 responses.
 - CACHE READS ARE MOST OF IT. A reader re-sends its whole growing context on every tool
   call. Cache reads therefore outnumber all other tokens about 40 to 1, and are about 60%
-  of the cost even at a tenth of the input price. Pricing the token total at the input
-  rate would overstate the cost several-fold.
+  of the cost even at a tenth of the input price.
 - THE TASK NOTIFICATION'S TOKEN COUNT IS NOT USAGE. "subagent_tokens: 214311" is the size
   of the reader's final context. That reader actually used 7.4M tokens.
 
@@ -25,10 +31,8 @@ Prices are per million tokens for claude-sonnet-5, from Anthropic's pricing page
 - 5-minute cache write $2.50
 - 1-hour cache write $4
 - cache read $0.20
-The $2/$10 launch price became standard, and the increase to $3/$15 scheduled for 1 Sep
-2026 was cancelled. Sonnet 5 bills its whole 1M context at standard rates, so requests past
-200K tokens (these reached 576K) carry no premium. The first-party API is global, so no
-regional 10% applies.
+Sonnet 5 bills its whole 1M context at standard rates, so requests past 200K tokens carry
+no premium. The first-party API is global, so no regional 10% applies.
 
 Results merge into benchmarks/sonnet_cost.json by agent id, so a reader whose transcript
 is later cleaned up keeps its recorded cost.
@@ -46,6 +50,7 @@ sys.path.insert(0, str(HERE))
 import audit_sonnet_rows as A  # noqa: E402
 
 OUT = HERE.parent / "benchmarks" / "sonnet_cost.json"
+EXCLUDED = [Path("/root/cmage-work/sonnet/excluded.jsonl"), HERE.parent / "benchmarks" / "sonnet_excluded.jsonl"]
 MODEL = "claude-sonnet-5"
 PRICE_PER_MTOK = {"input": 2.00, "output": 10.00, "cache_write_5m": 2.50,
                   "cache_write_1h": 4.00, "cache_read": 0.20}
@@ -89,10 +94,22 @@ def cost_of(t: dict) -> float:
     return sum(t[k] * PRICE_PER_MTOK[k] for k in TOKEN_KEYS) / 1e6
 
 
+def excluded_rows() -> list[dict]:
+    for p in EXCLUDED:
+        if p.exists():
+            return [json.loads(l) for l in open(p) if l.strip()]
+    return []
+
+
 def update() -> dict:
     saved = json.load(open(OUT)) if OUT.exists() else {}
     readers = {r["agent"]: r for r in saved.get("readers", [])}
+    holders, finished = {}, {}
     for p, (found, _) in A.reader_transcripts(set()).items():
+        aid = os.path.basename(p)[6:-6]
+        finished[aid] = os.path.getmtime(p)
+        for _, smi in found:
+            holders.setdefault(smi, set()).add(aid)
         t, models = reader_usage(p)
         if not t["requests"]:
             continue
@@ -100,19 +117,44 @@ def update() -> dict:
         if other:
             raise ValueError(f"{os.path.basename(p)} was served by {other}, not {MODEL}; "
                              "these prices do not apply to it")
-        aid = os.path.basename(p)[6:-6]
         readers[aid] = dict(agent=aid, images=len({img for img, _ in found}),
                             finished=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(os.path.getmtime(p))),
                             **t, cost_usd=round(cost_of(t), 4))
+
+    # Which run produced each excluded reading. The exclusion log records it; for a row
+    # logged before that field existed, the earliest transcript holding that answer is
+    # the one, because a re-read can only follow an exclusion.
+    excluded, unattributed = {}, []
+    for e in excluded_rows():
+        aid = e.get("reader")
+        if not aid:
+            h = holders.get(e.get("sonnet_smiles"), set())
+            aid = min(h, key=lambda a: finished[a]) if h else None
+        if aid in readers:
+            excluded[aid] = excluded.get(aid, 0) + 1
+        else:
+            unattributed.append(e.get("k"))
+    for r in readers.values():
+        r["excluded"] = excluded.get(r["agent"], 0)
+        r["published"] = max(0, r["images"] - r["excluded"])
+        r["published_cost_usd"] = round(r["cost_usd"] * r["published"] / r["images"], 4) if r["images"] else 0.0
+
     rows = sorted(readers.values(), key=lambda r: r["finished"])
-    totals = {k: sum(r[k] for r in rows) for k in TOKEN_KEYS + ("requests", "images")}
-    total = sum(r["cost_usd"] for r in rows)
+    totals = {k: sum(r[k] for r in rows) for k in TOKEN_KEYS + ("requests", "images", "excluded", "published")}
+    spent = sum(r["cost_usd"] for r in rows)
+    shown = sum(r["published_cost_usd"] for r in rows)
     out = {
         "model": MODEL, "price_per_mtok": PRICE_PER_MTOK,
         "price_source": PRICE_SOURCE, "price_checked": PRICE_CHECKED,
-        "note": "API list-price estimate. The readers ran on a subscription; nothing here was billed per token.",
-        "cost_usd": round(total, 2),
-        "per_image_usd": round(total / totals["images"], 3) if totals["images"] else None,
+        "note": ("API list-price estimate. The readers ran on a subscription; nothing here was billed per "
+                 "token. cost_usd and per_image_usd cover published reads only, with each run's cost split "
+                 "evenly over its images; cost_usd_all includes the readings excluded for lookups."),
+        "reads": totals["published"],
+        "cost_usd": round(shown, 2),
+        "per_image_usd": round(shown / totals["published"], 3) if totals["published"] else None,
+        "cost_usd_all": round(spent, 2),
+        "cost_usd_excluded": round(spent - shown, 2),
+        "unattributed_excluded": unattributed,
         "totals": totals, "readers": rows,
     }
     OUT.write_text(json.dumps(out, indent=1) + "\n")
@@ -122,7 +164,11 @@ def update() -> dict:
 if __name__ == "__main__":
     o = update()
     t = o["totals"]
-    print(f"{len(o['readers'])} readers, {t['images']} images, {t['requests']:,} API requests")
+    print(f"{len(o['readers'])} readers, {t['images']} images read, {t['excluded']} excluded, "
+          f"{t['requests']:,} API requests")
     for k in TOKEN_KEYS:
-        print(f"  {k:<15} {t[k]:>13,} tokens  ${t[k] * PRICE_PER_MTOK[k] / 1e6:>9,.2f}")
-    print(f"  total ${o['cost_usd']:,.2f}   per image ${o['per_image_usd']:.3f}")
+        print(f"  {k:<15} {t[k]:>13,} tokens  ${t[k] * PRICE_PER_MTOK[k] / 1e6:>9,.2f}  (all runs)")
+    print(f"  all runs ${o['cost_usd_all']:,.2f}; excluded readings ${o['cost_usd_excluded']:,.2f}")
+    print(f"  published reads {o['reads']}: ${o['cost_usd']:,.2f}, per image ${o['per_image_usd']:.3f}")
+    if o["unattributed_excluded"]:
+        print(f"  WARNING excluded readings with no run found: {o['unattributed_excluded']}")

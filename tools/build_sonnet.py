@@ -85,18 +85,18 @@ PROMPT_NOTE = (
 
 
 def cost_note(cost, published):
-    """The page's one-line cost estimate, or None before any cost has been recorded."""
-    if not cost or not (cost.get("totals") or {}).get("images"):
+    """The page's one-line cost estimate, over the published reads only, or None before any cost
+    has been recorded. A reading excluded for a lookup was re-run, and the re-run is what the
+    page shows, so the excluded reading's share of its run's cost is not in this figure."""
+    if not cost or not cost.get("reads"):
         return None
-    reads = cost["totals"]["images"]
-    extra = reads - published
+    if cost["reads"] != published:
+        print(f"  WARNING cost covers {cost['reads']} published reads, the payload has {published}")
     return {
-        "usd": cost["cost_usd"], "reads": reads, "perImage": cost["per_image_usd"],
-        "note": (f"Estimated API cost at list price: ${cost['cost_usd']:,.0f} for all {reads} Sonnet reads"
-                 + (f", including {extra} that were excluded" if extra > 0 else "")
-                 + f" — about ${cost['per_image_usd']:.2f} per image."),
+        "usd": cost["cost_usd"], "reads": cost["reads"], "perImage": cost["per_image_usd"],
+        "note": (f"Estimated API cost at list price: ${cost['cost_usd']:,.0f} for the {cost['reads']} "
+                 f"Sonnet reads shown — about ${cost['per_image_usd']:.2f} per image."),
     }
-
 
 def main() -> int:
     # Read the append-only results file, not a snapshot. The batch harness appends
