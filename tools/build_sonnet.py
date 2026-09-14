@@ -64,7 +64,14 @@ PROMPT_NOTE = (
     "run.\n\n"
     "One reader's own summary stated that no cheminformatics tool was used at any point. "
     "Its working directory contains 36 scripts that import RDKit. Self-reports were not "
-    "taken at face value anywhere else in this benchmark and should not be here.")
+    "taken at face value anywhere else in this benchmark and should not be here.\n\n"
+    "LATER WAVES WERE ALLOWED ANY TOOLS and asked to report them accurately, which they did. "
+    "It went further than RDKit. One reader installed OSRA with apt — itself an optical "
+    "structure recognition engine, the same category of tool as CXMolScribe — ran it on all "
+    "ten of its images as a cross-check, and recorded that OSRA caught one of its errors. "
+    "Readers also used OpenCV to measure bond angles and OPSIN to convert names to reference "
+    "structures. Where a reader runs a second OCSR engine, that reading is no longer a test "
+    "of the model alone; it is the model orchestrating another recogniser.")
 
 
 def main() -> int:
