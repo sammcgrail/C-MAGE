@@ -705,18 +705,33 @@ function render(){
   paint();
 }
 
+/* Each tab's payload is downloaded once and kept. The first tab loads as before, and the
+   other two follow in the background as soon as it is on screen. Switching tabs then
+   renders from memory instead of showing "Loading…" while the same JSON downloads
+   again. Rendering never mutates a payload beyond the idempotent threshold default, so a
+   kept one renders again as-is. */
+var READY = {}, PENDING = {};
+function fetchTab(tab){
+  if (READY[tab]) return Promise.resolve(READY[tab]);
+  if (!PENDING[tab]) PENDING[tab] = fetch("/wall/" + tab + ".json").then(function(r){
+    if (!r.ok) throw new Error("no data for this tab yet (HTTP " + r.status + ")");
+    return r.json();
+  }).then(function(d){ READY[tab] = d; delete PENDING[tab]; return d; },
+          function(e){ delete PENDING[tab]; throw e; });
+  return PENDING[tab];
+}
+
 function load(tab){
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
   ["pdfs","images","sonnet"].forEach(function(t){
     $("#tab-" + t).setAttribute("aria-selected", tab === t); });
-  $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
-  fetch("/wall/" + tab + ".json").then(function(r){
-    if (!r.ok) throw new Error("no data for this tab yet (HTTP " + r.status + ")");
-    return r.json();
-  }).then(function(d){
+  if (!READY[tab]) $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
+  fetchTab(tab).then(function(d){
+    if (TAB !== tab) return;          // the user moved to another tab while this downloaded
     DATA = d; DATA.threshold = d.threshold || 84; render();
     history.replaceState(null, "", "?tab=" + tab);
   }).catch(function(e){
+    if (TAB !== tab) return;
     DATA = {error: "This tab has no results yet — " + e.message, rows: [], stats: {}};
     render();
   });
@@ -739,5 +754,9 @@ document.addEventListener("selectstart", function(e){
    depiction per image, no figure extraction to go wrong) and the bigger corpus.
    ?tab=pdfs still deep-links to the document run. */
 (function(){ var t = new URLSearchParams(location.search).get("tab");
-  load(t === "pdfs" || t === "sonnet" ? t : "images"); })();
+  var first = t === "pdfs" || t === "sonnet" ? t : "images";
+  load(first);
+  var warm = function(){ ["images","pdfs","sonnet"].forEach(function(x){
+    if (x !== first) fetchTab(x).catch(function(){}); }); };
+  fetchTab(first).then(warm, warm); })();
 </script>
