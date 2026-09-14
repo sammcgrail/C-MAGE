@@ -664,6 +664,7 @@ function render(){
       + '<div class="prog"><div class="lbl"><span>Read so far</span><span>'
       + c.n + ' of ' + c.corpus + '</span></div><div class="track"><i style="width:'
       + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'
+      + (c.cost ? '<div class="sub">' + esc(c.cost.note) + '</div>' : '')
       + '<div class="sub">' + esc(DATA.headline) + '</div>';
   } else {
     /* Same visual language as the Sonnet tab: one headline number, a stacked bar

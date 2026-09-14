@@ -84,6 +84,20 @@ PROMPT_NOTE = (
     "been published had scored exact, which is what a copied answer key looks like.")
 
 
+def cost_note(cost, published):
+    """The page's one-line cost estimate, or None before any cost has been recorded."""
+    if not cost or not (cost.get("totals") or {}).get("images"):
+        return None
+    reads = cost["totals"]["images"]
+    extra = reads - published
+    return {
+        "usd": cost["cost_usd"], "reads": reads, "perImage": cost["per_image_usd"],
+        "note": (f"Estimated API cost at list price: ${cost['cost_usd']:,.0f} for all {reads} Sonnet reads"
+                 + (f", including {extra} that were excluded" if extra > 0 else "")
+                 + f" — about ${cost['per_image_usd']:.2f} per image."),
+    }
+
+
 def main() -> int:
     # Read the append-only results file, not a snapshot. The batch harness appends
     # to it, so the tab reflects every batch scored so far with no separate step to
@@ -144,6 +158,16 @@ def main() -> int:
     both = sum(1 for r in rows if r["v"] == "exact" and r["ocrv"] == "exact")
     either = sum(1 for r in rows if r["v"] == "exact" or r["ocrv"] == "exact")
     corpus_n = len(json.load(open(WALL / "images.json"))["rows"])
+    # Cost at API list prices, from the tokens the readers used. It is recomputed from the
+    # transcripts on every build, so the note keeps up with new batches. If that fails, the
+    # saved per-reader costs are used; a costing problem must never block publishing results.
+    try:
+        import sonnet_cost
+        cost = sonnet_cost.update()
+    except Exception as e:
+        print(f"  WARNING cost not refreshed: {e}")
+        cp = WALL.parent / "sonnet_cost.json"
+        cost = json.load(open(cp)) if cp.exists() else None
     d = {
         "arm": "Sonnet", "dir": "sonnet", "rows": rows,
         # Two readers, one denominator, shown at the same size. A single big
@@ -156,6 +180,7 @@ def main() -> int:
                 {"label": "CXMolScribe", "exact": o_ex, "pct": round(o_ex / n * 100, 1)},
             ],
             "agree": both, "either": either,
+            "cost": cost_note(cost, n),
             # Ordered worst-understood to best so the stacked bar reads left to
             # right as "who got it": both, then each alone, then neither.
             "breakdown": [
