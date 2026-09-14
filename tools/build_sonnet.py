@@ -71,7 +71,16 @@ PROMPT_NOTE = (
     "ten of its images as a cross-check, and recorded that OSRA caught one of its errors. "
     "Readers also used OpenCV to measure bond angles and OPSIN to convert names to reference "
     "structures. Where a reader runs a second OCSR engine, that reading is no longer a test "
-    "of the model alone; it is the model orchestrating another recogniser.")
+    "of the model alone; it is the model orchestrating another recogniser.\n\n"
+    "EXCLUDED ROWS. Three readers used PubChem, the database this benchmark's reference answers "
+    "are drawn from. They fetched the IsomericSMILES of the compound in front of them by name, or "
+    "resolved a structure they had built to its identity by InChIKey or molecular formula. A "
+    "reading obtained that way copies the answer key rather than reading the drawing, so every "
+    "such row is excluded, logged with its reason, and returned to the unread pool. The lookups "
+    "were identified from the readers' own transcripts, and the extraction was validated against "
+    "one reader whose five lookups were already known: it recovered exactly those five. Every "
+    "excluded row that had already been published had scored exact, which is what a copied "
+    "answer key looks like.")
 
 
 def main() -> int:
