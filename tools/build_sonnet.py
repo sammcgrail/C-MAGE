@@ -244,6 +244,14 @@ def main() -> int:
         if rc:
             r["rc"], r["rt"] = rc["cost"], rc["secs"]
             r["bc"], r["bs"], r["bn"] = rc["batch_cost"], rc["batch_secs"], rc["batch"]
+    # Bucket the references by objective RDKit features and score each arm per bucket, for the
+    # "By structure type" section. A classify failure must never block a publish.
+    try:
+        import classify_structures
+        struct_classes = classify_structures.classes(rows_in)
+    except Exception as e:
+        print(f"  WARNING structure classes not computed: {e}")
+        struct_classes = []
     d = {
         "arm": "Sonnet", "dir": "sonnet", "rows": rows,
         # Two readers, one denominator, shown at the same size. A single big
@@ -271,7 +279,7 @@ def main() -> int:
             ],
         },
         "prompt": PROMPT_TEXT,
-        "workflow": WORKFLOW, "examples": EXAMPLES,
+        "workflow": WORKFLOW, "examples": EXAMPLES, "classes": struct_classes,
         "method": method_sections(sum(1 for l in open(WALL.parent / "sonnet_excluded.jsonl") if l.strip())
                                   if (WALL.parent / "sonnet_excluded.jsonl").exists() else 0),
         "cx": sum(1 for r in rows if r.get("cx")),

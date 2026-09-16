@@ -144,6 +144,21 @@ main{max-width:1400px;margin:0 auto;
 .extag.ok{color:#3fb950} .extag.miss{color:#d29922}
 .extitle{font-weight:700;font-size:13.5px;margin-bottom:5px;line-height:1.3}
 .exbody{font-size:12.5px;color:var(--dim);line-height:1.5}
+.clswrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
+.cls{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+.clsh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
+.clslab{font-size:12.5px;font-weight:650;color:var(--ink);min-width:0}
+.clsn{color:var(--dim);font-weight:500;font-size:11px}
+.clschip{flex:0 0 auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.clschip.s{background:rgba(63,185,80,.16);color:#3fb950}
+.clschip.c{background:rgba(88,166,255,.16);color:#58a6ff}
+.clschip.t{background:#1b222c;color:var(--dim)}
+.clsbar{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:11.5px;color:var(--dim)}
+.cll{flex:0 0 84px}
+.ctrack{flex:1 1 auto;min-width:0;height:7px;background:#0b0f14;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.ctrack i{display:block;height:100%}
+.ctrack i.s{background:#3fb950} .ctrack i.c{background:#58a6ff}
+.clsbar b{flex:0 0 36px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
 .sub b{color:var(--ink);font-weight:600}
 
 /* filters */
@@ -718,6 +733,7 @@ function render(){
   var jumps = [];
   if (DATA.workflow) jumps.push(["How it works", "sec-workflow"]);
   if (DATA.examples && DATA.examples.length) jumps.push(["Examples", "sec-examples"]);
+  if (DATA.classes && DATA.classes.length) jumps.push(["By type", "sec-classes"]);
   if (DATA.prompt) jumps.push(["Prompt & method", "sec-method"]);
   jumps.push(["Bottom", "sec-bottom"], ["Top", "sec-top"]);
   if (jumps.length > 2) {
@@ -766,6 +782,28 @@ function render(){
       if (row) openSheet(row);
     });
     es.appendChild(grid); v.appendChild(es);
+  }
+  if (DATA.classes && DATA.classes.length){
+    var cs = el("section", "block"); cs.id = "sec-classes";
+    cs.innerHTML = '<h2 class="blockh">By structure type</h2>'
+      + '<p class="sub">Every reference bucketed by shape and size with RDKit — not by its name — and '
+      + 'how often each reader got the whole string right. A structure can sit in several buckets. '
+      + 'Sonnet leads on small, odd, charged and inorganic drawings; CXMolScribe leads on large, '
+      + 'ring-dense, stereo-heavy and peptide structures.</p>';
+    var wrap = el("div", "clswrap");
+    wrap.innerHTML = DATA.classes.map(function(c){
+      var dlt = c.sonnet - c.cxms;
+      var lead = c.lead === "sonnet" ? '<span class="clschip s">Sonnet +' + dlt + '</span>'
+        : c.lead === "cxms" ? '<span class="clschip c">CXMolScribe +' + (-dlt) + '</span>'
+        : '<span class="clschip t">≈ even</span>';
+      function bar(who, pct, k){ return '<div class="clsbar"><span class="cll">' + who
+        + '</span><div class="ctrack"><i class="' + k + '" style="width:' + pct + '%"></i></div><b>'
+        + pct + '%</b></div>'; }
+      return '<div class="cls"><div class="clsh"><span class="clslab">' + esc(c.label)
+        + ' <b class="clsn">n=' + c.n + '</b></span>' + lead + '</div>'
+        + bar("Sonnet", c.sonnet, "s") + bar("CXMolScribe", c.cxms, "c") + '</div>';
+    }).join("");
+    cs.appendChild(wrap); v.appendChild(cs);
   }
   if (DATA.prompt){
     var pd = el("details"); pd.id = "sec-method";
