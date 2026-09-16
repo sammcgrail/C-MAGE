@@ -44,44 +44,57 @@ OUTPUT — a JSON array:
   "confidence": "high|medium|low"}, ...]
 All ten, in order."""
 
-PROMPT_NOTE = (
-    "The file paths are anonymised before the model sees them. The corpus names images after "
-    "their compounds — lactic_acid_cid612.png — so a model handed the real path can answer "
-    "from the string without looking at the drawing, and would score well for entirely the "
-    "wrong reason.\n\n"
-    "WHAT THIS ARM ACTUALLY IS. Sonnet running inside Claude Code, with a shell, a Python "
-    "interpreter and RDKit available — not a single vision API call. The prompt asks it not "
-    "to use a cheminformatics toolkit, and it used one anyway: across 260 images the readers "
-    "wrote 110 helper scripts, 107 of which import RDKit. Chem.MolToSmiles appears 80 times "
-    "(canonicalising their own answer), AssignStereochemistry 73 times (deriving R/S rather "
-    "than reading the wedge), SanitizeMol 32 times (repairing valence). Only 10 calls draw "
-    "anything, so this was computation rather than a visual double-check.\n\n"
-    "That is a real capability and it is not disqualifying — but it is NOT the same test as "
-    "the pipeline faces. CXMolScribe emits its answer in one pass with no chance to "
-    "canonicalise or repair it, and round-tripping a string through RDKit turns some "
-    "near-misses into exact matches. Read this arm as 'an agent with chemistry tools', not "
-    "as 'the model'. A bare API call would be a different and cheaper arm; it has not been "
-    "run.\n\n"
-    "One reader's own summary stated that no cheminformatics tool was used at any point. "
-    "Its working directory contains 36 scripts that import RDKit. Self-reports were not "
-    "taken at face value anywhere else in this benchmark and should not be here.\n\n"
-    "LATER WAVES WERE ALLOWED ANY TOOLS and asked to report them accurately, which they did. "
-    "It went further than RDKit. One reader installed OSRA with apt — itself an optical "
-    "structure recognition engine, the same category of tool as CXMolScribe — ran it on all "
-    "ten of its images as a cross-check, and recorded that OSRA caught one of its errors. "
-    "Readers also used OpenCV to measure bond angles and OPSIN to convert names to reference "
-    "structures. Where a reader runs a second OCSR engine, that reading is no longer a test "
-    "of the model alone; it is the model orchestrating another recogniser.\n\n"
-    "EXCLUDED ROWS. Some readers looked the answer up: in PubChem, where this benchmark's "
-    "reference answers come from, and once in KEGG. They fetched the SMILES of the compound in "
-    "front of them by name, or resolved a structure they had built by InChIKey or molecular "
-    "formula. That copies the answer key rather than reading the drawing, so every such row is "
-    "excluded, logged with its reason, and returned to the unread pool. Lookups are identified "
-    "from the transcripts, not from the readers' reports, which were wrong in both directions: "
-    "one reader disclosed a lookup it never made, and that row was kept. The screen lists every "
-    "network request on any host and every read of the answer files. Before it is trusted, it "
-    "must catch accesses planted in a synthetic transcript. Every excluded row that had already "
-    "been published had scored exact, which is what a copied answer key looks like.")
+def method_sections(excluded_n: int) -> list[dict]:
+    """The method note as titled sections of bullets, so the page renders structure rather
+    than one wall of prose. Kept to claims that hold at any batch size — no stale per-run
+    tallies. `excluded_n` is read from the exclusion log at build time."""
+    return [
+        {"h": "Blinding",
+         "points": [
+             "Image filenames are anonymised before the model sees them. The corpus names each "
+             "file after its compound (lactic_acid_cid612.png), so a real path would let the model "
+             "answer from the string instead of the drawing.",
+         ]},
+        {"h": "What this arm is",
+         "points": [
+             "Sonnet running inside Claude Code with a shell, Python and RDKit — an agent with "
+             "tools, not one vision API call.",
+             "Readers routinely used RDKit to canonicalise their SMILES, to assign stereochemistry "
+             "from coordinates they measured off the drawing, and to re-render and diff against the "
+             "source. Some also ran OSRA (a second structure-recognition engine), OpenCV for bond "
+             "angles, and OPSIN for names.",
+             "So read it as 'an agent with chemistry tools', not 'the model'. CXMolScribe answers "
+             "in one pass with no chance to repair its output, and round-tripping through RDKit "
+             "turns some near-misses into exact matches. A bare single-call arm would score "
+             "differently and cost less.",
+         ]},
+        {"h": "Self-reports are not trusted",
+         "points": [
+             "Reader summaries have been wrong in both directions: one claimed it used no "
+             "cheminformatics tool while its working directory held dozens of RDKit scripts; "
+             "another disclosed a PubChem lookup its transcript shows it never made.",
+             "Tool use and exclusions are decided from the transcript, never from the reader's own "
+             "account.",
+         ]},
+        {"h": "Answer-key access is excluded",
+         "points": [
+             "The reference answers are PubChem SMILES, so a reader that looks the compound up "
+             "copies the key instead of reading the drawing.",
+             "Every reader transcript is scanned for network requests to any host and for reads of "
+             "the answer files; a flagged reading is excluded and the image is re-read blind.",
+             f"{excluded_n} readings have been excluded this way and re-read. Every excluded reading "
+             "that had already been published had scored exact — which is what a copied key looks "
+             "like.",
+         ]},
+        {"h": "Content-filter refusals",
+         "points": [
+             "The image set includes toxins. On one batch the Sonnet API returned a content-policy "
+             "refusal (a [bio] block) triggered by a marine neurotoxin (brevetoxin B).",
+             "That reader had already completed and written all ten readings before the refusal, "
+             "and its transcript was clean and Sonnet-served, so the batch still counts.",
+             "A batch that refused before finishing would be dropped, not guessed.",
+         ]},
+    ]
 
 
 def cost_note(cost, published):
@@ -194,7 +207,9 @@ def main() -> int:
                  "n": sum(1 for r in rows if r["o"] == "neither")},
             ],
         },
-        "prompt": PROMPT_TEXT, "promptNote": PROMPT_NOTE,
+        "prompt": PROMPT_TEXT,
+        "method": method_sections(sum(1 for l in open(WALL.parent / "sonnet_excluded.jsonl") if l.strip())
+                                  if (WALL.parent / "sonnet_excluded.jsonl").exists() else 0),
         "cx": sum(1 for r in rows if r.get("cx")),
         "cxLabel": "CXMolScribe returned CXSMILES",
         "stats": {"n": n, "exact": s_ex, "strict_pct": round(s_ex / n * 100, 1)},

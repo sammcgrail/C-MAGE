@@ -122,6 +122,10 @@ main{max-width:1400px;margin:0 auto;
 .big{font-size:52px;font-weight:800;line-height:1;letter-spacing:-1.5px}
 .big small{font-size:17px;font-weight:500;color:var(--dim);letter-spacing:0;margin-left:8px}
 .sub{color:var(--dim);font-size:14px;margin-top:8px}
+.noteh{font-weight:700;font-size:12.5px;color:var(--ink);margin:12px 0 4px;
+  text-transform:uppercase;letter-spacing:.5px}
+.notelist{margin:0 0 4px 18px;padding:0}
+.notelist li{font-size:12.5px;color:var(--dim);line-height:1.5;margin:3px 0}
 .sub b{color:var(--ink);font-weight:600}
 
 /* filters */
@@ -692,7 +696,14 @@ function render(){
   if (DATA.prompt){
     var pd = el("details");
     pd.appendChild(el("summary", null, "The prompt the model was given"));
-    if (DATA.promptNote) pd.appendChild(el("p", "sub", DATA.promptNote));
+    if (DATA.method && DATA.method.length){
+      DATA.method.forEach(function(sec){
+        pd.appendChild(el("div", "noteh", sec.h));
+        var ul = el("ul", "notelist");
+        (sec.points || []).forEach(function(p){ ul.appendChild(el("li", null, p)); });
+        pd.appendChild(ul);
+      });
+    } else if (DATA.promptNote) pd.appendChild(el("p", "sub", DATA.promptNote));
     pd.appendChild(el("div", "pre", DATA.prompt));
     v.appendChild(pd);
   }

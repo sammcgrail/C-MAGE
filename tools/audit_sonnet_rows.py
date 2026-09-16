@@ -71,24 +71,27 @@ def reader_transcripts(skip: set[str]) -> dict[str, tuple[list, str]]:
             p = os.path.join(dp, f)
             if not m or m.group(1) in skip or os.path.getmtime(p) < since:
                 continue
+            raw = open(p, errors="replace").read()
             parts = []
-            with open(p, errors="replace") as fh:
-                for line in fh:
-                    try:
-                        r = json.loads(line)
-                    except ValueError:
-                        continue
-                    if r.get("type") == "assistant":
-                        parts.extend(strings((r.get("message") or {}).get("content")))
-            blob = "\n".join(parts)
+            for line in raw.splitlines():
+                try:
+                    r = json.loads(line)
+                except ValueError:
+                    continue
+                if r.get("type") == "assistant":
+                    parts.extend(strings((r.get("message") or {}).get("content")))
             found = []
-            for a in ANSWER.finditer(blob):
+            for a in ANSWER.finditer("\n".join(parts)):
                 try:
                     found.append((a.group(1), json.loads(a.group(2))))
                 except ValueError:
                     pass
+            # Trace containment against the WHOLE transcript, not just the model's prose: a
+            # reader that canonicalises its answer with RDKit emits the final SMILES in tool
+            # output (a non-assistant record), so it is genuinely this reader's reading but is
+            # absent from the assistant text. gate_and_score.py verifies the same way.
             if found:
-                out[p] = (found, blob)
+                out[p] = (found, raw)
     return out
 
 
