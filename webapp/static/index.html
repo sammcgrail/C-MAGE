@@ -144,6 +144,8 @@ main{max-width:1400px;margin:0 auto;
 .extag.ok{color:#3fb950} .extag.miss{color:#d29922}
 .extitle{font-weight:700;font-size:13.5px;margin-bottom:5px;line-height:1.3}
 .exbody{font-size:12.5px;color:var(--dim);line-height:1.5}
+.takeaway{background:var(--panel);border:1px solid var(--line);border-left:3px solid #d29922;
+  border-radius:8px;padding:11px 13px;margin:10px 0;font-size:13.5px;line-height:1.5;color:var(--ink)}
 .clswrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
 .cls{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
 .clsh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
@@ -786,10 +788,11 @@ function render(){
   if (DATA.classes && DATA.classes.length){
     var cs = el("section", "block"); cs.id = "sec-classes";
     cs.innerHTML = '<h2 class="blockh">By structure type</h2>'
+      + '<div class="takeaway">Short version: the language model reads small, odd and inorganic '
+      + 'drawings better; the specialised OCR model reads large, ring-heavy and peptide drawings '
+      + 'better.</div>'
       + '<p class="sub">Every reference bucketed by shape and size with RDKit — not by its name — and '
-      + 'how often each reader got the whole string right. A structure can sit in several buckets. '
-      + 'Sonnet leads on small, odd, charged and inorganic drawings; CXMolScribe leads on large, '
-      + 'ring-dense, stereo-heavy and peptide structures.</p>';
+      + 'how often each reader got the whole string right. A structure can sit in several buckets.</p>';
     var wrap = el("div", "clswrap");
     wrap.innerHTML = DATA.classes.map(function(c){
       var dlt = c.sonnet - c.cxms;
