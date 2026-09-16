@@ -59,19 +59,34 @@ PRICE_CHECKED = "2026-09-14"
 TOKEN_KEYS = ("input", "output", "cache_write_5m", "cache_write_1h", "cache_read")
 
 
-def reader_usage(path: str) -> tuple[dict, set]:
+def _ts(rec: dict) -> float | None:
+    s = rec.get("timestamp")
+    if not isinstance(s, str):
+        return None
+    try:
+        return time.mktime(time.strptime(s[:19], "%Y-%m-%dT%H:%M:%S"))
+    except ValueError:
+        return None
+
+
+def reader_usage(path: str) -> tuple[dict, set, float]:
     last = {}
+    stamps = []
     with open(path, errors="replace") as fh:
         for line in fh:
             try:
                 r = json.loads(line)
             except ValueError:
                 continue
+            ts = _ts(r)
+            if ts is not None:
+                stamps.append(ts)
             m = r.get("message") or {}
             if r.get("type") != "assistant" or not m.get("usage") or m.get("model") == "<synthetic>":
                 continue
             # The last record of a response carries its final usage.
             last[m.get("id") or r.get("requestId") or r.get("uuid")] = (m["usage"], m.get("model"))
+    duration_s = round(max(stamps) - min(stamps)) if len(stamps) >= 2 else 0
     t = dict.fromkeys(TOKEN_KEYS, 0)
     t["requests"] = len(last)
     models = set()
@@ -87,7 +102,7 @@ def reader_usage(path: str) -> tuple[dict, set]:
             # A record that does not split the TTL is priced as a 5-minute write, the default.
             t["cache_write_5m"] += u.get("cache_creation_input_tokens") or 0
         t["cache_read"] += u.get("cache_read_input_tokens") or 0
-    return t, models
+    return t, models, duration_s
 
 
 def cost_of(t: dict) -> float:
@@ -104,13 +119,14 @@ def excluded_rows() -> list[dict]:
 def update() -> dict:
     saved = json.load(open(OUT)) if OUT.exists() else {}
     readers = {r["agent"]: r for r in saved.get("readers", [])}
-    holders, finished = {}, {}
-    for p, (found, _) in A.reader_transcripts(set()).items():
+    holders, finished, raw_by_aid = {}, {}, {}
+    for p, (found, raw) in A.reader_transcripts(set()).items():
         aid = os.path.basename(p)[6:-6]
         finished[aid] = os.path.getmtime(p)
+        raw_by_aid[aid] = raw
         for _, smi in found:
             holders.setdefault(smi, set()).add(aid)
-        t, models = reader_usage(p)
+        t, models, duration_s = reader_usage(p)
         if not t["requests"]:
             continue
         other = sorted(str(m) for m in models if MODEL not in (m or ""))
@@ -119,7 +135,7 @@ def update() -> dict:
                              "these prices do not apply to it")
         readers[aid] = dict(agent=aid, images=len({img for img, _ in found}),
                             finished=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(os.path.getmtime(p))),
-                            **t, cost_usd=round(cost_of(t), 4))
+                            duration_s=duration_s, **t, cost_usd=round(cost_of(t), 4))
 
     # Which run produced each excluded reading. The exclusion log records it; for a row
     # logged before that field existed, the earliest transcript holding that answer is
@@ -139,6 +155,27 @@ def update() -> dict:
         r["published"] = max(0, r["images"] - r["excluded"])
         r["published_cost_usd"] = round(r["cost_usd"] * r["published"] / r["images"], 4) if r["images"] else 0.0
 
+    # Per published image: the cost and wall-clock of the RUN that produced it, and that
+    # run's per-image share. One run reads a batch (usually ten) in a single shared context,
+    # so cost and time are per batch; the share is batch / images. The published reading of a
+    # molecule is the most recent run whose transcript holds that SMILES (a re-read supersedes
+    # an excluded earlier read).
+    per_key = {}
+    for r in (json.loads(l) for l in open(f"{A.WORK}/results.jsonl") if l.strip()):
+        smi, k = r.get("sonnet_smiles"), r["k"]
+        # A SMILES with E/Z bonds carries backslashes, which are doubled in the JSON transcript;
+        # match both forms (same tolerance as audit_sonnet_rows).
+        cands = [a for a in readers if smi and (smi in raw_by_aid.get(a, "")
+                                                or smi.replace("\\", "\\\\") in raw_by_aid.get(a, ""))]
+        if not cands:
+            continue
+        aid = max(cands, key=lambda a: finished.get(a, 0))
+        rd = readers[aid]
+        n = rd["images"] or 1
+        per_key[k] = {"cost": round(rd["cost_usd"] / n, 4), "secs": round((rd.get("duration_s") or 0) / n),
+                      "batch": n, "batch_cost": round(rd["cost_usd"], 2),
+                      "batch_secs": rd.get("duration_s") or 0, "reader": aid[:8]}
+
     rows = sorted(readers.values(), key=lambda r: r["finished"])
     totals = {k: sum(r[k] for r in rows) for k in TOKEN_KEYS + ("requests", "images", "excluded", "published")}
     spent = sum(r["cost_usd"] for r in rows)
@@ -155,7 +192,7 @@ def update() -> dict:
         "cost_usd_all": round(spent, 2),
         "cost_usd_excluded": round(spent - shown, 2),
         "unattributed_excluded": unattributed,
-        "totals": totals, "readers": rows,
+        "totals": totals, "readers": rows, "per_key": per_key,
     }
     OUT.write_text(json.dumps(out, indent=1) + "\n")
     return out

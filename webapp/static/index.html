@@ -126,6 +126,24 @@ main{max-width:1400px;margin:0 auto;
   text-transform:uppercase;letter-spacing:.5px}
 .notelist{margin:0 0 4px 18px;padding:0}
 .notelist li{font-size:12.5px;color:var(--dim);line-height:1.5;margin:3px 0}
+/* Sticky jump bar so the lower sections are reachable without scrolling the wall. */
+.jump{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  background:var(--bg);border-bottom:1px solid var(--line);padding:8px 0;margin-bottom:4px}
+.jump .jlbl{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.jump button{appearance:none;background:var(--panel);border:1px solid var(--line);color:var(--ink);
+  font:inherit;font-size:12px;padding:6px 11px;border-radius:999px;cursor:pointer;white-space:nowrap;min-height:34px}
+.jump button:hover{border-color:var(--dim)}
+.block{margin:26px 0 8px;border-top:1px solid var(--line);padding-top:18px}
+.blockh{font-size:16px;font-weight:750;margin:0 0 8px}
+.exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}
+.excard{min-width:0;text-align:left;background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--dim);border-radius:10px;padding:12px;cursor:pointer;color:var(--ink);font:inherit}
+.excard.ok{border-left-color:#3fb950} .excard.miss{border-left-color:#d29922}
+.excard:hover{border-color:var(--dim)}
+.extag{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:4px}
+.extag.ok{color:#3fb950} .extag.miss{color:#d29922}
+.extitle{font-weight:700;font-size:13.5px;margin-bottom:5px;line-height:1.3}
+.exbody{font-size:12.5px;color:var(--dim);line-height:1.5}
 .sub b{color:var(--ink);font-weight:600}
 
 /* filters */
@@ -439,6 +457,11 @@ function verdictNote(r){
     + ' Identical once that is discarded:<code>' + esc(x.canon || "") + '</code></div>';
 }
 
+function fmtdur(s){ s = Math.round(s || 0);
+  if (s < 60) return s + "s";
+  var m = Math.floor(s / 60), ss = s % 60;
+  if (m < 60) return ss ? m + "m " + ss + "s" : m + "m";
+  return Math.floor(m / 60) + "h " + (m % 60) + "m"; }
 function openSheet(r){
   var v = cls(r);
   var VERD = {matched:"matched the reference", stereo:"matched, stereochemistry differs",
@@ -492,6 +515,10 @@ function openSheet(r){
     + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
+    + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">Sonnet API, at list price</span></label>'
+        + '<code>$' + r.rc.toFixed(2) + ' / image · ~' + fmtdur(r.rt) + ' / image'
+        + '<br><span class="dim">a batch of ' + r.bn + ' read in one shared context: $'
+        + r.bc.toFixed(2) + ' · ' + fmtdur(r.bs) + '</span></code></div>' : '')
     + verdictNote(r)
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy ' + esc(meLabel) + '\u2019s reading</button>';
@@ -686,6 +713,25 @@ function render(){
       + '<div class="sub">' + esc(DATA.headline) + '</div>';
   }
   v.appendChild(hero);
+  /* Jump bar: reach the lower sections without scrolling the whole wall. Sticky, so it
+     works from anywhere on the page. Only lists anchors that exist for this tab. */
+  var jumps = [];
+  if (DATA.workflow) jumps.push(["How it works", "sec-workflow"]);
+  if (DATA.examples && DATA.examples.length) jumps.push(["Examples", "sec-examples"]);
+  if (DATA.prompt) jumps.push(["Prompt & method", "sec-method"]);
+  jumps.push(["Bottom", "sec-bottom"], ["Top", "sec-top"]);
+  if (jumps.length > 2) {
+    var jb = el("div", "jump"); jb.id = "sec-top";
+    jb.innerHTML = '<span class="jlbl">Jump to</span>' + jumps.map(function(j){
+      return '<button data-to="' + j[1] + '">' + esc(j[0]) + (j[1] === "sec-top" ? " ↑" : " ↓") + '</button>';
+    }).join("");
+    jb.addEventListener("click", function(e){
+      var b = e.target.closest("button[data-to]"); if (!b) return;
+      var t = b.dataset.to === "sec-top" ? $("#view") : document.getElementById(b.dataset.to);
+      if (t) t.scrollIntoView({behavior: "smooth", block: "start"});
+    });
+    v.appendChild(jb);
+  }
   var ds = docsStrip(); if (ds) v.appendChild(ds);
   /* Count over the rows in SCOPE, not the whole corpus. With a document selected
      the chips read "All 4484 / Exact 795" beside a wall showing 42 tiles, which is
@@ -693,8 +739,36 @@ function render(){
   v.appendChild(chipbar(DATA.rows.filter(function(r){ return !DOC || r.d === DOC; })));
   var head = el("div", "sub"); head.id = "count"; v.appendChild(head);
   var wall = el("div", "wall"); wall.id = "wall"; v.appendChild(wall);
+  if (DATA.workflow){
+    var w = DATA.workflow, ws = el("section", "block"); ws.id = "sec-workflow";
+    ws.innerHTML = '<h2 class="blockh">How this arm works</h2><p class="sub">' + esc(w.intro) + '</p>'
+      + '<div class="noteh">The tools it calls</div><ul class="notelist">'
+      + (w.tools || []).map(function(t){ return '<li><b>' + esc(t.t) + '</b> — ' + esc(t.d) + '</li>'; }).join("")
+      + '</ul><div class="noteh">How it segments a drawing</div><ol class="notelist">'
+      + (w.steps || []).map(function(s){ return '<li>' + esc(s) + '</li>'; }).join("") + '</ol>';
+    v.appendChild(ws);
+  }
+  if (DATA.examples && DATA.examples.length){
+    var es = el("section", "block"); es.id = "sec-examples";
+    es.innerHTML = '<h2 class="blockh">Worked examples</h2>'
+      + '<p class="sub">Real reads from the runs — tap one to open that molecule.</p>';
+    var grid = el("div", "exgrid");
+    DATA.examples.forEach(function(x){
+      var ok = x.outcome === "success", card = el("button", "excard " + (ok ? "ok" : "miss"));
+      card.setAttribute("data-k", x.k);
+      card.innerHTML = '<div class="extag ' + (ok ? "ok" : "miss") + '">' + (ok ? "✓ success" : "✗ miss")
+        + '</div><div class="extitle">' + esc(x.title) + '</div><div class="exbody">' + esc(x.body) + '</div>';
+      grid.appendChild(card);
+    });
+    grid.addEventListener("click", function(e){
+      var b = e.target.closest(".excard[data-k]"); if (!b) return;
+      var row = (DATA.rows || []).filter(function(r){ return r.k === b.dataset.k; })[0];
+      if (row) openSheet(row);
+    });
+    es.appendChild(grid); v.appendChild(es);
+  }
   if (DATA.prompt){
-    var pd = el("details");
+    var pd = el("details"); pd.id = "sec-method";
     pd.appendChild(el("summary", null, "The prompt the model was given"));
     if (DATA.method && DATA.method.length){
       DATA.method.forEach(function(sec){
@@ -711,7 +785,7 @@ function render(){
      That question does not exist on the Sonnet tab, which holds one arm read two
      ways, so the fold was an invitation to an answer about something else. */
   if (DATA.arms && DATA.arms.length) v.appendChild(armsTable());
-  var f = el("footer");
+  var f = el("footer"); f.id = "sec-bottom";
   f.innerHTML = esc(DATA.footer || "");
   v.appendChild(f);
   paint();

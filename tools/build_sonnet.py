@@ -44,6 +44,60 @@ OUTPUT — a JSON array:
   "confidence": "high|medium|low"}, ...]
 All ten, in order."""
 
+WORKFLOW = {
+    "intro": ("Each reader is Sonnet in an agent loop, not a single vision call. It looks at the "
+              "image, then writes and runs code to test what it sees, and iterates until its own "
+              "re-drawing of the structure matches the source."),
+    "tools": [
+        {"t": "Read (vision)", "d": "Opens each PNG. The model's own eyes do the recognition; "
+         "every atom, bond and wedge is read from the picture."},
+        {"t": "Bash + Pillow / OpenCV", "d": "Crops and upscales dense regions 2–4x and overlays a "
+         "pixel-coordinate grid, so bond vertices and wedge/hash directions are read off by "
+         "position instead of guessed by eye."},
+        {"t": "RDKit", "d": "Parses and valence-checks each SMILES, computes the molecular formula "
+         "to cross-check a by-hand atom count, builds a molblock from measured coordinates so the "
+         "CIP engine assigns R/S and E/Z from geometry rather than reasoning, and re-renders the "
+         "structure to diff against the crop."},
+        {"t": "OSRA", "d": "A separate optical structure-recognition engine, run as an independent "
+         "second opinion. Where a reader leans on it, the reading is the model orchestrating "
+         "another recogniser — noted, not hidden."},
+        {"t": "numpy / scipy", "d": "Vertex and connected-component detection on the raw pixels, "
+         "used to count long chains and pin label positions in crowded cores."},
+    ],
+    "steps": [
+        "Read the whole image; identify the rings, chains and labels.",
+        "Crop to each dense region and upscale it.",
+        "Overlay a coordinate grid; read exact vertex positions and which bonds carry wedges or hashes.",
+        "Build the molecule atom by atom, counting ring vertices and chain carbons explicitly.",
+        "Let RDKit assign stereochemistry from the measured geometry.",
+        "Re-render the SMILES and compare it to the crop; iterate on any mismatch.",
+    ],
+}
+
+# Verified against results.jsonl on 2026-09-16 (the tile a card links to shows the reading).
+EXAMPLES = [
+    {"k": "carumonam_cid6540466", "outcome": "success", "title": "Carumonam — read exactly",
+     "body": "A monobactam with an (Z)-oxime and two ring stereocentres. The reader measured the "
+             "wedge geometry off the drawing, built a molblock, and let RDKit assign the "
+             "configuration; the re-render matched the source. Scored exact."},
+    {"k": "cabozantinib_cid25102847", "outcome": "success", "title": "Cabozantinib — read exactly",
+     "body": "A quinoline diaryl-ether with a cyclopropane-1,1-dicarboxamide. Read cleanly in one "
+             "pass, both amides and the two methoxy groups placed correctly. Scored exact."},
+    {"k": "buprenorphine_cid644073", "outcome": "miss", "title": "Buprenorphine — under-read a dense cage",
+     "body": "A bridged opioid cage. In the crowded bridge the reader traced a smaller ring system "
+             "(formula C20 against the real C29), reported it as drawn under the drawing-is-authority "
+             "rule, and flagged low confidence. It did not match the reference — the failure mode is "
+             "a dense polycyclic core, not a careless read."},
+    {"k": "brivaracetam_cid9837243", "outcome": "miss", "title": "Brivaracetam — right molecule, wrong stereo",
+     "body": "The reader read both ring substituents as wedges (2S,4S) where the reference is 2S,4R. "
+             "Correct connectivity, one stereocentre inverted — scored as a stereo-only miss."},
+    {"k": "buserelin_cid50225", "outcome": "miss", "title": "Buserelin — a guanidine tautomer",
+     "body": "A nonapeptide built residue by residue; the formula matched, but the arginine guanidine "
+             "was drawn in a different tautomer than the reference, so the canonical strings differ. "
+             "The kind of near-miss the strict whole-string score is meant to catch."},
+]
+
+
 def method_sections(excluded_n: int) -> list[dict]:
     """The method note as titled sections of bullets, so the page renders structure rather
     than one wall of prose. Kept to claims that hold at any batch size — no stale per-run
@@ -181,6 +235,15 @@ def main() -> int:
         print(f"  WARNING cost not refreshed: {e}")
         cp = WALL.parent / "sonnet_cost.json"
         cost = json.load(open(cp)) if cp.exists() else None
+    # Attach the producing run's cost and wall-clock to each row, for the modal. One run reads
+    # a batch in a single shared context, so cost/time are per batch and rc/rt are its per-image
+    # share. Rows with no attributable run (e.g. an empty SMILES) simply carry no figures.
+    per_key = (cost or {}).get("per_key", {})
+    for r in rows:
+        rc = per_key.get(r["k"])
+        if rc:
+            r["rc"], r["rt"] = rc["cost"], rc["secs"]
+            r["bc"], r["bs"], r["bn"] = rc["batch_cost"], rc["batch_secs"], rc["batch"]
     d = {
         "arm": "Sonnet", "dir": "sonnet", "rows": rows,
         # Two readers, one denominator, shown at the same size. A single big
@@ -208,6 +271,7 @@ def main() -> int:
             ],
         },
         "prompt": PROMPT_TEXT,
+        "workflow": WORKFLOW, "examples": EXAMPLES,
         "method": method_sections(sum(1 for l in open(WALL.parent / "sonnet_excluded.jsonl") if l.strip())
                                   if (WALL.parent / "sonnet_excluded.jsonl").exists() else 0),
         "cx": sum(1 for r in rows if r.get("cx")),
