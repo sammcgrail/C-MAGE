@@ -45,6 +45,17 @@ URL = re.compile(r"https?://[^\s\"'\\<>)]+")
 NET_CODE = re.compile(r"\burlopen\b|urllib\.request|\brequests\.(?:get|post|Session)\b|http\.client"
                       r"|\bpubchempy\b|\bhttpx\b|\baiohttp\b|socket\.create_connection|chembl_webresource",
                       re.I)
+# Package indexes. The reader rule allows the network to install a tool, and readers that checked
+# the index was reachable before a pip install cost a whole batch each (14 and 17 Sep). A URL on
+# one of these hosts is not reported. Network CODE is excused only when every call in the command
+# is matched by a package-index URL literal, so a second, computed request beside the check, or
+# any client whose calls cannot be counted, is still reported.
+PACKAGE_INDEX = re.compile(r"https?://(?:pypi\.org|pypi\.python\.org|files\.pythonhosted\.org"
+                           r"|conda\.anaconda\.org|repo\.anaconda\.com)(?=[/:?#]|$)", re.I)
+NET_CALL = re.compile(r"\burlopen\s*\(|\brequests\.(?:get|post|head|put|request)\s*\("
+                      r"|\bhttpx\.(?:get|post|head|put|request)\s*\(", re.I)
+UNCOUNTABLE_NET = re.compile(r"http\.client|socket\.create_connection|\baiohttp\b|\bhttpx\.(?:Async)?Client\b"
+                             r"|\brequests\.Session\b|\bpubchempy\b|chembl_webresource", re.I)
 # Where reference answers live on this box. Readers get their toolkit from the RDKit venv
 # inside the repo, so the venv is carved out. The rest of the repo is not. Earlier readers'
 # transcripts and task outputs hold the PubChem responses they fetched, so reading one is
@@ -152,12 +163,18 @@ def scan_file(path: Path, rows: list[dict]) -> tuple[list[dict], int]:
         elif tool == "WebSearch":
             add("network", f"search: {inp.get('query')}", split_ws=True)
         else:
-            for u in dict.fromkeys(URL.findall(text)):
+            for u in dict.fromkeys(u for u in URL.findall(text) if not PACKAGE_INDEX.match(u)):
                 add("network", u)
         if tool not in VETTED | {"WebFetch", "WebSearch"}:
             add("unvetted-tool", f"{tool} {json.dumps(inp)[:300]}", split_ws=True)
-        if NET_CODE.search(text) and not URL.search(text):
-            add("network-code", text[:300], split_ws=True)
+        if NET_CODE.search(text):
+            urls = URL.findall(text)
+            pkg = [u for u in urls if PACKAGE_INDEX.match(u)]
+            if not urls:
+                add("network-code", text[:300], split_ws=True)
+            elif len(pkg) == len(urls) and (UNCOUNTABLE_NET.search(text)
+                                            or len(NET_CALL.findall(text)) > len(pkg)):
+                add("network-code", text[:300], split_ws=True)
         m = ANSWER_PATH.search(text)
         if m:
             add("answer-path", text[max(0, m.start() - 80): m.end() + 80])
@@ -242,8 +259,22 @@ def selftest() -> int:
         ("Bash", {"command": "grep -ri diminazene /root 2>/dev/null | head"}, "content-search", None),
         ("Grep", {"pattern": "berberine", "path": "/root"}, "content-search", "img01"),
         ("mcp__chem__lookup", {"name": "berberine"}, "unvetted-tool", "img01"),
+        # The package-index exemption must not hide a second request, a chemistry client,
+        # or a host that merely starts with a package index's name.
+        ("Bash", {"command": "python3 -c \"import urllib.request as u; u.urlopen('https://pypi.org'); "
+                             "print(u.urlopen(B + n).read())\""}, "network-code", None),
+        ("Bash", {"command": "python3 -c \"import pubchempy; print(pubchempy.get_compounds(n, 'name')); "
+                             "print('https://pypi.org')\""}, "network-code", None),
+        ("Bash", {"command": f'curl -sI https://pypi.org && curl -s "{pc}/name/Betahistine/property/IsomericSMILES/TXT"'},
+         "network", "img04"),
+        ("Bash", {"command": 'curl -s "https://pypi.org.example.com/berberine"'}, "network", "img01"),
     ]
     benign = [
+        # Package-index reachability checks before a pip install. The reader rule allows the
+        # network for installs; each of these once cost a whole batch (14 and 17 Sep).
+        ("Bash", {"command": "curl -sI https://pypi.org | head -1"}),
+        ("Bash", {"command": "python3 -c \"import urllib.request; print(urllib.request.urlopen('https://pypi.org').status)\""}),
+        ("Bash", {"command": "pip install --index-url https://pypi.org/simple rdkit"}),
         ("Bash", {"command": "/root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolFromSmiles('CCO'))\""}),
         ("Bash", {"command": 'find / -iname "*rdkit*" -maxdepth 6 2>/dev/null | head -20'}),
         ("Bash", {"command": "pip list 2>/dev/null | grep -iE \"rdkit|osra\""}),

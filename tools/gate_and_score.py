@@ -3,6 +3,13 @@
 
     gate_and_score.py <slot> <agent-id>
 
+First, a content-filter refusal. If the API refused (stop_reason "refusal", or the synthetic
+"can't help with this" error) and the reader did NOT go on to write every answer, nothing is
+scored: every image it had opened before the refusal goes to the end of the pool, the claim is
+released so the rest go back in line, and the exit code is 4. The filter judges the whole
+conversation, so the image on screen at the refusal is not necessarily the one that tripped it
+(see sonnet_batch.py). A reader that was refused but still wrote every answer is gated as normal.
+
 Every check must pass before a single row is scored:
   1. scan_reader_transcript finds no answer-key access for this slot's claim (exit 0).
   2. Every assistant message was served by a Sonnet model (no silent demote to another model).
@@ -13,7 +20,8 @@ Every check must pass before a single row is scored:
      the reader canonicalised with RDKit shows up in tool output, not in what it typed.
 
 On success it calls sonnet_batch.py score, which appends to results.jsonl and releases the claim.
-Exits non-zero and scores nothing on any failure.
+Exits non-zero and scores nothing on any failure: 1 = a check refused, 4 = content-filter refusal
+handled (images deferred, claim released).
 """
 import glob
 import json
@@ -36,18 +44,103 @@ def fail(msg: str) -> None:
     raise SystemExit(1)
 
 
+REFUSAL_TEXT = ("can't help with this", "legal/aup")
+
+
+def load_records(raw: str) -> list[dict]:
+    out = []
+    for line in raw.splitlines():
+        try:
+            out.append(json.loads(line))
+        except ValueError:
+            continue
+    return out
+
+
+def first_refusal(records: list[dict]) -> int | None:
+    """Index of the first record where the API refused on content grounds, else None."""
+    for i, r in enumerate(records):
+        if r.get("type") != "assistant":
+            continue
+        m = r.get("message") or {}
+        if m.get("stop_reason") == "refusal":
+            return i
+        if m.get("model") == "<synthetic>":
+            text = " ".join(b.get("text", "") for b in (m.get("content") or []) if isinstance(b, dict))
+            if any(t in text for t in REFUSAL_TEXT):
+                return i
+    return None
+
+
+def opened_before(records: list[dict], upto: int, slot: str, expected: list[str]) -> list[str]:
+    """Blind images a tool call touched before record `upto`. A computed or wildcard path into
+    the blind directory (img*.png, img{i:02d}.png) counts as touching every image."""
+    exact = re.compile(rf"/tmp/blind_{re.escape(slot)}/(img\d\d)")
+    computed = re.compile(rf"/tmp/blind_{re.escape(slot)}/img(?!\d\d)")
+    seen: set[str] = set()
+    for r in records[:upto]:
+        if r.get("type") != "assistant":
+            continue
+        for b in (r.get("message") or {}).get("content") or []:
+            if isinstance(b, dict) and b.get("type") == "tool_use":
+                s = json.dumps(b.get("input"))
+                if computed.search(s):
+                    return list(expected)
+                seen.update(exact.findall(s))
+    return sorted(seen & set(expected))
+
+
+def answers_complete(ans_path: Path, claim: Path, expected: list[str]) -> bool:
+    try:
+        got = sorted(a["img"] for a in json.load(open(ans_path)))
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+    return got == expected and os.path.getmtime(ans_path) > os.path.getmtime(claim)
+
+
+def handle_refusal(slot: str, aid: str, records: list[dict], at: int, expected: list[str]) -> int:
+    import sonnet_batch as B
+    opened = opened_before(records, at, slot, expected)
+    print(f"REFUSED BY CONTENT FILTER [{slot}] at record {at}, before the reader wrote every answer. "
+          f"Nothing is scored. The {len(opened)} image(s) it had opened go to the end of the pool; "
+          f"the other {len(expected) - len(opened)} go back in line.")
+    if opened:
+        B.cmd_defer(slot, aid, opened)
+    B.cmd_release(slot)
+    return 4
+
+
 def main(slot: str, aid: str) -> int:
     claim = WORK / f"pending_{slot}.json"
     ans_path = Path(f"/tmp/sonnet_answers_{slot}.json")
     if not claim.exists():
         fail(f"no open claim pending_{slot}.json")
-    if not ans_path.exists():
-        fail(f"no answers file {ans_path}")
 
     tps = glob.glob(f"/root/.claude/projects/*/*/subagents/agent-{aid}.jsonl")
     if len(tps) != 1:
         fail(f"expected one transcript for {aid}, found {len(tps)}")
     tp = tps[0]
+    raw = open(tp, encoding="utf-8", errors="replace").read()
+    records = load_records(raw)
+
+    # The expected slots are the images the claim put in the blind directory, not a fixed
+    # ten: a manual batch can be any size. The claim file itself cannot be the reference,
+    # because an exclusion removes slots from it after the reader has answered them.
+    blind = Path(f"/tmp/blind_{slot}")
+    expected = sorted(p.stem for p in blind.glob("img*.png") if re.fullmatch(r"img\d{2}", p.stem))
+    if not expected:
+        fail(f"no img*.png in {blind}; cannot tell which slots were handed to the reader")
+
+    # 0. content-filter refusal
+    refused = first_refusal(records)
+    if refused is not None:
+        if not answers_complete(ans_path, claim, expected):
+            return handle_refusal(slot, aid, records, refused, expected)
+        print(f"  note: content-filter refusal at record {refused}, but the reader went on to write "
+              f"every answer; gating as normal")
+
+    if not ans_path.exists():
+        fail(f"no answers file {ans_path}")
 
     # 1. answer-key scan
     rows = S.row_ids(S.load_rows([str(claim)]))
@@ -60,13 +153,8 @@ def main(slot: str, aid: str) -> int:
         fail(f"{len(findings)} scan finding(s); exclude the named slots before scoring")
 
     # 2. served model + 4. whole-transcript containment
-    raw = open(tp, encoding="utf-8", errors="replace").read()
     models: dict[str, int] = {}
-    for line in raw.splitlines():
-        try:
-            r = json.loads(line)
-        except ValueError:
-            continue
+    for r in records:
         if r.get("type") == "assistant":
             m = (r.get("message") or {}).get("model")
             if m:
@@ -76,16 +164,9 @@ def main(slot: str, aid: str) -> int:
         fail(f"not served entirely by Sonnet: {models}")
 
     # 3. answers shape + mtime
-    # The expected slots are the images the claim put in the blind directory, not a fixed
-    # ten: a manual batch can be any size. The claim file itself cannot be the reference,
-    # because an exclusion removes slots from it after the reader has answered them.
     ans = json.load(open(ans_path))
     got = {a["img"]: a.get("smiles") for a in ans}
-    blind = Path(f"/tmp/blind_{slot}")
-    expected = sorted(p.stem for p in blind.glob("img*.png") if re.fullmatch(r"img\d{2}", p.stem))
     claimed = {b["slot"] for b in json.load(open(claim))}
-    if not expected:
-        fail(f"no img*.png in {blind}; cannot tell which slots were handed to the reader")
     if sorted(got) != expected:
         fail(f"answers file slots {sorted(got)} do not match the {len(expected)} images in {blind}")
     if not claimed or not claimed <= set(expected):
