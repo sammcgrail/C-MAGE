@@ -48,6 +48,8 @@ WORK = "/root/cmage-work/sonnet"
 RESOLVED = os.path.join(HERE, "..", "benchmarks", "sonnet_resolved_findings.json")
 ARM_START = "2026-09-09"      # no Sonnet reader predates the arm; older transcripts are skipped
 ANSWER = re.compile(r'"img"\s*:\s*"(img\d\d)"\s*,\s*"smiles"\s*:\s*("(?:[^"\\]|\\.)*"|null)')
+# What a reading touches. The first batch used /tmp/blind10/, later ones /tmp/blind_<slot>/.
+READER_MARK = re.compile(r"/tmp/blind\w*/img\d\d\.png|/tmp/sonnet_answers\w*\.json")
 
 
 def strings(o):
@@ -61,8 +63,33 @@ def strings(o):
             yield from strings(v)
 
 
+def pairs(text: str) -> list[tuple[str, str]]:
+    """(slot, SMILES) for every answer written in this text. The reader prompt's own template
+    carries "smiles": "...", which is not an answer."""
+    out = []
+    for a in ANSWER.finditer(text):
+        try:
+            smi = json.loads(a.group(2))
+        except ValueError:
+            continue
+        if smi and smi.strip("."):
+            out.append((a.group(1), smi))
+    return out
+
+
 def reader_transcripts(skip: set[str]) -> dict[str, tuple[list, str]]:
-    """Every subagent transcript since the arm began that wrote an answer array."""
+    """Every subagent transcript since the arm began that did a reading.
+
+    Recognised two ways. An answer array in what the model itself wrote is a reader, whatever
+    else the transcript holds. But a reader that BUILDS its answers file in code never types
+    the array, so nothing of it appears in the model's own output: on 17 Sep that made a whole
+    batch invisible here, its rows came back UNTRACED though the gate had verified every one,
+    and it blocked every commit until the rows were removed. So a transcript that opened a
+    blind image or wrote the answers file counts too — if it was Sonnet-served, because a row
+    written by anything else is exactly what an untraced row is meant to catch — and its
+    answers are then read from the WHOLE transcript, tool output included, the same place
+    gate_and_score.py looks.
+    """
     since = time.mktime(time.strptime(ARM_START, "%Y-%m-%d"))
     out = {}
     for dp, _, fn in os.walk(S.PROJECTS):
@@ -72,26 +99,31 @@ def reader_transcripts(skip: set[str]) -> dict[str, tuple[list, str]]:
             if not m or m.group(1) in skip or os.path.getmtime(p) < since:
                 continue
             raw = open(p, errors="replace").read()
-            parts = []
+            parts, every, models = [], [], set()
             for line in raw.splitlines():
                 try:
                     r = json.loads(line)
                 except ValueError:
                     continue
+                content = (r.get("message") or {}).get("content")
+                every.extend(strings(content))
                 if r.get("type") == "assistant":
-                    parts.extend(strings((r.get("message") or {}).get("content")))
-            found = []
-            for a in ANSWER.finditer("\n".join(parts)):
-                try:
-                    found.append((a.group(1), json.loads(a.group(2))))
-                except ValueError:
-                    pass
+                    parts.extend(strings(content))
+                    models.add((r.get("message") or {}).get("model"))
+            text = "\n".join(parts)
+            found = pairs(text)
             # Trace containment against the WHOLE transcript, not just the model's prose: a
             # reader that canonicalises its answer with RDKit emits the final SMILES in tool
             # output (a non-assistant record), so it is genuinely this reader's reading but is
             # absent from the assistant text. gate_and_score.py verifies the same way.
             if found:
                 out[p] = (found, raw)
+                continue
+            real = {x for x in models if x and x != "<synthetic>"}
+            if READER_MARK.search(text) and real and all("sonnet" in x for x in real):
+                # Decoded record strings, not the raw JSONL: an array quoted inside a tool
+                # result has every quote backslash-escaped and matches no answer pattern.
+                out[p] = (pairs("\n".join(every)), raw)
     return out
 
 

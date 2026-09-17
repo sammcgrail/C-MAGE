@@ -11,6 +11,7 @@ from here:
                     (removed.jsonl). gate_and_score.py calls it after a refusal.
     remove-rows  -- take already-scored rows out of results.jsonl and out of the pool,
                     keeping each full row in removed.jsonl so it can be restored.
+    restore-rows -- put such rows back from that copy, no re-read.
     release      -- drop a claim without scoring it, so its images return to the pool.
 
 BAD IMAGES ARE REMOVED, NEVER RETRIED (17 Sep). Two kinds:
@@ -79,11 +80,18 @@ def removed_path() -> Path:
 
 
 def removed() -> dict[str, dict]:
-    """Key -> its removal record."""
+    """Key -> its removal record. The log is append-only, so a later `restored` record for a
+    key cancels the removal above it."""
     p = removed_path()
     if not p.exists():
         return {}
-    return {d["k"]: d for d in (json.loads(l) for l in open(p) if l.strip())}
+    out: dict[str, dict] = {}
+    for d in (json.loads(l) for l in open(p) if l.strip()):
+        if d.get("restored"):
+            out.pop(d["k"], None)
+        else:
+            out[d["k"]] = d
+    return out
 
 
 def pool(rows: list[dict], have: set[str], claimed: set[str], gone: dict[str, dict],
@@ -172,6 +180,26 @@ def cmd_remove_rows(reason: str, keys: list[str]) -> int:
     return 0
 
 
+def cmd_restore_rows(reason: str, keys: list[str]) -> int:
+    """Put rows removed by remove-rows back, from the copy kept in removed.jsonl."""
+    gone, have = removed(), done_keys()
+    missing = [k for k in keys if "row" not in gone.get(k, {})]
+    back = [k for k in keys if k in have]
+    if missing or back or not keys:
+        raise SystemExit(f"nothing restored: no removed row for {missing}" if missing
+                         else f"nothing restored: already scored {back}" if back
+                         else "nothing restored: name at least one key")
+    with open(RESULTS, "a") as fh:
+        for k in keys:
+            fh.write(json.dumps(gone[k]["row"]) + "\n")
+    _log_removed([{"k": k, "name": gone[k].get("name"), "restored": True, "reason": reason}
+                  for k in keys])
+    for k in keys:
+        print(f"restored scored row {k} ({gone[k].get('name')}): {reason}")
+    print(f"results.jsonl {len(have)} -> {len(done_keys())}")
+    return 0
+
+
 def cmd_release(slot: str) -> int:
     """Drop an open claim without scoring it; its images return to the pool."""
     p = pending_path(slot)
@@ -241,6 +269,8 @@ if __name__ == "__main__":
         sys.exit(cmd_remove(sys.argv[2], sys.argv[3], sys.argv[4:]))
     if sys.argv[1] == "remove-rows":  # remove-rows "<reason>" <key> [<key> ...]
         sys.exit(cmd_remove_rows(sys.argv[2], sys.argv[3:]))
+    if sys.argv[1] == "restore-rows":  # restore-rows "<reason>" <key> [<key> ...]
+        sys.exit(cmd_restore_rows(sys.argv[2], sys.argv[3:]))
     if sys.argv[1] == "release":      # release <slot>
         sys.exit(cmd_release(sys.argv[2]))
     if sys.argv[1] == "next":
