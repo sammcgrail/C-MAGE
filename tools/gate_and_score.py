@@ -5,8 +5,8 @@
 
 First, a content-filter refusal. If the API refused (stop_reason "refusal", or the synthetic
 "can't help with this" error) and the reader did NOT go on to write every answer, nothing is
-scored: every image it had opened before the refusal goes to the end of the pool, the claim is
-released so the rest go back in line, and the exit code is 4. The filter judges the whole
+scored: every image it had opened before the refusal is removed from the pool for good, the claim
+is released so the rest go back in line, and the exit code is 4. The filter judges the whole
 conversation, so the image on screen at the refusal is not necessarily the one that tripped it
 (see sonnet_batch.py). A reader that was refused but still wrote every answer is gated as normal.
 
@@ -21,7 +21,7 @@ Every check must pass before a single row is scored:
 
 On success it calls sonnet_batch.py score, which appends to results.jsonl and releases the claim.
 Exits non-zero and scores nothing on any failure: 1 = a check refused, 4 = content-filter refusal
-handled (images deferred, claim released).
+handled (opened images removed, claim released).
 """
 import glob
 import json
@@ -102,10 +102,10 @@ def handle_refusal(slot: str, aid: str, records: list[dict], at: int, expected: 
     import sonnet_batch as B
     opened = opened_before(records, at, slot, expected)
     print(f"REFUSED BY CONTENT FILTER [{slot}] at record {at}, before the reader wrote every answer. "
-          f"Nothing is scored. The {len(opened)} image(s) it had opened go to the end of the pool; "
+          f"Nothing is scored. The {len(opened)} image(s) it had opened are removed from the pool; "
           f"the other {len(expected) - len(opened)} go back in line.")
     if opened:
-        B.cmd_defer(slot, aid, opened)
+        B.cmd_remove(slot, aid, opened)
     B.cmd_release(slot)
     return 4
 

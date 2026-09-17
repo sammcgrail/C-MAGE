@@ -7,17 +7,20 @@ from here:
                 the paths. Writes nothing to the results.
     score    -- take the model's JSON answers, score them against the SAME
                 references and the SAME rule as every other arm, and append.
-    defer    -- after a content-filter refusal, move named images of a claim to the
-                end of the pool (deferred.jsonl). gate_and_score.py calls it.
-    release  -- drop a claim without scoring it, so its images return to the pool.
+    remove       -- take named images of an open claim out of the pool for good
+                    (removed.jsonl). gate_and_score.py calls it after a refusal.
+    remove-rows  -- take already-scored rows out of results.jsonl and out of the pool,
+                    keeping each full row in removed.jsonl so it can be restored.
+    release      -- drop a claim without scoring it, so its images return to the pool.
 
-A CONTENT-FILTER REFUSAL SENDS IMAGES TO THE END OF THE POOL, or the next claim takes
-the same image and trips again. The filter judges the whole conversation, not the image
-on screen: on 16 Sep it fired while the reader was writing up brevicidine, the image
-after brevetoxin B. So a reader refused before it finishes has EVERY image it had opened
-deferred, and the images it never reached go back in line. Deferred images are claimed
-only when nothing fresh is left, and then ONE PER CLAIM, so a refusing image can only
-take down its own reading. An image refused even when read alone is not claimed again.
+BAD IMAGES ARE REMOVED, NEVER RETRIED (17 Sep). Two kinds:
+- A content-filter refusal before the reader finished. Every image it had opened is
+  removed, because the filter judges the whole conversation, not the image on screen: on
+  16 Sep it fired while the reader was writing up brevicidine, the image after brevetoxin B.
+  The images it never reached go back in line.
+- A scored row the row audit cannot trace to any reader transcript. An unverifiable row is
+  not published.
+A removed image is never claimed again, so it cannot trip a reader or block a commit twice.
 
 STATE IS THE RESULTS FILE, not a separate ledger. `done` is derived by reading
 results.jsonl, so a crash between "prepared" and "scored" costs one batch and
@@ -71,33 +74,22 @@ def image_index() -> dict[str, str]:
     return idx
 
 
-def deferred_path() -> Path:
-    return WORK / "deferred.jsonl"
+def removed_path() -> Path:
+    return WORK / "removed.jsonl"
 
 
-def deferred() -> dict[str, dict]:
-    """Key -> its latest deferral. A deferred image that has since been scored is simply
-    done; nothing needs to clear it from this file."""
-    p = deferred_path()
+def removed() -> dict[str, dict]:
+    """Key -> its removal record."""
+    p = removed_path()
     if not p.exists():
         return {}
-    out = {}
-    for line in open(p):
-        if line.strip():
-            d = json.loads(line)
-            out[d["k"]] = d
-    return out
+    return {d["k"]: d for d in (json.loads(l) for l in open(p) if l.strip())}
 
 
-def pool(rows: list[dict], have: set[str], claimed: set[str], dfr: dict[str, dict],
+def pool(rows: list[dict], have: set[str], claimed: set[str], gone: dict[str, dict],
          n: int) -> list[dict]:
-    """The next claim: fresh images first, in corpus order. Deferred images only once no
-    fresh image is left, one per claim, and never one already refused when read alone."""
-    open_rows = [r for r in rows if r["k"] not in have and r["k"] not in claimed]
-    fresh = [r for r in open_rows if r["k"] not in dfr]
-    if fresh:
-        return fresh[:n]
-    return [r for r in open_rows if not dfr[r["k"]].get("alone")][:1]
+    """The next claim, in corpus order: not scored, not claimed, not removed."""
+    return [r for r in rows if r["k"] not in have and r["k"] not in claimed and r["k"] not in gone][:n]
 
 
 def cmd_next(n: int, slot: str = "a") -> int:
@@ -110,12 +102,10 @@ def cmd_next(n: int, slot: str = "a") -> int:
             claimed |= {b["k"] for b in json.load(open(pp))}
         except Exception:
             pass
-    dfr = {k: d for k, d in deferred().items() if k not in have}
-    todo = pool(rows, have, claimed, dfr, n)
+    gone = removed()
+    todo = pool(rows, have, claimed, gone, n)
     if not todo:
-        blocked = sorted(k for k, d in dfr.items() if d.get("alone"))
-        print("NOTHING LEFT" + (f"  ({len(blocked)} refused by the content filter even when "
-                                f"read alone: {', '.join(blocked)})" if blocked else ""))
+        print(f"NOTHING LEFT  ({len(gone)} removed)")
         return 0
     BLIND = blind_dir(slot)
     shutil.rmtree(BLIND, ignore_errors=True)
@@ -134,31 +124,51 @@ def cmd_next(n: int, slot: str = "a") -> int:
     json.dump(batch, open(pending_path(slot), "w"), indent=1)
     leak = [b for b in batch if any(t in b["slot"].lower() for t in ("cid", "acid", "_"))]
     assert not leak, f"anonymisation failed: {leak}"
-    print(f"[{slot}] prepared {len(batch)}  done {len(have)}  claimed-elsewhere {len(claimed)}  remaining {len(rows)-len(have)-len(claimed)-len(batch)}"
-          f"  deferred {len(dfr)}")
+    remaining = len([r for r in rows if r["k"] not in have and r["k"] not in claimed and r["k"] not in gone])
+    print(f"[{slot}] prepared {len(batch)}  done {len(have)}  claimed-elsewhere {len(claimed)}  "
+          f"remaining {remaining - len(batch)}  removed {len(gone)}")
     for b in batch:
         print(f"  {BLIND}/{b['slot']}.png")
     return 0
 
 
-def cmd_defer(slot: str, reader: str, imgs: list[str]) -> int:
-    """Send images of an open claim to the end of the pool after a content-filter refusal."""
-    claim = json.load(open(pending_path(slot)))
-    by_slot = {b["slot"]: b for b in claim}
+def _log_removed(records: list[dict]) -> None:
+    at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    with open(removed_path(), "a") as fh:
+        for rec in records:
+            fh.write(json.dumps(dict(rec, at=at)) + "\n")
+
+
+def cmd_remove(slot: str, reader: str, imgs: list[str]) -> int:
+    """Take images of an open claim out of the pool for good, after a content-filter refusal."""
+    by_slot = {b["slot"]: b for b in json.load(open(pending_path(slot)))}
     unknown = [i for i in imgs if i not in by_slot]
     if unknown or not imgs:
-        raise SystemExit(f"[{slot}] cannot defer {imgs}: not in the open claim {sorted(by_slot)}")
-    alone = len(claim) == 1
-    at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    with open(deferred_path(), "a") as fh:
-        for i in imgs:
-            b = by_slot[i]
-            fh.write(json.dumps({"k": b["k"], "name": b["name"], "slot": i, "claim_size": len(claim),
-                                 "reader": reader, "reason": "content-filter refusal",
-                                 "alone": alone, "at": at}) + "\n")
+        raise SystemExit(f"[{slot}] cannot remove {imgs}: not in the open claim {sorted(by_slot)}")
+    _log_removed([{"k": by_slot[i]["k"], "name": by_slot[i]["name"], "reader": reader,
+                   "reason": "content-filter refusal"} for i in imgs])
     for i in imgs:
-        print(f"[{slot}] deferred {i} {by_slot[i]['name']}"
-              + ("  (refused when read alone: not claimed again)" if alone else "  (to the end of the pool)"))
+        print(f"[{slot}] removed {i} {by_slot[i]['name']} from the pool")
+    return 0
+
+
+def cmd_remove_rows(reason: str, keys: list[str]) -> int:
+    """Take scored rows out of results.jsonl and out of the pool. The full row is kept in
+    removed.jsonl, so putting it back is a copy, not a re-read."""
+    rows = [json.loads(l) for l in open(RESULTS) if l.strip()]
+    hit = [r for r in rows if r["k"] in set(keys)]
+    missing = sorted(set(keys) - {r["k"] for r in hit})
+    if missing or not keys:
+        raise SystemExit(f"not in results.jsonl, nothing removed: {missing or keys}")
+    shutil.copy(RESULTS, f"{RESULTS}.bak-before-remove-{time.strftime('%Y%m%dT%H%M%S')}")
+    _log_removed([{"k": r["k"], "name": r["name"], "reason": reason, "row": r} for r in hit])
+    keep = [r for r in rows if r["k"] not in set(keys)]
+    tmp = RESULTS.with_suffix(".jsonl.tmp")
+    tmp.write_text("".join(json.dumps(r) + "\n" for r in keep))
+    os.replace(tmp, RESULTS)
+    for r in hit:
+        print(f"removed scored row {r['k']} ({r['name']}): {reason}")
+    print(f"results.jsonl {len(rows)} -> {len(keep)}")
     return 0
 
 
@@ -227,8 +237,10 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "defer":        # defer <slot> <reader-agent-id> <imgNN> [imgNN ...]
-        sys.exit(cmd_defer(sys.argv[2], sys.argv[3], sys.argv[4:]))
+    if sys.argv[1] == "remove":       # remove <slot> <reader-agent-id> <imgNN> [imgNN ...]
+        sys.exit(cmd_remove(sys.argv[2], sys.argv[3], sys.argv[4:]))
+    if sys.argv[1] == "remove-rows":  # remove-rows "<reason>" <key> [<key> ...]
+        sys.exit(cmd_remove_rows(sys.argv[2], sys.argv[3:]))
     if sys.argv[1] == "release":      # release <slot>
         sys.exit(cmd_release(sys.argv[2]))
     if sys.argv[1] == "next":
