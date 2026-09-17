@@ -41,6 +41,7 @@ is later cleaned up keeps its recorded cost.
 """
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -48,6 +49,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import audit_sonnet_rows as A  # noqa: E402
+
+BLIND_IMG = re.compile(r"/tmp/blind\w*/(img\d\d)\.png")
 
 OUT = HERE.parent / "benchmarks" / "sonnet_cost.json"
 EXCLUDED = [Path("/root/cmage-work/sonnet/excluded.jsonl"), HERE.parent / "benchmarks" / "sonnet_excluded.jsonl"]
@@ -133,7 +136,12 @@ def update() -> dict:
         if other:
             raise ValueError(f"{os.path.basename(p)} was served by {other}, not {MODEL}; "
                              "these prices do not apply to it")
-        readers[aid] = dict(agent=aid, images=len({img for img, _ in found}),
+        # How many images this run read. The answer array is the direct count, but a reader
+        # that assembles its answers in code may leave none that parses, and a run whose
+        # images read as 0 drops its whole batch out of the published tally ("cost covers 636
+        # published reads, the payload has 646"). The blind images it opened are the fallback.
+        n_images = len({img for img, _ in found}) or len(set(BLIND_IMG.findall(raw)))
+        readers[aid] = dict(agent=aid, images=n_images,
                             finished=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(os.path.getmtime(p))),
                             duration_s=duration_s, **t, cost_usd=round(cost_of(t), 4))
 
