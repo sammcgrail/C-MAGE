@@ -6,7 +6,8 @@
 Every check must pass before a single row is scored:
   1. scan_reader_transcript finds no answer-key access for this slot's claim (exit 0).
   2. Every assistant message was served by a Sonnet model (no silent demote to another model).
-  3. The answers file has all ten slots and postdates the claim (the mtime guard also enforces this).
+  3. The answers file covers exactly the images handed to the reader (/tmp/blind_<slot>/imgNN.png,
+     usually ten) and postdates the claim (the mtime guard also enforces this).
   4. Every answer SMILES appears verbatim somewhere in THIS agent's transcript, so the file on
      disk really is this reader's output. Whole transcript, not just the model's prose: a SMILES
      the reader canonicalised with RDKit shows up in tool output, not in what it typed.
@@ -17,6 +18,7 @@ Exits non-zero and scores nothing on any failure.
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -74,10 +76,20 @@ def main(slot: str, aid: str) -> int:
         fail(f"not served entirely by Sonnet: {models}")
 
     # 3. answers shape + mtime
+    # The expected slots are the images the claim put in the blind directory, not a fixed
+    # ten: a manual batch can be any size. The claim file itself cannot be the reference,
+    # because an exclusion removes slots from it after the reader has answered them.
     ans = json.load(open(ans_path))
     got = {a["img"]: a.get("smiles") for a in ans}
-    if sorted(got) != [f"img{i:02d}" for i in range(1, 11)]:
-        fail(f"answers file is not ten slots img01..img10: {sorted(got)}")
+    blind = Path(f"/tmp/blind_{slot}")
+    expected = sorted(p.stem for p in blind.glob("img*.png") if re.fullmatch(r"img\d{2}", p.stem))
+    claimed = {b["slot"] for b in json.load(open(claim))}
+    if not expected:
+        fail(f"no img*.png in {blind}; cannot tell which slots were handed to the reader")
+    if sorted(got) != expected:
+        fail(f"answers file slots {sorted(got)} do not match the {len(expected)} images in {blind}")
+    if not claimed or not claimed <= set(expected):
+        fail(f"claim slots {sorted(claimed)} are not a non-empty subset of the images in {blind}")
     if os.path.getmtime(ans_path) <= os.path.getmtime(claim):
         fail("answers file is not newer than the claim")
 
@@ -86,7 +98,8 @@ def main(slot: str, aid: str) -> int:
     if missing:
         fail(f"answer SMILES absent from this transcript (file may not be this reader's): {missing}")
 
-    print(f"slot {slot}: PASS — {calls} calls, no findings, {models}, 10 answers all present in transcript")
+    print(f"slot {slot}: PASS — {calls} calls, no findings, {models}, "
+          f"{len(got)} answers all present in transcript")
     return subprocess.call([MS_PY, str(HERE / "sonnet_batch.py"), "score", str(ans_path), slot])
 
 
