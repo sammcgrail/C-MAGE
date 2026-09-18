@@ -65,6 +65,14 @@ ANSWER_PATH = re.compile(r"/root/cmage-work|/root/C-MAGE(?!/\.venv)|(?:localhost
                          r"|\bexcluded\.jsonl\b|\bpending_\w*\.json\b"
                          r"|/root/\.claude\b|/tmp/claude-\d")
 CONTENT_SEARCH = re.compile(r"\b(?:grep|rg|ag)\b[^|;&\n]*\s-\w*[rR]")
+# Paths a shell search may reach without it meaning anything: the reader's OWN scratch space.
+# The Grep TOOL branch has always exempted /tmp/; the shell branch did not, so a reader
+# grepping the helper scripts it had just written itself
+# (`grep -rn "def ext_dir_3" /tmp/blind_b_work/*.py`) was refused exactly like a hunt through
+# /root, and its ten readings were held hostage to it. Scoped to /tmp/blind* on purpose:
+# /tmp/claude-* holds other readers' transcripts and must stay searchable-but-flagged.
+SCRATCH_PATH = re.compile(r"^/tmp/blind\w*")
+REDIRECTS = ('/dev/null', '/dev/stdout', '/dev/stderr')
 VETTED = {"Bash", "Read", "Write", "Edit", "MultiEdit", "Glob", "Grep", "ToolSearch", "TodoWrite"}
 # URL and query words that name an API, never a compound.
 STOP = {"https", "http", "rest", "pug", "pugview", "compound", "compounds", "name", "property", "json",
@@ -75,6 +83,15 @@ STOP = {"https", "http", "rest", "pug", "pugview", "compound", "compounds", "nam
         "drug", "get", "mol", "www", "api", "search", "query", "molecule", "chemical", "structure",
         "wiki", "index", "pubchemncbinlmnihgov", "restkeggjp", "wwwkeggjp", "wwwebiacuk",
         "cactusncinihgov", "opsinchcamacuk", "enwikipediaorg", "pypiorg", "githubcom"}
+
+
+def scratch_only(cmd: str) -> bool:
+    """True when a shell content-search cannot reach past the reader's own scratch space."""
+    paths = [p for p in re.findall(r"(?<![\w.])(?:/[\w.\-*/]+|~[\w.\-*/]*)", cmd)
+             if p not in REDIRECTS]
+    if not paths:                        # `cd /tmp/blind_x && grep -rn pat .`
+        return bool(re.search(r"\bcd\s+/tmp/blind\w*", cmd))
+    return all(SCRATCH_PATH.match(p) for p in paths)
 
 
 def norm(s) -> str:
@@ -178,7 +195,7 @@ def scan_file(path: Path, rows: list[dict]) -> tuple[list[dict], int]:
         m = ANSWER_PATH.search(text)
         if m:
             add("answer-path", text[max(0, m.start() - 80): m.end() + 80])
-        if (is_cmd and CONTENT_SEARCH.search(text)) or \
+        if (is_cmd and CONTENT_SEARCH.search(text) and not scratch_only(text)) or \
            (tool == "Grep" and not str(inp.get("path", "")).startswith("/tmp/")):
             add("content-search", text[:300], split_ws=True)
     return findings, calls
@@ -257,6 +274,11 @@ def selftest() -> int:
          "answer-path", None),
         ("Bash", {"command": "tail -c 4000 /tmp/claude-0/p/s/tasks/a1d6b4e506749af12.output"}, "answer-path", None),
         ("Bash", {"command": "grep -ri diminazene /root 2>/dev/null | head"}, "content-search", None),
+        # The scratch exemption must not cover a search that leaves the scratch directory.
+        ("Bash", {"command": 'cd /tmp/blind_a_work && grep -rn "Berberine" /root/cmage-work'},
+         "content-search", "img01"),
+        ("Bash", {"command": 'grep -rn "betahistine" /tmp/blind_a_work /root/C-MAGE/benchmarks'},
+         "content-search", "img04"),
         ("Grep", {"pattern": "berberine", "path": "/root"}, "content-search", "img01"),
         ("mcp__chem__lookup", {"name": "berberine"}, "unvetted-tool", "img01"),
         # The package-index exemption must not hide a second request, a chemistry client,
@@ -275,6 +297,9 @@ def selftest() -> int:
         ("Bash", {"command": "curl -sI https://pypi.org | head -1"}),
         ("Bash", {"command": "python3 -c \"import urllib.request; print(urllib.request.urlopen('https://pypi.org').status)\""}),
         ("Bash", {"command": "pip install --index-url https://pypi.org/simple rdkit"}),
+        # Searching its OWN scratch scripts. Both of these cost a whole batch on 17 Sep.
+        ("Bash", {"command": 'grep -rn "def ext_dir_3" /tmp/blind_b_work/*.py'}),
+        ("Bash", {"command": 'cd /tmp/blind_b_work && grep -rn "H9" . 2>/dev/null'}),
         ("Bash", {"command": "/root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolFromSmiles('CCO'))\""}),
         ("Bash", {"command": 'find / -iname "*rdkit*" -maxdepth 6 2>/dev/null | head -20'}),
         ("Bash", {"command": "pip list 2>/dev/null | grep -iE \"rdkit|osra\""}),
