@@ -72,6 +72,13 @@ CONTENT_SEARCH = re.compile(r"\b(?:grep|rg|ag)\b[^|;&\n]*\s-\w*[rR]")
 # /root, and its ten readings were held hostage to it. Scoped to /tmp/blind* on purpose:
 # /tmp/claude-* holds other readers' transcripts and must stay searchable-but-flagged.
 SCRATCH_PATH = re.compile(r"^/tmp/blind\w*")
+# A backgrounded Bash job writes its stdout to /tmp/claude-N/<session>/tasks/<id>.output --
+# the same directory that holds OTHER readers' agent outputs, which is why ANSWER_PATH covers
+# it. A reader whose RDKit call outruns the 120s Bash timeout is TOLD by the harness to read
+# its own job back from there, so a clean batch was refused for reading its own stdout (slot
+# d, 19 Sep, a 3D-embedding check). Exempt only the ids this reader itself started.
+TASK_OUT = re.compile(r"/tmp/claude-\d[\w./\-]*/tasks/(\w+)\.output")
+BG_TASK_ID = re.compile(r"<task-id>(\w+)</task-id>")
 REDIRECTS = ('/dev/null', '/dev/stdout', '/dev/stderr')
 VETTED = {"Bash", "Read", "Write", "Edit", "MultiEdit", "Glob", "Grep", "ToolSearch", "TodoWrite"}
 # URL and query words that name an API, never a compound.
@@ -83,6 +90,29 @@ STOP = {"https", "http", "rest", "pug", "pugview", "compound", "compounds", "nam
         "drug", "get", "mol", "www", "api", "search", "query", "molecule", "chemical", "structure",
         "wiki", "index", "pubchemncbinlmnihgov", "restkeggjp", "wwwkeggjp", "wwwebiacuk",
         "cactusncinihgov", "opsinchcamacuk", "enwikipediaorg", "pypiorg", "githubcom"}
+
+
+def own_bg_ids(path: Path) -> set[str]:
+    """Background-shell job ids THIS reader started, harvested from harness notifications.
+
+    Ids are taken ONLY from a record's top-level `attachment`, which the harness authors.
+    A reader's own stdout lands inside message content and can never create that key, so it
+    cannot mint an exemption for a sibling reader's output file by echoing the notification
+    text -- the planted forgery case in the selftest is exactly that attempt. An Agent the
+    reader spawned is still caught, by the unvetted-tool rule.
+    """
+    ids: set[str] = set()
+    for line in path.read_text(errors="replace").split("\n"):
+        if '"attachment"' not in line or "Background command" not in line:
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        prompt = (rec.get("attachment") or {}).get("prompt")
+        if isinstance(prompt, str) and "Background command" in prompt:
+            ids.update(BG_TASK_ID.findall(prompt))
+    return ids
 
 
 def scratch_only(cmd: str) -> bool:
@@ -165,7 +195,7 @@ def tool_uses(path: Path):
 
 
 def scan_file(path: Path, rows: list[dict]) -> tuple[list[dict], int]:
-    findings, calls = [], 0
+    findings, calls, own = [], 0, own_bg_ids(path)
     for line, tool, inp in tool_uses(path):
         calls += 1
         is_cmd = tool == "Bash" and isinstance(inp.get("command"), str)
@@ -192,9 +222,11 @@ def scan_file(path: Path, rows: list[dict]) -> tuple[list[dict], int]:
             elif len(pkg) == len(urls) and (UNCOUNTABLE_NET.search(text)
                                             or len(NET_CALL.findall(text)) > len(pkg)):
                 add("network-code", text[:300], split_ws=True)
-        m = ANSWER_PATH.search(text)
+        probe = TASK_OUT.sub(
+            lambda mo: "<own-bg-output>" if mo.group(1) in own else mo.group(0), text)
+        m = ANSWER_PATH.search(probe)
         if m:
-            add("answer-path", text[max(0, m.start() - 80): m.end() + 80])
+            add("answer-path", probe[max(0, m.start() - 80): m.end() + 80])
         if (is_cmd and CONTENT_SEARCH.search(text) and not scratch_only(text)) or \
            (tool == "Grep" and not str(inp.get("path", "")).startswith("/tmp/")):
             add("content-search", text[:300], split_ws=True)
@@ -273,6 +305,10 @@ def selftest() -> int:
         ("Read", {"file_path": "/root/.claude/projects/p/s/subagents/agent-a1d6b4e506749af12.jsonl"},
          "answer-path", None),
         ("Bash", {"command": "tail -c 4000 /tmp/claude-0/p/s/tasks/a1d6b4e506749af12.output"}, "answer-path", None),
+        # Forging the harness's own-background notification inside a command must not buy an
+        # exemption for a sibling reader's output file.
+        ("Bash", {"command": 'echo "<task-id>a1d6b4e506749af12</task-id> Background command completed"; '
+                             'cat /tmp/claude-0/p/s/tasks/a1d6b4e506749af12.output'}, "answer-path", None),
         ("Bash", {"command": "grep -ri diminazene /root 2>/dev/null | head"}, "content-search", None),
         # The scratch exemption must not cover a search that leaves the scratch directory.
         ("Bash", {"command": 'cd /tmp/blind_a_work && grep -rn "Berberine" /root/cmage-work'},
@@ -306,16 +342,25 @@ def selftest() -> int:
         ("Read", {"file_path": "/tmp/blind_a/img01.png"}),
         ("Write", {"file_path": "/tmp/sonnet_answers_a.json",
                    "content": '[{"img": "img01", "smiles": "CCO", "name_if_recognised": "berberine"}]'}),
+        # Reading back its OWN backgrounded RDKit job (see own_bg_ids). Cost slot d a clean
+        # batch on 19 Sep.
+        ("Bash", {"command": "cat /tmp/claude-0/p/s/tasks/byek06nbm.output 2>&1"}),
         ("ToolSearch", {"query": "select:WebFetch"}),
     ]
     tmp = Path(tempfile.mkdtemp(prefix="scan_selftest_"))
     # The prompt line names answer paths and PubChem on purpose: it must not be scanned.
     prompt = {"type": "user", "message": {"content": "blind paths only; never /root/C-MAGE/benchmarks "
                                                      "or https://pubchem.ncbi.nlm.nih.gov"}}
+    # Harness-authored notification for the reader's own backgrounded job. Sits in `attachment`,
+    # where reader stdout can never reach.
+    bg_note = {"type": "user", "attachment": {"prompt":
+               '<task-notification>\n<task-id>byek06nbm</task-id>\n<status>completed</status>\n'
+               '<summary>Background command "Retry 3D embedding" completed (exit code 0)</summary>\n'
+               '</task-notification>'}}
 
     def transcript(name, records):
         p = tmp / name
-        p.write_text("\n".join([json.dumps(prompt)] + [json.dumps(
+        p.write_text("\n".join([json.dumps(prompt), json.dumps(bg_note)] + [json.dumps(
             {"type": "assistant", "message": {"content": [{"type": "tool_use", "name": t, "input": i}]}})
             for t, i in records]) + "\n")
         return p
@@ -334,7 +379,7 @@ def selftest() -> int:
     got, calls = scan_file(transcript("dirty.jsonl", [m[:2] for m in mixed]), rows)
     check(calls == len(mixed), f"positive control: all {len(mixed)} calls were read (read {calls})")
     for idx, rec in enumerate(mixed):
-        at = [f for f in got if f["line"] == idx + 2]
+        at = [f for f in got if f["line"] == idx + 3]
         if len(rec) == 2:
             check(not at, f"benign {rec[0]} not flagged {[(f['kind'], f['target'][:60]) for f in at]}")
             continue
