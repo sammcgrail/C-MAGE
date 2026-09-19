@@ -92,7 +92,7 @@ STOP = {"https", "http", "rest", "pug", "pugview", "compound", "compounds", "nam
         "cactusncinihgov", "opsinchcamacuk", "enwikipediaorg", "pypiorg", "githubcom"}
 
 
-def own_bg_ids(path: Path) -> set[str]:
+def own_bg_ids(path) -> set[str]:
     """Background-shell job ids THIS reader started, harvested from harness notifications.
 
     Ids are taken ONLY from a record's top-level `attachment`, which the harness authors.
@@ -102,7 +102,10 @@ def own_bg_ids(path: Path) -> set[str]:
     reader spawned is still caught, by the unvetted-tool rule.
     """
     ids: set[str] = set()
-    for line in path.read_text(errors="replace").split("\n"):
+    # str, not Path: audit_sonnet_rows passes plain strings, and taking Path on faith here
+    # broke it with an AttributeError that the selftest could not see, because the selftest
+    # builds its own Path. The str case is asserted below.
+    for line in Path(path).read_text(errors="replace").split("\n"):
         if '"attachment"' not in line or "Background command" not in line:
             continue
         try:
@@ -372,7 +375,10 @@ def selftest() -> int:
         ok = ok and bool(cond)
         print(("  PASS  " if cond else "  FAIL  ") + msg)
 
-    got, calls = scan_file(transcript("clean.jsonl", benign), rows)
+    clean = transcript("clean.jsonl", benign)
+    got, calls = scan_file(str(clean), rows)          # str path: audit_sonnet_rows passes one
+    check(calls == len(benign), f"str path accepted: {calls} calls read")
+    got, calls = scan_file(clean, rows)
     check(calls == len(benign), f"negative control: all {len(benign)} benign calls were read (read {calls})")
     check(not got, f"negative control: nothing flagged {[(f['kind'], f['target'][:60]) for f in got]}")
     mixed = [x for pair in zip(benign + [None] * len(planted), planted) for x in pair if x]

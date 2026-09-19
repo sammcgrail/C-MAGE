@@ -7,7 +7,8 @@ the API's own `usage` for each request, and those token counts are priced at Ant
 published rates.
 
 THE TALLY COUNTS PUBLISHED READS ONLY. A reading excluded for a lookup was re-run clean,
-and the re-run is the reading the page shows. So the cost of each run is split evenly
+and so was one pulled because its drawing had overlapping atoms; either way the re-run is
+the reading the page shows. So the cost of each run is split evenly
 over the images it read, and the shares belonging to excluded readings are left out of
 the headline figure. Even is an estimate: one reader works on all its images in a single
 context, so nothing finer is recorded. Everything spent, excluded readings included,
@@ -54,6 +55,14 @@ BLIND_IMG = re.compile(r"/tmp/blind\w*/(img\d\d)\.png")
 
 OUT = HERE.parent / "benchmarks" / "sonnet_cost.json"
 EXCLUDED = [Path("/root/cmage-work/sonnet/excluded.jsonl"), HERE.parent / "benchmarks" / "sonnet_excluded.jsonl"]
+# Readings pulled because the DRAWING was wrong, not the reader: the corpus images with
+# overlapping atoms were re-rendered and read again, so the old reading is superseded exactly
+# as an excluded one is -- off the page, and its share of its run's cost has to leave the
+# published figure with it. Without this the tally read 957 against a payload of 936. Kept in
+# its own log on purpose: the page's exclusion count means "a reader looked something up",
+# and a corpus-quality pull is not that.
+RERENDERED = [Path("/root/cmage-work/sonnet/rerendered.jsonl"),
+              HERE.parent / "benchmarks" / "sonnet_rerendered.jsonl"]
 MODEL = "claude-sonnet-5"
 PRICE_PER_MTOK = {"input": 2.00, "output": 10.00, "cache_write_5m": 2.50,
                   "cache_write_1h": 4.00, "cache_read": 0.20}
@@ -113,10 +122,17 @@ def cost_of(t: dict) -> float:
 
 
 def excluded_rows() -> list[dict]:
-    for p in EXCLUDED:
-        if p.exists():
-            return [json.loads(l) for l in open(p) if l.strip()]
-    return []
+    """Every reading that was made but is no longer published: lookup exclusions and
+    re-render pulls alike. Each constant is a fallback chain -- the working copy first, the
+    repo copy for a checkout without it -- and the two chains are unioned, not chained.
+    """
+    rows: list[dict] = []
+    for chain in (EXCLUDED, RERENDERED):
+        for p in chain:
+            if p.exists():
+                rows += [json.loads(l) for l in open(p) if l.strip()]
+                break
+    return rows
 
 
 def update() -> dict:
@@ -193,7 +209,8 @@ def update() -> dict:
         "price_source": PRICE_SOURCE, "price_checked": PRICE_CHECKED,
         "note": ("API list-price estimate. The readers ran on a subscription; nothing here was billed per "
                  "token. cost_usd and per_image_usd cover published reads only, with each run's cost split "
-                 "evenly over its images; cost_usd_all includes the readings excluded for lookups."),
+                 "evenly over its images; cost_usd_all also includes the readings that were made but are "
+                 "not shown -- excluded for a lookup, or superseded when their image was re-rendered."),
         "reads": totals["published"],
         "cost_usd": round(shown, 2),
         "per_image_usd": round(shown / totals["published"], 3) if totals["published"] else None,
