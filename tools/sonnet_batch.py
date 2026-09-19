@@ -35,6 +35,7 @@ reason. It goes through /tmp/blind with numbered names every time.
 import glob
 import json
 import os
+import re
 import shutil
 import sys
 import time
@@ -100,23 +101,71 @@ def pool(rows: list[dict], have: set[str], claimed: set[str], gone: dict[str, di
     return [r for r in rows if r["k"] not in have and r["k"] not in claimed and r["k"] not in gone][:n]
 
 
-def cmd_next(n: int, slot: str = "a") -> int:
-    rows, have, idx = corpus(), done_keys(), image_index()
-    # Skip anything another worker has already claimed but not yet scored, or two
-    # workers started at the same moment read the same ten images.
-    claimed = set()
+def claimed_keys() -> set[str]:
+    """Anything another worker has claimed but not yet scored. Without this, two workers
+    starting at the same moment read the same ten images."""
+    out: set[str] = set()
     for pp in WORK.glob("pending_*.json"):
         try:
-            claimed |= {b["k"] for b in json.load(open(pp))}
+            out |= {b["k"] for b in json.load(open(pp))}
         except Exception:
             pass
+    return out
+
+
+def cmd_claim(slot: str, keys: list[str]) -> int:
+    """Claim NAMED images rather than the next in corpus order. For a re-read: an image
+    whose drawing was replaced has to go back to a reader, and it sits wherever the
+    alphabet put it, not at the head of the pool."""
+    rows = {r["k"]: r for r in corpus()}
+    have, claimed, gone = done_keys(), claimed_keys(), removed()
+    unknown = [k for k in keys if k not in rows]
+    busy = [k for k in keys if k in have or k in claimed or k in gone]
+    if unknown or busy or not keys:
+        raise SystemExit(f"[{slot}] refusing: not in the corpus {unknown}; already scored, "
+                         f"claimed or removed {busy}" if (unknown or busy) else "name at least one key")
+    open_count = len([k for k in rows if k not in have and k not in claimed and k not in gone])
+    return _prepare(slot, [rows[k] for k in keys], have, claimed, gone, open_count)
+
+
+def cmd_next(n: int, slot: str = "a") -> int:
+    rows, have = corpus(), done_keys()
+    claimed = claimed_keys()
     gone = removed()
     todo = pool(rows, have, claimed, gone, n)
     if not todo:
         print(f"NOTHING LEFT  ({len(gone)} removed)")
         return 0
+    return _prepare(slot, todo, have, claimed, gone,
+                    len([r for r in rows if r["k"] not in have and r["k"] not in claimed and r["k"] not in gone]))
+
+
+def wipe_scratch(slot: str) -> list[str]:
+    """Delete every /tmp/blind_<slot>* path before handing the slot to a new reader.
+
+    Readers invent their own scratch beside the image dir (/tmp/blind_c_work,
+    /tmp/blind_a_c3_1.png) and slot letters are reused batch after batch, so the next
+    reader in that slot opens on 162 leftover files -- crops, .mol reconstructions and
+    check scripts holding a PREVIOUS reader's answer for an image called img02.png. The
+    slot-c reader on 19 Sep found exactly that, isolated itself in a new directory and
+    said so; a less careful one would have read it and the two readings would no longer
+    be independent. Only this slot's paths go: a live reader in another slot is untouched.
+    """
+    pat = re.compile(rf"^blind_{re.escape(slot)}(?:[_.\-].*)?$")
+    wiped = []
+    for path in sorted(Path("/tmp").glob(f"blind_{slot}*")):
+        if not pat.match(path.name):
+            continue
+        shutil.rmtree(path, ignore_errors=True) if path.is_dir() else path.unlink(missing_ok=True)
+        wiped.append(path.name)
+    return wiped
+
+
+def _prepare(slot: str, todo: list[dict], have: set[str], claimed: set[str],
+             gone: dict[str, dict], open_count: int) -> int:
+    idx = image_index()
     BLIND = blind_dir(slot)
-    shutil.rmtree(BLIND, ignore_errors=True)
+    wiped = wipe_scratch(slot)
     BLIND.mkdir(parents=True)
     WORK.mkdir(parents=True, exist_ok=True)
     batch = []
@@ -132,9 +181,11 @@ def cmd_next(n: int, slot: str = "a") -> int:
     json.dump(batch, open(pending_path(slot), "w"), indent=1)
     leak = [b for b in batch if any(t in b["slot"].lower() for t in ("cid", "acid", "_"))]
     assert not leak, f"anonymisation failed: {leak}"
-    remaining = len([r for r in rows if r["k"] not in have and r["k"] not in claimed and r["k"] not in gone])
     print(f"[{slot}] prepared {len(batch)}  done {len(have)}  claimed-elsewhere {len(claimed)}  "
-          f"remaining {remaining - len(batch)}  removed {len(gone)}")
+          f"remaining {open_count - len(batch)}  removed {len(gone)}")
+    if wiped:
+        print(f"  wiped {len(wiped)} stale scratch path(s): {', '.join(wiped[:4])}"
+              + (" ..." if len(wiped) > 4 else ""))
     for b in batch:
         print(f"  {BLIND}/{b['slot']}.png")
     return 0
@@ -265,6 +316,8 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
 
 
 if __name__ == "__main__":
+    if sys.argv[1] == "claim":        # claim <slot> <key> [<key> ...]
+        sys.exit(cmd_claim(sys.argv[2], sys.argv[3:]))
     if sys.argv[1] == "remove":       # remove <slot> <reader-agent-id> <imgNN> [imgNN ...]
         sys.exit(cmd_remove(sys.argv[2], sys.argv[3], sys.argv[4:]))
     if sys.argv[1] == "remove-rows":  # remove-rows "<reason>" <key> [<key> ...]
