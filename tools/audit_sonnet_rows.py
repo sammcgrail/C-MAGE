@@ -139,8 +139,69 @@ def main(argv: list[str]) -> int:
         for _, smi in found:
             by_smiles.setdefault(smi, set()).add(p)
 
+    # Every character that can appear INSIDE a SMILES. A raw-transcript hit only counts as
+    # this reader's answer when both edges fall outside that set -- i.e. the string stands
+    # alone, rather than sitting inside a larger molecule or a blob of base64.
+    SMILES_CHAR = re.compile(r"[A-Za-z0-9@+\-\[\]()=#/\\%.*]")
+
+    collapsed_cache: dict[int, str] = {}
+
+    def _collapse(text):
+        """Backslash-run-collapsed copy of a transcript, made at most once per transcript.
+
+        Keyed by id() of the raw string the caller already holds, and capped at four, so a
+        2 GB corpus of transcripts is never duplicated wholesale.
+        """
+        key = id(text)
+        if key not in collapsed_cache:
+            if len(collapsed_cache) >= 4:
+                collapsed_cache.pop(next(iter(collapsed_cache)))
+            collapsed_cache[key] = re.sub(r"\\+", "\\\\", text)
+        return collapsed_cache[key]
+
+    def standalone(smi, text):
+        """Is `smi` present as a whole token, not as a substring of something bigger?
+
+        Plain `in` is catastrophic for SHORT answers. A refused reader on 20 Sep implicated
+        three published rows it never touched: C1CC1 (cyclopropane) matched a cyclopropyl
+        group inside an unrelated drug 15 times, CC(=O)O (acetic acid) matched an acetate
+        fragment, and NCCS (cysteamine) matched inside BASE64 IMAGE DATA. None had ever
+        been a complete answer value. Refusing one reader was damaging rows at random.
+        """
+        # A cis bond IS a backslash, and it reaches the transcript with any number of them:
+        # once as written, twice through JSONL escaping (fluvoxamine appears ONLY that way),
+        # and seven times when a reader checks its answer through a shell-quoted python -c
+        # (friulimicin B). Try the two cheap spellings first, then -- only for an answer that
+        # actually contains a backslash, so the cost is paid by 44 rows out of 1056 -- compare
+        # with runs of backslashes collapsed on both sides. Collapsing loosens nothing: every
+        # other character must still match, and the token boundaries are still enforced.
+        for spelling in (smi, smi.replace("\\", "\\\\")):
+            if _bounded(spelling, text):
+                return True
+        if "\\" not in smi:
+            return False
+        flat = _collapse(text)
+        return _bounded(re.sub(r"\\+", "\\\\", smi), flat)
+
+    def _bounded(smi, text):
+        i = text.find(smi)
+        while i != -1:
+            j = i + len(smi)
+            before = text[i - 1] if i else ""
+            after = text[j] if j < len(text) else ""
+            # The text is raw JSONL, so a real answer is usually followed by an ESCAPE:
+            # ...cc1\" ending a JSON string, or ...cc1\n ending a line. A lone backslash is
+            # also a legitimate cis bond, which is why a trailing \\ does NOT count -- that
+            # may be a real bond continuing into a larger molecule.
+            esc = after == "\\" and text[j + 1: j + 2] in ('"', "n", "r", "t")
+            if (not SMILES_CHAR.fullmatch(before or " ")
+                    and (esc or not SMILES_CHAR.fullmatch(after or " "))):
+                return True
+            i = text.find(smi, i + 1)
+        return False
+
     def holds(p, smi):
-        return bool(smi) and (p in by_smiles.get(smi, ()) or smi in readers[p][1])
+        return bool(smi) and (p in by_smiles.get(smi, ()) or standalone(smi, readers[p][1]))
 
     ids = S.row_ids(res + exc)
     scan, used = {}, set()
