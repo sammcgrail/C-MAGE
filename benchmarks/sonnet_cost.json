@@ -10,22 +10,22 @@
  "price_source": "https://docs.claude.com/en/docs/about-claude/pricing",
  "price_checked": "2026-09-14",
  "note": "API list-price estimate. The readers ran on a subscription; nothing here was billed per token. cost_usd and per_image_usd cover published reads only, with each run's cost split evenly over its images; cost_usd_all also includes the readings that were made but are not shown -- excluded for a lookup, or superseded when their image was re-rendered.",
- "reads": 976,
- "cost_usd": 896.79,
- "per_image_usd": 0.919,
- "cost_usd_all": 940.18,
+ "reads": 1016,
+ "cost_usd": 901.06,
+ "per_image_usd": 0.887,
+ "cost_usd_all": 944.45,
  "cost_usd_excluded": 43.39,
  "unattributed_excluded": [],
  "totals": {
-  "input": 25914,
-  "output": 22784107,
-  "cache_write_5m": 43073789,
+  "input": 26092,
+  "output": 22924607,
+  "cache_write_5m": 43449452,
   "cache_write_1h": 0,
-  "cache_read": 3023023041,
-  "requests": 12957,
-  "images": 1028,
+  "cache_read": 3032631973,
+  "requests": 13046,
+  "images": 1068,
   "excluded": 52,
-  "published": 976
+  "published": 1016
  },
  "readers": [
   {
@@ -1723,6 +1723,70 @@
    "excluded": 0,
    "published": 10,
    "published_cost_usd": 7.8998
+  },
+  {
+   "agent": "a5567c82874c7cfe2",
+   "images": 10,
+   "finished": "2026-09-20T09:29:04Z",
+   "duration_s": 25,
+   "input": 4,
+   "output": 749,
+   "cache_write_5m": 36654,
+   "cache_write_1h": 0,
+   "cache_read": 33787,
+   "requests": 2,
+   "cost_usd": 0.1059,
+   "excluded": 0,
+   "published": 10,
+   "published_cost_usd": 0.1059
+  },
+  {
+   "agent": "a98f1c18a2cd44633",
+   "images": 10,
+   "finished": "2026-09-20T09:29:05Z",
+   "duration_s": 17,
+   "input": 4,
+   "output": 1115,
+   "cache_write_5m": 23633,
+   "cache_write_1h": 0,
+   "cache_read": 46333,
+   "requests": 2,
+   "cost_usd": 0.0795,
+   "excluded": 0,
+   "published": 10,
+   "published_cost_usd": 0.0795
+  },
+  {
+   "agent": "adcf9e6ebf976a465",
+   "images": 10,
+   "finished": "2026-09-20T09:36:19Z",
+   "duration_s": 424,
+   "input": 90,
+   "output": 41261,
+   "cache_write_5m": 108666,
+   "cache_write_1h": 0,
+   "cache_read": 3876796,
+   "requests": 45,
+   "cost_usd": 1.4598,
+   "excluded": 0,
+   "published": 10,
+   "published_cost_usd": 1.4598
+  },
+  {
+   "agent": "aa332b7f4e63d61ec",
+   "images": 10,
+   "finished": "2026-09-20T09:46:37Z",
+   "duration_s": 1035,
+   "input": 80,
+   "output": 97375,
+   "cache_write_5m": 206710,
+   "cache_write_1h": 0,
+   "cache_read": 5652016,
+   "requests": 40,
+   "cost_usd": 2.6211,
+   "excluded": 0,
+   "published": 10,
+   "published_cost_usd": 2.6211
   }
  ],
  "per_key": {
@@ -2263,12 +2327,12 @@
    "reader": "a2b946e7"
   },
   "acetic_acid_cid176": {
-   "cost": 0.79,
-   "secs": 272,
+   "cost": 0.2621,
+   "secs": 104,
    "batch": 10,
-   "batch_cost": 7.9,
-   "batch_secs": 2716,
-   "reader": "aebe241d"
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
   },
   "acetohydroxamic_acid_cid1990": {
    "cost": 0.2272,
@@ -2751,12 +2815,12 @@
    "reader": "ab78dc07"
   },
   "acetylfentanyl_cid527015": {
-   "cost": 0.9337,
-   "secs": 254,
+   "cost": 0.146,
+   "secs": 42,
    "batch": 10,
-   "batch_cost": 9.34,
-   "batch_secs": 2535,
-   "reader": "ab78dc07"
+   "batch_cost": 1.46,
+   "batch_secs": 424,
+   "reader": "adcf9e6e"
   },
   "alpelisib_cid56649450": {
    "cost": 0.9607,
@@ -3775,12 +3839,12 @@
    "reader": "abdd6315"
   },
   "benzene_cid241": {
-   "cost": 0.4745,
-   "secs": 180,
+   "cost": 0.2621,
+   "secs": 104,
    "batch": 10,
-   "batch_cost": 4.74,
-   "batch_secs": 1801,
-   "reader": "a4f1488e"
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
   },
   "benzene_d6_cid71601": {
    "cost": 0.3712,
@@ -9533,6 +9597,86 @@
    "batch_cost": 7.9,
    "batch_secs": 2716,
    "reader": "aebe241d"
+  },
+  "ferrocene_cid10219726": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "ferrocenecarboxaldehyde_cid15205657": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "ferroquine_cid140118553": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "ferrous_fumarate_cid6433164": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "fertirelin_cid188304": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "fesoterodine_fumarate_cid9849808": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "fevipiprant_cid23582412": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "fexinidazole_cid68792": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "fexofenadine_cid3348": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
+  },
+  "fexuprazan_cid122662112": {
+   "cost": 0.2621,
+   "secs": 104,
+   "batch": 10,
+   "batch_cost": 2.62,
+   "batch_secs": 1035,
+   "reader": "aa332b7f"
   }
  }
 }
