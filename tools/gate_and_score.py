@@ -90,9 +90,21 @@ def opened_before(records: list[dict], upto: int, slot: str, expected: list[str]
     return sorted(seen & set(expected))
 
 
+def slot_id(x) -> str:
+    """An answer's slot, however the reader spelled it.
+
+    Readers are handed paths and some label their answers img01.png, or even the full
+    /tmp/blind_a/img01.png, rather than img01 -- a labelling difference with no bearing on
+    the reading, which nonetheless refused a clean 10-image batch outright (slot a, 20 Sep).
+    Normalising is safe because the SET still has to match the blind directory exactly;
+    this cannot let a missing or extra answer through.
+    """
+    return re.sub(r"\.png$", "", str(x).rsplit("/", 1)[-1])
+
+
 def answers_complete(ans_path: Path, claim: Path, expected: list[str]) -> bool:
     try:
-        got = sorted(a["img"] for a in json.load(open(ans_path)))
+        got = sorted(slot_id(a["img"]) for a in json.load(open(ans_path)))
     except (OSError, ValueError, KeyError, TypeError):
         return False
     return got == expected and os.path.getmtime(ans_path) > os.path.getmtime(claim)
@@ -165,7 +177,7 @@ def main(slot: str, aid: str) -> int:
 
     # 3. answers shape + mtime
     ans = json.load(open(ans_path))
-    got = {a["img"]: a.get("smiles") for a in ans}
+    got = {slot_id(a["img"]): a.get("smiles") for a in ans}
     claimed = {b["slot"] for b in json.load(open(claim))}
     if sorted(got) != expected:
         fail(f"answers file slots {sorted(got)} do not match the {len(expected)} images in {blind}")

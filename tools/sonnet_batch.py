@@ -267,7 +267,11 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
     from rdkit import Chem, RDLogger
     RDLogger.DisableLog("rdApp.*")
     batch = json.load(open(pending_path(slot)))
-    ans = {a["img"]: a for a in json.load(open(answers_path))}
+    # imgNN, imgNN.png and /tmp/blind_x/imgNN.png are the same slot: readers are handed
+    # paths and label their answers from them. gate_and_score.slot_id does the same, so a
+    # batch that passes the gate cannot then fail to score on spelling alone.
+    ans = {re.sub(r"\.png$", "", str(a["img"]).rsplit("/", 1)[-1]): a
+           for a in json.load(open(answers_path))}
 
     # The answers file lives at a FIXED path per slot and is overwritten each round.
     # Scoring a STALE one against a fresh claim is silent and total: every row gets a
