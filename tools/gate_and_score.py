@@ -186,8 +186,17 @@ def main(slot: str, aid: str) -> int:
     if os.path.getmtime(ans_path) <= os.path.getmtime(claim):
         fail("answers file is not newer than the claim")
 
+    # A cis bond is a BACKSLASH, and a reader that checks its answer through a shell-quoted
+    # python -c can multiply it: /C=C\ reached the transcript as /C=C\\\\\\\ while the answers
+    # file held the single one. The prefix matched for 136 of 161 characters and the gate
+    # refused the batch for "file may not be this reader's". Comparing with runs of
+    # backslashes collapsed fixes that without loosening anything -- every other character
+    # must still match exactly, so no unrelated SMILES can slip through.
+    flat = lambda x: re.sub(r"\\+", "\\\\", x)
+    flat_raw = flat(raw)
     missing = [img for img, smi in got.items()
-               if smi and smi not in raw and smi.replace("\\", "\\\\") not in raw]
+               if smi and smi not in raw and smi.replace("\\", "\\\\") not in raw
+               and flat(smi) not in flat_raw]
     if missing:
         fail(f"answer SMILES absent from this transcript (file may not be this reader's): {missing}")
 
