@@ -55,9 +55,12 @@ from pathlib import Path
 ARM = os.environ.get("SONNET_ARM", "").strip()
 if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
     raise SystemExit(f"SONNET_ARM must be lowercase letters and digits, got {ARM!r}")
-# The one model a lane's readers must have been served by. The gate refuses anything else, so an
-# alias that moves under a lane cannot put another model's reading in it.
-ARM_MODEL = {"s55": "claude-sonnet-5-5"}
+# The ONE model each lane's readers must have been served by, as an exact id -- the default lane
+# (the Sonnet 5 arm) included. The gate refuses anything else. Never a substring test: "sonnet"
+# and "sonnet-5" both match claude-sonnet-5-5, which is how a 5.5 reading would land in the
+# Sonnet 5 arm once the "sonnet" alias moved (28 Sep). Readers are spawned on this id by
+# tools/spawn_reader.sh, never by alias.
+ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5"}
 if ARM and ARM not in ARM_MODEL:
     raise SystemExit(f"unknown SONNET_ARM {ARM!r}; known lanes: {sorted(ARM_MODEL)}")
 STEM = "fig" if ARM else "img"

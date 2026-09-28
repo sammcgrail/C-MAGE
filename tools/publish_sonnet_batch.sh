@@ -7,6 +7,11 @@
 # than leaving the site half-updated.
 set -euo pipefail
 SLOT="${1:-a}"
+AGENT="${2:-}"
+# The reader's agent id is REQUIRED: scoring goes through gate_and_score.py, which checks the
+# transcript (no lookups, served by exactly claude-sonnet-5, answers present). This script used
+# to call `sonnet_batch.py score` directly, which checks no model at all.
+[ -n "$AGENT" ] || { echo "usage: publish_sonnet_batch.sh <slot> <reader-agent-id>"; exit 2; }
 ANS="/tmp/sonnet_answers_${SLOT}.json"
 PY=/root/C-MAGE/.venv-ms/bin/python
 
@@ -26,7 +31,7 @@ if [ ! "$ANS" -nt "$PENDING" ]; then
   exit 3
 fi
 
-$PY /root/C-MAGE/tools/sonnet_batch.py score "$ANS" "$SLOT"
+$PY /root/C-MAGE/tools/gate_and_score.py "$SLOT" "$AGENT"
 # `all` chains the Sonnet build, so the two tabs cannot report different corpus sizes.
 $PY /root/C-MAGE/tools/build_wall.py all
 # Refuses to pass if the payloads disagree with each other or with the scored data.

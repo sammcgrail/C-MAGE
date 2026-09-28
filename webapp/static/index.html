@@ -50,7 +50,13 @@ header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
 .seg button{appearance:none;background:none;border:0;color:var(--dim);font:inherit;
   font-size:14px;padding:7px 13px;border-radius:6px;cursor:pointer;min-height:38px;
   white-space:nowrap}
-.seg button[aria-selected=true]{background:var(--acc);color:#fff;font-weight:600}
+/* #1f6feb, not the accent #388bfd: white 14px text on the accent is 3.3:1 and fails AA;
+   on #1f6feb it is 4.6:1. */
+.seg button[aria-selected=true]{background:#1f6feb;color:#fff;font-weight:600}
+/* The Sonnet 5.5 page is its own URL, so its tab is a link styled as a tab. */
+.seg a.segl{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:38px;
+  display:flex;align-items:center;white-space:nowrap;text-decoration:none}
+.seg a.segl:hover{color:var(--ink)}
 .ghost{appearance:none;background:none;border:1px solid var(--line);color:var(--ink);
   font:inherit;font-size:13px;padding:8px 12px;border-radius:7px;cursor:pointer;min-height:38px}
 main{max-width:1400px;margin:0 auto;
@@ -288,9 +294,12 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   .seg{margin-left:0;flex:1 1 auto;justify-content:center;overflow-x:auto;
     scrollbar-width:none}
   .seg::-webkit-scrollbar{display:none}
-  .seg button{padding:7px 8px;font-size:12.5px}
-  .brand{font-size:14px;overflow:hidden;text-overflow:ellipsis}
-  #try{padding:8px 9px;font-size:12px}
+  .seg button,.seg a.segl{padding:7px 8px;font-size:12.5px}
+  /* Four tabs ("Sonnet 5" and "Sonnet 5.5" kept whole, Sam 28 Sep) plus the upload button
+     fill a 390px row; the wordmark is what gives way, as it already did below 360px. The
+     tabs are the navigation, the wordmark is decoration. */
+  .brand{display:none}
+  #try{padding:8px 9px;font-size:12px;flex:0 0 auto}
 }
 /* Below ~360px three tabs plus a brand plus a button genuinely do not fit on one
    line at a legible size. Drop the wordmark rather than shrink the type further
@@ -298,7 +307,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
    wordmark is decoration. */
 @media(max-width:359px){
   .brand{display:none}
-  .seg button{padding:7px 7px;font-size:12px} :root{--tile:96px}
+  .seg button,.seg a.segl{padding:7px 7px;font-size:12px} :root{--tile:96px}
   dialog{width:100%;max-width:none;max-height:92dvh;border-radius:0;
     margin:auto auto 0;align-self:end}
   .pics img{max-height:26dvh}
@@ -312,9 +321,10 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="hrow">
     <div class="brand">C-MAGE <span>structures out of documents</span></div>
     <div class="seg" role="tablist">
-      <button role="tab" id="tab-images" aria-selected="true">Raw images</button>
+      <button role="tab" id="tab-images" aria-selected="true">Images</button>
       <button role="tab" id="tab-pdfs" aria-selected="false">PDFs</button>
-      <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet</button>
+      <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet 5</button>
+      <a class="segl" href="/sonnet-5-5">Sonnet 5.5</a>
     </div>
     <button class="ghost" id="try">Try a file</button>
   </div>

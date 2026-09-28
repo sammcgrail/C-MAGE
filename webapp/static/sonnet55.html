@@ -33,6 +33,8 @@ header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
 .seg a{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:38px;
   display:flex;align-items:center;white-space:nowrap;text-decoration:none}
 .seg a:hover{color:var(--ink)}
+.ghost{border:1px solid var(--line);color:var(--ink);font-size:13px;padding:0 12px;border-radius:7px;
+  min-height:38px;display:flex;align-items:center;white-space:nowrap;text-decoration:none;flex:0 0 auto}
 /* #1f6feb, not the accent #388bfd: white 12.5px text on the accent is 3.3:1 and fails AA. */
 .seg a[aria-current=page]{background:#1f6feb;color:#fff;font-weight:600}
 main{max-width:1400px;margin:0 auto;
@@ -52,7 +54,10 @@ h1{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.3px}
 .cmp .pc{font-size:34px;font-weight:800;line-height:1;letter-spacing:-1px}
 .cmp .pc small{font-size:16px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:3px}
 .cmp .of{color:var(--dim);font-size:12.5px;margin-top:6px}
-.cmpnote{color:var(--dim);font-size:12.5px;margin:-6px 0 12px}
+.cmpnote{color:var(--dim);font-size:12.5px;margin:-4px 0 12px}
+.cmpnote b{color:var(--ink)}
+.verdict{background:var(--panel);border:1px solid var(--line);border-left:3px solid #d29922;
+  padding:11px 13px;margin:0 0 12px;font-size:14px;line-height:1.5;color:var(--ink)}
 .cmp .track{height:7px;background:#0b0f14;margin-top:9px;overflow:hidden}
 .cmp .track i{display:block;height:100%;background:var(--acc)}
 .cmp .side.lead .track i{background:var(--exact)}
@@ -129,10 +134,12 @@ footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid v
 .err{background:#4a1513;color:#f87171;padding:12px 14px;margin:16px 0}
 
 @media(max-width:560px){
+  /* Same header as index.html at this width: four tabs plus the upload button, no wordmark. */
   .hrow{gap:8px;padding:9px 12px}
-  .brand{font-size:14px}
-  .seg{flex:0 1 auto}
-  .seg a{padding:0 9px;font-size:12.5px}
+  .brand{display:none}
+  .seg{margin-left:0;flex:1 1 auto;justify-content:center;min-width:0}
+  .seg a{padding:0 8px;font-size:12.5px}
+  .ghost{padding:0 9px;font-size:12px}
   h1{font-size:21px}
   .cmp .pc{font-size:28px}
   .cmp .side{padding:11px 10px}
@@ -141,7 +148,7 @@ footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid v
   .cmp .who{font-size:11px;letter-spacing:.4px;line-height:1.35;min-height:2.7em}
   .tally b{font-size:20px}
 }
-@media(max-width:359px){ .brand{display:none} .seg{margin-left:0} }
+@media(max-width:359px){ .seg a{padding:0 6px;font-size:12px} }
 /* Desktop: two cards per row, and inside each card the drawing and both readings sit
    side by side, so the whole comparison is one glance. */
 @media(min-width:900px){
@@ -160,9 +167,10 @@ footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid v
     <nav class="seg" aria-label="Benchmark views">
       <a href="/?tab=images">Images</a>
       <a href="/?tab=pdfs">PDFs</a>
-      <a href="/?tab=sonnet">Sonnet</a>
-      <a href="/sonnet-5-5" aria-current="page">5.5</a>
+      <a href="/?tab=sonnet">Sonnet 5</a>
+      <a href="/sonnet-5-5" aria-current="page">Sonnet 5.5</a>
     </nav>
+    <a class="ghost" href="/upload">Try a file</a>
   </div>
 </header>
 
@@ -201,9 +209,13 @@ function arm(label, a, dir, k){
     + img + '<p class="cap">' + conf + '</p></div>';
 }
 
+/* The badge compares 5.5 with the SAME-PROMPT re-run when one exists, not with the published
+   run: the published run is why an image was picked, so it flatters any second attempt. */
 function card(r){
-  var d = r.delta > 0 ? ["up", "+1 fixed"] : r.delta < 0 ? ["down", "−1 broke"]
-        : [ "same", r.s55.v === "exact" ? "0 both right" : "0 both miss" ];
+  var base = (r.side || [])[0], bv = base ? base.v : r.s5.v, who = base ? "re-run" : "Sonnet 5";
+  var up = r.s55.v === "exact" && bv !== "exact", down = r.s55.v !== "exact" && bv === "exact";
+  var d = up ? ["up", "5.5 ahead of " + who] : down ? ["down", "5.5 behind " + who]
+        : ["same", r.s55.v === "exact" ? "both right" : "both miss"];
   var side = (r.side || []).map(function(x){
     return '<div class="side-read">' + esc(x.label) + ' (same prompt as 5.5): ' + badge(x.v)
       + (x.conf != null ? ' confidence ' + esc(x.conf) : '') + '</div>'; }).join("");
@@ -217,7 +229,7 @@ function card(r){
     + '<span class="badge truth">what both read</span></div>'
     + '<figure><img loading="lazy" decoding="async" src="/wall/sonnet55/'
     + encodeURIComponent(r.k) + '.png" alt="The drawing both models read: ' + esc(r.n) + '"></figure></div>'
-    + '<div class="pair">' + arm("Sonnet 5", r.s5, "sonnet55_s5", r.k) + arm("Sonnet 5.5", r.s55, "sonnet55_pred", r.k) + '</div></div>'
+    + '<div class="pair">' + arm("Sonnet 5, published", r.s5, "sonnet55_s5", r.k) + arm("Sonnet 5.5", r.s55, "sonnet55_pred", r.k) + '</div></div>'
     + side
     + '<details><summary>SMILES and what differs</summary>'
     + kv("Ground truth", r.t)
@@ -229,23 +241,31 @@ function card(r){
 
 function render(D){
   var S = D.summary, v = $("#view");
-  /* The re-run is the control that matters: images picked because Sonnet 5 failed them
-     will partly come right on any second attempt. Name the images where 5.5 beats it. */
-  var side = (D.side || []).map(function(x){
-    var sv = function(r){ var m = (r.side || []).filter(function(y){ return y.label === x.label; })[0];
-                          return m ? m.v : null; };
-    var ahead = D.rows.filter(function(r){ return r.s55.v === "exact" && sv(r) && sv(r) !== "exact"; })
-                      .map(function(r){ return r.n; });
-    var behind = D.rows.filter(function(r){ return r.s55.v !== "exact" && sv(r) === "exact"; })
-                       .map(function(r){ return r.n; });
-    return '<li><b>Noise check.</b> ' + esc(x.label) + ' today on the identical prompt: ' + x.exact + ' of ' + x.n
-      + ' exact, ' + x.fixed + ' of the ' + S.failures + ' misses right on a second try. Against that re-run, '
-      + 'Sonnet 5.5 is ahead on ' + ahead.length + (ahead.length ? ' (' + esc(ahead.join(", ")) + ')' : '')
-      + ' and behind on ' + behind.length + (behind.length ? ' (' + esc(behind.join(", ")) + ')' : '') + '.</li>';
-  }).join("");
-  var sides = [["Sonnet 5", S.s5_exact, "published run"]]
-    .concat((D.side || []).map(function(x){ return [x.label, x.exact, "5.5's prompt"]; }))
-    .concat([["Sonnet 5.5", S.s55_exact, "this run"]]);
+  /* THE comparison is 5.5 against Sonnet 5 on the identical prompt. The published Sonnet 5
+     score on these images is low BY SELECTION -- they were picked because it failed them --
+     so it is shown small, as the reason for the pick, never as the baseline. */
+  var base = (D.side || [])[0];
+  var bv = function(r){ return base ? ((r.side || [])[0] || {}).v : r.s5.v; };
+  var ahead = D.rows.filter(function(r){ return r.s55.v === "exact" && bv(r) !== "exact"; }).map(function(r){ return r.n; });
+  var behind = D.rows.filter(function(r){ return r.s55.v !== "exact" && bv(r) === "exact"; }).map(function(r){ return r.n; });
+  /* Same measure as the tally: exact or not. (Stereo-only to wrong is still a miss both times.) */
+  var ex = function(v){ return v === "exact"; };
+  var moved = base ? D.rows.filter(function(r){ return ex(((r.side || [])[0] || {}).v) !== ex(r.s5.v); }).length : null;
+  var sides = base ? [["Sonnet 5, re-run", base.exact, "same prompt as 5.5"], ["Sonnet 5.5", S.s55_exact, "same prompt"]]
+                   : [["Sonnet 5", S.s5_exact, "published run"], ["Sonnet 5.5", S.s55_exact, "this run"]];
+  var gap = ahead.length - behind.length;
+  var verdict = base
+    ? 'On the identical prompt: Sonnet 5.5 <b>' + S.s55_exact + '/' + S.n + '</b>, Sonnet 5 <b>' + base.exact + '/' + S.n + '</b>. '
+      + '5.5 is ahead on ' + ahead.length + (ahead.length ? ' (' + esc(ahead.join(", ")) + ')' : '')
+      + ' and behind on ' + behind.length + (behind.length ? ' (' + esc(behind.join(", ")) + ')' : '') + '. '
+      + (Math.abs(gap) <= moved
+          ? 'Re-running Sonnet 5 alone flipped ' + moved + ' of ' + S.n + ' between right and wrong, so a ' + Math.abs(gap)
+            + '-image gap is <b>within run-to-run noise</b> at this size.'
+          : 'That gap is larger than the ' + moved + ' a Sonnet 5 re-run flipped on its own, but n=' + S.n + ' is still tiny.')
+    : 'No same-prompt Sonnet 5 re-run yet, so this cannot separate a model difference from noise.';
+  var more = (D.side || []).slice(1);
+  if (more.length) verdict += ' ' + (more.length === 1 ? 'A second, independent re-run scored ' : 'Further re-runs scored ')
+    + more.map(function(x){ return '<b>' + x.exact + '/' + x.n + '</b>'; }).join(", ") + '.';
   var best = Math.max.apply(null, sides.map(function(x){ return x[1]; }));
   var cmp = function(x){
     var pc = Math.round(x[1] / S.n * 100);
@@ -259,18 +279,20 @@ function render(D){
     + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
     + '<p class="lede">Images Sonnet 5 read <b>wrong</b> in the blind benchmark, plus controls it read right, '
     + 'given to Sonnet 5.5 through the same pipeline: same images, same reader prompt, same max effort, same scorer. '
-    + 'Sonnet 5 was re-run on the identical prompt as a control.</p>'
-    + '<div class="cmp" style="grid-template-columns:repeat(' + sides.length + ',minmax(0,1fr))">'
-    + sides.map(cmp).join("") + '</div>'
-    + '<p class="cmpnote">Exactly right, of ' + S.n + '. The re-run used 5.5’s prompt word for word; the tally below compares 5.5 with the published Sonnet 5 run.</p>'
-    + '<div class="tally"><div class="' + (S.fixed ? 'up' : '') + '"><b>' + S.fixed + '</b><span>fixed: 5 wrong, 5.5 exact</span></div>'
-    + '<div class="' + (S.broke ? 'down' : '') + '"><b>' + S.broke + '</b><span>broke: 5 exact, 5.5 wrong</span></div>'
-    + '<div><b>' + (S.n - S.fixed - S.broke) + '</b><span>unchanged</span></div></div>'
+    + 'Sonnet 5 was re-run on the identical prompt as the control that matters.</p>'
+    + '<div class="verdict">' + verdict + '</div>'
+    + '<div class="cmp">' + sides.map(cmp).join("") + '</div>'
+    + '<div class="tally"><div class="' + (ahead.length ? 'up' : '') + '"><b>' + ahead.length + '</b><span>5.5 right, '
+    + (base ? 're-run' : 'Sonnet 5') + ' wrong</span></div>'
+    + '<div class="' + (behind.length ? 'down' : '') + '"><b>' + behind.length + '</b><span>' + (base ? 're-run' : 'Sonnet 5')
+    + ' right, 5.5 wrong</span></div>'
+    + '<div><b>' + (S.n - ahead.length - behind.length) + '</b><span>same result</span></div></div>'
+    + (base ? '<p class="cmpnote">Published Sonnet 5 run on these images: <b>' + S.s5_exact + '/' + S.n + '</b>. '
+      + 'That is why they were picked, not a baseline: ' + S.failures + ' are its misses, ' + S.controls + ' are controls it read right.</p>' : '')
     + '</div><div>'
     + '<ul class="facts">'
     + '<li><b>' + S.failures + ' Sonnet 5 misses:</b> Sonnet 5.5 read ' + S.fixed_of_failures + ' exactly. '
     + '<b>' + S.controls + ' controls</b> (Sonnet 5 exact): 5.5 kept ' + S.kept_of_controls + '.</li>'
-    + side
     + '<li><b>Reading or recall?</b> Every image is a known drug. Sonnet 5.5 named ' + S.s55_named + ' of ' + S.n
     + ', Sonnet 5 named ' + S.s5_named + ' and still drew ' + S.s5_named_wrong + ' of those wrong. The prompt allows '
     + 'recognising a molecule and cross-checking it, so this measures reading plus recall, not reading alone.</li>'

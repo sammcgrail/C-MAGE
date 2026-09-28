@@ -120,7 +120,9 @@ def reader_transcripts(skip: set[str]) -> dict[str, tuple[list, str]]:
                 out[p] = (found, raw)
                 continue
             real = {x for x in models if x and x != "<synthetic>"}
-            if READER_MARK.search(text) and real and all("sonnet" in x for x in real):
+            # Exactly claude-sonnet-5, not `"sonnet" in x`: that also admits claude-sonnet-5-5
+            # (the alias moved on 28 Sep), and this search defines who counts as a Sonnet 5 reader.
+            if READER_MARK.search(text) and real == {"claude-sonnet-5"}:
                 # Decoded record strings, not the raw JSONL: an array quoted inside a tool
                 # result has every quote backslash-escaped and matches no answer pattern.
                 out[p] = (pairs("\n".join(every)), raw)

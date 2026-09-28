@@ -173,13 +173,11 @@ def main(slot: str, aid: str) -> int:
             if m:
                 models[m] = models.get(m, 0) + 1
     real = {m: n for m, n in models.items() if m != "<synthetic>"}
-    if not real or not all("sonnet" in m for m in real):
-        fail(f"not served entirely by Sonnet: {models}")
-    # A lane names ONE model. "sonnet" in the id is not enough there: the alias moved from
-    # Sonnet 5 to Sonnet 5.5 on 28 Sep, and both ids contain it.
-    want = B.ARM_MODEL.get(B.ARM)
-    if want and set(real) != {want}:
-        fail(f"lane {B.ARM} needs every request served by {want}, got {models}")
+    # EXACT id, every lane including the Sonnet 5 arm. It was `"sonnet" in m`, which also
+    # passes claude-sonnet-5-5 -- and the "sonnet" alias moved to 5.5 on 28 Sep.
+    want = B.ARM_MODEL[B.ARM]
+    if set(real) != {want}:
+        fail(f"lane {B.ARM or 'sonnet5'} needs every request served by exactly {want}, got {models}")
 
     # 3. answers shape + mtime
     ans = json.load(open(ans_path))
