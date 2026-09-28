@@ -41,7 +41,27 @@ import sys
 import time
 from pathlib import Path
 
-WORK = Path("/root/cmage-work/sonnet")
+# ANOTHER MODEL, SAME CODE, ITS OWN LANE (28 Sep). `SONNET_ARM=s55` runs a second model's
+# readers through this exact claim / score path -- same images, same scorer -- but into its own
+# results file, claims, blind directory and answers path. Two reasons it has to be a lane and
+# not a flag on the rows:
+# - The Sonnet 5 arm's results.jsonl is the state of that arm. A Sonnet 5.5 row landing in it
+#   would silently become a "Sonnet" reading on the live page.
+# - audit_sonnet_rows.py and sonnet_cost.py find the Sonnet 5 arm's readers by three marks:
+#   /tmp/blind*/imgNN.png, /tmp/sonnet_answers*.json, and an "img": "imgNN" answer array. A
+#   lane uses none of the three (figNN stems, /tmp/answers<arm>_<slot>.json), so its readers
+#   cannot be traced as that arm's publishers or charged to its cost tally.
+# Unset, every path below is exactly what it always was.
+ARM = os.environ.get("SONNET_ARM", "").strip()
+if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
+    raise SystemExit(f"SONNET_ARM must be lowercase letters and digits, got {ARM!r}")
+# The one model a lane's readers must have been served by. The gate refuses anything else, so an
+# alias that moves under a lane cannot put another model's reading in it.
+ARM_MODEL = {"s55": "claude-sonnet-5-5"}
+if ARM and ARM not in ARM_MODEL:
+    raise SystemExit(f"unknown SONNET_ARM {ARM!r}; known lanes: {sorted(ARM_MODEL)}")
+STEM = "fig" if ARM else "img"
+WORK = Path("/root/cmage-work/sonnet" + (f"-{ARM}" if ARM else ""))
 RESULTS = WORK / "results.jsonl"
 # Each concurrent worker gets its OWN blind directory and its own pending file.
 # A single shared /tmp/blind_batch would let two workers overwrite each other's
@@ -49,7 +69,11 @@ RESULTS = WORK / "results.jsonl"
 # worker's answers to the other's compounds -- silently, since both are valid
 # SMILES for real molecules.
 def blind_dir(slot: str) -> Path:
-    return Path(f"/tmp/blind_{slot}")
+    return Path(f"/tmp/blind{ARM}_{slot}")
+
+
+def answers_path(slot: str) -> Path:
+    return Path(f"/tmp/answers{ARM}_{slot}.json" if ARM else f"/tmp/sonnet_answers_{slot}.json")
 
 
 def pending_path(slot: str) -> Path:
@@ -151,9 +175,10 @@ def wipe_scratch(slot: str) -> list[str]:
     said so; a less careful one would have read it and the two readings would no longer
     be independent. Only this slot's paths go: a live reader in another slot is untouched.
     """
-    pat = re.compile(rf"^blind_{re.escape(slot)}(?:[_.\-].*)?$")
+    base = blind_dir(slot).name
+    pat = re.compile(rf"^{re.escape(base)}(?:[_.\-].*)?$")
     wiped = []
-    for path in sorted(Path("/tmp").glob(f"blind_{slot}*")):
+    for path in sorted(Path("/tmp").glob(f"{base}*")):
         if not pat.match(path.name):
             continue
         shutil.rmtree(path, ignore_errors=True) if path.is_dir() else path.unlink(missing_ok=True)
@@ -173,9 +198,9 @@ def _prepare(slot: str, todo: list[dict], have: set[str], claimed: set[str],
         src = idx.get(r["k"] + ".png")
         if not src:
             continue
-        dst = BLIND / f"img{i:02d}.png"
+        dst = BLIND / f"{STEM}{i:02d}.png"
         shutil.copy(src, dst)
-        batch.append({"slot": f"img{i:02d}", "k": r["k"], "truth": r.get("t"),
+        batch.append({"slot": f"{STEM}{i:02d}", "k": r["k"], "truth": r.get("t"),
                       "name": r["n"], "ocr_smiles": r["s"], "ocr_verdict": r["v"],
                       "ocr_conf": r["c"]})
     json.dump(batch, open(pending_path(slot), "w"), indent=1)
@@ -263,9 +288,29 @@ def cmd_release(slot: str) -> int:
     return 0
 
 
-def cmd_score(answers_path: str, slot: str = "a") -> int:
+def verdict(pred: str | None, truth: str) -> str:
+    """THE scoring rule for every Sonnet reading, in one place: RDKit canonical SMILES,
+    exact / stereo (equal once stereo is dropped) / wrong / invalid. build_sonnet55.py scores
+    its side readings with this same function, so no second copy can drift from it."""
     from rdkit import Chem, RDLogger
     RDLogger.DisableLog("rdApp.*")
+
+    def canon(s, stereo=True):
+        if not s:
+            return None
+        m = Chem.MolFromSmiles(s)
+        return None if m is None else Chem.MolToSmiles(m, isomericSmiles=stereo)
+
+    if canon(pred) is None:
+        return "invalid"
+    if canon(pred) == canon(truth):
+        return "exact"
+    if canon(pred, False) == canon(truth, False):
+        return "stereo"
+    return "wrong"
+
+
+def cmd_score(answers_path: str, slot: str = "a") -> int:
     batch = json.load(open(pending_path(slot)))
     # imgNN, imgNN.png and /tmp/blind_x/imgNN.png are the same slot: readers are handed
     # paths and label their answers from them. gate_and_score.slot_id does the same, so a
@@ -289,30 +334,18 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
             f"  The reader for this slot has not written yet, or wrote elsewhere. "
             f"Scoring now would attribute one batch's answers to another batch's images.")
 
-    def canon(s, stereo=True):
-        if not s:
-            return None
-        m = Chem.MolFromSmiles(s)
-        return None if m is None else Chem.MolToSmiles(m, isomericSmiles=stereo)
-
     s_ex = o_ex = 0
     with open(RESULTS, "a") as fh:
         for b in batch:
             a = ans.get(b["slot"], {})
             pred, t = a.get("smiles"), b["truth"]
-            if canon(pred) is None:
-                v = "invalid"
-            elif canon(pred) == canon(t):
-                v = "exact"
-            elif canon(pred, False) == canon(t, False):
-                v = "stereo"
-            else:
-                v = "wrong"
+            v = verdict(pred, t)
             s_ex += v == "exact"
             o_ex += b["ocr_verdict"] == "exact"
             fh.write(json.dumps(dict(b, sonnet_smiles=pred, sonnet_verdict=v,
                                      sonnet_conf=a.get("confidence"),
-                                     sonnet_name=a.get("name_if_recognised"))) + "\n")
+                                     sonnet_name=a.get("name_if_recognised"),
+                                     **({"arm": ARM} if ARM else {}))) + "\n")
     pending_path(slot).unlink(missing_ok=True)     # release the claim
     tot = len(done_keys())
     print(f"[{slot}] sonnet {s_ex}/{len(batch)}  cxmolscribe {o_ex}/{len(batch)}   cumulative {tot}")

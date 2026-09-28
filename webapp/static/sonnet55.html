@@ -1,0 +1,326 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C-MAGE: Sonnet 5.5 vs Sonnet 5</title>
+<meta name="description" content="Sonnet 5.5 re-reading chemical structure drawings Sonnet 5 got wrong, through the same blind pipeline and scorer.">
+<link rel="icon" href="/static/favicon.png">
+<style>
+/* Same palette, type and header as the benchmark page (index.html), so this reads as
+   another view of one site rather than a separate app. */
+:root{
+  --bg:#0d1117; --panel:#161b22; --line:#26303d; --ink:#e6edf3; --dim:#8b98a5;
+  --exact:#2ea043; --stereo:#d29922; --wrong:#da3633; --invalid:#6e7681; --acc:#388bfd;
+}
+*{box-sizing:border-box;touch-action:manipulation}
+/* Same loupe policy as index.html: killed globally, given back to the SMILES strings,
+   which are the one thing a chemist wants to select and copy. */
+html,body{-webkit-touch-callout:none}
+body{user-select:none;-webkit-user-select:none}
+code,.pre{user-select:text;-webkit-user-select:text;-webkit-touch-callout:default}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+a{color:#58a6ff}
+header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:12px;max-width:1400px;margin:0 auto;
+  padding:10px calc(14px + env(safe-area-inset-right)) 10px calc(14px + env(safe-area-inset-left));
+  padding-top:calc(10px + env(safe-area-inset-top))}
+.hrow>*{min-width:0}
+.brand{font-weight:700;letter-spacing:.3px;font-size:16px;white-space:nowrap;color:var(--ink);text-decoration:none}
+.seg{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:2px;margin-left:auto}
+.seg a{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:38px;
+  display:flex;align-items:center;white-space:nowrap;text-decoration:none}
+.seg a:hover{color:var(--ink)}
+/* #1f6feb, not the accent #388bfd: white 12.5px text on the accent is 3.3:1 and fails AA. */
+.seg a[aria-current=page]{background:#1f6feb;color:#fff;font-weight:600}
+main{max-width:1400px;margin:0 auto;
+  padding:0 calc(14px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom))
+          calc(14px + env(safe-area-inset-left))}
+
+/* hero */
+.hero{padding:20px 0 16px;border-bottom:1px solid var(--line)}
+h1{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.3px}
+.lede{color:var(--dim);font-size:14.5px;margin:0 0 16px;max-width:760px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.cmp .side{background:var(--panel);border:1px solid var(--line);padding:13px 14px;min-width:0;
+  display:flex;flex-direction:column}
+.cmp .track{margin-top:auto !important}
+.cmp .of{margin-bottom:9px}
+.cmp .who{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.cmp .pc{font-size:34px;font-weight:800;line-height:1;letter-spacing:-1px}
+.cmp .pc small{font-size:16px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:3px}
+.cmp .of{color:var(--dim);font-size:12.5px;margin-top:6px}
+.cmpnote{color:var(--dim);font-size:12.5px;margin:-6px 0 12px}
+.cmp .track{height:7px;background:#0b0f14;margin-top:9px;overflow:hidden}
+.cmp .track i{display:block;height:100%;background:var(--acc)}
+.cmp .side.lead .track i{background:var(--exact)}
+/* Outcome tally: one line per outcome, number first, so the three facts that answer
+   "is 5.5 better on these" are readable without decoding a chart. */
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-bottom:14px}
+.tally div{background:var(--panel);padding:10px 12px;min-width:0}
+.tally b{display:block;font-size:22px;font-weight:800;line-height:1.1}
+.tally span{color:var(--dim);font-size:12.5px;line-height:1.35;display:block;margin-top:3px}
+.tally .up b{color:#3fb950} .tally .down b{color:#f87171}
+.facts{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.facts li{font-size:13.5px;color:var(--dim);line-height:1.5}
+.facts li b{color:var(--ink);font-weight:650}
+.caveat{background:var(--panel);border:1px solid var(--line);border-left:3px solid #d29922;
+  padding:11px 13px;margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink)}
+
+/* cards */
+.secth{font-size:16px;font-weight:750;margin:24px 0 4px}
+.sectsub{color:var(--dim);font-size:13px;margin:0 0 12px}
+.cards{display:grid;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--line);
+  padding:12px;min-width:0}
+.card.up{border-left-color:#3fb950} .card.down{border-left-color:#f87171}
+.chead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.chead h3{margin:0;font-size:17px;line-height:1.25;overflow-wrap:anywhere}
+.ctype{color:var(--dim);font-size:12.5px;margin:3px 0 10px}
+.delta{flex:0 0 auto;font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.delta.up{background:#0f3d20;color:#4ade80}
+.delta.down{background:#4a1513;color:#f87171}
+.delta.same{background:#21262d;color:#c9d1d9}
+/* Square corners on every white surface over the dark page: a radius leaves a pale
+   fringe at each corner (SKILL, "the webapp"). */
+figure{margin:0;background:#fff}
+figure img{width:100%;display:block;aspect-ratio:1;object-fit:contain}
+.src figure img{max-height:230px}
+.src .cap,.arm .cap{color:var(--dim);font-size:11.5px;margin:5px 0 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.arm{min-width:0}
+/* Label on one line, verdict on the next, in BOTH columns. Side by side on one line, a
+   long badge ("stereo only") wrapped in one column and not the other, and the two
+   drawings stopped lining up -- the one thing this layout is for. */
+.alab{display:grid;gap:4px;justify-items:start;margin-bottom:6px;font-size:12.5px;font-weight:650}
+.nofig{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#0b0f14;
+  border:1px dashed var(--line);color:var(--dim);font-size:12px;text-align:center;padding:8px}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.badge.exact{background:#0f3d20;color:#4ade80} .badge.stereo{background:#3d3010;color:#fbbf24}
+.badge.wrong{background:#4a1513;color:#f87171} .badge.invalid{background:#21262d;color:#c9d1d9}
+.badge.truth{background:#12233c;color:#79b8ff}
+.side-read{margin-top:8px;font-size:12.5px;color:var(--dim)}
+.side-read b{color:var(--ink);font-weight:600}
+details{margin-top:10px;border-top:1px solid var(--line)}
+summary{cursor:pointer;color:#58a6ff;font-size:13.5px;padding:10px 0 4px;min-height:44px;
+  display:flex;align-items:center}
+.kv{margin:8px 0}
+.kv label{display:block;color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.kv code{display:block;background:#0b0f14;border:1px solid var(--line);padding:8px 9px;
+  font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;color:var(--ink)}
+.kv .note{color:var(--dim);font-size:12px;margin-top:3px}
+
+/* runs + method */
+table{border-collapse:collapse;width:100%;font-size:12.5px;display:block;overflow-x:auto;white-space:nowrap}
+th,td{text-align:left;padding:7px 11px;border-bottom:1px solid var(--line)}
+th{color:var(--dim);font-weight:600}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.pre{background:#0b0f14;border:1px solid var(--line);padding:12px;margin-top:8px;
+  font:11.5px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
+  color:#c9d1d9;max-height:52vh;overflow-y:auto}
+.notes{margin:8px 0 0 18px;padding:0}
+.notes li{font-size:13px;color:var(--dim);line-height:1.5;margin:5px 0}
+.notes li b{color:var(--ink)}
+footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid var(--line);margin-top:28px}
+.err{background:#4a1513;color:#f87171;padding:12px 14px;margin:16px 0}
+
+@media(max-width:560px){
+  .hrow{gap:8px;padding:9px 12px}
+  .brand{font-size:14px}
+  .seg{flex:0 1 auto}
+  .seg a{padding:0 9px;font-size:12.5px}
+  h1{font-size:21px}
+  .cmp .pc{font-size:28px}
+  .cmp .side{padding:11px 10px}
+  /* Three boxes at 390px: a label may take two lines, so every label reserves two and the
+     numbers stay on one baseline across the row. */
+  .cmp .who{font-size:11px;letter-spacing:.4px;line-height:1.35;min-height:2.7em}
+  .tally b{font-size:20px}
+}
+@media(max-width:359px){ .brand{display:none} .seg{margin-left:0} }
+/* Desktop: two cards per row, and inside each card the drawing and both readings sit
+   side by side, so the whole comparison is one glance. */
+@media(min-width:900px){
+  h1{font-size:28px}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
+  .cards{grid-template-columns:1fr 1fr}
+  .body{display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:start}
+  .pair{margin-top:0}
+  .src figure img{max-height:none}
+}
+</style>
+
+<header>
+  <div class="hrow">
+    <a class="brand" href="/">C-MAGE</a>
+    <nav class="seg" aria-label="Benchmark views">
+      <a href="/?tab=images">Images</a>
+      <a href="/?tab=pdfs">PDFs</a>
+      <a href="/?tab=sonnet">Sonnet</a>
+      <a href="/sonnet-5-5" aria-current="page">5.5</a>
+    </nav>
+  </div>
+</header>
+
+<main id="view"><div class="lede" style="padding:40px 0">Loading…</div></main>
+
+<script>
+"use strict";
+var $ = function(s){ return document.querySelector(s); };
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+var VLABEL = {exact: "exact", stereo: "stereo only", wrong: "wrong", invalid: "unparseable"};
+function badge(v){ return '<span class="badge ' + esc(v) + '">' + esc(VLABEL[v] || v) + '</span>'; }
+function mins(s){ return s >= 90 ? Math.round(s / 60) + " min" : Math.round(s) + " s"; }
+function money(x){ return "$" + Number(x).toFixed(2); }
+
+/* What the reading got wrong, in words, computed from the payload rather than asserted:
+   the relation build_wall.relate() found and the graded ladder's formula check. */
+function detail(a){
+  if (a.v === "exact") return "Identical to the reference after RDKit canonicalisation.";
+  if (a.v === "invalid") return "RDKit cannot parse this SMILES.";
+  var bits = [];
+  if (a.r && a.r.stereo) bits.push(a.r.stereo[0] + " of " + a.r.stereo[1] + " stereocentres disagree");
+  if (a.r && a.r.geom) bits.push(a.r.geom + " double-bond geometr" + (a.r.geom === 1 ? "y differs" : "ies differ"));
+  if (a.formula === false) bits.push("formula differs (" + (a.heavy > 0 ? "+" : "") + a.heavy + " heavy atoms)");
+  else if (a.v === "wrong") bits.push("same formula, different connectivity");
+  return bits.join("; ") + ".";
+}
+
+function arm(label, a, dir, k){
+  var img = a.p
+    ? '<figure><img loading="lazy" decoding="async" src="/wall/' + dir + '/' + encodeURIComponent(k)
+      + '.png" alt="' + esc(label) + ' reading, drawn back with RDKit"></figure>'
+    : '<div class="nofig">no drawable SMILES</div>';
+  var conf = a.conf != null && a.conf !== "" ? "confidence " + esc(a.conf) : "no confidence given";
+  return '<div class="arm"><div class="alab"><span>' + esc(label) + '</span>' + badge(a.v) + '</div>'
+    + img + '<p class="cap">' + conf + '</p></div>';
+}
+
+function card(r){
+  var d = r.delta > 0 ? ["up", "+1 fixed"] : r.delta < 0 ? ["down", "−1 broke"]
+        : [ "same", r.s55.v === "exact" ? "0 both right" : "0 both miss" ];
+  var side = (r.side || []).map(function(x){
+    return '<div class="side-read">' + esc(x.label) + ' (same prompt as 5.5): ' + badge(x.v)
+      + (x.conf != null ? ' confidence ' + esc(x.conf) : '') + '</div>'; }).join("");
+  var kv = function(lab, smi, note){
+    return '<div class="kv"><label>' + esc(lab) + '</label><code>' + esc(smi || "(none)") + '</code>'
+      + (note ? '<div class="note">' + esc(note) + '</div>' : '') + '</div>'; };
+  return '<article class="card ' + (d[0] === "same" ? "" : d[0]) + '" id="' + esc(r.k) + '">'
+    + '<div class="chead"><h3>' + esc(r.n) + '</h3><span class="delta ' + d[0] + '">' + d[1] + '</span></div>'
+    + '<div class="ctype">' + esc(r.type) + '</div>'
+    + '<div class="body"><div class="src"><div class="alab"><span>The drawing</span>'
+    + '<span class="badge truth">what both read</span></div>'
+    + '<figure><img loading="lazy" decoding="async" src="/wall/sonnet55/'
+    + encodeURIComponent(r.k) + '.png" alt="The drawing both models read: ' + esc(r.n) + '"></figure></div>'
+    + '<div class="pair">' + arm("Sonnet 5", r.s5, "sonnet55_s5", r.k) + arm("Sonnet 5.5", r.s55, "sonnet55_pred", r.k) + '</div></div>'
+    + side
+    + '<details><summary>SMILES and what differs</summary>'
+    + kv("Ground truth", r.t)
+    + kv("Sonnet 5", r.s5.s, detail(r.s5))
+    + kv("Sonnet 5.5", r.s55.s, detail(r.s55))
+    + kv("CXMolScribe (pipeline), " + (VLABEL[r.cx.v] || r.cx.v), r.cx.s)
+    + '</details></article>';
+}
+
+function render(D){
+  var S = D.summary, v = $("#view");
+  /* The re-run is the control that matters: images picked because Sonnet 5 failed them
+     will partly come right on any second attempt. Name the images where 5.5 beats it. */
+  var side = (D.side || []).map(function(x){
+    var sv = function(r){ var m = (r.side || []).filter(function(y){ return y.label === x.label; })[0];
+                          return m ? m.v : null; };
+    var ahead = D.rows.filter(function(r){ return r.s55.v === "exact" && sv(r) && sv(r) !== "exact"; })
+                      .map(function(r){ return r.n; });
+    var behind = D.rows.filter(function(r){ return r.s55.v !== "exact" && sv(r) === "exact"; })
+                       .map(function(r){ return r.n; });
+    return '<li><b>Noise check.</b> ' + esc(x.label) + ' today on the identical prompt: ' + x.exact + ' of ' + x.n
+      + ' exact, ' + x.fixed + ' of the ' + S.failures + ' misses right on a second try. Against that re-run, '
+      + 'Sonnet 5.5 is ahead on ' + ahead.length + (ahead.length ? ' (' + esc(ahead.join(", ")) + ')' : '')
+      + ' and behind on ' + behind.length + (behind.length ? ' (' + esc(behind.join(", ")) + ')' : '') + '.</li>';
+  }).join("");
+  var sides = [["Sonnet 5", S.s5_exact, "published run"]]
+    .concat((D.side || []).map(function(x){ return [x.label, x.exact, "5.5's prompt"]; }))
+    .concat([["Sonnet 5.5", S.s55_exact, "this run"]]);
+  var best = Math.max.apply(null, sides.map(function(x){ return x[1]; }));
+  var cmp = function(x){
+    var pc = Math.round(x[1] / S.n * 100);
+    return '<div class="side' + (x[1] === best ? " lead" : "") + '"><div class="who">' + esc(x[0]) + '</div>'
+      + '<div class="pc">' + x[1] + '<small>/ ' + S.n + '</small></div>'
+      + '<div class="of">' + esc(x[2]) + '</div>'
+      + '<div class="track"><i style="width:' + pc + '%"></i></div></div>'; };
+  var runs = D.runs || [];
+  v.innerHTML =
+    '<section class="hero"><div class="hero-grid"><div>'
+    + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
+    + '<p class="lede">Images Sonnet 5 read <b>wrong</b> in the blind benchmark, plus controls it read right, '
+    + 'given to Sonnet 5.5 through the same pipeline: same images, same reader prompt, same max effort, same scorer. '
+    + 'Sonnet 5 was re-run on the identical prompt as a control.</p>'
+    + '<div class="cmp" style="grid-template-columns:repeat(' + sides.length + ',minmax(0,1fr))">'
+    + sides.map(cmp).join("") + '</div>'
+    + '<p class="cmpnote">Exactly right, of ' + S.n + '. The re-run used 5.5’s prompt word for word; the tally below compares 5.5 with the published Sonnet 5 run.</p>'
+    + '<div class="tally"><div class="' + (S.fixed ? 'up' : '') + '"><b>' + S.fixed + '</b><span>fixed: 5 wrong, 5.5 exact</span></div>'
+    + '<div class="' + (S.broke ? 'down' : '') + '"><b>' + S.broke + '</b><span>broke: 5 exact, 5.5 wrong</span></div>'
+    + '<div><b>' + (S.n - S.fixed - S.broke) + '</b><span>unchanged</span></div></div>'
+    + '</div><div>'
+    + '<ul class="facts">'
+    + '<li><b>' + S.failures + ' Sonnet 5 misses:</b> Sonnet 5.5 read ' + S.fixed_of_failures + ' exactly. '
+    + '<b>' + S.controls + ' controls</b> (Sonnet 5 exact): 5.5 kept ' + S.kept_of_controls + '.</li>'
+    + side
+    + '<li><b>Reading or recall?</b> Every image is a known drug. Sonnet 5.5 named ' + S.s55_named + ' of ' + S.n
+    + ', Sonnet 5 named ' + S.s5_named + ' and still drew ' + S.s5_named_wrong + ' of those wrong. The prompt allows '
+    + 'recognising a molecule and cross-checking it, so this measures reading plus recall, not reading alone.</li>'
+    + '<li><b>Cost at API list price:</b> Sonnet 5.5 ' + money(S.s55_cost_per_image) + ' and '
+    + mins(S.s55_time_per_image) + ' per image; the Sonnet 5 batches these came from ' + money(S.s5_cost_per_image)
+    + ' and ' + mins(S.s5_time_per_image) + ' per image'
+    + (D.side || []).map(function(x){ return '; the ' + esc(x.label) + ' ' + money(x.cost / x.n) + ' and '
+        + mins(x.seconds / x.n) + ' per image'; }).join("")
+    + '. Same per-token price; the difference is tokens used.</li>'
+    + '</ul>'
+    + '<div class="caveat"><b>Small, hand-picked sample.</b> ' + S.failures + ' images chosen because Sonnet 5 missed them, '
+    + 'plus ' + S.controls + ' it read right as controls, one run each. Picking on failure favours any re-run: '
+    + 'some misses come right by chance alone. It shows what 5.5 does on these drawings; it is not an accuracy '
+    + 'figure for 5.5 and should not be compared with the ' + 'Sonnet tab’s corpus percentage.</div>'
+    + '</div></div></section>'
+    + '<h2 class="secth">Per image</h2><p class="sectsub">Misses first, then controls. Each reading is drawn back with RDKit, so a wrong atom shows up against the drawing at a glance.</p>'
+    + '<div class="cards">' + D.rows.map(card).join("") + '</div>'
+    + '<h2 class="secth" id="runs">Runs</h2><p class="sectsub">New runs append here: the page renders from <a href="/wall/sonnet55.json">sonnet55.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
+    + '<table><thead><tr><th>Run</th><th>Started (UTC)</th><th>Model served</th><th>Effort</th><th>CLI</th><th class="num">Images</th><th class="num">Cost</th><th class="num">Wall-clock</th></tr></thead><tbody>'
+    + runs.map(function(r){ return '<tr><td>Sonnet 5.5: ' + r.images + ' images</td><td>' + esc(r.started.replace("T", " ").slice(0, 16)) + '</td><td>' + esc(r.models.join(", "))
+        + '</td><td>' + esc(r.effort.join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
+        + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join("")
+    + (D.s5runs || []).map(function(r){ return '<tr><td>Sonnet 5: ' + esc((r["for"] || []).join(", ")) + '</td><td>' + esc((r.started || "").replace("T", " ").slice(0, 16)) + '</td><td>' + esc((r.models || []).join(", "))
+        + '</td><td>' + esc((r.effort || []).join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
+        + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join("")
+    + (D.side || []).map(function(x){ return '<tr><td>' + esc(x.label) + '</td><td>—</td><td>' + esc(x.model) + '</td><td>' + esc((x.effort || []).join(", ")) + '</td><td>' + esc(x.cli)
+        + '</td><td class="num">' + x.n + '</td><td class="num">' + money(x.cost) + '</td><td class="num">' + mins(x.seconds) + '</td></tr>'; }).join("")
+    + '</tbody></table>'
+    + '<h2 class="secth">Method</h2>'
+    + '<ul class="notes">'
+    + '<li><b>Same images.</b> Byte-identical copies of the corpus drawings Sonnet 5 read, handed over under anonymised names (fig01…), because the corpus files are named after their compounds.</li>'
+    + '<li><b>Same prompt.</b> The Sonnet 5 batches’ reader prompt, word for word, with only the image count, paths and answers file changed. Shown below.</li>'
+    + '<li><b>Same agent and effort.</b> A Claude Code subagent with a shell, Python and RDKit, at max effort, as the Sonnet 5 readers were. The model is read from the API’s stamp on every response in the transcript, not from what the model says.</li>'
+    + '<li><b>Same scorer.</b> RDKit canonical SMILES: exact, stereo-only, wrong or unparseable. The run passed the same gate as every Sonnet 5 batch: no lookups in its transcript, every answer present in it.</li>'
+    + '<li><b>What differs.</b> Batch size (the published Sonnet 5 runs read ten per batch; 5.5 and the Sonnet 5 re-run read these eight together), the Claude Code release, and the image names. The re-run and 5.5 share the prompt exactly.</li>'
+    + '</ul>'
+    + runs.slice(-1).map(function(r){ return '<details><summary>Reader prompt (latest run)</summary><div class="pre">' + esc(r.prompt) + '</div></details>'; }).join("")
+    + '<footer>Built ' + esc(D.built.replace("T", " ").slice(0, 16)) + ' UTC. Prices: ' + esc(D.price.note) + ' Ground truth is PubChem; the Sonnet 5 readings are the published rows on the <a href="/?tab=sonnet">Sonnet tab</a>.</footer>';
+}
+
+document.addEventListener("contextmenu", function(e){
+  if (!e.target.closest("code, .pre")) e.preventDefault();
+});
+document.addEventListener("selectstart", function(e){
+  if (!e.target.closest("code, .pre")) e.preventDefault();
+});
+fetch("/wall/sonnet55.json", {cache: "no-cache"}).then(function(r){
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  return r.json();
+}).then(render).catch(function(e){
+  $("#view").innerHTML = '<div class="err">No Sonnet 5.5 results yet (' + esc(e.message) + ').</div>';
+});
+</script>

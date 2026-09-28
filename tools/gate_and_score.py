@@ -34,9 +34,10 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import scan_reader_transcript as S  # noqa: E402
+import sonnet_batch as B  # noqa: E402  (paths come from here, so SONNET_ARM moves the gate too)
 
 MS_PY = str(HERE.parent / ".venv-ms" / "bin" / "python")
-WORK = Path("/root/cmage-work/sonnet")
+WORK = B.WORK
 
 
 def fail(msg: str) -> None:
@@ -75,8 +76,9 @@ def first_refusal(records: list[dict]) -> int | None:
 def opened_before(records: list[dict], upto: int, slot: str, expected: list[str]) -> list[str]:
     """Blind images a tool call touched before record `upto`. A computed or wildcard path into
     the blind directory (img*.png, img{i:02d}.png) counts as touching every image."""
-    exact = re.compile(rf"/tmp/blind_{re.escape(slot)}/(img\d\d)")
-    computed = re.compile(rf"/tmp/blind_{re.escape(slot)}/img(?!\d\d)")
+    blind = re.escape(str(B.blind_dir(slot)))
+    exact = re.compile(rf"{blind}/({B.STEM}\d\d)")
+    computed = re.compile(rf"{blind}/{B.STEM}(?!\d\d)")
     seen: set[str] = set()
     for r in records[:upto]:
         if r.get("type") != "assistant":
@@ -111,7 +113,6 @@ def answers_complete(ans_path: Path, claim: Path, expected: list[str]) -> bool:
 
 
 def handle_refusal(slot: str, aid: str, records: list[dict], at: int, expected: list[str]) -> int:
-    import sonnet_batch as B
     opened = opened_before(records, at, slot, expected)
     print(f"REFUSED BY CONTENT FILTER [{slot}] at record {at}, before the reader wrote every answer. "
           f"Nothing is scored. The {len(opened)} image(s) it had opened are removed from the pool; "
@@ -123,8 +124,8 @@ def handle_refusal(slot: str, aid: str, records: list[dict], at: int, expected: 
 
 
 def main(slot: str, aid: str) -> int:
-    claim = WORK / f"pending_{slot}.json"
-    ans_path = Path(f"/tmp/sonnet_answers_{slot}.json")
+    claim = B.pending_path(slot)
+    ans_path = B.answers_path(slot)
     if not claim.exists():
         fail(f"no open claim pending_{slot}.json")
 
@@ -138,10 +139,10 @@ def main(slot: str, aid: str) -> int:
     # The expected slots are the images the claim put in the blind directory, not a fixed
     # ten: a manual batch can be any size. The claim file itself cannot be the reference,
     # because an exclusion removes slots from it after the reader has answered them.
-    blind = Path(f"/tmp/blind_{slot}")
-    expected = sorted(p.stem for p in blind.glob("img*.png") if re.fullmatch(r"img\d{2}", p.stem))
+    blind = B.blind_dir(slot)
+    expected = sorted(p.stem for p in blind.glob(f"{B.STEM}*.png") if re.fullmatch(rf"{B.STEM}\d{{2}}", p.stem))
     if not expected:
-        fail(f"no img*.png in {blind}; cannot tell which slots were handed to the reader")
+        fail(f"no {B.STEM}*.png in {blind}; cannot tell which slots were handed to the reader")
 
     # 0. content-filter refusal
     refused = first_refusal(records)
@@ -174,6 +175,11 @@ def main(slot: str, aid: str) -> int:
     real = {m: n for m, n in models.items() if m != "<synthetic>"}
     if not real or not all("sonnet" in m for m in real):
         fail(f"not served entirely by Sonnet: {models}")
+    # A lane names ONE model. "sonnet" in the id is not enough there: the alias moved from
+    # Sonnet 5 to Sonnet 5.5 on 28 Sep, and both ids contain it.
+    want = B.ARM_MODEL.get(B.ARM)
+    if want and set(real) != {want}:
+        fail(f"lane {B.ARM} needs every request served by {want}, got {models}")
 
     # 3. answers shape + mtime
     ans = json.load(open(ans_path))

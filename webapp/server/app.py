@@ -378,6 +378,15 @@ def benchmark_image(run_id: str, kind: str, name: str) -> FileResponse:
     return _image_response(path)
 
 
+@app.get("/sonnet-5-5", include_in_schema=False)
+def sonnet55_page() -> FileResponse:
+    """Sonnet 5.5 re-reading images the Sonnet 5 arm missed. The page is static; its data is
+    wall/sonnet55.json, built by tools/build_sonnet55.py into the read-only /wall mount, so a new
+    run goes live with a rebuild of the JSON and no container rebuild."""
+    return FileResponse(config.STATIC_DIR / "sonnet55.html", media_type="text/html",
+                        headers={"Cache-Control": "no-cache"})
+
+
 @app.get("/upload", include_in_schema=False)
 def upload_page() -> FileResponse:
     """The extract/upload flow.

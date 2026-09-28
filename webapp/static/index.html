@@ -162,6 +162,11 @@ main{max-width:1400px;margin:0 auto;
 .ctrack i.s{background:#3fb950} .ctrack i.c{background:#58a6ff}
 .clsbar b{flex:0 0 36px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
 .sub b{color:var(--ink);font-weight:600}
+.xlink{display:block;margin-top:12px;background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--acc);padding:11px 13px;min-height:44px;color:var(--dim);
+  font-size:13.5px;line-height:1.45;text-decoration:none}
+.xlink b{color:#58a6ff;font-weight:650}
+.xlink:hover{border-color:var(--dim)}
 
 /* filters */
 .bar{display:flex;gap:7px;overflow-x:auto;padding:12px 0;position:sticky;top:57px;z-index:10;
@@ -713,7 +718,11 @@ function render(){
       + c.n + ' of ' + c.corpus + '</span></div><div class="track"><i style="width:'
       + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'
       + (c.cost ? '<div class="sub">' + esc(c.cost.note) + '</div>' : '')
-      + '<div class="sub">' + esc(DATA.headline) + '</div>';
+      + '<div class="sub">' + esc(DATA.headline) + '</div>'
+      /* The Sonnet tab is the Sonnet 5 arm. Its newer sibling has its own page, which
+         re-reads images this arm missed; say which model this is where the link lives. */
+      + (TAB === "sonnet" ? '<a class="xlink" href="/sonnet-5-5">Every reading on this tab is Sonnet 5.'
+         + ' <b>Sonnet 5.5 on the images Sonnet 5 missed →</b></a>' : '');
   } else {
     /* Same visual language as the Sonnet tab: one headline number, a stacked bar
        of where every structure landed, then one labelled bar per secondary
