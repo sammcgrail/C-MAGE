@@ -5,6 +5,7 @@
   "13": "Corpus order, the next 10 after the previous batch: Aficamten to Aldrin. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "14": "Corpus order, the next 10 after the previous batch: Alectinib to Almotriptan Malate. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "15": "Corpus order, the next 10 after the previous batch: Alogliptin to Alprostadil. Run unattended by the usage-block cadence (burst, readers in parallel).",
+  "16": "Corpus order, the next 10 after the previous batch: Altiratinib to Ambrisentan. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "3": "Corpus order from the start: the first 10 corpus keys (15-crown-5 to the pyrazolopyrimidine riboside). Run by hand to start the cadence; every later batch is the usage-block cadence.",
   "4": "Corpus order, the next 10 after the previous batch: 1,7-Dicarbadodecaborane(12) to (2,3,4,5,6-~2~H_5_)Phenylalanine. Run unattended by the usage-block cadence.",
   "5": "Corpus order, the next 10 after the previous batch: 2'3'-Cyclic guanosine monophosphate-adenosine monophosphate to (2H4)Tetrahydro(2H4)furan. Run unattended by the usage-block cadence (burst, readers in parallel).",
@@ -391,6 +392,44 @@
     "cache_write_5m": 155318,
     "input": 66,
     "output": 69888
+   }
+  },
+  "ad9762cf7f3a765e7": {
+   "agent": "ad9762cf7f3a765e7",
+   "agent_type": "general-purpose-max",
+   "batch": 16,
+   "cli": "2.1.284",
+   "cost_usd": 3.3348,
+   "duration_s": 2164,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-29T07:02:41Z",
+   "images": 10,
+   "keys": [
+    "altiratinib_cid54576299",
+    "aluminum_clofibrate_cid10390009",
+    "aluminum_hydroxide_cid10176082",
+    "alvelestat_cid46861623",
+    "alverine_cid3678",
+    "alvimopan_cid5488548",
+    "alvocidib_cid5287969",
+    "amantadine_cid2130",
+    "ambenonium_chloride_cid8288",
+    "ambrisentan_cid6918493"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_b/fig01.png\n/tmp/blinds55c_b/fig02.png\n/tmp/blinds55c_b/fig03.png\n/tmp/blinds55c_b/fig04.png\n/tmp/blinds55c_b/fig05.png\n/tmp/blinds55c_b/fig06.png\n/tmp/blinds55c_b/fig07.png\n/tmp/blinds55c_b/fig08.png\n/tmp/blinds55c_b/fig09.png\n/tmp/blinds55c_b/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_b.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 50,
+   "started": "2026-09-29T06:26:37Z",
+   "tokens": {
+    "cache_read": 5127010,
+    "cache_write_1h": 0,
+    "cache_write_5m": 581174,
+    "input": 100,
+    "output": 85625
    }
   },
   "af08a2db6636869b8": {
