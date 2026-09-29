@@ -66,7 +66,13 @@ if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
 # lane's results: sharing one would quietly drop those 28 from the corpus arm and mix a selected
 # sample into an unselected one. A usage-block cadence (site-specific, kept outside the fork) runs one
 # batch of ten per Claude usage block; tools/build_sonnet55c.py builds its tab.
-ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5", "s55c": "claude-sonnet-5-5"}
+# nov (29 Sep) is Sonnet 5.5 on the NOVEL STRUCTURES set (tools/novel_set.py): edited famous drugs and
+# de novo molecules it cannot have memorised, drawn with the corpus renderer. Its pool is
+# benchmarks/novel_set.json, NOT the corpus, so it can never claim, score or count a corpus image.
+ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5", "s55c": "claude-sonnet-5-5",
+             "nov": "claude-sonnet-5-5"}
+NOVEL_SET = Path("/root/C-MAGE/benchmarks/novel_set.json")
+NOVEL_IMAGES = "/root/cmage-work/novel/corpus_rdkit_1500"
 if ARM and ARM not in ARM_MODEL:
     raise SystemExit(f"unknown SONNET_ARM {ARM!r}; known lanes: {sorted(ARM_MODEL)}")
 STEM = "fig" if ARM else "img"
@@ -91,7 +97,7 @@ WALL = Path("/root/C-MAGE/benchmarks/wall")
 
 
 def corpus() -> list[dict]:
-    d = json.load(open(WALL / "images.json"))
+    d = json.load(open(NOVEL_SET if ARM == "nov" else WALL / "images.json"))
     return sorted(d["rows"], key=lambda r: r["k"])
 
 
@@ -103,7 +109,7 @@ def done_keys() -> set[str]:
 
 def image_index() -> dict[str, str]:
     idx = {}
-    for dd in sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500")):
+    for dd in ([NOVEL_IMAGES] if ARM == "nov" else sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500"))):
         for p in glob.glob(dd + "/*.png"):
             idx.setdefault(os.path.basename(p), p)
     return idx

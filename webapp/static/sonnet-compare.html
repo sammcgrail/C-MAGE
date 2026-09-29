@@ -144,6 +144,17 @@ table.bd td b{color:#4ade80}
 .bt{display:inline-block;font-size:11px;font-weight:700;color:#c9d1d9;background:#21262d;padding:1px 7px;
   border-radius:20px;margin-right:4px;letter-spacing:.3px}
 footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid var(--line);margin-top:28px}
+/* Novel structures: three headline boxes (kind A, kind B, corpus) and a card per molecule. */
+section[id]{scroll-margin-top:64px}
+.cmp.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.jump{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:-6px 0 14px}
+.jump a{min-height:32px;display:inline-flex;align-items:center}
+.kind{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;margin-right:4px;
+  letter-spacing:.3px;background:#12233c;color:#79b8ff}
+.kind.b{background:#2a1f3d;color:#d2a8ff}
+.delta.auto{background:#4a1513;color:#f87171}
+.parentline{color:var(--dim);font-size:12.5px;margin:-4px 0 8px}
+.parentline b{color:var(--ink);font-weight:600}
 .err{background:#4a1513;color:#f87171;padding:12px 14px;margin:16px 0}
 
 @media(max-width:560px){
@@ -308,9 +319,10 @@ function corpusSection(C){
         + '</td><td>' + badge(x.s55) + '</td></tr>'; }).join("") + '</tbody></table>' : '';
   return '<section class="hero" id="corpus"><div class="hero-grid"><div>'
     + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
-    + '<p class="lede">Two comparisons, kept apart. <b>Corpus, paired</b>: the Sonnet 5.5 tab reads the whole corpus in the '
+    + '<p class="lede">Three sets, kept apart. <b>Corpus, paired</b>: the Sonnet 5.5 tab reads the whole corpus in the '
     + 'order the Sonnet 5 tab did, ten images per usage block, nothing skipped, so every image pairs with the Sonnet 5 '
-    + 'reading of the same drawing. <b>Hand-picked</b>, further down: 28 images chosen on Sonnet 5\u2019s failures.</p>'
+    + 'reading of the same drawing. <b>Novel structures</b>: 20 molecules it cannot have memorised. <b>Hand-picked</b>: 28 images chosen on Sonnet 5\u2019s failures.</p>'
+    + '<nav class="jump" aria-label="Sections"><a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#handpicked">Hand-picked</a></nav>'
     + '<h2 class="secth first">Corpus, paired</h2>'
     + '<div class="verdict">' + verdict + '</div>'
     + '<div class="cmp">' + side("Sonnet 5", C.s5, "Sonnet 5 tab, published") + side("Sonnet 5.5", C.s55, "Sonnet 5.5 tab") + '</div>'
@@ -326,6 +338,95 @@ function corpusSection(C){
     + 'one Sonnet 5.5 reading (one fixed prompt), so run-to-run noise sits in both columns; the hand-picked set below shows '
     + 'how large that noise is for Sonnet 5.</div>'
     + '</div></div></section>';
+}
+
+/* NOVEL STRUCTURES (wall/sonnet_novel.json, tools/build_novel.py): molecules Sonnet 5.5 cannot have
+   memorised, drawn with the corpus renderer. Kind A is a famous corpus drug with ONE edit; an answer
+   equal to the PARENT instead of the edit is flagged "autocorrected to parent". Kind B is de novo. */
+function novelCard(r){
+  var ok = r.s55.v === "exact";
+  var d = r.auto ? ["auto", "autocorrected to parent"] : ok ? ["up", "5.5 exact"] : ["down", "5.5 " + (VLABEL[r.s55.v] || r.s55.v)];
+  var title = r.kind === "A" ? r.parent + ", edited" : "De novo " + r.k.replace("novel_", "");
+  var sub = r.kind === "A" ? r.edit : r.fragments;
+  var kv = function(lab, smi, note){
+    return '<div class="kv"><label>' + esc(lab) + '</label><code>' + esc(smi || "(none)") + '</code>'
+      + (note ? '<div class="note">' + esc(note) + '</div>' : '') + '</div>'; };
+  var cxArm = {v: r.cx.v, p: r.cx.p, conf: r.cx.conf != null ? (r.cx.conf / 100).toFixed(2) : null};
+  var pl = r.kind === "A" ? '<p class="parentline">Parent: <b>' + esc(r.parent) + '</b>'
+      + (r.parent_corpus ? ' (5.5 read the parent ' + esc(VLABEL[r.parent_corpus] || r.parent_corpus) + ' in the corpus)' : '')
+      + (r.named_parent ? '. 5.5 recognised it as an analogue of the parent' : '') + '.</p>'
+    : '<p class="parentline">' + (r.pubchem.length ? 'PubChem CID ' + esc(r.pubchem.join(", ")) : '<b>No PubChem record</b> for this InChIKey')
+      + '; ' + r.heavy + ' heavy atoms, ' + r.stereocentres + ' stereocentre' + (r.stereocentres === 1 ? '' : 's') + '.</p>';
+  return '<article class="card ' + (ok ? "up" : "down") + '" id="' + esc(r.k) + '">'
+    + '<div class="chead"><h3>' + esc(title) + '</h3><span class="delta ' + d[0] + '">' + esc(d[1]) + '</span></div>'
+    + '<div class="ctype"><span class="kind' + (r.kind === "B" ? " b" : "") + '">' + (r.kind === "A" ? "Edited drug" : "De novo") + '</span> ' + esc(sub) + '</div>'
+    + pl
+    + '<div class="body"><div class="src"><div class="alab"><span>The drawing</span><span class="badge truth">what both read</span></div>'
+    + '<figure><img loading="lazy" decoding="async" src="/wall/novel/' + encodeURIComponent(r.k)
+    + '.png" alt="The drawing: ' + esc(title) + '"></figure></div>'
+    + '<div class="pair">' + arm("Sonnet 5.5", r.s55, "novel_pred", r.k) + arm("CXMolScribe", cxArm, "novel_cx", r.k) + '</div></div>'
+    + '<details><summary>SMILES and what differs</summary>'
+    + kv("Ground truth (the edited molecule)", r.t)
+    + (r.kind === "A" ? kv("Parent drug, " + r.parent, r.parent_t, r.auto ? "Sonnet 5.5's answer is this molecule: it drew the drug it knows, not the edit." : "") : "")
+    + kv("Sonnet 5.5" + (r.s55.name ? ", named it: " + r.s55.name : ""), r.s55.s, detail(r.s55))
+    + kv("CXMolScribe (pipeline), " + (VLABEL[r.cx.v] || r.cx.v), r.cx.s)
+    + '</details></article>';
+}
+function novelSection(N, live){
+  var pct = function(a, n){ return n ? Math.round(a / n * 1000) / 10 : 0; };
+  var box = function(lab, x, n, note, lead){
+    return '<div class="side' + (lead ? ' lead' : '') + '"><div class="who">' + esc(lab) + '</div>'
+      + '<div class="pc">' + x + '<small>/ ' + n + '</small></div><div class="of">' + esc(note) + '</div>'
+      + '<div class="track"><i style="width:' + Math.round(x / n * 100) + '%"></i></div></div>'; };
+  /* The corpus figure is taken LIVE from sonnet_compare.json, which the corpus cadence rebuilds every publish,
+     so it cannot go stale beside this fixed set; the snapshot in sonnet_novel.json is only the fallback. */
+  var A = N.A, B = N.B, C = live && live.n && !live.unpaired ? {n: live.n, s55: live.s55, cx: live.cx} : N.corpus;
+  var verdict = 'Sonnet 5.5 read <b>' + A.s55 + ' of ' + A.n + '</b> edited drugs and <b>' + B.s55 + ' of ' + B.n
+    + '</b> de novo molecules exactly, against <b>' + C.s55 + ' of ' + C.n + '</b> (' + pct(C.s55, C.n) + '%) on the corpus. '
+    + (A.auto ? '<b>' + A.auto + '</b> of the edited drugs came back as the PARENT drug: it drew what it remembered, not what was on the page. '
+              : '<b>None</b> came back as the parent drug: no answer "autocorrected" the edit to the famous molecule. ')
+    + 'CXMolScribe, which recognises drawings and has no names to recall, read ' + A.cx + '/' + A.n + ' and ' + B.cx + '/' + B.n + '.';
+  var rows = N.rows.slice().sort(function(a, b){
+    var bad = function(x){ return x.auto ? 0 : x.s55.v !== "exact" ? 1 : 2; };
+    return bad(a) - bad(b) || (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0) || (a.k < b.k ? -1 : 1); });
+  return '<section class="hero" id="novel"><div class="hero-grid"><div>'
+    + '<h2 class="secth first">Novel structures: reading, not recall</h2>'
+    + '<p class="lede">Nearly every corpus image is a famous drug, so a right answer can be memory. These ' + N.all.n
+    + ' cannot be: <b>' + A.n + ' famous corpus drugs with one edit</b> (a halogen swapped, a substituent moved, N for CH, a methyl added or removed, '
+    + 'one stereocentre inverted, a ring resized) and <b>' + B.n + ' de novo molecules</b> assembled from fragments, none with a PubChem record. '
+    + 'Drawn by the corpus renderer (same settings, byte-identical on corpus compounds), read blind by the same prompt, sandbox, gate and scorer.</p>'
+    + '<div class="verdict">' + verdict + '</div>'
+    + '<div class="cmp three">' + box("Edited drugs", A.s55, A.n, "Sonnet 5.5", A.s55 === A.n)
+    + box("De novo", B.s55, B.n, "Sonnet 5.5", B.s55 === B.n) + box("Corpus", C.s55, C.n, "Sonnet 5.5 tab", false) + '</div>'
+    + '</div><div>'
+    + '<table class="bd"><thead><tr><th>Set</th><th class="num">n</th><th class="num">5.5 exact</th><th class="num">Parent</th><th class="num">CXMS</th></tr></thead><tbody>'
+    + '<tr><td>Edited drugs (A)</td><td class="num">' + A.n + '</td><td class="num"><b>' + A.s55 + '</b></td><td class="num">' + A.auto + '</td><td class="num dim">' + A.cx + '</td></tr>'
+    + '<tr><td>De novo (B)</td><td class="num">' + B.n + '</td><td class="num"><b>' + B.s55 + '</b></td><td class="num dim">n/a</td><td class="num dim">' + B.cx + '</td></tr>'
+    + '<tr class="tot"><td>Corpus</td><td class="num">' + C.n + '</td><td class="num"><b>' + C.s55 + '</b></td><td class="num dim">n/a</td><td class="num dim">' + C.cx + '</td></tr>'
+    + '</tbody></table>'
+    + '<p class="tnote"><b>Parent</b> counts answers that equal the unedited drug (scored against it with the same RDKit rule). '
+    + 'The corpus arm (alphabetical) has reached ' + N.parents.n + ' of the ' + A.n + ' parents so far'
+    + (N.parents.n ? ' and read ' + N.parents.s55 + ' of ' + N.parents.n + ' exactly' : '') + '. '
+    + '5.5 named ' + N.named_parent + ' of the ' + A.n + ' edited drugs as analogues of their parent'
+    + (N.rows.some(function(x){ return x.named_parent && x.s55.v !== "exact"; }) ? '. ' : ', and drew the edit every time. ')
+    + 'Cost ' + money(N.cost) + ' at list price, ' + mins(N.seconds) + ' of reader time over ' + N.runs.length + ' readers of ' + (N.images / N.runs.length) + ' images each. '
+    + 'CXMolScribe is one stage-3 run on the same files; it is not deterministic.</p>'
+    + '<div class="caveat"><b>Twenty images, and easy ones.</b> One reading each, so one miss moves a kind by 8 to 12 points. '
+    + (A.cx + B.cx === N.all.n ? 'CXMolScribe, which has nothing to recall, also read every one, so these clean drug-like drawings sit near the ceiling for both readers. ' : '')
+    + 'What the set does test is substitution: whether a model that recognises the parent draws the parent. '
+    + 'It cannot resolve a gap of a few points from the corpus.</div>'
+    + '</div></div>'
+    + '<div class="cards" style="margin-top:14px">' + rows.map(novelCard).join("") + '</div>'
+    + '</section>';
+}
+function loadNovel(live){
+  var slot = $("#novelslot");
+  if (!slot) return;
+  fetch("/wall/sonnet_novel.json", {cache: "no-cache"}).then(function(r){
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
+  }).then(function(N){ slot.innerHTML = novelSection(N, live); if (location.hash === "#novel") slot.scrollIntoView(); })
+    .catch(function(e){ slot.innerHTML = '<div class="err">Novel structures: no results yet (' + esc(e.message) + ').</div>'; });
 }
 
 function render(D){
@@ -411,6 +512,7 @@ function render(D){
     return '<li><b>Batch ' + esc(b) + ':</b> ' + esc(D.batches[b]) + '</li>'; }).join("");
 
   v.innerHTML = corpusSection(D.corpus)
+    + '<div id="novelslot"></div>'
     + '<section class="hero" id="handpicked"><div class="hero-grid"><div>'
     + '<h2 class="secth first">Hand-picked: ' + S.n + ' images</h2>'
     + '<p class="lede">' + S.n + ' images from the blind benchmark, mostly ones Sonnet 5 read <b>wrong</b>, given to Sonnet 5.5 '
@@ -473,7 +575,7 @@ document.addEventListener("selectstart", function(e){
 fetch("/wall/sonnet_compare.json", {cache: "no-cache"}).then(function(r){
   if (!r.ok) throw new Error("HTTP " + r.status);
   return r.json();
-}).then(render).catch(function(e){
+}).then(function(D){ render(D); loadNovel(D.corpus); }).catch(function(e){
   $("#view").innerHTML = '<div class="err">No Sonnet 5.5 results yet (' + esc(e.message) + ').</div>';
 });
 </script>
