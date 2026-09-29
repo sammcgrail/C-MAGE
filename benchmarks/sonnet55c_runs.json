@@ -9,6 +9,9 @@
   "18": "Corpus order, the next 10 after the previous batch: Acetone-D6 to Acridine Orange Base. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "19": "Corpus order, the next 10 after the previous batch: Amdinocillin to Amitraz. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "20": "Corpus order, the next 10 after the previous batch: Amitriptyline to Amphotericin B monomethyl ester. Run unattended by the usage-block cadence (burst, readers in parallel).",
+  "21": "Corpus order, the next 10 after the previous batch: Ampicillin to Androgen receptor antagonist 2. Run unattended by the usage-block cadence (burst, readers in parallel).",
+  "22": "Corpus order, the next 10 after the previous batch: Androstenedione to Antimony Potassium Tartrate. Run unattended by the usage-block cadence (burst, readers in parallel).",
+  "24": "Corpus order, the next 10 after the previous batch: Arachidonic Acid to Artemether. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "3": "Corpus order from the start: the first 10 corpus keys (15-crown-5 to the pyrazolopyrimidine riboside). Run by hand to start the cadence; every later batch is the usage-block cadence.",
   "4": "Corpus order, the next 10 after the previous batch: 1,7-Dicarbadodecaborane(12) to (2,3,4,5,6-~2~H_5_)Phenylalanine. Run unattended by the usage-block cadence.",
   "5": "Corpus order, the next 10 after the previous batch: 2'3'-Cyclic guanosine monophosphate-adenosine monophosphate to (2H4)Tetrahydro(2H4)furan. Run unattended by the usage-block cadence (burst, readers in parallel).",
@@ -245,6 +248,44 @@
     "output": 55535
    }
   },
+  "a76dcba74079f4e96": {
+   "agent": "a76dcba74079f4e96",
+   "agent_type": "general-purpose-max",
+   "batch": 22,
+   "cli": "2.1.284",
+   "cost_usd": 2.9628,
+   "duration_s": 857,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-29T14:34:00Z",
+   "images": 10,
+   "keys": [
+    "androstenedione_cid6128",
+    "angiotensin_ii_cid172198",
+    "anidulafungin_cid166548",
+    "aniline_cid6115",
+    "ansamitocin_p_3_cid5282049",
+    "ansamitocins_cid131750198",
+    "anserine_cid112072",
+    "anthracene_cid8418",
+    "anthralin_cid2202",
+    "antimony_potassium_tartrate_cid73415808"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_c/fig01.png\n/tmp/blinds55c_c/fig02.png\n/tmp/blinds55c_c/fig03.png\n/tmp/blinds55c_c/fig04.png\n/tmp/blinds55c_c/fig05.png\n/tmp/blinds55c_c/fig06.png\n/tmp/blinds55c_c/fig07.png\n/tmp/blinds55c_c/fig08.png\n/tmp/blinds55c_c/fig09.png\n/tmp/blinds55c_c/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_c.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nDO NOT EXPLORE THE FILESYSTEM. Do not list, search or read any directory or file outside the image directory above and your own scratch directory under /tmp: no `ls`, `find` or `pip list` hunting through /root, other repos, virtualenvs or other tools. The Read tool, Python at /root/C-MAGE/.venv-ms/bin/python (RDKit, PIL) and the local tools named above are all you need; anything else on this machine is outside the test, and a transcript that goes looking is discarded unread.\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 52,
+   "started": "2026-09-29T14:19:43Z",
+   "tokens": {
+    "cache_read": 6493839,
+    "cache_write_1h": 0,
+    "cache_write_5m": 195249,
+    "input": 104,
+    "output": 117568
+   }
+  },
   "a7b530770b5c5f896": {
    "agent": "a7b530770b5c5f896",
    "agent_type": "general-purpose-max",
@@ -397,6 +438,44 @@
     "output": 33517
    }
   },
+  "aa7620621fecea1a4": {
+   "agent": "aa7620621fecea1a4",
+   "agent_type": "general-purpose-max",
+   "batch": 21,
+   "cli": "2.1.284",
+   "cost_usd": 1.7108,
+   "duration_s": 535,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-29T14:26:45Z",
+   "images": 10,
+   "keys": [
+    "ampicillin_cid6249",
+    "amprenavir_cid65016",
+    "amprolium_cid73341",
+    "anacetrapib_cid11556427",
+    "anagliptin_cid44513473",
+    "anagrelide_cid135409400",
+    "anamorelin_cid9828911",
+    "anastrozole_cid2187",
+    "andarine_cid9824562",
+    "androgen_receptor_antagonist_2_cid50940514"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_b/fig01.png\n/tmp/blinds55c_b/fig02.png\n/tmp/blinds55c_b/fig03.png\n/tmp/blinds55c_b/fig04.png\n/tmp/blinds55c_b/fig05.png\n/tmp/blinds55c_b/fig06.png\n/tmp/blinds55c_b/fig07.png\n/tmp/blinds55c_b/fig08.png\n/tmp/blinds55c_b/fig09.png\n/tmp/blinds55c_b/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_b.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nDO NOT EXPLORE THE FILESYSTEM. Do not list, search or read any directory or file outside the image directory above and your own scratch directory under /tmp: no `ls`, `find` or `pip list` hunting through /root, other repos, virtualenvs or other tools. The Read tool, Python at /root/C-MAGE/.venv-ms/bin/python (RDKit, PIL) and the local tools named above are all you need; anything else on this machine is outside the test, and a transcript that goes looking is discarded unread.\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 39,
+   "started": "2026-09-29T14:17:50Z",
+   "tokens": {
+    "cache_read": 3626949,
+    "cache_write_1h": 0,
+    "cache_write_5m": 139865,
+    "input": 78,
+    "output": 63564
+   }
+  },
   "aac9407bbc14b3212": {
    "agent": "aac9407bbc14b3212",
    "agent_type": "general-purpose-max",
@@ -433,6 +512,44 @@
     "cache_write_5m": 233207,
     "input": 126,
     "output": 129530
+   }
+  },
+  "aada2405b7679d1e4": {
+   "agent": "aada2405b7679d1e4",
+   "agent_type": "general-purpose-max",
+   "batch": 24,
+   "cli": "2.1.284",
+   "cost_usd": 1.9054,
+   "duration_s": 607,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-29T14:37:16Z",
+   "images": 10,
+   "keys": [
+    "arachidonic_acid_cid444899",
+    "aranidipine_cid2225",
+    "arecoline_cid2230",
+    "argipressin_cid644077",
+    "aripiprazole_cid60795",
+    "aripiprazole_lauroxil_cid49831411",
+    "arsanilic_acid_cid7389",
+    "arsenic_trioxide_cid14888",
+    "arsphenamine_cid8774",
+    "artemether_cid68911"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_b/fig01.png\n/tmp/blinds55c_b/fig02.png\n/tmp/blinds55c_b/fig03.png\n/tmp/blinds55c_b/fig04.png\n/tmp/blinds55c_b/fig05.png\n/tmp/blinds55c_b/fig06.png\n/tmp/blinds55c_b/fig07.png\n/tmp/blinds55c_b/fig08.png\n/tmp/blinds55c_b/fig09.png\n/tmp/blinds55c_b/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_b.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nDO NOT EXPLORE THE FILESYSTEM. Do not list, search or read any directory or file outside the image directory above and your own scratch directory under /tmp: no `ls`, `find` or `pip list` hunting through /root, other repos, virtualenvs or other tools. The Read tool, Python at /root/C-MAGE/.venv-ms/bin/python (RDKit, PIL) and the local tools named above are all you need; anything else on this machine is outside the test, and a transcript that goes looking is discarded unread.\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 37,
+   "started": "2026-09-29T14:27:09Z",
+   "tokens": {
+    "cache_read": 3758938,
+    "cache_write_1h": 0,
+    "cache_write_5m": 145420,
+    "input": 74,
+    "output": 78989
    }
   },
   "aae012ad3ee8b39f8": {
