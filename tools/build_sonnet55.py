@@ -2,11 +2,19 @@
 """Build the Sonnet 5.5 page: each image the s55 lane has read, beside the Sonnet 5 arm's
 reading of the SAME image, scored by the same rule.
 
-    build_sonnet55.py record-run <agent-id>             add a lane reader's run to the ledger
-    build_sonnet55.py record-side <label> <agent-id> <pending.json> <answers.json>
+    build_sonnet55.py record-run <agent-id> <batch>     add a lane reader's run to the ledger
+    build_sonnet55.py record-side <label> <agent-id> <pending.json> <answers.json> <batch>
                                                         add an extra reading (e.g. a re-run) to show
                                                         beside the two arms, scored the same way
+    build_sonnet55.py batch-note <batch> <text>         say how a batch's images were picked (shown
+                                                        on the page)
     build_sonnet55.py                                   rebuild wall/sonnet55.json + tiles
+
+BATCHES. Every run and side reading carries the batch it belongs to (an integer, required on
+record: a default would silently mislabel the next batch). Side readings with the same LABEL
+are one arm: two Sonnet 5 re-run readers of ten images each are one "Sonnet 5 re-run" over
+twenty. The headline compares Sonnet 5.5 with the first side label ("Sonnet 5 re-run") on every
+image both read, with an exact McNemar test on the discordant pairs.
 
 HOW A ROW GETS HERE. The lane is sonnet_batch.py with SONNET_ARM=s55: claim named keys, a reader
 answers, gate_and_score.py gates it (answer-key scan, every request served by claude-sonnet-5-5,
@@ -64,6 +72,7 @@ def ledger() -> dict:
     d.setdefault("s5_runs", {})     # the Sonnet 5 reader runs the same images came from
     d.setdefault("s5_source", {})   # key -> Sonnet 5 agent id
     d.setdefault("side", [])        # extra readings shown beside the arms
+    d.setdefault("batches", {})     # batch -> how its images were picked
     return d
 
 
@@ -88,6 +97,12 @@ def run_record(aid: str, keys: list[str]) -> dict:
     first = next(r for r in recs if r.get("type") == "user")
     c = first["message"]["content"]
     prompt = c if isinstance(c, str) else "".join(b.get("text", "") for b in c if isinstance(b, dict))
+    delegated = [b.get("input", {}).get("subagent_type") for r in recs if r.get("type") == "assistant"
+                 for b in ((r.get("message") or {}).get("content") or [])
+                 if isinstance(b, dict) and b.get("type") == "tool_use" and b.get("name") in ("Agent", "Task")]
+    if delegated:
+        raise SystemExit(f"{aid} delegated to {len(delegated)} sub-agent(s) {delegated}: its answers are not "
+                         f"all its own model's, so it cannot be recorded as that model's reading")
     meta = json.load(open(path[:-len(".jsonl")] + ".meta.json"))
     stamps = [r["timestamp"] for r in recs if isinstance(r.get("timestamp"), str)]
     return {
@@ -113,7 +128,21 @@ def holders(smiles: str, raw_by_path: dict[str, str]) -> list[str]:
     return [p for p, raw in raw_by_path.items() if contains(raw, smiles)]
 
 
-def cmd_record_run(aid: str) -> int:
+def batch_no(b: str) -> int:
+    if not str(b).isdigit() or int(b) < 1:
+        raise SystemExit(f"batch must be a positive integer, got {b!r}")
+    return int(b)
+
+
+def cmd_batch_note(batch: str, text: str) -> int:
+    d = ledger()
+    d["batches"][str(batch_no(batch))] = text
+    save(d)
+    print(f"batch {batch}: {text}")
+    return 0
+
+
+def cmd_record_run(aid: str, batch: str) -> int:
     """Credit a lane reader with the lane rows whose answer is in its transcript -- the same
     containment test the gate applied before scoring them."""
     d = ledger()
@@ -123,9 +152,14 @@ def cmd_record_run(aid: str) -> int:
     mine = [r["k"] for r in rows if contains(raw, r.get("sonnet_smiles"))]
     if not mine:
         raise SystemExit(f"no lane row's answer appears in {aid}'s transcript; nothing recorded")
+    already = {k: a for a, r in d["runs"].items() if a != aid for k in r["keys"]}
+    dup = [k for k in mine if k in already]
+    if dup:
+        raise SystemExit(f"{aid}: rows already credited to another run: {[(k, already[k]) for k in dup]}")
     run = run_record(aid, mine)
     if run["models"] != [LANE_MODEL]:
         raise SystemExit(f"{aid} was served by {run['models']}, not {LANE_MODEL}; not a lane run")
+    run["batch"] = batch_no(batch)
     d["runs"][aid] = run
     save(d)
     print(f"recorded {aid}: {len(mine)} images, {run['models']}, effort {run['effort']}, "
@@ -133,11 +167,12 @@ def cmd_record_run(aid: str) -> int:
     return 0
 
 
-def cmd_record_side(label: str, aid: str, pending: str, answers: str) -> int:
+def cmd_record_side(label: str, aid: str, pending: str, answers: str, batch_arg: str) -> int:
     """An extra reading of lane images, scored with the lane's verdict function. Used for the
     Sonnet 5 re-run on the identical 8-image prompt: the only way to tell a model difference
     from run-to-run noise on a sample this small."""
     import sonnet_batch as B
+    batch_no(batch_arg)
     d = ledger()
     batch = json.load(open(pending))
     ans = {re.sub(r"\.png$", "", str(a["img"]).rsplit("/", 1)[-1]): a for a in json.load(open(answers))}
@@ -149,8 +184,11 @@ def cmd_record_side(label: str, aid: str, pending: str, answers: str) -> int:
         if smi and not contains(raw, smi):
             raise SystemExit(f"{b['slot']} answer is not in {aid}'s transcript; refusing")
         reads[b["k"]] = {"s": smi or "", "v": B.verdict(smi, b["truth"]), "conf": a.get("confidence")}
+    if set(ans) != {b["slot"] for b in batch}:
+        raise SystemExit(f"answers {sorted(ans)} do not cover the claim {sorted(b['slot'] for b in batch)}")
     run = run_record(aid, list(reads))
-    d["side"] = [x for x in d["side"] if x["agent"] != aid] + [dict(label=label, agent=aid, run=run, reads=reads)]
+    d["side"] = [x for x in d["side"] if x["agent"] != aid] + [dict(label=label, agent=aid, run=run, reads=reads,
+                                                                    batch=batch_no(batch_arg))]
     save(d)
     print(f"recorded side reading '{label}' ({run['models']}): "
           f"{sum(r['v'] == 'exact' for r in reads.values())}/{len(reads)} exact")
@@ -206,6 +244,62 @@ def reading(smi: str, truth: str, v: str, conf, name: str, graded) -> dict:
             "r": relate(smi or "", truth)}
 
 
+def num_conf(c):
+    """A reader's confidence as a number 0-100, or None. The prompt asks for 0-100; older Sonnet 5
+    rows carry words ("high"), which have no place on a numeric calibration table."""
+    try:
+        x = float(c)
+    except (TypeError, ValueError):
+        return None
+    return x if 0 <= x <= 100 else None
+
+
+def mcnemar_exact(b: int, c: int) -> float:
+    """Two-sided exact McNemar p: under 'no difference' each discordant pair is a fair coin, so
+    p = 2 * P(X <= min(b, c)), X ~ Binomial(b + c, 1/2), capped at 1."""
+    from math import comb
+    n = b + c
+    if n == 0:
+        return 1.0
+    return min(1.0, 2 * sum(comb(n, i) for i in range(min(b, c) + 1)) / 2 ** n)
+
+
+def compare(rows: list[dict], base: str) -> dict:
+    """Sonnet 5.5 against the `base` side label on the rows both read, plus the published run."""
+    xs = [r for r in rows if base in r["sidev"]]
+    ok55 = lambda r: r["s55"]["v"] == "exact"
+    okb = lambda r: r["sidev"][base]["v"] == "exact"
+    b = sum(1 for r in xs if ok55(r) and not okb(r))
+    c = sum(1 for r in xs if okb(r) and not ok55(r))
+    return {"n": len(xs), "s55": sum(map(ok55, xs)), "base": sum(map(okb, xs)),
+            "published": sum(1 for r in xs if r["s5"]["v"] == "exact"),
+            "ahead": b, "behind": c, "p": float(f"{mcnemar_exact(b, c):.3g}"),
+            "ahead_names": [r["n"] for r in xs if ok55(r) and not okb(r)],
+            "behind_names": [r["n"] for r in xs if okb(r) and not ok55(r)]}
+
+
+LOW_CONF = 60   # a Sonnet 5 exact read below this confidence counts as a "low-confidence right"
+BINS = [(90, 101, "90-100"), (80, 90, "80-89"), (60, 80, "60-79"), (0, 60, "under 60")]
+
+
+def calibration(reads: list[dict]) -> dict:
+    """Is confidence higher when right? Mean confidence right vs wrong, and exact-rate per bin."""
+    num = [(num_conf(x["conf"]), x["v"] == "exact") for x in reads]
+    right = [c for c, ok in num if c is not None and ok]
+    wrong = [c for c, ok in num if c is not None and not ok]
+    mean = lambda v: round(sum(v) / len(v), 1) if v else None
+    bins = []
+    for lo, hi, lab in BINS:
+        inb = [ok for c, ok in num if c is not None and lo <= c < hi]
+        bins.append({"bin": lab, "n": len(inb), "exact": sum(inb)})
+    both = [(c, ok) for c, ok in num if c is not None]
+    brier = round(sum((c / 100 - ok) ** 2 for c, ok in both) / len(both), 3) if both else None
+    return {"n": len(reads), "numeric": len(both), "right_n": len(right), "wrong_n": len(wrong),
+            "right_mean": mean(right), "wrong_mean": mean(wrong),
+            "right_min": min(right) if right else None, "wrong_max": max(wrong) if wrong else None,
+            "brier": brier, "bins": bins}
+
+
 def build() -> int:
     import graded
     d = ledger()
@@ -223,6 +317,20 @@ def build() -> int:
     unrun = [k for k in keys if k not in run_of]
     if unrun:
         raise SystemExit(f"lane rows not credited to any recorded run (record-run first): {unrun}")
+    nobatch = [a for a, r in d["runs"].items() if "batch" not in r] + [x["agent"] for x in d["side"] if "batch" not in x]
+    if nobatch:
+        raise SystemExit(f"runs/side readings with no batch recorded: {nobatch}")
+    # Side readings sharing a label are one arm (two re-run readers of ten = one re-run of twenty).
+    labels = list(dict.fromkeys(x["label"] for x in d["side"]))
+    for lab in labels:
+        seen: dict[str, str] = {}
+        for x in d["side"]:
+            if x["label"] != lab:
+                continue
+            for k in x["reads"]:
+                if k in seen:
+                    raise SystemExit(f"side label {lab!r} reads {k} twice ({seen[k]}, {x['agent']})")
+                seen[k] = x["agent"]
 
     idx = {}
     for dd in sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500")):
@@ -255,14 +363,19 @@ def build() -> int:
                   model=(src.get("models") or [None])[0], run=src.get("started"))
         a55.update(cost=round(run["cost_usd"] / run["images"], 3),
                    time=round(run["duration_s"] / run["images"]), model=run["models"][0], run=run["started"])
-        side = [{"label": x["label"], "model": x["run"]["models"][0], **x["reads"][k]}
-                for x in d["side"] if k in x["reads"]]
+        sidev = {}
+        for x in d["side"]:
+            if k in x["reads"]:
+                sidev[x["label"]] = {"label": x["label"], "model": x["run"]["models"][0], "batch": x["batch"],
+                                     "cost": round(x["run"]["cost_usd"] / x["run"]["images"], 3),
+                                     "time": round(x["run"]["duration_s"] / x["run"]["images"]),
+                                     **x["reads"][k]}
         rows.append({
-            "k": k, "n": r["name"], "t": t,
+            "k": k, "n": r["name"], "t": t, "batch": run["batch"],
             "role": "control" if o["sonnet_verdict"] == "exact" else "failure",
             "type": failure_type(o["sonnet_verdict"], a5),
             "cx": {"s": r["ocr_smiles"], "v": r["ocr_verdict"]},
-            "s5": a5, "s55": a55, "side": side,
+            "s5": a5, "s55": a55, "sidev": sidev,
             "delta": int(a55["v"] == "exact") - int(a5["v"] == "exact"),
         })
     rows.sort(key=lambda x: (x["role"] != "failure", x["n"].lower()))
@@ -275,6 +388,8 @@ def build() -> int:
     s5_used = sorted(({**d["s5_runs"][a], "for": sorted(name[k] for k in keys if d["s5_source"].get(k) == a)}
                       for a in {d["s5_source"][k] for k in keys if k in d["s5_source"]}),
                      key=lambda x: x["started"])
+    base = labels[0] if labels else None
+    batches = sorted({x["batch"] for x in rows})
     summary = {
         "n": len(rows), "failures": len(fail), "controls": len(ctrl),
         "s5_exact": ex(rows, "s5"), "s55_exact": ex(rows, "s55"),
@@ -288,15 +403,77 @@ def build() -> int:
         "s5_cost_per_image": round(sum(x["s5"]["cost"] or 0 for x in rows) / len(rows), 2),
         "s55_time_per_image": round(sum(r["duration_s"] for r in runs) / max(1, sum(r["images"] for r in runs))),
         "s5_time_per_image": round(sum(x["s5"]["time"] or 0 for x in rows) / len(rows)),
+        "batches": batches,
     }
-    side = [{"label": x["label"], "model": x["run"]["models"][0], "n": len(x["reads"]),
-             "exact": sum(1 for v in x["reads"].values() if v["v"] == "exact"),
-             "fixed": sum(1 for k2, v in x["reads"].items() if v["v"] == "exact" and s5[k2]["sonnet_verdict"] != "exact"),
-             "cost": x["run"]["cost_usd"], "seconds": x["run"]["duration_s"],
-             "effort": x["run"]["effort"], "cli": x["run"]["cli"]} for x in d["side"]]
+    stats = None
+    if base:
+        groups = [("All images", rows)]
+        groups += [(f"Batch {b}", [x for x in rows if x["batch"] == b]) for b in batches]
+        # The rights split by how sure Sonnet 5 was: batch 2 picked the least sure on purpose,
+        # batch 1's two controls were read at 92-95, and pooling them would hide which is which.
+        low = lambda x: (num_conf(x["s5"]["conf"]) if num_conf(x["s5"]["conf"]) is not None else 100) < LOW_CONF
+        groups += [("Sonnet 5 misses", fail),
+                   (f"Sonnet 5 right, confidence under {LOW_CONF}", [x for x in ctrl if low(x)]),
+                   (f"Sonnet 5 right, confidence {LOW_CONF}+", [x for x in ctrl if not low(x)])]
+        groups = [g for g in groups if g[1]]
+        stats = {
+            "base": base,
+            "overall": compare(rows, base),
+            "groups": [dict(label=g, **compare(xs, base)) for g, xs in groups],
+            # Run-to-run noise of Sonnet 5 alone: how often a same-prompt re-run disagrees with
+            # the published reading, split by what the published reading was.
+            "noise": {
+                "published_miss_rerun_right": sum(1 for x in fail if base in x["sidev"] and x["sidev"][base]["v"] == "exact"),
+                "published_miss_n": sum(1 for x in fail if base in x["sidev"]),
+                "published_right_rerun_miss": sum(1 for x in ctrl if base in x["sidev"] and x["sidev"][base]["v"] != "exact"),
+                "published_right_n": sum(1 for x in ctrl if base in x["sidev"]),
+            },
+            "calibration": {
+                "Sonnet 5.5": calibration([x["s55"] for x in rows if base in x["sidev"]]),
+                base: calibration([x["sidev"][base] for x in rows if base in x["sidev"]]),
+            },
+        }
+        # Per READER, because a reader reads its batch in one context: its images are not
+        # independent draws, which the McNemar p assumes. If every 5.5 reader beats every re-run
+        # reader, the result does not hang on that assumption.
+        stats["readers"] = {
+            "Sonnet 5.5": [{"agent": a, "batch": r["batch"], "n": len(r["keys"]),
+                            "exact": sum(1 for x in rows if x["k"] in r["keys"] and x["s55"]["v"] == "exact")}
+                           for a, r in sorted(d["runs"].items(), key=lambda t: t[1]["started"])],
+            base: [{"agent": x["agent"], "batch": x["batch"], "n": len(x["reads"]),
+                    "exact": sum(1 for v in x["reads"].values() if v["v"] == "exact")}
+                   for x in sorted(d["side"], key=lambda x: x["run"]["started"]) if x["label"] == base],
+        }
+        # The same-model agreement where two independent re-runs exist (batch 1): the noise floor.
+        if len(labels) > 1:
+            both = [x for x in rows if labels[0] in x["sidev"] and labels[1] in x["sidev"]]
+            e = lambda x, l: x["sidev"][l]["v"] == "exact"
+            stats["rerun_vs_rerun"] = {"labels": labels[:2], "n": len(both),
+                                       "agree": sum(1 for x in both if e(x, labels[0]) == e(x, labels[1]))}
+    side = []
+    for lab in labels:
+        xs = [x for x in d["side"] if x["label"] == lab]
+        reads = {k2: v for x in xs for k2, v in x["reads"].items()}
+        side.append({"label": lab, "model": sorted({m for x in xs for m in x["run"]["models"]}),
+                     "n": len(reads), "exact": sum(1 for v in reads.values() if v["v"] == "exact"),
+                     "fixed": sum(1 for k2, v in reads.items() if v["v"] == "exact" and s5[k2]["sonnet_verdict"] != "exact"),
+                     "cost": round(sum(x["run"]["cost_usd"] for x in xs), 4),
+                     "seconds": sum(x["run"]["duration_s"] for x in xs),
+                     "batches": sorted({x["batch"] for x in xs}),
+                     "effort": sorted({e2 for x in xs for e2 in x["run"]["effort"]}),
+                     "cli": ", ".join(sorted({x["run"]["cli"] for x in xs})),
+                     "runs": [{"agent": x["agent"], "batch": x["batch"], "images": x["run"]["images"],
+                               "started": x["run"]["started"], "models": x["run"]["models"],
+                               "effort": x["run"]["effort"], "cli": x["run"]["cli"],
+                               "cost_usd": x["run"]["cost_usd"], "duration_s": x["run"]["duration_s"]}
+                              for x in sorted(xs, key=lambda x: x["run"]["started"])]})
+    for x in rows:
+        x["side"] = [x["sidev"][lab] for lab in labels if lab in x["sidev"]]
+        del x["sidev"]
     out = {
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "summary": summary, "rows": rows, "side": side,
+        "summary": summary, "stats": stats, "rows": rows, "side": side,
+        "batches": {b: d["batches"].get(str(b), "") for b in batches},
         "runs": [{k2: v for k2, v in r.items() if k2 not in ("keys",)} for r in runs],
         "s5runs": [{k2: s5r.get(k2) for k2 in ("models", "effort", "cli", "agent_type", "images",
                                                   "duration_s", "cost_usd", "started", "for")} for s5r in s5_used],
@@ -306,18 +483,22 @@ def build() -> int:
                   "note": "Sonnet 5.5 and Sonnet 5 list at the same per-token prices."},
     }
     OUT.write_text(json.dumps(out, separators=(",", ":")))
-    print(f"wrote {OUT} ({OUT.stat().st_size/1e3:.1f} KB): {len(rows)} rows, "
-          f"Sonnet 5 {summary['s5_exact']}/{len(rows)} exact, Sonnet 5.5 {summary['s55_exact']}/{len(rows)}, "
-          f"fixed {summary['fixed']}, broke {summary['broke']}")
+    o = (stats or {}).get("overall") or {}
+    print(f"wrote {OUT} ({OUT.stat().st_size/1e3:.1f} KB): {len(rows)} rows in batches {batches}, "
+          f"published Sonnet 5 {summary['s5_exact']}/{len(rows)}, Sonnet 5.5 {summary['s55_exact']}/{len(rows)}"
+          + (f"; vs {base}: 5.5 {o['s55']}/{o['n']}, re-run {o['base']}/{o['n']}, "
+             f"5.5 ahead {o['ahead']}, behind {o['behind']}, McNemar exact p={o['p']}" if o else ""))
     return 0
 
 
 if __name__ == "__main__":
     a = sys.argv[1:]
-    if a[:1] == ["record-run"] and len(a) == 2:
-        sys.exit(cmd_record_run(a[1]))
-    if a[:1] == ["record-side"] and len(a) == 5:
+    if a[:1] == ["record-run"] and len(a) == 3:
+        sys.exit(cmd_record_run(a[1], a[2]))
+    if a[:1] == ["record-side"] and len(a) == 6:
         sys.exit(cmd_record_side(*a[1:]))
+    if a[:1] == ["batch-note"] and len(a) == 3:
+        sys.exit(cmd_batch_note(a[1], a[2]))
     if not a:
         sys.exit(build())
     raise SystemExit(__doc__)

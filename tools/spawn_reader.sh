@@ -21,7 +21,8 @@
 # is 10-50 min); run it in the background for parallel slots.
 #
 # stdout, last line:  READER <agent-id> <model-id>      exit 0
-# exit 2 = bad arguments, 3 = launcher failed, 4 = reader served by the wrong model or prompt altered
+# exit 2 = bad arguments, 3 = launcher failed, 4 = reader served by the wrong model, prompt altered,
+#          or the reader delegated images to sub-agents
 set -uo pipefail
 MODEL="${1:-}"; PROMPT="${2:-}"; TYPE="${3:-general-purpose-max}"
 case "$MODEL" in
@@ -69,6 +70,17 @@ for line in open(f"{wd}/out.jsonl"):
     if r.get("type") == "result":
         aid = (r.get("result") or "").strip().split()[-1] if r.get("result") else None
 hits = glob.glob(f"/root/.claude/projects/*/{session}/subagents/agent-*.jsonl") if session else []
+if len(hits) > 1:
+    # The reader itself called the Agent tool: its images were (partly) read by sub-agents on
+    # whatever model THEIR type pins. Seen 28 Sep: a claude-sonnet-5 reader handed 7 of 10 images
+    # to general-purpose-high sub-agents served by claude-opus-5-5. Not that model's reading.
+    for h in sorted(hits):
+        ms = sorted({(json.loads(l).get("message") or {}).get("model") or "" for l in open(h)
+                     if l.strip() and json.loads(l).get("type") == "assistant"} - {"", "<synthetic>"})
+        print(f"  {h.rsplit('agent-', 1)[1][:-6]}: {ms}", file=sys.stderr)
+    print(f"REFUSE: {len(hits)} transcripts under session {session}: the reader delegated to "
+          f"{len(hits) - 1} sub-agent(s), so this is not a {model} reading", file=sys.stderr)
+    sys.exit(4)
 if len(hits) != 1:
     print(f"expected one reader transcript under session {session}, found {len(hits)}", file=sys.stderr)
     sys.exit(3)

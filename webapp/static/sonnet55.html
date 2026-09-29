@@ -123,13 +123,25 @@ summary{cursor:pointer;color:#58a6ff;font-size:13.5px;padding:10px 0 4px;min-hei
 table{border-collapse:collapse;width:100%;font-size:12.5px;display:block;overflow-x:auto;white-space:nowrap}
 th,td{text-align:left;padding:7px 11px;border-bottom:1px solid var(--line)}
 th{color:var(--dim);font-weight:600}
-td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .pre{background:#0b0f14;border:1px solid var(--line);padding:12px;margin-top:8px;
   font:11.5px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
   color:#c9d1d9;max-height:52vh;overflow-y:auto}
 .notes{margin:8px 0 0 18px;padding:0}
 .notes li{font-size:13px;color:var(--dim);line-height:1.5;margin:5px 0}
 .notes li b{color:var(--ink)}
+/* breakdown + calibration tables: fit 390 px without sideways scroll */
+table.bd{display:table;white-space:normal;margin-top:6px}
+table.bd th,table.bd td{padding:7px 7px}
+table.bd td:first-child{min-width:0}
+table.bd tr.tot td{font-weight:650;color:var(--ink)}
+table.bd .dim,.dim{color:var(--dim)}
+table.bd td b{color:#4ade80}
+.tnote{color:var(--dim);font-size:12px;margin:8px 0 0;line-height:1.45}
+.tnote b{color:var(--ink)}
+.secth.first{margin-top:6px}
+.bt{display:inline-block;font-size:11px;font-weight:700;color:#c9d1d9;background:#21262d;padding:1px 7px;
+  border-radius:20px;margin-right:4px;letter-spacing:.3px}
 footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid var(--line);margin-top:28px}
 .err{background:#4a1513;color:#f87171;padding:12px 14px;margin:16px 0}
 
@@ -155,6 +167,7 @@ footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid v
   h1{font-size:28px}
   .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
   .cards{grid-template-columns:1fr 1fr}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
   .body{display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:start}
   .pair{margin-top:0}
   .src figure img{max-height:none}
@@ -211,8 +224,12 @@ function arm(label, a, dir, k){
 
 /* The badge compares 5.5 with the SAME-PROMPT re-run when one exists, not with the published
    run: the published run is why an image was picked, so it flatters any second attempt. */
-function card(r){
-  var base = (r.side || [])[0], bv = base ? base.v : r.s5.v, who = base ? "re-run" : "Sonnet 5";
+function baseRead(r, D){
+  var lab = D.stats && D.stats.base;
+  return (r.side || []).filter(function(x){ return x.label === lab; })[0] || null;
+}
+function card(r, D){
+  var base = baseRead(r, D), bv = base ? base.v : r.s5.v, who = base ? "re-run" : "Sonnet 5";
   var up = r.s55.v === "exact" && bv !== "exact", down = r.s55.v !== "exact" && bv === "exact";
   var d = up ? ["up", "5.5 ahead of " + who] : down ? ["down", "5.5 behind " + who]
         : ["same", r.s55.v === "exact" ? "both right" : "both miss"];
@@ -222,115 +239,164 @@ function card(r){
   var kv = function(lab, smi, note){
     return '<div class="kv"><label>' + esc(lab) + '</label><code>' + esc(smi || "(none)") + '</code>'
       + (note ? '<div class="note">' + esc(note) + '</div>' : '') + '</div>'; };
+  var why = r.role === "control" ? "Sonnet 5 read it exactly, at confidence " + (r.s5.conf == null ? "?" : r.s5.conf)
+                                 : "Sonnet 5 miss: " + r.type;
   return '<article class="card ' + (d[0] === "same" ? "" : d[0]) + '" id="' + esc(r.k) + '">'
     + '<div class="chead"><h3>' + esc(r.n) + '</h3><span class="delta ' + d[0] + '">' + d[1] + '</span></div>'
-    + '<div class="ctype">' + esc(r.type) + '</div>'
+    + '<div class="ctype"><span class="bt">Batch ' + esc(r.batch) + '</span> ' + esc(why) + '</div>'
     + '<div class="body"><div class="src"><div class="alab"><span>The drawing</span>'
-    + '<span class="badge truth">what both read</span></div>'
+    + '<span class="badge truth">what all read</span></div>'
     + '<figure><img loading="lazy" decoding="async" src="/wall/sonnet55/'
-    + encodeURIComponent(r.k) + '.png" alt="The drawing both models read: ' + esc(r.n) + '"></figure></div>'
+    + encodeURIComponent(r.k) + '.png" alt="The drawing the models read: ' + esc(r.n) + '"></figure></div>'
     + '<div class="pair">' + arm("Sonnet 5, published", r.s5, "sonnet55_s5", r.k) + arm("Sonnet 5.5", r.s55, "sonnet55_pred", r.k) + '</div></div>'
     + side
     + '<details><summary>SMILES and what differs</summary>'
     + kv("Ground truth", r.t)
-    + kv("Sonnet 5", r.s5.s, detail(r.s5))
+    + kv("Sonnet 5, published", r.s5.s, detail(r.s5))
+    + (r.side || []).map(function(x){ return kv(x.label, x.s, x.v === "exact" ? "Identical to the reference after RDKit canonicalisation." : "Verdict: " + (VLABEL[x.v] || x.v) + "."); }).join("")
     + kv("Sonnet 5.5", r.s55.s, detail(r.s55))
     + kv("CXMolScribe (pipeline), " + (VLABEL[r.cx.v] || r.cx.v), r.cx.s)
     + '</details></article>';
 }
 
+function pfmt(p){
+  if (p >= 0.995) return "1.0";
+  if (p < 0.001) { var e = p.toExponential(1).split("e"); return e[0] + "&times;10<sup>" + e[1].replace("-", "&minus;") + "</sup>"; }
+  return p.toFixed(p < 0.1 ? 3 : 2);
+}
+function perReader(xs){ return xs.map(function(x){ return x.exact + "/" + x.n; }).join(", "); }
+/* Name the images only while the list is short; past six it buries the verdict on a phone,
+   and every card below carries its own "ahead"/"behind" badge. */
+function names(xs){ return xs.length && xs.length <= 6 ? ' (' + esc(xs.join(", ")) + ')' : ''; }
+
 function render(D){
-  var S = D.summary, v = $("#view");
-  /* THE comparison is 5.5 against Sonnet 5 on the identical prompt. The published Sonnet 5
-     score on these images is low BY SELECTION -- they were picked because it failed them --
-     so it is shown small, as the reason for the pick, never as the baseline. */
-  var base = (D.side || [])[0];
-  var bv = function(r){ return base ? ((r.side || [])[0] || {}).v : r.s5.v; };
-  var ahead = D.rows.filter(function(r){ return r.s55.v === "exact" && bv(r) !== "exact"; }).map(function(r){ return r.n; });
-  var behind = D.rows.filter(function(r){ return r.s55.v !== "exact" && bv(r) === "exact"; }).map(function(r){ return r.n; });
-  /* Same measure as the tally: exact or not. (Stereo-only to wrong is still a miss both times.) */
-  var ex = function(v){ return v === "exact"; };
-  var moved = base ? D.rows.filter(function(r){ return ex(((r.side || [])[0] || {}).v) !== ex(r.s5.v); }).length : null;
-  var sides = base ? [["Sonnet 5, re-run", base.exact, "same prompt as 5.5"], ["Sonnet 5.5", S.s55_exact, "same prompt"]]
-                   : [["Sonnet 5", S.s5_exact, "published run"], ["Sonnet 5.5", S.s55_exact, "this run"]];
-  var gap = ahead.length - behind.length;
-  var verdict = base
-    ? 'On the identical prompt: Sonnet 5.5 <b>' + S.s55_exact + '/' + S.n + '</b>, Sonnet 5 <b>' + base.exact + '/' + S.n + '</b>. '
-      + '5.5 is ahead on ' + ahead.length + (ahead.length ? ' (' + esc(ahead.join(", ")) + ')' : '')
-      + ' and behind on ' + behind.length + (behind.length ? ' (' + esc(behind.join(", ")) + ')' : '') + '. '
-      + (Math.abs(gap) <= moved
-          ? 'Re-running Sonnet 5 alone flipped ' + moved + ' of ' + S.n + ' between right and wrong, so a ' + Math.abs(gap)
-            + '-image gap is <b>within run-to-run noise</b> at this size.'
-          : 'That gap is larger than the ' + moved + ' a Sonnet 5 re-run flipped on its own, but n=' + S.n + ' is still tiny.')
-    : 'No same-prompt Sonnet 5 re-run yet, so this cannot separate a model difference from noise.';
-  var more = (D.side || []).slice(1);
-  if (more.length) verdict += ' ' + (more.length === 1 ? 'A second, independent re-run scored ' : 'Further re-runs scored ')
-    + more.map(function(x){ return '<b>' + x.exact + '/' + x.n + '</b>'; }).join(", ") + '.';
-  var best = Math.max.apply(null, sides.map(function(x){ return x[1]; }));
-  var cmp = function(x){
-    var pc = Math.round(x[1] / S.n * 100);
-    return '<div class="side' + (x[1] === best ? " lead" : "") + '"><div class="who">' + esc(x[0]) + '</div>'
-      + '<div class="pc">' + x[1] + '<small>/ ' + S.n + '</small></div>'
-      + '<div class="of">' + esc(x[2]) + '</div>'
-      + '<div class="track"><i style="width:' + pc + '%"></i></div></div>'; };
+  var S = D.summary, T = D.stats, v = $("#view");
+  var O = T ? T.overall : null;
+  var sideOf = function(lab){ return (D.side || []).filter(function(x){ return x.label === lab; })[0]; };
+  var B = T ? sideOf(T.base) : null;
   var runs = D.runs || [];
+  var verdict, cmp = "", tally = "";
+  if (O) {
+    var N = T.noise;
+    verdict = 'On the identical prompt, over ' + O.n + ' images: Sonnet 5.5 <b>' + O.s55 + '/' + O.n + '</b>, '
+      + 'Sonnet 5 re-run <b>' + O.base + '/' + O.n + '</b>. 5.5 is ahead on ' + O.ahead + names(O.ahead_names)
+      + ' and behind on ' + O.behind + names(O.behind_names) + '. '
+      + 'Exact McNemar test on those ' + (O.ahead + O.behind) + ' discordant images: <b>p = ' + pfmt(O.p) + '</b>'
+      + (O.p < 0.05 ? '. Not run-to-run noise at any usual threshold.'
+                    : ', not significant: a gap this size is compatible with run-to-run noise.')
+      + (T.readers ? ' The test treats images as independent, but each reader reads ten in one context; per reader, '
+        + 'Sonnet 5.5 scored ' + perReader(T.readers["Sonnet 5.5"]) + ' and the Sonnet 5 re-run '
+        + perReader(T.readers[T.base])
+        + (Math.min.apply(null, T.readers["Sonnet 5.5"].map(function(x){ return x.exact / x.n; }))
+             > Math.max.apply(null, T.readers[T.base].map(function(x){ return x.exact / x.n; }))
+           ? ', so every 5.5 reader beat every re-run reader.' : ', so the reader-level picture is mixed.') : '')
+      + ' Sonnet 5 on its own is noisy here: the re-run fixed ' + N.published_miss_rerun_right + ' of the ' + N.published_miss_n
+      + ' published misses and lost ' + N.published_right_rerun_miss + ' of the ' + N.published_right_n + ' published rights.';
+    var sides = [["Sonnet 5, re-run", O.base, "same prompt as 5.5"], ["Sonnet 5.5", O.s55, "same prompt"]];
+    var best = Math.max(O.base, O.s55);
+    cmp = sides.map(function(x){
+      return '<div class="side' + (x[1] === best ? " lead" : "") + '"><div class="who">' + esc(x[0]) + '</div>'
+        + '<div class="pc">' + x[1] + '<small>/ ' + O.n + '</small></div>'
+        + '<div class="of">' + esc(x[2]) + '</div>'
+        + '<div class="track"><i style="width:' + Math.round(x[1] / O.n * 100) + '%"></i></div></div>'; }).join("");
+    tally = '<div class="tally"><div class="' + (O.ahead ? 'up' : '') + '"><b>' + O.ahead + '</b><span>5.5 right, re-run wrong</span></div>'
+      + '<div class="' + (O.behind ? 'down' : '') + '"><b>' + O.behind + '</b><span>re-run right, 5.5 wrong</span></div>'
+      + '<div><b>' + (O.n - O.ahead - O.behind) + '</b><span>same result</span></div></div>';
+  } else {
+    verdict = 'No same-prompt Sonnet 5 re-run yet, so this cannot separate a model difference from noise.';
+  }
+  if (T && T.rerun_vs_rerun) verdict += ' On batch 1, two independent Sonnet 5 re-runs agreed on '
+    + T.rerun_vs_rerun.agree + ' of ' + T.rerun_vs_rerun.n + '.';
+
+  /* Breakdown: one row per slice, the published run shown only for context. */
+  var bd = T ? '<table class="bd"><thead><tr><th>Slice</th><th class="num">n</th><th class="num">Pub&shy;lished</th>'
+      + '<th class="num">Re-run</th><th class="num">5.5</th><th class="num">p</th></tr></thead><tbody>'
+      + T.groups.map(function(g){
+          return '<tr' + (g.label === "All images" ? ' class="tot"' : '') + '><td>' + esc(g.label) + '</td><td class="num">' + g.n + '</td><td class="num dim">' + g.published
+            + '</td><td class="num">' + g.base + '</td><td class="num"><b>' + g.s55 + '</b></td><td class="num">' + pfmt(g.p) + '</td></tr>'; }).join("")
+      + '</tbody></table>'
+      + '<p class="tnote">Counts are exact reads. <b>p</b> is the two-sided exact McNemar test, 5.5 against the re-run, on the images where exactly one of them was right. '
+      + 'Published is the Sonnet 5 run the images were picked from, so it is low or high by construction.</p>' : '';
+
+  /* Calibration: is 5.5 surer when right than when wrong? */
+  var cal = "";
+  if (T) {
+    var cm = T.calibration, labs = ["Sonnet 5.5", T.base];
+    var line = function(lab){
+      var c = cm[lab];
+      return '<li><b>' + esc(lab === T.base ? "Sonnet 5 re-run" : lab) + ':</b> right ' + c.right_n + '&times;, mean confidence '
+        + (c.right_mean == null ? "n/a" : c.right_mean) + (c.right_min != null ? ' (lowest ' + c.right_min + ')' : '')
+        + '; wrong ' + c.wrong_n + '&times;, mean ' + (c.wrong_mean == null ? "n/a" : c.wrong_mean)
+        + (c.wrong_max != null ? ' (highest ' + c.wrong_max + ')' : '') + '. Brier score ' + (c.brier == null ? "n/a" : c.brier.toFixed(3)) + '.</li>'; };
+    var c55 = cm["Sonnet 5.5"], lowest = D.rows.slice().sort(function(a, b){ return (+a.s55.conf) - (+b.s55.conf); })[0];
+    var untestable = c55.wrong_n === 0
+      ? '<p class="tnote" style="margin:10px 0 10px">Sonnet 5.5 was never wrong here, so whether it is less sure when wrong '
+        + 'cannot be tested on this sample. Its least confident answer (' + esc(lowest.s55.conf) + ', ' + esc(lowest.n) + ') was right.</p>' : '';
+    cal = '<ul class="facts">' + labs.map(line).join("") + '</ul>' + untestable
+      + '<table class="bd cal"><thead><tr><th>Stated confidence</th>' + labs.map(function(l){ return '<th class="num">' + esc(l === T.base ? "Re-run" : "5.5") + ' exact</th>'; }).join("") + '</tr></thead><tbody>'
+      + cm[labs[0]].bins.map(function(b, i){
+          return '<tr><td>' + esc(b.bin) + '</td>' + labs.map(function(l){ var x = cm[l].bins[i];
+            return '<td class="num">' + (x.n ? x.exact + ' of ' + x.n : '<span class="dim">none</span>') + '</td>'; }).join("") + '</tr>'; }).join("")
+      + '</tbody></table>'
+      + '<p class="tnote">Brier score is the mean squared gap between stated confidence (as a probability) and the outcome; lower is better, 0 is perfect. '
+      + 'Confidence is what each reader wrote for itself, 0-100, asked to be its probability of an exact match.</p>';
+  }
+
+  var costs = '<li><b>Sonnet 5.5:</b> ' + money(S.s55_cost_per_image) + ' and ' + mins(S.s55_time_per_image) + ' per image ('
+      + money(S.s55_cost) + ', ' + mins(S.s55_seconds) + ' of reader time over ' + runs.length + (runs.length === 1 ? ' run' : ' runs') + ').</li>'
+    + (D.side || []).map(function(x){ return '<li><b>' + esc(x.label) + ':</b> ' + money(x.cost / x.n) + ' and '
+        + mins(x.seconds / x.n) + ' per image (' + money(x.cost) + ' over ' + x.n + ' images).</li>'; }).join("")
+    + '<li><b>Published Sonnet 5 batches</b> these came from: ' + money(S.s5_cost_per_image) + ' and ' + mins(S.s5_time_per_image) + ' per image.</li>';
+
+  var bnotes = Object.keys(D.batches || {}).map(function(b){
+    return '<li><b>Batch ' + esc(b) + ':</b> ' + esc(D.batches[b]) + '</li>'; }).join("");
+
   v.innerHTML =
     '<section class="hero"><div class="hero-grid"><div>'
     + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
-    + '<p class="lede">Images Sonnet 5 read <b>wrong</b> in the blind benchmark, plus controls it read right, '
-    + 'given to Sonnet 5.5 through the same pipeline: same images, same reader prompt, same max effort, same scorer. '
-    + 'Sonnet 5 was re-run on the identical prompt as the control that matters.</p>'
+    + '<p class="lede">' + S.n + ' images from the blind benchmark, mostly ones Sonnet 5 read <b>wrong</b>, given to Sonnet 5.5 '
+    + 'and to Sonnet 5 again through the same pipeline: same images, same reader prompt, same max effort, same scorer.</p>'
     + '<div class="verdict">' + verdict + '</div>'
-    + '<div class="cmp">' + sides.map(cmp).join("") + '</div>'
-    + '<div class="tally"><div class="' + (ahead.length ? 'up' : '') + '"><b>' + ahead.length + '</b><span>5.5 right, '
-    + (base ? 're-run' : 'Sonnet 5') + ' wrong</span></div>'
-    + '<div class="' + (behind.length ? 'down' : '') + '"><b>' + behind.length + '</b><span>' + (base ? 're-run' : 'Sonnet 5')
-    + ' right, 5.5 wrong</span></div>'
-    + '<div><b>' + (S.n - ahead.length - behind.length) + '</b><span>same result</span></div></div>'
-    + (base ? '<p class="cmpnote">Published Sonnet 5 run on these images: <b>' + S.s5_exact + '/' + S.n + '</b>. '
-      + 'That is why they were picked, not a baseline: ' + S.failures + ' are its misses, ' + S.controls + ' are controls it read right.</p>' : '')
+    + (cmp ? '<div class="cmp">' + cmp + '</div>' + tally : '')
+    + '<p class="cmpnote">Published Sonnet 5 run on these images: <b>' + S.s5_exact + '/' + S.n + '</b>. '
+    + 'That is why they were picked, not a baseline: ' + S.failures + ' are its misses, ' + S.controls + ' it read right.</p>'
     + '</div><div>'
-    + '<ul class="facts">'
-    + '<li><b>' + S.failures + ' Sonnet 5 misses:</b> Sonnet 5.5 read ' + S.fixed_of_failures + ' exactly. '
-    + '<b>' + S.controls + ' controls</b> (Sonnet 5 exact): 5.5 kept ' + S.kept_of_controls + '.</li>'
-    + '<li><b>Reading or recall?</b> Every image is a known drug. Sonnet 5.5 named ' + S.s55_named + ' of ' + S.n
-    + ', Sonnet 5 named ' + S.s5_named + ' and still drew ' + S.s5_named_wrong + ' of those wrong. The prompt allows '
-    + 'recognising a molecule and cross-checking it, so this measures reading plus recall, not reading alone.</li>'
-    + '<li><b>Cost at API list price:</b> Sonnet 5.5 ' + money(S.s55_cost_per_image) + ' and '
-    + mins(S.s55_time_per_image) + ' per image; the Sonnet 5 batches these came from ' + money(S.s5_cost_per_image)
-    + ' and ' + mins(S.s5_time_per_image) + ' per image'
-    + (D.side || []).map(function(x){ return '; the ' + esc(x.label) + ' ' + money(x.cost / x.n) + ' and '
-        + mins(x.seconds / x.n) + ' per image'; }).join("")
-    + '. Same per-token price; the difference is tokens used.</li>'
-    + '</ul>'
-    + '<div class="caveat"><b>Small, hand-picked sample.</b> ' + S.failures + ' images chosen because Sonnet 5 missed them, '
-    + 'plus ' + S.controls + ' it read right as controls, one run each. Picking on failure favours any re-run: '
-    + 'some misses come right by chance alone. It shows what 5.5 does on these drawings; it is not an accuracy '
-    + 'figure for 5.5 and should not be compared with the ' + 'Sonnet tab’s corpus percentage.</div>'
+    + '<h2 class="secth first">By batch and by kind</h2>' + bd
     + '</div></div></section>'
-    + '<h2 class="secth">Per image</h2><p class="sectsub">Misses first, then controls. Each reading is drawn back with RDKit, so a wrong atom shows up against the drawing at a glance.</p>'
-    + '<div class="cards">' + D.rows.map(card).join("") + '</div>'
-    + '<h2 class="secth" id="runs">Runs</h2><p class="sectsub">New runs append here: the page renders from <a href="/wall/sonnet55.json">sonnet55.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
-    + '<table><thead><tr><th>Run</th><th>Started (UTC)</th><th>Model served</th><th>Effort</th><th>CLI</th><th class="num">Images</th><th class="num">Cost</th><th class="num">Wall-clock</th></tr></thead><tbody>'
-    + runs.map(function(r){ return '<tr><td>Sonnet 5.5: ' + r.images + ' images</td><td>' + esc(r.started.replace("T", " ").slice(0, 16)) + '</td><td>' + esc(r.models.join(", "))
+    + '<div class="two"><div><h2 class="secth">Confidence</h2><p class="sectsub">Is each model surer when it is right?</p>' + cal + '</div>'
+    + '<div><h2 class="secth">Cost and time</h2><p class="sectsub">API list price of the tokens each reader used; the same per-token price for both models.</p>'
+    + '<ul class="facts">' + costs + '</ul>'
+    + '<ul class="facts" style="margin-top:12px"><li><b>Reading or recall?</b> Every image is a known drug. Sonnet 5.5 named ' + S.s55_named + ' of ' + S.n
+    + ', published Sonnet 5 named ' + S.s5_named + ' and still drew ' + S.s5_named_wrong + ' of those wrong. The prompt allows '
+    + 'recognising a molecule and cross-checking it, so this measures reading plus recall.</li></ul>'
+    + '<div class="caveat"><b>Small, hand-picked sample.</b> ' + S.n + ' images, one reading per model per image, '
+    + S.failures + ' of them chosen because Sonnet 5 had missed them. Picking on failure favours any second attempt, which is why the '
+    + 'comparison is with a same-prompt re-run and not with the published score. It is not an accuracy figure for 5.5 and should not '
+    + 'be set against the Sonnet tab’s corpus percentage.</div></div></div>'
+    + '<h2 class="secth">Per image</h2><p class="sectsub">Misses first, then images Sonnet 5 read right. Each reading is drawn back with RDKit, so a wrong atom shows up against the drawing at a glance.</p>'
+    + '<div class="cards">' + D.rows.map(function(r){ return card(r, D); }).join("") + '</div>'
+    + '<h2 class="secth" id="runs">Runs</h2><p class="sectsub">Every reader, with the model the API says served it. The page renders from <a href="/wall/sonnet55.json">sonnet55.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
+    + '<table><thead><tr><th>Run</th><th>Batch</th><th>Started (UTC)</th><th>Model served</th><th>Effort</th><th>CLI</th><th class="num">Images</th><th class="num">Cost</th><th class="num">Wall-clock</th></tr></thead><tbody>'
+    + runs.map(function(r){ return '<tr><td>Sonnet 5.5</td><td>' + esc(r.batch) + '</td><td>' + esc(r.started.replace("T", " ").slice(0, 16)) + '</td><td>' + esc(r.models.join(", "))
         + '</td><td>' + esc(r.effort.join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
         + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join("")
-    + (D.s5runs || []).map(function(r){ return '<tr><td>Sonnet 5: ' + esc((r["for"] || []).join(", ")) + '</td><td>' + esc((r.started || "").replace("T", " ").slice(0, 16)) + '</td><td>' + esc((r.models || []).join(", "))
+    + (D.side || []).map(function(x){ return (x.runs || []).map(function(r){ return '<tr><td>' + esc(x.label) + '</td><td>' + esc(r.batch) + '</td><td>' + esc(r.started.replace("T", " ").slice(0, 16)) + '</td><td>' + esc(r.models.join(", "))
+        + '</td><td>' + esc(r.effort.join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
+        + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join(""); }).join("")
+    + (D.s5runs || []).map(function(r){ return '<tr><td>Sonnet 5, published: ' + esc((r["for"] || []).join(", ")) + '</td><td>—</td><td>' + esc((r.started || "").replace("T", " ").slice(0, 16)) + '</td><td>' + esc((r.models || []).join(", "))
         + '</td><td>' + esc((r.effort || []).join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
         + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join("")
-    + (D.side || []).map(function(x){ return '<tr><td>' + esc(x.label) + '</td><td>—</td><td>' + esc(x.model) + '</td><td>' + esc((x.effort || []).join(", ")) + '</td><td>' + esc(x.cli)
-        + '</td><td class="num">' + x.n + '</td><td class="num">' + money(x.cost) + '</td><td class="num">' + mins(x.seconds) + '</td></tr>'; }).join("")
     + '</tbody></table>'
     + '<h2 class="secth">Method</h2>'
-    + '<ul class="notes">'
+    + '<ul class="notes">' + bnotes
     + '<li><b>Same images.</b> Byte-identical copies of the corpus drawings Sonnet 5 read, handed over under anonymised names (fig01…), because the corpus files are named after their compounds.</li>'
     + '<li><b>Same prompt.</b> The Sonnet 5 batches’ reader prompt, word for word, with only the image count, paths and answers file changed. Shown below.</li>'
-    + '<li><b>Same agent and effort.</b> A Claude Code subagent with a shell, Python and RDKit, at max effort, as the Sonnet 5 readers were. The model is read from the API’s stamp on every response in the transcript, not from what the model says.</li>'
-    + '<li><b>Same scorer.</b> RDKit canonical SMILES: exact, stereo-only, wrong or unparseable. The run passed the same gate as every Sonnet 5 batch: no lookups in its transcript, every answer present in it.</li>'
-    + '<li><b>What differs.</b> Batch size (the published Sonnet 5 runs read ten per batch; 5.5 and the Sonnet 5 re-run read these eight together), the Claude Code release, and the image names. The re-run and 5.5 share the prompt exactly.</li>'
+    + '<li><b>Same agent and effort.</b> A Claude Code subagent with a shell, Python and RDKit, at max effort, spawned on an exact model id. The model is read from the API’s stamp on every response in the transcript, not from what the model says.</li>'
+    + '<li><b>Same scorer.</b> RDKit canonical SMILES: exact, stereo-only, wrong or unparseable. Every run passed the same gate as the Sonnet 5 batches: no lookups in its transcript, every answer present in it.</li>'
+    + '<li><b>What differs.</b> Batch size (published Sonnet 5 runs read ten per reader; in batch 1 the 5.5 run and the re-run read all eight together, in batch 2 each read ten per reader, two readers each), the Claude Code release, and the image names. The re-run and 5.5 share the prompt exactly.</li>'
     + '</ul>'
     + runs.slice(-1).map(function(r){ return '<details><summary>Reader prompt (latest run)</summary><div class="pre">' + esc(r.prompt) + '</div></details>'; }).join("")
-    + '<footer>Built ' + esc(D.built.replace("T", " ").slice(0, 16)) + ' UTC. Prices: ' + esc(D.price.note) + ' Ground truth is PubChem; the Sonnet 5 readings are the published rows on the <a href="/?tab=sonnet">Sonnet tab</a>.</footer>';
+    + '<footer>Built ' + esc(D.built.replace("T", " ").slice(0, 16)) + ' UTC. Prices: ' + esc(D.price.note) + ' Ground truth is PubChem; the published Sonnet 5 readings are the rows on the <a href="/?tab=sonnet">Sonnet tab</a>.</footer>';
 }
 
 document.addEventListener("contextmenu", function(e){

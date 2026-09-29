@@ -12,7 +12,8 @@ conversation, so the image on screen at the refusal is not necessarily the one t
 
 Every check must pass before a single row is scored:
   1. scan_reader_transcript finds no answer-key access for this slot's claim (exit 0).
-  2. Every assistant message was served by a Sonnet model (no silent demote to another model).
+  2. Every assistant message was served by exactly the lane's model id, and the reader called no
+     sub-agent (a delegated image is read by the sub-agent's model, invisibly to check 2).
   3. The answers file covers exactly the images handed to the reader (/tmp/blind_<slot>/imgNN.png,
      usually ten) and postdates the claim (the mtime guard also enforces this).
   4. Every answer SMILES appears verbatim somewhere in THIS agent's transcript, so the file on
@@ -90,6 +91,13 @@ def opened_before(records: list[dict], upto: int, slot: str, expected: list[str]
                     return list(expected)
                 seen.update(exact.findall(s))
     return sorted(seen & set(expected))
+
+
+def delegations(records: list[dict]) -> list[str]:
+    """The sub-agent types a reader handed work to (Agent/Task tool calls), one per call."""
+    return [b.get("input", {}).get("subagent_type") or "?" for r in records if r.get("type") == "assistant"
+            for b in ((r.get("message") or {}).get("content") or [])
+            if isinstance(b, dict) and b.get("type") == "tool_use" and b.get("name") in ("Agent", "Task")]
 
 
 def slot_id(x) -> str:
@@ -178,6 +186,14 @@ def main(slot: str, aid: str) -> int:
     want = B.ARM_MODEL[B.ARM]
     if set(real) != {want}:
         fail(f"lane {B.ARM or 'sonnet5'} needs every request served by exactly {want}, got {models}")
+
+    # 2b. no delegation. A reader that hands images to its own sub-agents gets answers from
+    # whatever model those sub-agents run on, and every record in ITS transcript still carries
+    # the lane's model, so check 2 cannot see it. On 28 Sep a Sonnet 5 re-run reader passed 7
+    # of its 10 images to three general-purpose-high sub-agents served by claude-opus-5-5.
+    delegated = delegations(records)
+    if delegated:
+        fail(f"reader delegated to {len(delegated)} sub-agent(s) {delegated}; their answers are not this lane's model")
 
     # 3. answers shape + mtime
     ans = json.load(open(ans_path))

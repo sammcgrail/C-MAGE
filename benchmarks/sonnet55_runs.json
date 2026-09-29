@@ -1,8 +1,51 @@
 {
+ "batches": {
+  "1": "6 images Sonnet 5 read wrong plus 2 controls it read right (ezetimibe, febuxostat).",
+  "2": "14 Sonnet 5 misses spread across failure types (4 connectivity, 4 stereo-only, 5 atom count, 1 wrong element) plus the 6 Sonnet 5 exact reads with the lowest numeric confidence (18-55). Two readers of ten per model. Two Sonnet 5 re-run readers of the same ten images were discarded unscored: one handed 7 of its 10 images to sub-agents served by Opus 5.5, the next hit an API usage limit before writing any answer. A third, fresh Sonnet 5 reader read them."
+ },
  "runs": {
+  "a16dbb0dd405b92c1": {
+   "agent": "a16dbb0dd405b92c1",
+   "agent_type": "general-purpose-max",
+   "batch": 2,
+   "cli": "2.1.284",
+   "cost_usd": 4.9114,
+   "duration_s": 1396,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-28T21:03:26Z",
+   "images": 10,
+   "keys": [
+    "afegostat_cid447607",
+    "arterolane_cid10475633",
+    "bacitracin_cid10909430",
+    "cabergoline_cid54746",
+    "colchicine_cid6167",
+    "dapagliflozin_cid9887712",
+    "desmopressin_cid5311065",
+    "enmetazobactam_cid23653540",
+    "famotidine_cid5702160",
+    "fenebrutinib_cid86567195"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55_d/fig01.png\n/tmp/blinds55_d/fig02.png\n/tmp/blinds55_d/fig03.png\n/tmp/blinds55_d/fig04.png\n/tmp/blinds55_d/fig05.png\n/tmp/blinds55_d/fig06.png\n/tmp/blinds55_d/fig07.png\n/tmp/blinds55_d/fig08.png\n/tmp/blinds55_d/fig09.png\n/tmp/blinds55_d/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55_d.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.",
+   "requests": 71,
+   "started": "2026-09-28T20:40:10Z",
+   "tokens": {
+    "cache_read": 12209899,
+    "cache_write_1h": 0,
+    "cache_write_5m": 310435,
+    "input": 142,
+    "output": 169307
+   }
+  },
   "ac67f5c24fbec5420": {
    "agent": "ac67f5c24fbec5420",
    "agent_type": "general-purpose-max",
+   "batch": 1,
    "cli": "2.1.284",
    "cost_usd": 1.5947,
    "duration_s": 520,
@@ -34,9 +77,72 @@
     "input": 62,
     "output": 67557
    }
+  },
+  "aeea0fbf947d0a417": {
+   "agent": "aeea0fbf947d0a417",
+   "agent_type": "general-purpose-max",
+   "batch": 2,
+   "cli": "2.1.284",
+   "cost_usd": 3.2824,
+   "duration_s": 1099,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-28T20:58:30Z",
+   "images": 10,
+   "keys": [
+    "artemether_cid68911",
+    "ascomycin_cid5282071",
+    "baricitinib_cid44205240",
+    "cholic_acid_cid221493",
+    "cryptophycin_52_cid9939639",
+    "dersimelagon_cid126736894",
+    "empagliflozin_cid11949646",
+    "exatecan_cid151115",
+    "felypressin_cid14257662",
+    "vinorelbine_cid5311497"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55_e/fig01.png\n/tmp/blinds55_e/fig02.png\n/tmp/blinds55_e/fig03.png\n/tmp/blinds55_e/fig04.png\n/tmp/blinds55_e/fig05.png\n/tmp/blinds55_e/fig06.png\n/tmp/blinds55_e/fig07.png\n/tmp/blinds55_e/fig08.png\n/tmp/blinds55_e/fig09.png\n/tmp/blinds55_e/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55_e.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.",
+   "requests": 52,
+   "started": "2026-09-28T20:40:11Z",
+   "tokens": {
+    "cache_read": 7094429,
+    "cache_write_1h": 0,
+    "cache_write_5m": 250394,
+    "input": 104,
+    "output": 123737
+   }
   }
  },
  "s5_runs": {
+  "a09c69e82f236c141": {
+   "agent": "a09c69e82f236c141",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 12.3383,
+   "duration_s": 3464,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-19T18:05:02Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1977,
+   "requests": 143,
+   "started": "2026-09-19T17:07:18Z",
+   "tokens": {
+    "cache_read": 39506020,
+    "cache_write_1h": 0,
+    "cache_write_5m": 565996,
+    "input": 286,
+    "output": 302154
+   }
+  },
   "a19d530f5e55b60f3": {
    "agent": "a19d530f5e55b60f3",
    "agent_type": "general-purpose",
@@ -62,6 +168,31 @@
     "output": 286624
    }
   },
+  "a2ca638d11dd70ed4": {
+   "agent": "a2ca638d11dd70ed4",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 13.2535,
+   "duration_s": 3294,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-11T00:38:23Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 3335,
+   "requests": 197,
+   "started": "2026-09-10T23:43:29Z",
+   "tokens": {
+    "cache_read": 47712014,
+    "cache_write_1h": 0,
+    "cache_write_5m": 430032,
+    "input": 394,
+    "output": 263525
+   }
+  },
   "a3b23b94357a94798": {
    "agent": "a3b23b94357a94798",
    "agent_type": "general-purpose",
@@ -85,6 +216,331 @@
     "cache_write_5m": 436917,
     "input": 168,
     "output": 229164
+   }
+  },
+  "a46e3e7b128e72106": {
+   "agent": "a46e3e7b128e72106",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 6.839,
+   "duration_s": 2167,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-16T22:49:57Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1997,
+   "requests": 114,
+   "started": "2026-09-16T22:13:50Z",
+   "tokens": {
+    "cache_read": 20304503,
+    "cache_write_1h": 0,
+    "cache_write_5m": 323331,
+    "input": 228,
+    "output": 196934
+   }
+  },
+  "a4f1488eb085f2082": {
+   "agent": "a4f1488eb085f2082",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 4.7448,
+   "duration_s": 1801,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-20T04:55:43Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 2073,
+   "requests": 70,
+   "started": "2026-09-20T04:25:42Z",
+   "tokens": {
+    "cache_read": 12186895,
+    "cache_write_1h": 0,
+    "cache_write_5m": 306845,
+    "input": 140,
+    "output": 153999
+   }
+  },
+  "a5fdaeb05cee34660": {
+   "agent": "a5fdaeb05cee34660",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 20.0772,
+   "duration_s": 3252,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-19T09:18:00Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 3986,
+   "requests": 255,
+   "started": "2026-09-19T08:23:48Z",
+   "tokens": {
+    "cache_read": 78929547,
+    "cache_write_1h": 0,
+    "cache_write_5m": 546023,
+    "input": 510,
+    "output": 292526
+   }
+  },
+  "a654feba645446291": {
+   "agent": "a654feba645446291",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 12.7808,
+   "duration_s": 2680,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-17T22:43:10Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1997,
+   "requests": 161,
+   "started": "2026-09-17T21:58:30Z",
+   "tokens": {
+    "cache_read": 45031555,
+    "cache_write_1h": 0,
+    "cache_write_5m": 482107,
+    "input": 322,
+    "output": 256854
+   }
+  },
+  "a6b1dc961a104356a": {
+   "agent": "a6b1dc961a104356a",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 21.3512,
+   "duration_s": 4870,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-18T08:44:26Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 3097,
+   "requests": 215,
+   "started": "2026-09-18T07:23:16Z",
+   "tokens": {
+    "cache_read": 80227700,
+    "cache_write_1h": 0,
+    "cache_write_5m": 675935,
+    "input": 430,
+    "output": 361494
+   }
+  },
+  "a6e1f5e469f63214a": {
+   "agent": "a6e1f5e469f63214a",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 5.9924,
+   "duration_s": 2305,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-10T21:43:45Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 2615,
+   "requests": 59,
+   "started": "2026-09-10T21:05:20Z",
+   "tokens": {
+    "cache_read": 12029423,
+    "cache_write_1h": 0,
+    "cache_write_5m": 589457,
+    "input": 118,
+    "output": 211262
+   }
+  },
+  "a74d04318c29a28cb": {
+   "agent": "a74d04318c29a28cb",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 8.1412,
+   "duration_s": 2243,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-17T07:01:27Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 2946,
+   "requests": 122,
+   "started": "2026-09-17T06:24:04Z",
+   "tokens": {
+    "cache_read": 26214012,
+    "cache_write_1h": 0,
+    "cache_write_5m": 369851,
+    "input": 244,
+    "output": 197327
+   }
+  },
+  "a7ce5188ac39cbc92": {
+   "agent": "a7ce5188ac39cbc92",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 11.8756,
+   "duration_s": 3476,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-16T15:20:11Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1997,
+   "requests": 167,
+   "started": "2026-09-16T14:22:15Z",
+   "tokens": {
+    "cache_read": 38856027,
+    "cache_write_1h": 0,
+    "cache_write_5m": 447619,
+    "input": 334,
+    "output": 298471
+   }
+  },
+  "aa89e69f92f71d713": {
+   "agent": "aa89e69f92f71d713",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 9.0871,
+   "duration_s": 2332,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-11T01:19:54Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 3356,
+   "requests": 162,
+   "started": "2026-09-11T00:41:02Z",
+   "tokens": {
+    "cache_read": 31286876,
+    "cache_write_1h": 0,
+    "cache_write_5m": 362380,
+    "input": 324,
+    "output": 192315
+   }
+  },
+  "ac819257d3da5dad5": {
+   "agent": "ac819257d3da5dad5",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 4.0045,
+   "duration_s": 1617,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-19T13:52:10Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 2073,
+   "requests": 63,
+   "started": "2026-09-19T13:25:13Z",
+   "tokens": {
+    "cache_read": 9564884,
+    "cache_write_1h": 0,
+    "cache_write_5m": 264633,
+    "input": 126,
+    "output": 142965
+   }
+  },
+  "aca18b4f9d9fc6bd0": {
+   "agent": "aca18b4f9d9fc6bd0",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 11.2689,
+   "duration_s": 3134,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-19T17:58:53Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1997,
+   "requests": 139,
+   "started": "2026-09-19T17:06:39Z",
+   "tokens": {
+    "cache_read": 36589400,
+    "cache_write_1h": 0,
+    "cache_write_5m": 502700,
+    "input": 278,
+    "output": 269376
+   }
+  },
+  "ade252db4a1a63f68": {
+   "agent": "ade252db4a1a63f68",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 7.0821,
+   "duration_s": 2700,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-17T03:10:40Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1997,
+   "requests": 96,
+   "started": "2026-09-17T02:25:40Z",
+   "tokens": {
+    "cache_read": 19226183,
+    "cache_write_1h": 0,
+    "cache_write_5m": 379808,
+    "input": 192,
+    "output": 228695
+   }
+  },
+  "ae8183d999bdcb5b2": {
+   "agent": "ae8183d999bdcb5b2",
+   "agent_type": "general-purpose",
+   "cli": "2.1.267",
+   "cost_usd": 9.6469,
+   "duration_s": 3097,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-14T01:53:06Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 1392,
+   "requests": 107,
+   "started": "2026-09-14T01:01:29Z",
+   "tokens": {
+    "cache_read": 29868045,
+    "cache_write_1h": 0,
+    "cache_write_5m": 477798,
+    "input": 214,
+    "output": 247837
    }
   },
   "aebe241dc9e58f901": {
@@ -161,21 +617,67 @@
     "input": 158,
     "output": 170621
    }
+  },
+  "aff513e18ee7724e4": {
+   "agent": "aff513e18ee7724e4",
+   "agent_type": "general-purpose",
+   "cli": "2.1.275",
+   "cost_usd": 11.0568,
+   "duration_s": 3125,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-18T03:15:30Z",
+   "images": 10,
+   "models": [
+    "claude-sonnet-5"
+   ],
+   "prompt_chars": 3097,
+   "requests": 142,
+   "started": "2026-09-18T02:23:25Z",
+   "tokens": {
+    "cache_read": 36827284,
+    "cache_write_1h": 0,
+    "cache_write_5m": 409349,
+    "input": 284,
+    "output": 266737
+   }
   }
  },
  "s5_source": {
+  "afegostat_cid447607": "a6e1f5e469f63214a",
+  "artemether_cid68911": "aca18b4f9d9fc6bd0",
+  "arterolane_cid10475633": "a2ca638d11dd70ed4",
+  "ascomycin_cid5282071": "a2ca638d11dd70ed4",
+  "bacitracin_cid10909430": "aa89e69f92f71d713",
+  "baricitinib_cid44205240": "ae8183d999bdcb5b2",
+  "cabergoline_cid54746": "a7ce5188ac39cbc92",
+  "cholic_acid_cid221493": "a46e3e7b128e72106",
+  "colchicine_cid6167": "ade252db4a1a63f68",
+  "cryptophycin_52_cid9939639": "a74d04318c29a28cb",
+  "dapagliflozin_cid9887712": "a654feba645446291",
+  "dersimelagon_cid126736894": "aff513e18ee7724e4",
+  "desmopressin_cid5311065": "a6b1dc961a104356a",
+  "empagliflozin_cid11949646": "a5fdaeb05cee34660",
+  "enmetazobactam_cid23653540": "ac819257d3da5dad5",
   "etoposide_cid36462": "afa694c788c7ecbc3",
   "everolimus_cid6442177": "a19d530f5e55b60f3",
+  "exatecan_cid151115": "a19d530f5e55b60f3",
   "exemestane_cid60198": "a19d530f5e55b60f3",
   "ezetimibe_cid150311": "a19d530f5e55b60f3",
+  "famotidine_cid5702160": "aebe241dc9e58f901",
   "favipiravir_cid492405": "aebe241dc9e58f901",
   "febuxostat_cid134018": "aebe241dc9e58f901",
+  "felypressin_cid14257662": "a4f1488eb085f2082",
+  "fenebrutinib_cid86567195": "a4f1488eb085f2082",
   "fenoterol_cid3343": "af82c26a726ea9e76",
-  "fipronil_cid3352": "a3b23b94357a94798"
+  "fipronil_cid3352": "a3b23b94357a94798",
+  "vinorelbine_cid5311497": "a09c69e82f236c141"
  },
  "side": [
   {
    "agent": "a24803781ea94419d",
+   "batch": 1,
    "label": "Sonnet 5 re-run",
    "reads": {
     "etoposide_cid36462": {
@@ -257,6 +759,7 @@
   },
   {
    "agent": "a0018945460576210",
+   "batch": 1,
    "label": "Sonnet 5 re-run 2",
    "reads": {
     "etoposide_cid36462": {
@@ -333,6 +836,194 @@
      "cache_write_5m": 546198,
      "input": 240,
      "output": 261938
+    }
+   }
+  },
+  {
+   "agent": "a406ab7542cef10fc",
+   "batch": 2,
+   "label": "Sonnet 5 re-run",
+   "reads": {
+    "artemether_cid68911": {
+     "conf": 55,
+     "s": "CO[C@H]1O[C@@H]2O[C@@]3(C)CC[C@]4(OO3)[C@H]2[C@@H](CC[C@H]4C)[C@H]1C",
+     "v": "wrong"
+    },
+    "ascomycin_cid5282071": {
+     "conf": 15,
+     "s": "CC[C@@H]1C[C@H](C)[C@H](O)[C@@H](OC)C(=O)[C@H](C)/C=C/C(C)=C/[C@@H](C)[C@@H](C[C@H]2CC[C@@H](O)[C@H](OC)C2)O[C@H]2C[C@@H](OC)[C@@H](C)C[C@@]2(O)C(=O)C(=O)N2CCCC[C@H]2C(=O)O1",
+     "v": "wrong"
+    },
+    "baricitinib_cid44205240": {
+     "conf": 93,
+     "s": "CCS(=O)(=O)N1CC(CC#N)(n2cc(-c3ncnc4[nH]ccc34)cn2)C1",
+     "v": "exact"
+    },
+    "cholic_acid_cid221493": {
+     "conf": 25,
+     "s": "C[C@@H](CCC(=O)O)[C@H]1CC[C@H]2[C@H]3[C@@H](C[C@H](O)[C@H]4CC[C@]5(C)CC[C@H](O)C[C@H]5[C@@H]43)C[C@H](O)[C@]12C",
+     "v": "wrong"
+    },
+    "cryptophycin_52_cid9939639": {
+     "conf": 35,
+     "s": "COc1ccc(C[C@H]2NC(=O)/C=C/[C@@H](C(C)[C@H]3O[C@@H]3c3ccccc3)OC(=O)[C@@H](CC(C)C)OC(=O)C(C)(C)CNC2=O)cc1Cl",
+     "v": "wrong"
+    },
+    "dersimelagon_cid126736894": {
+     "conf": 48,
+     "s": "COC[C@H]1CN(C(=O)[C@@]2(F)CN(C3CCCC3)C[C@H]2c2ccc(OC)cc2)C[C@@H]1c1ccc(C(F)(F)F)cc1N1CCC(C(=O)O)CC1",
+     "v": "stereo"
+    },
+    "empagliflozin_cid11949646": {
+     "conf": 90,
+     "s": "OC[C@H]1O[C@@H](c2ccc(Cl)c(Cc3ccc(O[C@H]4CCOC4)cc3)c2)[C@H](O)[C@@H](O)[C@@H]1O",
+     "v": "exact"
+    },
+    "exatecan_cid151115": {
+     "conf": 42,
+     "s": "CC[C@@]1(O)C(=O)OCc2c1cc1n(c2=O)Cc2c-1nc1c(c2F)[C@@H](N)CC[C@H]1C",
+     "v": "wrong"
+    },
+    "felypressin_cid14257662": {
+     "conf": 55,
+     "s": "NCCCC[C@H](NC(=O)[C@@H]1CCCN1C(=O)[C@@H]1CSSC[C@@H](N)C(=O)N[C@@H](Cc2ccccc2)C(=O)N[C@@H](Cc2ccccc2)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CC(N)=O)C(=O)N1)C(=O)NCC(N)=O",
+     "v": "stereo"
+    },
+    "vinorelbine_cid5311497": {
+     "conf": 10,
+     "s": "CC[C@]1(O)C[C@H]2CN(CCc3c([nH]c4ccccc34)[C@@](C(=O)OC)(c3cc4c(cc3OC)N(C)[C@H]3[C@@](O)(C(=O)OC)[C@H](OC(C)=O)[C@]5(CC)C=CCN6CC[C@@]43[C@@H]65)C2)C1",
+     "v": "wrong"
+    }
+   },
+   "run": {
+    "agent": "a406ab7542cef10fc",
+    "agent_type": "general-purpose-max",
+    "cli": "2.1.284",
+    "cost_usd": 13.7699,
+    "duration_s": 3868,
+    "effort": [
+     "max"
+    ],
+    "finished": "2026-09-28T21:44:41Z",
+    "images": 10,
+    "keys": [
+     "artemether_cid68911",
+     "ascomycin_cid5282071",
+     "baricitinib_cid44205240",
+     "cholic_acid_cid221493",
+     "cryptophycin_52_cid9939639",
+     "dersimelagon_cid126736894",
+     "empagliflozin_cid11949646",
+     "exatecan_cid151115",
+     "felypressin_cid14257662",
+     "vinorelbine_cid5311497"
+    ],
+    "models": [
+     "claude-sonnet-5"
+    ],
+    "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55_g/fig01.png\n/tmp/blinds55_g/fig02.png\n/tmp/blinds55_g/fig03.png\n/tmp/blinds55_g/fig04.png\n/tmp/blinds55_g/fig05.png\n/tmp/blinds55_g/fig06.png\n/tmp/blinds55_g/fig07.png\n/tmp/blinds55_g/fig08.png\n/tmp/blinds55_g/fig09.png\n/tmp/blinds55_g/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55_g.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.",
+    "requests": 135,
+    "started": "2026-09-28T20:40:13Z",
+    "tokens": {
+     "cache_read": 43200322,
+     "cache_write_1h": 0,
+     "cache_write_5m": 587370,
+     "input": 270,
+     "output": 366088
+    }
+   }
+  },
+  {
+   "agent": "a841369df48bec800",
+   "batch": 2,
+   "label": "Sonnet 5 re-run",
+   "reads": {
+    "afegostat_cid447607": {
+     "conf": 85,
+     "s": "OC[C@H]1CNC[C@@H](O)[C@@H]1O",
+     "v": "exact"
+    },
+    "arterolane_cid10475633": {
+     "conf": 80,
+     "s": "NC(C)(C)CNC(=O)CC1CCC2(OC3(O2)C4CC5CC3CC(C4)C5)CC1",
+     "v": "wrong"
+    },
+    "bacitracin_cid10909430": {
+     "conf": 18,
+     "s": "CCC(C)C(N)C1=NC(C(=O)NCCCCC2NC(=O)C(CC(C)C)NC(=O)C(NC(=O)C(NC(=O)C(CCC(=O)O)NC(=O)C(N)CC(C)C)C(C)CC)CCCCNC(=O)C(CC(N)=O)NC(=O)C(CC(=O)O)NC(=O)C(Cc3c[nH]cn3)NC(=O)C(Cc3ccccc3)NC(=O)C(C(C)CC)NC2=O)CS1",
+     "v": "wrong"
+    },
+    "cabergoline_cid54746": {
+     "conf": 78,
+     "s": "C=CCN1C[C@H](C(=O)N(CCCN(C)C)C(=O)NCC)C[C@@H]2c3cccc4[nH]cc(c34)C[C@H]21",
+     "v": "exact"
+    },
+    "colchicine_cid6167": {
+     "conf": 92,
+     "s": "COc1cc2c(c(OC)c1OC)-c1ccc(=O)c(OC)cc1[C@@H](NC(C)=O)CC2",
+     "v": "wrong"
+    },
+    "dapagliflozin_cid9887712": {
+     "conf": 92,
+     "s": "CCOc1ccc(Cc2cc([C@@H]3O[C@H](CO)[C@@H](O)[C@H](O)[C@H]3O)ccc2Cl)cc1",
+     "v": "exact"
+    },
+    "desmopressin_cid5311065": {
+     "conf": 62,
+     "s": "N=C(N)NCCC[C@H](NC(=O)[C@@H]1CCCN1C(=O)[C@@H]1CSSC[C@H](N)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](Cc2ccccc2)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CC(N)=O)C(=O)N1)C(=O)NCC(N)=O",
+     "v": "wrong"
+    },
+    "enmetazobactam_cid23653540": {
+     "conf": 82,
+     "s": "C[n+]1ccn(C[C@]2(C)[C@@H](C(=O)[O-])N3C(=O)C[C@@H]3S2(=O)=O)n1",
+     "v": "stereo"
+    },
+    "famotidine_cid5702160": {
+     "conf": 90,
+     "s": "NC(N)=Nc1nc(CSCCC(N)=NS(N)(=O)=O)cs1",
+     "v": "stereo"
+    },
+    "fenebrutinib_cid86567195": {
+     "conf": 58,
+     "s": "C[C@H]1CN(C2COC2)CCN1c1ccc(Nc2c(-c3c(CO)ccnc3N3CCn4c(cc5c4CC(C)(C)C5)C3=O)ccn(C)c2=O)nc1",
+     "v": "wrong"
+    }
+   },
+   "run": {
+    "agent": "a841369df48bec800",
+    "agent_type": "general-purpose-max",
+    "cli": "2.1.284",
+    "cost_usd": 14.1572,
+    "duration_s": 3253,
+    "effort": [
+     "max"
+    ],
+    "finished": "2026-09-29T00:21:43Z",
+    "images": 10,
+    "keys": [
+     "afegostat_cid447607",
+     "arterolane_cid10475633",
+     "bacitracin_cid10909430",
+     "cabergoline_cid54746",
+     "colchicine_cid6167",
+     "dapagliflozin_cid9887712",
+     "desmopressin_cid5311065",
+     "enmetazobactam_cid23653540",
+     "famotidine_cid5702160",
+     "fenebrutinib_cid86567195"
+    ],
+    "models": [
+     "claude-sonnet-5"
+    ],
+    "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55_i/fig01.png\n/tmp/blinds55_i/fig02.png\n/tmp/blinds55_i/fig03.png\n/tmp/blinds55_i/fig04.png\n/tmp/blinds55_i/fig05.png\n/tmp/blinds55_i/fig06.png\n/tmp/blinds55_i/fig07.png\n/tmp/blinds55_i/fig08.png\n/tmp/blinds55_i/fig09.png\n/tmp/blinds55_i/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55_i.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.",
+    "requests": 155,
+    "started": "2026-09-28T23:27:30Z",
+    "tokens": {
+     "cache_read": 48442651,
+     "cache_write_1h": 0,
+     "cache_write_5m": 555804,
+     "input": 310,
+     "output": 307854
     }
    }
   }
