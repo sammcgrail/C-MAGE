@@ -34,6 +34,9 @@ PY=/root/C-MAGE/.venv-ms/bin/python
 CLAUDE=/root/.local/bin/claude
 
 WD=$(mktemp -d /tmp/reader-launch.XXXXXX) || exit 3
+# Named on stderr first, so a caller can find the launcher's transcripts (e.g. to tell a rate limit
+# from any other failure) even when this script exits before the reader is identified.
+echo "LAUNCH_DIR $WD" >&2
 cp "$PROMPT" "$WD/reader_prompt.txt"
 cat > "$WD/launch.txt" <<EOF
 You are a launcher. Do exactly this and nothing else:
