@@ -1,8 +1,47 @@
 {
  "batches": {
-  "3": "Corpus order from the start: the first 10 corpus keys (15-crown-5 to the pyrazolopyrimidine riboside). Run by hand to start the cadence; every later batch is the usage-block cadence."
+  "3": "Corpus order from the start: the first 10 corpus keys (15-crown-5 to the pyrazolopyrimidine riboside). Run by hand to start the cadence; every later batch is the usage-block cadence.",
+  "4": "Corpus order, the next 10 after the previous batch: 1,7-Dicarbadodecaborane(12) to (2,3,4,5,6-~2~H_5_)Phenylalanine. Run unattended by the usage-block cadence."
  },
  "runs": {
+  "a43e310a2cbfe3282": {
+   "agent": "a43e310a2cbfe3282",
+   "agent_type": "general-purpose-max",
+   "batch": 4,
+   "cli": "2.1.284",
+   "cost_usd": 1.8179,
+   "duration_s": 642,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-29T04:32:00Z",
+   "images": 10,
+   "keys": [
+    "1_7_dicarbadodecaborane_12_cid16212388",
+    "1_8_dihydroxyanthraquinone_cid2950",
+    "1_8_naphthyridine_3_carboxylic_acid_7_1alpha_5alpha_6alpha_6_cid62959",
+    "1_butyl_3_methylimidazolium_chloride_cid2734161",
+    "1_methyl_4_prop_1_en_2_ylcyclohexene_cid22311",
+    "1h_pyrrole_1_carboxamide_3_ethyl_2_5_dihydro_4_methyl_n_2_4__cid3476",
+    "216014_14_1_non_salt_cid172966628",
+    "25_hydroxyvitamin_d3_cid5283731",
+    "2_2_6_dimethyl_4_1e_3_4_methylthio_phenyl_3_oxo_1_propen_1_y_cid9864881",
+    "2_3_4_5_6_2_h_5_phenylalanine_cid13000995"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_a/fig01.png\n/tmp/blinds55c_a/fig02.png\n/tmp/blinds55c_a/fig03.png\n/tmp/blinds55c_a/fig04.png\n/tmp/blinds55c_a/fig05.png\n/tmp/blinds55c_a/fig06.png\n/tmp/blinds55c_a/fig07.png\n/tmp/blinds55c_a/fig08.png\n/tmp/blinds55c_a/fig09.png\n/tmp/blinds55c_a/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_a.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 30,
+   "started": "2026-09-29T04:21:18Z",
+   "tokens": {
+    "cache_read": 2978965,
+    "cache_write_1h": 0,
+    "cache_write_5m": 162034,
+    "input": 60,
+    "output": 81687
+   }
+  },
   "a7b530770b5c5f896": {
    "agent": "a7b530770b5c5f896",
    "agent_type": "general-purpose-max",
