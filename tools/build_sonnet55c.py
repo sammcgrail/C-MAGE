@@ -253,5 +253,15 @@ if __name__ == "__main__":
     if a[:1] == ["batch-note"] and len(a) == 3:
         sys.exit(cmd_batch_note(a[1], a[2]))
     if not a:
-        sys.exit(build())
+        rc = build()
+        if rc == 0:
+            # The tab's "How the readers work" section (wall/technique.json), rebuilt with the tab
+            # so it follows the cadence. It must never block the tab: the cadence halts on a
+            # non-zero exit here, and a technique chart is not worth a halted benchmark.
+            try:
+                import build_technique
+                build_technique.build()
+            except Exception as e:  # noqa: BLE001
+                print(f"technique build skipped: {e!r}", file=sys.stderr)
+        sys.exit(rc)
     raise SystemExit(__doc__)

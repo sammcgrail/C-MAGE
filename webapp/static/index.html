@@ -293,6 +293,97 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 tr.lead td{background:#12233c}
 footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var(--line);margin-top:30px}
 .err{background:#4a1513;color:#f87171;padding:12px 14px;border-radius:8px;margin:16px 0}
+/* "How the readers work" (Sonnet 5.5 tab, wall/technique.json). Seven technique hues, the
+   validated dark categorical order (validate_palette.js --mode dark on #0d1117: all checks
+   pass), plus neutral grey for "other". Models are the page's own identity: 5.5 in the accent,
+   Sonnet 5 in the dim grey, so the subject of the tab is the coloured one. */
+.vtog{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:2px;margin:12px 0 4px}
+.vtog button{flex:1 1 0;appearance:none;background:none;border:0;color:var(--dim);font:inherit;font-size:14px;
+  padding:8px 10px;border-radius:6px;cursor:pointer;min-height:40px}
+.vtog button[aria-pressed=true]{background:#1f6feb;color:#fff;font-weight:600}
+.tq .blockh{margin-top:14px}
+.tq{--k-read:#3987e5;--k-crop:#d95926;--k-rdkit:#199e70;--k-draw:#c98500;--k-osra:#d55181;
+  --k-write:#008300;--k-other:#6e7681;--m55:#388bfd;--m5:#8b98a5}
+.tq .kg-read{background:var(--k-read)} .tq .kg-crop{background:var(--k-crop)}
+.tq .kg-rdkit{background:var(--k-rdkit)} .tq .kg-draw{background:var(--k-draw)}
+.tq .kg-osra{background:var(--k-osra)} .tq .kg-write{background:var(--k-write)}
+.tq .kg-other{background:var(--k-other)}
+.tq .m55{background:var(--m55)} .tq .m5{background:var(--m5)}
+.tq h3{font-size:13px;font-weight:700;margin:22px 0 3px;color:var(--ink)}
+.tq .cap{color:var(--dim);font-size:12.5px;line-height:1.45;margin:0 0 9px}
+.tqkpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
+.tqkpi>div{background:var(--panel);border:1px solid var(--line);padding:10px 11px;min-width:0}
+.tqkpi .l{color:var(--dim);font-size:11.5px;line-height:1.3;margin-bottom:6px}
+.tqkpi .v{display:flex;align-items:baseline;gap:6px;font-size:12px;color:var(--dim);line-height:1.5}
+.tqkpi .v b{font-size:19px;font-weight:750;color:var(--ink);min-width:0}
+.tqkpi .v i{width:8px;height:8px;display:inline-block;flex:0 0 8px;align-self:center}
+.tqtyp{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:10px;margin-top:10px}
+.tqtyp>div{background:var(--panel);border:1px solid var(--line);padding:11px 13px 8px;min-width:0}
+.tqtyp h4{margin:0 0 6px;font-size:13px;display:flex;align-items:center;gap:7px}
+.tqtyp h4 i{width:9px;height:9px;display:inline-block}
+.tqtyp ol{margin:0;padding-left:19px}
+.tqtyp li{font-size:12.5px;color:var(--dim);line-height:1.5;margin:0 0 5px}
+.tqleg{display:flex;flex-wrap:wrap;gap:6px 13px;margin:6px 0 10px}
+.tqleg b{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--dim);font-size:12px}
+.tqleg b i{width:10px;height:10px;display:block;border-radius:2px}
+.tqleg b i.hollow{background:none!important;box-shadow:inset 0 0 0 2px var(--k-other)}
+/* one labelled horizontal bar per row: label / bar / value */
+.hb{display:grid;grid-template-columns:minmax(0,118px) minmax(0,1fr) 52px;align-items:center;
+  gap:4px 8px;margin:3px 0}
+.hb .hl{font-size:12px;color:var(--dim);line-height:1.25;min-width:0}
+.hb .hv{font-size:12px;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hb .ht{display:flex;height:14px;min-width:0}
+.hb .ht i{display:block;height:100%;min-width:0;margin-right:2px}
+.hb .ht i:last-child{margin-right:0}
+.hb .ht i:first-child{border-radius:0}
+.hb.pair .ht{height:9px}
+.hb.pair{margin:1px 0}
+.hgrp{margin:0 0 8px}
+.hsep{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 4px}
+.tq2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 28px}
+.tq2>div{min-width:0}
+.tqt{font-size:12px;margin-top:6px}
+.tqt th,.tqt td{padding:6px 8px}
+.tqt th{font-size:11.5px}
+.tqt td small{color:var(--dim);font-size:10.5px;margin-left:3px}
+.tqt td.hi{color:var(--ink);font-weight:650}
+.tqnote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);
+  padding:10px 12px;margin:8px 0 10px;font-size:13px;line-height:1.5;color:var(--ink)}
+.tqnote p{margin:0 0 6px} .tqnote p:last-child{margin:0}
+.tqnote .dim{color:var(--dim)}
+/* reader table */
+.rtools{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.rt{font-size:12px;margin-top:6px;display:table;width:100%;white-space:normal}
+.rtwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rt th{cursor:pointer;user-select:none;white-space:nowrap;padding:7px 6px}
+.rt th[aria-sort]{color:var(--ink)}
+.rt th.num,.rt td.num{text-align:right;font-variant-numeric:tabular-nums}
+.rt td{padding:7px 6px;white-space:nowrap}
+.rt tbody tr.r{cursor:pointer}
+.rt tbody tr.r:hover td,.rt tbody tr.r[aria-expanded=true] td{background:#12233c}
+.rt td .mk{display:inline-block;width:7px;height:7px;margin-right:6px;vertical-align:1px}
+.rt td .tl{font-size:10.5px;color:var(--dim);letter-spacing:.5px}
+.rt tr.tlrow td{white-space:normal;padding:10px 6px 14px;background:#0b0f14}
+.tlh{font-size:12px;color:var(--dim);margin-bottom:8px;line-height:1.45}
+.tlh b{color:var(--ink);font-weight:600}
+.tline{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end}
+.tg{display:flex;flex-direction:column;gap:3px;min-width:0}
+.tg .gl{font-size:10.5px;color:var(--dim);white-space:nowrap}
+.tg .gl.ok{color:#4ade80} .tg .gl.no{color:#f87171}
+.tg .cells{display:flex;flex-wrap:wrap;gap:2px;max-width:100%}
+.tg .cells i{width:9px;height:14px;display:block}
+.tg .cells i.v{background:none!important;box-shadow:inset 0 0 0 2px var(--c)}
+.tqmore{margin-top:8px}
+.tqtip{position:fixed;z-index:60;pointer-events:none;background:#0b0f14;border:1px solid var(--line);
+  color:var(--ink);font-size:12px;line-height:1.4;padding:6px 8px;max-width:260px;display:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.5)}
+@media(max-width:560px){
+  .hb{grid-template-columns:minmax(0,96px) minmax(0,1fr) 46px;gap:3px 6px}
+  .tqkpi{grid-template-columns:1fr 1fr}
+  .tqkpi .v b{font-size:17px}
+  .rt .hm{display:none}
+}
 @media(max-width:560px){
   .big{font-size:40px} .hrow{gap:8px;padding:9px 12px} .brand span{display:none}
   /* Five tabs at their full names (Sam, 28-29 Sep) plus the upload button are ~480px and a
@@ -725,6 +816,254 @@ function stackOf(parts, total){
           + 'Dark produced nothing usable.</p>' : '');
 }
 
+/* ---- How the readers work: the Sonnet 5.5 tab's technique section (wall/technique.json,
+   tools/build_technique.py). Loaded on its own, after the wall, so the tab never waits on it. */
+var TQVIEW = new URLSearchParams(location.search).get("view") === "technique" || location.hash === "#technique";
+var TQ = {data: null, pending: null, lane: "55", sort: "t0", dir: 1, open: null, all: false};
+var TQ_G = {R:"read", C:"crop", c:"crop", K:"rdkit", D:"draw", d:"draw", O:"osra", W:"write", X:"other"};
+var TQ_K = {R:"Read the whole image", C:"Crop / zoom command", c:"Looked at a crop", K:"RDKit check",
+            D:"Rendered its answer", d:"Looked at the render", O:"Ran OSRA", W:"Wrote the answers file",
+            X:"Other: setup, notes, text files"};
+var TQ_LANE = {s55c:"5.5", s55:"5.5 hand-picked", nov:"5.5 novel", s5:"5", s5r:"5 re-run"};
+function tqFetch(){
+  if (TQ.data) return Promise.resolve(TQ.data);
+  if (!TQ.pending) TQ.pending = fetch("/wall/technique.json").then(function(r){
+    if (!r.ok) throw new Error("HTTP " + r.status); return r.json();
+  }).then(function(d){ TQ.data = d; return d; }, function(e){ TQ.pending = null; throw e; });
+  return TQ.pending;
+}
+function tqMS(s){ s = Math.round(s || 0); return Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2); }
+function tqN(x, dp){ return x == null ? "–" : (+x).toFixed(dp == null ? 1 : dp); }
+function tqPct(x){ return x == null ? "–" : Math.round(x) + "%"; }
+/* One horizontal bar: label, segments (each {w, cls, tip}), value text. */
+function tqBar(label, segs, max, val, pair){
+  return '<div class="hb' + (pair ? ' pair' : '') + '"><span class="hl">' + label + '</span><span class="ht">'
+    + segs.map(function(s){ return s.w > 0 ? '<i class="' + s.cls + '" style="width:'
+        + Math.max(0.4, s.w / max * 100) + '%" data-tip="' + esc(s.tip) + '"></i>' : ''; }).join("")
+    + '</span><span class="hv">' + val + '</span></div>';
+}
+function tqModelLegend(){
+  return '<div class="tqleg"><b><i class="m55"></i>Sonnet 5.5</b><b><i class="m5"></i>Sonnet 5</b></div>';
+}
+function tqPairs(rows, max, fmt){
+  /* rows: [{label, a (5.5), b (5), ta, tb}] */
+  return rows.map(function(r){
+    return '<div class="hgrp">'
+      + tqBar(r.label, [{w: r.a || 0, cls: "m55", tip: r.ta}], max, fmt(r.a), true)
+      + tqBar("", [{w: r.b || 0, cls: "m5", tip: r.tb}], max, fmt(r.b), true) + '</div>';
+  }).join("");
+}
+function tqRender(sec, d){
+  var L = d.lanes, A = L.s55c, B = L.s5;
+  if (!A || !B){ sec.innerHTML = '<h2 class="blockh">How the readers work</h2><p class="sub">No reader data yet.</p>'; return; }
+  var G = d.groups, h = [];
+  h.push('<h2 class="blockh">How the readers work</h2>');
+  h.push('<p class="sub">Every tool call in the transcripts of ' + A.readers + ' Sonnet 5.5 readers (' + A.images
+    + ' images) and ' + B.readers + ' Sonnet 5 readers (' + B.images + ' images), classified by what it did. '
+    + 'Correlation, not causation: hard drawings pull in more of everything.</p>');
+  /* KPI pairs */
+  var kpis = [
+    ["Tool calls per image", tqN(A.calls_per_image), tqN(B.calls_per_image)],
+    ["Crops looked at per image", tqN(A.crops_img_mean), tqN(B.crops_img_mean)],
+    ["Reader time per image", tqMS(A.secs_per_image), tqMS(B.secs_per_image)],
+    ["Output tokens per image, thinking included", Math.round(A.out_tok_per_image / 1000) + "k",
+      Math.round(B.out_tok_per_image / 1000) + "k"],
+    ["List-price cost per image", "$" + tqN(A.cost_per_image, 2), "$" + tqN(B.cost_per_image, 2)],
+    ["Read every image before any tool", tqPct(A.read_all_first_pct), tqPct(B.read_all_first_pct)]];
+  h.push('<div class="tqkpi">' + kpis.map(function(k){
+    return '<div><div class="l">' + esc(k[0]) + '</div><div class="v"><i class="m55"></i><b>' + k[1]
+      + '</b>5.5</div><div class="v"><i class="m5"></i><b>' + k[2] + '</b>5</div></div>';
+  }).join("") + '</div>');
+  /* typical run */
+  h.push('<h3>What most runs do</h3><div class="tqtyp">'
+    + [[A, "m55", "Sonnet 5.5"], [B, "m5", "Sonnet 5"]].map(function(x){
+      return '<div><h4><i class="' + x[1] + '"></i>' + x[2] + ', step by step</h4><ol>'
+        + (x[0].typical || []).map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ol></div>';
+    }).join("") + '</div>');
+  /* tool-call mix */
+  var mixRows = [["s55c", "Sonnet 5.5"], ["s5", "Sonnet 5"], null, ["s55", "Sonnet 5.5"], ["s5r", "Sonnet 5 re-run"]];
+  var mmax = 0;
+  mixRows.forEach(function(r){ if (r && L[r[0]]) mmax = Math.max(mmax, L[r[0]].calls_per_image); });
+  h.push('<h3>Tool calls per image, by kind</h3><p class="cap">Bar length is calls per image; colour is what '
+    + 'the call did. Crop and draw-back include looking at the result. The lower pair ran the SAME prompt '
+    + 'on the same hand-picked images, so any gap there is the model, not the prompt.</p>'
+    + '<div class="tqleg">' + G.map(function(g){ return '<b><i class="kg-' + g.key + '"></i>' + esc(g.label) + '</b>'; }).join("") + '</div>');
+  mixRows.forEach(function(r){
+    if (!r){ h.push('<div class="hsep">Same prompt, same 28 hand-picked images</div>'); return; }
+    var s = L[r[0]]; if (!s) return;
+    h.push(tqBar(esc(r[1]) + ' <span style="font-size:10.5px">(' + s.readers + ' readers)</span>',
+      G.map(function(g){ return {w: s.mix_per_image[g.key], cls: "kg-" + g.key,
+        tip: r[1] + " · " + g.label + ": " + tqN(s.mix_per_image[g.key]) + " per image, " + tqPct(s.mix_pct[g.key]) + " of calls"}; }),
+      mmax, tqN(s.calls_per_image)));
+  });
+  /* distributions */
+  function dist(key){
+    return A[key].map(function(b, i){ var c = B[key][i];
+      return {label: esc(b.bin), a: b.pct, b: c.pct,
+              ta: "Sonnet 5.5: " + b.n + " images (" + tqPct(b.pct) + ")",
+              tb: "Sonnet 5: " + c.n + " images (" + tqPct(c.pct) + ")"}; });
+  }
+  var dc = dist("calls_hist"), dk = dist("crops_hist");
+  var dmax = Math.max.apply(null, dc.concat(dk).map(function(r){ return Math.max(r.a, r.b); }));
+  var qa = A.calls_img_q || [], qb = B.calls_img_q || [];
+  h.push('<div class="tq2"><div><h3>Tool calls per image</h3><p class="cap">Share of images. Median '
+    + qa[1] + ' for 5.5, ' + qb[1] + ' for Sonnet 5.</p>' + tqModelLegend() + tqPairs(dc, dmax, tqPct) + '</div>'
+    + '<div><h3>Crops looked at per image</h3><p class="cap">Share of images. 5.5 cropped ' + tqPct(A.img_with_crop_pct)
+    + ' of its images, Sonnet 5 ' + tqPct(B.img_with_crop_pct) + '.</p>' + tqModelLegend() + tqPairs(dk, dmax, tqPct) + '</div></div>');
+  /* share of readers per technique */
+  var tech = [["crop_viewed", "Cropped and looked"], ["rdkit", "Checked with RDKit"], ["drawback", "Drew its answer back"],
+              ["drawback_viewed", "Looked at that render"], ["pixel_compare", "Diffed render vs source in code"],
+              ["grid", "Pixel grid over the drawing"], ["install", "Installed RDKit itself"], ["osra", "Ran OSRA"]];
+  h.push('<div class="tq2"><div><h3>Share of readers using each technique</h3><p class="cap">At least once in the run. '
+    + 'Per image, 5.5 drew its answer back on ' + tqPct(A.img_drawn_pct) + ' of images, Sonnet 5 on '
+    + tqPct(B.img_drawn_pct) + '.</p>' + tqModelLegend()
+    + tqPairs(tech.map(function(t){ return {label: esc(t[1]), a: A.used_pct[t[0]], b: B.used_pct[t[0]],
+        ta: "Sonnet 5.5: " + A.used[t[0]] + " of " + A.readers + " readers",
+        tb: "Sonnet 5: " + B.used[t[0]] + " of " + B.readers + " readers"}; }), 100, tqPct) + '</div>');
+  /* effort by size */
+  var sz = A.by_size.map(function(b, i){ var c = B.by_size[i];
+    return {label: esc(b.label.replace("under 25 heavy atoms", "under 25 atoms").replace("45 or more", "45+ atoms").replace("25–44", "25–44 atoms"))
+      + '<br><span style="font-size:10.5px">exact ' + tqPct(b.exact_pct) + ' · ' + tqPct(c.exact_pct) + '</span>',
+      a: b.calls_med, b: c.calls_med,
+      ta: "Sonnet 5.5, " + b.n + " images: median " + b.calls_med + " calls, " + tqN(b.crops_mean) + " crops, " + tqPct(b.exact_pct) + " exact",
+      tb: "Sonnet 5, " + c.n + " images: median " + c.calls_med + " calls, " + tqN(c.crops_mean) + " crops, " + tqPct(c.exact_pct) + " exact"}; });
+  var smax = Math.max.apply(null, sz.map(function(r){ return Math.max(r.a || 0, r.b || 0); }));
+  h.push('<div><h3>Effort follows drawing size</h3><p class="cap">Median tool calls per image by heavy-atom count of '
+    + 'the answer. Under each size: exact rate, 5.5 · 5.</p>' + tqModelLegend()
+    + tqPairs(sz, smax, function(x){ return x == null ? "–" : String(x); }) + '</div></div>');
+  /* technique vs accuracy */
+  var P = d.paired, S5r = L.s5r, S55 = L.s55;
+  var t5 = B.vs_exact, crop = t5[0].all, drawn = t5[2].all;
+  h.push('<h3>Does technique go with accuracy?</h3>');
+  h.push('<div class="tqnote"><p><b>Sonnet 5:</b> images it cropped were exact ' + tqPct(crop.yes_pct) + ' of the time, '
+    + 'images it did not ' + tqPct(crop.no_pct) + '; drawn back ' + tqPct(drawn.yes_pct) + ' against ' + tqPct(drawn.no_pct)
+    + '. That is selection, not harm: the cropped images are bigger (median ' + crop.yes_ha + ' heavy atoms against '
+    + crop.no_ha + '), and within a size band the gap mostly shrinks to a few points. Readers reach for tools when an '
+    + 'image is hard, and nothing here shows the tools rescuing it.</p>'
+    + '<p><b>Sonnet 5.5:</b> ' + A.exact + ' of ' + A.images + ' exact (' + tqPct(A.exact_pct) + '). With '
+    + (A.images - A.exact) + ' misses there is no spread left for technique to explain.</p>'
+    + (P ? '<p class="dim">On the ' + P.n + ' images both models read, 5.5 made fewer tool calls on ' + P.s55_fewer_calls
+      + ' and more on ' + P.s55_more_calls + ' (median ' + P.s55_calls_med + ' against ' + P.s5_calls_med + '), looked at '
+      + tqN(P.s55_crops_mean) + ' crops per image against ' + tqN(P.s5_crops_mean) + ', and got ' + P.s55_exact + ' exact against '
+      + P.s5_exact + '.' : '')
+    + (S5r && S55 ? ' On the same prompt and hand-picked images, Sonnet 5 made ' + tqN(S5r.calls_per_image) + ' calls per image to 5.5’s '
+      + tqN(S55.calls_per_image) + ' and read every image first in ' + tqPct(S5r.read_all_first_pct) + ' of runs to 5.5’s '
+      + tqPct(S55.read_all_first_pct) + ', so the working style is the model’s, not the prompt’s.' : '')
+    + (P ? '</p>' : '') + '</div>');
+  h.push('<p class="cap">Sonnet 5, exact rate on images WITH the technique vs WITHOUT it, split by drawing size. '
+    + 'Small print is how many images.</p><div class="rtwrap"><table class="tqt"><thead><tr><th>Technique on that image</th>'
+    + '<th class="num">All</th>' + d.size_bins.map(function(b){ return '<th class="num">' + ({small: "&lt;25 atoms", medium: "25–44", large: "45+"}[b.key] || esc(b.label)) + '</th>'; }).join("")
+    + '</tr></thead><tbody>' + t5.map(function(t){
+      function cell(y, yn, n, nn){ return '<td class="num">' + tqPct(y) + ' vs ' + tqPct(n) + '<small>' + yn + '/' + nn + '</small></td>'; }
+      return '<tr><td>' + esc(t.label) + '</td>' + cell(t.all.yes_pct, t.all.yes_n, t.all.no_pct, t.all.no_n)
+        + t.bins.map(function(b){ return cell(b.yes_pct, b.yes_n, b.no_pct, b.no_n); }).join("") + '</tr>';
+    }).join("") + '</tbody></table></div>');
+  /* per-reader table */
+  h.push('<h3 id="tq-readers">Every reader</h3><p class="cap">Tap a reader for its step sequence. Sort by any column.</p>'
+    + '<div class="rtools" id="tqLanes"></div><div class="rtwrap"><table class="rt" id="tqTable"></table></div>'
+    + '<div id="tqMore"></div>');
+  h.push('<p class="cap" style="margin-top:14px">' + (d.method || []).map(esc).join(" ") + ' Built ' + esc(d.built) + '.</p>');
+  sec.innerHTML = h.join("");
+  tqTable();
+}
+function tqRows(){
+  var d = TQ.data;
+  var rs = d.readers.filter(function(r){
+    return TQ.lane === "all" || (TQ.lane === "55" ? r.lane.indexOf("s55") === 0 || r.lane === "nov" : r.lane.indexOf("s5") === 0 && r.lane.indexOf("s55") !== 0);
+  });
+  var key = {t0: function(r){ return r.t0 || 0; }, exact: function(r){ return r.exact / r.n; },
+    calls: function(r){ return r.calls / r.n; }, crops: function(r){ return r.crops / r.n; },
+    min: function(r){ return r.min / r.n; }, cost: function(r){ return r.cost / r.n; }}[TQ.sort];
+  return rs.slice().sort(function(a, b){ return (key(a) - key(b)) * TQ.dir; });
+}
+function tqTable(){
+  var d = TQ.data, box = $("#tqLanes"), t = $("#tqTable"), more = $("#tqMore");
+  if (!box || !t) return;
+  box.innerHTML = [["55", "Sonnet 5.5"], ["5", "Sonnet 5"], ["all", "All"]].map(function(x){
+    var n = d.readers.filter(function(r){ return x[0] === "all" || (x[0] === "55" ? r.lane.indexOf("s55") === 0 || r.lane === "nov" : r.lane.indexOf("s5") === 0 && r.lane.indexOf("s55") !== 0); }).length;
+    return '<button class="chip" data-lane="' + x[0] + '" aria-pressed="' + (TQ.lane === x[0]) + '">' + x[1] + '<i>' + n + '</i></button>';
+  }).join("");
+  var cols = [["t0", "Reader", ""], ["exact", "Exact", "num"], ["calls", "Calls/img", "num"], ["crops", "Crops/img", "num"],
+              ["min", "Min/img", "num hm"], ["cost", "$/img", "num hm"]];
+  var rows = tqRows(), shown = TQ.all ? rows : rows.slice(0, 25);
+  t.innerHTML = '<thead><tr>' + cols.map(function(c){
+      return '<th class="' + c[2] + '" data-sort="' + c[0] + '"' + (TQ.sort === c[0] ? ' aria-sort="' + (TQ.dir > 0 ? "ascending" : "descending") + '"' : '')
+        + '>' + c[1] + (TQ.sort === c[0] ? (TQ.dir > 0 ? " ▲" : " ▼") : "") + '</th>'; }).join("")
+    + '<th class="hm">Tools</th></tr></thead><tbody>' + shown.map(function(r){
+      var m55 = r.lane.indexOf("s55") === 0 || r.lane === "nov";
+      var tools = (r.used.crop_viewed ? "crop " : "") + (r.used.drawback_viewed ? "draw " : "") + (r.used.osra ? "osra" : "");
+      var row = '<tr class="r" data-aid="' + r.aid + '" aria-expanded="' + (TQ.open === r.aid) + '">'
+        + '<td><span class="mk ' + (m55 ? "m55" : "m5") + '"></span>' + r.aid.slice(0, 7)
+        + ' <span class="tl">' + esc(TQ_LANE[r.lane] || r.lane) + (r.batch != null ? " · b" + r.batch : "") + '</span></td>'
+        + '<td class="num">' + r.exact + '/' + r.n + '</td><td class="num">' + tqN(r.calls / r.n) + '</td>'
+        + '<td class="num">' + tqN(r.crops / r.n) + '</td><td class="num hm">' + tqN(r.min / r.n) + '</td>'
+        + '<td class="num hm">' + tqN(r.cost / r.n, 2) + '</td><td class="hm"><span class="tl">' + tools + '</span></td></tr>';
+      if (TQ.open === r.aid) row += '<tr class="tlrow"><td colspan="7">' + tqTimeline(r) + '</td></tr>';
+      return row;
+    }).join("") + '</tbody>';
+  more.innerHTML = rows.length > 25 ? '<button class="ghost tqmore" id="tqAll">' + (TQ.all ? "Show the first 25" : "Show all " + rows.length + " readers") + '</button>' : "";
+}
+function tqTimeline(r){
+  var v = {}; r.img.forEach(function(x){ if (x[0]) v[x[0]] = x[1]; });
+  var groups = [], cur = null;
+  for (var i = 0; i < r.seq.length; i++){
+    var im = r.si[i];
+    if (!cur || cur.im !== im){ cur = {im: im, cells: []}; groups.push(cur); }
+    var c = r.seq[i], g = TQ_G[c] || "other";
+    cur.cells.push('<i class="kg-' + g + (c === "c" || c === "d" ? " v" : "") + '" style="--c:var(--k-' + g + ')" data-tip="'
+      + esc("Step " + (i + 1) + " · " + TQ_K[c] + (im > 0 ? " · image " + im : im < 0 ? " · several images" : "")
+      + " · " + tqMS(r.st[i]) + " in") + '"></i>');
+  }
+  var m55 = r.lane.indexOf("s55") === 0 || r.lane === "nov";
+  return '<div class="tlh"><b>' + r.aid + '</b> · Sonnet ' + esc(TQ_LANE[r.lane] || r.lane) + (r.batch != null ? ' · batch ' + r.batch : '')
+    + ' · ' + r.calls + ' calls in ' + r.min + ' min · $' + tqN(r.cost, 2) + ' · ' + r.exact + '/' + r.n + ' exact. '
+    + 'Left to right; each block is a run of steps on one image (#n, green if read exactly), '
+    + '“all” is a step over several images. Hollow = looking at a crop or render.</div>'
+    + '<div class="tqleg">' + TQ.data.groups.map(function(g){ return '<b><i class="kg-' + g.key + '"></i>' + esc(g.label) + '</b>'; }).join("")
+    + '<b><i class="hollow"></i>looked at the result</b></div>'
+    + '<div class="tline">' + groups.map(function(g){
+      var lab = g.im > 0 ? "#" + g.im + (v[g.im] ? (v[g.im] === "exact" ? " ✓" : " ✗") : "") : g.im < 0 ? "all" : "–";
+      var cls = g.im > 0 && v[g.im] ? (v[g.im] === "exact" ? " ok" : " no") : "";
+      return '<div class="tg"><span class="gl' + cls + '">' + lab + '</span><div class="cells">' + g.cells.join("") + '</div></div>';
+    }).join("") + '</div>';
+}
+function tqWire(sec){
+  sec.addEventListener("click", function(e){
+    var b = e.target.closest("[data-lane]");
+    if (b){ TQ.lane = b.dataset.lane; TQ.all = false; TQ.open = null; tqTable(); return; }
+    var th = e.target.closest("th[data-sort]");
+    if (th){ var k = th.dataset.sort; TQ.dir = TQ.sort === k ? -TQ.dir : (k === "t0" ? 1 : -1); TQ.sort = k; tqTable(); return; }
+    if (e.target.closest("#tqAll")){ TQ.all = !TQ.all; tqTable(); return; }
+    var tr = e.target.closest("tr.r");
+    if (tr){ TQ.open = TQ.open === tr.dataset.aid ? null : tr.dataset.aid; tqTable(); }
+  });
+  var tip = $(".tqtip");
+  if (!tip){ tip = el("div", "tqtip"); document.body.appendChild(tip); }
+  function show(e){
+    var t = e.target.closest && e.target.closest("[data-tip]");
+    if (!t || !sec.contains(t)){ tip.style.display = "none"; return; }
+    tip.textContent = t.getAttribute("data-tip"); tip.style.display = "block";
+    var x = Math.min(e.clientX + 12, window.innerWidth - tip.offsetWidth - 8);
+    var y = e.clientY + 16; if (y + tip.offsetHeight > window.innerHeight - 8) y = e.clientY - tip.offsetHeight - 12;
+    tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+  }
+  sec.addEventListener("mousemove", show);
+  sec.addEventListener("mouseleave", function(){ tip.style.display = "none"; });
+  sec.addEventListener("touchstart", function(e){ if (e.touches[0]) show({target: e.target, clientX: e.touches[0].clientX, clientY: e.touches[0].clientY}); }, {passive: true});
+  if (!TQ.wired){ TQ.wired = true;
+    window.addEventListener("scroll", function(){ var t = $(".tqtip"); if (t) t.style.display = "none"; }, {passive: true}); }
+}
+function tqSection(v){
+  var sec = el("section", "tq"); sec.id = "sec-technique";
+  sec.innerHTML = '<h2 class="blockh">How the readers work</h2><p class="sub">Loading…</p>';
+  v.appendChild(sec);
+  tqWire(sec);
+  tqFetch().then(function(d){
+    if (!sec.isConnected) return;
+    tqRender(sec, d);
+  }).catch(function(e){ sec.innerHTML = '<h2 class="blockh">How the readers work</h2><p class="sub">Could not load the technique data (' + esc(e.message) + ').</p>'; });
+}
+
 function render(){
   var v = $("#view");
   v.innerHTML = "";
@@ -777,6 +1116,19 @@ function render(){
       + '<div class="sub">' + esc(DATA.headline) + '</div>';
   }
   v.appendChild(hero);
+  /* The Sonnet 5.5 tab has two views: the structures wall, and how the readers worked. A
+     separate view, not a section under the wall: the wall grows as you scroll, so anything
+     below it keeps moving away. */
+  if (TAB === "sonnet55" && !DATA.error){
+    var vt = el("div", "vtog");
+    vt.innerHTML = '<button data-v="wall" aria-pressed="' + !TQVIEW + '">Structures</button>'
+      + '<button data-v="tech" aria-pressed="' + TQVIEW + '">How the readers work</button>';
+    vt.onclick = function(e){ var b = e.target.closest("button[data-v]"); if (!b) return;
+      TQVIEW = b.dataset.v === "tech"; history.replaceState(null, "", "?tab=sonnet55" + (TQVIEW ? "&view=technique" : ""));
+      render(); window.scrollTo(0, 0); };
+    v.appendChild(vt);
+    if (TQVIEW){ tqSection(v); var tf = el("footer"); tf.innerHTML = esc(DATA.footer || ""); v.appendChild(tf); return; }
+  }
   /* Jump bar: reach the lower sections without scrolling the whole wall. Sticky, so it
      works from anywhere on the page. Only lists anchors that exist for this tab. */
   var jumps = [];
@@ -904,7 +1256,7 @@ function load(tab){
   fetchTab(tab).then(function(d){
     if (TAB !== tab) return;          // the user moved to another tab while this downloaded
     DATA = d; DATA.threshold = d.threshold || 84; render();
-    history.replaceState(null, "", "?tab=" + tab);
+    history.replaceState(null, "", "?tab=" + tab + (tab === "sonnet55" && TQVIEW ? "&view=technique" : ""));
   }).catch(function(e){
     if (TAB !== tab) return;
     DATA = {error: "This tab has no results yet — " + e.message, rows: [], stats: {}};
