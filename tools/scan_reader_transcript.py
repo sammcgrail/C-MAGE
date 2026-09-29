@@ -79,6 +79,7 @@ SCRATCH_PATH = re.compile(r"^/tmp/blind\w*")
 # d, 19 Sep, a 3D-embedding check). Exempt only the ids this reader itself started.
 TASK_OUT = re.compile(r"/tmp/claude-\d[\w./\-]*/tasks/(\w+)\.output")
 BG_TASK_ID = re.compile(r"<task-id>(\w+)</task-id>")
+BG_LAUNCH_ID = re.compile(r"^Command running in background with ID: (\w+)\.")
 REDIRECTS = ('/dev/null', '/dev/stdout', '/dev/stderr')
 VETTED = {"Bash", "Read", "Write", "Edit", "MultiEdit", "Glob", "Grep", "ToolSearch", "TodoWrite"}
 # URL and query words that name an API, never a compound.
@@ -102,6 +103,30 @@ def own_bg_ids(path) -> set[str]:
     reader spawned is still caught, by the unvetted-tool rule.
     """
     ids: set[str] = set()
+    # Also the id in the tool_result of a Bash call made WITH run_in_background: true. That result
+    # is written by the harness alone (the job's stdout goes to the .output file, never into the
+    # result), so it names the reader's own job even while the job is still running, before any
+    # notification exists. Batch 17 (29 Sep) was refused for `cat`-ing exactly such a file, its
+    # own `until ...; done` waiter, which had not finished yet. A plain Bash call's result is the
+    # reader's stdout and could echo the same sentence, so only background calls count.
+    bg_calls: set[str] = set()
+    for line in Path(path).read_text(errors="replace").split("\n"):
+        if "run_in_background" not in line and "Command running in background" not in line:
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        for b in (rec.get("message") or {}).get("content") or []:
+            if not isinstance(b, dict):
+                continue
+            if (b.get("type") == "tool_use" and b.get("name") == "Bash"
+                    and (b.get("input") or {}).get("run_in_background") is True):
+                bg_calls.add(b.get("id"))
+            elif b.get("type") == "tool_result" and b.get("tool_use_id") in bg_calls:
+                c = b.get("content")
+                c = c if isinstance(c, str) else "".join(x.get("text", "") for x in c or [] if isinstance(x, dict))
+                ids.update(BG_LAUNCH_ID.findall(c.strip()))
     # str, not Path: audit_sonnet_rows passes plain strings, and taking Path on faith here
     # broke it with an AttributeError that the selftest could not see, because the selftest
     # builds its own Path. The str case is asserted below.
@@ -395,6 +420,31 @@ def selftest() -> int:
         if slot:
             check(any(l.startswith(slot + " ") for f in hit for l in f["informs"]),
                   f"planted {kind:<14} via {tool} mapped to {slot} {[f['informs'] for f in hit]}")
+    # Its own STILL-RUNNING background job, known only from the harness's launch result (batch 17,
+    # 29 Sep). Exempt when the launch had run_in_background; NOT when a plain call's stdout echoes
+    # the same sentence to mint an id for a sibling's output file.
+    def rec_use(uid, inp):
+        return {"type": "assistant", "message": {"content": [
+            {"type": "tool_use", "id": uid, "name": "Bash", "input": inp}]}}
+
+    def rec_res(uid, text):
+        return {"type": "user", "message": {"content": [
+            {"type": "tool_result", "tool_use_id": uid, "content": text}]}}
+    launch = "Command running in background with ID: b2ypaqnbc. Output is being written to: x"
+    cat_own = {"command": "cat /tmp/claude-0/-tmp-reader-launch-X/s/tasks/b2ypaqnbc.output"}
+    p = tmp / "bg_running.jsonl"
+    p.write_text("\n".join(json.dumps(r) for r in [prompt,
+        rec_use("t1", {"command": "until false; do sleep 5; done", "run_in_background": True}),
+        rec_res("t1", launch), rec_use("t2", cat_own)]) + "\n")
+    got, _ = scan_file(p, rows)
+    check(not got, f"own still-running background job read back: not flagged {[f['target'][:60] for f in got]}")
+    p = tmp / "bg_forged.jsonl"
+    p.write_text("\n".join(json.dumps(r) for r in [prompt,
+        rec_use("t1", {"command": "echo 'Command running in background with ID: b2ypaqnbc. x'"}),
+        rec_res("t1", launch), rec_use("t2", cat_own)]) + "\n")
+    got, _ = scan_file(p, rows)
+    check(any(f["kind"] == "answer-path" for f in got),
+          "teeth: the same id echoed by a plain (foreground) call buys no exemption")
     print("SELFTEST", "PASS" if ok else "FAIL")
     return 0 if ok else 1
 
