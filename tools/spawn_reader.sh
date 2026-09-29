@@ -31,6 +31,7 @@ case "$MODEL" in
 esac
 [ -s "$PROMPT" ] || { echo "no prompt file at '$PROMPT'" >&2; exit 2; }
 PY=/root/C-MAGE/.venv-ms/bin/python
+HERE=$(cd "$(dirname "$0")" && pwd)
 CLAUDE=/root/.local/bin/claude
 
 WD=$(mktemp -d /tmp/reader-launch.XXXXXX) || exit 3
@@ -53,11 +54,25 @@ You are a launcher. Do exactly this and nothing else:
 Do not open any image, do not read any other file, do not run any other command, and do not attempt the task in the file yourself.
 EOF
 
+# THE LOCKDOWN (29 Sep). Three Sonnet 5.5 readers ran `ls /root/C-MAGE` hunting for other OCSR
+# tools and got the repo listing; the gate refused them, but a prompt rule is only a request. So the
+# launcher and its reader run inside tools/reader_sandbox.sh: a bubblewrap mount namespace where
+# /root/C-MAGE holds nothing but .venv-ms (read-only, same path), the rest of /root, other sessions'
+# transcripts and the host /tmp are masked, and the reader sees a private /tmp holding only the
+# launch dir and its blind images. The toolset is unchanged: the same Read/Write/Edit/Bash/Glob/Grep,
+# the same interpreter with RDKit, the same system binaries (osra). On top, permission deny rules
+# (reader_settings.json) refuse Read/Glob/Grep on the answer paths and the obvious Bash listings,
+# so a reader that tries is told "denied" at once instead of seeing an empty directory.
+# Selftest: tools/test_reader_sandbox.sh.
+PRIV=$(mktemp -d /tmp/reader-tmp.XXXXXX) || exit 3
+cp "$HERE/reader_settings.json" "$WD/reader_settings.json" || exit 3
 ( cd "$WD" && env -u CLAUDE_CODE_SUBAGENT_MODEL -u CLAUDE_CODE_EFFORT_LEVEL \
     ANTHROPIC_DEFAULT_SONNET_MODEL="$MODEL" \
+    "$HERE/reader_sandbox.sh" "$WD" "$PRIV" "$WD/reader_prompt.txt" -- \
     "$CLAUDE" -p "$(cat "$WD/launch.txt")" --model "$MODEL" --effort low \
+      --settings "$WD/reader_settings.json" \
       --allowedTools "Read,Write,Edit,Bash,Glob,Grep,Agent,Task" \
-      --output-format stream-json --verbose > "$WD/out.jsonl" 2> "$WD/err.txt" ) \
+      --output-format stream-json --verbose < /dev/null > "$WD/out.jsonl" 2> "$WD/err.txt" ) \
   || { echo "launcher exited non-zero; see $WD/err.txt" >&2; exit 3; }
 
 "$PY" - "$WD" "$MODEL" "$PROMPT" <<'PYEOF'
