@@ -53,7 +53,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
 /* #1f6feb, not the accent #388bfd: white 14px text on the accent is 3.3:1 and fails AA;
    on #1f6feb it is 4.6:1. */
 .seg button[aria-selected=true]{background:#1f6feb;color:#fff;font-weight:600}
-/* The Sonnet 5.5 page is its own URL, so its tab is a link styled as a tab. */
+/* The Sonnet compare page is its own URL, so its tab is a link styled as a tab. */
 .seg a.segl{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:38px;
   display:flex;align-items:center;white-space:nowrap;text-decoration:none}
 .seg a.segl:hover{color:var(--ink)}
@@ -69,6 +69,7 @@ main{max-width:1400px;margin:0 auto;
    with the other score in prose beneath reads as a headline plus a footnote; the
    point of this tab is that the two numbers are directly comparable. */
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.cmp.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .cmp .side{background:var(--panel);border:1px solid var(--line);padding:13px 14px;min-width:0}
 .cmp .who{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.6px;
   margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -86,6 +87,8 @@ main{max-width:1400px;margin:0 auto;
 .stack i{display:block;height:100%;position:relative;min-width:2px}
 .stack i span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:700;color:#06090d}
+/* Dark ink on the red segment is 4.33:1; white is 4.6:1. */
+.stack i.o-neither span,.stack i.o-misread span{color:#fff}
 /* Five states, three populations. Green and amber are CHECKED AND RIGHT, red is
    CHECKED AND WRONG, slate is NOT CHECKABLE, dark is NOTHING CAME OUT. The slate
    is deliberately not a warning colour: those structures are neither right nor
@@ -181,7 +184,8 @@ main{max-width:1400px;margin:0 auto;
 .chip{white-space:nowrap;background:var(--panel);border:1px solid var(--line);color:var(--dim);
   font:inherit;font-size:13px;padding:7px 12px;border-radius:20px;cursor:pointer;min-height:36px}
 .chip[aria-pressed=true]{border-color:var(--acc);color:var(--ink);background:#12233c}
-.chip i{font-style:normal;opacity:.65;margin-left:5px}
+/* The count is dimmed by COLOUR, not opacity: opacity .65 over the chip put it at 3.25:1. */
+.chip i{font-style:normal;color:var(--dim);margin-left:5px}
 .chipdiv{flex:0 0 1px;align-self:stretch;background:var(--line);margin:0 4px}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
 input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(--line);
@@ -291,15 +295,25 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .err{background:#4a1513;color:#f87171;padding:12px 14px;border-radius:8px;margin:16px 0}
 @media(max-width:560px){
   .big{font-size:40px} .hrow{gap:8px;padding:9px 12px} .brand span{display:none}
-  .seg{margin-left:0;flex:1 1 auto;justify-content:center;overflow-x:auto;
-    scrollbar-width:none}
+  /* Five tabs at their full names (Sam, 28-29 Sep) plus the upload button are ~480px and a
+     phone row is 390, so the tab strip SCROLLS sideways and shows the active tab on load.
+     justify-content:flex-start, not center: a centred overflowing flex row pushes its first
+     item off the left edge, where no scroll can reach it. The right edge fades to say there
+     is more. The wordmark gives way first, as it already did; the tabs are the navigation. */
+  .seg{margin-left:0;flex:1 1 auto;justify-content:flex-start;overflow-x:auto;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);
+            mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent)}
+  .seg.at-end{-webkit-mask-image:none;mask-image:none}
   .seg::-webkit-scrollbar{display:none}
-  .seg button,.seg a.segl{padding:7px 8px;font-size:12.5px}
-  /* Four tabs ("Sonnet 5" and "Sonnet 5.5" kept whole, Sam 28 Sep) plus the upload button
-     fill a 390px row; the wordmark is what gives way, as it already did below 360px. The
-     tabs are the navigation, the wordmark is decoration. */
+  .seg button,.seg a.segl{padding:7px 9px;font-size:12.5px;flex:0 0 auto}
   .brand{display:none}
   #try{padding:8px 9px;font-size:12px;flex:0 0 auto}
+  /* Three headline boxes at 390px: ~112px each, so the number and padding come down. */
+  .cmp.three{gap:6px}
+  .cmp.three .side{padding:11px 9px}
+  .cmp.three .pc{font-size:27px}
+  .cmp.three .who{font-size:11px;letter-spacing:.3px}
 }
 /* Below ~360px three tabs plus a brand plus a button genuinely do not fit on one
    line at a legible size. Drop the wordmark rather than shrink the type further
@@ -324,7 +338,8 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
       <button role="tab" id="tab-images" aria-selected="true">Images</button>
       <button role="tab" id="tab-pdfs" aria-selected="false">PDFs</button>
       <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet 5</button>
-      <a class="segl" href="/sonnet-5-5">Sonnet 5.5</a>
+      <button role="tab" id="tab-sonnet55" aria-selected="false">Sonnet 5.5</button>
+      <a class="segl" href="/sonnet-compare">Sonnet compare</a>
     </div>
     <button class="ghost" id="try">Try a file</button>
   </div>
@@ -503,7 +518,8 @@ function openSheet(r){
      WHOSE, and on a tab that shows two readers side by side that is the one thing
      the labels have to carry. */
   var twoReaders = !!r.ocr;
-  var meLabel = twoReaders ? "Sonnet" : "CXMolScribe";
+  var meLabel = twoReaders ? (DATA.reader || "Sonnet") : "CXMolScribe";
+  var s5State = r.s5 ? ({exact:"matched", stereo:"stereo", invalid:"unreadable"}[r.s5.v] || "misread") : null;
   var ocrState = r.ocrv === "exact" ? "matched" : r.ocrv === "stereo" ? "stereo"
                : r.ocrv === "invalid" ? "unreadable" : "misread";
   function badge(who, state){
@@ -515,6 +531,7 @@ function openSheet(r){
     + '<h3>' + esc(r.n) + '</h3>'
     + '<div class="meta">' + badge(meLabel, v)
     + (twoReaders ? " " + badge("CXMolScribe", ocrState) : "")
+    + (s5State ? " " + badge("Sonnet 5", s5State) : "")
     + (r.d ? '<div style="margin-top:6px">' + esc(r.d)
         + (r.dup > 1 ? ' &middot; drawn ' + r.dup + ' times in this document' : '') + '</div>' : '')
     + '</div>';
@@ -544,10 +561,13 @@ function openSheet(r){
     + smilesField(meLabel + " read", r.s || "(nothing emitted)",
                   twoReaders ? sconf : conf)
     + (r.ocr ? smilesField("CXMolScribe read", r.ocr, conf) : "")
+    /* The 5.5 tab pairs every image with the Sonnet 5 arm's reading of the same drawing. */
+    + (r.s5 ? smilesField("Sonnet 5 read (Sonnet 5 tab)", r.s5.s || "(nothing emitted)",
+        r.s5.conf != null && r.s5.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.s5.conf) + '</span>' : '') : "")
     + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
-    + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">Sonnet API, at list price</span></label>'
+    + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">' + esc(DATA.reader || "Sonnet") + ' API, at list price</span></label>'
         + '<code>$' + r.rc.toFixed(2) + ' / image · ~' + fmtdur(r.rt) + ' / image'
         + '<br><span class="dim">a batch of ' + r.bn + ' read in one shared context: $'
         + r.bc.toFixed(2) + ' · ' + fmtdur(r.bs) + '</span></code></div>' : '')
@@ -586,7 +606,10 @@ function chipbar(rows){
   var c = counts(rows), bar = el("div", "bar");
   /* Chips are built from the SAME breakdown that draws the stacked bar, so the
      two can never name different buckets or different totals. */
-  var set = (DATA.compare && DATA.compare.breakdown) ? OUTCOMES
+  /* Labels come from the payload's own breakdown, so the 5.5 tab says "Sonnet 5.5 only"
+     where the Sonnet 5 tab says "Sonnet only". OUTCOMES is the fallback for an old payload. */
+  var set = (DATA.compare && DATA.compare.breakdown) ? [["all","All"]].concat(
+      DATA.compare.breakdown.map(function(x){ return [x.key, x.label]; }))
     : (DATA.breakdown ? [["all","All"]].concat(DATA.breakdown.map(function(x){
         return [x.key, x.label]; })) : VERDICTS);
   set.forEach(function(p){
@@ -716,11 +739,14 @@ function render(){
   if (c) {
     var best = Math.max.apply(null, c.sides.map(function(x){ return x.pct; }));
     hero.innerHTML =
-      '<div class="cmp">' + c.sides.map(function(x){
+      '<div class="cmp' + (c.sides.length === 3 ? ' three' : '') + '">' + c.sides.map(function(x){
         return '<div class="side' + (x.pct === best ? ' lead' : '') + '">'
           + '<div class="who">' + esc(x.label) + '</div>'
           + '<div class="pc">' + x.pct + '%</div>'
-          + '<div class="of">' + x.exact + ' of ' + c.n + ' exactly right</div>'
+          /* A side carries its own n when it can differ (Sonnet 5 on the 5.5 tab covers
+             only the images the Sonnet 5 arm has also read). */
+          + '<div class="of">' + x.exact + ' of ' + (x.n != null ? x.n : c.n)
+          + (c.sides.length === 3 ? '' : ' exactly right') + (x.note ? ', ' + esc(x.note) : '') + '</div>'
           + '<div class="track"><i style="width:' + x.pct + '%"></i></div></div>';
       }).join("") + '</div>'
       + stackOf(c.breakdown, c.n)
@@ -729,10 +755,12 @@ function render(){
       + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'
       + (c.cost ? '<div class="sub">' + esc(c.cost.note) + '</div>' : '')
       + '<div class="sub">' + esc(DATA.headline) + '</div>'
-      /* The Sonnet tab is the Sonnet 5 arm. Its newer sibling has its own page, which
-         re-reads images this arm missed; say which model this is where the link lives. */
-      + (TAB === "sonnet" ? '<a class="xlink" href="/sonnet-5-5">Every reading on this tab is Sonnet 5.'
-         + ' <b>Sonnet 5.5 on the images Sonnet 5 missed →</b></a>' : '');
+      /* Say which model a tab is, where the link to the comparison lives. The 5.5 payload
+         carries its own; the Sonnet 5 payload predates the field. */
+      + (DATA.xlink ? '<a class="xlink" href="' + esc(DATA.xlink.href) + '">' + esc(DATA.xlink.text)
+           + ' <b>' + esc(DATA.xlink.bold) + '</b></a>'
+         : TAB === "sonnet" ? '<a class="xlink" href="/sonnet-compare">Every reading on this tab is Sonnet 5.'
+           + ' <b>Sonnet 5 vs 5.5 compared →</b></a>' : '');
   } else {
     /* Same visual language as the Sonnet tab: one headline number, a stacked bar
        of where every structure landed, then one labelled bar per secondary
@@ -807,9 +835,9 @@ function render(){
   if (DATA.classes && DATA.classes.length){
     var cs = el("section", "block"); cs.id = "sec-classes";
     cs.innerHTML = '<h2 class="blockh">By structure type</h2>'
-      + '<div class="takeaway">Short version: the language model reads small, odd and inorganic '
+      + (TAB === "sonnet" ? '<div class="takeaway">Short version: the language model reads small, odd and inorganic '
       + 'drawings better; the specialised OCR model reads large, ring-heavy and peptide drawings '
-      + 'better.</div>'
+      + 'better.</div>' : '')
       + '<p class="sub">Every reference bucketed by shape and size with RDKit — not by its name — and '
       + 'how often each reader got the whole string right. A structure can sit in several buckets.</p>';
     var wrap = el("div", "clswrap");
@@ -869,8 +897,9 @@ function fetchTab(tab){
 
 function load(tab){
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
-  ["pdfs","images","sonnet"].forEach(function(t){
+  ["pdfs","images","sonnet","sonnet55"].forEach(function(t){
     $("#tab-" + t).setAttribute("aria-selected", tab === t); });
+  showTab($("#tab-" + tab));
   if (!READY[tab]) $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
   fetchTab(tab).then(function(d){
     if (TAB !== tab) return;          // the user moved to another tab while this downloaded
@@ -885,6 +914,20 @@ function load(tab){
 
 $("#tab-pdfs").onclick = function(){ load("pdfs"); };
 $("#tab-sonnet").onclick = function(){ load("sonnet"); };
+$("#tab-sonnet55").onclick = function(){ load("sonnet55"); };
+/* On a phone the tab strip scrolls; keep the active tab in view and drop the edge fade
+   once the strip is scrolled to its end. */
+function showTab(b){
+  var seg = b && b.parentNode; if (!seg || seg.scrollWidth <= seg.clientWidth) return;
+  var l = b.offsetLeft - seg.offsetLeft, r = l + b.offsetWidth;
+  if (l < seg.scrollLeft || r > seg.scrollLeft + seg.clientWidth)
+    seg.scrollLeft = Math.max(0, r - seg.clientWidth + 24);
+  segEnd();
+}
+function segEnd(){ var seg = $(".seg");
+  seg.classList.toggle("at-end", seg.scrollLeft + seg.clientWidth >= seg.scrollWidth - 2); }
+$(".seg").addEventListener("scroll", segEnd, {passive: true});
+window.addEventListener("resize", segEnd);
 $("#tab-images").onclick = function(){ load("images"); };
 $("#try").onclick = function(){ location.href = "/upload"; };
 $("#sheet").onclick = function(e){ if (e.target.id === "sheet") $("#sheet").close(); };
@@ -900,9 +943,9 @@ document.addEventListener("selectstart", function(e){
    depiction per image, no figure extraction to go wrong) and the bigger corpus.
    ?tab=pdfs still deep-links to the document run. */
 (function(){ var t = new URLSearchParams(location.search).get("tab");
-  var first = t === "pdfs" || t === "sonnet" ? t : "images";
+  var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" ? t : "images";
   load(first);
-  var warm = function(){ ["images","pdfs","sonnet"].forEach(function(x){
+  var warm = function(){ ["images","pdfs","sonnet","sonnet55"].forEach(function(x){
     if (x !== first) fetchTab(x).catch(function(){}); }); };
   fetchTab(first).then(warm, warm); })();
 </script>

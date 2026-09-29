@@ -60,7 +60,13 @@ if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
 # and "sonnet-5" both match claude-sonnet-5-5, which is how a 5.5 reading would land in the
 # Sonnet 5 arm once the "sonnet" alias moved (28 Sep). Readers are spawned on this id by
 # tools/spawn_reader.sh, never by alias.
-ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5"}
+# s55c (29 Sep) is Sonnet 5.5 over the WHOLE corpus in corpus order, the same order the Sonnet 5
+# arm read it, so the two arms pair image for image. It is its own lane, not s55, because s55 holds
+# the 28 hand-picked images (chosen on Sonnet 5's failures) and `next` skips anything already in a
+# lane's results: sharing one would quietly drop those 28 from the corpus arm and mix a selected
+# sample into an unselected one. A usage-block cadence (site-specific, kept outside the fork) runs one
+# batch of ten per Claude usage block; tools/build_sonnet55c.py builds its tab.
+ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5", "s55c": "claude-sonnet-5-5"}
 if ARM and ARM not in ARM_MODEL:
     raise SystemExit(f"unknown SONNET_ARM {ARM!r}; known lanes: {sorted(ARM_MODEL)}")
 STEM = "fig" if ARM else "img"

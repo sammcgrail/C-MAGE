@@ -1,0 +1,45 @@
+{
+ "batches": {
+  "3": "Corpus order from the start: the first 10 corpus keys (15-crown-5 to the pyrazolopyrimidine riboside). Run by hand to start the cadence; every later batch is the usage-block cadence."
+ },
+ "runs": {
+  "a7b530770b5c5f896": {
+   "agent": "a7b530770b5c5f896",
+   "agent_type": "general-purpose-max",
+   "batch": 3,
+   "cli": "2.1.284",
+   "cost_usd": 1.9762,
+   "duration_s": 603,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-09-29T00:55:11Z",
+   "images": 10,
+   "keys": [
+    "15_crown_5_cid36336",
+    "18_crown_6_cid28557",
+    "1_10_phenanthroline_cid1318",
+    "1_1_1_1_methanetetrayltetrakis_benzene_cid12424",
+    "1_1_1_3_3_3_hexafluoro_2_5_fluoro_2_1_2_fluorophenyl_methyl__cid86269973",
+    "1_2_2_difluoro_1_3_benzodioxol_5_yl_n_1_2r_2_3_dihydroxyprop_cid46199646",
+    "1_3_dimethyl_2_6_dioxo_1_2_3_6_tetrahydro_7h_purin_7_yl_acet_cid176595",
+    "1_4_7_10_tetraoxacyclododecane_cid9269",
+    "1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647",
+    "1_5_dihydro_1_beta_d_ribofuranosyl_4h_pyrazolo_3_4_d_pyrimid_cid135407110"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_a/fig01.png\n/tmp/blinds55c_a/fig02.png\n/tmp/blinds55c_a/fig03.png\n/tmp/blinds55c_a/fig04.png\n/tmp/blinds55c_a/fig05.png\n/tmp/blinds55c_a/fig06.png\n/tmp/blinds55c_a/fig07.png\n/tmp/blinds55c_a/fig08.png\n/tmp/blinds55c_a/fig09.png\n/tmp/blinds55c_a/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_a.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 46,
+   "started": "2026-09-29T00:45:08Z",
+   "tokens": {
+    "cache_read": 4312332,
+    "cache_write_1h": 0,
+    "cache_write_5m": 152841,
+    "input": 92,
+    "output": 73149
+   }
+  }
+ }
+}

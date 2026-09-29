@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Build the Sonnet 5.5 page: each image the s55 lane has read, beside the Sonnet 5 arm's
-reading of the SAME image, scored by the same rule.
+"""Build the Sonnet compare page (/sonnet-compare, was /sonnet-5-5): each image the s55 lane has
+read, beside the Sonnet 5 arm's reading of the SAME image, scored by the same rule -- plus, kept
+apart, the corpus pairing: every image the s55c lane (Sonnet 5.5 over the whole corpus, in the
+Sonnet 5 arm's order, see build_sonnet55c.py) has read, against Sonnet 5's reading of it.
 
     build_sonnet55.py record-run <agent-id> <batch>     add a lane reader's run to the ledger
     build_sonnet55.py record-side <label> <agent-id> <pending.json> <answers.json> <batch>
@@ -8,7 +10,7 @@ reading of the SAME image, scored by the same rule.
                                                         beside the two arms, scored the same way
     build_sonnet55.py batch-note <batch> <text>         say how a batch's images were picked (shown
                                                         on the page)
-    build_sonnet55.py                                   rebuild wall/sonnet55.json + tiles
+    build_sonnet55.py                                   rebuild wall/sonnet_compare.json + tiles
 
 BATCHES. Every run and side reading carries the batch it belongs to (an integer, required on
 record: a default would silently mislabel the next batch). Side readings with the same LABEL
@@ -57,7 +59,9 @@ build_wall.TILE = 480
 LANE_RESULTS = Path("/root/cmage-work/sonnet-s55/results.jsonl")
 S5_RESULTS = Path("/root/cmage-work/sonnet/results.jsonl")
 LEDGER = HERE.parent / "benchmarks" / "sonnet55_runs.json"
-OUT = WALL / "sonnet55.json"
+OUT = WALL / "sonnet_compare.json"   # wall/sonnet55.json is the Sonnet 5.5 corpus TAB now
+CORPUS_RESULTS = Path("/root/cmage-work/sonnet-s55c/results.jsonl")
+CORPUS_LEDGER = HERE.parent / "benchmarks" / "sonnet55c_runs.json"
 LANE_MODEL = "claude-sonnet-5-5"
 S5_MODEL = "claude-sonnet-5"
 
@@ -300,6 +304,39 @@ def calibration(reads: list[dict]) -> dict:
             "brier": brier, "bins": bins}
 
 
+def corpus_pairs(s5: dict[str, dict]) -> dict | None:
+    """The unselected comparison, picked up automatically as the s55c lane grows: Sonnet 5.5 and
+    Sonnet 5 on every corpus image both have read. Kept apart from the hand-picked rows above it
+    on the page, because those were chosen on Sonnet 5's failures and these were not chosen."""
+    lane = load_jsonl(CORPUS_RESULTS)
+    if not lane:
+        return None
+    runs = (json.load(open(CORPUS_LEDGER)) if CORPUS_LEDGER.exists() else {}).get("runs", {})
+    batch_of = {k: r["batch"] for r in runs.values() for k in r["keys"]}
+    xs = [r for r in lane if r["k"] in s5]
+    ok55 = lambda r: r["sonnet_verdict"] == "exact"
+    ok5 = lambda r: s5[r["k"]]["sonnet_verdict"] == "exact"
+    okc = lambda r: r["ocr_verdict"] == "exact"
+
+    def tally(ys):
+        b = sum(1 for r in ys if ok55(r) and not ok5(r))
+        c = sum(1 for r in ys if ok5(r) and not ok55(r))
+        return {"n": len(ys), "s55": sum(map(ok55, ys)), "s5": sum(map(ok5, ys)), "cx": sum(map(okc, ys)),
+                "ahead": b, "behind": c, "both": sum(1 for r in ys if ok55(r) and ok5(r)),
+                "p": float(f"{mcnemar_exact(b, c):.3g}")}
+    batches = sorted({batch_of.get(r["k"]) for r in xs if batch_of.get(r["k"]) is not None})
+    cost = sum(r["cost_usd"] for r in runs.values())
+    imgs = sum(r["images"] for r in runs.values())
+    out = {**tally(xs), "unpaired": len(lane) - len(xs),
+           "first": xs[0]["name"] if xs else None, "last": xs[-1]["name"] if xs else None,
+           "batches": [dict(batch=b, **tally([r for r in xs if batch_of.get(r["k"]) == b])) for b in batches],
+           "cost_per_image": round(cost / imgs, 2) if imgs else None,
+           "diff": [{"k": r["k"], "n": r["name"], "s55": r["sonnet_verdict"],
+                     "s5": s5[r["k"]]["sonnet_verdict"], "batch": batch_of.get(r["k"])}
+                    for r in xs if ok55(r) != ok5(r)]}
+    return out
+
+
 def build() -> int:
     import graded
     d = ledger()
@@ -473,6 +510,7 @@ def build() -> int:
     out = {
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "summary": summary, "stats": stats, "rows": rows, "side": side,
+        "corpus": corpus_pairs(s5),
         "batches": {b: d["batches"].get(str(b), "") for b in batches},
         "runs": [{k2: v for k2, v in r.items() if k2 not in ("keys",)} for r in runs],
         "s5runs": [{k2: s5r.get(k2) for k2 in ("models", "effort", "cli", "agent_type", "images",

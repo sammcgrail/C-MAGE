@@ -36,7 +36,7 @@ import time
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from . import benchmark, config, jobs, results, uploads
@@ -378,13 +378,22 @@ def benchmark_image(run_id: str, kind: str, name: str) -> FileResponse:
     return _image_response(path)
 
 
-@app.get("/sonnet-5-5", include_in_schema=False)
-def sonnet55_page() -> FileResponse:
-    """Sonnet 5.5 re-reading images the Sonnet 5 arm missed. The page is static; its data is
-    wall/sonnet55.json, built by tools/build_sonnet55.py into the read-only /wall mount, so a new
-    run goes live with a rebuild of the JSON and no container rebuild."""
-    return FileResponse(config.STATIC_DIR / "sonnet55.html", media_type="text/html",
+@app.get("/sonnet-compare", include_in_schema=False)
+def sonnet_compare_page() -> FileResponse:
+    """Sonnet 5 vs Sonnet 5.5: the hand-picked head-to-head, and the corpus pairing kept apart from
+    it. The page is static; its data is wall/sonnet_compare.json, built by tools/build_sonnet55.py
+    into the read-only /wall mount, so a new run goes live with a rebuild of the JSON and no
+    container rebuild. The Sonnet 5.5 corpus arm itself is a tab on / (?tab=sonnet55)."""
+    return FileResponse(config.STATIC_DIR / "sonnet-compare.html", media_type="text/html",
                         headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/sonnet-5-5", include_in_schema=False)
+def sonnet55_moved(request: Request) -> RedirectResponse:
+    """The compare page lived here until 29 Sep, and links to it are out in the world. Permanent
+    redirect, query string kept (a #fragment is kept by the browser on its own)."""
+    q = request.url.query
+    return RedirectResponse("/sonnet-compare" + (f"?{q}" if q else ""), status_code=301)
 
 
 @app.get("/upload", include_in_schema=False)

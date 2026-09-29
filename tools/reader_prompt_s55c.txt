@@ -1,0 +1,17 @@
+You are reading {N_WORD} chemical structure images and writing down the molecule each one depicts, as SMILES.
+
+The images are:
+{IMAGES}
+
+NO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to {ANSWERS} as a JSON array [{"img","smiles","name_if_recognised","confidence"}].
+
+Guidance:
+- Read each image yourself with the Read tool — look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.
+- "confidence" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.
+- "name_if_recognised" may be null if you do not recognise it.
+- Include stereochemistry (@/@@, /, \) only where the drawing actually shows wedges/hashes or cis/trans geometry.
+- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.
+- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c "from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))"
+- Write all {N_WORD} entries, {FIRST} through {LAST}, even if some are low confidence. Use "fig01" style keys in the "img" field.
+
+Your final message should just say you wrote the file and give a one-line summary of your confidence spread.

@@ -1,8 +1,8 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>C-MAGE: Sonnet 5.5 vs Sonnet 5</title>
-<meta name="description" content="Sonnet 5.5 re-reading chemical structure drawings Sonnet 5 got wrong, through the same blind pipeline and scorer.">
+<title>C-MAGE: Sonnet compare</title>
+<meta name="description" content="Sonnet 5.5 against Sonnet 5 on the same chemical structure drawings, through the same blind pipeline and scorer: paired over the corpus, and on a hand-picked set.">
 <link rel="icon" href="/static/favicon.png">
 <style>
 /* Same palette, type and header as the benchmark page (index.html), so this reads as
@@ -31,7 +31,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
 .seg{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;padding:2px;margin-left:auto}
 .seg a{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:38px;
-  display:flex;align-items:center;white-space:nowrap;text-decoration:none}
+  display:flex;align-items:center;white-space:nowrap;text-decoration:none;flex:0 0 auto}
 .seg a:hover{color:var(--ink)}
 .ghost{border:1px solid var(--line);color:var(--ink);font-size:13px;padding:0 12px;border-radius:7px;
   min-height:38px;display:flex;align-items:center;white-space:nowrap;text-decoration:none;flex:0 0 auto}
@@ -135,6 +135,7 @@ table.bd{display:table;white-space:normal;margin-top:6px}
 table.bd th,table.bd td{padding:7px 7px}
 table.bd td:first-child{min-width:0}
 table.bd tr.tot td{font-weight:650;color:var(--ink)}
+.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 table.bd .dim,.dim{color:var(--dim)}
 table.bd td b{color:#4ade80}
 .tnote{color:var(--dim);font-size:12px;margin:8px 0 0;line-height:1.45}
@@ -146,11 +147,18 @@ footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid v
 .err{background:#4a1513;color:#f87171;padding:12px 14px;margin:16px 0}
 
 @media(max-width:560px){
-  /* Same header as index.html at this width: four tabs plus the upload button, no wordmark. */
+  /* Same header as index.html at this width: five tabs that scroll sideways (the active one
+     scrolled into view, the right edge fading while there is more), the upload button, no
+     wordmark. flex-start, not center: centring an overflowing row strands its first tab. */
   .hrow{gap:8px;padding:9px 12px}
   .brand{display:none}
-  .seg{margin-left:0;flex:1 1 auto;justify-content:center;min-width:0}
-  .seg a{padding:0 8px;font-size:12.5px}
+  .seg{margin-left:0;flex:1 1 auto;justify-content:flex-start;min-width:0;overflow-x:auto;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 22px);
+            mask-image:linear-gradient(90deg,transparent,#000 22px)}
+  .seg.at-start{-webkit-mask-image:none;mask-image:none}
+  .seg::-webkit-scrollbar{display:none}
+  .seg a{padding:0 9px;font-size:12.5px}
   .ghost{padding:0 9px;font-size:12px}
   h1{font-size:21px}
   .cmp .pc{font-size:28px}
@@ -181,7 +189,8 @@ footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid v
       <a href="/?tab=images">Images</a>
       <a href="/?tab=pdfs">PDFs</a>
       <a href="/?tab=sonnet">Sonnet 5</a>
-      <a href="/sonnet-5-5" aria-current="page">Sonnet 5.5</a>
+      <a href="/?tab=sonnet55">Sonnet 5.5</a>
+      <a href="/sonnet-compare" aria-current="page">Sonnet compare</a>
     </nav>
     <a class="ghost" href="/upload">Try a file</a>
   </div>
@@ -269,6 +278,56 @@ function perReader(xs){ return xs.map(function(x){ return x.exact + "/" + x.n; }
    and every card below carries its own "ahead"/"behind" badge. */
 function names(xs){ return xs.length && xs.length <= 6 ? ' (' + esc(xs.join(", ")) + ')' : ''; }
 
+/* The corpus pairing: Sonnet 5.5's corpus arm (the Sonnet 5.5 tab) against the Sonnet 5 arm on
+   the same images. Kept visibly apart from the hand-picked set below it, because those were
+   chosen on Sonnet 5's failures and these were not chosen at all. Grows with every batch. */
+function corpusSection(C){
+  if (!C || !C.n) return '<section class="hero"><h1>Sonnet 5.5 vs Sonnet 5</h1>'
+    + '<p class="lede">The corpus pairing starts with the first Sonnet 5.5 corpus batch.</p></section>';
+  var best = Math.max(C.s5, C.s55);
+  var side = function(lab, x, note){
+    return '<div class="side' + (x === best ? ' lead' : '') + '"><div class="who">' + esc(lab) + '</div>'
+      + '<div class="pc">' + x + '<small>/ ' + C.n + '</small></div><div class="of">' + esc(note) + '</div>'
+      + '<div class="track"><i style="width:' + Math.round(x / C.n * 100) + '%"></i></div></div>'; };
+  var nb = C.ahead + C.behind;
+  var verdict = 'Over the first ' + C.n + ' corpus images, in corpus order, '
+    + 'Sonnet 5.5 <b>' + C.s55 + '/' + C.n + '</b>, Sonnet 5 <b>' + C.s5 + '/' + C.n + '</b>. '
+    + (nb ? '5.5 is ahead on ' + C.ahead + ' and behind on ' + C.behind + '; exact McNemar on those '
+        + nb + ' discordant images: <b>p = ' + pfmt(C.p) + '</b>'
+        + (C.p < 0.05 ? '.' : ', not significant yet.')
+      : 'They agree on every image so far, so there is nothing yet to separate them.');
+  var bt = C.batches.length > 1 ? '<table class="bd"><thead><tr><th>Batch</th><th class="num">n</th>'
+      + '<th class="num">Sonnet 5</th><th class="num">5.5</th><th class="num">CXMS</th></tr></thead><tbody>'
+      + C.batches.map(function(b){ return '<tr><td>Batch ' + esc(b.batch) + '</td><td class="num">' + b.n
+        + '</td><td class="num">' + b.s5 + '</td><td class="num"><b>' + b.s55 + '</b></td><td class="num dim">' + b.cx + '</td></tr>'; }).join("")
+      + '</tbody></table>' : '';
+  var diff = C.diff.length ? '<table class="bd"><thead><tr><th>Where they differ</th><th>Sonnet 5</th><th>5.5</th></tr></thead><tbody>'
+      /* Corpus names run to 130 characters (a full IUPAC name); two lines of it is plenty. */
+      + C.diff.map(function(x){ return '<tr><td><a class="clamp" title="' + esc(x.n) + '" href="/?tab=sonnet55">'
+        + esc(x.n) + '</a></td><td>' + badge(x.s5)
+        + '</td><td>' + badge(x.s55) + '</td></tr>'; }).join("") + '</tbody></table>' : '';
+  return '<section class="hero" id="corpus"><div class="hero-grid"><div>'
+    + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
+    + '<p class="lede">Two comparisons, kept apart. <b>Corpus, paired</b>: the Sonnet 5.5 tab reads the whole corpus in the '
+    + 'order the Sonnet 5 tab did, ten images per usage block, nothing skipped, so every image pairs with the Sonnet 5 '
+    + 'reading of the same drawing. <b>Hand-picked</b>, further down: 28 images chosen on Sonnet 5\u2019s failures.</p>'
+    + '<h2 class="secth first">Corpus, paired</h2>'
+    + '<div class="verdict">' + verdict + '</div>'
+    + '<div class="cmp">' + side("Sonnet 5", C.s5, "Sonnet 5 tab, published") + side("Sonnet 5.5", C.s55, "Sonnet 5.5 tab") + '</div>'
+    + '<div class="tally"><div class="' + (C.ahead ? 'up' : '') + '"><b>' + C.ahead + '</b><span>5.5 right, 5 wrong</span></div>'
+    + '<div class="' + (C.behind ? 'down' : '') + '"><b>' + C.behind + '</b><span>5 right, 5.5 wrong</span></div>'
+    + '<div><b>' + (C.n - nb) + '</b><span>same result</span></div></div>'
+    + '<p class="cmpnote">CXMolScribe on the same ' + C.n + ': <b>' + C.cx + '</b>. '
+    + (C.cost_per_image != null ? 'Sonnet 5.5 cost about <b>' + money(C.cost_per_image) + '</b> per image at list price. ' : '')
+    + (C.unpaired ? C.unpaired + ' Sonnet 5.5 corpus images have no Sonnet 5 reading yet and are left out. ' : '') + '</p>'
+    + '</div><div>' + bt + diff
+    + '<div class="caveat" style="margin-top:' + (bt || diff ? '12px' : '0') + '"><b>Unselected, but still one reading each.</b> '
+    + 'Nothing here was picked. Each image has one Sonnet 5 reading (the published row, read with the prompt of its week) and '
+    + 'one Sonnet 5.5 reading (one fixed prompt), so run-to-run noise sits in both columns; the hand-picked set below shows '
+    + 'how large that noise is for Sonnet 5.</div>'
+    + '</div></div></section>';
+}
+
 function render(D){
   var S = D.summary, T = D.stats, v = $("#view");
   var O = T ? T.overall : null;
@@ -351,9 +410,9 @@ function render(D){
   var bnotes = Object.keys(D.batches || {}).map(function(b){
     return '<li><b>Batch ' + esc(b) + ':</b> ' + esc(D.batches[b]) + '</li>'; }).join("");
 
-  v.innerHTML =
-    '<section class="hero"><div class="hero-grid"><div>'
-    + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
+  v.innerHTML = corpusSection(D.corpus)
+    + '<section class="hero" id="handpicked"><div class="hero-grid"><div>'
+    + '<h2 class="secth first">Hand-picked: ' + S.n + ' images</h2>'
     + '<p class="lede">' + S.n + ' images from the blind benchmark, mostly ones Sonnet 5 read <b>wrong</b>, given to Sonnet 5.5 '
     + 'and to Sonnet 5 again through the same pipeline: same images, same reader prompt, same max effort, same scorer.</p>'
     + '<div class="verdict">' + verdict + '</div>'
@@ -375,7 +434,7 @@ function render(D){
     + 'be set against the Sonnet tab’s corpus percentage.</div></div></div>'
     + '<h2 class="secth">Per image</h2><p class="sectsub">Misses first, then images Sonnet 5 read right. Each reading is drawn back with RDKit, so a wrong atom shows up against the drawing at a glance.</p>'
     + '<div class="cards">' + D.rows.map(function(r){ return card(r, D); }).join("") + '</div>'
-    + '<h2 class="secth" id="runs">Runs</h2><p class="sectsub">Every reader, with the model the API says served it. The page renders from <a href="/wall/sonnet55.json">sonnet55.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
+    + '<h2 class="secth" id="runs">Runs</h2><p class="sectsub">Every reader, with the model the API says served it. The page renders from <a href="/wall/sonnet_compare.json">sonnet_compare.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
     + '<table><thead><tr><th>Run</th><th>Batch</th><th>Started (UTC)</th><th>Model served</th><th>Effort</th><th>CLI</th><th class="num">Images</th><th class="num">Cost</th><th class="num">Wall-clock</th></tr></thead><tbody>'
     + runs.map(function(r){ return '<tr><td>Sonnet 5.5</td><td>' + esc(r.batch) + '</td><td>' + esc(r.started.replace("T", " ").slice(0, 16)) + '</td><td>' + esc(r.models.join(", "))
         + '</td><td>' + esc(r.effort.join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
@@ -405,7 +464,13 @@ document.addEventListener("contextmenu", function(e){
 document.addEventListener("selectstart", function(e){
   if (!e.target.closest("code, .pre")) e.preventDefault();
 });
-fetch("/wall/sonnet55.json", {cache: "no-cache"}).then(function(r){
+/* The active tab (Sonnet compare) is the LAST one, so on a phone the strip starts scrolled to
+   its end and fades on the left instead, where the hidden tabs are. */
+(function(){ var seg = $(".seg");
+  var fade = function(){ seg.classList.toggle("at-start", seg.scrollLeft <= 2); };
+  seg.scrollLeft = seg.scrollWidth; fade();
+  seg.addEventListener("scroll", fade, {passive: true}); window.addEventListener("resize", fade); })();
+fetch("/wall/sonnet_compare.json", {cache: "no-cache"}).then(function(r){
   if (!r.ok) throw new Error("HTTP " + r.status);
   return r.json();
 }).then(render).catch(function(e){
