@@ -6,7 +6,8 @@
 The run is benchmarks/run_stage3_only.sh on /root/cmage-work/novel/corpus_rdkit_1500, the same
 stage-3-only arm the corpus's CXMolScribe column comes from. Scored with sonnet_batch.verdict, the
 one scoring function. c is the model's confidence x 100, as in images.json. CXMolScribe is not
-deterministic (see the skill), so this is one run, stamped with its directory.
+deterministic (see the skill), so this is one run, stamped with its directory. A run updates only
+the rows whose images it read (kinds A+B were one run, kinds C+P another).
 """
 import json
 import sys
@@ -33,17 +34,21 @@ def main(run: str) -> int:
                        "high" if f.startswith("Completed_High") else "low")
     d = json.load(open(OUT))
     for row in d["rows"]:
-        s, c, tier = pred.get(row["k"], (None, None, None))
+        if row["k"] not in pred:
+            continue          # each run covers one kind's images; rows it did not see keep their run
+        s, c, tier = pred[row["k"]]
         row.update(s=s, v=B.verdict(s, row["t"]), c=None if c is None else round(c * 100),
                    cx_tier=tier, cx_run=Path(run).name)
-        if row["kind"] == "A":
+        if row["kind"] in ("A", "C"):
             row["cx_parent"] = B.verdict(s, row["parent_t"]) == "exact"
     OUT.write_text(json.dumps(d, indent=1) + "\n")
-    for kind in "AB":
+    for kind in "ABCP":
         xs = [r for r in d["rows"] if r["kind"] == kind]
         print(f"kind {kind}: CXMolScribe {sum(r['v'] == 'exact' for r in xs)}/{len(xs)} exact"
-              + (f", {sum(r['cx_parent'] for r in xs)} equal the parent" if kind == "A" else ""))
+              + (f", {sum(bool(r.get('cx_parent')) for r in xs)} equal the parent" if kind in "AC" else ""))
     for r in d["rows"]:
+        if r["k"] not in pred:
+            continue
         print(f"  {r['k']} {r['v']:<8} c={r['c']} {r['cx_tier']}")
     return 0
 

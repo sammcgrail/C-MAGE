@@ -40,6 +40,24 @@ OUT = WALL / "sonnet_novel.json"
 MODEL = "claude-sonnet-5-5"
 
 
+def failure(a: dict, truth: str, parent: str) -> str:
+    """What a miss was, in words: drew the parent, stereo only, or an atom/connectivity error."""
+    from rdkit import Chem
+    from rdkit.Chem.rdMolDescriptors import CalcMolFormula
+    if B.verdict(a["s"], parent) == "exact":
+        return "autocorrected to the parent"
+    if a["v"] == "invalid":
+        return "unparseable SMILES"
+    if a["v"] == "stereo":
+        n = (a.get("r") or {}).get("stereo")
+        return "stereo only" + (f": {n[0]} of {n[1]} stereocentres differ" if n else "")
+    m, t = Chem.MolFromSmiles(a["s"]), Chem.MolFromSmiles(truth)
+    if CalcMolFormula(m) != CalcMolFormula(t):
+        d = m.GetNumHeavyAtoms() - t.GetNumHeavyAtoms()
+        return f"atoms: formula differs ({d:+d} heavy)" if d else "atoms: wrong elements"
+    return "same formula, wrong connectivity"
+
+
 def ledger() -> dict:
     d = json.load(open(LEDGER)) if LEDGER.exists() else {}
     d.setdefault("runs", {})
@@ -53,9 +71,15 @@ def cmd_record_run(aid: str) -> int:
     if not mine:
         raise SystemExit(f"no nov-lane row's answer appears in {aid}'s transcript; nothing recorded")
     other = {k: a for a, r in d["runs"].items() if a != aid for k in r["keys"]}
+    # A reader of an EDIT may print its PARENT's SMILES while checking (the reader of the edited
+    # morphine did), so containment also hits the parent row another reader answered. A row already
+    # credited stays with its reader; record the fresh-parent reader first.
     dup = [k for k in mine if k in other]
     if dup:
-        raise SystemExit(f"{aid}: rows already credited to another run: {dup}")
+        print(f"  {aid}: skipping rows already credited to another run: {[(k, other[k]) for k in dup]}")
+        mine = [k for k in mine if k not in other]
+        if not mine:
+            raise SystemExit(f"{aid}: every matching row is credited elsewhere; nothing recorded")
     run = run_record(aid, mine)
     if run["models"] != [MODEL]:
         raise SystemExit(f"{aid} was served by {run['models']}, not {MODEL}")
@@ -81,9 +105,11 @@ def build() -> int:
     for p in dirs.values():
         p.mkdir(parents=True, exist_ok=True)
     rows = []
+    corpus_rows = {r["k"]: r for r in json.load(open(WALL / "images.json"))["rows"]}
+    fresh = {S[k]["of"]: lane[k] for k in S if S[k]["kind"] == "P" and k in lane}
     for k in sorted(S):
         s = S[k]
-        if k not in lane:
+        if k not in lane or s["kind"] == "P":
             continue
         r = lane[k]
         if r["truth"] != s["t"]:
@@ -100,7 +126,7 @@ def build() -> int:
         row = {"k": k, "kind": s["kind"], "n": s["n"], "t": s["t"], "heavy": s["heavy"],
                "stereocentres": s["stereocentres"], "pubchem": s["pubchem"]["cids"][:3],
                "s55": a55, "cx": cx, "run": run["agent"], "slot": r["slot"]}
-        if s["kind"] == "A":
+        if s["kind"] in ("A", "C"):
             pc = c_by_k.get(s["parent_key"])
             row.update(parent=s["parent"], parent_t=s["parent_t"], edit=s["edit"],
                        auto=B.verdict(r.get("sonnet_smiles"), s["parent_t"]) == "exact",
@@ -109,6 +135,17 @@ def build() -> int:
                        parent_corpus=pc["sonnet_verdict"] if pc else None)
         else:
             row["fragments"] = s["fragments"]
+        if s["kind"] == "C":
+            # The parent's own reading by Sonnet 5.5 on the corpus image: the s55c corpus lane's row
+            # when that lane has read it (same prompt file and gate), else this lane's fresh P row.
+            fr = fresh.get(s["k"].replace("novel_", ""))
+            src = pc if pc else fr
+            row["stereo_only_edit"] = s["stereo_only_edit"]
+            row["parent_read"] = None if not src else {
+                "v": src["sonnet_verdict"], "s": src.get("sonnet_smiles"), "conf": src.get("sonnet_conf"),
+                "source": "corpus lane" if pc else "fresh read"}
+            row["parent_cx"] = corpus_rows[s["parent_key"]]["v"]
+            row["fail"] = failure(row["s55"], s["t"], s["parent_t"]) if row["s55"]["v"] != "exact" else None
         rows.append(row)
 
     def tally(xs):
@@ -119,11 +156,46 @@ def build() -> int:
                 "conf_mean": round(sum(num_conf(x["s55"]["conf"]) or 0 for x in xs) / len(xs), 1) if xs else None}
     A = [x for x in rows if x["kind"] == "A"]
     Bk = [x for x in rows if x["kind"] == "B"]
+    Ck = [x for x in rows if x["kind"] == "C"]
+    withp = [x for x in Ck if x.get("parent_read")]
+    ok = lambda v: v == "exact"
+    kindc = {**tally(Ck),
+             "stereo_agnostic": sum(x["s55"]["v"] in ("exact", "stereo") for x in Ck),
+             "cx_stereo_agnostic": sum(x["cx"]["v"] in ("exact", "stereo") for x in Ck),
+             "stereo_only_edits": sum(bool(x.get("stereo_only_edit")) for x in Ck),
+             "cx_auto": sum(bool(x.get("cx_auto")) for x in Ck),
+             "paired": len(withp),
+             "parent_s55": sum(ok(x["parent_read"]["v"]) for x in withp),
+             "edit_s55": sum(ok(x["s55"]["v"]) for x in withp),
+             "parent_cx": sum(ok(x["parent_cx"]) for x in Ck),
+             "parent_from_corpus": sum(x["parent_read"]["source"] == "corpus lane" for x in withp),
+             "edit_only": [x["n"] for x in withp if ok(x["s55"]["v"]) and not ok(x["parent_read"]["v"])],
+             "parent_only": [x["n"] for x in withp if ok(x["parent_read"]["v"]) and not ok(x["s55"]["v"])],
+             "fails": [{"k": x["k"], "parent": x["parent"], "edit": x["edit"], "fail": x["fail"],
+                        "conf": x["s55"]["conf"]} for x in Ck if x["fail"]]}
+    b_, c_ = len(kindc["edit_only"]), len(kindc["parent_only"])
+    from build_sonnet55 import mcnemar_exact
+    kindc["p"] = float(f"{mcnemar_exact(b_, c_):.3g}")
     runs = sorted(d["runs"].values(), key=lambda x: x["started"])
+    # Cost per set, so the kind A/B note is not inflated by the hard set's readers (a hard image
+    # costs ~5x an easy one) and "readers of N images each" stays a whole number per set.
+    kind_of = {k: s["kind"] for k, s in S.items()}
+
+    def spend(kinds):
+        rs = [r for r in runs if all(kind_of.get(k) in kinds for k in r["keys"])]
+        return {"cost": round(sum(r["cost_usd"] for r in rs), 2), "seconds": sum(r["duration_s"] for r in rs),
+                "images": sum(r["images"] for r in rs), "readers": len(rs),
+                "sizes": sorted({r["images"] for r in rs})}
+    right = [c for c in (num_conf(x["s55"]["conf"]) for x in Ck if ok(x["s55"]["v"])) if c is not None]
+    wrong = [c for c in (num_conf(x["s55"]["conf"]) for x in Ck if not ok(x["s55"]["v"])) if c is not None]
+    kindc.update(conf_right=round(sum(right) / len(right), 1) if right else None,
+                 conf_wrong=round(sum(wrong) / len(wrong), 1) if wrong else None,
+                 conf_wrong_max=max(wrong) if wrong else None,
+                 cx_conf_mean=round(sum(x["cx"]["conf"] or 0 for x in Ck) / len(Ck), 1) if Ck else None)
     parents = [x for x in A if x.get("parent_corpus")]
     out = {
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "A": tally(A), "B": tally(Bk), "all": tally(rows),
+        "A": tally(A), "B": tally(Bk), "C": kindc, "all": tally(A + Bk),
         "corpus": {"n": len(corpus), "s55": sum(r["sonnet_verdict"] == "exact" for r in corpus),
                    "cx": sum(r.get("ocr_verdict") == "exact" for r in corpus)},
         "parents": {"n": len(parents), "s55": sum(x["parent_corpus"] == "exact" for x in parents)},
@@ -131,6 +203,7 @@ def build() -> int:
         "cost": round(sum(r["cost_usd"] for r in runs), 2),
         "seconds": sum(r["duration_s"] for r in runs),
         "images": sum(r["images"] for r in runs),
+        "spend": {"AB": spend("AB"), "C": spend("C"), "P": spend("P")},
         "runs": [{k2: v for k2, v in r.items() if k2 not in ("keys", "prompt")} for r in runs],
         "prompt": runs[-1]["prompt"] if runs else "",
         "rows": rows,
@@ -139,6 +212,8 @@ def build() -> int:
     print(f"wrote {OUT} ({OUT.stat().st_size/1e3:.1f} KB): kind A 5.5 {out['A']['s55']}/{out['A']['n']} "
           f"(autocorrected {out['A']['auto']}), kind B 5.5 {out['B']['s55']}/{out['B']['n']}; "
           f"CX A {out['A']['cx']}/{out['A']['n']} B {out['B']['cx']}/{out['B']['n']}; "
+          f"kind C 5.5 {kindc['s55']}/{kindc['n']} (auto {kindc['auto']}, stereo-agnostic {kindc['stereo_agnostic']}), "
+          f"CX {kindc['cx']}/{kindc['n']}; parents 5.5 {kindc['parent_s55']}/{kindc['paired']} vs edits {kindc['edit_s55']}/{kindc['paired']}; "
           f"corpus 5.5 {out['corpus']['s55']}/{out['corpus']['n']}; ${out['cost']}, {out['seconds']} s")
     return 0
 
