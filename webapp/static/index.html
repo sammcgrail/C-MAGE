@@ -300,7 +300,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .vtog{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:8px;
   padding:2px;margin:12px 0 4px}
 .vtog button{flex:1 1 0;appearance:none;background:none;border:0;color:var(--dim);font:inherit;font-size:14px;
-  padding:8px 10px;border-radius:6px;cursor:pointer;min-height:40px}
+  padding:8px 10px;border-radius:6px;cursor:pointer;min-height:44px}
 .vtog button[aria-pressed=true]{background:#1f6feb;color:#fff;font-weight:600}
 .tq .blockh{margin-top:14px}
 .tq{--k-read:#3987e5;--k-crop:#d95926;--k-rdkit:#199e70;--k-draw:#c98500;--k-osra:#d55181;
@@ -312,9 +312,9 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .tq .m55{background:var(--m55)} .tq .m5{background:var(--m5)}
 .tq h3{font-size:13px;font-weight:700;margin:22px 0 3px;color:var(--ink)}
 .tq .cap{color:var(--dim);font-size:12.5px;line-height:1.45;margin:0 0 9px}
-.tqkpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
+.tqkpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
 .tqkpi>div{background:var(--panel);border:1px solid var(--line);padding:10px 11px;min-width:0}
-.tqkpi .l{color:var(--dim);font-size:11.5px;line-height:1.3;margin-bottom:6px}
+.tqkpi .l{color:var(--dim);font-size:12.5px;line-height:1.3;margin-bottom:6px}
 .tqkpi .v{display:flex;align-items:baseline;gap:6px;font-size:12px;color:var(--dim);line-height:1.5}
 .tqkpi .v b{font-size:19px;font-weight:750;color:var(--ink);min-width:0}
 .tqkpi .v i{width:8px;height:8px;display:inline-block;flex:0 0 8px;align-self:center}
@@ -340,13 +340,23 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .hb.pair .ht{height:9px}
 .hb.pair{margin:1px 0}
 .hgrp{margin:0 0 8px}
-.hsep{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 4px}
+.hsep{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 4px}
 .tq2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 28px}
 .tq2>div{min-width:0}
 .tqt{font-size:12px;margin-top:6px}
 .tqt th,.tqt td{padding:6px 8px}
-.tqt th{font-size:11.5px}
-.tqt td small{color:var(--dim);font-size:10.5px;margin-left:3px}
+.tqt th{font-size:12px}
+.tqt td small{color:var(--dim);font-size:12px;margin-left:4px}
+/* phones: the four with/without columns do not fit side by side, so each technique becomes a
+   card of four labelled cells instead of a table that scrolls sideways */
+@media (max-width:640px){
+  .tqt,.tqt tbody{display:block;white-space:normal} .tqt thead{display:none}
+  .tqt tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .tqt td{border:0;padding:0;text-align:left!important;white-space:nowrap}
+  .tqt td:first-child{grid-column:1/-1;color:var(--ink);font-weight:600;font-size:13px}
+  .tqt td[data-l]::before{content:attr(data-l);display:block;color:var(--dim);font-size:12px;margin-bottom:1px}
+  .rt td:first-child .tl{display:block;margin:1px 0 0 13px}   /* lane under the id, so no sideways scroll */
+}
 .tqt td.hi{color:var(--ink);font-weight:650}
 .tqnote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);
   padding:10px 12px;margin:8px 0 10px;font-size:13px;line-height:1.5;color:var(--ink)}
@@ -356,25 +366,27 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 .rtools{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
 .rt{font-size:12px;margin-top:6px;display:table;width:100%;white-space:normal}
 .rtwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.rt th{cursor:pointer;user-select:none;white-space:nowrap;padding:7px 6px}
+.rt th{cursor:pointer;user-select:none;white-space:nowrap;padding:7px 6px;height:44px}
 .rt th[aria-sort]{color:var(--ink)}
 .rt th.num,.rt td.num{text-align:right;font-variant-numeric:tabular-nums}
 .rt td{padding:7px 6px;white-space:nowrap}
+.rt tbody tr.r td{height:44px}
 .rt tbody tr.r{cursor:pointer}
 .rt tbody tr.r:hover td,.rt tbody tr.r[aria-expanded=true] td{background:#12233c}
 .rt td .mk{display:inline-block;width:7px;height:7px;margin-right:6px;vertical-align:1px}
-.rt td .tl{font-size:10.5px;color:var(--dim);letter-spacing:.5px}
+.rt td .tl{font-size:12px;color:var(--dim);letter-spacing:.5px}
 .rt tr.tlrow td{white-space:normal;padding:10px 6px 14px;background:#0b0f14}
 .tlh{font-size:12px;color:var(--dim);margin-bottom:8px;line-height:1.45}
 .tlh b{color:var(--ink);font-weight:600}
 .tline{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end}
 .tg{display:flex;flex-direction:column;gap:3px;min-width:0}
-.tg .gl{font-size:10.5px;color:var(--dim);white-space:nowrap}
+.tg .gl{font-size:12px;color:var(--dim);white-space:nowrap}
 .tg .gl.ok{color:#4ade80} .tg .gl.no{color:#f87171}
 .tg .cells{display:flex;flex-wrap:wrap;gap:2px;max-width:100%}
 .tg .cells i{width:9px;height:14px;display:block}
 .tg .cells i.v{background:none!important;box-shadow:inset 0 0 0 2px var(--c)}
-.tqmore{margin-top:8px}
+.tqmore{margin-top:8px;min-height:44px}
+.tq .rtools .chip{min-height:44px}
 .tqtip{position:fixed;z-index:60;pointer-events:none;background:#0b0f14;border:1px solid var(--line);
   color:var(--ink);font-size:12px;line-height:1.4;padding:6px 8px;max-width:260px;display:none;
   box-shadow:0 4px 14px rgba(0,0,0,.5)}
@@ -891,7 +903,7 @@ function tqRender(sec, d){
   mixRows.forEach(function(r){
     if (!r){ h.push('<div class="hsep">Same prompt, same 28 hand-picked images</div>'); return; }
     var s = L[r[0]]; if (!s) return;
-    h.push(tqBar(esc(r[1]) + ' <span style="font-size:10.5px">(' + s.readers + ' readers)</span>',
+    h.push(tqBar(esc(r[1]) + ' <span style="font-size:12px">(' + s.readers + ' readers)</span>',
       G.map(function(g){ return {w: s.mix_per_image[g.key], cls: "kg-" + g.key,
         tip: r[1] + " · " + g.label + ": " + tqN(s.mix_per_image[g.key]) + " per image, " + tqPct(s.mix_pct[g.key]) + " of calls"}; }),
       mmax, tqN(s.calls_per_image)));
@@ -923,7 +935,7 @@ function tqRender(sec, d){
   /* effort by size */
   var sz = A.by_size.map(function(b, i){ var c = B.by_size[i];
     return {label: esc(b.label.replace("under 25 heavy atoms", "under 25 atoms").replace("45 or more", "45+ atoms").replace("25–44", "25–44 atoms"))
-      + '<br><span style="font-size:10.5px">exact ' + tqPct(b.exact_pct) + ' · ' + tqPct(c.exact_pct) + '</span>',
+      + '<br><span style="font-size:12px">exact ' + tqPct(b.exact_pct) + ' · ' + tqPct(c.exact_pct) + '</span>',
       a: b.calls_med, b: c.calls_med,
       ta: "Sonnet 5.5, " + b.n + " images: median " + b.calls_med + " calls, " + tqN(b.crops_mean) + " crops, " + tqPct(b.exact_pct) + " exact",
       tb: "Sonnet 5, " + c.n + " images: median " + c.calls_med + " calls, " + tqN(c.crops_mean) + " crops, " + tqPct(c.exact_pct) + " exact"}; });
@@ -954,9 +966,9 @@ function tqRender(sec, d){
     + 'Small print is how many images.</p><div class="rtwrap"><table class="tqt"><thead><tr><th>Technique on that image</th>'
     + '<th class="num">All</th>' + d.size_bins.map(function(b){ return '<th class="num">' + ({small: "&lt;25 atoms", medium: "25–44", large: "45+"}[b.key] || esc(b.label)) + '</th>'; }).join("")
     + '</tr></thead><tbody>' + t5.map(function(t){
-      function cell(y, yn, n, nn){ return '<td class="num">' + tqPct(y) + ' vs ' + tqPct(n) + '<small>' + yn + '/' + nn + '</small></td>'; }
-      return '<tr><td>' + esc(t.label) + '</td>' + cell(t.all.yes_pct, t.all.yes_n, t.all.no_pct, t.all.no_n)
-        + t.bins.map(function(b){ return cell(b.yes_pct, b.yes_n, b.no_pct, b.no_n); }).join("") + '</tr>';
+      function cell(y, yn, n, nn, l){ return '<td class="num" data-l="' + l + '">' + tqPct(y) + ' vs ' + tqPct(n) + '<small>' + yn + '/' + nn + '</small></td>'; }
+      return '<tr><td>' + esc(t.label) + '</td>' + cell(t.all.yes_pct, t.all.yes_n, t.all.no_pct, t.all.no_n, "All sizes")
+        + t.bins.map(function(b, i){ var k = (d.size_bins[i] || {}).key; return cell(b.yes_pct, b.yes_n, b.no_pct, b.no_n, {small: "Under 25 atoms", medium: "25–44 atoms", large: "45+ atoms"}[k] || ""); }).join("") + '</tr>';
     }).join("") + '</tbody></table></div>');
   /* per-reader table */
   h.push('<h3 id="tq-readers">Every reader</h3><p class="cap">Tap a reader for its step sequence. Sort by any column.</p>'
