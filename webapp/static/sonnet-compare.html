@@ -10,6 +10,9 @@
 :root{
   --bg:#0d1117; --panel:#161b22; --line:#26303d; --ink:#e6edf3; --dim:#8b98a5;
   --exact:#2ea043; --stereo:#d29922; --wrong:#da3633; --invalid:#6e7681; --acc:#388bfd;
+  /* One spacing scale for the whole page; every gap and margin below is one of these. */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  --gut:14px; --maxw:1400px; --hh:60px;
 }
 *{box-sizing:border-box;touch-action:manipulation}
 /* Same loupe policy as index.html: killed globally, given back to the SMILES strings,
@@ -21,10 +24,11 @@ html,body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 a{color:#58a6ff}
+sup{font-size:max(12px,.72em);line-height:0}
 header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
   backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.hrow{display:flex;align-items:center;gap:12px;max-width:1400px;margin:0 auto;
-  padding:10px calc(14px + env(safe-area-inset-right)) 10px calc(14px + env(safe-area-inset-left));
+.hrow{display:flex;align-items:center;gap:12px;max-width:var(--maxw);margin:0 auto;
+  padding:10px calc(var(--gut) + env(safe-area-inset-right)) 10px calc(var(--gut) + env(safe-area-inset-left));
   padding-top:calc(10px + env(safe-area-inset-top))}
 .hrow>*{min-width:0}
 .brand{font-weight:700;letter-spacing:.3px;font-size:16px;white-space:nowrap;color:var(--ink);text-decoration:none}
@@ -37,15 +41,38 @@ header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
   min-height:38px;display:flex;align-items:center;white-space:nowrap;text-decoration:none;flex:0 0 auto}
 /* #1f6feb, not the accent #388bfd: white 12.5px text on the accent is 3.3:1 and fails AA. */
 .seg a[aria-current=page]{background:#1f6feb;color:#fff;font-weight:600}
-main{max-width:1400px;margin:0 auto;
-  padding:0 calc(14px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom))
-          calc(14px + env(safe-area-inset-left))}
+main{max-width:var(--maxw);margin:0 auto;
+  padding:0 calc(var(--gut) + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom))
+          calc(var(--gut) + env(safe-area-inset-left))}
+/* In-page section nav: a second header row on wide screens only (phones get the inline
+   .jump list under the title instead, so the sticky header stays one row tall there). */
+.toc{display:none;border-top:1px solid var(--line)}
+.toc .tin{display:flex;gap:4px;max-width:var(--maxw);margin:0 auto;overflow-x:auto;scrollbar-width:none;
+  padding:6px calc(var(--gut) + env(safe-area-inset-right)) 6px calc(var(--gut) + env(safe-area-inset-left))}
+.toc .tin>*{min-width:0}
+.toc span{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.6px;align-self:center;
+  margin-right:var(--s2);white-space:nowrap}
+.toc a{color:var(--dim);font-size:13px;text-decoration:none;padding:0 10px;min-height:30px;display:flex;
+  align-items:center;border-radius:6px;white-space:nowrap;flex:0 0 auto}
+.toc a:hover{color:var(--ink);background:var(--panel)}
+.toc a.on{color:var(--ink);background:#21262d}
 
-/* hero */
-.hero{padding:20px 0 16px;border-bottom:1px solid var(--line)}
-h1{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.3px}
-.lede{color:var(--dim);font-size:14.5px;margin:0 0 16px;max-width:760px}
-.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+/* page intro + sections: one column, one rhythm. Each section is a head (title + lede),
+   then a two-column summary (left: verdict, stat boxes, caveat; right: tables and their
+   notes), then anything full width (lists, cards). */
+.intro{padding:var(--s5) 0 0}
+h1{font-size:24px;line-height:1.2;margin:0 0 var(--s2);letter-spacing:-.3px}
+.lede{color:var(--dim);font-size:14.5px;margin:0;max-width:880px}
+.sec{padding-top:var(--s6);margin-top:var(--s6);border-top:1px solid var(--line)}
+.sec-head{margin-bottom:var(--s4)}
+.sec-head h2{font-size:20px;line-height:1.25;font-weight:750;margin:0 0 var(--s2);letter-spacing:-.2px}
+.split{display:grid;gap:var(--s5)}
+.split>*{min-width:0}
+.col{display:flex;flex-direction:column;gap:var(--s4);min-width:0}
+.col>*{margin:0 !important}
+.subh{font-size:16px;line-height:1.3;font-weight:700;margin:0 0 var(--s1)}
+.block{margin-top:var(--s5)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
 .cmp .side{background:var(--panel);border:1px solid var(--line);padding:13px 14px;min-width:0;
   display:flex;flex-direction:column}
 .cmp .track{margin-top:auto !important}
@@ -54,17 +81,21 @@ h1{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.3px}
 .cmp .pc{font-size:34px;font-weight:800;line-height:1;letter-spacing:-1px}
 .cmp .pc small{font-size:16px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:3px}
 .cmp .of{color:var(--dim);font-size:12.5px;margin-top:6px}
-.cmpnote{color:var(--dim);font-size:12.5px;margin:-4px 0 12px}
+.cmpnote{color:var(--dim);font-size:12.5px;margin:0}
 .cmpnote b{color:var(--ink)}
-.verdict{background:var(--panel);border:1px solid var(--line);border-left:3px solid #d29922;
-  padding:11px 13px;margin:0 0 12px;font-size:14px;line-height:1.5;color:var(--ink)}
+/* Callouts: one box, two meanings. Blue = the finding; amber = what limits it. Same width
+   (the column), padding and spacing everywhere on the page. */
+.verdict,.caveat{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);
+  padding:var(--s3) var(--s4);margin:0;font-size:14px;line-height:1.55;color:var(--ink)}
+.caveat{border-left-color:#d29922}
+.verdict b{white-space:nowrap}
 .cmp .track{height:7px;background:#0b0f14;margin-top:9px;overflow:hidden}
 .cmp .track i{display:block;height:100%;background:var(--acc)}
 .cmp .side.lead .track i{background:var(--exact)}
 /* Outcome tally: one line per outcome, number first, so the three facts that answer
    "is 5.5 better on these" are readable without decoding a chart. */
 .tally{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
-  border:1px solid var(--line);margin-bottom:14px}
+  border:1px solid var(--line);margin:0}
 .tally div{background:var(--panel);padding:10px 12px;min-width:0}
 .tally b{display:block;font-size:22px;font-weight:800;line-height:1.1}
 .tally span{color:var(--dim);font-size:12.5px;line-height:1.35;display:block;margin-top:3px}
@@ -72,15 +103,18 @@ h1{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.3px}
 .facts{margin:0;padding:0;list-style:none;display:grid;gap:8px}
 .facts li{font-size:13.5px;color:var(--dim);line-height:1.5}
 .facts li b{color:var(--ink);font-weight:650}
-.caveat{background:var(--panel);border:1px solid var(--line);border-left:3px solid #d29922;
-  padding:11px 13px;margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink)}
 
 /* cards */
-.secth{font-size:16px;font-weight:750;margin:24px 0 4px}
-.sectsub{color:var(--dim);font-size:13px;margin:0 0 12px}
-.cards{display:grid;gap:14px}
+.sectsub{color:var(--dim);font-size:13px;margin:0 0 var(--s3)}
+.cards{display:grid;gap:var(--s4)}
+.cards>*{min-width:0}
+/* Flex column so the "SMILES" disclosure sits on the card's bottom edge and cards in one
+   row end on one line. */
 .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--line);
-  padding:12px;min-width:0}
+  padding:var(--s3) var(--s4);min-width:0;display:flex;flex-direction:column}
+.card>.body{margin-bottom:var(--s3)}
+.sides .side-read{margin:0 0 var(--s2)}
+.card>details{margin-top:auto}
 .card.up{border-left-color:#3fb950} .card.down{border-left-color:#f87171}
 .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .chead h3{margin:0;font-size:17px;line-height:1.25;overflow-wrap:anywhere}
@@ -94,7 +128,7 @@ h1{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.3px}
 figure{margin:0;background:#fff}
 figure img{width:100%;display:block;aspect-ratio:1;object-fit:contain}
 .src figure img{max-height:230px}
-.src .cap,.arm .cap{color:var(--dim);font-size:11.5px;margin:5px 0 0}
+.src .cap,.arm .cap{color:var(--dim);font-size:12px;margin:5px 0 0}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .arm{min-width:0}
 /* Label on one line, verdict on the next, in BOTH columns. Side by side on one line, a
@@ -103,7 +137,7 @@ figure img{width:100%;display:block;aspect-ratio:1;object-fit:contain}
 .alab{display:grid;gap:4px;justify-items:start;margin-bottom:6px;font-size:12.5px;font-weight:650}
 .nofig{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#0b0f14;
   border:1px dashed var(--line);color:var(--dim);font-size:12px;text-align:center;padding:8px}
-.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:20px;
   text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
 .badge.exact{background:#0f3d20;color:#4ade80} .badge.stereo{background:#3d3010;color:#fbbf24}
 .badge.wrong{background:#4a1513;color:#f87171} .badge.invalid{background:#21262d;color:#c9d1d9}
@@ -114,47 +148,68 @@ details{margin-top:10px;border-top:1px solid var(--line)}
 summary{cursor:pointer;color:#58a6ff;font-size:13.5px;padding:10px 0 4px;min-height:44px;
   display:flex;align-items:center}
 .kv{margin:8px 0}
-.kv label{display:block;color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.kv label{display:block;color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .kv code{display:block;background:#0b0f14;border:1px solid var(--line);padding:8px 9px;
-  font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;color:var(--ink)}
+  font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;overflow-wrap:anywhere;color:var(--ink)}
 .kv .note{color:var(--dim);font-size:12px;margin-top:3px}
 
 /* runs + method */
-table{border-collapse:collapse;width:100%;font-size:12.5px;display:block;overflow-x:auto;white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+/* The runs table is wide: it spans the column, and scrolls sideways inside this wrapper
+   only when the column is narrower than the table (phones). */
+.tscroll{overflow-x:auto;max-width:100%}
+table.runs{white-space:nowrap}
 th,td{text-align:left;padding:7px 11px;border-bottom:1px solid var(--line)}
 th{color:var(--dim);font-weight:600}
 td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .pre{background:#0b0f14;border:1px solid var(--line);padding:12px;margin-top:8px;
-  font:11.5px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
+  font:12px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
   color:#c9d1d9;max-height:52vh;overflow-y:auto}
-.notes{margin:8px 0 0 18px;padding:0}
-.notes li{font-size:13px;color:var(--dim);line-height:1.5;margin:5px 0}
+.notes{margin:var(--s2) 0 0 18px;padding:0}
+.notes li{font-size:13px;color:var(--dim);line-height:1.5;margin:0 0 var(--s2);break-inside:avoid}
 .notes li b{color:var(--ink)}
 /* breakdown + calibration tables: fit 390 px without sideways scroll */
-table.bd{display:table;white-space:normal;margin-top:6px}
+table.bd{white-space:normal}
 table.bd th,table.bd td{padding:7px 7px}
 table.bd td:first-child{min-width:0}
 table.bd tr.tot td{font-weight:650;color:var(--ink)}
 .clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 table.bd .dim,.dim{color:var(--dim)}
 table.bd td b{color:#4ade80}
-.tnote{color:var(--dim);font-size:12px;margin:8px 0 0;line-height:1.45}
+.tnote{color:var(--dim);font-size:12.5px;margin:var(--s2) 0 0;line-height:1.5}
 .tnote b{color:var(--ink)}
-.secth.first{margin-top:6px}
-.bt{display:inline-block;font-size:11px;font-weight:700;color:#c9d1d9;background:#21262d;padding:1px 7px;
+/* A long list shown capped, with a button that opens it in place: the corpus pairing's 42
+   batches and ~110 differing images no longer push the next section 5,000 px down. */
+.capbox{position:relative}
+.capbox .cap-in{max-height:var(--cap,420px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);
+          mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
+.capbox.open .cap-in,.capbox.fits .cap-in{max-height:none;-webkit-mask-image:none;mask-image:none}
+.capbox.fits .more{display:none}
+.more{margin-top:var(--s2);background:var(--panel);border:1px solid var(--line);color:#58a6ff;
+  font:inherit;font-size:13px;min-height:40px;padding:0 var(--s4);cursor:pointer;border-radius:6px}
+.more:hover{border-color:#58a6ff}
+/* "Where they differ": a flat list, laid out 1 / 2 / 3 across by width. */
+.dl{display:grid;grid-template-columns:minmax(0,1fr);column-gap:var(--s5);margin:0;padding:0;list-style:none}
+.dl li{display:grid;grid-template-columns:minmax(0,1fr) 112px 64px;gap:var(--s2);align-items:center;
+  padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px;min-width:0}
+.dl li>*{min-width:0}
+.dl li.dh{color:var(--dim);font-weight:600;padding:6px 0}
+.dl li.dh.x{display:none}
+.bt{display:inline-block;font-size:12px;font-weight:700;color:#c9d1d9;background:#21262d;padding:1px 7px;
   border-radius:20px;margin-right:4px;letter-spacing:.3px}
-footer{color:var(--dim);font-size:12.5px;padding:22px 0 0;border-top:1px solid var(--line);margin-top:28px}
+footer{color:var(--dim);font-size:12.5px;padding:var(--s5) 0 0;border-top:1px solid var(--line);margin-top:var(--s6)}
 /* Novel structures: three headline boxes (kind A, kind B, corpus) and a card per molecule. */
-section[id]{scroll-margin-top:64px}
+[id]{scroll-margin-top:calc(var(--hh) + 12px)}
 .cmp.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.jump{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:-6px 0 14px}
+.jump{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:var(--s2) 0 0}
 .jump a{min-height:32px;display:inline-flex;align-items:center}
-.kind{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;margin-right:4px;
+.kind{display:inline-block;font-size:12px;font-weight:700;padding:1px 7px;border-radius:20px;margin-right:4px;
   letter-spacing:.3px;background:#12233c;color:#79b8ff}
 .kind.b{background:#2a1f3d;color:#d2a8ff}
 .kind.c{background:#3d2a10;color:#f0b35a}
 .delta.auto{background:#4a1513;color:#f87171}
-.parentline{color:var(--dim);font-size:12.5px;margin:-4px 0 8px}
+.parentline{color:var(--dim);font-size:12.5px;margin:-4px 0 var(--s3)}
 .parentline b{color:var(--ink);font-weight:600}
 .err{background:#4a1513;color:#f87171;padding:12px 14px;margin:16px 0}
 
@@ -177,20 +232,51 @@ section[id]{scroll-margin-top:64px}
   .cmp .side{padding:11px 10px}
   /* Three boxes at 390px: a label may take two lines, so every label reserves two and the
      numbers stay on one baseline across the row. */
-  .cmp .who{font-size:11px;letter-spacing:.4px;line-height:1.35;min-height:2.7em}
+  .cmp .who{font-size:12px;letter-spacing:.3px;line-height:1.35;min-height:2.7em}
   .tally b{font-size:20px}
+  .sec{padding-top:var(--s5);margin-top:var(--s5)}
+  .sec-head h2{font-size:18px}
+  .card{padding:var(--s3)}
 }
-@media(max-width:359px){ .seg a{padding:0 6px;font-size:12px} }
-/* Desktop: two cards per row, and inside each card the drawing and both readings sit
-   side by side, so the whole comparison is one glance. */
+@media(max-width:359px){ .seg a{padding:0 6px;font-size:12px}
+  .cmp.three{gap:var(--s2)} .cmp.three .side{padding:10px 8px} }
+@media(min-width:640px){
+  .dl{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dl li.dh.x2{display:grid}
+}
+/* Tablet: two cards per row, each keeping the phone's inner layout (drawing on top). */
+@media(min-width:700px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* Every card has the same five parts (title, type line, parent line or re-runs, drawings,
+     SMILES), so each row of cards shares one set of row tracks: the drawings start level
+     and the SMILES disclosures end level, whatever wraps in the text above them. */
+  @supports (grid-template-rows:subgrid){
+    .card{display:grid;grid-template-rows:subgrid;grid-row:span 5;row-gap:0;align-content:start}
+  }
+}
+/* Desktop: the section summary splits into two equal columns (the same split in every
+   section, so column edges line up down the page); two cards per row, and inside each card
+   the drawing and both readings sit side by side, so the whole comparison is one glance. */
 @media(min-width:900px){
+  :root{--gut:24px}
   h1{font-size:28px}
-  .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
-  .cards{grid-template-columns:1fr 1fr}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+  .split{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6);align-items:start}
   .body{display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:start}
   .pair{margin-top:0}
   .src figure img{max-height:none}
+  .notes{columns:2;column-gap:var(--s6)}
+  .sec{padding-top:var(--s7);margin-top:var(--s7)}
+  .sec-head h2{font-size:22px}
+  .intro+.sec{padding-top:var(--s6);margin-top:var(--s6)}
+}
+@media(min-width:1000px){
+  .toc{display:block}
+  .jump{display:none}
+}
+@media(min-width:1200px){
+  :root{--gut:32px}
+  .dl{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dl li.dh.x3{display:grid}
 }
 </style>
 
@@ -206,6 +292,11 @@ section[id]{scroll-margin-top:64px}
     </nav>
     <a class="ghost" href="/upload">Try a file</a>
   </div>
+  <nav class="toc" aria-label="On this page"><div class="tin">
+    <span>On this page</span>
+    <a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#kindc">Hard edits</a>
+    <a href="#handpicked">Hand-picked</a><a href="#perimage">Per image</a><a href="#runs">Runs</a><a href="#method">Method</a>
+  </div></nav>
 </header>
 
 <main id="view"><div class="lede" style="padding:40px 0">Loading…</div></main>
@@ -270,7 +361,7 @@ function card(r, D){
     + '<figure><img loading="lazy" decoding="async" src="/wall/sonnet55/'
     + encodeURIComponent(r.k) + '.png" alt="The drawing the models read: ' + esc(r.n) + '"></figure></div>'
     + '<div class="pair">' + arm("Sonnet 5, published", r.s5, "sonnet55_s5", r.k) + arm("Sonnet 5.5", r.s55, "sonnet55_pred", r.k) + '</div></div>'
-    + side
+    + '<div class="sides">' + side + '</div>'
     + '<details><summary>SMILES and what differs</summary>'
     + kv("Ground truth", r.t)
     + kv("Sonnet 5, published", r.s5.s, detail(r.s5))
@@ -293,9 +384,41 @@ function names(xs){ return xs.length && xs.length <= 6 ? ' (' + esc(xs.join(", "
 /* The corpus pairing: Sonnet 5.5's corpus arm (the Sonnet 5.5 tab) against the Sonnet 5 arm on
    the same images. Kept visibly apart from the hand-picked set below it, because those were
    chosen on Sonnet 5's failures and these were not chosen at all. Grows with every batch. */
+/* A capped list with an in-place "show all" (see .capbox). The button is hidden by
+   fitCaps() when the content is shorter than the cap. */
+function capbox(inner, n, noun, cap){
+  return '<div class="capbox" style="--cap:' + cap + 'px"><div class="cap-in">' + inner + '</div>'
+    + '<button type="button" class="more" aria-expanded="false" data-all="Show all ' + n + ' ' + esc(noun) + '">Show all '
+    + n + ' ' + esc(noun) + '</button></div>';
+}
+function fitCaps(){
+  document.querySelectorAll(".capbox").forEach(function(b){
+    var i = b.querySelector(".cap-in");
+    b.classList.toggle("fits", !b.classList.contains("open") && i.scrollHeight <= i.clientHeight + 2);
+  });
+}
+document.addEventListener("click", function(e){
+  var btn = e.target.closest(".capbox .more");
+  if (!btn) return;
+  var b = btn.parentNode, open = !b.classList.contains("open");
+  b.classList.toggle("open", open);
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+  btn.textContent = open ? "Show fewer" : btn.getAttribute("data-all");
+  if (!open && b.getBoundingClientRect().top < 0) b.scrollIntoView();
+});
+
+function intro(){
+  return '<section class="intro"><h1>Sonnet 5.5 vs Sonnet 5</h1>'
+    + '<p class="lede">Three sets, kept apart. <b>Corpus, paired</b>: the Sonnet 5.5 tab reads the whole corpus in the '
+    + 'order the Sonnet 5 tab did, ten images per usage block, nothing skipped, so every image pairs with the Sonnet 5 '
+    + 'reading of the same drawing. <b>Novel structures</b>: 20 molecules it cannot have memorised, then 20 hard drawings with one edit each. <b>Hand-picked</b>: 28 images chosen on Sonnet 5’s failures.</p>'
+    + '<nav class="jump" aria-label="Sections"><a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#kindc">Hard edits</a><a href="#handpicked">Hand-picked</a></nav>'
+    + '</section>';
+}
+
 function corpusSection(C){
-  if (!C || !C.n) return '<section class="hero"><h1>Sonnet 5.5 vs Sonnet 5</h1>'
-    + '<p class="lede">The corpus pairing starts with the first Sonnet 5.5 corpus batch.</p></section>';
+  if (!C || !C.n) return '<section class="sec" id="corpus"><div class="sec-head"><h2>Corpus, paired</h2>'
+    + '<p class="lede">The corpus pairing starts with the first Sonnet 5.5 corpus batch.</p></div></section>';
   var best = Math.max(C.s5, C.s55);
   var side = function(lab, x, note){
     return '<div class="side' + (x === best ? ' lead' : '') + '"><div class="who">' + esc(lab) + '</div>'
@@ -313,18 +436,22 @@ function corpusSection(C){
       + C.batches.map(function(b){ return '<tr><td>Batch ' + esc(b.batch) + '</td><td class="num">' + b.n
         + '</td><td class="num">' + b.s5 + '</td><td class="num"><b>' + b.s55 + '</b></td><td class="num dim">' + b.cx + '</td></tr>'; }).join("")
       + '</tbody></table>' : '';
-  var diff = C.diff.length ? '<table class="bd"><thead><tr><th>Where they differ</th><th>Sonnet 5</th><th>5.5</th></tr></thead><tbody>'
-      /* Corpus names run to 130 characters (a full IUPAC name); two lines of it is plenty. */
-      + C.diff.map(function(x){ return '<tr><td><a class="clamp" title="' + esc(x.n) + '" href="/?tab=sonnet55">'
-        + esc(x.n) + '</a></td><td>' + badge(x.s5)
-        + '</td><td>' + badge(x.s55) + '</td></tr>'; }).join("") + '</tbody></table>' : '';
-  return '<section class="hero" id="corpus"><div class="hero-grid"><div>'
-    + '<h1>Sonnet 5.5 vs Sonnet 5</h1>'
-    + '<p class="lede">Three sets, kept apart. <b>Corpus, paired</b>: the Sonnet 5.5 tab reads the whole corpus in the '
-    + 'order the Sonnet 5 tab did, ten images per usage block, nothing skipped, so every image pairs with the Sonnet 5 '
-    + 'reading of the same drawing. <b>Novel structures</b>: 20 molecules it cannot have memorised, then 20 hard drawings with one edit each. <b>Hand-picked</b>: 28 images chosen on Sonnet 5\u2019s failures.</p>'
-    + '<nav class="jump" aria-label="Sections"><a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#kindc">Hard edits</a><a href="#handpicked">Hand-picked</a></nav>'
-    + '<h2 class="secth first">Corpus, paired</h2>'
+  /* Corpus names run to 130 characters (a full IUPAC name); two lines of it is plenty. The three
+     header cells repeat so each column of the 2- and 3-across layouts is labelled. */
+  var dh = function(x){ return '<li class="dh' + x + '" aria-hidden="' + (x ? 'true' : 'false') + '"><span>Image</span><span>Sonnet 5</span><span>5.5</span></li>'; };
+  var diff = C.diff.length ? '<div class="block"><h3 class="subh">Where they differ <span class="dim">(' + C.diff.length + ' images)</span></h3>'
+      + '<p class="tnote" style="margin:0 0 var(--s2)">Every corpus image where exactly one of the two was exact. Each name opens the Sonnet 5.5 tab.</p>'
+      + capbox('<ul class="dl">' + dh('') + dh(' x x2') + dh(' x x3')
+        + C.diff.map(function(x){ return '<li><a class="clamp" title="' + esc(x.n) + '" href="/?tab=sonnet55">'
+          + esc(x.n) + '</a><span>' + badge(x.s5) + '</span><span>' + badge(x.s55) + '</span></li>'; }).join("") + '</ul>',
+        C.diff.length, "images", 440)
+      + '</div>' : '';
+  var caveat = '<div class="caveat"><b>Unselected, but still one reading each.</b> '
+    + 'Nothing here was picked. Each image has one Sonnet 5 reading (the published row, read with the prompt of its week) and '
+    + 'one Sonnet 5.5 reading (one fixed prompt), so run-to-run noise sits in both columns; the hand-picked set below shows '
+    + 'how large that noise is for Sonnet 5.</div>';
+  return '<section class="sec" id="corpus"><div class="sec-head"><h2>Corpus, paired</h2></div>'
+    + '<div class="split"><div class="col">'
     + '<div class="verdict">' + verdict + '</div>'
     + '<div class="cmp">' + side("Sonnet 5", C.s5, "Sonnet 5 tab, published") + side("Sonnet 5.5", C.s55, "Sonnet 5.5 tab") + '</div>'
     + '<div class="tally"><div class="' + (C.ahead ? 'up' : '') + '"><b>' + C.ahead + '</b><span>5.5 right, 5 wrong</span></div>'
@@ -333,12 +460,12 @@ function corpusSection(C){
     + '<p class="cmpnote">CXMolScribe on the same ' + C.n + ': <b>' + C.cx + '</b>. '
     + (C.cost_per_image != null ? 'Sonnet 5.5 cost about <b>' + money(C.cost_per_image) + '</b> per image at list price. ' : '')
     + (C.unpaired ? C.unpaired + ' Sonnet 5.5 corpus images have no Sonnet 5 reading yet and are left out. ' : '') + '</p>'
-    + '</div><div>' + bt + diff
-    + '<div class="caveat" style="margin-top:' + (bt || diff ? '12px' : '0') + '"><b>Unselected, but still one reading each.</b> '
-    + 'Nothing here was picked. Each image has one Sonnet 5 reading (the published row, read with the prompt of its week) and '
-    + 'one Sonnet 5.5 reading (one fixed prompt), so run-to-run noise sits in both columns; the hand-picked set below shows '
-    + 'how large that noise is for Sonnet 5.</div>'
-    + '</div></div></section>';
+    + (bt ? caveat : '')
+    + '</div><div class="col">'
+    + (bt ? '<div><h3 class="subh">By batch</h3>' + capbox(bt, C.batches.length, "batches", 408) + '</div>' : caveat)
+    + '</div></div>'
+    + diff
+    + '</section>';
 }
 
 /* NOVEL STRUCTURES (wall/sonnet_novel.json, tools/build_novel.py): molecules Sonnet 5.5 cannot have
@@ -396,16 +523,17 @@ function novelSection(N, live){
   var rows = N.rows.slice().sort(function(a, b){
     var bad = function(x){ return x.auto ? 0 : x.s55.v !== "exact" ? 1 : 2; };
     return bad(a) - bad(b) || (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0) || (a.k < b.k ? -1 : 1); });
-  return '<section class="hero" id="novel"><div class="hero-grid"><div>'
-    + '<h2 class="secth first">Novel structures: reading, not recall</h2>'
+  return '<section class="sec" id="novel"><div class="sec-head">'
+    + '<h2>Novel structures: reading, not recall</h2>'
     + '<p class="lede">Nearly every corpus image is a famous drug, so a right answer can be memory. These ' + N.all.n
     + ' cannot be: <b>' + A.n + ' famous corpus drugs with one edit</b> (a halogen swapped, a substituent moved, N for CH, a methyl added or removed, '
     + 'one stereocentre inverted, a ring resized) and <b>' + B.n + ' de novo molecules</b> assembled from fragments, none with a PubChem record. '
     + 'Drawn by the corpus renderer (same settings, byte-identical on corpus compounds), read blind by the same prompt, sandbox, gate and scorer.</p>'
+    + '</div><div class="split"><div class="col">'
     + '<div class="verdict">' + verdict + '</div>'
     + '<div class="cmp three">' + box("Edited drugs", A.s55, A.n, "Sonnet 5.5", A.s55 === A.n)
     + box("De novo", B.s55, B.n, "Sonnet 5.5", B.s55 === B.n) + box("Corpus", C.s55, C.n, "Sonnet 5.5 tab", false) + '</div>'
-    + '</div><div>'
+    + '</div><div class="col"><div>'
     + '<table class="bd"><thead><tr><th>Set</th><th class="num">n</th><th class="num">5.5 exact</th><th class="num">Parent</th><th class="num">CXMS</th></tr></thead><tbody>'
     + '<tr><td>Edited drugs (A)</td><td class="num">' + A.n + '</td><td class="num"><b>' + A.s55 + '</b></td><td class="num">' + A.auto + '</td><td class="num dim">' + A.cx + '</td></tr>'
     + '<tr><td>De novo (B)</td><td class="num">' + B.n + '</td><td class="num"><b>' + B.s55 + '</b></td><td class="num dim">n/a</td><td class="num dim">' + B.cx + '</td></tr>'
@@ -418,13 +546,13 @@ function novelSection(N, live){
     + (N.rows.some(function(x){ return x.named_parent && x.s55.v !== "exact"; }) ? '. ' : ', and drew the edit every time. ')
     + (function(){ var X = N.spend ? N.spend.AB : {cost: N.cost, seconds: N.seconds, readers: N.runs.length, images: N.images};
         return 'Cost ' + money(X.cost) + ' at list price, ' + mins(X.seconds) + ' of reader time over ' + X.readers + ' readers of ' + Math.round(X.images / X.readers) + ' images each. '; })()
-    + 'CXMolScribe is one stage-3 run on the same files; it is not deterministic.</p>'
+    + 'CXMolScribe is one stage-3 run on the same files; it is not deterministic.</p></div>'
     + '<div class="caveat"><b>Twenty images, and easy ones.</b> One reading each, so one miss moves a kind by 8 to 12 points. '
     + (A.cx + B.cx === N.all.n ? 'CXMolScribe, which has nothing to recall, also read every one, so these clean drug-like drawings sit near the ceiling for both readers. ' : '')
     + 'What the set does test is substitution: whether a model that recognises the parent draws the parent. '
     + 'It cannot resolve a gap of a few points from the corpus. The hard follow-up is <a href="#kindc">kind C</a> below.</div>'
     + '</div></div>'
-    + '<div class="cards" style="margin-top:14px">' + rows.filter(function(r){ return r.kind !== "C"; }).map(novelCard).join("") + '</div>'
+    + '<div class="cards block">' + rows.filter(function(r){ return r.kind !== "C"; }).map(novelCard).join("") + '</div>'
     + '</section>' + (N.C && N.C.n ? kindC(N, rows.filter(function(r){ return r.kind === "C"; }), C) : '');
 }
 /* KIND C, HARD EDITS: one edit in the hard part of a CXMolScribe-failing corpus drug (macrocycle,
@@ -468,17 +596,18 @@ function kindC(N, rows, K){
   fl += cxl ? '<p class="tnote">CXMolScribe\u2019s ' + (C.n - C.cx) + ' misses on the same drawings: ' + esc(cxl) + '.</p>' : '';
   var cards = rows.slice().sort(function(a, b){ var bad = function(x){ return x.auto ? 0 : x.s55.v !== "exact" ? 1 : 2; };
     return bad(a) - bad(b) || (a.k < b.k ? -1 : 1); });
-  return '<section class="hero" id="kindc"><div class="hero-grid"><div>'
-    + '<h2 class="secth first">Kind C: hard edits</h2>'
+  return '<section class="sec" id="kindc"><div class="sec-head">'
+    + '<h2>Kind C: hard edits</h2>'
     + '<p class="lede">' + C.n + ' corpus drugs from the categories where CXMolScribe fails (macrocycles, dense-stereo steroids and bridged '
     + 'polycycles, glycosides, cyclic peptides), each with <b>one edit in the hard part</b>: a stereocentre inverted in the dense region, a '
     + 'sugar hydroxyl or anomer flipped, a macrocycle ring resized, an ester made an amide. ' + C.stereo_only_edits + ' of the ' + C.n
     + ' edits change stereochemistry only. Same renderer, prompt, sandbox, gate and scorer.</p>'
+    + '</div><div class="split"><div class="col">'
     + '<div class="verdict">' + verdict + '</div>'
-    + '<div class="cmp three">' + box("Unedited parents", C.parent_s55, C.paired, "Sonnet 5.5")
+    + '<div><div class="cmp three">' + box("Unedited parents", C.parent_s55, C.paired, "Sonnet 5.5")
     + box("Hard edits", C.edit_s55, C.paired, "Sonnet 5.5") + box("Hard edits", C.cx, C.n, "CXMolScribe") + '</div>'
-    + compare
-    + '</div><div>'
+    + compare + '</div>'
+    + '</div><div class="col"><div>'
     + '<table class="bd"><thead><tr><th>Kind C, n = ' + C.n + '</th><th class="num">5.5</th><th class="num">CXMS</th></tr></thead><tbody>'
     + '<tr><td>Exact</td><td class="num"><b>' + C.s55 + '</b></td><td class="num dim">' + C.cx + '</td></tr>'
     + '<tr><td>Exact ignoring stereo</td><td class="num"><b>' + C.stereo_agnostic + '</b></td><td class="num dim">' + C.cx_stereo_agnostic + '</td></tr>'
@@ -487,10 +616,10 @@ function kindC(N, rows, K){
     + '</tbody></table>'
     + '<p class="tnote">Parent readings: ' + C.parent_from_corpus + ' come from the Sonnet 5.5 corpus lane, which already read those corpus images with the same prompt file; the other '
     + (C.paired - C.parent_from_corpus) + ' were read fresh here, in a reader of their own, never beside their edits. CXMolScribe on the parents is the corpus row; every parent was picked as a CXMolScribe corpus miss, so its parent score is zero by construction. '
-    + 'Stereo-agnostic counts an answer right once stereochemistry is dropped from both sides.</p>'
-    + '<h3 class="secth" style="margin-top:14px">Where 5.5 went wrong</h3>' + fl
+    + 'Stereo-agnostic counts an answer right once stereochemistry is dropped from both sides.</p></div>'
+    + '<div><h3 class="subh">Where 5.5 went wrong</h3>' + fl + '</div>'
     + '</div></div>'
-    + '<div class="cards" style="margin-top:14px">' + cards.map(novelCard).join("") + '</div>'
+    + '<div class="cards block">' + cards.map(novelCard).join("") + '</div>'
     + '</section>';
 }
 function loadNovel(live){
@@ -499,7 +628,11 @@ function loadNovel(live){
   fetch("/wall/sonnet_novel.json", {cache: "no-cache"}).then(function(r){
     if (!r.ok) throw new Error("HTTP " + r.status);
     return r.json();
-  }).then(function(N){ slot.innerHTML = novelSection(N, live); if (location.hash === "#novel") slot.scrollIntoView(); })
+  }).then(function(N){
+      slot.innerHTML = novelSection(N, live); fitCaps(); spy();
+      /* The anchor may only exist now that this section has rendered. */
+      var h = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (h && slot.contains(h)) h.scrollIntoView(); })
     .catch(function(e){ slot.innerHTML = '<div class="err">Novel structures: no results yet (' + esc(e.message) + ').</div>'; });
 }
 
@@ -585,33 +718,34 @@ function render(D){
   var bnotes = Object.keys(D.batches || {}).map(function(b){
     return '<li><b>Batch ' + esc(b) + ':</b> ' + esc(D.batches[b]) + '</li>'; }).join("");
 
-  v.innerHTML = corpusSection(D.corpus)
+  v.innerHTML = intro() + corpusSection(D.corpus)
     + '<div id="novelslot"></div>'
-    + '<section class="hero" id="handpicked"><div class="hero-grid"><div>'
-    + '<h2 class="secth first">Hand-picked: ' + S.n + ' images</h2>'
+    + '<section class="sec" id="handpicked"><div class="sec-head">'
+    + '<h2>Hand-picked: ' + S.n + ' images</h2>'
     + '<p class="lede">' + S.n + ' images from the blind benchmark, mostly ones Sonnet 5 read <b>wrong</b>, given to Sonnet 5.5 '
     + 'and to Sonnet 5 again through the same pipeline: same images, same reader prompt, same max effort, same scorer.</p>'
+    + '</div><div class="split"><div class="col">'
     + '<div class="verdict">' + verdict + '</div>'
     + (cmp ? '<div class="cmp">' + cmp + '</div>' + tally : '')
     + '<p class="cmpnote">Published Sonnet 5 run on these images: <b>' + S.s5_exact + '/' + S.n + '</b>. '
     + 'That is why they were picked, not a baseline: ' + S.failures + ' are its misses, ' + S.controls + ' it read right.</p>'
-    + '</div><div>'
-    + '<h2 class="secth first">By batch and by kind</h2>' + bd
-    + '</div></div></section>'
-    + '<div class="two"><div><h2 class="secth">Confidence</h2><p class="sectsub">Is each model surer when it is right?</p>' + cal + '</div>'
-    + '<div><h2 class="secth">Cost and time</h2><p class="sectsub">API list price of the tokens each reader used; the same per-token price for both models.</p>'
+    + '</div><div class="col"><div>'
+    + '<h3 class="subh">By batch and by kind</h3>' + bd
+    + '</div></div></div>'
+    + '<div class="split block"><div><h3 class="subh">Confidence</h3><p class="sectsub">Is each model surer when it is right?</p>' + cal + '</div>'
+    + '<div><h3 class="subh">Cost and time</h3><p class="sectsub">API list price of the tokens each reader used; the same per-token price for both models.</p>'
     + '<ul class="facts">' + costs + '</ul>'
-    + '<ul class="facts" style="margin-top:12px"><li><b>Reading or recall?</b> Every image is a known drug. Sonnet 5.5 named ' + S.s55_named + ' of ' + S.n
+    + '<ul class="facts" style="margin-top:var(--s3)"><li><b>Reading or recall?</b> Every image is a known drug. Sonnet 5.5 named ' + S.s55_named + ' of ' + S.n
     + ', published Sonnet 5 named ' + S.s5_named + ' and still drew ' + S.s5_named_wrong + ' of those wrong. The prompt allows '
     + 'recognising a molecule and cross-checking it, so this measures reading plus recall.</li></ul>'
-    + '<div class="caveat"><b>Small, hand-picked sample.</b> ' + S.n + ' images, one reading per model per image, '
+    + '<div class="caveat" style="margin-top:var(--s4)"><b>Small, hand-picked sample.</b> ' + S.n + ' images, one reading per model per image, '
     + S.failures + ' of them chosen because Sonnet 5 had missed them. Picking on failure favours any second attempt, which is why the '
     + 'comparison is with a same-prompt re-run and not with the published score. It is not an accuracy figure for 5.5 and should not '
     + 'be set against the Sonnet tab’s corpus percentage.</div></div></div>'
-    + '<h2 class="secth">Per image</h2><p class="sectsub">Misses first, then images Sonnet 5 read right. Each reading is drawn back with RDKit, so a wrong atom shows up against the drawing at a glance.</p>'
-    + '<div class="cards">' + D.rows.map(function(r){ return card(r, D); }).join("") + '</div>'
-    + '<h2 class="secth" id="runs">Runs</h2><p class="sectsub">Every reader, with the model the API says served it. The page renders from <a href="/wall/sonnet_compare.json">sonnet_compare.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
-    + '<table><thead><tr><th>Run</th><th>Batch</th><th>Started (UTC)</th><th>Model served</th><th>Effort</th><th>CLI</th><th class="num">Images</th><th class="num">Cost</th><th class="num">Wall-clock</th></tr></thead><tbody>'
+    + '<div class="block"><h3 class="subh" id="perimage">Per image</h3><p class="sectsub">Misses first, then images Sonnet 5 read right. Each reading is drawn back with RDKit, so a wrong atom shows up against the drawing at a glance.</p>'
+    + '<div class="cards">' + D.rows.map(function(r){ return card(r, D); }).join("") + '</div></div>'
+    + '<div class="block"><h3 class="subh" id="runs">Runs</h3><p class="sectsub">Every reader, with the model the API says served it. The page renders from <a href="/wall/sonnet_compare.json">sonnet_compare.json</a>, rebuilt by <code>tools/build_sonnet55.py</code>.</p>'
+    + '<div class="tscroll"><table class="runs"><thead><tr><th>Run</th><th>Batch</th><th>Started (UTC)</th><th>Model served</th><th>Effort</th><th>CLI</th><th class="num">Images</th><th class="num">Cost</th><th class="num">Wall-clock</th></tr></thead><tbody>'
     + runs.map(function(r){ return '<tr><td>Sonnet 5.5</td><td>' + esc(r.batch) + '</td><td>' + esc(r.started.replace("T", " ").slice(0, 16)) + '</td><td>' + esc(r.models.join(", "))
         + '</td><td>' + esc(r.effort.join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
         + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join("")
@@ -621,8 +755,8 @@ function render(D){
     + (D.s5runs || []).map(function(r){ return '<tr><td>Sonnet 5, published: ' + esc((r["for"] || []).join(", ")) + '</td><td>—</td><td>' + esc((r.started || "").replace("T", " ").slice(0, 16)) + '</td><td>' + esc((r.models || []).join(", "))
         + '</td><td>' + esc((r.effort || []).join(", ")) + '</td><td>' + esc(r.cli) + '</td><td class="num">' + r.images + '</td><td class="num">' + money(r.cost_usd)
         + '</td><td class="num">' + mins(r.duration_s) + '</td></tr>'; }).join("")
-    + '</tbody></table>'
-    + '<h2 class="secth">Method</h2>'
+    + '</tbody></table></div></div>'
+    + '<div class="block"><h3 class="subh" id="method">Method</h3>'
     + '<ul class="notes">' + bnotes
     + '<li><b>Same images.</b> Byte-identical copies of the corpus drawings Sonnet 5 read, handed over under anonymised names (fig01…), because the corpus files are named after their compounds.</li>'
     + '<li><b>Same prompt.</b> The Sonnet 5 batches’ reader prompt, word for word, with only the image count, paths and answers file changed. Shown below.</li>'
@@ -631,6 +765,7 @@ function render(D){
     + '<li><b>What differs.</b> Batch size (published Sonnet 5 runs read ten per reader; in batch 1 the 5.5 run and the re-run read all eight together, in batch 2 each read ten per reader, two readers each), the Claude Code release, and the image names. The re-run and 5.5 share the prompt exactly.</li>'
     + '</ul>'
     + runs.slice(-1).map(function(r){ return '<details><summary>Reader prompt (latest run)</summary><div class="pre">' + esc(r.prompt) + '</div></details>'; }).join("")
+    + '</div></section>'
     + '<footer>Built ' + esc(D.built.replace("T", " ").slice(0, 16)) + ' UTC. Prices: ' + esc(D.price.note) + ' Ground truth is PubChem; the published Sonnet 5 readings are the rows on the <a href="/?tab=sonnet">Sonnet tab</a>.</footer>';
 }
 
@@ -646,10 +781,32 @@ document.addEventListener("selectstart", function(e){
   var fade = function(){ seg.classList.toggle("at-start", seg.scrollLeft <= 2); };
   seg.scrollLeft = seg.scrollWidth; fade();
   seg.addEventListener("scroll", fade, {passive: true}); window.addEventListener("resize", fade); })();
+/* Header height (one row on phones, two with the section nav) sets the anchor offset. */
+function measure(){
+  document.documentElement.style.setProperty("--hh", $("header").offsetHeight + "px");
+  fitCaps();
+}
+/* Section nav: highlight the section the reader is in. */
+var SPY = ["corpus", "novel", "kindc", "handpicked", "perimage", "runs", "method"];
+function spy(){
+  var links = document.querySelectorAll(".toc a");
+  if (!links.length || !links[0].offsetParent) return;
+  var line = $("header").offsetHeight + 24, cur = null;
+  SPY.forEach(function(id){ var e = document.getElementById(id);
+    if (e && e.getBoundingClientRect().top <= line) cur = id; });
+  links.forEach(function(a){ a.classList.toggle("on", a.getAttribute("href") === "#" + cur); });
+}
+var spyQueued = false;
+window.addEventListener("scroll", function(){
+  if (spyQueued) return; spyQueued = true;
+  requestAnimationFrame(function(){ spyQueued = false; spy(); });
+}, {passive: true});
+window.addEventListener("resize", function(){ measure(); spy(); });
+measure();
 fetch("/wall/sonnet_compare.json", {cache: "no-cache"}).then(function(r){
   if (!r.ok) throw new Error("HTTP " + r.status);
   return r.json();
-}).then(function(D){ render(D); loadNovel(D.corpus); }).catch(function(e){
+}).then(function(D){ render(D); measure(); spy(); loadNovel(D.corpus); }).catch(function(e){
   $("#view").innerHTML = '<div class="err">No Sonnet 5.5 results yet (' + esc(e.message) + ').</div>';
 });
 </script>
