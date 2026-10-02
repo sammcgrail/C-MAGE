@@ -174,9 +174,22 @@ def update() -> dict:
             excluded[aid] = excluded.get(aid, 0) + 1
         else:
             unattributed.append(e.get("k"))
+    # Runs that put NOTHING on the page. A run charged for ten images it opened but whose
+    # rows never reached the wall -- killed mid-flight, refused by the gate, released --
+    # was still counted as ten published reads, which is how the tally came to read 1095
+    # against a payload of 1056 and understate the per-image figure. audit_sonnet_rows is
+    # the only thing that knows, because only it traces rows to transcripts, so it writes
+    # the map and this reads it. Missing file: fall back to the old behaviour rather than
+    # zero everything out.
+    pub_map = HERE.parent / "benchmarks" / "sonnet_publishers.json"
+    publishers = None
+    if pub_map.exists():
+        publishers = set(json.load(open(pub_map)).get("by_run") or {})
     for r in readers.values():
         r["excluded"] = excluded.get(r["agent"], 0)
         r["published"] = max(0, r["images"] - r["excluded"])
+        if publishers is not None and r["agent"] not in publishers:
+            r["published"], r["silent"] = 0, True
         r["published_cost_usd"] = round(r["cost_usd"] * r["published"] / r["images"], 4) if r["images"] else 0.0
 
     # Per published image: the cost and wall-clock of the RUN that produced it, and that

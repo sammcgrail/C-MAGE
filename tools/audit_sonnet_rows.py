@@ -229,6 +229,7 @@ def main(argv: list[str]) -> int:
         excluded_smiles.setdefault(e["k"], set()).add(e.get("sonnet_smiles"))
 
     untraced, implicated, unverified, set_aside = [], {}, {}, []
+    published_by: dict[str, int] = {}     # run -> published rows that trace to it
     for r in res:
         k, smi = r["k"], r.get("sonnet_smiles")
         live = []
@@ -242,6 +243,13 @@ def main(argv: list[str]) -> int:
             live.append(p)
         if not live:
             untraced.append(r)
+        # Credit ONE run per row: the most recent that holds the answer. A re-read supersedes
+        # the reading it replaces, and when both produced the same SMILES both transcripts
+        # hold it -- so crediting every holder handed ten published reads to a run that was
+        # RELEASED unverified and never scored, leaving the cost tally 10 above the payload.
+        if live:
+            newest = max(live, key=os.path.getmtime)
+            published_by[scan[newest][0]] = published_by.get(scan[newest][0], 0) + 1
         for p in live:
             aid, named, unresolved = scan[p]
             if k in named:
@@ -249,6 +257,16 @@ def main(argv: list[str]) -> int:
             if unresolved:
                 unverified.setdefault(k, set()).add(aid)
 
+    # WHICH RUNS ACTUALLY PUT SOMETHING ON THE PAGE. The cost tally charges every run for
+    # the ten images it opened, so a run that published nothing -- killed mid-flight, refused
+    # by the gate, or released -- still inflates the published-read count (1095 against a
+    # payload of 1056). Only the audit knows the answer, because only the audit traces rows
+    # to transcripts; it writes that here and sonnet_cost reads it, instead of anyone
+    # hand-editing a log to silence the warning.
+    open(os.path.join(os.path.dirname(HERE), "benchmarks", "sonnet_publishers.json"), "w").write(
+        json.dumps({"rows": len(res), "by_run": published_by}, indent=1, sort_keys=True) + "\n")
+    silent = [scan[p][0] for p in readers if scan[p][0] not in published_by]
+    print(f"runs that published nothing: {len(silent)}{' ' + str(sorted(silent)) if silent else ''}")
     print(f"reader transcripts: {len(readers)}  (skipped as running: {sorted(skip) or 'none'})")
     print(f"published rows: {len(res)}  traced: {len(res) - len(untraced)}  untraced: {len(untraced)}  "
           f"implicated: {len(implicated)}  unverified: {len(unverified)}")
