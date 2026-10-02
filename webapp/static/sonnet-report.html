@@ -311,7 +311,8 @@ function corpus(D){
     + '), and <b>ahead on ' + C.vs_cx.ahead + ', behind on ' + C.vs_cx.behind + '</b> against CXMolScribe (p = ' + pfmt(C.vs_cx.p) + '). '
     + 'Neither 5.5 nor CXMolScribe read ' + C.neither_s55_cx + ' of them.</p>'
     + '<p class="caveat"><b>What it covers.</b> The first ' + n0(C.n) + ' of ' + n0(C.corpus) + ' corpus images in sorted-key order (' + esc(C.first) + ' to '
-    + esc(C.last) + '). Nothing is skipped, so this is an unselected sample, but it is alphabetical and mostly named drugs, which a model may have seen.</p></div>';
+    + esc(C.last) + '). Nothing is skipped, so this is an unselected sample, but it is alphabetical and mostly named drugs, which a model may have seen.</p>'
+    + '<div id="proto-corpus"></div></div>';
   var right = '<div class="col"><div><h3 class="subh">Cost and time per image</h3>'
     + '<div class="tscroll"><table><thead><tr><th></th><th class="num">Sonnet 5.5</th><th class="num">Sonnet 5</th><th class="num">ratio</th></tr></thead><tbody>'
     + '<tr><td>API cost, list price</td><td class="num">' + money(T.s55c.cost_per_image) + '</td><td class="num">' + money(T.s5.cost_per_image) + '</td><td class="num">' + D.technique.cost_ratio + '×</td></tr>'
@@ -429,7 +430,8 @@ function batching(D){
   var left = '<div class="col"><p class="verdict"><b>No evidence that batching or reading everything first is what makes 5.5 accurate</b>, but the samples that could show it are tiny.</p><ul class="facts">'
     + '<li><b>Readers that did not look at everything first.</b> 5.5: ' + B.s55c_not.readers + ' readers, ' + B.s55c_not.exact + '/' + B.s55c_not.images + ' exact (the rest: '
     + B.s55c_first.pct + '%). Sonnet 5 readers that did look first: ' + B.s5_first.readers + ' readers, ' + B.s5_first.exact + '/' + B.s5_first.images + ' (the rest: ' + B.s5_not.pct + '%). Neither direction suggests a boost.</li>'
-    + '<li><b>The hand-picked 28 were not neighbours.</b> They were picked from all over the corpus, and 5.5 still got 28/28, so its lead does not depend on batch context.</li></ul></div>';
+    + '<li><b>The hand-picked 28 were not neighbours.</b> They were picked from all over the corpus, and 5.5 still got 28/28, so its lead does not depend on batch context.</li>'
+    + '</ul><div id="proto-batching"></div></div>';
   var right = '<div class="col"><div><h3 class="subh">The alphabetical-neighbour confound</h3><p class="body">The corpus is read in sorted-key order, so a batch can hold relatives (a drug and its salt, two tetracyclines), and reading one could help with the other. Images with a close relative in the same reader’s batch (Morgan Tanimoto ≥ 0.7 between references):</p></div>'
     + '<div class="tscroll"><table><thead><tr><th></th><th class="num">with a relative</th><th class="num">without</th></tr></thead><tbody>'
     + '<tr><td>Sonnet 5.5, its own batches</td><td class="num">' + S.s55c.with_exact + '/' + S.s55c.with + '</td><td class="num">' + S.s55c.without_exact + '/' + S.s55c.without + '</td></tr>'
@@ -508,13 +510,28 @@ function intro(D){
     + '</section>';
 }
 
+/* The reader protocol switch (benchmarks/reader_protocol.json): taken from this report's own payload if
+   it has one, else from the live compare payload, so a snapshot built before the switch still says it. */
+function protoNotes(P){
+  if (!P || !$("#proto-corpus")) return;
+  var at = esc(P.at.slice(0, 10));
+  $("#proto-corpus").innerHTML = '<p class="caveat"><b>Single-image readers from row ' + P.s55c_from_row + '.</b> Rows before it were read ' + P.before
+    + ' images to a reader. From row ' + P.s55c_from_row + ' of the Sonnet 5.5 arm and row ' + P.s5_from_row + ' of the Sonnet 5 arm (' + at
+    + ') each reader gets one image, both models reading each new image at the same time; the live tabs carry those rows.</p>';
+  $("#proto-batching").innerHTML = '<p class="tnote"><b>Single-image readers from row ' + P.s55c_from_row + '.</b> From ' + at
+    + ' both corpus arms read one image per reader (Sonnet 5.5 from row ' + P.s55c_from_row + ', Sonnet 5 from row ' + P.s5_from_row
+    + '), for cost: a ten-image reader re-reads its growing context at every step. Those rows have no batch-mates, so as they accumulate they test batch context directly (suggestion P2).</p>';
+}
+
 function render(D){
   $("#view").innerHTML = intro(D) + summary(D) + corpus(D) + handpicked(D) + novel(D) + ez(D) + technique(D) + batching(D) + integrity(D) + suggestions(D)
     + '<footer>Every number on this page is computed by <code>tools/build_sonnet_report.py</code> from <code>wall/sonnet_report.json</code>’s sources: the lane results, '
     + '<code>sonnet55.json</code>, <code>sonnet_compare.json</code>, <code>sonnet_novel.json</code> and <code>technique.json</code>. All scoring uses one rule, '
     + '<code>sonnet_batch.verdict()</code>. Ground truth is PubChem. Costs are API list prices, not money spent.</footer>';
   /* The corpus lane keeps growing after this report is built: say so, with the live count. */
+  protoNotes(D.protocol);
   fetch("/wall/sonnet_compare.json", {cache: "no-cache"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(L){
+    if (!D.protocol && L && L.corpus) protoNotes(L.corpus.protocol);
     if (!L || !L.corpus || L.corpus.n <= D.snapshot.rows) return;
     $("#live").innerHTML = '<p class="live">The corpus lane has since grown to <b>' + n0(L.corpus.n) + '</b> rows (5.5 ' + n0(L.corpus.s55) + ', Sonnet 5 ' + n0(L.corpus.s5)
       + ', CXMolScribe ' + n0(L.corpus.cx) + '). This report still shows the ' + n0(D.snapshot.rows) + '-row snapshot. The live counts are on the <a href="/?tab=sonnet55">Sonnet 5.5 tab</a>.</p>';

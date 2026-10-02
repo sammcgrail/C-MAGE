@@ -324,12 +324,32 @@ def corpus_pairs(s5: dict[str, dict]) -> dict | None:
         return {"n": len(ys), "s55": sum(map(ok55, ys)), "s5": sum(map(ok5, ys)), "cx": sum(map(okc, ys)),
                 "ahead": b, "behind": c, "both": sum(1 for r in ys if ok55(r) and ok5(r)),
                 "p": float(f"{mcnemar_exact(b, c):.3g}")}
-    batches = sorted({batch_of.get(r["k"]) for r in xs if batch_of.get(r["k"]) is not None})
+    # From the switch to single-image readers (benchmarks/reader_protocol.json) every reader is one image,
+    # so a per-batch table would grow a line per image: those rows are grouped ten lane rows at a time.
+    import reader_protocol
+    proto = reader_protocol.summary(len(lane), len(s5))
+    row_no = {r["k"]: i for i, r in enumerate(lane, 1)}
+    single_from = proto["s55c_from_row"] if proto else None
+
+    def group(r):
+        i = row_no[r["k"]]
+        if single_from and i >= single_from:
+            a = single_from + (i - single_from) // 10 * 10
+            return (1, a)
+        return (0, batch_of.get(r["k"]))
+    groups = sorted({group(r) for r in xs if group(r)[1] is not None})
+
+    def label(g):
+        if not g[0]:
+            return {"batch": g[1]}
+        rows = [row_no[r["k"]] for r in xs if group(r) == g]
+        return {"batch": f"Rows {min(rows)}-{max(rows)}", "single": True}
     cost = sum(r["cost_usd"] for r in runs.values())
     imgs = sum(r["images"] for r in runs.values())
     out = {**tally(xs), "unpaired": len(lane) - len(xs),
            "first": xs[0]["name"] if xs else None, "last": xs[-1]["name"] if xs else None,
-           "batches": [dict(batch=b, **tally([r for r in xs if batch_of.get(r["k"]) == b])) for b in batches],
+           "protocol": proto,
+           "batches": [dict(**label(g), **tally([r for r in xs if group(r) == g])) for g in groups],
            "cost_per_image": round(cost / imgs, 2) if imgs else None,
            "diff": [{"k": r["k"], "n": r["name"], "s55": r["sonnet_verdict"],
                      "s5": s5[r["k"]]["sonnet_verdict"], "batch": batch_of.get(r["k"])}

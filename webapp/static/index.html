@@ -672,8 +672,9 @@ function openSheet(r){
         + 'structure, so neither reading can be called right or wrong</code></div>')
     + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">' + esc(DATA.reader || "Sonnet") + ' API, at list price</span></label>'
         + '<code>$' + r.rc.toFixed(2) + ' / image · ~' + fmtdur(r.rt) + ' / image'
-        + '<br><span class="dim">a batch of ' + r.bn + ' read in one shared context: $'
-        + r.bc.toFixed(2) + ' · ' + fmtdur(r.bs) + '</span></code></div>' : '')
+        + (r.bn === 1 ? '<br><span class="dim">read alone: one image per reader (single-image readers)</span>'
+          : '<br><span class="dim">a batch of ' + r.bn + ' read in one shared context: $'
+            + r.bc.toFixed(2) + ' · ' + fmtdur(r.bs) + '</span>') + '</code></div>' : '')
     + verdictNote(r)
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy ' + esc(meLabel) + '\u2019s reading</button>';

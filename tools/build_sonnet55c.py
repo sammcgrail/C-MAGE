@@ -47,6 +47,7 @@ LANE_RESULTS = Path(f"/root/cmage-work/sonnet-{LANE}/results.jsonl")
 S5_RESULTS = Path("/root/cmage-work/sonnet/results.jsonl")
 LEDGER = HERE.parent / "benchmarks" / "sonnet55c_runs.json"
 PROMPT = HERE / "reader_prompt_s55c.txt"
+PROMPT_SINGLE = HERE / "reader_prompt_s55c_single.txt"
 OUT = WALL / "sonnet55.json"
 DIR = "sonnet55c"          # tiles: wall/sonnet55c/, wall/sonnet55c_pred/, wall/sonnet55c_ocr/
 
@@ -107,12 +108,21 @@ def paired(lane: list[dict], s5: dict[str, dict]) -> dict:
             "ahead": b, "behind": c, "p": float(f"{B55.mcnemar_exact(b, c):.3g}")}
 
 
-def method() -> list[dict]:
+def method(proto: dict | None = None) -> list[dict]:
+    readers = ([
+        f"Rows 1 to {proto['s55c_from_row'] - 1}: ten images per reader, read in one shared context. "
+        f"From row {proto['s55c_from_row']} ({proto['at'][:10]}): single-image readers, one image per reader, "
+        "with the same prompt reworded only for the count (both are shown below). From then on Sonnet 5 reads "
+        "each new image in its own single-image reader at the same time, so each pair completes together.",
+        "Why: a ten-image reader re-reads its whole growing context at every step, so a batch of large "
+        "molecules snowballs in cost; one image per reader caps that and lets a runaway reader be stopped "
+        "without losing nine other readings.",
+    ] if proto else ["Ten images per reader."])
     return [
         {"h": "What this tab is", "points": [
-            "Sonnet 5.5 reading the whole image corpus, ten images per Claude usage block, in the same "
-            "order the Sonnet 5 arm read it (sorted by compound key). Nothing is skipped or hand-picked, "
-            "so every image here pairs with the Sonnet 5 reading of the same drawing.",
+            "Sonnet 5.5 reading the whole image corpus in the same order the Sonnet 5 arm read it (sorted "
+            "by compound key). Nothing is skipped or hand-picked, so every image here pairs with the "
+            "Sonnet 5 reading of the same drawing.",
             "Scored exactly like the Sonnet 5 tab: RDKit canonical SMILES against the PubChem reference, "
             "exact / stereo-only / wrong / unparseable, and CXMolScribe's reading of the same image beside it.",
         ]},
@@ -125,10 +135,10 @@ def method() -> list[dict]:
             "Each transcript is scanned for lookups (network requests, reads of the answer files) and every "
             "answer must appear in it before a single row is scored.",
         ]},
+        {"h": "Images per reader", "points": readers},
         {"h": "What differs from the Sonnet 5 arm", "points": [
             "One fixed prompt, shown below, for every batch. The Sonnet 5 arm's prompt changed over its "
             "weeks of batches, so a pair can differ by prompt as well as by model.",
-            "Ten images per reader, one reader per usage block, at max effort.",
         ]},
     ]
 
@@ -196,6 +206,13 @@ def build() -> int:
         except Exception as e:
             print(f"  WARNING structure classes not computed: {e}")
     import build_sonnet
+    import reader_protocol
+    proto = reader_protocol.summary(len(lane), len(s5))
+    single_from = proto["s55c_from_row"] if proto else None
+    prompt = PROMPT.read_text()
+    if proto and PROMPT_SINGLE.exists():
+        prompt = (f"From row {single_from}, one image per reader:\n\n{PROMPT_SINGLE.read_text().strip()}\n\n"
+                  f"Rows 1 to {single_from - 1}, ten images per reader:\n\n{prompt.strip()}\n")
     out = {
         "arm": "Sonnet 5.5", "dir": DIR, "reader": "Sonnet 5.5", "rows": rows,
         "compare": {
@@ -221,19 +238,23 @@ def build() -> int:
         "xlink": {"href": "/sonnet-compare",
                   "text": "Every reading on this tab is Sonnet 5.5, in the Sonnet 5 arm's order.",
                   "bold": "Sonnet 5 vs 5.5, image for image →"},
-        "prompt": PROMPT.read_text(),
+        "prompt": prompt, "protocol": proto,
         "workflow": build_sonnet.WORKFLOW, "examples": [], "classes": classes,
-        "method": method(),
+        "method": method(proto),
         "cx": sum(1 for r in rows if r.get("cx")), "cxLabel": "CXMolScribe returned CXSMILES",
         "stats": {"n": n, "exact": s_ex, "strict_pct": pct(s_ex, n)},
         "threshold": round(THRESHOLD * 100),
         "batches": {str(r["batch"]): d["batches"].get(str(r["batch"]), "") for r in runs},
         "runs": [{k2: v for k2, v in r.items() if k2 not in ("keys", "prompt")} for r in runs],
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "headline": ("Sonnet 5.5 reading the same drawings as the Sonnet 5 tab, in the same order, ten per "
-                     "Claude usage block. The same agent loop with a Python interpreter and RDKit, spawned on "
+        "headline": ("Sonnet 5.5 reading the same drawings as the Sonnet 5 tab, in the same order"
+                     + (f": ten images per reader to row {single_from - 1}, single-image readers from row "
+                        f"{single_from}. " if proto else ". ")
+                     + "The same agent loop with a Python interpreter and RDKit, spawned on "
                      "the exact model id and scored by the same rule."),
-        "footer": (f"n={n} of {corpus_n}, growing by ten per usage block. Corpus order, nothing skipped, so "
+        "footer": (f"n={n} of {corpus_n}, growing every usage block"
+                   + (f" (single-image readers from row {single_from})" if proto else "")
+                   + ". Corpus order, nothing skipped, so "
                    f"every image pairs with the Sonnet 5 arm's reading of it: on these {P['n']}, Sonnet 5.5 "
                    f"{P['s55']} and Sonnet 5 {P['s5']} exact, 5.5 ahead on {P['ahead']} and behind on "
                    f"{P['behind']} (exact McNemar p={P['p']}). Filenames anonymised; ground truth is PubChem."),

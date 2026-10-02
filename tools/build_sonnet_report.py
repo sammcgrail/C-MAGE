@@ -40,6 +40,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "benchmarks"))
 
 from sonnet_batch import verdict  # noqa: E402  (THE scoring rule, one copy)
+import reader_protocol  # noqa: E402  (images per reader, and from which row)
 from rdkit import Chem, DataStructs, RDLogger  # noqa: E402
 from rdkit.Chem import rdFingerprintGenerator  # noqa: E402
 
@@ -365,6 +366,7 @@ def main() -> int:
         "technique": technique_section(tech),
         "batching": batching_section(tech, lane, s5),
         "cadence": cadence_section(s55json, corpus["n"], corpus["corpus"]),
+        "protocol": reader_protocol.summary(len(lane), len(s5)),
     }
     OUT.write_text(json.dumps(payload, indent=1) + "\n")
     e = payload["ez"]["arms"]
