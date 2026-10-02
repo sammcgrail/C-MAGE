@@ -12,6 +12,7 @@
   "108": "Corpus order, the next 10 after the previous batch: Formic Acid to Fosphenytoin. Run unattended by the usage-block cadence.",
   "109": "Corpus order, the next 10 after the previous batch: Fospropofol to Fungichromin. Run unattended by the usage-block cadence.",
   "110": "Corpus order, the next 10 after the previous batch: Furan to Gadobenate Dimeglumine. Run unattended by the usage-block cadence.",
+  "111": "Corpus order, the next 10 after the previous batch: Gadobutrol to Gadoversetamide. Run unattended by the usage-block cadence.",
   "12": "Corpus order, the next 10 after the previous batch: Actarit to Afegostat. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "13": "Corpus order, the next 10 after the previous batch: Aficamten to Aldrin. Run unattended by the usage-block cadence (burst, readers in parallel).",
   "14": "Corpus order, the next 10 after the previous batch: Alectinib to Almotriptan Malate. Run unattended by the usage-block cadence (burst, readers in parallel).",
@@ -2269,6 +2270,44 @@
     "cache_write_5m": 126168,
     "input": 40,
     "output": 58791
+   }
+  },
+  "a8bcd496ff5a63ff6": {
+   "agent": "a8bcd496ff5a63ff6",
+   "agent_type": "general-purpose-max",
+   "batch": 111,
+   "cli": "2.1.284",
+   "cost_usd": 0.9306,
+   "duration_s": 282,
+   "effort": [
+    "max"
+   ],
+   "finished": "2026-10-02T16:51:46Z",
+   "images": 10,
+   "keys": [
+    "gadobutrol_cid6102852",
+    "gadodiamide_cid153921",
+    "gadofosveset_trisodium_cid73049652",
+    "gadopentetate_dimeglumine_cid55466",
+    "gadopentetic_acid_cid6857474",
+    "gadopiclenol_cid16223405",
+    "gadoquatrane_cid156596411",
+    "gadoteric_acid_cid158536",
+    "gadoteridol_cid60714",
+    "gadoversetamide_cid444013"
+   ],
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "prompt": "You are reading ten chemical structure images and writing down the molecule each one depicts, as SMILES.\n\nThe images are:\n/tmp/blinds55c_a/fig01.png\n/tmp/blinds55c_a/fig02.png\n/tmp/blinds55c_a/fig03.png\n/tmp/blinds55c_a/fig04.png\n/tmp/blinds55c_a/fig05.png\n/tmp/blinds55c_a/fig06.png\n/tmp/blinds55c_a/fig07.png\n/tmp/blinds55c_a/fig08.png\n/tmp/blinds55c_a/fig09.png\n/tmp/blinds55c_a/fig10.png\n\nNO LOOKUPS. This is a blind test, and its answer key comes from public chemistry databases, so any lookup voids the reading. Do NOT look up any structure in PubChem, KEGG, ChEMBL, ChemSpider or any online database or name-to-structure service; do not use WebFetch or web search or fetch anything over the network except to install a tool from a package manager; do not read any file other than the images you were given, your own scratch files and the tools you run. Local tools (RDKit, image processing, OSRA, recognising the molecule) are fine. Write the answers to /tmp/answerss55c_a.json as a JSON array [{\"img\",\"smiles\",\"name_if_recognised\",\"confidence\"}].\n\nDO NOT EXPLORE THE FILESYSTEM. Do not list, search or read any directory or file outside the image directory above and your own scratch directory under /tmp: no `ls`, `find` or `pip list` hunting through /root, other repos, virtualenvs or other tools. The Read tool, Python at /root/C-MAGE/.venv-ms/bin/python (RDKit, PIL) and the local tools named above are all you need; anything else on this machine is outside the test, and a transcript that goes looking is discarded unread.\n\nWRITE EVERY FINAL SMILES LITERALLY. Each \"smiles\" value in the answers file must appear as one complete literal string in your own transcript (a tool call or its output), e.g. print it before or while writing the file. Do not build an answer by string concatenation or formatting (no `'[Ca+2].' + frag`) unless you also print the finished string; an answer that never appears whole in your transcript is treated as not yours and the batch is discarded.\n\nGuidance:\n- Read each image yourself with the Read tool \u2014 look at it carefully, zoom in via cropping with Python/PIL if a region is unclear.\n- \"confidence\" is 0-100, your honest probability that the SMILES is exactly right (correct skeleton AND correct stereochemistry where drawn). Be calibrated: use the low end freely when you are guessing at a detail.\n- \"name_if_recognised\" may be null if you do not recognise it.\n- Include stereochemistry (@/@@, /, \\) only where the drawing actually shows wedges/hashes or cis/trans geometry.\n- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.\n- Sanity-check every SMILES parses with RDKit before writing it: /root/C-MAGE/.venv-ms/bin/python -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('...')))\"\n- Write all ten entries, fig01 through fig10, even if some are low confidence. Use \"fig01\" style keys in the \"img\" field.\n\nYour final message should just say you wrote the file and give a one-line summary of your confidence spread.\n",
+   "requests": 18,
+   "started": "2026-10-02T16:47:04Z",
+   "tokens": {
+    "cache_read": 1337732,
+    "cache_write_1h": 0,
+    "cache_write_5m": 104768,
+    "input": 36,
+    "output": 40109
    }
   },
   "a8c7f33adcc9dd904": {
