@@ -388,6 +388,15 @@ def sonnet_compare_page() -> FileResponse:
                         headers={"Cache-Control": "no-cache"})
 
 
+@app.get("/sonnet-report", include_in_schema=False)
+def sonnet_report_page() -> FileResponse:
+    """What the Sonnet 5.5 evaluation found, and what to do next. Static, like /sonnet-compare: its
+    data is wall/sonnet_report.json, built by tools/build_sonnet_report.py into the read-only /wall
+    mount, so refreshing the numbers needs no container rebuild."""
+    return FileResponse(config.STATIC_DIR / "sonnet-report.html", media_type="text/html",
+                        headers={"Cache-Control": "no-cache"})
+
+
 @app.get("/sonnet-5-5", include_in_schema=False)
 def sonnet55_moved(request: Request) -> RedirectResponse:
     """The compare page lived here until 29 Sep, and links to it are out in the world. Permanent
