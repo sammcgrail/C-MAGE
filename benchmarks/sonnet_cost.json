@@ -10,22 +10,22 @@
  "price_source": "https://docs.claude.com/en/docs/about-claude/pricing",
  "price_checked": "2026-09-14",
  "note": "API list-price estimate. The readers ran on a subscription; nothing here was billed per token. cost_usd and per_image_usd cover published reads only, with each run's cost split evenly over its images; cost_usd_all also includes the readings that were made but are not shown -- excluded for a lookup, or superseded when their image was re-rendered.",
- "reads": 1095,
- "cost_usd": 957.83,
- "per_image_usd": 0.875,
- "cost_usd_all": 1001.22,
- "cost_usd_excluded": 43.39,
+ "reads": 1076,
+ "cost_usd": 963.0,
+ "per_image_usd": 0.895,
+ "cost_usd_all": 1017.63,
+ "cost_usd_excluded": 54.64,
  "unattributed_excluded": [],
  "totals": {
-  "input": 27850,
-  "output": 24337804,
-  "cache_write_5m": 46078912,
+  "input": 28366,
+  "output": 24844484,
+  "cache_write_5m": 47064806,
   "cache_write_1h": 0,
-  "cache_read": 3212946543,
-  "requests": 13925,
-  "images": 1147,
+  "cache_read": 3257344524,
+  "requests": 14183,
+  "images": 1176,
   "excluded": 52,
-  "published": 1095
+  "published": 1076
  },
  "readers": [
   {
@@ -282,6 +282,7 @@
    "cost_usd": 3.2875,
    "excluded": 10,
    "published": 0,
+   "silent": true,
    "published_cost_usd": 0.0
   },
   {
@@ -1050,6 +1051,7 @@
    "cost_usd": 7.321,
    "excluded": 10,
    "published": 0,
+   "silent": true,
    "published_cost_usd": 0.0
   },
   {
@@ -1114,6 +1116,7 @@
    "cost_usd": 7.8956,
    "excluded": 1,
    "published": 0,
+   "silent": true,
    "published_cost_usd": 0.0
   },
   {
@@ -1737,8 +1740,9 @@
    "requests": 2,
    "cost_usd": 0.1059,
    "excluded": 0,
-   "published": 10,
-   "published_cost_usd": 0.1059
+   "published": 0,
+   "silent": true,
+   "published_cost_usd": 0.0
   },
   {
    "agent": "a98f1c18a2cd44633",
@@ -1753,8 +1757,9 @@
    "requests": 2,
    "cost_usd": 0.0795,
    "excluded": 0,
-   "published": 10,
-   "published_cost_usd": 0.0795
+   "published": 0,
+   "silent": true,
+   "published_cost_usd": 0.0
   },
   {
    "agent": "adcf9e6ebf976a465",
@@ -1769,8 +1774,9 @@
    "requests": 45,
    "cost_usd": 1.4598,
    "excluded": 0,
-   "published": 10,
-   "published_cost_usd": 1.4598
+   "published": 0,
+   "silent": true,
+   "published_cost_usd": 0.0
   },
   {
    "agent": "aa332b7f4e63d61ec",
@@ -1817,8 +1823,9 @@
    "requests": 93,
    "cost_usd": 5.7374,
    "excluded": 0,
-   "published": 9,
-   "published_cost_usd": 5.7374
+   "published": 0,
+   "silent": true,
+   "published_cost_usd": 0.0
   },
   {
    "agent": "a18b4a8ad47b5064d",
@@ -1915,6 +1922,55 @@
    "excluded": 0,
    "published": 10,
    "published_cost_usd": 11.5397
+  },
+  {
+   "agent": "afce46829a2f7d8fc",
+   "images": 9,
+   "finished": "2026-09-20T19:58:15Z",
+   "duration_s": 1274,
+   "input": 148,
+   "output": 101124,
+   "cache_write_5m": 245980,
+   "cache_write_1h": 0,
+   "cache_read": 11189555,
+   "requests": 74,
+   "cost_usd": 3.8644,
+   "excluded": 0,
+   "published": 0,
+   "silent": true,
+   "published_cost_usd": 0.0
+  },
+  {
+   "agent": "a3b23b94357a94798",
+   "images": 10,
+   "finished": "2026-09-20T20:17:13Z",
+   "duration_s": 2420,
+   "input": 168,
+   "output": 229164,
+   "cache_write_5m": 436917,
+   "cache_write_1h": 0,
+   "cache_read": 15762782,
+   "requests": 84,
+   "cost_usd": 6.5368,
+   "excluded": 0,
+   "published": 10,
+   "published_cost_usd": 6.5368
+  },
+  {
+   "agent": "a5e77db3d1d9cc262",
+   "images": 10,
+   "finished": "2026-10-02T17:32:51Z",
+   "duration_s": 1861,
+   "input": 200,
+   "output": 176392,
+   "cache_write_5m": 302997,
+   "cache_write_1h": 0,
+   "cache_read": 17445644,
+   "requests": 100,
+   "cost_usd": 6.0109,
+   "excluded": 0,
+   "published": 10,
+   "published_cost_usd": 6.0109
   }
  ],
  "per_key": {
@@ -1951,12 +2007,12 @@
    "reader": "aa2f8e6e"
   },
   "gabapentin_cid3446": {
-   "cost": 0.1454,
-   "secs": 82,
+   "cost": 0.6011,
+   "secs": 186,
    "batch": 10,
-   "batch_cost": 1.45,
-   "batch_secs": 822,
-   "reader": "aa2f8e6e"
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
   },
   "lactic_acid_cid612": {
    "cost": 0.5415,
@@ -2455,12 +2511,12 @@
    "reader": "a2b946e7"
   },
   "acetic_acid_cid176": {
-   "cost": 1.1292,
-   "secs": 284,
+   "cost": 0.6011,
+   "secs": 186,
    "batch": 10,
-   "batch_cost": 11.29,
-   "batch_secs": 2838,
-   "reader": "a5d492f9"
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
   },
   "acetohydroxamic_acid_cid1990": {
    "cost": 0.2272,
@@ -3887,12 +3943,12 @@
    "reader": "a567ab1e"
   },
   "benzyl_alcohol_cid244": {
-   "cost": 0.2899,
-   "secs": 115,
+   "cost": 0.6011,
+   "secs": 186,
    "batch": 10,
-   "batch_cost": 2.9,
-   "batch_secs": 1151,
-   "reader": "a567ab1e"
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
   },
   "benzylthiouracil_cid685814": {
    "cost": 0.2899,
@@ -3967,12 +4023,12 @@
    "reader": "abdd6315"
   },
   "benzene_cid241": {
-   "cost": 1.154,
-   "secs": 312,
+   "cost": 0.6011,
+   "secs": 186,
    "batch": 10,
-   "batch_cost": 11.54,
-   "batch_secs": 3123,
-   "reader": "a86c9002"
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
   },
   "benzene_d6_cid71601": {
    "cost": 0.3712,
@@ -6615,12 +6671,12 @@
    "reader": "a88a0d69"
   },
   "cyclopropane_cid6351": {
-   "cost": 0.6375,
-   "secs": 249,
-   "batch": 9,
-   "batch_cost": 5.74,
-   "batch_secs": 2240,
-   "reader": "a4e6352c"
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
   },
   "cycloserine_cid6234": {
    "cost": 0.8313,
@@ -10357,6 +10413,166 @@
    "batch_cost": 11.54,
    "batch_secs": 3123,
    "reader": "a86c9002"
+  },
+  "fidaxomicin_cid10034073": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "filgotinib_cid49831257": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "fimasartan_cid9870652": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "finasteride_cid57363": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "finerenone_cid60150535": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "fingolimod_cid107970": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "fipronil_cid3352": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "firocoxib_cid208910": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "flavoxate_cid3354": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "flecainide_cid3356": {
+   "cost": 0.6537,
+   "secs": 242,
+   "batch": 10,
+   "batch_cost": 6.54,
+   "batch_secs": 2420,
+   "reader": "a3b23b94"
+  },
+  "fusidic_acid_cid3000226": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "futibatinib_cid71621331": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gabapentin_enacarbil_cid9883933": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gabexate_cid3447": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gaboxadol_cid3448": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gadobenate_dimeglumine_cid6918204": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gadobutrol_cid6102852": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gadodiamide_cid153921": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gadofosveset_trisodium_cid73049652": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
+  },
+  "gadopentetate_dimeglumine_cid55466": {
+   "cost": 0.6011,
+   "secs": 186,
+   "batch": 10,
+   "batch_cost": 6.01,
+   "batch_secs": 1861,
+   "reader": "a5e77db3"
   }
  }
 }
