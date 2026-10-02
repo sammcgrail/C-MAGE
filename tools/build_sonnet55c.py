@@ -202,8 +202,7 @@ def build() -> int:
             "n": n, "corpus": corpus_n,
             "sides": [
                 {"label": "Sonnet 5.5", "exact": s_ex, "n": n, "pct": pct(s_ex, n)},
-                {"label": "Sonnet 5", "exact": P["s5"], "n": P["n"], "pct": pct(P["s5"], P["n"]),
-                 "note": "same images"},
+                {"label": "Sonnet 5", "exact": P["s5"], "n": P["n"], "pct": pct(P["s5"], P["n"])},
                 {"label": "CXMolScribe", "exact": o_ex, "n": n, "pct": pct(o_ex, n)},
             ],
             "agree": sum(1 for r in rows if r["o"] == "both"),
