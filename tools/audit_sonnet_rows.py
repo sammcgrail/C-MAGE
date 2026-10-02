@@ -182,6 +182,12 @@ def main(argv: list[str]) -> int:
                 return True
         if "\\" not in smi:
             return False
+        # Necessary condition, checked before the expensive collapse: every backslash-free piece of
+        # the answer must already occur in the raw text (collapsing only shortens backslash runs, so
+        # it never creates a piece that was absent). Same verdicts, a fraction of the time: without
+        # it each backslash row re-collapsed every reader transcript (a 4-entry cache, rows outer).
+        if any(piece not in text for piece in sorted(re.split(r"\\+", smi), key=len, reverse=True) if piece):
+            return False
         flat = _collapse(text)
         return _bounded(re.sub(r"\\+", "\\\\", smi), flat)
 

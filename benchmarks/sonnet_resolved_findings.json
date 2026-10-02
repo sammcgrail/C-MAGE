@@ -28,5 +28,35 @@
     "target": "https://pypi.org",
     "resolution": "A package-index reachability check (python3 -c \"urllib.request.urlopen('https://pypi.org').status\" -> 200), made while checking whether pip was available. It requested no chemistry data. Every row of this reader's batch is excluded and was never scored; this resolution exists only so the benign check stops failing unrelated rows whose SMILES happen to appear in the transcript (acetic_acid_cid176 via the acetate of cyproterone acetate).",
     "resolved": "2026-09-17"
+  },
+  {
+    "agent": "a4e6352c5a018c5dd",
+    "target": "| head -5; pip list 2>/dev/null | grep -i -E \"osra|decimer|molscribe|imago\"; ls /root/C-MAGE/ 2>/dev/null | head -30",
+    "resolution": "Repository exploration, not answer-key access: the reader listed the repo root (ls /root/C-MAGE) while checking which OCSR tools were installed (which osra, import decimer, pip list); the result is file names only. Checked against the tool result. This reader's batch (fidaxomicin..flecainide, 20 Sep 15:09) was never scored and published nothing (audit 'runs that published nothing'); the same images were re-read by a3b23b94357a94798 (20:17, no findings), to which the published rows are credited. This resolution exists only so this unscored reader's findings stop failing those rows, which it holds because it read the same molecules (precedent: the 17 Sep a53ca464d424caad2 resolution). Under the 29 Sep policy such a reader is discarded unscored, which is what happened.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "a4e6352c5a018c5dd",
+    "target": "cd /root/C-MAGE && cat README.md 2>/dev/null | head -60",
+    "resolution": "Repository exploration, not answer-key access: the reader read the first 60 lines of README.md (pipeline overview, no data). Checked against the tool result. This reader's batch (fidaxomicin..flecainide, 20 Sep 15:09) was never scored and published nothing (audit 'runs that published nothing'); the same images were re-read by a3b23b94357a94798 (20:17, no findings), to which the published rows are credited. This resolution exists only so this unscored reader's findings stop failing those rows, which it holds because it read the same molecules (precedent: the 17 Sep a53ca464d424caad2 resolution). Under the 29 Sep policy such a reader is discarded unscored, which is what happened.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "a4e6352c5a018c5dd",
+    "target": "cd /root/C-MAGE && python run_pipeline.py --help 2>&1 | head -60",
+    "resolution": "Repository exploration, not answer-key access: the reader ran run_pipeline.py --help (usage text). Checked against the tool result. This reader's batch (fidaxomicin..flecainide, 20 Sep 15:09) was never scored and published nothing (audit 'runs that published nothing'); the same images were re-read by a3b23b94357a94798 (20:17, no findings), to which the published rows are credited. This resolution exists only so this unscored reader's findings stop failing those rows, which it holds because it read the same molecules (precedent: the 17 Sep a53ca464d424caad2 resolution). Under the 29 Sep policy such a reader is discarded unscored, which is what happened.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "a4e6352c5a018c5dd",
+    "target": "cd /root/C-MAGE && find . -iname \"*molscribe*\" -not -path \"*/node_modules/*\" | grep -v cxmolscr",
+    "resolution": "Repository exploration, not answer-key access: the reader listed file paths matching *molscribe* (requirements file, venv package files, mcp/molscribe_worker.py). Checked against the tool result. This reader's batch (fidaxomicin..flecainide, 20 Sep 15:09) was never scored and published nothing (audit 'runs that published nothing'); the same images were re-read by a3b23b94357a94798 (20:17, no findings), to which the published rows are credited. This resolution exists only so this unscored reader's findings stop failing those rows, which it holds because it read the same molecules (precedent: the 17 Sep a53ca464d424caad2 resolution). Under the 29 Sep policy such a reader is discarded unscored, which is what happened.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "a4e6352c5a018c5dd",
+    "target": "{\"file_path\": \"/root/C-MAGE/mcp/molscribe_worker.py\"}",
+    "resolution": "Repository exploration, not answer-key access: the reader read mcp/molscribe_worker.py (the MCP worker's source, no data). Checked against the tool result. This reader's batch (fidaxomicin..flecainide, 20 Sep 15:09) was never scored and published nothing (audit 'runs that published nothing'); the same images were re-read by a3b23b94357a94798 (20:17, no findings), to which the published rows are credited. This resolution exists only so this unscored reader's findings stop failing those rows, which it holds because it read the same molecules (precedent: the 17 Sep a53ca464d424caad2 resolution). Under the 29 Sep policy such a reader is discarded unscored, which is what happened.",
+    "resolved": "2026-10-02"
   }
 ]
