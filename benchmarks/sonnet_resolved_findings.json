@@ -58,5 +58,41 @@
     "target": "{\"file_path\": \"/root/C-MAGE/mcp/molscribe_worker.py\"}",
     "resolution": "Repository exploration, not answer-key access: the reader read mcp/molscribe_worker.py (the MCP worker's source, no data). Checked against the tool result. This reader's batch (fidaxomicin..flecainide, 20 Sep 15:09) was never scored and published nothing (audit 'runs that published nothing'); the same images were re-read by a3b23b94357a94798 (20:17, no findings), to which the published rows are credited. This resolution exists only so this unscored reader's findings stop failing those rows, which it holds because it read the same molecules (precedent: the 17 Sep a53ca464d424caad2 resolution). Under the 29 Sep policy such a reader is discarded unscored, which is what happened.",
     "resolved": "2026-10-02"
+  },
+  {
+    "agent": "afce46829a2f7d8fc",
+    "target": "which osra 2>/dev/null; echo \"---\"; ls /root/C-MAGE/ 2>/dev/null; echo \"---venv-ms---\"; ls /root/C-MAGE/.venv-ms/bin/ 2>/dev/null |",
+    "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader listed the repo root and the .venv-ms bin dir while checking for OCSR tools. Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "afce46829a2f7d8fc",
+    "target": "find /root/C-MAGE -maxdepth 2 -type d 2>/dev/null; echo \"---py files---\"; find /root/C-MAGE -maxd",
+    "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader listed the repo's directories and python files. Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "afce46829a2f7d8fc",
+    "target": "sed -n '1,150p' /root/C-MAGE/README.md",
+    "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader read the first 150 lines of README.md. Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "afce46829a2f7d8fc",
+    "target": "sed -n '1,200p' /root/C-MAGE/cxmolscribe-wd/pipeline_ms.py",
+    "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader read cxmolscribe-wd/pipeline_ms.py (CXMolScribe's stage-3 code). Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "afce46829a2f7d8fc",
+    "target": "{\"file_path\": \"/root/C-MAGE/cxmolscribe-wd/run_blind_b.py\", \"content\": \"import sys, json, time\\nfrom pathli",
+    "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader wrote cxmolscribe-wd/run_blind_b.py, a script to run CXMolScribe on its own blind images. Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
+    "resolved": "2026-10-02"
+  },
+  {
+    "agent": "afce46829a2f7d8fc",
+    "target": "cd /root/C-MAGE/cxmolscribe-wd && /root/C-MAGE/.venv-ms/bin/python run_blind_b.py 2>&1 | tail -",
+    "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader ran that script, i.e. used CXMolScribe (another recogniser, not the answer key) on its images. Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
+    "resolved": "2026-10-02"
   }
 ]
