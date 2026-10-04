@@ -29,7 +29,8 @@ a{color:#58a6ff}
 /* NOT the padding/negative-margin trick here: a clamped -webkit-box hides overflow at its padding
    edge, so the third line showed through the padding and sat on the next row. The anchor is the
    whole 44px cell instead, lines centred inside it, two lines at most. */
-.dl li a.clamp{display:-webkit-box;padding:0;margin:0;min-height:44px;-webkit-box-pack:center}
+.dl li a.hit{display:flex;align-items:center;min-height:44px;min-width:0;padding:0;margin:0}
+.dl li a.hit .clamp{line-height:1.3;max-height:2.6em}
 .dl li{min-height:44px}
 sup{font-size:max(12px,.72em);line-height:0}
 header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
@@ -456,8 +457,8 @@ function corpusSection(C){
   var diff = C.diff.length ? '<div class="block"><h3 class="subh">Where they differ <span class="dim">(' + C.diff.length + ' images)</span></h3>'
       + '<p class="tnote" style="margin:0 0 var(--s2)">Every corpus image where exactly one of the two was exact. Each name opens the Sonnet 5.5 tab.</p>'
       + capbox('<ul class="dl">' + dh('') + dh(' x x2') + dh(' x x3')
-        + C.diff.map(function(x){ return '<li><a class="clamp" title="' + esc(x.n) + '" href="/?tab=sonnet55">'
-          + esc(x.n) + '</a><span>' + badge(x.s5) + '</span><span>' + badge(x.s55) + '</span></li>'; }).join("") + '</ul>',
+        + C.diff.map(function(x){ return '<li><a class="hit" title="' + esc(x.n) + '" href="/?tab=sonnet55"><span class="clamp">'
+          + esc(x.n) + '</span></a><span>' + badge(x.s5) + '</span><span>' + badge(x.s55) + '</span></li>'; }).join("") + '</ul>',
         C.diff.length, "images", 440)
       + '</div>' : '';
   var caveat = '<div class="caveat"><b>Unselected, but still one reading each.</b> '
