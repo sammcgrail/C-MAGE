@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>C-MAGE: Sonnet 5.5 findings report</title>
-<meta name="description" content="What the Sonnet 5.5 evaluation found, every number computed from the published data: the paired corpus, cost per image, the hand-picked set, novel structures, a double-bond E/Z scoring finding, reader technique, integrity fixes and prioritised suggestions.">
+<meta name="description" content="Why Sonnet 5.5, Sonnet 5 and CXMolScribe miss chemical structure drawings: every miss classified, the molecule features that drive misses, a gallery of missed molecules with the difference highlighted, and the fixes the data supports with the misses each would address. Every number computed from the published data.">
 <link rel="icon" href="/static/favicon.png">
 <style>
 /* Same palette, type and header as the benchmark page and /sonnet-compare. Arms: 5.5 green,
@@ -25,7 +25,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);
   -webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 a{color:#58a6ff}
 /* Inline links keep their place in the line but get a 44px tall hit box. */
-p a,li a,.lede a,.tnote a,.asof a{display:inline-block;padding:12px 0;margin:-12px 0}
+p a,li a,.lede a,.tnote a,.asof a,.chips a{display:inline-block;padding:12px 0;margin:-12px 0}
 sup{font-size:max(12px,.72em);line-height:0}
 header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
   backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -83,42 +83,39 @@ h1{font-size:24px;line-height:1.2;margin:0 0 var(--s2);letter-spacing:-.3px}
 .chart{background:var(--panel);border:1px solid var(--line);padding:12px 12px 10px;min-width:0}
 .chart .subh{margin-bottom:8px}
 
-/* KPI tiles */
-.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2);margin-top:var(--s4)}
-.kpi{background:var(--panel);border:1px solid var(--line);padding:11px 12px;min-width:0;display:flex;flex-direction:column;gap:4px}
-.kpi .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.4px;line-height:1.3}
-.kpi .v{font-size:24px;font-weight:800;line-height:1.1;letter-spacing:-.6px;overflow-wrap:anywhere}
-.kpi .v small{font-size:13px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:3px}
-.kpi .d{color:var(--dim);font-size:12.5px;line-height:1.4}
-.kpi .d b{color:var(--ink);font-weight:650}
-.kpi a{color:var(--dim)}
-
-/* Stat boxes (three arms) */
-.cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2)}
-.cmp .side{background:var(--panel);border:1px solid var(--line);padding:11px 10px;min-width:0;display:flex;flex-direction:column}
-.cmp .who{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.3px;line-height:1.35;min-height:2.7em;
-  display:flex;gap:6px;align-items:flex-start}
-.cmp .who i{width:10px;height:10px;flex:0 0 10px;display:block;margin-top:3px;background:var(--c)}
-.cmp .pc{font-size:28px;font-weight:800;line-height:1;letter-spacing:-1px;margin-top:6px;font-variant-numeric:tabular-nums}
-.cmp .pc small{font-size:14px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:2px}
-.cmp .of{color:var(--dim);font-size:12.5px;margin:6px 0 9px}
-.cmp .track{height:7px;background:var(--track);margin-top:auto;overflow:hidden}
-.cmp .track i{display:block;height:100%}
+/* Scores: small and glanceable */
+.scores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s4)}
+.score{background:var(--panel);border:1px solid var(--line);padding:9px 10px;min-width:0;display:flex;flex-direction:column;gap:2px}
+.score .who{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.3px;display:flex;gap:6px;align-items:center;min-height:1.4em}
+.score .who i{width:9px;height:9px;flex:0 0 9px;display:block;background:var(--c)}
+.score .pc{font-size:24px;font-weight:800;line-height:1.05;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.score .pc small{font-size:13px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:2px}
+.score .of{color:var(--dim);font-size:12.5px;line-height:1.35}
+.score .of b{color:var(--ink);font-weight:650}
+.score .track{height:5px;background:var(--track);margin-top:6px;overflow:hidden}
+.score .track i{display:block;height:100%}
+.chips{display:flex;flex-wrap:wrap;gap:4px 14px;margin:var(--s2) 0 0;font-size:12.5px;color:var(--dim)}
+.chips b{color:var(--ink);font-weight:650}
 
 /* Horizontal bars: label | bar | value. Bars <= 18px, 4px rounded data-end, square at the baseline,
    2px surface gap between neighbours, value at the tip. */
 .bars{display:grid;gap:6px;margin:0}
 .bar{display:grid;grid-template-columns:minmax(0,var(--lw,9.5em)) minmax(0,1fr) var(--vw,5.6em);gap:0 8px;align-items:center;font-size:12.5px}
+.fixes .bar{--lw:14em;--vw:3.2em}
 .bar .l{color:var(--dim);line-height:1.25;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .bar .l b{color:var(--ink);font-weight:600}
+.bar .l small{font-size:12px;color:var(--dim)}
 .bar .t{position:relative;height:16px;background:var(--track)}
 .bar .t i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;min-width:2px}
 .bar .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;font-weight:650;line-height:1.2}
 .bar .v small{color:var(--dim);font-weight:400;font-size:12px;display:block}
+.bars.tight{gap:3px}
+.bars.tight .bar .t{height:12px}
 .grp{display:grid;gap:var(--s3)}
 .grp>div{min-width:0}
-.grp h4{margin:0 0 6px;font-size:12.5px;color:var(--ink);font-weight:650}
+.grp h4{margin:0 0 6px;font-size:12.5px;color:var(--ink);font-weight:650;line-height:1.3}
 .grp h4 small{color:var(--dim);font-weight:400;font-size:12px;margin-left:5px}
+.grp h4 em{display:block;font-style:normal;color:var(--dim);font-weight:400;font-size:12px}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--dim);margin:8px 0 0}
 .legend span{display:inline-flex;align-items:center;gap:5px;min-height:24px}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;background:var(--c)}
@@ -129,17 +126,37 @@ h1{font-size:24px;line-height:1.2;margin:0 0 var(--s2);letter-spacing:-.3px}
 .srow{display:grid;grid-template-columns:minmax(0,7.5em) minmax(0,1fr) 3.2em;gap:8px;align-items:center;font-size:12.5px;margin-top:8px}
 .srow .l{color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .srow .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
-/* Line chart */
-svg.line{display:block;overflow:visible;max-width:100%}
-svg.line text{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:var(--dim)}
-svg.line text.end{fill:var(--ink);font-weight:650}
-svg.line .grid{stroke:var(--line);stroke-width:1}
-svg.line path{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-svg.line .sw{stroke:#e3c46a;stroke-width:1;stroke-dasharray:3 3}
-svg.line text.swl{fill:#e3c46a}
-.hover{position:relative}
-.tip{position:absolute;pointer-events:none;display:none;background:var(--track);border:1px solid var(--line);color:var(--ink);
-  font-size:12px;line-height:1.4;padding:5px 8px;white-space:nowrap;z-index:5;transform:translate(-50%,-100%)}
+
+/* Gallery of missed molecules */
+.fgroup{margin-top:var(--s4)}
+.fgroup>summary{font-size:15px;font-weight:700;color:var(--ink)}
+.fgroup>summary small{color:var(--dim);font-weight:500;font-size:12.5px;margin-left:8px}
+.fgroup .meaning{color:var(--dim);font-size:12.5px;margin:0 0 var(--s2)}
+.fcards{display:grid;gap:var(--s3)}
+.fcard{background:var(--panel);border:1px solid var(--line);padding:10px 10px 8px;min-width:0}
+.fcard .fh{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;margin-bottom:8px}
+.fcard .fh b{font-size:14px;line-height:1.3;overflow-wrap:anywhere;min-width:0;flex:1 1 12em}
+.fcard .fh .dim{color:var(--dim);font-size:12px;white-space:nowrap}
+.fimgs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.fimgs figure{margin:0;background:none;min-width:0;display:flex;flex-direction:column}
+.fimgs img{width:100%;aspect-ratio:1;object-fit:contain;display:block;height:auto;background:#fff}
+.binh{font-size:12.5px;color:var(--ink);font-weight:650;margin:8px 0 3px}
+.binh small{color:var(--dim);font-weight:400;font-size:12px;margin-left:4px}
+.binh:first-child{margin-top:0}
+.fimgs figcaption{background:var(--panel);color:var(--dim);font-size:12px;line-height:1.4;padding:4px 0 0;min-height:3.4em}
+.fimgs figcaption b{color:var(--ink);font-weight:650}
+.fimgs figcaption i{display:inline-block;width:9px;height:9px;background:var(--c);margin-right:5px;vertical-align:-1px}
+.fok{color:var(--dim);font-size:12px;margin-top:6px}
+.fok b{color:var(--ink);font-weight:600}
+.tag{font-size:12px;font-weight:700;padding:1px 7px;border-radius:20px;white-space:nowrap}
+.tag.cat{background:#21262d;color:#c9d1d9}
+.tag.add{background:#3d3010;color:#fbbf24} .tag.omit{background:#4a1513;color:#f87171} .tag.other{background:#21262d;color:#c9d1d9}
+
+/* Fixes */
+.fixes{margin:0;padding:0;list-style:none;display:grid;gap:var(--s2)}
+.fixes>li{background:var(--panel);border:1px solid var(--line);padding:10px 12px;min-width:0}
+.fixes h3{margin:0 0 6px;font-size:14px;line-height:1.35;font-weight:650}
+.fixes .note{color:var(--dim);font-size:12.5px;margin:6px 0 0;line-height:1.45}
 
 /* Tables (inside details) */
 .tscroll{overflow-x:auto;max-width:100%}
@@ -162,6 +179,7 @@ figure img{width:100%;display:block;height:auto}
 .figs>*{min-width:0}
 figcaption{background:var(--bg);color:var(--dim);font-size:12.5px;padding:6px 0 0;line-height:1.45}
 figcaption b{color:var(--ink)}
+.ezfig{max-width:620px}
 
 /* Lists */
 .facts{margin:0;padding:0;list-style:none;display:grid;gap:8px}
@@ -173,29 +191,23 @@ figcaption b{color:var(--ink)}
 .mh b{font-weight:650;overflow-wrap:anywhere;min-width:0;flex:1 1 12em}
 .mr{color:var(--dim);font-size:12.5px;line-height:1.45;margin-top:2px;overflow-wrap:anywhere}
 .mr .cf{white-space:nowrap}
-.tag{font-size:12px;font-weight:700;padding:1px 7px;border-radius:20px;white-space:nowrap}
-.tag.add{background:#3d3010;color:#fbbf24} .tag.omit{background:#4a1513;color:#f87171} .tag.other{background:#21262d;color:#c9d1d9}
-.fixes{margin:0;padding:0;list-style:none;display:grid;gap:var(--s2)}
-.fixes li{background:var(--panel);border:1px solid var(--line);padding:10px 12px;min-width:0}
-.fixes h3{margin:0 0 4px;font-size:14px;line-height:1.3}
-.fixes p{margin:0;font-size:13px;color:#c9d1d9;line-height:1.5}
-.fixes p+p{margin-top:4px}
-.fixes .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.4px;margin-right:4px}
-
-/* Suggestions */
-.sugg{margin:0;padding:0;list-style:none;display:grid;gap:var(--s2)}
-.sugg>li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--line);padding:10px 12px;min-width:0}
-.sugg>li.p1{border-left-color:#3fb950} .sugg>li.p2{border-left-color:#58a6ff} .sugg>li.p3{border-left-color:#8b98a5}
-.shead{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;margin-bottom:4px}
-.shead h3{margin:0;font-size:15px;line-height:1.3;flex:1 1 14em;min-width:0}
-.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap}
-.pill.p1{background:#0f3d20;color:#4ade80} .pill.p2{background:#12233c;color:#79b8ff} .pill.p3{background:#21262d;color:#c9d1d9}
-.pill.cost{background:#2a1f3d;color:#d2a8ff} .pill.done{background:#1d1a0f;color:#e3c46a}
-.sugg p{margin:0;font-size:13.5px;color:#c9d1d9;line-height:1.5;max-width:860px}
-.sugg p b{color:var(--ink)}
+.found{margin:0;padding:0;list-style:none;display:grid;gap:var(--s2)}
+.found li{background:var(--panel);border:1px solid var(--line);padding:10px 12px;min-width:0}
+.found h3{margin:0 0 4px;font-size:14px;line-height:1.3}
+.found p{margin:0;font-size:13px;color:#c9d1d9;line-height:1.5}
+.found p+p{margin-top:4px}
+.found .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.4px;margin-right:4px}
+.cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2)}
+.cmp .side{background:var(--panel);border:1px solid var(--line);padding:11px 10px;min-width:0;display:flex;flex-direction:column}
+.cmp .who{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.3px;line-height:1.35;min-height:2.7em;display:flex;gap:6px;align-items:flex-start}
+.cmp .who i{width:10px;height:10px;flex:0 0 10px;display:block;margin-top:3px;background:var(--c)}
+.cmp .pc{font-size:28px;font-weight:800;line-height:1;letter-spacing:-1px;margin-top:6px;font-variant-numeric:tabular-nums}
+.cmp .pc small{font-size:14px;font-weight:600;color:var(--dim);letter-spacing:0;margin-left:2px}
+.cmp .of{color:var(--dim);font-size:12.5px;margin:6px 0 9px}
+.cmp .track{height:7px;background:var(--track);margin-top:auto;overflow:hidden}
+.cmp .track i{display:block;height:100%}
 details{margin-top:var(--s2);border-top:1px solid var(--line)}
-details.flat{border-top:0;margin-top:0}
-summary{cursor:pointer;color:#58a6ff;font-size:13.5px;padding:10px 0 4px;min-height:44px;display:flex;align-items:center;list-style:none}
+summary{cursor:pointer;color:#58a6ff;font-size:13.5px;padding:10px 0 4px;min-height:44px;display:flex;align-items:center;list-style:none;flex-wrap:wrap}
 summary::-webkit-details-marker{display:none}
 summary::before{content:"▸";display:inline-block;width:1.1em;color:var(--dim);transition:transform .15s}
 details[open]>summary::before{transform:rotate(90deg)}
@@ -217,22 +229,25 @@ footer code{font-size:12px}
   .ghost{padding:0 9px;font-size:12px}
   h1{font-size:21px}
   .sec-head h2{font-size:18px}
+  .score .pc{font-size:21px}
+  .score{padding:9px 8px}
+  .score .who{letter-spacing:0;text-transform:none}
+  .score .who i{display:none}
   .cmp .pc{font-size:24px}
   .cmp .side{padding:11px 8px}
-  /* Three boxes at 390px are ~99px inside: CXMOLSCRIBE needs all of it, so the swatch goes (the
-     coloured track below carries the arm), letter-spacing goes, and words never break mid-word. */
   .cmp .who{letter-spacing:0;overflow-wrap:normal;word-break:normal;hyphens:none}
   .cmp .who i{display:none}
-  .kpi .v{font-size:22px}
   table{font-size:12.5px}
   th,td{padding:6px 5px}
   .bar{--lw:7em;--vw:5.4em}
 }
-@media(max-width:359px){ .cmp .who{text-transform:none} .cmp .side{padding:10px 6px} }
+@media(max-width:359px){ .cmp .who,.score .who{text-transform:none} .cmp .side{padding:10px 6px} .scores{grid-template-columns:1fr} }
 @media(min-width:700px){
   .figs{grid-template-columns:3fr 2fr;align-items:start}
-  .grp{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grp{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grp.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fcards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fimgs{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 }
 @media(min-width:900px){
   :root{--gut:24px}
@@ -242,7 +257,8 @@ footer code{font-size:12px}
   .sec-head h2{font-size:22px}
   .cmp .side{padding:13px 14px}
   .cmp .pc{font-size:32px}
-  .kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .grp.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fimgs{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
 }
 @media(min-width:1000px){ .toc{display:block} .jump{display:none} }
 @media(min-width:1200px){ :root{--gut:32px} }
@@ -262,9 +278,9 @@ footer code{font-size:12px}
   </div>
   <nav class="toc" aria-label="On this page"><div class="tin">
     <span>On this page</span>
-    <a href="#summary">Summary</a><a href="#corpus">Corpus</a><a href="#cost">Cost</a><a href="#handpicked">Hand-picked</a>
-    <a href="#novel">Novel</a><a href="#ez">E/Z</a><a href="#technique">Technique</a>
-    <a href="#integrity">Integrity</a><a href="#suggestions">Suggestions</a>
+    <a href="#scores">Scores</a><a href="#failures">Why they miss</a><a href="#gallery">Missed molecules</a><a href="#fixes">Fixes</a>
+    <a href="#corpus">Corpus</a><a href="#cost">Cost</a><a href="#handpicked">Hand-picked</a><a href="#novel">Novel</a>
+    <a href="#ez">E/Z</a><a href="#technique">Technique</a><a href="#integrity">Integrity</a>
   </div></nav>
 </header>
 
@@ -288,6 +304,7 @@ function pfmt(p){
 function secs(s){ return s == null ? "–" : s >= 90 ? (s / 60).toFixed(1) + " min" : Math.round(s) + " s"; }
 function when(s){ return esc(String(s).replace("T", " ").slice(0, 16)) + " UTC"; }
 var ARM = {s55: ["Sonnet 5.5", "var(--c55)"], s5: ["Sonnet 5", "var(--c5)"], cx: ["CXMolScribe", "var(--ccx)"]};
+var ARMS = ["s55", "s5", "cx"];
 function sec(id, num, title, inner){
   return '<section class="sec" id="' + id + '"><div class="sec-head"><h2><span class="num">' + num + '</span>'
     + esc(title) + '</h2></div>' + inner + '</section>';
@@ -306,76 +323,20 @@ function legend(arms, top){
     return '<span style="--c:' + ARM[a][1] + '">' + esc(ARM[a][0]) + '</span>'; }).join("") + '</div>';
 }
 /* Horizontal bars on one shared scale, value at the tip. rows: {l, v, c, vt (value text), t (title)} */
-function bars(rows, max, fmt){
-  return '<div class="bars">' + rows.map(function(r){
+function bars(rows, max, fmt, tight){
+  return '<div class="bars' + (tight ? ' tight' : '') + '">' + rows.map(function(r){
     var w = r.v == null ? 0 : Math.max(0.6, 100 * r.v / max);
     return '<div class="bar" title="' + esc(r.t || "") + '"><span class="l">' + r.l + '</span><span class="t"><i style="width:' + w.toFixed(2)
       + '%;background:' + r.c + '"></i></span><span class="v">' + (r.vt != null ? r.vt : fmt(r.v)) + '</span></div>';
   }).join("") + '</div>';
 }
 /* Three arms on the same rows, as a small multiple per group: {label, n, s55, s5, cx} */
-function armGroups(groups, key){
-  return '<div class="grp">' + groups.map(function(g){
-    return '<div><h4>' + esc(g.label) + '<small>n=' + n0(g.n) + '</small></h4>' + bars(["s55", "s5", "cx"].map(function(a){
+function armGroups(groups, cls){
+  return '<div class="grp' + (cls ? ' ' + cls : '') + '">' + groups.map(function(g){
+    return '<div><h4>' + esc(g.label) + '<small>n=' + n0(g.n) + '</small></h4>' + bars(ARMS.map(function(a){
       return {l: esc(ARM[a][0]), v: 100 * g[a] / g.n, c: ARM[a][1],
               vt: pc(g[a], g.n) + '<small>' + n0(g[a]) + '</small>', t: ARM[a][0] + ": " + g[a] + " of " + g.n + " exact"}; }), 100) + '</div>';
   }).join("") + '</div>';
-}
-/* Cumulative exact rate over the paired corpus rows: one 2px line per arm, hairline grid, the end
-   value labelled, and the switch to single-image readers marked. series: [i, c55, c5, cx]. */
-var LINE_C = null;
-function lineChart(C, W){
-  LINE_C = C;
-  W = Math.max(300, Math.round(W || 360));
-  var S = C.series, n = C.n, H = 190, L = 42, R = 56, T = 10, B = 26, lo = 60, hi = 100;
-  var x = function(i){ return L + (W - L - R) * (i / n); }, y = function(v){ return T + (H - T - B) * (1 - (v - lo) / (hi - lo)); };
-  var path = function(k){ return S.map(function(p, j){ var v = 100 * p[k] / p[0]; return (j ? "L" : "M") + x(p[0]).toFixed(1) + " " + y(Math.max(lo, v)).toFixed(1); }).join(" "); };
-  var last = S[S.length - 1], arms = [["s55", 1], ["s5", 2], ["cx", 3]];
-  var ends = arms.map(function(a){ return {a: a[0], v: 100 * last[a[1]] / last[0]}; }).sort(function(p, q){ return q.v - p.v; });
-  // spread end labels at least 14px apart
-  var ys = ends.map(function(e){ return y(e.v); });
-  for (var i = 1; i < ys.length; i++) if (ys[i] - ys[i - 1] < 14) ys[i] = ys[i - 1] + 14;
-  var g = '';
-  for (var v = lo; v <= hi; v += 10) g += '<line class="grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>'
-    + '<text x="' + (L - 6) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end">' + v + '%</text>';
-  var ticks = [1, Math.round(n / 2), n].map(function(i){ return '<text x="' + x(i).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="' + (i === 1 ? "start" : i === n ? "end" : "middle") + '">row ' + n0(i) + '</text>'; }).join("");
-  var sw = C.switch_i ? '<line class="sw" x1="' + x(C.switch_i).toFixed(1) + '" x2="' + x(C.switch_i).toFixed(1) + '" y1="' + T + '" y2="' + (H - B) + '"/>'
-    + '<text class="swl" x="' + (x(C.switch_i) - 4).toFixed(1) + '" y="' + (H - B - 6) + '" text-anchor="end">1 image / reader →</text>' : '';
-  var lines = arms.map(function(a){ return '<path d="' + path(a[1]) + '" stroke="' + ARM[a[0]][1] + '"><title>' + ARM[a[0]][0] + '</title></path>'; }).join("");
-  var labels = ends.map(function(e, i){ return '<text class="end" x="' + (W - R + 6) + '" y="' + (ys[i] + 4).toFixed(1) + '" fill="' + ARM[e.a][1] + '">' + e.v.toFixed(1) + '%</text>'; }).join("");
-  // hover: nearest sampled row
-  var pts = S.map(function(p){ return [x(p[0]), p]; });
-  return '<svg class="line" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cumulative exact rate of the three arms over the paired corpus rows">'
-    + g + sw + lines + labels + ticks + '</svg><div class="tip" id="linetip"></div>'
-    + '<script type="application/json" id="linepts">' + JSON.stringify({pts: pts, L: L, R: R, W: W}) + '<\/script>';
-}
-/* Draw (and on resize redraw) the line chart at the wrapper's pixel width: SVG text would otherwise
-   scale with the viewBox, 12px on a phone becoming 18px on a desktop column. */
-function fitLine(){
-  var wrap = $("#linewrap");
-  if (!wrap || !LINE_C) return;
-  var w = wrap.clientWidth;
-  if (w && Math.abs(w - (wrap.dataset.w || 0)) > 2){ wrap.dataset.w = w; wrap.innerHTML = lineChart(LINE_C, w); }
-}
-function wireLine(){
-  var wrap = $("#linewrap");
-  if (!wrap) return;
-  var show = function(e){
-    var tip = $("#linetip"), raw = $("#linepts");
-    if (!tip || !raw) return;
-    var D = JSON.parse(raw.textContent);
-    var r = wrap.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width * D.W, best = null;
-    D.pts.forEach(function(p){ if (!best || Math.abs(p[0] - fx) < Math.abs(best[0] - fx)) best = p; });
-    if (!best) return;
-    var p = best[1];
-    tip.innerHTML = 'row ' + n0(p[0]) + ': 5.5 ' + pc(p[1], p[0]) + ' · 5 ' + pc(p[2], p[0]) + ' · CXMS ' + pc(p[3], p[0]);
-    tip.style.display = "block";
-    tip.style.left = Math.min(Math.max(90, best[0] / D.W * r.width), r.width - 90) + "px";
-    tip.style.top = "0px";
-  };
-  wrap.addEventListener("mousemove", show);
-  wrap.addEventListener("touchstart", function(e){ if (e.touches[0]) show(e.touches[0]); }, {passive: true});
-  wrap.addEventListener("mouseleave", function(){ tip.style.display = "none"; });
 }
 
 var COLS = {ez: "#d29922", tet: "#f87171", iso: "#a78bfa", mixed: "#8b98a5"};
@@ -383,39 +344,119 @@ var COLS = {ez: "#d29922", tet: "#f87171", iso: "#a78bfa", mixed: "#8b98a5"};
 /* ---------------------------------------------------------------- sections */
 function intro(D){
   var S = D.snapshot;
-  return '<section class="intro"><h1>Sonnet 5.5 evaluation: findings</h1>'
-    + '<p class="lede">Sonnet 5.5, Sonnet 5 and CXMolScribe reading the same chemical structure drawings, scored by one RDKit rule against PubChem. Every number is computed from the published data at build time.</p>'
+  return '<section class="intro"><h1>Sonnet 5.5 evaluation: why they miss</h1>'
+    + '<p class="lede">Sonnet 5.5, Sonnet 5 and CXMolScribe reading the same drawings, scored by one RDKit rule against PubChem. Every miss classified by what differs, with the molecules that drive misses, the missed drawings themselves, and the fixes the data supports.</p>'
     + '<div class="asof"><span>As of <b>' + n0(S.rows) + ' corpus rows</b>, ' + n0(S.paired) + ' paired (last: ' + esc(S.last_name) + ')</span><span>built ' + when(D.built) + '</span></div>'
     + '<div id="live"></div>'
-    + '<nav class="jump" aria-label="Sections"><a href="#summary">Summary</a><a href="#corpus">Corpus</a><a href="#cost">Cost</a><a href="#handpicked">Hand-picked</a><a href="#novel">Novel</a><a href="#ez">E/Z</a><a href="#technique">Technique</a><a href="#integrity">Integrity</a><a href="#suggestions">Suggestions</a></nav>'
+    + '<nav class="jump" aria-label="Sections"><a href="#scores">Scores</a><a href="#failures">Why they miss</a><a href="#gallery">Missed molecules</a><a href="#fixes">Fixes</a><a href="#corpus">Corpus</a><a href="#cost">Cost</a><a href="#handpicked">Hand-picked</a><a href="#novel">Novel</a><a href="#ez">E/Z</a><a href="#technique">Technique</a><a href="#integrity">Integrity</a></nav>'
     + '</section>';
 }
 
-function summary(D){
-  var C = D.corpus, H = D.handpicked, N = D.novel, s55 = D.ez.arms[0], T = D.technique.lanes;
+function scores(D){
+  var C = D.corpus, H = D.handpicked, N = D.novel, T = D.technique.lanes, F = D.failures;
   var nov = N.A.n + N.B.n + N.C.n, nov55 = N.A.s55 + N.B.s55 + N.C.s55;
-  var kpi = function(k, v, d){ return '<div class="kpi"><div class="k">' + k + '</div><div class="v">' + v + '</div><div class="d">' + d + '</div></div>'; };
-  var missLine = s55.misses === 0 ? 'No misses yet.'
-    : s55.all_ez ? 'All <b>' + s55.misses + '</b> are double-bond E/Z only: ' + s55.ez_sub.added + ' added where PubChem leaves it open, ' + s55.ez_sub.omitted + ' omitted.'
-    : '<b>' + s55.split.ez + '</b> of ' + s55.misses + ' are E/Z only; the rest are not. <a href="#ez">See E/Z</a>.';
-  return '<section class="sec" id="summary" style="border-top:0;margin-top:var(--s3);padding-top:0"><div class="kpis">'
-    + kpi('Corpus, paired', C.s55_pct.toFixed(1) + '<small>%</small>', '5.5 exact on ' + n0(C.n) + '. Sonnet 5 <b>' + C.s5_pct.toFixed(1) + '%</b>, CXMolScribe <b>' + C.cx_pct.toFixed(1) + '%</b>.')
-    + kpi('Head to head', n0(C.vs_s5.ahead) + '<small>ahead</small>', '<b>' + C.vs_s5.behind + '</b> behind vs Sonnet 5 (p = ' + pfmt(C.vs_s5.p) + '); ' + C.vs_cx.ahead + ' / ' + C.vs_cx.behind + ' vs CXMolScribe.')
-    + kpi('Cost per image', money(T.s55c.cost_per_image), 'vs Sonnet 5 <b>' + money(T.s5.cost_per_image) + '</b>, list price; ' + D.technique.cost_ratio + '× cheaper, ' + D.technique.speed_ratio + '× faster.')
-    + kpi('Hand-picked 28', H.s55 + '<small>/ ' + H.n + '</small>', 'Same-prompt Sonnet 5 re-run <b>' + H.rerun + '/' + H.n + '</b> (p = ' + pfmt(H.p) + ').')
-    + kpi('Novel structures', nov55 + '<small>/ ' + nov + '</small>', '<b>0</b> pulled back to a known parent; CXMolScribe ' + N.C.cx + '/20 on the hard edits.')
-    + kpi('5.5 misses', s55.misses + '<small>of ' + n0(s55.n) + '</small>', missLine)
-    + '</div></section>';
+  var card = function(arm, a, sub){
+    var A = ARM[arm];
+    return '<div class="score"><div class="who"><i style="--c:' + A[1] + '"></i>' + esc(A[0]) + '</div><div class="pc">' + (100 * a / C.n).toFixed(1) + '<small>%</small></div>'
+      + '<div class="of"><b>' + n0(a) + '</b> of ' + n0(C.n) + ' exact · ' + sub + '</div><div class="track"><i style="width:' + (100 * a / C.n).toFixed(1) + '%;background:' + A[1] + '"></i></div></div>';
+  };
+  return '<section class="sec" id="scores" style="border-top:0;margin-top:var(--s3);padding-top:0"><div class="scores">'
+    + card("s55", C.s55, '<b>' + F.taxonomy.s55.misses + '</b> misses')
+    + card("s5", C.s5, '5.5 ahead <b>' + n0(C.vs_s5.ahead) + '</b>, behind <b>' + C.vs_s5.behind + '</b>')
+    + card("cx", C.cx, '5.5 ahead <b>' + n0(C.vs_cx.ahead) + '</b>, behind <b>' + C.vs_cx.behind + '</b>')
+    + '</div><div class="chips"><span>exact McNemar vs Sonnet 5 p = ' + pfmt(C.vs_s5.p) + '</span><span><b>' + money(T.s55c.cost_per_image) + '</b> vs ' + money(T.s5.cost_per_image) + ' per image</span>'
+    + '<span>hand-picked 28: <b>' + H.s55 + '</b> vs re-run ' + H.rerun + '</span><span>novel: <b>' + nov55 + '/' + nov + '</b></span><span>paired corpus, in corpus order, one reading each</span></div></section>';
+}
+
+function failures(D){
+  var F = D.failures, T = F.taxonomy, catOf = {};
+  F.cats.forEach(function(c){ catOf[c.key] = c; });
+  var top = function(arm){ var best = null; F.cats.forEach(function(c){ if (!best || T[arm].cats[c.key] > T[arm].cats[best.key]) best = c; }); return best; };
+  var t5 = top("s5"), tcx = top("cx");
+  var take = '<p class="take"><b>Sonnet 5 misses by miscounting and miswiring; CXMolScribe by not parsing, counter-ions and metals; 5.5’s ' + T.s55.misses + ' misses are all double-bond E/Z.</b> '
+    + 'Sonnet 5: ' + esc(t5.label.toLowerCase()) + ' ' + T.s5.cats[t5.key] + ' of ' + T.s5.misses + '; CXMolScribe: ' + esc(tcx.label.toLowerCase()) + ' ' + T.cx.cats[tcx.key] + ' of ' + T.cx.misses + '.</p>';
+  /* taxonomy: one small multiple per class, bar = share of that arm's misses, count printed */
+  var groups = F.cats.map(function(c){
+    return '<div><h4>' + esc(c.label) + '<em>' + esc(c.meaning) + '</em></h4>' + bars(ARMS.map(function(a){
+      var n = T[a].cats[c.key], m = T[a].misses;
+      return {l: esc(ARM[a][0]), v: m ? 100 * n / m : 0, c: ARM[a][1], vt: n0(n) + '<small>' + (m ? Math.round(100 * n / m) : 0) + '% of ' + m + '</small>', t: ARM[a][0] + ": " + n + " of " + m + " misses"}; }), 100, null, true) + '</div>';
+  }).join("");
+  var tax = '<div class="chart"><h3 class="subh">Failure types<small>every miss, one class each; bar = share of that arm’s misses</small></h3>' + legend(ARMS, true) + '<div class="grp">' + groups + '</div>'
+    + '<figure class="ezfig" style="margin-top:12px"><img src="/wall/report/ez_pair.png" width="620" height="200" alt="Hex-3-ene drawn with unspecified E/Z (left) and as E (right): the two drawings are identical">'
+    + '<figcaption><b>Hex-3-ene, E/Z unspecified (left) and E (right).</b> RDKit draws an unspecified double bond exactly like a specified geometry, with no wavy or crossed marker, so the “E/Z added” misses may be scoring artifacts: the drawing shows a geometry and the reader wrote it. Bonds: 5.5 added ' + F.ez.s55.added_bonds + ', omitted ' + F.ez.s55.omitted_bonds + '; Sonnet 5 ' + F.ez.s5.added_bonds + ' / ' + F.ez.s5.omitted_bonds + (F.ez.s5.flipped_bonds ? ' / ' + F.ez.s5.flipped_bonds + ' flipped' : '') + '; CXMolScribe ' + F.ez.cx.added_bonds + ' / ' + F.ez.cx.omitted_bonds + '.</figcaption></figure></div>';
+  /* overlap */
+  var ocol = {only_s55: ARM.s55[1], only_s5: ARM.s5[1], only_cx: ARM.cx[1]};
+  var omax = Math.max.apply(null, F.overlap.map(function(o){ return o.n; }));
+  var over = '<div class="chart"><h3 class="subh">Who misses what<small>' + n0(F.overlap_none) + ' of ' + n0(T.s55.n) + ' read right by all three</small></h3>'
+    + bars(F.overlap.map(function(o){ return {l: esc(o.label), v: o.n, c: ocol[o.key] || "#c9d1d9", vt: n0(o.n), t: o.names.join(", ")}; }), omax)
+    + '<p class="tnote">Images missed by exactly that set of arms. All ' + T.s55.misses + ' 5.5 misses are shared with at least one other arm' + (F.overlap[0].n ? '' : '; none is 5.5’s alone') + '.</p></div>';
+  /* drivers */
+  var dmax = 100;
+  var drv = F.drivers.map(function(d){
+    var maxv = Math.max.apply(null, d.bins.map(function(b){ return Math.max.apply(null, ARMS.map(function(a){ return 100 * b[a] / b.n; })); }));
+    var scale = Math.min(100, Math.max(10, Math.ceil(maxv / 10) * 10));
+    return '<div><h4>' + esc(d.label) + '</h4>' + d.bins.map(function(b){
+      return '<div class="binh">' + esc(b.label) + '<small>n=' + n0(b.n) + '</small></div>' + bars(ARMS.map(function(a){
+        return {l: esc(ARM[a][0]), v: 100 * b[a] / b.n, c: ARM[a][1], vt: pc(b[a], b.n) + '<small>' + n0(b[a]) + ' miss</small>', t: ARM[a][0] + " missed " + b[a] + " of " + b.n}; }), scale, null, true);
+    }).join("") + '</div>';
+  }).join("");
+  var drivers = '<div class="chart"><h3 class="subh">Miss rate by molecule feature<small>features of the PubChem truth; each panel has its own scale</small></h3>' + legend(ARMS, true) + '<div class="grp three">' + drv + '</div>'
+    + '<p class="tnote">Sonnet 5’s miss rate climbs with size, rings and stereo elements; CXMolScribe’s with metals, salts and charges, and it also misses ring-free drawings (inorganics). Features overlap (a metal complex is usually a salt with charges), so these are descriptive, not independent effects.</p></div>';
+  var list = det("Every miss, by arm and class", ARMS.map(function(a){
+    var ms = F.misses[a];
+    return '<h3 class="subh" style="margin-top:10px">' + esc(ARM[a][0]) + '<small>' + ms.length + ' misses</small></h3><div class="tscroll"><table><thead><tr><th>Molecule</th><th>Class</th><th>What differs</th><th class="num">conf</th></tr></thead><tbody>'
+      + ms.map(function(m){ return '<tr><td>' + esc(m.n) + '</td><td>' + esc(catOf[m.cat].label) + '</td><td>' + esc(m.line) + '</td><td class="num">' + esc(m.conf == null ? '' : m.conf) + '</td></tr>'; }).join("") + '</tbody></table></div>';
+  }).join(""));
+  return sec("failures", "1", "Why they miss", take + tax + '<div class="split" style="margin-top:var(--s4)">' + over + '</div>' + '<div style="margin-top:var(--s4)">' + drivers + '</div>' + list);
+}
+
+function gallery(D){
+  var F = D.failures, catOf = {};
+  F.cats.forEach(function(c){ catOf[c.key] = c; });
+  var card = function(c){
+    var figs = [];
+    if (c.img.src) figs.push('<figure><img loading="lazy" decoding="async" src="' + esc(c.img.src) + '" width="480" height="480" alt="The drawing the models read: ' + esc(c.n) + '"><figcaption><b>The drawing</b> as read</figcaption></figure>');
+    if (c.img.truth) figs.push('<figure><img loading="lazy" decoding="async" src="' + esc(c.img.truth) + '" width="480" height="480" alt="PubChem truth for ' + esc(c.n) + ', differing atoms marked"><figcaption><b>Truth</b> (PubChem); what the answers get wrong is marked red</figcaption></figure>');
+    ARMS.forEach(function(a){
+      var e = c.arms[a];
+      if (!e || e.ok) return;
+      var cap = '<i style="--c:' + ARM[a][1] + '"></i><b>' + esc(ARM[a][0]) + '</b>: ' + esc(e.line) + (e.conf != null && e.conf !== "" ? ' · conf ' + esc(e.conf) : '');
+      figs.push(e.img ? '<figure><img loading="lazy" decoding="async" src="' + esc(e.img) + '" width="480" height="480" alt="' + esc(ARM[a][0]) + ' answer for ' + esc(c.n) + ', differences marked"><figcaption>' + cap + '</figcaption></figure>'
+                      : '<figure style="background:var(--track);display:flex;flex-direction:column"><div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12.5px;padding:8px;text-align:center">no drawable SMILES</div><figcaption>' + cap + '</figcaption></figure>');
+    });
+    var ok = ARMS.filter(function(a){ return c.arms[a] && c.arms[a].ok; }).map(function(a){ return ARM[a][0]; });
+    return '<article class="fcard"><div class="fh"><b>' + esc(c.n) + '</b><span class="tag cat">' + esc(catOf[c.cat].label) + '</span><span class="dim">' + c.heavy + ' heavy atoms</span></div>'
+      + '<div class="fimgs">' + figs.join("") + '</div>' + (ok.length ? '<div class="fok">Read right by <b>' + esc(ok.join(", ")) + '</b>.</div>' : '<div class="fok">All three missed it.</div>') + '</article>';
+  };
+  var groups = F.cats.map(function(c, i){
+    var cs = F.cards.filter(function(x){ return x.cat === c.key; });
+    if (!cs.length) return '';
+    var counts = ARMS.map(function(a){ return ARM[a][0] + ' ' + F.taxonomy[a].cats[c.key]; }).join(' · ');
+    return '<details class="fgroup"' + (i < 3 ? ' open' : '') + '><summary>' + esc(c.label) + '<small>' + esc(counts) + ' · ' + cs.length + ' shown</small></summary>'
+      + '<p class="meaning">' + esc(c.meaning) + '.</p><div class="fcards">' + cs.map(card).join("") + '</div></details>';
+  }).join("");
+  var take = '<p class="take"><b>' + F.cards.length + ' missed drawings</b>: every one of 5.5’s ' + F.taxonomy.s55.misses + ', and the commonest patterns for Sonnet 5 and CXMolScribe. Each card is the drawing as read, the PubChem truth, and each wrong answer drawn back with the differing atoms and bonds in red (maximum common substructure for atom-level errors; the differing centres or bonds for stereo).</p>';
+  return sec("gallery", "2", "Missed molecules", take + groups);
+}
+
+function fixes(D){
+  var F = D.failures;
+  var items = F.fixes.map(function(f){
+    var arms = Object.keys(f.per_arm);
+    var rows = arms.map(function(a){ var x = f.per_arm[a];
+      return {l: esc(ARM[a][0]) + ': would fix <b>' + n0(x.fixes) + '</b> of ' + n0(x.of) + ' misses', v: x.of ? 100 * x.fixes / x.of : 0, c: ARM[a][1], vt: (x.of ? Math.round(100 * x.fixes / x.of) : 0) + '%', t: ARM[a][0] + ": " + x.fixes + " of " + x.of + " misses"}; });
+    return '<li><h3>' + esc(f.label) + '</h3>' + bars(rows, 100, null, true) + (f.note ? '<p class="note">' + esc(f.note) + '</p>' : '') + '</li>';
+  }).join("");
+  var take = '<p class="take"><b>Each fix below is counted against the misses it addresses</b>, from the classes above. “Would fix” is an upper bound: the misses of that class, assuming the fix lands every one.</p>';
+  return sec("fixes", "3", "What would fix them", take + '<ol class="fixes" style="--lw:14em">' + items + '</ol>'
+    + '<p class="tnote">Beyond the corpus: clean RDKit drawings are at 5.5’s ceiling (' + pc(D.corpus.s55, D.corpus.n) + ', 40/40 novel), so the next separation needs harder inputs (PubChem-style, scanned or JPEG-degraded copies, patent figures, hand-drawn), re-using corpus molecules so each image pairs with its clean reading; hard images ran ' + money(D.novel.spend.C.cost / D.novel.spend.C.images) + ' each in novel kind C.</p>');
 }
 
 function corpus(D){
   var C = D.corpus, P = C.protocol_split;
-  var take = '<p class="take"><b>5.5 is ahead on ' + n0(C.vs_s5.ahead) + ' images and behind on ' + C.vs_s5.behind + '</b> against Sonnet 5 (p = ' + pfmt(C.vs_s5.p)
-    + '); ahead on ' + n0(C.vs_cx.ahead) + ', behind on ' + C.vs_cx.behind + ' against CXMolScribe. The gap is widest on large drawings.</p>';
-  var boxes = '<div class="cmp">' + side("s55", C.s55, C.n, true) + side("s5", C.s5, C.n) + side("cx", C.cx, C.n) + '</div>';
-  var line = '<div class="chart"><h3 class="subh">Cumulative exact rate over the corpus<small>paired rows, in corpus order</small></h3>' + legend(["s55", "s5", "cx"], true) + '<div class="hover" id="linewrap">' + lineChart(C) + '</div></div>';
+  var take = '<p class="take"><b>The gap is widest on large drawings</b>: at 45 or more heavy atoms Sonnet 5 reads ' + pc(C.by_size[2].s5, C.by_size[2].n) + ' and CXMolScribe ' + pc(C.by_size[2].cx, C.by_size[2].n) + ' against 5.5’s ' + pc(C.by_size[2].s55, C.by_size[2].n) + '.</p>';
   var size = '<div class="chart"><h3 class="subh">Exact rate by drawing size<small>heavy atoms in the reference</small></h3>'
-    + armGroups(C.by_size.map(function(b){ return {label: b.label === "25–44" ? "25–44 heavy atoms" : b.label === "45 or more" ? "45 or more heavy atoms" : b.label, n: b.n, s55: b.s55, s5: b.s5, cx: b.cx}; })) + '</div>';
+    + armGroups(C.by_size.map(function(b){ return {label: b.label === "25–44" ? "25–44 heavy atoms" : b.label === "45 or more" ? "45 or more heavy atoms" : b.label, n: b.n, s55: b.s55, s5: b.s5, cx: b.cx}; }), "three") + '</div>';
   var proto = '';
   if (P) {
     var pr = function(arm, lab, s){ return [{l: esc(lab) + ' <b>ten / reader</b>', v: s.before.pct, c: ARM[arm][1], vt: pc(s.before.exact, s.before.n) + '<small>' + n0(s.before.exact) + '/' + n0(s.before.n) + '</small>', t: lab + ", ten images per reader: " + s.before.exact + " of " + s.before.n},
@@ -429,11 +470,11 @@ function corpus(D){
     + '<li><b>What it covers.</b> The first ' + n0(C.n) + ' of ' + n0(C.corpus) + ' corpus images in sorted-key order (' + esc(C.first) + ' to ' + esc(C.last) + '). Nothing skipped, so unselected; but alphabetical and mostly named drugs, which a model may have seen.'
     + (C.unpaired ? ' ' + C.unpaired + ' Sonnet 5.5 rows have no Sonnet 5 reading yet and are left out.' : '') + '</li>'
     + (D.protocol ? '<li><b>Readers.</b> Ten images per reader to row ' + D.protocol.s55c_from_row + ' (5.5) and ' + D.protocol.s5_from_row + ' (Sonnet 5); one image per reader since ' + esc(D.protocol.at.slice(0, 10)) + ', both arms reading each new image at the same time. Why: a ten-image reader re-reads its growing context at every step, so a batch of large molecules snowballs in cost.</li>' : '')
-    + '<li><b>Both or neither.</b> All three right on ' + n0(C.all_three) + '; 5.5 or CXMolScribe right on ' + n0(C.either_s55_cx) + '; neither on ' + C.neither_s55_cx + '.</li></ul>'
+    + '<li><b>Both or neither.</b> All three right on ' + n0(C.all_three) + '; 5.5 or CXMolScribe right on ' + n0(C.either_s55_cx) + '; neither on ' + C.neither_s55_cx + '. Head to head: 5.5 vs CXMolScribe p = ' + pfmt(C.vs_cx.p) + '.</li></ul>'
     + '<div class="tscroll"><table><thead><tr><th class="num">Rows</th><th class="num">5.5</th><th class="num">Sonnet 5</th><th class="num">CXMS</th></tr></thead><tbody>'
     + C.series.filter(function(p, i, a){ return p[0] % 100 === 0 || i === a.length - 1; }).map(function(p){ return '<tr><td class="num">1–' + n0(p[0]) + '</td><td class="num">' + pc(p[1], p[0]) + '</td><td class="num">' + pc(p[2], p[0]) + '</td><td class="num">' + pc(p[3], p[0]) + '</td></tr>'; }).join("")
     + '</tbody></table></div>');
-  return sec("corpus", "1", "Corpus, paired and unselected", take + '<div class="split"><div class="col">' + boxes + line + '</div><div class="col">' + size + proto + '</div></div>' + details);
+  return sec("corpus", "4", "Corpus, paired and unselected", take + '<div class="split">' + size + proto + '</div>' + details);
 }
 
 function cost(D){
@@ -450,7 +491,7 @@ function cost(D){
     + B.map(function(b){ return '<tr><td>' + esc(b.label) + '</td><td class="num">' + n0(b.images) + '</td><td class="num">' + money(b.usd) + '</td><td class="num">' + secs(b.secs) + '</td></tr>'; }).join("")
     + '</tbody></table></div><p class="tnote">Corpus figures are from each arm’s reader ledger (' + T.s55c.readers + ' Sonnet 5.5 readers, ' + T.s5.readers + ' Sonnet 5 readers), split by how many images the reader was handed. A ten-image reader’s cost is split evenly over its images. '
     + (D.cost.price ? esc(D.cost.price.note) + ' Prices checked ' + esc(D.cost.price.checked) + '.' : '') + ' The 5.5 corpus arm has cost <b>' + money(D.corpus.cost.usd) + '</b> for ' + n0(D.corpus.cost.images) + ' images; nothing here was billed per token.</p>');
-  return sec("cost", "2", "Cost and speed", take + '<div class="split">' + usd + tm + '</div>' + tb);
+  return sec("cost", "5", "Cost and speed", take + '<div class="split">' + usd + tm + '</div>' + tb);
 }
 
 function handpicked(D){
@@ -458,8 +499,7 @@ function handpicked(D){
   var take = '<p class="take"><b>' + H.ahead + ' discordant images, all to 5.5</b> (exact McNemar p = ' + pfmt(H.p) + ') against a same-prompt Sonnet 5 re-run. The re-run is the fair baseline: the images were picked because the published run failed them, so any second attempt looks better than the first.</p>';
   var boxes = '<div class="cmp">' + side("s55", H.s55, H.n, true) + side("s5", H.rerun, H.n) + '<div class="side"><div class="who"><i style="--c:#6e7681"></i>Sonnet 5, published</div><div class="pc">' + (100 * H.published / H.n).toFixed(1) + '<small>%</small></div><div class="of">' + H.published + ' of ' + H.n + ' exact</div><div class="track"><i style="width:' + (100 * H.published / H.n).toFixed(1) + '%;background:#6e7681"></i></div></div></div>';
   var gb = '<div class="chart"><h3 class="subh">By slice<small>exact reads</small></h3>' + legend(["s55", "s5"], true) + '<div class="bars">' + H.groups.map(function(g){
-    return '<div class="bar" title="' + esc(g.label) + ': 5.5 ' + g.s55 + ', re-run ' + g.base + ' of ' + g.n + '"><span class="l">' + esc(g.label.replace("Sonnet 5 right, confidence", "S5 right, conf.")) + ' <b>n=' + g.n + '</b></span><span class="t" style="display:flex;gap:2px;background:none;height:auto">'
-      + '<span class="t" style="flex:1;height:16px"><i style="width:' + (100 * g.s55 / g.n).toFixed(1) + '%;background:var(--c55)"></i></span></span><span class="v">' + g.s55 + '<small>/ ' + g.n + '</small></span></div>'
+    return '<div class="bar" title="' + esc(g.label) + ': 5.5 ' + g.s55 + ', re-run ' + g.base + ' of ' + g.n + '"><span class="l">' + esc(g.label.replace("Sonnet 5 right, confidence", "S5 right, conf.")) + ' <b>n=' + g.n + '</b></span><span class="t"><i style="width:' + (100 * g.s55 / g.n).toFixed(1) + '%;background:var(--c55)"></i></span><span class="v">' + g.s55 + '<small>/ ' + g.n + '</small></span></div>'
       + '<div class="bar" style="margin-top:-4px"><span class="l"></span><span class="t"><i style="width:' + (100 * g.base / g.n).toFixed(1) + '%;background:var(--c5)"></i></span><span class="v">' + g.base + '<small>/ ' + g.n + '</small></span></div>';
   }).join("") + '</div></div>';
   var details = det("Noise, calibration, cost, per reader", '<ul class="facts">'
@@ -468,44 +508,30 @@ function handpicked(D){
     + '<li><b>Per reader</b> (each reads its batch in one context, which McNemar ignores): 5.5 ' + (H.readers ? H.readers["Sonnet 5.5"].map(function(x){ return x.exact + "/" + x.n; }).join(", ") : "–") + '; re-run ' + (H.readers ? H.readers[Object.keys(H.readers).filter(function(k){ return k !== "Sonnet 5.5"; })[0]].map(function(x){ return x.exact + "/" + x.n; }).join(", ") : "–") + '.</li>'
     + '<li><b>Cost.</b> ' + money(S.s55_cost_per_image) + ' and ' + S.s55_time_per_image + ' s per image for 5.5; the re-run ' + money(H.rerun_cost / H.n) + ' and ' + Math.round(H.rerun_seconds / H.n) + ' s.</li>'
     + '<li>Images, cards and the prompt: <a href="/sonnet-compare#handpicked">Sonnet compare</a>.</li></ul>');
-  return sec("handpicked", "3", "Hand-picked: 28 images chosen on Sonnet 5’s failures", take + '<div class="split"><div class="col">' + boxes + '</div><div class="col">' + gb + '</div></div>' + details);
+  return sec("handpicked", "6", "Hand-picked: 28 images chosen on Sonnet 5’s failures", take + '<div class="split"><div class="col">' + boxes + '</div><div class="col">' + gb + '</div></div>' + details);
 }
 
 function novel(D){
   var N = D.novel, nov = N.A.n + N.B.n + N.C.n, nov55 = N.A.s55 + N.B.s55 + N.C.s55;
-  var take = '<p class="take"><b>' + nov55 + '/' + nov + ' with 0 answers pulled back to a known parent</b>: 5.5 reads the drawing rather than recalling the drug. CXMolScribe matched it on the easy sets and got ' + N.C.cx + '/' + N.C.n + ' on the hard edits. Clean RDKit drawings are at 5.5’s ceiling, so these sets no longer rank it.</p>';
+  var take = '<p class="take"><b>' + nov55 + '/' + nov + ' with 0 answers pulled back to a known parent</b>: 5.5 reads the drawing rather than recalling the drug. CXMolScribe matched it on the easy sets and got ' + N.C.cx + '/' + N.C.n + ' on the hard edits.</p>';
   var g = [["A", "A: a corpus drug with one edit"], ["B", "B: de novo, no PubChem record"], ["C", "C: one edit in the hard part"]].map(function(x){ var k = N[x[0]];
     return '<div><h4>' + esc(x[1]) + '<small>n=' + k.n + '</small></h4>' + bars([
       {l: "Sonnet 5.5", v: 100 * k.s55 / k.n, c: ARM.s55[1], vt: k.s55 + '<small>/ ' + k.n + '</small>', t: "Sonnet 5.5 exact " + k.s55 + " of " + k.n},
       {l: "CXMolScribe", v: 100 * k.cx / k.n, c: ARM.cx[1], vt: k.cx + '<small>/ ' + k.n + '</small>', t: "CXMolScribe exact " + k.cx + " of " + k.n},
       {l: "to parent", v: 100 * (k.auto || 0) / k.n, c: "#f87171", vt: x[0] === "B" ? '–' : String(k.auto), t: "answers equal to the unedited parent"}], 100) + '</div>'; }).join("");
-  var chart = '<div class="chart"><h3 class="subh">Exact reads per set</h3><div class="grp">' + g + '</div></div>';
+  var chart = '<div class="chart"><h3 class="subh">Exact reads per set</h3><div class="grp three">' + g + '</div></div>';
   var details = det("What each set is, and the cost", '<ul class="facts">'
     + '<li><b>A:</b> halogen swap, moved substituent, N for CH, methyl added or removed, one centre inverted, ring resized. Every answer named the parent and still drew the edit.</li>'
     + '<li><b>B:</b> fragment assemblies with no PubChem record at all.</li>'
-    + '<li><b>C:</b> a corpus drug CXMolScribe misses (macrocycle, dense stereo, glycoside, cyclic peptide) with one edit inside the hard part; ' + N.C.stereo_only_edits + ' of ' + N.C.n + ' are stereo-only. 5.5 also read all ' + N.C.parent_s55 + ' parents right; CXMolScribe ' + N.C.cx_stereo_agnostic + '/' + N.C.n + ' edits once stereo is ignored. Every answer flagged its edit (“C9 methyl epimer as drawn”).</li>'
+    + '<li><b>C:</b> a corpus drug CXMolScribe misses (macrocycle, dense stereo, glycoside, cyclic peptide) with one edit inside the hard part; ' + N.C.stereo_only_edits + ' of ' + N.C.n + ' are stereo-only. 5.5 also read all ' + N.C.parent_s55 + ' parents right; CXMolScribe ' + N.C.cx_stereo_agnostic + '/' + N.C.n + ' edits once stereo is ignored.</li>'
     + '<li><b>“To parent”</b> counts answers exact against the UNEDITED drug, which is what recall would produce.</li>'
-    + '<li><b>Cost:</b> ' + money(N.spend.AB.cost / N.spend.AB.images) + ' per image on A and B, ' + money(N.spend.C.cost / N.spend.C.images) + ' on C (hard images run 4–8× the corpus rate). Cards: <a href="/sonnet-compare#novel">Sonnet compare</a>.</li></ul>');
-  return sec("novel", "4", "Novel structures: reading or recall?", take + chart + details);
+    + '<li><b>Cost:</b> ' + money(N.spend.AB.cost / N.spend.AB.images) + ' per image on A and B, ' + money(N.spend.C.cost / N.spend.C.images) + ' on C. Cards: <a href="/sonnet-compare#novel">Sonnet compare</a>.</li></ul>');
+  return sec("novel", "7", "Novel structures: reading or recall?", take + chart + details);
 }
 
 function ez(D){
   var A = D.ez.arms, s55 = A[0], F = D.fable, M = D.ez.mcnemar_aware;
-  var sub = s55.ez_sub;
-  var take = s55.misses === 0 ? '<p class="take"><b>5.5 has no corpus miss yet.</b></p>'
-    : s55.all_ez ? '<p class="take"><b>Every one of 5.5’s ' + s55.misses + ' corpus misses is a double-bond E/Z difference and nothing else</b>: no wrong atom, bond or tetrahedral centre, no flipped E/Z. In ' + sub.added
-      + ' the reading adds an E/Z the drawing shows but the PubChem reference leaves unspecified; in ' + sub.omitted + ' it leaves out one the reference specifies. Counting the first kind as right: ' + n0(s55.aware) + '/' + n0(s55.n) + ' (' + s55.aware_pct + '%).</p>'
-    : '<p class="take"><b>' + s55.split.ez + ' of 5.5’s ' + s55.misses + ' corpus misses are double-bond E/Z only</b>; ' + (s55.misses - s55.split.ez) + ' are something else (listed below). E/Z-aware: ' + n0(s55.aware) + '/' + n0(s55.n) + ' (' + s55.aware_pct + '%).</p>';
-  var classRow = function(r){
-    var what = r.cls === "ez" ? (r.sub === "added" ? '<span class="tag add">added ' + r.added + ' E/Z</span>'
-      : r.sub === "omitted" ? '<span class="tag omit">omitted ' + r.omitted + ' E/Z</span>' : '<span class="tag other">E/Z ' + esc(r.sub) + '</span>')
-      : '<span class="tag other">' + esc({tet: "tetrahedral", iso: "isotope", mixed: "mixed"}[r.cls] || r.cls) + '</span>';
-    return '<li><div class="mh"><b>' + esc(r.n) + '</b>' + what + '</div><div class="mr">read as: ' + esc(r.read_name || "") + ' <span class="cf">· confidence ' + esc(r.conf) + '</span></div></li>';
-  };
-  var ezKeys = {}; s55.rows.forEach(function(r){ ezKeys[r.k] = true; });
-  var others = (s55.miss_rows || []).filter(function(m){ return !ezKeys[m.k]; }).map(function(m){
-    return '<li><div class="mh"><b>' + esc(m.n) + '</b><span class="tag other">' + esc(m.v) + '</span></div><div class="mr"><span class="cf">confidence ' + esc(m.conf) + '</span></div></li>'; }).join("");
-  var list = det("Every 5.5 miss, named", '<ul class="misses">' + s55.rows.map(classRow).join("") + others + '</ul>');
+  var take = '<p class="take"><b>E/Z in detail.</b> Cethromycin is the pattern for 5.5’s “E/Z added” misses: every centre right, one plain double bond read as drawn, the PubChem record leaving it open. E/Z-aware rescoring (a secondary view, not a headline) would move 5.5 to ' + n0(s55.aware) + '/' + n0(s55.n) + ', Sonnet 5 to ' + n0(A[1].aware) + ' and CXMolScribe to ' + n0(A[2].aware) + '; the ranking does not change (5.5 ahead of Sonnet 5 ' + M.vs_s5.ahead + ' / behind ' + M.vs_s5.behind + ').</p>';
   var stack = function(a){
     var t = a.stereo || 1, segs = ["ez", "tet", "iso", "mixed"].map(function(k){
       return a.split[k] ? '<i style="width:' + (100 * a.split[k] / t).toFixed(2) + '%;background:' + COLS[k] + '" title="' + k + ' ' + a.split[k] + '"></i>' : ""; }).join("");
@@ -515,23 +541,18 @@ function ez(D){
     + A.map(stack).join("")
     + '<div class="legend"><span style="--c:' + COLS.ez + '">double-bond E/Z only</span><span style="--c:' + COLS.tet + '">tetrahedral only</span>'
     + '<span style="--c:' + COLS.iso + '">isotope labels only</span><span style="--c:' + COLS.mixed + '">more than one</span></div>'
-    + '<p class="tnote">“Stereo” means equal once ALL stereo is dropped, which also drops isotope labels (three of CXMolScribe’s deuterated compounds land there). Each case is re-split by which single strip equalises the two, then compared bond by bond.</p></div>';
-  var rescore = '<div class="chart"><h3 class="subh">E/Z-aware rescoring<small>forgive only an E/Z the reference leaves unspecified</small></h3>'
-    + bars([].concat.apply([], A.map(function(a, i){ var arm = ["s55", "s5", "cx"][i];
-      return [{l: esc(a.label) + ' <b>strict</b>', v: a.exact_pct, c: ARM[arm][1], vt: a.exact_pct.toFixed(1) + '%<small>' + n0(a.exact) + '</small>', t: a.label + " strict: " + a.exact + " of " + a.n},
-              {l: esc(a.label) + ' <b>E/Z-aware</b>', v: a.aware_pct, c: ARM[arm][1], vt: a.aware_pct.toFixed(1) + '%<small>+' + (a.aware - a.exact) + '</small>', t: a.label + " E/Z-aware: " + a.aware + " of " + a.n}]; })), 100)
-    + '<p class="tnote">All three arms gain, CXMolScribe the most (+' + (A[2].aware - A[2].exact) + '). The comparison does not move: 5.5 stays ahead of Sonnet 5 on ' + M.vs_s5.ahead + ' / behind on ' + M.vs_s5.behind + ', and ahead of CXMolScribe on ' + M.vs_cx.ahead + ' / behind on ' + M.vs_cx.behind + '. Ignoring all E/Z: ' + A.map(function(a){ return a.label + ' ' + a.agnostic_pct + '%'; }).join(', ') + '.</p></div>';
+    + '<p class="tnote">“Stereo” means equal once ALL stereo is dropped, which also drops isotope labels. Strict / E/Z-aware / ignoring all E/Z: ' + A.map(function(a){ return a.label + ' ' + a.exact_pct + ' / ' + a.aware_pct + ' / ' + a.agnostic_pct + '%'; }).join('; ') + '.</p></div>';
   var fable = F ? det("A second opinion: Fable 5.1 on cethromycin", '<div class="cmp" style="grid-template-columns:repeat(2,minmax(0,1fr))">'
     + F.readers.map(function(r){ var m = Object.keys(r.served)[0];
       return '<div class="side"><div class="who">' + esc(r.label) + '</div><div class="pc" style="font-size:22px">' + money(r.cost_usd) + '</div><div class="of">' + r.duration_s + ' s, confidence ' + r.conf
         + '<br>served: ' + esc(m) + ' (' + r.served[m] + '/' + r.served[m] + ' records)</div></div>'; }).join("")
     + '</div><p class="tnote">Both wrote the <b>identical</b> SMILES, the E double bond included, as did 5.5’s corpus reading. One image per reader, same prompt and sandbox; the model on every record checked from the API stamp. Fable cost '
     + (F.readers[0].cost_usd / F.readers[1].cost_usd).toFixed(1) + '× as much for the same answer.</p>') : '';
-  var figs = '<div class="figs"><figure><img src="/wall/report/cethromycin_full_boxed.png" width="1420" height="730" alt="Cethromycin as drawn in the corpus, with the propenyl double bond boxed">'
+  var figs = '<div class="figs"><figure><img src="/wall/report/cethromycin_full_boxed.png" width="1420" height="730" alt="Cethromycin as drawn in the corpus, with the propenyl double bond boxed" loading="lazy">'
     + '<figcaption><b>Cethromycin, the corpus drawing.</b> 13 stereocentres, all read right; the boxed chain is the only difference from the reference.</figcaption></figure>'
-    + '<figure><img src="/wall/report/cethromycin_db_crop.png" width="780" height="510" alt="Close-up: a plain double bond drawn trans, reference E/Z unspecified">'
-    + '<figcaption><b>Close up.</b> A plain trans C=C. 5.5 wrote E, which the drawing shows and cethromycin is; PubChem CID 156417 leaves the bond unspecified, so the scorer says “stereo”.</figcaption></figure></div>';
-  return sec("ez", "5", "The E/Z finding", take + figs + '<div class="split" style="margin-top:var(--s4)"><div class="col">' + rescore + list + '</div><div class="col">' + split + fable + '</div></div>');
+    + '<figure><img src="/wall/report/cethromycin_db_crop.png" width="780" height="510" alt="Close-up: a plain double bond drawn trans, reference E/Z unspecified" loading="lazy">'
+    + '<figcaption><b>Close up.</b> A plain trans C=C. 5.5 wrote E; PubChem CID 156417 leaves the bond unspecified, so the scorer says “stereo”.</figcaption></figure></div>';
+  return sec("ez", "8", "E/Z, close up", take + figs + '<div class="split" style="margin-top:var(--s4)">' + split + fable + '</div>');
 }
 
 function technique(D){
@@ -545,7 +566,6 @@ function technique(D){
     pair("Images cropped", b.img_with_crop_pct, a.img_with_crop_pct, 100, function(v){ return Math.round(v) + "%"; }, "share of images cropped at least once"),
     pair("Answer drawn back", b.img_drawn_pct, a.img_drawn_pct, 100, function(v){ return Math.round(v) + "%"; }, "share of images whose answer was rendered"),
     pair("Read all first", b.read_all_first_pct, a.read_all_first_pct, 100, function(v){ return Math.round(v) + "%"; }, "ten-image readers that opened every image before any tool"));
-  // two scales (counts, percentages) -> two small charts
   var c1 = '<div class="chart"><h3 class="subh">Per image<small>counts</small></h3>' + legend(["s55", "s5"], true) + bars(rows.slice(0, 4), Math.max.apply(null, rows.slice(0, 4).map(function(r){ return r.v; }))) + '</div>';
   var c2 = '<div class="chart"><h3 class="subh">Share of images or readers<small>percent</small></h3>' + legend(["s55", "s5"], true) + bars(rows.slice(4), 100) + '</div>';
   var cv = a.crop_vs_exact;
@@ -556,67 +576,37 @@ function technique(D){
     + '<ul class="facts" style="margin-top:10px">'
     + '<li><b>Read-everything-first and accuracy</b> (ten-image readers only). 5.5 readers that did not look first: ' + B.s55c_not.readers + ' readers, ' + B.s55c_not.exact + '/' + B.s55c_not.images + ' exact (the rest ' + B.s55c_first.pct + '%). Sonnet 5 readers that did look first: ' + B.s5_first.readers + ' readers, ' + B.s5_first.exact + '/' + B.s5_first.images + ' (the rest ' + B.s5_not.pct + '%). No boost either way; the samples are small.</li>'
     + '<li><b>Alphabetical neighbours</b> (a close relative in the same ten-image batch, Morgan Tanimoto ≥ 0.7): 5.5 ' + S.s55c.with_exact + '/' + S.s55c.with + ' with vs ' + S.s55c.without_exact + '/' + S.s55c.without + ' without; Sonnet 5 ' + S.s5.with_exact + '/' + S.s5.with + ' (' + S.s5.with_pct + '%) vs ' + S.s5.without_exact + '/' + S.s5.without + ' (' + S.s5.without_pct + '%). A relative in the batch does not help. The arms’ batches overlap heavily (median ' + B.overlap.median_shared + ' of 10 shared) but ' + B.overlap.identical + ' of ' + B.overlap.s55c_batches + ' match exactly.</li>'
-    + '<li><b>Prompts differ.</b> 5.5’s fixed prompt names cropping and an RDKit parse check; most Sonnet 5 prompts asked for a re-render. On the same ' + n0(P.n) + ' images 5.5 made fewer calls on ' + n0(P.s55_fewer_calls) + ' and more on ' + n0(P.s55_more_calls) + '. Same-prompt comparison: the hand-picked set, where Sonnet 5 still made ' + (D.technique.lanes.s5r ? D.technique.lanes.s5r.calls_per_image : '~14') + ' calls per image.</li>'
+    + '<li><b>Prompts differ.</b> 5.5’s fixed prompt names cropping and an RDKit parse check; most Sonnet 5 prompts asked for a re-render. On the same ' + n0(P.n) + ' images 5.5 made fewer calls on ' + n0(P.s55_fewer_calls) + ' and more on ' + n0(P.s55_more_calls) + '.</li>'
     + '<li>Every reader’s step sequence: <a href="/?tab=sonnet55&view=technique">How the readers work</a> (technique.json, built ' + when(D.technique.built) + ').</li></ul>');
-  return sec("technique", "6", "Technique: how the two models read", take + '<div class="split">' + c1 + c2 + '</div>' + details);
+  return sec("technique", "9", "Technique: how the two models read", take + '<div class="split">' + c1 + c2 + '</div>' + details);
 }
 
 function integrity(D){
-  var C = D.cadence || {}, d = C.discards_after_jail || {};
+  var C = D.cadence || {}, d = C.discards_after_jail || {}, DU = C.dual;
   var dl = Object.keys(d).map(function(k){ return d[k] + " for " + k; }).join(", ");
   var items = [
     ["Readers snooping the filesystem", "Three burst readers (29 Sep) listed the repository holding the answer key while hunting for other recognition tools. Earlier, 5 Sonnet 5 readers looked answers up online and 21 rows were excluded.",
-     "Every reader runs in a bubblewrap jail where the answer key does not exist, under permission denies on the answer paths; its transcript is scanned for lookups before anything is scored. A sandbox selftest pairs every hidden probe with a control that must see it."],
+     "Every reader runs in a bubblewrap jail where the answer key does not exist, under permission denies on the answer paths; its transcript is scanned for lookups before anything is scored."],
     ["A Sonnet 5 reader delegating to Opus", "A claude-sonnet-5 re-run reader handed 7 of its 10 images to sub-agents served by claude-opus-5-5. Its own records all said Sonnet 5, so the served-model check passed.",
-     "No-delegation gate: the launcher refuses a session with more than one transcript, and the gate and the ledger refuse any Agent/Task tool call. None of the 122 published Sonnet 5 reader transcripts had delegated."],
+     "No-delegation gate: the launcher refuses a session with more than one transcript, and the gate and the ledger refuse any Agent/Task tool call."],
     ["The “sonnet” alias trap", "The Agent tool’s “sonnet” resolves in the spawning CLI: 2.1.284 mapped it to claude-sonnet-5-5 while a session on 2.1.280 served claude-sonnet-5.",
-     "Readers are spawned only on an exact model id with the alias pinned to it; the gate requires every response in the transcript to be stamped with exactly that id."],
-    ["Scanner false positives", "Under the s55c cadence (" + esc(C.s55c_cadence_span || "29 Sep to 2 Oct") + ") " + (C.scan_refused || 0) + " batches were discarded: " + esc(dl) + ". In every case the reader was handling its own background job, not looking anything up.",
-     "Reading a job started with run_in_background is exempt. Still open: Monitor calls, TaskStop on the reader’s own task, and a foreground command the harness backgrounded after 120 s (see suggestions)."],
-    ["SMILES built by string concatenation", "Readers assembled salts in Python (“'[Ca+2].' + frag”), so the finished answer never appeared whole in the transcript and the containment gate refused the reader.",
-     "A prompt rule: write every final SMILES literally, or print the finished string. A reader that does neither is treated as not the answer’s author."]
+     "Readers are spawned only on an exact model id; the gate requires every response in the transcript to be stamped with exactly that id."],
+    ["Scanner false positives", "Under the s55c cadence (" + esc(C.s55c_cadence_span || "29 Sep to 2 Oct") + ") " + (C.scan_refused || 0) + " batches were discarded: " + esc(dl) + ". In every case the reader was handling its own background job.",
+     "Reading a job started with run_in_background is exempt. Still open: Monitor calls, TaskStop on the reader’s own task, a foreground command backgrounded after 120 s."],
+    ["SMILES built by string concatenation", "Readers assembled salts in Python, so the finished answer never appeared whole in the transcript and the containment gate refused the reader.",
+     "A prompt rule: write every final SMILES literally, or print the finished string."]
   ];
-  var take = '<p class="take"><b>Five ways a reading could stop being a blind reading by the named model were found and closed</b>: filesystem snooping, delegation to Opus, the model alias, scanner false positives and assembled SMILES. Every discard since the sandbox was the reader’s own tooling, not a lookup.</p>';
-  return sec("integrity", "7", "Integrity: found and fixed", take + det("The five, with what was found and what fixed it",
-    '<ul class="fixes">' + items.map(function(x){ return '<li><h3>' + esc(x[0]) + '</h3><p><span class="k">Found</span>' + x[1] + '</p><p><span class="k">Fixed</span>' + x[2] + '</p></li>'; }).join("") + '</ul>'));
-}
-
-function suggestions(D){
-  var A = D.ez.arms, C = D.cadence || {}, DU = C.dual, N = D.novel, F = D.fable, T = D.technique.lanes, P = D.corpus.protocol_split;
-  var fableRatio = F ? F.readers[0].cost_usd / F.readers[1].cost_usd : 2.7;
-  var hardImg = N.spend.C.cost / N.spend.C.images;
-  var SG = [
-    ["p1", "P1", "E/Z-aware scoring on every tab", "about an hour, no reader spend",
-     '<p><b>Do not penalise an E/Z the reference leaves unspecified.</b> Show “E/Z only” as its own badge, apart from tetrahedral “stereo” and from isotope labels, which the current verdict also swallows. Keep strict as the headline beside it, never merged; an omitted or flipped E/Z stays a miss. Under this rule 5.5’s only misses are the ' + A[0].ez_sub.omitted + ' omitted E/Z (section 5).</p>'],
-    ["p1", "P1", "Harder inputs: degraded, scanned and other depiction styles", "~$" + Math.round(100 * T.s55c.cost_per_image) + "–" + Math.round(100 * hardImg) + " per 100 images",
-     '<p>Clean RDKit drawings no longer separate the models (99% on the corpus, 40/40 novel). Use the inputs CXMolScribe’s own benchmark struggles with: <b>PubChem-style depictions</b> (a 675-image set with references exists here), <b>scanned or JPEG-degraded</b> copies of corpus images, <b>patent figures</b> cropped from documents, <b>hand-drawn</b> structures. Re-use corpus molecules so each image pairs with its clean reading. Hard images ran ' + money(hardImg) + ' each in kind C.</p>'],
-    ["p2", "P2", "Treat Monitor commands like Bash in the transcript scanner", "small code change, saves re-reads",
-     '<p>' + (C.scan_refused || 0) + ' batches were discarded and re-read under the s55c cadence, all for the reader handling its own work. Scan a Monitor <code>command</code> like a Bash one; accept TaskStop/TaskOutput on a task the reader started; take the task id from the harness’s “moved to the background” message too. Add a selftest case for each, with a planted lookup inside a Monitor command.</p>'],
-    ["p2", "P2 · underway", "The single-image-per-reader test", P ? n0(P.s55.after.n) + " + " + n0(P.s5.after.n) + " rows so far" : "",
-     '<p>Since ' + (D.protocol ? esc(D.protocol.at.slice(0, 10)) : '2 Oct') + ' both arms read one image per reader, with no batch-mates to borrow from. ' + (P ? 'So far 5.5 ' + P.s55.after.exact + '/' + P.s55.after.n + ' (' + P.s55.after.pct + '%) against ' + P.s55.before.pct + '% batched; Sonnet 5 ' + P.s5.after.exact + '/' + P.s5.after.n + ' (' + P.s5.after.pct + '%) against ' + P.s5.before.pct + '%, on different images and with its final prompt.' : '') + ' The clean test is still a re-read of ~30 already-batched images one per reader: same images, batched verdict against single.</p>'],
-    ["p2", "P2", "A same-prompt Sonnet 5 sample on unselected images", "~$" + Math.round(50 * T.s5.cost_per_image),
-     '<p>The corpus pairing mixes model and prompt (Sonnet 5’s prompt changed over its weeks of batches; 5.5 has one). Fifty random corpus images read by Sonnet 5 on 5.5’s exact prompt would split the ' + (D.corpus.s55_pct - D.corpus.s5_pct).toFixed(1) + '-point gap into model and prompt. The single-image Sonnet 5 rows (final prompt, 91%) already hint that prompt is part of it.</p>'],
-    ["p3", "P3", "Fable 5.1 on a hard subset, only if the answer matters", "~$" + Math.round(20 * hardImg * fableRatio) + " for 20 hard images",
-     '<p>On cethromycin Fable gave the same answer as 5.5 at ' + fableRatio.toFixed(1) + '× the cost. With 5.5 at the ceiling on clean drawings there is nothing for Fable to win here; run it on the degraded set from P1 after 5.5 has shown misses there.</p>'],
-    ["p3", "P3", "Finishing the corpus", DU ? n0(C.left) + " pairs left" : "",
-     DU ? '<p>Under the dual-arm cadence (one image per reader, both arms) a pair costs about <b>' + money(DU.pair_usd) + '</b> at list price (5.5 ' + money(DU.arms.s55 && DU.arms.s55.usd_mean) + ', Sonnet 5 ' + money(DU.arms.s5 && DU.arms.s5.usd_mean) + ' mean per single-image reader). The last 72 h landed ' + n0(DU.pairs_72h) + ' pairs (' + DU.pairs_per_day_72h + ' a day), so the remaining ' + n0(C.left) + ' are about ' + DU.days_left_at_72h_pace + ' days at that pace and about $' + n0(DU.list_cost_left) + ' list. '
-       + (DU.quiet ? 'The cadence is paused until ' + when(DU.quiet.until) + ' (' + esc(String(DU.quiet.why).split(":")[0]) + '). ' : '')
-       + 'With 5.5 at 99% and behind on 0 against Sonnet 5, finishing mostly tightens an interval that is already narrow; most of the information per dollar is in P1.</p>' : '<p>Cadence state not available at build time.</p>'],
-    ["p3", "P3", "Small fixes the data supports", "",
-     '<p><b>Split the “stereo” badge everywhere</b>: CXMolScribe has ' + A[2].split.iso + ' isotope-only “stereo” verdicts (deuterium labels), which are not stereochemistry. <b>Report confidence with every miss</b>: 5.5’s misses sat at '
-     + (A[0].rows.length ? Math.min.apply(null, A[0].rows.map(function(r){ return r.conf; })) + '–' + Math.max.apply(null, A[0].rows.map(function(r){ return r.conf; })) : '–') + ', so low confidence still flags most of them for review.</p>']
-  ];
-  return sec("suggestions", "8", "Suggestions, in priority order",
-    '<ol class="sugg">' + SG.map(function(s){ return '<li class="' + s[0] + '"><div class="shead"><h3>' + esc(s[2]) + '</h3><span class="pill ' + s[0] + '">' + esc(s[1]) + '</span>'
-      + (s[3] ? '<span class="pill cost">' + esc(s[3]) + '</span>' : '') + '</div>' + s[4] + '</li>'; }).join("") + '</ol>');
+  var take = '<p class="take"><b>Five ways a reading could stop being a blind reading by the named model were found and closed</b>: filesystem snooping, delegation to Opus, the model alias, scanner false positives and assembled SMILES.'
+    + (DU ? ' The dual-arm cadence has ' + n0(C.left) + ' pairs left at about ' + money(DU.pair_usd) + ' a pair' + (DU.quiet ? ', paused until ' + when(DU.quiet.until) : '') + '.' : '') + '</p>';
+  return sec("integrity", "10", "Integrity and the cadence", take + det("The five, with what was found and what fixed it",
+    '<ul class="found">' + items.map(function(x){ return '<li><h3>' + esc(x[0]) + '</h3><p><span class="k">Found</span>' + x[1] + '</p><p><span class="k">Fixed</span>' + x[2] + '</p></li>'; }).join("") + '</ul>'));
 }
 
 function render(D){
-  $("#view").innerHTML = intro(D) + summary(D) + corpus(D) + cost(D) + handpicked(D) + novel(D) + ez(D) + technique(D) + integrity(D) + suggestions(D)
-    + '<footer>Every number on this page is computed by <code>tools/build_sonnet_report.py</code> from the lane results, '
+  $("#view").innerHTML = intro(D) + scores(D) + failures(D) + gallery(D) + fixes(D) + corpus(D) + cost(D) + handpicked(D) + novel(D) + ez(D) + technique(D) + integrity(D)
+    + '<footer>Every number on this page is computed by <code>tools/build_sonnet_report.py</code> and <code>tools/failure_analysis.py</code> from the lane results, '
     + '<code>sonnet55.json</code>, <code>sonnet_compare.json</code>, <code>sonnet_novel.json</code> and <code>technique.json</code>, rebuilt with the Sonnet 5.5 tab on every publish. All scoring uses one rule, '
-    + '<code>sonnet_batch.verdict()</code>. Ground truth is PubChem. Costs are API list prices, not money spent. Arms: 5.5 green, Sonnet 5 grey, CXMolScribe blue, always also named in text.</footer>';
-  fitLine(); wireLine();
+    + '<code>sonnet_batch.verdict()</code>; the failure classifier is checked on planted edits before every build. Ground truth is PubChem. Costs are API list prices, not money spent. Arms: 5.5 green, Sonnet 5 grey, CXMolScribe blue, always also named in text.</footer>';
   /* If the corpus lane has moved on since this payload was built, say so with the live count. */
   fetch("/wall/sonnet_compare.json", {cache: "no-cache"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(L){
     if (!L || !L.corpus || L.corpus.n <= D.snapshot.paired) return;
@@ -631,7 +621,7 @@ document.addEventListener("selectstart", function(e){ if (!e.target.closest("cod
   var fade = function(){ seg.classList.toggle("at-end", seg.scrollLeft + seg.clientWidth >= seg.scrollWidth - 2); };
   fade(); seg.addEventListener("scroll", fade, {passive: true}); window.addEventListener("resize", fade); })();
 function measure(){ document.documentElement.style.setProperty("--hh", $("header").offsetHeight + "px"); }
-var SPY = ["summary", "corpus", "cost", "handpicked", "novel", "ez", "technique", "integrity", "suggestions"];
+var SPY = ["scores", "failures", "gallery", "fixes", "corpus", "cost", "handpicked", "novel", "ez", "technique", "integrity"];
 function spy(){
   var links = document.querySelectorAll(".toc a");
   if (!links.length || !links[0].offsetParent) return;
@@ -642,7 +632,7 @@ function spy(){
 var spyQueued = false;
 window.addEventListener("scroll", function(){ if (spyQueued) return; spyQueued = true;
   requestAnimationFrame(function(){ spyQueued = false; spy(); }); }, {passive: true});
-window.addEventListener("resize", function(){ measure(); spy(); fitLine(); });
+window.addEventListener("resize", function(){ measure(); spy(); });
 measure();
 fetch("/wall/sonnet_report.json", {cache: "no-cache"}).then(function(r){
   if (!r.ok) throw new Error("HTTP " + r.status);

@@ -429,7 +429,7 @@ document.addEventListener("click", function(e){
 function intro(){
   return '<section class="intro"><h1>Sonnet 5.5 vs Sonnet 5</h1>'
     + '<p class="lede">Three sets, kept apart: the <b>corpus, paired</b> image for image (nothing skipped); <b>novel structures</b> no model can have memorised; and <b>28 hand-picked</b> images chosen on Sonnet 5’s failures. '
-    + 'Same images, same blind pipeline, same RDKit scorer. The <a href="/sonnet-report">findings report</a> has the charts and the E/Z finding.</p>'
+    + 'Same images, same blind pipeline, same RDKit scorer. The <a href="/sonnet-report#failures">findings report</a> classifies every miss and shows the missed drawings.</p>'
     + '<nav class="jump" aria-label="Sections"><a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#kindc">Hard edits</a><a href="#handpicked">Hand-picked</a><a href="/sonnet-report">Findings report</a></nav>'
     + '</section>';
 }
@@ -480,7 +480,7 @@ function corpusSection(C){
     + '<div class="tally"><div class="' + (C.ahead ? 'up' : '') + '"><b>' + C.ahead + '</b><span>5.5 right, 5 wrong</span></div>'
     + '<div class="' + (C.behind ? 'down' : '') + '"><b>' + C.behind + '</b><span>5 right, 5.5 wrong</span></div>'
     + '<div><b>' + (C.n - nb) + '</b><span>same result</span></div></div>'
-    + '<p class="cmpnote">Charts (cumulative accuracy, by drawing size, cost per image): <a href="/sonnet-report#corpus">findings report</a>.</p>'
+    + '<p class="cmpnote"><a href="/sonnet-report#failures">Why they miss</a>: every miss classified, the molecules that drive misses, a gallery of missed drawings with the difference marked, and the fixes the data supports.</p>'
     + notes
     + '</div><div class="col">'
     + (bt ? '<div><h3 class="subh">By batch</h3>' + capbox(bt, C.batches.length, "batches", 408) + '</div>' : '')

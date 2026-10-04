@@ -50,6 +50,7 @@ sys.path.insert(0, str(HERE.parent / "benchmarks"))
 
 from sonnet_batch import verdict  # noqa: E402  (THE scoring rule, one copy)
 import reader_protocol  # noqa: E402  (images per reader, and from which row)
+import failure_analysis  # noqa: E402  (why they miss: classes, drivers, gallery, fixes)
 from rdkit import Chem, DataStructs, RDLogger  # noqa: E402
 from rdkit.Chem import rdFingerprintGenerator  # noqa: E402
 
@@ -494,8 +495,14 @@ def main() -> int:
           "summary": cmp_["summary"], "rerun_cost": round(cmp_["side"][0]["cost"], 2),
           "rerun_seconds": cmp_["side"][0]["seconds"]}
     novel = {k: nov[k] for k in ("A", "B", "C", "spend", "cost", "images", "built")}
+    bad = failure_analysis.selftest()
+    if bad:
+        raise SystemExit("failure classifier selftest failed:\n" + "\n".join(bad))
+    xs = [r for r in lane if r["k"] in s5]
+    failures = failure_analysis.analyse(xs, s5, WALL / "report" / "fail", failure_analysis.corpus_images())
     payload = {
         "built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "failures": failures,
         "snapshot": snap,
         "corpus": corpus,
         "handpicked": hp,

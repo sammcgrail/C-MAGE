@@ -1,5 +1,5826 @@
 {
- "built": "2026-10-04T20:19:43Z",
+ "built": "2026-10-04T20:56:08Z",
+ "failures": {
+  "cats": [
+   {
+    "key": "ez_added",
+    "label": "E/Z added (truth unspecified)",
+    "meaning": "the answer gives a double bond a geometry the PubChem record leaves open"
+   },
+   {
+    "key": "ez_omitted",
+    "label": "E/Z omitted or flipped (truth specifies)",
+    "meaning": "a specified double-bond geometry left out or reversed"
+   },
+   {
+    "key": "tet",
+    "label": "Tetrahedral stereo",
+    "meaning": "one or more stereocentres differ (sometimes with a double bond too)"
+   },
+   {
+    "key": "iso",
+    "label": "Isotope labels",
+    "meaning": "the same molecule once deuterium or other labels are dropped"
+   },
+   {
+    "key": "fragment",
+    "label": "Fragment, charge or counter-ion",
+    "meaning": "largest fragments agree once neutralised: a counter-ion, phantom fragment or charge state"
+   },
+   {
+    "key": "bond",
+    "label": "Bond order or aromaticity",
+    "meaning": "same atoms and wiring; a double bond or aromatic ring differs"
+   },
+   {
+    "key": "connect",
+    "label": "Ring size or connectivity",
+    "meaning": "same atoms, different wiring"
+   },
+   {
+    "key": "element",
+    "label": "Wrong atom or element",
+    "meaning": "same atom count, an element swapped"
+   },
+   {
+    "key": "atoms",
+    "label": "Missing or extra atoms",
+    "meaning": "a different number of heavy atoms"
+   },
+   {
+    "key": "invalid",
+    "label": "Unparseable",
+    "meaning": "RDKit cannot read the answer"
+   }
+  ],
+  "taxonomy": {
+   "s55": {
+    "label": "Sonnet 5.5",
+    "misses": 10,
+    "n": 1252,
+    "cats": {
+     "ez_added": 6,
+     "ez_omitted": 4,
+     "tet": 0,
+     "iso": 0,
+     "fragment": 0,
+     "bond": 0,
+     "connect": 0,
+     "element": 0,
+     "atoms": 0,
+     "invalid": 0
+    }
+   },
+   "s5": {
+    "label": "Sonnet 5",
+    "misses": 308,
+    "n": 1252,
+    "cats": {
+     "ez_added": 11,
+     "ez_omitted": 5,
+     "tet": 65,
+     "iso": 0,
+     "fragment": 7,
+     "bond": 22,
+     "connect": 78,
+     "element": 2,
+     "atoms": 115,
+     "invalid": 3
+    }
+   },
+   "cx": {
+    "label": "CXMolScribe",
+    "misses": 263,
+    "n": 1252,
+    "cats": {
+     "ez_added": 19,
+     "ez_omitted": 11,
+     "tet": 29,
+     "iso": 3,
+     "fragment": 45,
+     "bond": 7,
+     "connect": 7,
+     "element": 11,
+     "atoms": 52,
+     "invalid": 79
+    }
+   }
+  },
+  "ez": {
+   "s55": {
+    "added_rows": 6,
+    "omitted_rows": 4,
+    "added_bonds": 7,
+    "omitted_bonds": 8,
+    "flipped_bonds": 0
+   },
+   "s5": {
+    "added_rows": 11,
+    "omitted_rows": 5,
+    "added_bonds": 13,
+    "omitted_bonds": 6,
+    "flipped_bonds": 1
+   },
+   "cx": {
+    "added_rows": 19,
+    "omitted_rows": 11,
+    "added_bonds": 22,
+    "omitted_bonds": 11,
+    "flipped_bonds": 0
+   }
+  },
+  "overlap": [
+   {
+    "key": "only_s55",
+    "label": "only 5.5",
+    "n": 0,
+    "names": []
+   },
+   {
+    "key": "only_s5",
+    "label": "only Sonnet 5",
+    "n": 168,
+    "names": [
+     "(endo,Anti)-(1)-3-(3-hydroxy-1-oxo-2-phenylpropoxy)-8-isopropyl-8-methyl-8-azoniabicyclo(3.2.1)octane bromide",
+     "1,4,7,10-Tetraoxacyclododecane",
+     "1,8-Naphthyridine-3-carboxylic acid, 7-(1alpha,5alpha,6alpha)-6-amino-3-azabicyclo3.1.0hex-3-yl-1-(2,4-difluorophenyl)-6-fluoro-1,4-dihydro-4-oxo-",
+     "2-Naphthacenecarboxamide, 4-(dimethylamino)-1,4,4a,5,5a,6,11,12a-octahydro-3,6,10,12,12a-pentahydroxy-6-methyl-1,11-dioxo-, hydrochloride (1:1), (4S,4aS,5aS,6S,12aS)-",
+     "5-Aza-2'-deoxycytidine",
+     "6-(2,5-dioxo-2,5-dihydro-1H-pyrrol-1-yl)-N-((S)-1-(((S)-1-((4-((S)-7-methoxy-8-(3-(((S)-7-methoxy-2-(4-methoxyphenyl)-5-oxo-5,11a-dihydro-1H-benzo[e]pyrrolo[1,2-a][1,4]diazepin-8-yl)oxy)propoxy)-5-oxo-5,11a-dihydro-1H-benzo[e]pyrrolo[1,2-a][1,4]diazepin-2-yl)phenyl)amino)-1-oxopropan-2-yl)amino)-3-methyl-1-oxobutan-2-yl)hexanamide"
+    ]
+   },
+   {
+    "key": "only_cx",
+    "label": "only CXMolScribe",
+    "n": 124,
+    "names": [
+     "(2,3,4,5,6-~2~H_5_)Phenylalanine",
+     "(2H4)Tetrahydro(2H4)furan",
+     "1,7-Dicarbadodecaborane(12)",
+     "2'3'-Cyclic guanosine monophosphate-adenosine monophosphate",
+     "2,5-Dimethoxy-4-iodoamphetamine",
+     "216014-14-1 (Non-salt)"
+    ]
+   },
+   {
+    "key": "s5_cx",
+    "label": "Sonnet 5 and CXMolScribe",
+    "n": 130,
+    "names": [
+     "(2H3)acetic (2H)acid",
+     "1-(2,2-Difluoro-1,3-benzodioxol-5-yl)-N-(1-((2R)-2,3-dihydroxypropyl)-6-fluoro-2-(2-hydroxy-1,1-dimethylethyl)-1H-indol-5-yl)cyclopropanecarboxamide",
+     "7-Chloro-2-(methylimino)-5-phenyl-2,3-dihydro-4H-1,4-benzodiazepin-4-ol",
+     "A47934",
+     "Abarelix",
+     "Aclidinium"
+    ]
+   },
+   {
+    "key": "s55_s5",
+    "label": "5.5 and Sonnet 5",
+    "n": 1,
+    "names": [
+     "Imidacloprid"
+    ]
+   },
+   {
+    "key": "s55_cx",
+    "label": "5.5 and CXMolScribe",
+    "n": 0,
+    "names": []
+   },
+   {
+    "key": "all",
+    "label": "all three",
+    "n": 9,
+    "names": [
+     "(1,5-Cyclooctadiene)pyridine(tricyclohexylphosphine)iridium hexafluorophosphate",
+     "5-((4-((2-Carboxyethyl)carbamoyl)phenyl)diazenyl)-2-hydroxybenzoic acid",
+     "C.I. Acid Orange 52",
+     "C.I. Direct Blue 53",
+     "CID 10898559",
+     "Cefprozil"
+    ]
+   }
+  ],
+  "overlap_none": 820,
+  "drivers": [
+   {
+    "key": "heavy",
+    "label": "Heavy atoms",
+    "bins": [
+     {
+      "label": "under 25",
+      "n": 526,
+      "s55": 3,
+      "s5": 52,
+      "cx": 62
+     },
+     {
+      "label": "25\u201344",
+      "n": 510,
+      "s55": 3,
+      "s5": 108,
+      "cx": 79
+     },
+     {
+      "label": "45 or more",
+      "n": 216,
+      "s55": 4,
+      "s5": 148,
+      "cx": 122
+     }
+    ]
+   },
+   {
+    "key": "rings",
+    "label": "Rings",
+    "bins": [
+     {
+      "label": "0",
+      "n": 127,
+      "s55": 0,
+      "s5": 7,
+      "cx": 29
+     },
+     {
+      "label": "1\u20132",
+      "n": 372,
+      "s55": 4,
+      "s5": 38,
+      "cx": 62
+     },
+     {
+      "label": "3\u20134",
+      "n": 490,
+      "s55": 2,
+      "s5": 108,
+      "cx": 67
+     },
+     {
+      "label": "5 or more",
+      "n": 263,
+      "s55": 4,
+      "s5": 155,
+      "cx": 105
+     }
+    ]
+   },
+   {
+    "key": "stereo",
+    "label": "Stereo elements (centres + E/Z bonds)",
+    "bins": [
+     {
+      "label": "0",
+      "n": 603,
+      "s55": 4,
+      "s5": 62,
+      "cx": 94
+     },
+     {
+      "label": "1\u20132",
+      "n": 226,
+      "s55": 2,
+      "s5": 44,
+      "cx": 16
+     },
+     {
+      "label": "3\u20135",
+      "n": 166,
+      "s55": 1,
+      "s5": 40,
+      "cx": 22
+     },
+     {
+      "label": "6 or more",
+      "n": 257,
+      "s55": 3,
+      "s5": 162,
+      "cx": 131
+     }
+    ]
+   },
+   {
+    "key": "macro",
+    "label": "Macrocycle (ring of 12+)",
+    "bins": [
+     {
+      "label": "no",
+      "n": 1131,
+      "s55": 8,
+      "s5": 215,
+      "cx": 182
+     },
+     {
+      "label": "yes",
+      "n": 121,
+      "s55": 2,
+      "s5": 93,
+      "cx": 81
+     }
+    ]
+   },
+   {
+    "key": "metal",
+    "label": "Metal present",
+    "bins": [
+     {
+      "label": "no",
+      "n": 1164,
+      "s55": 6,
+      "s5": 290,
+      "cx": 211
+     },
+     {
+      "label": "yes",
+      "n": 88,
+      "s55": 4,
+      "s5": 18,
+      "cx": 52
+     }
+    ]
+   },
+   {
+    "key": "frags",
+    "label": "Salt or multi-component",
+    "bins": [
+     {
+      "label": "no",
+      "n": 1106,
+      "s55": 5,
+      "s5": 282,
+      "cx": 197
+     },
+     {
+      "label": "yes",
+      "n": 146,
+      "s55": 5,
+      "s5": 26,
+      "cx": 66
+     }
+    ]
+   },
+   {
+    "key": "charged",
+    "label": "Formal charges",
+    "bins": [
+     {
+      "label": "no",
+      "n": 1096,
+      "s55": 5,
+      "s5": 279,
+      "cx": 203
+     },
+     {
+      "label": "yes",
+      "n": 156,
+      "s55": 5,
+      "s5": 29,
+      "cx": 60
+     }
+    ]
+   },
+   {
+    "key": "iso",
+    "label": "Isotope labels",
+    "bins": [
+     {
+      "label": "no",
+      "n": 1235,
+      "s55": 10,
+      "s5": 305,
+      "cx": 252
+     },
+     {
+      "label": "yes",
+      "n": 17,
+      "s55": 0,
+      "s5": 3,
+      "cx": 11
+     }
+    ]
+   },
+   {
+    "key": "density",
+    "label": "Drawing density (atoms per area, tertiles)",
+    "bins": [
+     {
+      "label": "sparse",
+      "n": 417,
+      "s55": 6,
+      "s5": 137,
+      "cx": 98
+     },
+     {
+      "label": "medium",
+      "n": 417,
+      "s55": 2,
+      "s5": 102,
+      "cx": 81
+     },
+     {
+      "label": "dense",
+      "n": 418,
+      "s55": 2,
+      "s5": 69,
+      "cx": 84
+     }
+    ]
+   }
+  ],
+  "cards": [
+   {
+    "k": "imidacloprid_cid86287518",
+    "n": "Imidacloprid",
+    "lead": "s55",
+    "cat": "ez_omitted",
+    "heavy": 17,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 omitted (truth specifies)",
+      "conf": 92,
+      "img": "/wall/report/fail/s55/imidacloprid_cid86287518.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 omitted (truth specifies)",
+      "conf": 92,
+      "img": "/wall/report/fail/s5/imidacloprid_cid86287518.png"
+     },
+     "cx": {
+      "ok": true
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/imidacloprid_cid86287518.png",
+     "truth": "/wall/report/fail/truth/imidacloprid_cid86287518.png"
+    }
+   },
+   {
+    "k": "doxepin_cid3158",
+    "n": "Doxepin",
+    "lead": "s55",
+    "cat": "ez_added",
+    "heavy": 21,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 50,
+      "img": "/wall/report/fail/s55/doxepin_cid3158.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 80,
+      "img": "/wall/report/fail/s5/doxepin_cid3158.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 90,
+      "img": "/wall/report/fail/cx/doxepin_cid3158.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/doxepin_cid3158.png",
+     "truth": "/wall/report/fail/truth/doxepin_cid3158.png"
+    }
+   },
+   {
+    "k": "c_i_acid_orange_52_cid23673835",
+    "n": "C.I. Acid Orange 52",
+    "lead": "s55",
+    "cat": "ez_added",
+    "heavy": 22,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 48,
+      "img": "/wall/report/fail/s55/c_i_acid_orange_52_cid23673835.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/c_i_acid_orange_52_cid23673835.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 90,
+      "img": "/wall/report/fail/cx/c_i_acid_orange_52_cid23673835.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/c_i_acid_orange_52_cid23673835.png",
+     "truth": "/wall/report/fail/truth/c_i_acid_orange_52_cid23673835.png"
+    }
+   },
+   {
+    "k": "5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585",
+    "n": "5-((4-((2-Carboxyethyl)carbamoyl)phenyl)diazenyl)-2-hydroxybenzoic acid",
+    "lead": "s55",
+    "cat": "ez_added",
+    "heavy": 26,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 72,
+      "img": "/wall/report/fail/s55/5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 87,
+      "img": "/wall/report/fail/cx/5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585.png",
+     "truth": "/wall/report/fail/truth/5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585.png"
+    }
+   },
+   {
+    "k": "cefprozil_cid62977",
+    "n": "Cefprozil",
+    "lead": "s55",
+    "cat": "ez_added",
+    "heavy": 27,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 65,
+      "img": "/wall/report/fail/s55/cefprozil_cid62977.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/cefprozil_cid62977.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 88,
+      "img": "/wall/report/fail/cx/cefprozil_cid62977.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/cefprozil_cid62977.png",
+     "truth": "/wall/report/fail/truth/cefprozil_cid62977.png"
+    }
+   },
+   {
+    "k": "1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647",
+    "n": "(1,5-Cyclooctadiene)pyridine(tricyclohexylphosphine)iridium hexafluorophosphate",
+    "lead": "s55",
+    "cat": "ez_omitted",
+    "heavy": 41,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 2 omitted (truth specifies)",
+      "conf": 70,
+      "img": "/wall/report/fail/s55/1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 2 omitted (truth specifies)",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "invalid",
+      "line": "RDKit cannot parse the answer",
+      "conf": 36
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647.png",
+     "truth": "/wall/report/fail/truth/1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647.png"
+    }
+   },
+   {
+    "k": "cethromycin_cid156417",
+    "n": "Cethromycin",
+    "lead": "s55",
+    "cat": "ez_added",
+    "heavy": 55,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 88,
+      "img": "/wall/report/fail/s55/cethromycin_cid156417.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/cethromycin_cid156417.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 87,
+      "img": "/wall/report/fail/cx/cethromycin_cid156417.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/cethromycin_cid156417.png",
+     "truth": "/wall/report/fail/truth/cethromycin_cid156417.png"
+    }
+   },
+   {
+    "k": "chlorhexidine_gluconate_cid9552081",
+    "n": "Chlorhexidine Gluconate",
+    "lead": "s55",
+    "cat": "ez_omitted",
+    "heavy": 60,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 2 omitted (truth specifies)",
+      "conf": 85,
+      "img": "/wall/report/fail/s55/chlorhexidine_gluconate_cid9552081.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 2 omitted (truth specifies)",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/chlorhexidine_gluconate_cid9552081.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "invalid",
+      "line": "RDKit cannot parse the answer",
+      "conf": 3
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/chlorhexidine_gluconate_cid9552081.png",
+     "truth": "/wall/report/fail/truth/chlorhexidine_gluconate_cid9552081.png"
+    }
+   },
+   {
+    "k": "c_i_direct_blue_53_cid9409",
+    "n": "C.I. Direct Blue 53",
+    "lead": "s55",
+    "cat": "ez_added",
+    "heavy": 62,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+      "conf": 46,
+      "img": "/wall/report/fail/s55/c_i_direct_blue_53_cid9409.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "connect",
+      "line": "same atoms, different wiring (rings 6 \u2192 6)",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/c_i_direct_blue_53_cid9409.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "fragment",
+      "line": "counter-ion or fragment dropped: [Na+], [Na+], [Na+]",
+      "conf": 85,
+      "img": "/wall/report/fail/cx/c_i_direct_blue_53_cid9409.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/c_i_direct_blue_53_cid9409.png",
+     "truth": "/wall/report/fail/truth/c_i_direct_blue_53_cid9409.png"
+    }
+   },
+   {
+    "k": "cid_10898559_cid10898559",
+    "n": "CID 10898559",
+    "lead": "s55",
+    "cat": "ez_omitted",
+    "heavy": 92,
+    "arms": {
+     "s55": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 3 omitted (truth specifies)",
+      "conf": 80,
+      "img": "/wall/report/fail/s55/cid_10898559_cid10898559.png"
+     },
+     "s5": {
+      "ok": false,
+      "cat": "atoms",
+      "line": "+2 heavy atoms (+C3 \u2212O)",
+      "conf": "low",
+      "img": "/wall/report/fail/s5/cid_10898559_cid10898559.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "atoms",
+      "line": "-4 heavy atoms (+Ga \u2212C3CoN)",
+      "conf": 54,
+      "img": "/wall/report/fail/cx/cid_10898559_cid10898559.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/cid_10898559_cid10898559.png",
+     "truth": "/wall/report/fail/truth/cid_10898559_cid10898559.png"
+    }
+   },
+   {
+    "k": "carbazochrome_cid2557",
+    "n": "Carbazochrome",
+    "lead": "cx",
+    "cat": "ez_added",
+    "heavy": 17,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 88,
+      "img": "/wall/report/fail/cx/carbazochrome_cid2557.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/carbazochrome_cid2557.png",
+     "truth": "/wall/report/fail/truth/carbazochrome_cid2557.png"
+    }
+   },
+   {
+    "k": "arsphenamine_cid8774",
+    "n": "Arsphenamine",
+    "lead": "cx",
+    "cat": "ez_added",
+    "heavy": 20,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 91,
+      "img": "/wall/report/fail/cx/arsphenamine_cid8774.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/arsphenamine_cid8774.png",
+     "truth": "/wall/report/fail/truth/arsphenamine_cid8774.png"
+    }
+   },
+   {
+    "k": "imipenem_cid104838",
+    "n": "Imipenem",
+    "lead": "cx",
+    "cat": "ez_added",
+    "heavy": 20,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/imipenem_cid104838.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/imipenem_cid104838.png",
+     "truth": "/wall/report/fail/truth/imipenem_cid104838.png"
+    }
+   },
+   {
+    "k": "alprostadil_cid5280723",
+    "n": "Alprostadil",
+    "lead": "cx",
+    "cat": "ez_omitted",
+    "heavy": 25,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 omitted (truth specifies)",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/alprostadil_cid5280723.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/alprostadil_cid5280723.png",
+     "truth": "/wall/report/fail/truth/alprostadil_cid5280723.png"
+    }
+   },
+   {
+    "k": "dinoprost_cid5280363",
+    "n": "Dinoprost",
+    "lead": "cx",
+    "cat": "ez_omitted",
+    "heavy": 25,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 omitted (truth specifies)",
+      "conf": 89,
+      "img": "/wall/report/fail/cx/dinoprost_cid5280363.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/dinoprost_cid5280363.png",
+     "truth": "/wall/report/fail/truth/dinoprost_cid5280363.png"
+    }
+   },
+   {
+    "k": "carboprost_cid5281075",
+    "n": "Carboprost",
+    "lead": "cx",
+    "cat": "ez_omitted",
+    "heavy": 26,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 omitted (truth specifies)",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/carboprost_cid5281075.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/carboprost_cid5281075.png",
+     "truth": "/wall/report/fail/truth/carboprost_cid5281075.png"
+    }
+   },
+   {
+    "k": "apomorphine_cid6005",
+    "n": "Apomorphine",
+    "lead": "cx",
+    "cat": "tet",
+    "heavy": 20,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "tet",
+      "line": "1 of 1 stereocentres differ",
+      "conf": 89,
+      "img": "/wall/report/fail/cx/apomorphine_cid6005.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/apomorphine_cid6005.png",
+     "truth": "/wall/report/fail/truth/apomorphine_cid6005.png"
+    }
+   },
+   {
+    "k": "ethyl_p_nitrophenyl_benzenethiophosphonate_cid15764013",
+    "n": "Ethyl p-nitrophenyl benzenethiophosphonate, (-)-",
+    "lead": "cx",
+    "cat": "tet",
+    "heavy": 21,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "tet",
+      "line": "1 of 1 stereocentres differ",
+      "conf": 88,
+      "img": "/wall/report/fail/cx/ethyl_p_nitrophenyl_benzenethiophosphonate_cid15764013.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/ethyl_p_nitrophenyl_benzenethiophosphonate_cid15764013.png",
+     "truth": "/wall/report/fail/truth/ethyl_p_nitrophenyl_benzenethiophosphonate_cid15764013.png"
+    }
+   },
+   {
+    "k": "desoximetasone_cid5311067",
+    "n": "Desoximetasone",
+    "lead": "cx",
+    "cat": "tet",
+    "heavy": 27,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "tet",
+      "line": "1 of 8 stereocentres differ",
+      "conf": 71,
+      "img": "/wall/report/fail/cx/desoximetasone_cid5311067.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/desoximetasone_cid5311067.png",
+     "truth": "/wall/report/fail/truth/desoximetasone_cid5311067.png"
+    }
+   },
+   {
+    "k": "2_3_4_5_6_2_h_5_phenylalanine_cid13000995",
+    "n": "(2,3,4,5,6-~2~H_5_)Phenylalanine",
+    "lead": "cx",
+    "cat": "iso",
+    "heavy": 12,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "iso",
+      "line": "isotope labels: 5 read, 5 in the truth",
+      "conf": 87,
+      "img": "/wall/report/fail/cx/2_3_4_5_6_2_h_5_phenylalanine_cid13000995.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/2_3_4_5_6_2_h_5_phenylalanine_cid13000995.png",
+     "truth": "/wall/report/fail/truth/2_3_4_5_6_2_h_5_phenylalanine_cid13000995.png"
+    }
+   },
+   {
+    "k": "deutivacaftor_cid71470491",
+    "n": "Deutivacaftor",
+    "lead": "cx",
+    "cat": "iso",
+    "heavy": 29,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "iso",
+      "line": "isotope labels: 9 read, 9 in the truth",
+      "conf": 83,
+      "img": "/wall/report/fail/cx/deutivacaftor_cid71470491.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/deutivacaftor_cid71470491.png",
+     "truth": "/wall/report/fail/truth/deutivacaftor_cid71470491.png"
+    }
+   },
+   {
+    "k": "deuruxolitinib_cid72704611",
+    "n": "Deuruxolitinib",
+    "lead": "cx",
+    "cat": "iso",
+    "heavy": 23,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": false,
+      "cat": "atoms",
+      "line": "-1 heavy atom (\u2212C)",
+      "conf": 80,
+      "img": "/wall/report/fail/s5/deuruxolitinib_cid72704611.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "iso",
+      "line": "isotope labels: 8 read, 8 in the truth",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/deuruxolitinib_cid72704611.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/deuruxolitinib_cid72704611.png",
+     "truth": "/wall/report/fail/truth/deuruxolitinib_cid72704611.png"
+    }
+   },
+   {
+    "k": "acetone_d6_cid522220",
+    "n": "Acetone-D6",
+    "lead": "cx",
+    "cat": "fragment",
+    "heavy": 4,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "fragment",
+      "line": "same molecule, different charge state or fragment written",
+      "conf": 84,
+      "img": "/wall/report/fail/cx/acetone_d6_cid522220.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/acetone_d6_cid522220.png",
+     "truth": "/wall/report/fail/truth/acetone_d6_cid522220.png"
+    }
+   },
+   {
+    "k": "chloroform_d_cid71583",
+    "n": "Chloroform-D",
+    "lead": "cx",
+    "cat": "fragment",
+    "heavy": 4,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "fragment",
+      "line": "same molecule, different charge state or fragment written",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/chloroform_d_cid71583.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/chloroform_d_cid71583.png",
+     "truth": "/wall/report/fail/truth/chloroform_d_cid71583.png"
+    }
+   },
+   {
+    "k": "di_2h3_methyl_sulphoxide_cid75151",
+    "n": "Di((2H3)methyl) sulphoxide",
+    "lead": "cx",
+    "cat": "fragment",
+    "heavy": 4,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "fragment",
+      "line": "same molecule, different charge state or fragment written",
+      "conf": 76,
+      "img": "/wall/report/fail/cx/di_2h3_methyl_sulphoxide_cid75151.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/di_2h3_methyl_sulphoxide_cid75151.png",
+     "truth": "/wall/report/fail/truth/di_2h3_methyl_sulphoxide_cid75151.png"
+    }
+   },
+   {
+    "k": "carbon_dioxide_cid280",
+    "n": "Carbon Dioxide",
+    "lead": "cx",
+    "cat": "bond",
+    "heavy": 3,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "bond",
+      "line": "same atoms and wiring; bond order or aromaticity differs",
+      "conf": 68,
+      "img": "/wall/report/fail/cx/carbon_dioxide_cid280.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/carbon_dioxide_cid280.png",
+     "truth": "/wall/report/fail/truth/carbon_dioxide_cid280.png"
+    }
+   },
+   {
+    "k": "becampanel_cid5491960",
+    "n": "Becampanel",
+    "lead": "cx",
+    "cat": "bond",
+    "heavy": 22,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "bond",
+      "line": "same atoms and wiring; bond order or aromaticity differs",
+      "conf": 88,
+      "img": "/wall/report/fail/cx/becampanel_cid5491960.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/becampanel_cid5491960.png",
+     "truth": "/wall/report/fail/truth/becampanel_cid5491960.png"
+    }
+   },
+   {
+    "k": "donepezil_hydrochloride_cid5741",
+    "n": "Donepezil Hydrochloride",
+    "lead": "cx",
+    "cat": "bond",
+    "heavy": 29,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "bond",
+      "line": "same atoms and wiring; bond order or aromaticity differs",
+      "conf": 87,
+      "img": "/wall/report/fail/cx/donepezil_hydrochloride_cid5741.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/donepezil_hydrochloride_cid5741.png",
+     "truth": "/wall/report/fail/truth/donepezil_hydrochloride_cid5741.png"
+    }
+   },
+   {
+    "k": "ethyl_alcohol_d6_cid102138",
+    "n": "Ethyl alcohol-d6",
+    "lead": "cx",
+    "cat": "connect",
+    "heavy": 3,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "connect",
+      "line": "same atoms, different wiring (rings 0 \u2192 0)",
+      "conf": 68,
+      "img": "/wall/report/fail/cx/ethyl_alcohol_d6_cid102138.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/ethyl_alcohol_d6_cid102138.png",
+     "truth": "/wall/report/fail/truth/ethyl_alcohol_d6_cid102138.png"
+    }
+   },
+   {
+    "k": "ferrocene_cid10219726",
+    "n": "Ferrocene",
+    "lead": "cx",
+    "cat": "connect",
+    "heavy": 11,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "connect",
+      "line": "same atoms, different wiring (rings 2 \u2192 2)",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/ferrocene_cid10219726.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/ferrocene_cid10219726.png",
+     "truth": "/wall/report/fail/truth/ferrocene_cid10219726.png"
+    }
+   },
+   {
+    "k": "ferroquine_cid140118553",
+    "n": "Ferroquine",
+    "lead": "cx",
+    "cat": "connect",
+    "heavy": 28,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "connect",
+      "line": "same atoms, different wiring (rings 4 \u2192 4)",
+      "conf": 90,
+      "img": "/wall/report/fail/cx/ferroquine_cid140118553.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/ferroquine_cid140118553.png",
+     "truth": "/wall/report/fail/truth/ferroquine_cid140118553.png"
+    }
+   },
+   {
+    "k": "dimethylmercury_cid11645",
+    "n": "Dimethylmercury",
+    "lead": "cx",
+    "cat": "element",
+    "heavy": 3,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "element",
+      "line": "element swapped: +In \u2212Hg",
+      "conf": 65,
+      "img": "/wall/report/fail/cx/dimethylmercury_cid11645.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/dimethylmercury_cid11645.png",
+     "truth": "/wall/report/fail/truth/dimethylmercury_cid11645.png"
+    }
+   },
+   {
+    "k": "iodoform_cid6374",
+    "n": "Iodoform",
+    "lead": "cx",
+    "cat": "element",
+    "heavy": 4,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "element",
+      "line": "element swapped: +C3 \u2212I3",
+      "conf": 66,
+      "img": "/wall/report/fail/cx/iodoform_cid6374.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/iodoform_cid6374.png",
+     "truth": "/wall/report/fail/truth/iodoform_cid6374.png"
+    }
+   },
+   {
+    "k": "gantacurium_cid10102486",
+    "n": "Gantacurium",
+    "lead": "cx",
+    "cat": "element",
+    "heavy": 70,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "element",
+      "line": "element swapped: +O \u2212Cl",
+      "conf": 86,
+      "img": "/wall/report/fail/cx/gantacurium_cid10102486.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/gantacurium_cid10102486.png",
+     "truth": "/wall/report/fail/truth/gantacurium_cid10102486.png"
+    }
+   },
+   {
+    "k": "calcium_chloride_cid5284359",
+    "n": "Calcium Chloride",
+    "lead": "cx",
+    "cat": "atoms",
+    "heavy": 3,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "atoms",
+      "line": "+1 heavy atom (+Cl)",
+      "conf": 75,
+      "img": "/wall/report/fail/cx/calcium_chloride_cid5284359.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/calcium_chloride_cid5284359.png",
+     "truth": "/wall/report/fail/truth/calcium_chloride_cid5284359.png"
+    }
+   },
+   {
+    "k": "amantadine_cid2130",
+    "n": "Amantadine",
+    "lead": "cx",
+    "cat": "atoms",
+    "heavy": 11,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "atoms",
+      "line": "-1 heavy atom (\u2212C)",
+      "conf": 62,
+      "img": "/wall/report/fail/cx/amantadine_cid2130.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/amantadine_cid2130.png",
+     "truth": "/wall/report/fail/truth/amantadine_cid2130.png"
+    }
+   },
+   {
+    "k": "iron_pentacarbonyl_cid26040",
+    "n": "Iron pentacarbonyl",
+    "lead": "cx",
+    "cat": "atoms",
+    "heavy": 11,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "atoms",
+      "line": "+2 heavy atoms (+CO)",
+      "conf": 72,
+      "img": "/wall/report/fail/cx/iron_pentacarbonyl_cid26040.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/iron_pentacarbonyl_cid26040.png",
+     "truth": "/wall/report/fail/truth/iron_pentacarbonyl_cid26040.png"
+    }
+   },
+   {
+    "k": "cupric_chloride_cid24014",
+    "n": "Cupric Chloride",
+    "lead": "cx",
+    "cat": "invalid",
+    "heavy": 3,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "invalid",
+      "line": "RDKit cannot parse the answer",
+      "conf": 57
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/cupric_chloride_cid24014.png",
+     "truth": "/wall/report/fail/truth/cupric_chloride_cid24014.png"
+    }
+   },
+   {
+    "k": "imidazo_1_2_a_pyridine_cid78960",
+    "n": "Imidazo(1,2-a)pyridine",
+    "lead": "cx",
+    "cat": "invalid",
+    "heavy": 9,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": true
+     },
+     "cx": {
+      "ok": false,
+      "cat": "invalid",
+      "line": "RDKit cannot parse the answer",
+      "conf": 74
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/imidazo_1_2_a_pyridine_cid78960.png",
+     "truth": "/wall/report/fail/truth/imidazo_1_2_a_pyridine_cid78960.png"
+    }
+   },
+   {
+    "k": "amdinocillin_cid36273",
+    "n": "Amdinocillin",
+    "lead": "s5",
+    "cat": "ez_added",
+    "heavy": 22,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 87,
+      "img": "/wall/report/fail/s5/amdinocillin_cid36273.png"
+     },
+     "cx": {
+      "ok": true
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/amdinocillin_cid36273.png",
+     "truth": "/wall/report/fail/truth/amdinocillin_cid36273.png"
+    }
+   },
+   {
+    "k": "amitraz_cid36324",
+    "n": "Amitraz",
+    "lead": "s5",
+    "cat": "ez_added",
+    "heavy": 22,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/amitraz_cid36324.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+      "conf": 89,
+      "img": "/wall/report/fail/cx/amitraz_cid36324.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/amitraz_cid36324.png",
+     "truth": "/wall/report/fail/truth/amitraz_cid36324.png"
+    }
+   },
+   {
+    "k": "clomiphene_cid2800",
+    "n": "Clomiphene",
+    "lead": "s5",
+    "cat": "ez_added",
+    "heavy": 29,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/clomiphene_cid2800.png"
+     },
+     "cx": {
+      "ok": false,
+      "cat": "ez_added",
+      "line": "E/Z written on 1 double bond the truth leaves unspecified",
+      "conf": 88,
+      "img": "/wall/report/fail/cx/clomiphene_cid2800.png"
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/clomiphene_cid2800.png",
+     "truth": "/wall/report/fail/truth/clomiphene_cid2800.png"
+    }
+   },
+   {
+    "k": "apilimod_cid10173277",
+    "n": "Apilimod",
+    "lead": "s5",
+    "cat": "ez_omitted",
+    "heavy": 31,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 omitted (truth specifies)",
+      "conf": 78,
+      "img": "/wall/report/fail/s5/apilimod_cid10173277.png"
+     },
+     "cx": {
+      "ok": true
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/apilimod_cid10173277.png",
+     "truth": "/wall/report/fail/truth/apilimod_cid10173277.png"
+    }
+   },
+   {
+    "k": "danoprevir_cid11285588",
+    "n": "Danoprevir",
+    "lead": "s5",
+    "cat": "ez_omitted",
+    "heavy": 51,
+    "arms": {
+     "s55": {
+      "ok": true
+     },
+     "s5": {
+      "ok": false,
+      "cat": "ez_omitted",
+      "line": "E/Z 1 flipped (truth specifies)",
+      "conf": "high",
+      "img": "/wall/report/fail/s5/danoprevir_cid11285588.png"
+     },
+     "cx": {
+      "ok": true
+     }
+    },
+    "img": {
+     "src": "/wall/report/fail/src/danoprevir_cid11285588.png",
+     "truth": "/wall/report/fail/truth/danoprevir_cid11285588.png"
+    }
+   }
+  ],
+  "fixes": [
+   {
+    "key": "ez_score",
+    "label": "Score E/Z only where the truth specifies it (or draw unspecified double bonds wavy/crossed in the corpus)",
+    "per_arm": {
+     "s55": {
+      "fixes": 6,
+      "of": 10
+     },
+     "s5": {
+      "fixes": 11,
+      "of": 308
+     },
+     "cx": {
+      "fixes": 19,
+      "of": 263
+     }
+    }
+   },
+   {
+    "key": "cx_salt",
+    "label": "CXMolScribe: neutralise and strip counter-ions before scoring; route metal-containing drawings to a Sonnet reader",
+    "per_arm": {
+     "cx": {
+      "fixes": 68,
+      "of": 263
+     }
+    },
+    "note": "45 fragment/charge misses, 52 on drawings with a metal (29 both)"
+   },
+   {
+    "key": "s5_stereo",
+    "label": "Sonnet 5: a stereo checklist (molfile from the drawn wedges, RDKit assigns R/S; never reason it by hand)",
+    "per_arm": {
+     "s5": {
+      "fixes": 65,
+      "of": 308
+     },
+     "cx": {
+      "fixes": 29,
+      "of": 263
+     }
+    }
+   },
+   {
+    "key": "s5_count",
+    "label": "Sonnet 5: count ring vertices and chain atoms one at a time and re-render to compare (missing/extra atoms, connectivity)",
+    "per_arm": {
+     "s5": {
+      "fixes": 193,
+      "of": 308
+     }
+    }
+   },
+   {
+    "key": "hybrid",
+    "label": "Hybrid: CXMolScribe reads, Sonnet 5.5 adjudicates when they disagree (ceiling: either right)",
+    "per_arm": {
+     "cx": {
+      "fixes": 254,
+      "of": 263
+     }
+    },
+    "note": "either 5.5 or CXMolScribe right on 1243 of 1252; either Sonnet 5 or CXMolScribe on 1113"
+   },
+   {
+    "key": "cx_retry",
+    "label": "CXMolScribe: retry or fall back when the output does not parse",
+    "per_arm": {
+     "cx": {
+      "fixes": 79,
+      "of": 263
+     }
+    },
+    "note": "an upper bound: these produced no usable SMILES at all"
+   },
+   {
+    "key": "iso",
+    "label": "Re-score isotope labels as their own class, apart from stereo",
+    "per_arm": {
+     "cx": {
+      "fixes": 3,
+      "of": 263
+     }
+    }
+   }
+  ],
+  "misses": {
+   "s55": [
+    {
+     "k": "1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647",
+     "n": "(1,5-Cyclooctadiene)pyridine(tricyclohexylphosphine)iridium hexafluorophosphate",
+     "cat": "ez_omitted",
+     "line": "E/Z 2 omitted (truth specifies)",
+     "conf": 70
+    },
+    {
+     "k": "5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585",
+     "n": "5-((4-((2-Carboxyethyl)carbamoyl)phenyl)diazenyl)-2-hydroxybenzoic acid",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 72
+    },
+    {
+     "k": "c_i_acid_orange_52_cid23673835",
+     "n": "C.I. Acid Orange 52",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 48
+    },
+    {
+     "k": "c_i_direct_blue_53_cid9409",
+     "n": "C.I. Direct Blue 53",
+     "cat": "ez_added",
+     "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+     "conf": 46
+    },
+    {
+     "k": "cefprozil_cid62977",
+     "n": "Cefprozil",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 65
+    },
+    {
+     "k": "cethromycin_cid156417",
+     "n": "Cethromycin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 88
+    },
+    {
+     "k": "chlorhexidine_gluconate_cid9552081",
+     "n": "Chlorhexidine Gluconate",
+     "cat": "ez_omitted",
+     "line": "E/Z 2 omitted (truth specifies)",
+     "conf": 85
+    },
+    {
+     "k": "cid_10898559_cid10898559",
+     "n": "CID 10898559",
+     "cat": "ez_omitted",
+     "line": "E/Z 3 omitted (truth specifies)",
+     "conf": 80
+    },
+    {
+     "k": "doxepin_cid3158",
+     "n": "Doxepin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 50
+    },
+    {
+     "k": "imidacloprid_cid86287518",
+     "n": "Imidacloprid",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 92
+    }
+   ],
+   "s5": [
+    {
+     "k": "1_2_2_difluoro_1_3_benzodioxol_5_yl_n_1_2r_2_3_dihydroxyprop_cid46199646",
+     "n": "1-(2,2-Difluoro-1,3-benzodioxol-5-yl)-N-(1-((2R)-2,3-dihydroxypropyl)-6-fluoro-2-(2-hydroxy-1,1-dimethylethyl)-1H-indol-5-yl)cyclopropanecarboxamide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "medium"
+    },
+    {
+     "k": "1_4_7_10_tetraoxacyclododecane_cid9269",
+     "n": "1,4,7,10-Tetraoxacyclododecane",
+     "cat": "atoms",
+     "line": "+3 heavy atoms (+C2O)",
+     "conf": "high"
+    },
+    {
+     "k": "1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647",
+     "n": "(1,5-Cyclooctadiene)pyridine(tricyclohexylphosphine)iridium hexafluorophosphate",
+     "cat": "ez_omitted",
+     "line": "E/Z 2 omitted (truth specifies)",
+     "conf": "high"
+    },
+    {
+     "k": "1_8_naphthyridine_3_carboxylic_acid_7_1alpha_5alpha_6alpha_6_cid62959",
+     "n": "1,8-Naphthyridine-3-carboxylic acid, 7-(1alpha,5alpha,6alpha)-6-amino-3-azabicyclo3.1.0hex-3-yl-1-(2,4-difluorophenyl)-6-fluoro-1,4-dihydro-4-oxo-",
+     "cat": "tet",
+     "line": "1 of 2 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "2_naphthacenecarboxamide_4_dimethylamino_1_4_4a_5_5a_6_11_12_cid54704426",
+     "n": "2-Naphthacenecarboxamide, 4-(dimethylamino)-1,4,4a,5,5a,6,11,12a-octahydro-3,6,10,12,12a-pentahydroxy-6-methyl-1,11-dioxo-, hydrochloride (1:1), (4S,4aS,5aS,6S,12aS)-",
+     "cat": "tet",
+     "line": "3 of 5 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "2h3_acetic_2h_acid_cid2723903",
+     "n": "(2H3)acetic (2H)acid",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+O)",
+     "conf": "high"
+    },
+    {
+     "k": "5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585",
+     "n": "5-((4-((2-Carboxyethyl)carbamoyl)phenyl)diazenyl)-2-hydroxybenzoic acid",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "5_aza_2_deoxycytidine_cid451668",
+     "n": "5-Aza-2'-deoxycytidine",
+     "cat": "tet",
+     "line": "1 of 3 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "6_2_5_dioxo_2_5_dihydro_1h_pyrrol_1_yl_n_s_1_s_1_4_s_7_metho_cid89396500",
+     "n": "6-(2,5-dioxo-2,5-dihydro-1H-pyrrol-1-yl)-N-((S)-1-(((S)-1-((4-((S)-7-methoxy-8-(3-(((S)-7-methoxy-2-(4-methoxyphenyl)-5-oxo-5,11a-dihydro-1H-benzo[e]pyrrolo[1,2-a][1,4]diazepin-8-yl)oxy)propoxy)-5-oxo-5,11a-dihydro-1H-benzo[e]pyrrolo[1,2-a][1,4]diazepin-2-yl)phenyl)amino)-1-oxopropan-2-yl)amino)-3-methyl-1-oxobutan-2-yl)hexanamide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 9 \u2192 9)",
+     "conf": "low"
+    },
+    {
+     "k": "7_chloro_2_methylimino_5_phenyl_2_3_dihydro_4h_1_4_benzodiaz_cid2712",
+     "n": "7-Chloro-2-(methylimino)-5-phenyl-2,3-dihydro-4H-1,4-benzodiazepin-4-ol",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+N)",
+     "conf": "medium"
+    },
+    {
+     "k": "aficamten_cid139331495",
+     "n": "Aficamten",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 76
+    },
+    {
+     "k": "alarelin_cid9855027",
+     "n": "Alarelin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 60
+    },
+    {
+     "k": "albendazole_cid2082",
+     "n": "Albendazole",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 95
+    },
+    {
+     "k": "alcaftadine_cid19371515",
+     "n": "Alcaftadine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 80
+    },
+    {
+     "k": "alclometasone_dipropionate_cid636374",
+     "n": "Alclometasone Dipropionate",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 50
+    },
+    {
+     "k": "aculeacin_a_cid53297328",
+     "n": "Aculeacin A",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+N)",
+     "conf": 32
+    },
+    {
+     "k": "adagrasib_cid138611145",
+     "n": "Adagrasib",
+     "cat": "tet",
+     "line": "2 of 2 stereocentres differ",
+     "conf": 65
+    },
+    {
+     "k": "afamelanotide_cid16197727",
+     "n": "Afamelanotide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 65
+    },
+    {
+     "k": "alectinib_cid49806720",
+     "n": "Alectinib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": 93
+    },
+    {
+     "k": "alpha_amanitin_cid9543442",
+     "n": "Alpha-Amanitin",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C2NO)",
+     "conf": "high"
+    },
+    {
+     "k": "alpha_cyclodextrin_cid444913",
+     "n": "Alpha-Cyclodextrin",
+     "cat": "atoms",
+     "line": "+22 heavy atoms (+C12O10)",
+     "conf": 50
+    },
+    {
+     "k": "alpha_galactosylceramide_cid2826713",
+     "n": "Alpha-Galactosylceramide",
+     "cat": "tet",
+     "line": "2 of 8 stereocentres differ",
+     "conf": 62
+    },
+    {
+     "k": "alphaxalone_cid104845",
+     "n": "Alphaxalone",
+     "cat": "tet",
+     "line": "2 of 8 stereocentres differ",
+     "conf": 38
+    },
+    {
+     "k": "aluminum_hydroxide_cid10176082",
+     "n": "Aluminum Hydroxide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 0 \u2192 0)",
+     "conf": 62
+    },
+    {
+     "k": "alverine_cid3678",
+     "n": "Alverine",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 92
+    },
+    {
+     "k": "acid_blue_3_cid77073",
+     "n": "Acid Blue 3",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": 83
+    },
+    {
+     "k": "aclidinium_cid11434515",
+     "n": "Aclidinium",
+     "cat": "tet",
+     "line": "0 of 1 stereocentres differ",
+     "conf": 52
+    },
+    {
+     "k": "acridine_orange_base_cid62344",
+     "n": "Acridine Orange Base",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": 95
+    },
+    {
+     "k": "amdinocillin_cid36273",
+     "n": "Amdinocillin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 87
+    },
+    {
+     "k": "amitraz_cid36324",
+     "n": "Amitraz",
+     "cat": "ez_added",
+     "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "amphotericin_b_cid5280965",
+     "n": "Amphotericin B",
+     "cat": "tet",
+     "line": "3 of 19 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "amphotericin_b_monomethyl_ester_cid11968030",
+     "n": "Amphotericin B monomethyl ester",
+     "cat": "tet",
+     "line": "3 of 19 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "anacetrapib_cid11556427",
+     "n": "Anacetrapib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 78
+    },
+    {
+     "k": "androgen_receptor_antagonist_2_cid50940514",
+     "n": "Androgen receptor antagonist 2",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": 87
+    },
+    {
+     "k": "angiotensin_ii_cid172198",
+     "n": "Angiotensin Ii",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 90
+    },
+    {
+     "k": "anidulafungin_cid166548",
+     "n": "Anidulafungin",
+     "cat": "atoms",
+     "line": "-13 heavy atoms (\u2212C9O4)",
+     "conf": 20
+    },
+    {
+     "k": "ansamitocin_p_3_cid5282049",
+     "n": "Ansamitocin P-3",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": 82
+    },
+    {
+     "k": "ansamitocins_cid131750198",
+     "n": "Ansamitocins",
+     "cat": "atoms",
+     "line": "-132 heavy atoms (\u2212C96Cl3N6O27)",
+     "conf": 40
+    },
+    {
+     "k": "argipressin_cid644077",
+     "n": "Argipressin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 85
+    },
+    {
+     "k": "artemether_cid68911",
+     "n": "Artemether",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "artemisinin_cid68827",
+     "n": "Artemisinin",
+     "cat": "tet",
+     "line": "1 of 7 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "artemisone_cid11531457",
+     "n": "Artemisone",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "arterolane_cid10475633",
+     "n": "Arterolane",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212O)",
+     "conf": 85
+    },
+    {
+     "k": "artesunate_cid6917864",
+     "n": "Artesunate",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "ascomycin_cid5282071",
+     "n": "Ascomycin",
+     "cat": "tet",
+     "line": "2 of 14 stereocentres differ",
+     "conf": 32
+    },
+    {
+     "k": "aspidospermidine_3_carboxylic_acid_4_acetyloxy_6_7_didehydro_cid10629256",
+     "n": "Aspidospermidine-3-carboxylic acid, 4-(acetyloxy)-6,7-didehydro-15-((2R,4R,6S,8S)-4-(1,1-difluoroethyl)-1,3,4,5,6,7,8,9-octahydro-8-(methoxycarbonyl)-2,6-methano-2H-azecino(4,3-b)indol-8-yl)-3-hydroxy-16-methoxy-1-methyl-, methyl ester, (2beta,3beta,4beta,5alpha,12R,19alpha)-",
+     "cat": "tet",
+     "line": "9 of 9 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "asunaprevir_cid16076883",
+     "n": "Asunaprevir",
+     "cat": "tet",
+     "line": "1 of 5 stereocentres differ",
+     "conf": 78
+    },
+    {
+     "k": "atogepant_cid72163100",
+     "n": "Atogepant",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 65
+    },
+    {
+     "k": "a47934_cid72715759",
+     "n": "A47934",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 35
+    },
+    {
+     "k": "abarelix_cid16131215",
+     "n": "Abarelix",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "high"
+    },
+    {
+     "k": "abiraterone_acetate_cid9821849",
+     "n": "Abiraterone Acetate",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "abiraterone_cid132971",
+     "n": "Abiraterone",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "abt_263_cid24978538",
+     "n": "Abt 263",
+     "cat": "tet",
+     "line": "1 of 1 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "apilimod_cid10173277",
+     "n": "Apilimod",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 78
+    },
+    {
+     "k": "aprepitant_cid135413536",
+     "n": "Aprepitant",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 92
+    },
+    {
+     "k": "ar_67_cid6712744",
+     "n": "Ar-67",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 80
+    },
+    {
+     "k": "avanafil_cid9869929",
+     "n": "Avanafil",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 83
+    },
+    {
+     "k": "avermectin_b1a_cid6434889",
+     "n": "avermectin B1a",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 35
+    },
+    {
+     "k": "azaline_b_cid71587609",
+     "n": "azaline B",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 9 \u2192 9)",
+     "conf": 45
+    },
+    {
+     "k": "azamulin_cid16072188",
+     "n": "Azamulin",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C3)",
+     "conf": 58
+    },
+    {
+     "k": "azathioprine_cid2265",
+     "n": "Azathioprine",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 93
+    },
+    {
+     "k": "avacopan_cid49841217",
+     "n": "Avacopan",
+     "cat": "tet",
+     "line": "1 of 2 stereocentres differ",
+     "conf": 70
+    },
+    {
+     "k": "azd_1390_cid126689157",
+     "n": "Azd-1390",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 90
+    },
+    {
+     "k": "benznidazole_cid31593",
+     "n": "Benznidazole",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (+C4 \u2212N4O3)",
+     "conf": "high"
+    },
+    {
+     "k": "benzo_a_pyrene_cid2336",
+     "n": "Benzo[a]pyrene",
+     "cat": "atoms",
+     "line": "-1 heavy atom (+N4O3 \u2212C8)",
+     "conf": "high"
+    },
+    {
+     "k": "belvarafenib_cid89655386",
+     "n": "Belvarafenib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "high"
+    },
+    {
+     "k": "benidipine_cid656668",
+     "n": "Benidipine",
+     "cat": "tet",
+     "line": "1 of 2 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "basifungin_cid9919816",
+     "n": "Basifungin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "low"
+    },
+    {
+     "k": "batefenterol_cid10372836",
+     "n": "Batefenterol",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": "medium"
+    },
+    {
+     "k": "beauvericin_cid3007984",
+     "n": "Beauvericin",
+     "cat": "atoms",
+     "line": "+19 heavy atoms (+C15NO3)",
+     "conf": "high"
+    },
+    {
+     "k": "beclabuvir_cid56934415",
+     "n": "Beclabuvir",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "medium"
+    },
+    {
+     "k": "betazole_cid7741",
+     "n": "Betazole",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": "high"
+    },
+    {
+     "k": "betrixaban_cid10275777",
+     "n": "Betrixaban",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "high"
+    },
+    {
+     "k": "balhimycin_cid139586033",
+     "n": "Balhimycin",
+     "cat": "atoms",
+     "line": "-12 heavy atoms (\u2212C5O7)",
+     "conf": "low"
+    },
+    {
+     "k": "baloxavir_marboxil_cid124081896",
+     "n": "Baloxavir Marboxil",
+     "cat": "atoms",
+     "line": "+2 heavy atoms (+CN)",
+     "conf": "low"
+    },
+    {
+     "k": "bamifylline_cid16229",
+     "n": "Bamifylline",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "high"
+    },
+    {
+     "k": "baricitinib_cid44205240",
+     "n": "Baricitinib",
+     "cat": "element",
+     "line": "element swapped: +C \u2212N",
+     "conf": "high"
+    },
+    {
+     "k": "barusiban_cid9832431",
+     "n": "Barusiban",
+     "cat": "tet",
+     "line": "8 of 8 stereocentres differ",
+     "conf": "low"
+    },
+    {
+     "k": "boldenone_cid13308",
+     "n": "Boldenone",
+     "cat": "atoms",
+     "line": "+2 heavy atoms (+C2)",
+     "conf": "high"
+    },
+    {
+     "k": "boro_scopol_cid3000322",
+     "n": "Boro-Scopol",
+     "cat": "tet",
+     "line": "2 of 5 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "bosutinib_cid5328940",
+     "n": "Bosutinib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "high"
+    },
+    {
+     "k": "bradykinin_cid439201",
+     "n": "Bradykinin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "bremelanotide_cid9941379",
+     "n": "Bremelanotide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "medium-high"
+    },
+    {
+     "k": "brevetoxin_b_cid10865865",
+     "n": "Brevetoxin B",
+     "cat": "atoms",
+     "line": "-17 heavy atoms (\u2212C14O3)",
+     "conf": "low-medium"
+    },
+    {
+     "k": "brevicidine_cid146684559",
+     "n": "Brevicidine",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "brilacidin_cid25023695",
+     "n": "Brilacidin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "medium"
+    },
+    {
+     "k": "brinzolamide_cid68844",
+     "n": "Brinzolamide",
+     "cat": "tet",
+     "line": "1 of 1 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "brivaracetam_cid9837243",
+     "n": "Brivaracetam",
+     "cat": "tet",
+     "line": "1 of 2 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "berberine_cid2353",
+     "n": "Berberine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "high"
+    },
+    {
+     "k": "berninamycin_a_cid91617669",
+     "n": "Berninamycin A",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C2NO)",
+     "conf": "medium"
+    },
+    {
+     "k": "besifovir_cid5270766",
+     "n": "Besifovir",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "high"
+    },
+    {
+     "k": "beta_amanitin_cid76959217",
+     "n": "beta-Amanitin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "beta_cyclodextrin_cid444041",
+     "n": "beta-Cyclodextrin",
+     "cat": "atoms",
+     "line": "+11 heavy atoms (+C6O5)",
+     "conf": "high"
+    },
+    {
+     "k": "bupranolol_cid2475",
+     "n": "Bupranolol",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 1 \u2192 1)",
+     "conf": "high"
+    },
+    {
+     "k": "buprenorphine_cid644073",
+     "n": "Buprenorphine",
+     "cat": "atoms",
+     "line": "-9 heavy atoms (\u2212C9)",
+     "conf": "medium"
+    },
+    {
+     "k": "buserelin_cid50225",
+     "n": "Buserelin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "bryostatin_1_cid5280757",
+     "n": "Bryostatin 1",
+     "cat": "atoms",
+     "line": "-15 heavy atoms (\u2212C12O3)",
+     "conf": "low"
+    },
+    {
+     "k": "bryostatin_cid6435419",
+     "n": "Bryostatin",
+     "cat": "atoms",
+     "line": "-15 heavy atoms (\u2212C12O3)",
+     "conf": "low"
+    },
+    {
+     "k": "bivalirudin_cid16129704",
+     "n": "Bivalirudin",
+     "cat": "atoms",
+     "line": "-8 heavy atoms (\u2212C4N2O2)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "bleomycin_a2_cid5460769",
+     "n": "Bleomycin A2",
+     "cat": "atoms",
+     "line": "-6 heavy atoms (\u2212C3N2O)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "bleomycin_b2_cid5496540",
+     "n": "Bleomycin B2",
+     "cat": "atoms",
+     "line": "-6 heavy atoms (\u2212C3N2O)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "bleomycin_cid5360373",
+     "n": "Bleomycin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "high"
+    },
+    {
+     "k": "camptothecin_cid24360",
+     "n": "Camptothecin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "canfosfamide_cid5312109",
+     "n": "Canfosfamide",
+     "cat": "tet",
+     "line": "1 of 3 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "canrenone_cid13789",
+     "n": "Canrenone",
+     "cat": "tet",
+     "line": "5 of 6 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "cabazitaxel_cid9854073",
+     "n": "Cabazitaxel",
+     "cat": "tet",
+     "line": "11 of 11 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "cabergoline_cid54746",
+     "n": "Cabergoline",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "medium"
+    },
+    {
+     "k": "calicheamicin_cid11840932",
+     "n": "Calicheamicin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+O)",
+     "conf": "medium (one bridgehead stereocentre left unassigned - no wedge visible there)"
+    },
+    {
+     "k": "capreomycin_cid3000502",
+     "n": "Capreomycin",
+     "cat": "tet",
+     "line": "stereocentres and double bonds both differ (2 centres)",
+     "conf": "medium"
+    },
+    {
+     "k": "c_c_dimethyl_n_n_tricyclo_8_2_2_24_7_hexadeca_4_6_10_12_13_1_cid71474517",
+     "n": "C,C'-Dimethyl N,N'-(tricyclo(8.2.2.24,7)hexadeca-4,6,10,12,13,15-hexaene-5,11-diylbis(1H-benzimidazole-6,2-diyl((2S,3aS,7aS)-octahydro-1H-indole-2,1-diyl)((1S)-1-(1-methylethyl)-2-oxo-2,1-ethanediyl)))bis(carbamate)",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 14 \u2192 14)",
+     "conf": "medium"
+    },
+    {
+     "k": "c_i_acid_blue_90_cid61363",
+     "n": "C.I. Acid Blue 90",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": "high"
+    },
+    {
+     "k": "c_i_acid_orange_52_cid23673835",
+     "n": "C.I. Acid Orange 52",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "c_i_direct_blue_53_cid9409",
+     "n": "C.I. Direct Blue 53",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": "high"
+    },
+    {
+     "k": "carfilzomib_cid11556711",
+     "n": "Carfilzomib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "high"
+    },
+    {
+     "k": "carvedilol_cid2585",
+     "n": "Carvedilol",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "high"
+    },
+    {
+     "k": "caspofungin_cid16119814",
+     "n": "Caspofungin",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": "medium"
+    },
+    {
+     "k": "cefaclor_cid51039",
+     "n": "Cefaclor",
+     "cat": "tet",
+     "line": "1 of 3 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "cefadroxil_cid47965",
+     "n": "Cefadroxil",
+     "cat": "tet",
+     "line": "1 of 3 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "cefcapene_pivoxil_cid5282438",
+     "n": "Cefcapene pivoxil",
+     "cat": "tet",
+     "line": "1 of 2 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "cefilavancin_cid76960417",
+     "n": "Cefilavancin",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212O2)",
+     "conf": "low"
+    },
+    {
+     "k": "cefprozil_cid62977",
+     "n": "Cefprozil",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "cethromycin_cid156417",
+     "n": "Cethromycin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "chlorhexidine_gluconate_cid9552081",
+     "n": "Chlorhexidine Gluconate",
+     "cat": "ez_omitted",
+     "line": "E/Z 2 omitted (truth specifies)",
+     "conf": "high"
+    },
+    {
+     "k": "chloroeremomycin_cid445806",
+     "n": "Chloroeremomycin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 13 \u2192 14)",
+     "conf": "medium"
+    },
+    {
+     "k": "chlorophyll_a_cid12085802",
+     "n": "Chlorophyll A",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": "high"
+    },
+    {
+     "k": "chlorophyll_b_cid11593175",
+     "n": "Chlorophyll B",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": "high"
+    },
+    {
+     "k": "chlorprothixene_cid667467",
+     "n": "Chlorprothixene",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "high"
+    },
+    {
+     "k": "cholic_acid_cid221493",
+     "n": "Cholic Acid",
+     "cat": "tet",
+     "line": "1 of 11 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "ciclesonide_cid6918155",
+     "n": "Ciclesonide",
+     "cat": "tet",
+     "line": "1 of 9 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "cid_10898559_cid10898559",
+     "n": "CID 10898559",
+     "cat": "atoms",
+     "line": "+2 heavy atoms (+C3 \u2212O)",
+     "conf": "low"
+    },
+    {
+     "k": "cilagicin_cid171038003",
+     "n": "Cilagicin",
+     "cat": "atoms",
+     "line": "-7 heavy atoms (\u2212C4N2O)",
+     "conf": "medium"
+    },
+    {
+     "k": "cilazapril_cid56330",
+     "n": "Cilazapril",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "high"
+    },
+    {
+     "k": "cilengitide_cid176873",
+     "n": "Cilengitide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "cilofungin_cid6918120",
+     "n": "Cilofungin",
+     "cat": "tet",
+     "line": "4 of 15 stereocentres differ",
+     "conf": "low"
+    },
+    {
+     "k": "cilostazol_cid2754",
+     "n": "Cilostazol",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "high"
+    },
+    {
+     "k": "cimetidine_cid2756",
+     "n": "Cimetidine",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "clarithromycin_cid84029",
+     "n": "Clarithromycin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "medium"
+    },
+    {
+     "k": "clomiphene_cid2800",
+     "n": "Clomiphene",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "colchicine_cid6167",
+     "n": "Colchicine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "high"
+    },
+    {
+     "k": "colistin_a_cid24825758",
+     "n": "Colistin A",
+     "cat": "atoms",
+     "line": "-7 heavy atoms (\u2212C4N2O)",
+     "conf": "medium"
+    },
+    {
+     "k": "colistin_cid5311054",
+     "n": "Colistin",
+     "cat": "atoms",
+     "line": "-7 heavy atoms (\u2212C4N2O)",
+     "conf": "low"
+    },
+    {
+     "k": "complestatin_cid139588957",
+     "n": "Complestatin",
+     "cat": "atoms",
+     "line": "-11 heavy atoms (\u2212C4Cl2N2O3)",
+     "conf": "low"
+    },
+    {
+     "k": "congo_red_cid11313",
+     "n": "Congo red",
+     "cat": "ez_added",
+     "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+     "conf": "high"
+    },
+    {
+     "k": "crisaborole_cid44591583",
+     "n": "Crisaborole",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": 95
+    },
+    {
+     "k": "cyanocobalamin_cid166596686",
+     "n": "Cyanocobalamin",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": 42
+    },
+    {
+     "k": "cyclosporin_a_cid5284373",
+     "n": "Cyclosporin A",
+     "cat": "tet",
+     "line": "1 of 12 stereocentres differ",
+     "conf": 62
+    },
+    {
+     "k": "d_phenylalanine_2s_n_2r_2_2_3_aminopropyl_phenoxy_propyl_2_c_cid11526696",
+     "n": "D-Phenylalanine, (2S)-N-((2R)-2-(2-(3-aminopropyl)phenoxy)propyl)-2-cyclopropylglycyl-N-methyl-D-alanyl-4-fluoro-, (3->1)-lactam",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 72
+    },
+    {
+     "k": "daclatasvir_cid25154714",
+     "n": "Daclatasvir",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 55
+    },
+    {
+     "k": "dactinomycin_cid457193",
+     "n": "Dactinomycin",
+     "cat": "tet",
+     "line": "8 of 10 stereocentres differ",
+     "conf": 58
+    },
+    {
+     "k": "dalbavancin_cid16134627",
+     "n": "Dalbavancin",
+     "cat": "atoms",
+     "line": "-30 heavy atoms (\u2212C21N3O6)",
+     "conf": "medium (central aromatic crosslink bonds not fully pixel-verified; rest well resolved)"
+    },
+    {
+     "k": "dalfopristin_cid6323289",
+     "n": "Dalfopristin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "high"
+    },
+    {
+     "k": "danoprevir_cid11285588",
+     "n": "Danoprevir",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 flipped (truth specifies)",
+     "conf": "high"
+    },
+    {
+     "k": "danuglipron_tromethamine_cid154702463",
+     "n": "Danuglipron Tromethamine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": "high"
+    },
+    {
+     "k": "dapagliflozin_cid9887712",
+     "n": "Dapagliflozin",
+     "cat": "tet",
+     "line": "5 of 5 stereocentres differ",
+     "conf": "high (connectivity); medium-high (absolute stereochemistry)"
+    },
+    {
+     "k": "dapivirine_cid214347",
+     "n": "Dapivirine",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "high"
+    },
+    {
+     "k": "dapoxetine_cid71353",
+     "n": "Dapoxetine",
+     "cat": "tet",
+     "line": "1 of 1 stereocentres differ",
+     "conf": "high (connectivity); medium-high (absolute stereochemistry)"
+    },
+    {
+     "k": "daptomycin_cid21585658",
+     "n": "Daptomycin",
+     "cat": "atoms",
+     "line": "-9 heavy atoms (\u2212C5NO3)",
+     "conf": "medium"
+    },
+    {
+     "k": "darobactin_cid154586077",
+     "n": "Darobactin",
+     "cat": "atoms",
+     "line": "+8 heavy atoms (+C6NO)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "degarelix_cid16136245",
+     "n": "Degarelix",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 8 \u2192 8)",
+     "conf": 72
+    },
+    {
+     "k": "deldeprevir_cid56935739",
+     "n": "Deldeprevir",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 68
+    },
+    {
+     "k": "deruxtecan_pyrrole_2_5_dione_cid118305111",
+     "n": "Deruxtecan pyrrole-2,5-dione",
+     "cat": "atoms",
+     "line": "-5 heavy atoms (\u2212C3NO)",
+     "conf": 55
+    },
+    {
+     "k": "deslanoside_cid28620",
+     "n": "Deslanoside",
+     "cat": "tet",
+     "line": "1 of 26 stereocentres differ",
+     "conf": 50
+    },
+    {
+     "k": "deslorelin_cid25077495",
+     "n": "Deslorelin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 72
+    },
+    {
+     "k": "desmopressin_cid5311065",
+     "n": "Desmopressin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+N)",
+     "conf": 72
+    },
+    {
+     "k": "destruxin_a_cid11421831",
+     "n": "Destruxin A",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 50
+    },
+    {
+     "k": "desvenlafaxine_succinate_cid6918664",
+     "n": "Desvenlafaxine Succinate",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 78
+    },
+    {
+     "k": "detirelix_cid16129698",
+     "n": "Detirelix",
+     "cat": "tet",
+     "line": "5 of 10 stereocentres differ",
+     "conf": 40
+    },
+    {
+     "k": "deuruxolitinib_cid72704611",
+     "n": "Deuruxolitinib",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 80
+    },
+    {
+     "k": "deuterated_l_leucine_cid16213587",
+     "n": "Deuterated L-leucine",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 65
+    },
+    {
+     "k": "dextromethorphan_cid5360696",
+     "n": "Dextromethorphan",
+     "cat": "tet",
+     "line": "2 of 3 stereocentres differ",
+     "conf": "high on constitution; medium on absolute (enantiomer) stereochemistry"
+    },
+    {
+     "k": "dibekacin_cid470999",
+     "n": "Dibekacin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": 60
+    },
+    {
+     "k": "dibenzo_ghi_mno_fluoranthene_cid11831840",
+     "n": "Dibenzo(ghi,mno)fluoranthene",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 5)",
+     "conf": 85
+    },
+    {
+     "k": "dictyostatin_cid11353099",
+     "n": "Dictyostatin",
+     "cat": "tet",
+     "line": "stereocentres and double bonds both differ (1 centres)",
+     "conf": 45
+    },
+    {
+     "k": "didemnin_b_cid122651",
+     "n": "Didemnin B",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "medium"
+    },
+    {
+     "k": "dieldrin_cid969491",
+     "n": "Dieldrin",
+     "cat": "tet",
+     "line": "4 of 8 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "difetarsone_sodium_anhydrous_cid68198",
+     "n": "Difetarsone sodium anhydrous",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "high"
+    },
+    {
+     "k": "difluprednate_cid443936",
+     "n": "Difluprednate",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "medium"
+    },
+    {
+     "k": "digitonin_cid6474107",
+     "n": "Digitonin",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212O4)",
+     "conf": "medium"
+    },
+    {
+     "k": "digitoxin_cid441207",
+     "n": "Digitoxin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 8 \u2192 8)",
+     "conf": "high"
+    },
+    {
+     "k": "digoxin_cid2724385",
+     "n": "Digoxin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 8 \u2192 8)",
+     "conf": "high"
+    },
+    {
+     "k": "dihydroartemisinin_cid107770",
+     "n": "Dihydroartemisinin",
+     "cat": "tet",
+     "line": "3 of 6 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "dihydroergotamine_cid10531",
+     "n": "Dihydroergotamine",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "diphacinone_cid6719",
+     "n": "Diphacinone",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "medium"
+    },
+    {
+     "k": "dirithromycin_cid6473883",
+     "n": "Dirithromycin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (+O \u2212C2)",
+     "conf": "medium"
+    },
+    {
+     "k": "distearoylphosphatidylcholine_cid65146",
+     "n": "Distearoylphosphatidylcholine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 0 \u2192 0)",
+     "conf": "high"
+    },
+    {
+     "k": "docetaxel_cid148124",
+     "n": "Docetaxel",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 7)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "dolasetron_mesylate_cid3033817",
+     "n": "Dolasetron mesylate",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "dolastatin_10_cid9810929",
+     "n": "Dolastatin 10",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "medium"
+    },
+    {
+     "k": "dolastatin_11_cid354399",
+     "n": "Dolastatin 11",
+     "cat": "tet",
+     "line": "1 of 9 stereocentres differ",
+     "conf": "medium"
+    },
+    {
+     "k": "doramectin_cid9832750",
+     "n": "Doramectin",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C3)",
+     "conf": "medium"
+    },
+    {
+     "k": "dotatate_cid11170867",
+     "n": "Dotatate",
+     "cat": "tet",
+     "line": "1 of 10 stereocentres differ",
+     "conf": 55
+    },
+    {
+     "k": "doxepin_cid3158",
+     "n": "Doxepin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 80
+    },
+    {
+     "k": "dromostanolone_propionate_cid224004",
+     "n": "Dromostanolone Propionate",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": 45
+    },
+    {
+     "k": "dutasteride_cid6918296",
+     "n": "Dutasteride",
+     "cat": "tet",
+     "line": "1 of 7 stereocentres differ",
+     "conf": 93
+    },
+    {
+     "k": "duvelisib_cid50905713",
+     "n": "Duvelisib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 82
+    },
+    {
+     "k": "e129_cid33258",
+     "n": "E129",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 70
+    },
+    {
+     "k": "echinocandin_b_cid9898144",
+     "n": "Echinocandin B",
+     "cat": "tet",
+     "line": "15 of 15 stereocentres differ",
+     "conf": 33
+    },
+    {
+     "k": "edotreotide_cid158782",
+     "n": "Edotreotide",
+     "cat": "tet",
+     "line": "9 of 10 stereocentres differ",
+     "conf": 45
+    },
+    {
+     "k": "elbasvir_cid71661251",
+     "n": "Elbasvir",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 9 \u2192 9)",
+     "conf": 72
+    },
+    {
+     "k": "elexacaftor_cid134587348",
+     "n": "Elexacaftor",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 88
+    },
+    {
+     "k": "eltrombopag_cid135449332",
+     "n": "Eltrombopag",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 85
+    },
+    {
+     "k": "eluxadoline_cid11250029",
+     "n": "Eluxadoline",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 80
+    },
+    {
+     "k": "emamectin_b1a_cid11136686",
+     "n": "Emamectin B1A",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": 25
+    },
+    {
+     "k": "emetine_cid10219",
+     "n": "Emetine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 75
+    },
+    {
+     "k": "emodepside_cid6918632",
+     "n": "Emodepside",
+     "cat": "tet",
+     "line": "2 of 8 stereocentres differ",
+     "conf": 82
+    },
+    {
+     "k": "empagliflozin_cid11949646",
+     "n": "Empagliflozin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 85
+    },
+    {
+     "k": "enadoline_cid60768",
+     "n": "Enadoline",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 80
+    },
+    {
+     "k": "endo_anti_1_3_3_hydroxy_1_oxo_2_phenylpropoxy_8_isopropyl_8__cid657308",
+     "n": "(endo,Anti)-(1)-3-(3-hydroxy-1-oxo-2-phenylpropoxy)-8-isopropyl-8-methyl-8-azoniabicyclo(3.2.1)octane bromide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 5)",
+     "conf": 15
+    },
+    {
+     "k": "entrectinib_cid25141092",
+     "n": "Entrectinib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": 76
+    },
+    {
+     "k": "eosin_cid11048",
+     "n": "Eosin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 94
+    },
+    {
+     "k": "epidermin_cid70698381",
+     "n": "Epidermin",
+     "cat": "atoms",
+     "line": "-23 heavy atoms (\u2212C18N3OS)",
+     "conf": "low-medium (least-verified image in the set, time-constrained)"
+    },
+    {
+     "k": "eplerenone_cid443872",
+     "n": "Eplerenone",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "epothilone_b_cid448013",
+     "n": "Epothilone B",
+     "cat": "tet",
+     "line": "1 of 7 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "epothilone_cid10838895",
+     "n": "Epothilone",
+     "cat": "tet",
+     "line": "1 of 7 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "epothilone_d_cid447865",
+     "n": "Epothilone D",
+     "cat": "tet",
+     "line": "5 of 5 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "eptifibatide_cid448812",
+     "n": "Eptifibatide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "equilin_cid223368",
+     "n": "Equilin",
+     "cat": "tet",
+     "line": "2 of 3 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "eremomycin_cid122131",
+     "n": "Eremomycin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 13 \u2192 13)",
+     "conf": "low"
+    },
+    {
+     "k": "ergocalciferol_cid5280793",
+     "n": "Ergocalciferol",
+     "cat": "tet",
+     "line": "1 of 6 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "eribaxaban_cid11634458",
+     "n": "Eribaxaban",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "high"
+    },
+    {
+     "k": "eribulin_cid11354606",
+     "n": "Eribulin",
+     "cat": "atoms",
+     "line": "-7 heavy atoms (\u2212C4O3)",
+     "conf": "low"
+    },
+    {
+     "k": "eritoran_cid6912404",
+     "n": "Eritoran",
+     "cat": "atoms",
+     "line": "-14 heavy atoms (\u2212C14)",
+     "conf": "medium"
+    },
+    {
+     "k": "esomeprazole_magnesium_cid9568613",
+     "n": "Esomeprazole Magnesium",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": "high"
+    },
+    {
+     "k": "esorubicin_cid152036",
+     "n": "Esorubicin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "high"
+    },
+    {
+     "k": "esperamicin_a1_cid44575615",
+     "n": "Esperamicin A1",
+     "cat": "atoms",
+     "line": "-10 heavy atoms (\u2212C7O3)",
+     "conf": "low"
+    },
+    {
+     "k": "etoposide_cid36462",
+     "n": "Etoposide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 7 \u2192 7)",
+     "conf": 30
+    },
+    {
+     "k": "etrasimod_cid44623998",
+     "n": "Etrasimod",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 62
+    },
+    {
+     "k": "etretinate_cid5282375",
+     "n": "Etretinate",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 1 \u2192 1)",
+     "conf": 85
+    },
+    {
+     "k": "evacetrapib_cid49836058",
+     "n": "Evacetrapib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 70
+    },
+    {
+     "k": "everolimus_cid6442177",
+     "n": "Everolimus",
+     "cat": "tet",
+     "line": "5 of 15 stereocentres differ",
+     "conf": 50
+    },
+    {
+     "k": "examorelin_cid6918297",
+     "n": "Examorelin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 55
+    },
+    {
+     "k": "exatecan_cid151115",
+     "n": "Exatecan",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 25
+    },
+    {
+     "k": "exemestane_cid60198",
+     "n": "Exemestane",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 35
+    },
+    {
+     "k": "ezlopitant_cid188927",
+     "n": "Ezlopitant",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "high"
+    },
+    {
+     "k": "famitinib_cid16662431",
+     "n": "Famitinib",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 78
+    },
+    {
+     "k": "famotidine_cid5702160",
+     "n": "Famotidine",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 90
+    },
+    {
+     "k": "favipiravir_cid492405",
+     "n": "Favipiravir",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 1 \u2192 1)",
+     "conf": 92
+    },
+    {
+     "k": "fedratinib_cid16722836",
+     "n": "Fedratinib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 83
+    },
+    {
+     "k": "felcisetrag_cid11961293",
+     "n": "Felcisetrag",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 45
+    },
+    {
+     "k": "fenbendazole_cid3334",
+     "n": "Fenbendazole",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 92
+    },
+    {
+     "k": "fenebrutinib_cid86567195",
+     "n": "Fenebrutinib",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 8 \u2192 8)",
+     "conf": 30
+    },
+    {
+     "k": "fengycin_cid443591",
+     "n": "Fengycin",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C4)",
+     "conf": 12
+    },
+    {
+     "k": "fenoterol_cid3343",
+     "n": "Fenoterol",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 85
+    },
+    {
+     "k": "fertirelin_cid188304",
+     "n": "Fertirelin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 52
+    },
+    {
+     "k": "fidaxomicin_cid10034073",
+     "n": "Fidaxomicin",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C3O)",
+     "conf": 8
+    },
+    {
+     "k": "fipronil_cid3352",
+     "n": "Fipronil",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 2 \u2192 2)",
+     "conf": 92
+    },
+    {
+     "k": "flotufolastat_cid149063248",
+     "n": "Flotufolastat",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "medium - by far the most complex image (~90 heavy atoms, 6 stereocenters, 12-membered tetraaza macrocycle). Connectivity was cross-verified extensively (pixel-cluster heteroatom mapping plus dozens of targeted crops, chain lengths counted more than once each). All 6 stereocenters were built from locally-observed wedge/hash geometry and I manually re-verified the circular substituent order at each center matched the source drawing, but given the scale of this structure some risk of a local error remains higher than for the other 9 images"
+    },
+    {
+     "k": "flunisolide_cid82153",
+     "n": "Flunisolide",
+     "cat": "tet",
+     "line": "5 of 9 stereocentres differ",
+     "conf": "medium (connectivity/constitution high confidence; exact wedge/dash at the C8/C9/C14 ring-fusion cluster is lower confidence due to extreme crowding in the source drawing)"
+    },
+    {
+     "k": "fluocinonide_cid9642",
+     "n": "Fluocinonide",
+     "cat": "tet",
+     "line": "5 of 9 stereocentres differ",
+     "conf": "medium-high (constitution/connectivity high confidence; ring B/C stereocenters verified directly from clear zoomed crops)"
+    },
+    {
+     "k": "fluoxymesterone_cid6446",
+     "n": "Fluoxymesterone",
+     "cat": "tet",
+     "line": "6 of 7 stereocentres differ",
+     "conf": "high (connectivity); medium-high (full stereo)"
+    },
+    {
+     "k": "flurandrenolide_cid15209",
+     "n": "Flurandrenolide",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "low-medium (connectivity medium-high; stereochemistry not resolved/left unspecified)"
+    },
+    {
+     "k": "flurithromycin_cid71260",
+     "n": "Flurithromycin",
+     "cat": "tet",
+     "line": "3 of 18 stereocentres differ",
+     "conf": "medium-high"
+    },
+    {
+     "k": "folic_acid_cid135398658",
+     "n": "Folic Acid",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "high"
+    },
+    {
+     "k": "formaldehyde_cid712",
+     "n": "Formaldehyde",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": "n/a - image contains only an isolated double-bond-to-oxygen fragment (two parallel lines meeting a single O atom); the carbon-side end of the bond dangles into blank space with no vertex, no other atom, and no further connectivity anywhere in the file. Verified via pixel bounding-box and full color-palette scan -- nothing else is drawn. No molecule can be determined from this."
+    },
+    {
+     "k": "fostemsavir_cid11319217",
+     "n": "Fostemsavir",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "high"
+    },
+    {
+     "k": "friulimicin_b_cid56842195",
+     "n": "Friulimicin B",
+     "cat": "atoms",
+     "line": "-8 heavy atoms (\u2212C4NO3)",
+     "conf": "medium (connectivity cross-checked by OSRA fragments and an RDKit re-render compared side-by-side with the source image; stereochemistry at the 9 centres was not confidently resolved from the wedges and is omitted)"
+    },
+    {
+     "k": "fullerenes_cid123591",
+     "n": "Fullerenes",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": "low - the 3D wireframe projection has extensive overlapping front/back edges that cannot be traced bond-by-bond with confidence, and I have no verified way to reproduce C70's exact ring-closure SMILES without risking a fabricated topology, so I am not providing a specific SMILES"
+    },
+    {
+     "k": "fulvestrant_cid104741",
+     "n": "Fulvestrant",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C3)",
+     "conf": "medium-high"
+    },
+    {
+     "k": "fungichromin_cid5282200",
+     "n": "Fungichromin",
+     "cat": "atoms",
+     "line": "-6 heavy atoms (\u2212C3O3)",
+     "conf": "medium (ring size, pentaene count and general topology confirmed by multiple independent crop re-reads and an RDKit re-render; exact CH2-spacer counts in the crowded polyol/branch region are less certain, stereochemistry not assigned)"
+    },
+    {
+     "k": "gaboxadol_cid3448",
+     "n": "Gaboxadol",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 85
+    },
+    {
+     "k": "gallidermin_cid73348284",
+     "n": "Gallidermin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": "low"
+    },
+    {
+     "k": "ginsenoside_rb1_cid9898279",
+     "n": "Ginsenoside Rb1",
+     "cat": "tet",
+     "line": "5 of 30 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "heparin_pentasaccharide_cid5282448",
+     "n": "Heparin Pentasaccharide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": "high"
+    },
+    {
+     "k": "histrelin_cid25077993",
+     "n": "Histrelin",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "huperzine_a_cid854026",
+     "n": "Huperzine A",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C3)",
+     "conf": "high"
+    },
+    {
+     "k": "ioflupane_cid10048368",
+     "n": "Ioflupane",
+     "cat": "tet",
+     "line": "2 of 4 stereocentres differ",
+     "conf": "high"
+    },
+    {
+     "k": "lactic_acid_cid612",
+     "n": "Lactic Acid",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "high"
+    },
+    {
+     "k": "leuprolide_cid657181",
+     "n": "Leuprolide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "high"
+    },
+    {
+     "k": "linaclotide_cid16158208",
+     "n": "Linaclotide",
+     "cat": "atoms",
+     "line": "+9 heavy atoms (+C7NO)",
+     "conf": "low"
+    },
+    {
+     "k": "ljn452_cid121418176",
+     "n": "Ljn452",
+     "cat": "atoms",
+     "line": "+2 heavy atoms (+CO)",
+     "conf": "low"
+    },
+    {
+     "k": "lurbinectedin_cid57327016",
+     "n": "Lurbinectedin",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C3N)",
+     "conf": "low"
+    },
+    {
+     "k": "maropitant_cid204108",
+     "n": "Maropitant",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": "low"
+    },
+    {
+     "k": "mersacidin_cid70698380",
+     "n": "Mersacidin",
+     "cat": "atoms",
+     "line": "-28 heavy atoms (\u2212C19N4O4S)",
+     "conf": "low"
+    },
+    {
+     "k": "minocycline_cid54675783",
+     "n": "Minocycline",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": "medium"
+    },
+    {
+     "k": "miocamycin_cid5282188",
+     "n": "Miocamycin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": "medium"
+    },
+    {
+     "k": "ortataxel_cid6918412",
+     "n": "Ortataxel",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "low"
+    },
+    {
+     "k": "plecanatide_cid70693500",
+     "n": "Plecanatide",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (+O \u2212C3N)",
+     "conf": "medium"
+    },
+    {
+     "k": "retapamulin_cid6918462",
+     "n": "Retapamulin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212O)",
+     "conf": "medium"
+    },
+    {
+     "k": "qs_21_apiose_isomer_cid73652135",
+     "n": "qs-21-apiose isomer",
+     "cat": "atoms",
+     "line": "-27 heavy atoms (\u2212C20O7)",
+     "conf": "low"
+    },
+    {
+     "k": "rifampicin_cid135398735",
+     "n": "Rifampicin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 5)",
+     "conf": "medium"
+    },
+    {
+     "k": "rifapentine_cid135403821",
+     "n": "Rifapentine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 7 \u2192 6)",
+     "conf": "medium"
+    },
+    {
+     "k": "rimocidin_cid6440843",
+     "n": "Rimocidin",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C3)",
+     "conf": "low"
+    },
+    {
+     "k": "selpercatinib_cid134436906",
+     "n": "Selpercatinib",
+     "cat": "element",
+     "line": "element swapped: +N \u2212C",
+     "conf": "high"
+    },
+    {
+     "k": "teixobactin_cid86341926",
+     "n": "Teixobactin",
+     "cat": "atoms",
+     "line": "-8 heavy atoms (\u2212C6NO)",
+     "conf": "medium"
+    },
+    {
+     "k": "planosporicin_cid139586698",
+     "n": "Planosporicin",
+     "cat": "atoms",
+     "line": "-21 heavy atoms (\u2212C10N4O5S2)",
+     "conf": "low"
+    },
+    {
+     "k": "trabectedin_cid108150",
+     "n": "Trabectedin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212O)",
+     "conf": "low"
+    },
+    {
+     "k": "teicoplanin_a2_2_cid16198036",
+     "n": "Teicoplanin A2-2",
+     "cat": "atoms",
+     "line": "-18 heavy atoms (+Cl \u2212C12NO6)",
+     "conf": "low"
+    },
+    {
+     "k": "troleandomycin_cid202225",
+     "n": "Troleandomycin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": "medium"
+    },
+    {
+     "k": "valnemulin_cid9850878",
+     "n": "Valnemulin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 2)",
+     "conf": "low"
+    },
+    {
+     "k": "vincristine_cid5978",
+     "n": "Vincristine",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C4)",
+     "conf": "low"
+    },
+    {
+     "k": "vindesine_cid40839",
+     "n": "Vindesine",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C2O)",
+     "conf": "low"
+    },
+    {
+     "k": "vinorelbine_cid5311497",
+     "n": "Vinorelbine",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": "low"
+    },
+    {
+     "k": "vinblastine_cid13342",
+     "n": "Vinblastine",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C4)",
+     "conf": "low"
+    },
+    {
+     "k": "geldanamycin_cid5288382",
+     "n": "Geldanamycin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 55
+    },
+    {
+     "k": "glecaprevir_cid66828839",
+     "n": "Glecaprevir",
+     "cat": "tet",
+     "line": "stereocentres and double bonds both differ (2 centres)",
+     "conf": 35
+    },
+    {
+     "k": "glycyrrhizin_cid14982",
+     "n": "Glycyrrhizin",
+     "cat": "tet",
+     "line": "1 of 19 stereocentres differ",
+     "conf": 60
+    },
+    {
+     "k": "gozetotide_cid60143283",
+     "n": "Gozetotide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 2 \u2192 2)",
+     "conf": 80
+    },
+    {
+     "k": "gramicidin_a_cid16132269",
+     "n": "Gramicidin A",
+     "cat": "atoms",
+     "line": "-29 heavy atoms (\u2212C22N4O3)",
+     "conf": 55
+    },
+    {
+     "k": "hc_toxin_cid13889849",
+     "n": "HC-toxin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": 80
+    },
+    {
+     "k": "heme_b_cid4973",
+     "n": "Heme b",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 88
+    },
+    {
+     "k": "hydrocortisone_aceponate_cid68921",
+     "n": "Hydrocortisone Aceponate",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 70
+    },
+    {
+     "k": "hydromorphone_cid5284570",
+     "n": "Hydromorphone",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 72
+    },
+    {
+     "k": "imidacloprid_cid86287518",
+     "n": "Imidacloprid",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 92
+    },
+    {
+     "k": "indocyanine_green_cid5282412",
+     "n": "Indocyanine Green",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 6 \u2192 6)",
+     "conf": 90
+    },
+    {
+     "k": "iproplatin_cid155491322",
+     "n": "Iproplatin",
+     "cat": "fragment",
+     "line": "extra fragment: CC(C)N, [Cl-], [O]",
+     "conf": 60
+    },
+    {
+     "k": "irbesartan_cid3749",
+     "n": "Irbesartan",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 92
+    },
+    {
+     "k": "isepamicin_cid3037209",
+     "n": "Isepamicin",
+     "cat": "atoms",
+     "line": "+3 heavy atoms (+C2N)",
+     "conf": 42
+    },
+    {
+     "k": "ivermectin_b1a_cid6321424",
+     "n": "Ivermectin B1a",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 22
+    }
+   ],
+   "cx": [
+    {
+     "k": "1_2_2_difluoro_1_3_benzodioxol_5_yl_n_1_2r_2_3_dihydroxyprop_cid46199646",
+     "n": "1-(2,2-Difluoro-1,3-benzodioxol-5-yl)-N-(1-((2R)-2,3-dihydroxypropyl)-6-fluoro-2-(2-hydroxy-1,1-dimethylethyl)-1H-indol-5-yl)cyclopropanecarboxamide",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 49
+    },
+    {
+     "k": "1_5_cyclooctadiene_pyridine_tricyclohexylphosphine_iridium_h_cid5702647",
+     "n": "(1,5-Cyclooctadiene)pyridine(tricyclohexylphosphine)iridium hexafluorophosphate",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 36
+    },
+    {
+     "k": "1_7_dicarbadodecaborane_12_cid16212388",
+     "n": "1,7-Dicarbadodecaborane(12)",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 72
+    },
+    {
+     "k": "216014_14_1_non_salt_cid172966628",
+     "n": "216014-14-1 (Non-salt)",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "2_3_4_5_6_2_h_5_phenylalanine_cid13000995",
+     "n": "(2,3,4,5,6-~2~H_5_)Phenylalanine",
+     "cat": "iso",
+     "line": "isotope labels: 5 read, 5 in the truth",
+     "conf": 87
+    },
+    {
+     "k": "2_3_cyclic_guanosine_monophosphate_adenosine_monophosphate_cid135564529",
+     "n": "2'3'-Cyclic guanosine monophosphate-adenosine monophosphate",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": 68
+    },
+    {
+     "k": "2_5_dimethoxy_4_iodoamphetamine_cid1229",
+     "n": "2,5-Dimethoxy-4-iodoamphetamine",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212I)",
+     "conf": 83
+    },
+    {
+     "k": "2h3_acetic_2h_acid_cid2723903",
+     "n": "(2H3)acetic (2H)acid",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 75
+    },
+    {
+     "k": "2h4_tetrahydro_2h4_furan_cid80290",
+     "n": "(2H4)Tetrahydro(2H4)furan",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 77
+    },
+    {
+     "k": "4_2_hydroxypropan_2_yl_1_methylcyclohexan_1_ol_water_1_1_cid17141",
+     "n": "4-(2-Hydroxypropan-2-yl)-1-methylcyclohexan-1-ol--water (1/1)",
+     "cat": "fragment",
+     "line": "extra fragment: O, O",
+     "conf": 77
+    },
+    {
+     "k": "5_4_2_carboxyethyl_carbamoyl_phenyl_diazenyl_2_hydroxybenzoi_cid54585",
+     "n": "5-((4-((2-Carboxyethyl)carbamoyl)phenyl)diazenyl)-2-hydroxybenzoic acid",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 87
+    },
+    {
+     "k": "5_7_diiodo_8_hydroxyquinoline_cid3728",
+     "n": "5,7-Diiodo-8-hydroxyquinoline",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212I2)",
+     "conf": 83
+    },
+    {
+     "k": "7_chloro_2_methylimino_5_phenyl_2_3_dihydro_4h_1_4_benzodiaz_cid2712",
+     "n": "7-Chloro-2-(methylimino)-5-phenyl-2,3-dihydro-4H-1,4-benzodiazepin-4-ol",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 87
+    },
+    {
+     "k": "alclometasone_dipropionate_cid636374",
+     "n": "Alclometasone Dipropionate",
+     "cat": "tet",
+     "line": "1 of 9 stereocentres differ",
+     "conf": 87
+    },
+    {
+     "k": "adapalene_cid60164",
+     "n": "Adapalene",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 80
+    },
+    {
+     "k": "afamelanotide_cid16197727",
+     "n": "Afamelanotide",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "alpha_amanitin_cid9543442",
+     "n": "Alpha-Amanitin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 7
+    },
+    {
+     "k": "alpha_cyclodextrin_cid444913",
+     "n": "Alpha-Cyclodextrin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 9
+    },
+    {
+     "k": "alpha_galactosylceramide_cid2826713",
+     "n": "Alpha-Galactosylceramide",
+     "cat": "atoms",
+     "line": "-1 heavy atom (+C \u2212O2)",
+     "conf": 50
+    },
+    {
+     "k": "alprostadil_cid5280723",
+     "n": "Alprostadil",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 86
+    },
+    {
+     "k": "aluminum_clofibrate_cid10390009",
+     "n": "Aluminum Clofibrate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: CC(C)(Oc1ccc(Cl)cc1)C(=O)[O-], [OH-], [Al+3]",
+     "conf": 89
+    },
+    {
+     "k": "aluminum_hydroxide_cid10176082",
+     "n": "Aluminum Hydroxide",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 84
+    },
+    {
+     "k": "amantadine_cid2130",
+     "n": "Amantadine",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 62
+    },
+    {
+     "k": "acetone_d6_cid522220",
+     "n": "Acetone-D6",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 84
+    },
+    {
+     "k": "acetrizoic_acid_cid6806",
+     "n": "Acetrizoic Acid",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212I3)",
+     "conf": 84
+    },
+    {
+     "k": "aclidinium_cid11434515",
+     "n": "Aclidinium",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 69
+    },
+    {
+     "k": "amitraz_cid36324",
+     "n": "Amitraz",
+     "cat": "ez_added",
+     "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+     "conf": 89
+    },
+    {
+     "k": "ammonium_sulfate_cid6097028",
+     "n": "Ammonium Sulfate",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 85
+    },
+    {
+     "k": "amodiaquine_hydrochloride_cid64646",
+     "n": "Amodiaquine Hydrochloride",
+     "cat": "fragment",
+     "line": "extra fragment: O, O, O",
+     "conf": 82
+    },
+    {
+     "k": "amphotericin_b_cid5280965",
+     "n": "Amphotericin B",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 53
+    },
+    {
+     "k": "amphotericin_b_monomethyl_ester_cid11968030",
+     "n": "Amphotericin B monomethyl ester",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "anidulafungin_cid166548",
+     "n": "Anidulafungin",
+     "cat": "tet",
+     "line": "1 of 15 stereocentres differ",
+     "conf": 45
+    },
+    {
+     "k": "ansamitocin_p_3_cid5282049",
+     "n": "Ansamitocin P-3",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": 86
+    },
+    {
+     "k": "ansamitocins_cid131750198",
+     "n": "Ansamitocins",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "antimony_potassium_tartrate_cid73415808",
+     "n": "Antimony Potassium Tartrate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: O=C([O-])[C@H]([O-])[C@@H]([O-])C(=O)[O-], O, O",
+     "conf": 71
+    },
+    {
+     "k": "arsenic_trioxide_cid14888",
+     "n": "Arsenic Trioxide",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 86
+    },
+    {
+     "k": "arsphenamine_cid8774",
+     "n": "Arsphenamine",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 91
+    },
+    {
+     "k": "artemether_cid68911",
+     "n": "Artemether",
+     "cat": "element",
+     "line": "element swapped: +C \u2212O",
+     "conf": 75
+    },
+    {
+     "k": "artemisinin_cid68827",
+     "n": "Artemisinin",
+     "cat": "element",
+     "line": "element swapped: +C \u2212O",
+     "conf": 73
+    },
+    {
+     "k": "artemisone_cid11531457",
+     "n": "Artemisone",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 9
+    },
+    {
+     "k": "artesunate_cid6917864",
+     "n": "Artesunate",
+     "cat": "element",
+     "line": "element swapped: +C \u2212O",
+     "conf": 80
+    },
+    {
+     "k": "ascomycin_cid5282071",
+     "n": "Ascomycin",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 87
+    },
+    {
+     "k": "a47934_cid72715759",
+     "n": "A47934",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "abarelix_cid16131215",
+     "n": "Abarelix",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 87
+    },
+    {
+     "k": "apomorphine_cid6005",
+     "n": "Apomorphine",
+     "cat": "tet",
+     "line": "1 of 1 stereocentres differ",
+     "conf": 89
+    },
+    {
+     "k": "avermectin_b1a_cid6434889",
+     "n": "avermectin B1a",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "azaline_b_cid71587609",
+     "n": "azaline B",
+     "cat": "atoms",
+     "line": "-5 heavy atoms (\u2212C3NO)",
+     "conf": 87
+    },
+    {
+     "k": "azamulin_cid16072188",
+     "n": "Azamulin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 32
+    },
+    {
+     "k": "atorvastatin_calcium_cid60822",
+     "n": "Atorvastatin Calcium",
+     "cat": "tet",
+     "line": "1 of 4 stereocentres differ",
+     "conf": 86
+    },
+    {
+     "k": "atracurium_besylate_cid47320",
+     "n": "Atracurium Besylate",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 8
+    },
+    {
+     "k": "auranofin_cid16667669",
+     "n": "Auranofin",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: CCP(CC)CC, [Au+]",
+     "conf": 86
+    },
+    {
+     "k": "bacitracin_cid10909430",
+     "n": "Bacitracin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 34
+    },
+    {
+     "k": "becampanel_cid5491960",
+     "n": "Becampanel",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 88
+    },
+    {
+     "k": "beclabuvir_cid56934415",
+     "n": "Beclabuvir",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 79
+    },
+    {
+     "k": "bimatoprost_cid5311027",
+     "n": "Bimatoprost",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 91
+    },
+    {
+     "k": "bis_dibenzylideneacetone_palladium_cid9811564",
+     "n": "Bis(dibenzylideneacetone)palladium",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: O=C(/C=C/c1ccccc1)/C=C/c1ccccc1, O=C(/C=C/c1ccccc1)/C=C/c1ccccc1, [Pd]",
+     "conf": 88
+    },
+    {
+     "k": "bismuth_subcitrate_cid10101269",
+     "n": "Bismuth Subcitrate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: O=C([O-])CC(O)(CC(=O)[O-])C(=O)[O-], [K+], [K+]",
+     "conf": 79
+    },
+    {
+     "k": "bismuth_subgallate_cid73415769",
+     "n": "Bismuth Subgallate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [OH-], [Bi+3]",
+     "conf": 89
+    },
+    {
+     "k": "bremelanotide_cid9941379",
+     "n": "Bremelanotide",
+     "cat": "tet",
+     "line": "1 of 7 stereocentres differ",
+     "conf": 87
+    },
+    {
+     "k": "brevicidine_cid146684559",
+     "n": "Brevicidine",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 16
+    },
+    {
+     "k": "beraprost_sodium_cid23663404",
+     "n": "Beraprost Sodium",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 85
+    },
+    {
+     "k": "berenil_cid65060",
+     "n": "Berenil",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 91
+    },
+    {
+     "k": "berninamycin_a_cid91617669",
+     "n": "Berninamycin A",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 57
+    },
+    {
+     "k": "beta_amanitin_cid76959217",
+     "n": "beta-Amanitin",
+     "cat": "tet",
+     "line": "3 of 11 stereocentres differ",
+     "conf": 82
+    },
+    {
+     "k": "beta_cyclodextrin_cid444041",
+     "n": "beta-Cyclodextrin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 1
+    },
+    {
+     "k": "buprenorphine_cid644073",
+     "n": "Buprenorphine",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 3
+    },
+    {
+     "k": "brivudine_cid446727",
+     "n": "Brivudine",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 72
+    },
+    {
+     "k": "bryostatin_1_cid5280757",
+     "n": "Bryostatin 1",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212O)",
+     "conf": 55
+    },
+    {
+     "k": "bryostatin_cid6435419",
+     "n": "Bryostatin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212O)",
+     "conf": 83
+    },
+    {
+     "k": "bismuth_subsalicylate_cid53629521",
+     "n": "Bismuth Subsalicylate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [OH-], [Bi+3]",
+     "conf": 78
+    },
+    {
+     "k": "bivalirudin_cid16129704",
+     "n": "Bivalirudin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "bleomycin_a2_cid5460769",
+     "n": "Bleomycin A2",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 62
+    },
+    {
+     "k": "bleomycin_b2_cid5496540",
+     "n": "Bleomycin B2",
+     "cat": "atoms",
+     "line": "-1 heavy atom (+CN \u2212O2S)",
+     "conf": 72
+    },
+    {
+     "k": "bleomycin_cid5360373",
+     "n": "Bleomycin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 68
+    },
+    {
+     "k": "bocodepsin_cid118551244",
+     "n": "Bocodepsin",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 87
+    },
+    {
+     "k": "cannabidiol_cid644019",
+     "n": "Cannabidiol",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 69
+    },
+    {
+     "k": "canrenoate_potassium_cid23671691",
+     "n": "Canrenoate Potassium",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 88
+    },
+    {
+     "k": "calcium_chloride_cid5284359",
+     "n": "Calcium Chloride",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+Cl)",
+     "conf": 75
+    },
+    {
+     "k": "calicheamicin_cid11840932",
+     "n": "Calicheamicin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C2 \u2212I)",
+     "conf": 68
+    },
+    {
+     "k": "capreomycin_cid3000502",
+     "n": "Capreomycin",
+     "cat": "tet",
+     "line": "1 of 12 stereocentres differ",
+     "conf": 78
+    },
+    {
+     "k": "butorphanol_cid5361092",
+     "n": "Butorphanol",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 1
+    },
+    {
+     "k": "c_c_dimethyl_n_n_tricyclo_8_2_2_24_7_hexadeca_4_6_10_12_13_1_cid71474517",
+     "n": "C,C'-Dimethyl N,N'-(tricyclo(8.2.2.24,7)hexadeca-4,6,10,12,13,15-hexaene-5,11-diylbis(1H-benzimidazole-6,2-diyl((2S,3aS,7aS)-octahydro-1H-indole-2,1-diyl)((1S)-1-(1-methylethyl)-2-oxo-2,1-ethanediyl)))bis(carbamate)",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 68
+    },
+    {
+     "k": "c_i_acid_blue_90_cid61363",
+     "n": "C.I. Acid Blue 90",
+     "cat": "ez_added",
+     "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+     "conf": 88
+    },
+    {
+     "k": "c_i_acid_orange_52_cid23673835",
+     "n": "C.I. Acid Orange 52",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 90
+    },
+    {
+     "k": "c_i_direct_blue_53_cid9409",
+     "n": "C.I. Direct Blue 53",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Na+], [Na+], [Na+]",
+     "conf": 85
+    },
+    {
+     "k": "carbazochrome_cid2557",
+     "n": "Carbazochrome",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 88
+    },
+    {
+     "k": "carbon_dioxide_cid280",
+     "n": "Carbon Dioxide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 68
+    },
+    {
+     "k": "carboprost_cid5281075",
+     "n": "Carboprost",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 86
+    },
+    {
+     "k": "cariprazine_cid11154555",
+     "n": "Cariprazine",
+     "cat": "fragment",
+     "line": "extra fragment: CN(C)C(=O)NC1CCC(CCN2CCN(c3cccc(Cl)c3Cl)CC2)CC1",
+     "conf": 48
+    },
+    {
+     "k": "caspofungin_cid16119814",
+     "n": "Caspofungin",
+     "cat": "element",
+     "line": "element swapped: +O \u2212C",
+     "conf": 71
+    },
+    {
+     "k": "cefilavancin_cid76960417",
+     "n": "Cefilavancin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "cefprozil_cid62977",
+     "n": "Cefprozil",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 88
+    },
+    {
+     "k": "cephaloridine_cid5773",
+     "n": "Cephaloridine",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 90
+    },
+    {
+     "k": "cethromycin_cid156417",
+     "n": "Cethromycin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 87
+    },
+    {
+     "k": "chlordecone_cid299",
+     "n": "Chlordecone",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 2
+    },
+    {
+     "k": "chlorhexidine_gluconate_cid9552081",
+     "n": "Chlorhexidine Gluconate",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 3
+    },
+    {
+     "k": "chloroeremomycin_cid445806",
+     "n": "Chloroeremomycin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "chloroform_d_cid71583",
+     "n": "Chloroform-D",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 86
+    },
+    {
+     "k": "chlorophyll_a_cid12085802",
+     "n": "Chlorophyll A",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "chlorophyll_b_cid11593175",
+     "n": "Chlorophyll B",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 5
+    },
+    {
+     "k": "chlorotris_triphenylphosphine_rhodium_i_cid84599",
+     "n": "Chlorotris(triphenylphosphine)rhodium(I)",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: c1ccc(P(c2ccccc2)c2ccccc2)cc1, c1ccc(P(c2ccccc2)c2ccccc2)cc1, [Cl-]",
+     "conf": 87
+    },
+    {
+     "k": "cholesterol_25_26_26_26_27_27_27_d7_cid5314029",
+     "n": "Cholesterol-25,26,26,26,27,27,27-d7",
+     "cat": "atoms",
+     "line": "+2 heavy atoms (+C2)",
+     "conf": 84
+    },
+    {
+     "k": "chromium_hexacarbonyl_cid25589",
+     "n": "Chromium hexacarbonyl",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 86
+    },
+    {
+     "k": "chromium_iii_picolinate_cid151932",
+     "n": "Chromium(III) picolinate",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 88
+    },
+    {
+     "k": "cid_10898559_cid10898559",
+     "n": "CID 10898559",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (+Ga \u2212C3CoN)",
+     "conf": 54
+    },
+    {
+     "k": "cilagicin_cid171038003",
+     "n": "Cilagicin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "cilofungin_cid6918120",
+     "n": "Cilofungin",
+     "cat": "tet",
+     "line": "1 of 15 stereocentres differ",
+     "conf": 66
+    },
+    {
+     "k": "cimetidine_cid2756",
+     "n": "Cimetidine",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 89
+    },
+    {
+     "k": "cis_oxalato_trans_l_1_2_diaminocyclohexaneplatinum_ii_cid9887053",
+     "n": "cis-oxalato-trans-l-1,2-diaminocyclohexaneplatinum(II)",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 81
+    },
+    {
+     "k": "clarithromycin_cid84029",
+     "n": "Clarithromycin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "clioquinol_cid2788",
+     "n": "Clioquinol",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212I)",
+     "conf": 82
+    },
+    {
+     "k": "clofazimine_cid2794",
+     "n": "Clofazimine",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 89
+    },
+    {
+     "k": "clomiphene_cid2800",
+     "n": "Clomiphene",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 88
+    },
+    {
+     "k": "complestatin_cid139588957",
+     "n": "Complestatin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "congo_red_cid11313",
+     "n": "Congo red",
+     "cat": "ez_added",
+     "line": "E/Z written on 2 double bonds the truth leaves unspecified",
+     "conf": 91
+    },
+    {
+     "k": "copanlisib_cid135565596",
+     "n": "Copanlisib",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 87
+    },
+    {
+     "k": "cryptophycin_52_cid9939639",
+     "n": "Cryptophycin 52",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 81
+    },
+    {
+     "k": "cucurbit_7_uril_cb_7_hydrate_cid6096207",
+     "n": "Cucurbit[7]uril (CB[7]) hydrate",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "cupric_chloride_cid24014",
+     "n": "Cupric Chloride",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 57
+    },
+    {
+     "k": "cyanocobalamin_cid166596686",
+     "n": "Cyanocobalamin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "cycloplatam_cid3035239",
+     "n": "Cycloplatam",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: NC1CCCC1, N, [Pt+2]",
+     "conf": 87
+    },
+    {
+     "k": "cyclosporin_a_cid5284373",
+     "n": "Cyclosporin A",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212C3)",
+     "conf": 83
+    },
+    {
+     "k": "cyclosporin_c_cid5287817",
+     "n": "Cyclosporin C",
+     "cat": "tet",
+     "line": "1 of 13 stereocentres differ",
+     "conf": 84
+    },
+    {
+     "k": "dalbavancin_cid16134627",
+     "n": "Dalbavancin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "daptomycin_cid21585658",
+     "n": "Daptomycin",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (+C \u2212N2O2)",
+     "conf": 41
+    },
+    {
+     "k": "darobactin_cid154586077",
+     "n": "Darobactin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 1
+    },
+    {
+     "k": "degarelix_cid16136245",
+     "n": "Degarelix",
+     "cat": "atoms",
+     "line": "-7 heavy atoms (\u2212C3N2O2)",
+     "conf": 87
+    },
+    {
+     "k": "demecarium_bromide_cid5965",
+     "n": "Demecarium Bromide",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Br-], [Br-]",
+     "conf": 88
+    },
+    {
+     "k": "dersimelagon_cid126736894",
+     "n": "Dersimelagon",
+     "cat": "tet",
+     "line": "1 of 4 stereocentres differ",
+     "conf": 63
+    },
+    {
+     "k": "desoximetasone_cid5311067",
+     "n": "Desoximetasone",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": 71
+    },
+    {
+     "k": "destruxin_a_cid11421831",
+     "n": "Destruxin A",
+     "cat": "tet",
+     "line": "1 of 6 stereocentres differ",
+     "conf": 62
+    },
+    {
+     "k": "desvenlafaxine_succinate_cid6918664",
+     "n": "Desvenlafaxine Succinate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: O=C(O)CCC(=O)O, O",
+     "conf": 85
+    },
+    {
+     "k": "detirelix_cid16129698",
+     "n": "Detirelix",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 2
+    },
+    {
+     "k": "deuruxolitinib_cid72704611",
+     "n": "Deuruxolitinib",
+     "cat": "iso",
+     "line": "isotope labels: 8 read, 8 in the truth",
+     "conf": 86
+    },
+    {
+     "k": "deuterated_l_leucine_cid16213587",
+     "n": "Deuterated L-leucine",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 78
+    },
+    {
+     "k": "deutivacaftor_cid71470491",
+     "n": "Deutivacaftor",
+     "cat": "iso",
+     "line": "isotope labels: 9 read, 9 in the truth",
+     "conf": 83
+    },
+    {
+     "k": "dextromethorphan_cid5360696",
+     "n": "Dextromethorphan",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 1
+    },
+    {
+     "k": "di_2h3_methyl_sulphoxide_cid75151",
+     "n": "Di((2H3)methyl) sulphoxide",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 76
+    },
+    {
+     "k": "diatrizoate_cid2140",
+     "n": "Diatrizoate",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212I3)",
+     "conf": 85
+    },
+    {
+     "k": "diflucortolone_valerate_cid91670",
+     "n": "Diflucortolone Valerate",
+     "cat": "tet",
+     "line": "1 of 9 stereocentres differ",
+     "conf": 61
+    },
+    {
+     "k": "difluprednate_cid443936",
+     "n": "Difluprednate",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": 77
+    },
+    {
+     "k": "digitonin_cid6474107",
+     "n": "Digitonin",
+     "cat": "atoms",
+     "line": "-7 heavy atoms (\u2212C5O2)",
+     "conf": 60
+    },
+    {
+     "k": "dihydroartemisinin_cid107770",
+     "n": "Dihydroartemisinin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C3 \u2212O2)",
+     "conf": 78
+    },
+    {
+     "k": "dimethyldioctadecylammonium_bromide_cid77293",
+     "n": "Dimethyldioctadecylammonium bromide",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212CN)",
+     "conf": 89
+    },
+    {
+     "k": "dimethylmercury_cid11645",
+     "n": "Dimethylmercury",
+     "cat": "element",
+     "line": "element swapped: +In \u2212Hg",
+     "conf": 65
+    },
+    {
+     "k": "dinoprost_cid5280363",
+     "n": "Dinoprost",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 89
+    },
+    {
+     "k": "diodon_cid5284574",
+     "n": "Diodon",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212I2)",
+     "conf": 84
+    },
+    {
+     "k": "dirithromycin_cid6473883",
+     "n": "Dirithromycin",
+     "cat": "fragment",
+     "line": "same atoms and fragments, charges written differently",
+     "conf": 86
+    },
+    {
+     "k": "dolasetron_mesylate_cid3033817",
+     "n": "Dolasetron mesylate",
+     "cat": "element",
+     "line": "element swapped: +C \u2212N",
+     "conf": 73
+    },
+    {
+     "k": "dolastatin_10_cid9810929",
+     "n": "Dolastatin 10",
+     "cat": "element",
+     "line": "element swapped: +W \u2212N",
+     "conf": 87
+    },
+    {
+     "k": "donepezil_hydrochloride_cid5741",
+     "n": "Donepezil Hydrochloride",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 87
+    },
+    {
+     "k": "doramectin_cid9832750",
+     "n": "Doramectin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 17
+    },
+    {
+     "k": "doxepin_cid3158",
+     "n": "Doxepin",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 90
+    },
+    {
+     "k": "drospirenone_cid68873",
+     "n": "Drospirenone",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 6
+    },
+    {
+     "k": "dsm_265_cid51347395",
+     "n": "Dsm-265",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 82
+    },
+    {
+     "k": "e129_cid33258",
+     "n": "E129",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 87
+    },
+    {
+     "k": "echinocandin_b_cid9898144",
+     "n": "Echinocandin B",
+     "cat": "tet",
+     "line": "2 of 15 stereocentres differ",
+     "conf": 25
+    },
+    {
+     "k": "edetate_calcium_disodium_anhydrous_cid6093170",
+     "n": "Edetate Calcium Disodium Anhydrous",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Na+], [Na+], [Ca+2]",
+     "conf": 88
+    },
+    {
+     "k": "eltrombopag_cid135449332",
+     "n": "Eltrombopag",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 89
+    },
+    {
+     "k": "emamectin_b1a_cid11136686",
+     "n": "Emamectin B1A",
+     "cat": "element",
+     "line": "element swapped: +P \u2212C",
+     "conf": 57
+    },
+    {
+     "k": "emodepside_cid6918632",
+     "n": "Emodepside",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 5 \u2192 5)",
+     "conf": 57
+    },
+    {
+     "k": "enalapril_cid5388962",
+     "n": "Enalapril",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 72
+    },
+    {
+     "k": "epidermin_cid70698381",
+     "n": "Epidermin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "epothilone_b_cid448013",
+     "n": "Epothilone B",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 67
+    },
+    {
+     "k": "epothilone_cid10838895",
+     "n": "Epothilone",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 84
+    },
+    {
+     "k": "epothilone_d_cid447865",
+     "n": "Epothilone D",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 87
+    },
+    {
+     "k": "eremomycin_cid122131",
+     "n": "Eremomycin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "eribulin_cid11354606",
+     "n": "Eribulin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 31
+    },
+    {
+     "k": "erythrosine_cid3259",
+     "n": "Erythrosine",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212I4)",
+     "conf": 78
+    },
+    {
+     "k": "esomeprazole_magnesium_cid9568613",
+     "n": "Esomeprazole Magnesium",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 82
+    },
+    {
+     "k": "esperamicin_a1_cid44575615",
+     "n": "Esperamicin A1",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "ethyl_alcohol_d6_cid102138",
+     "n": "Ethyl alcohol-d6",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 0 \u2192 0)",
+     "conf": 68
+    },
+    {
+     "k": "ethyl_p_nitrophenyl_benzenethiophosphonate_cid15764013",
+     "n": "Ethyl p-nitrophenyl benzenethiophosphonate, (-)-",
+     "cat": "tet",
+     "line": "1 of 1 stereocentres differ",
+     "conf": 88
+    },
+    {
+     "k": "evacetrapib_cid49836058",
+     "n": "Evacetrapib",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 55
+    },
+    {
+     "k": "everolimus_cid6442177",
+     "n": "Everolimus",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212O)",
+     "conf": 61
+    },
+    {
+     "k": "fengycin_cid443591",
+     "n": "Fengycin",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 73
+    },
+    {
+     "k": "ferric_maltol_cid169535",
+     "n": "Ferric Maltol",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: Cc1occc(=O)c1[O-], Cc1occc(=O)c1[O-], [Fe+3]",
+     "conf": 89
+    },
+    {
+     "k": "ferric_pyrophosphate_cid24877",
+     "n": "Ferric Pyrophosphate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: O=P([O-])([O-])OP(=O)([O-])[O-], O=P([O-])([O-])OP(=O)([O-])[O-], [Fe+3]",
+     "conf": 85
+    },
+    {
+     "k": "ferrocene_cid10219726",
+     "n": "Ferrocene",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 2 \u2192 2)",
+     "conf": 86
+    },
+    {
+     "k": "ferroquine_cid140118553",
+     "n": "Ferroquine",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 4 \u2192 4)",
+     "conf": 90
+    },
+    {
+     "k": "fertirelin_cid188304",
+     "n": "Fertirelin",
+     "cat": "element",
+     "line": "element swapped: +C \u2212N",
+     "conf": 88
+    },
+    {
+     "k": "fidaxomicin_cid10034073",
+     "n": "Fidaxomicin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "flotufolastat_cid149063248",
+     "n": "Flotufolastat",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 46
+    },
+    {
+     "k": "fluorometholone_acetate_cid240767",
+     "n": "Fluorometholone Acetate",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 83
+    },
+    {
+     "k": "flurithromycin_cid71260",
+     "n": "Flurithromycin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 18
+    },
+    {
+     "k": "fluticasone_furoate_cid9854489",
+     "n": "Fluticasone Furoate",
+     "cat": "tet",
+     "line": "2 of 9 stereocentres differ",
+     "conf": 46
+    },
+    {
+     "k": "formaldehyde_cid712",
+     "n": "Formaldehyde",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 39
+    },
+    {
+     "k": "fosamprenavir_cid131536",
+     "n": "Fosamprenavir",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 25
+    },
+    {
+     "k": "friulimicin_b_cid56842195",
+     "n": "Friulimicin B",
+     "cat": "tet",
+     "line": "1 of 12 stereocentres differ",
+     "conf": 84
+    },
+    {
+     "k": "fullerenes_cid123591",
+     "n": "Fullerenes",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "fungichromin_cid5282200",
+     "n": "Fungichromin",
+     "cat": "tet",
+     "line": "1 of 12 stereocentres differ",
+     "conf": 77
+    },
+    {
+     "k": "gadodiamide_cid153921",
+     "n": "Gadodiamide",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Gd+3]",
+     "conf": 88
+    },
+    {
+     "k": "gadofosveset_trisodium_cid73049652",
+     "n": "Gadofosveset Trisodium",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Na+], [Na+], [Na+]",
+     "conf": 83
+    },
+    {
+     "k": "gadopentetate_dimeglumine_cid55466",
+     "n": "Gadopentetate Dimeglumine",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 30
+    },
+    {
+     "k": "gadopentetic_acid_cid6857474",
+     "n": "Gadopentetic Acid",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Gd+3]",
+     "conf": 84
+    },
+    {
+     "k": "gadopiclenol_cid16223405",
+     "n": "Gadopiclenol",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 86
+    },
+    {
+     "k": "gadoquatrane_cid156596411",
+     "n": "Gadoquatrane",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 19
+    },
+    {
+     "k": "gadoteric_acid_cid158536",
+     "n": "Gadoteric Acid",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Gd+3]",
+     "conf": 87
+    },
+    {
+     "k": "gadoteridol_cid60714",
+     "n": "Gadoteridol",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 86
+    },
+    {
+     "k": "gadoversetamide_cid444013",
+     "n": "Gadoversetamide",
+     "cat": "fragment",
+     "line": "same molecule, different charge state or fragment written",
+     "conf": 85
+    },
+    {
+     "k": "gadoxetate_disodium_cid91754427",
+     "n": "Gadoxetate Disodium",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Na+], [Na+], [Gd+3]",
+     "conf": 86
+    },
+    {
+     "k": "gallidermin_cid73348284",
+     "n": "Gallidermin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "ganirelix_cid16130957",
+     "n": "Ganirelix",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 85
+    },
+    {
+     "k": "gantacurium_cid10102486",
+     "n": "Gantacurium",
+     "cat": "element",
+     "line": "element swapped: +O \u2212Cl",
+     "conf": 86
+    },
+    {
+     "k": "ginsenoside_rb1_cid9898279",
+     "n": "Ginsenoside Rb1",
+     "cat": "tet",
+     "line": "8 of 30 stereocentres differ",
+     "conf": 67
+    },
+    {
+     "k": "heparin_pentasaccharide_cid5282448",
+     "n": "Heparin Pentasaccharide",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 2
+    },
+    {
+     "k": "huperzine_a_cid854026",
+     "n": "Huperzine A",
+     "cat": "atoms",
+     "line": "-1 heavy atom (\u2212C)",
+     "conf": 84
+    },
+    {
+     "k": "leuprolide_cid657181",
+     "n": "Leuprolide",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 84
+    },
+    {
+     "k": "levorphanol_cid5359272",
+     "n": "Levorphanol",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 27
+    },
+    {
+     "k": "linaclotide_cid16158208",
+     "n": "Linaclotide",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "ljn452_cid121418176",
+     "n": "Ljn452",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212CN)",
+     "conf": 72
+    },
+    {
+     "k": "lurbinectedin_cid57327016",
+     "n": "Lurbinectedin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 18
+    },
+    {
+     "k": "mersacidin_cid70698380",
+     "n": "Mersacidin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 1
+    },
+    {
+     "k": "miocamycin_cid5282188",
+     "n": "Miocamycin",
+     "cat": "connect",
+     "line": "same atoms, different wiring (rings 3 \u2192 3)",
+     "conf": 57
+    },
+    {
+     "k": "ortataxel_cid6918412",
+     "n": "Ortataxel",
+     "cat": "tet",
+     "line": "5 of 12 stereocentres differ",
+     "conf": 42
+    },
+    {
+     "k": "pexiganan_cid16132253",
+     "n": "Pexiganan",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "plecanatide_cid70693500",
+     "n": "Plecanatide",
+     "cat": "atoms",
+     "line": "-20 heavy atoms (\u2212C10N4O6)",
+     "conf": 83
+    },
+    {
+     "k": "retapamulin_cid6918462",
+     "n": "Retapamulin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 6
+    },
+    {
+     "k": "qs_21_apiose_isomer_cid73652135",
+     "n": "qs-21-apiose isomer",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "rifampicin_cid135398735",
+     "n": "Rifampicin",
+     "cat": "tet",
+     "line": "2 of 9 stereocentres differ",
+     "conf": 39
+    },
+    {
+     "k": "rifapentine_cid135403821",
+     "n": "Rifapentine",
+     "cat": "tet",
+     "line": "1 of 9 stereocentres differ",
+     "conf": 75
+    },
+    {
+     "k": "rimocidin_cid6440843",
+     "n": "Rimocidin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 32
+    },
+    {
+     "k": "teixobactin_cid86341926",
+     "n": "Teixobactin",
+     "cat": "tet",
+     "line": "1 of 17 stereocentres differ",
+     "conf": 48
+    },
+    {
+     "k": "planosporicin_cid139586698",
+     "n": "Planosporicin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "trabectedin_cid108150",
+     "n": "Trabectedin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 5
+    },
+    {
+     "k": "teicoplanin_a2_2_cid16198036",
+     "n": "Teicoplanin A2-2",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "troleandomycin_cid202225",
+     "n": "Troleandomycin",
+     "cat": "tet",
+     "line": "1 of 18 stereocentres differ",
+     "conf": 82
+    },
+    {
+     "k": "valnemulin_cid9850878",
+     "n": "Valnemulin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "vincristine_cid5978",
+     "n": "Vincristine",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 63
+    },
+    {
+     "k": "vindesine_cid40839",
+     "n": "Vindesine",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": 85
+    },
+    {
+     "k": "vinblastine_cid13342",
+     "n": "Vinblastine",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212C2O2)",
+     "conf": 65
+    },
+    {
+     "k": "gemeprost_cid5282237",
+     "n": "Gemeprost",
+     "cat": "ez_omitted",
+     "line": "E/Z 1 omitted (truth specifies)",
+     "conf": 62
+    },
+    {
+     "k": "glycobiarsol_cid76957520",
+     "n": "Glycobiarsol",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [O-2], [Bi+3]",
+     "conf": 79
+    },
+    {
+     "k": "gold_sodium_thiomalate_cid22318",
+     "n": "Gold Sodium Thiomalate",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: [Na+], [Na+], [Au+]",
+     "conf": 78
+    },
+    {
+     "k": "gonadorelin_cid638793",
+     "n": "Gonadorelin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 51
+    },
+    {
+     "k": "gozetotide_cid60143283",
+     "n": "Gozetotide",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 51
+    },
+    {
+     "k": "gramicidin_a_cid16132269",
+     "n": "Gramicidin A",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 0
+    },
+    {
+     "k": "gramicidin_s_cid73357",
+     "n": "Gramicidin S",
+     "cat": "tet",
+     "line": "2 of 10 stereocentres differ",
+     "conf": 86
+    },
+    {
+     "k": "heme_b_cid4973",
+     "n": "Heme b",
+     "cat": "bond",
+     "line": "same atoms and wiring; bond order or aromaticity differs",
+     "conf": 87
+    },
+    {
+     "k": "heroin_cid5462328",
+     "n": "Heroin",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 28
+    },
+    {
+     "k": "hexaaminecobalt_trichloride_cid159295",
+     "n": "Hexaaminecobalt trichloride",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 79
+    },
+    {
+     "k": "hydromorphone_cid5284570",
+     "n": "Hydromorphone",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 40
+    },
+    {
+     "k": "hypericin_cid3663",
+     "n": "Hypericin",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212C2)",
+     "conf": 87
+    },
+    {
+     "k": "idrabiotaparinux_cid16202213",
+     "n": "Idrabiotaparinux",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 19
+    },
+    {
+     "k": "imidapril_cid5464343",
+     "n": "Imidapril",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 87
+    },
+    {
+     "k": "imidazo_1_2_a_pyridine_cid78960",
+     "n": "Imidazo(1,2-a)pyridine",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 74
+    },
+    {
+     "k": "imipenem_cid104838",
+     "n": "Imipenem",
+     "cat": "ez_added",
+     "line": "E/Z written on 1 double bond the truth leaves unspecified",
+     "conf": 86
+    },
+    {
+     "k": "ingenol_mebutate_cid6918670",
+     "n": "Ingenol Mebutate",
+     "cat": "tet",
+     "line": "1 of 8 stereocentres differ",
+     "conf": 69
+    },
+    {
+     "k": "iobitridol_cid65985",
+     "n": "Iobitridol",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212I3)",
+     "conf": 87
+    },
+    {
+     "k": "iodixanol_cid3724",
+     "n": "Iodixanol",
+     "cat": "atoms",
+     "line": "-4 heavy atoms (\u2212I4)",
+     "conf": 91
+    },
+    {
+     "k": "iodoform_cid6374",
+     "n": "Iodoform",
+     "cat": "element",
+     "line": "element swapped: +C3 \u2212I3",
+     "conf": 66
+    },
+    {
+     "k": "iohexol_cid3730",
+     "n": "Iohexol",
+     "cat": "atoms",
+     "line": "-2 heavy atoms (\u2212I2)",
+     "conf": 87
+    },
+    {
+     "k": "iomeprol_cid3731",
+     "n": "Iomeprol",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212I3)",
+     "conf": 85
+    },
+    {
+     "k": "iopamidol_cid65492",
+     "n": "Iopamidol",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212I3)",
+     "conf": 84
+    },
+    {
+     "k": "iopromide_cid3736",
+     "n": "Iopromide",
+     "cat": "atoms",
+     "line": "+12 heavy atoms (+C10NO4 \u2212I3)",
+     "conf": 25
+    },
+    {
+     "k": "iotrolan_cid3738",
+     "n": "Iotrolan",
+     "cat": "atoms",
+     "line": "-6 heavy atoms (\u2212I6)",
+     "conf": 83
+    },
+    {
+     "k": "ioversol_cid3741",
+     "n": "Ioversol",
+     "cat": "atoms",
+     "line": "-3 heavy atoms (\u2212I3)",
+     "conf": 85
+    },
+    {
+     "k": "iproplatin_cid155491322",
+     "n": "Iproplatin",
+     "cat": "fragment",
+     "line": "counter-ion or fragment dropped: CC(C)N, [OH-], [OH-]",
+     "conf": 88
+    },
+    {
+     "k": "iron_pentacarbonyl_cid26040",
+     "n": "Iron pentacarbonyl",
+     "cat": "atoms",
+     "line": "+2 heavy atoms (+CO)",
+     "conf": 72
+    },
+    {
+     "k": "iseganan_cid16131103",
+     "n": "Iseganan",
+     "cat": "atoms",
+     "line": "-17 heavy atoms (\u2212C6N3O5S3)",
+     "conf": 4
+    },
+    {
+     "k": "ivermectin_b1a_cid6321424",
+     "n": "Ivermectin B1a",
+     "cat": "invalid",
+     "line": "RDKit cannot parse the answer",
+     "conf": 28
+    },
+    {
+     "k": "ixabepilone_cid6445540",
+     "n": "Ixabepilone",
+     "cat": "tet",
+     "line": "stereocentres and double bonds both differ (1 centres)",
+     "conf": 83
+    },
+    {
+     "k": "josamycin_cid5282165",
+     "n": "Josamycin",
+     "cat": "atoms",
+     "line": "+1 heavy atom (+C)",
+     "conf": 87
+    }
+   ]
+  }
+ },
  "snapshot": {
   "rows": 1257,
   "paired": 1252,
