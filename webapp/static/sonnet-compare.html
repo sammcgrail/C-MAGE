@@ -26,7 +26,11 @@ html,body{margin:0;background:var(--bg);color:var(--ink);
 a{color:#58a6ff}
 /* Inline links keep their place in the line but get a 44px tall hit box. */
 .lede a,.tnote a,.cmpnote a,.facts a,.caveat a,.parentline a,.notes a,.sectsub a,footer a,.dl li a{display:inline-block;padding:13px 0;margin:-13px 0}
-.dl li a.clamp{display:-webkit-box;padding:13px 0;margin:-13px 0}
+/* NOT the padding/negative-margin trick here: a clamped -webkit-box hides overflow at its padding
+   edge, so the third line showed through the padding and sat on the next row. The anchor is the
+   whole 44px cell instead, lines centred inside it, two lines at most. */
+.dl li a.clamp{display:-webkit-box;padding:0;margin:0;min-height:44px;-webkit-box-pack:center}
+.dl li{min-height:44px}
 sup{font-size:max(12px,.72em);line-height:0}
 header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
   backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}

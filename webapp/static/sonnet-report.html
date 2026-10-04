@@ -108,7 +108,7 @@ h1{font-size:24px;line-height:1.2;margin:0 0 var(--s2);letter-spacing:-.3px}
 /* Horizontal bars: label | bar | value. Bars <= 18px, 4px rounded data-end, square at the baseline,
    2px surface gap between neighbours, value at the tip. */
 .bars{display:grid;gap:6px;margin:0}
-.bar{display:grid;grid-template-columns:minmax(0,var(--lw,9.5em)) minmax(0,1fr) var(--vw,4.6em);gap:0 8px;align-items:center;font-size:12.5px}
+.bar{display:grid;grid-template-columns:minmax(0,var(--lw,9.5em)) minmax(0,1fr) var(--vw,5.6em);gap:0 8px;align-items:center;font-size:12.5px}
 .bar .l{color:var(--dim);line-height:1.25;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .bar .l b{color:var(--ink);font-weight:600}
 .bar .t{position:relative;height:16px;background:var(--track)}
@@ -130,7 +130,7 @@ h1{font-size:24px;line-height:1.2;margin:0 0 var(--s2);letter-spacing:-.3px}
 .srow .l{color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .srow .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
 /* Line chart */
-svg.line{width:100%;height:auto;display:block;overflow:visible}
+svg.line{display:block;overflow:visible;max-width:100%}
 svg.line text{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:var(--dim)}
 svg.line text.end{fill:var(--ink);font-weight:650}
 svg.line .grid{stroke:var(--line);stroke-width:1}
@@ -219,12 +219,16 @@ footer code{font-size:12px}
   .sec-head h2{font-size:18px}
   .cmp .pc{font-size:24px}
   .cmp .side{padding:11px 8px}
-  .cmp .who{letter-spacing:0;overflow-wrap:anywhere}
+  /* Three boxes at 390px are ~99px inside: CXMOLSCRIBE needs all of it, so the swatch goes (the
+     coloured track below carries the arm), letter-spacing goes, and words never break mid-word. */
+  .cmp .who{letter-spacing:0;overflow-wrap:normal;word-break:normal;hyphens:none}
+  .cmp .who i{display:none}
   .kpi .v{font-size:22px}
   table{font-size:12.5px}
   th,td{padding:6px 5px}
-  .bar{--lw:7.6em}
+  .bar{--lw:7em;--vw:5.4em}
 }
+@media(max-width:359px){ .cmp .who{text-transform:none} .cmp .side{padding:10px 6px} }
 @media(min-width:700px){
   .figs{grid-template-columns:3fr 2fr;align-items:start}
   .grp{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -319,8 +323,11 @@ function armGroups(groups, key){
 }
 /* Cumulative exact rate over the paired corpus rows: one 2px line per arm, hairline grid, the end
    value labelled, and the switch to single-image readers marked. series: [i, c55, c5, cx]. */
-function lineChart(C){
-  var S = C.series, n = C.n, W = 360, H = 190, L = 34, R = 56, T = 10, B = 26, lo = 60, hi = 100;
+var LINE_C = null;
+function lineChart(C, W){
+  LINE_C = C;
+  W = Math.max(300, Math.round(W || 360));
+  var S = C.series, n = C.n, H = 190, L = 42, R = 56, T = 10, B = 26, lo = 60, hi = 100;
   var x = function(i){ return L + (W - L - R) * (i / n); }, y = function(v){ return T + (H - T - B) * (1 - (v - lo) / (hi - lo)); };
   var path = function(k){ return S.map(function(p, j){ var v = 100 * p[k] / p[0]; return (j ? "L" : "M") + x(p[0]).toFixed(1) + " " + y(Math.max(lo, v)).toFixed(1); }).join(" "); };
   var last = S[S.length - 1], arms = [["s55", 1], ["s5", 2], ["cx", 3]];
@@ -338,15 +345,25 @@ function lineChart(C){
   var labels = ends.map(function(e, i){ return '<text class="end" x="' + (W - R + 6) + '" y="' + (ys[i] + 4).toFixed(1) + '" fill="' + ARM[e.a][1] + '">' + e.v.toFixed(1) + '%</text>'; }).join("");
   // hover: nearest sampled row
   var pts = S.map(function(p){ return [x(p[0]), p]; });
-  return '<div class="hover" id="linewrap"><svg class="line" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cumulative exact rate of the three arms over the paired corpus rows">'
-    + g + sw + lines + labels + ticks + '</svg><div class="tip" id="linetip"></div></div>'
+  return '<svg class="line" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cumulative exact rate of the three arms over the paired corpus rows">'
+    + g + sw + lines + labels + ticks + '</svg><div class="tip" id="linetip"></div>'
     + '<script type="application/json" id="linepts">' + JSON.stringify({pts: pts, L: L, R: R, W: W}) + '<\/script>';
 }
+/* Draw (and on resize redraw) the line chart at the wrapper's pixel width: SVG text would otherwise
+   scale with the viewBox, 12px on a phone becoming 18px on a desktop column. */
+function fitLine(){
+  var wrap = $("#linewrap");
+  if (!wrap || !LINE_C) return;
+  var w = wrap.clientWidth;
+  if (w && Math.abs(w - (wrap.dataset.w || 0)) > 2){ wrap.dataset.w = w; wrap.innerHTML = lineChart(LINE_C, w); }
+}
 function wireLine(){
-  var wrap = $("#linewrap"), tip = $("#linetip"), raw = $("#linepts");
-  if (!wrap || !raw) return;
-  var D = JSON.parse(raw.textContent);
+  var wrap = $("#linewrap");
+  if (!wrap) return;
   var show = function(e){
+    var tip = $("#linetip"), raw = $("#linepts");
+    if (!tip || !raw) return;
+    var D = JSON.parse(raw.textContent);
     var r = wrap.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width * D.W, best = null;
     D.pts.forEach(function(p){ if (!best || Math.abs(p[0] - fx) < Math.abs(best[0] - fx)) best = p; });
     if (!best) return;
@@ -396,7 +413,7 @@ function corpus(D){
   var take = '<p class="take"><b>5.5 is ahead on ' + n0(C.vs_s5.ahead) + ' images and behind on ' + C.vs_s5.behind + '</b> against Sonnet 5 (p = ' + pfmt(C.vs_s5.p)
     + '); ahead on ' + n0(C.vs_cx.ahead) + ', behind on ' + C.vs_cx.behind + ' against CXMolScribe. The gap is widest on large drawings.</p>';
   var boxes = '<div class="cmp">' + side("s55", C.s55, C.n, true) + side("s5", C.s5, C.n) + side("cx", C.cx, C.n) + '</div>';
-  var line = '<div class="chart"><h3 class="subh">Cumulative exact rate over the corpus<small>paired rows, in corpus order</small></h3>' + legend(["s55", "s5", "cx"], true) + lineChart(C) + '</div>';
+  var line = '<div class="chart"><h3 class="subh">Cumulative exact rate over the corpus<small>paired rows, in corpus order</small></h3>' + legend(["s55", "s5", "cx"], true) + '<div class="hover" id="linewrap">' + lineChart(C) + '</div></div>';
   var size = '<div class="chart"><h3 class="subh">Exact rate by drawing size<small>heavy atoms in the reference</small></h3>'
     + armGroups(C.by_size.map(function(b){ return {label: b.label === "25–44" ? "25–44 heavy atoms" : b.label === "45 or more" ? "45 or more heavy atoms" : b.label, n: b.n, s55: b.s55, s5: b.s5, cx: b.cx}; })) + '</div>';
   var proto = '';
@@ -599,7 +616,7 @@ function render(D){
     + '<footer>Every number on this page is computed by <code>tools/build_sonnet_report.py</code> from the lane results, '
     + '<code>sonnet55.json</code>, <code>sonnet_compare.json</code>, <code>sonnet_novel.json</code> and <code>technique.json</code>, rebuilt with the Sonnet 5.5 tab on every publish. All scoring uses one rule, '
     + '<code>sonnet_batch.verdict()</code>. Ground truth is PubChem. Costs are API list prices, not money spent. Arms: 5.5 green, Sonnet 5 grey, CXMolScribe blue, always also named in text.</footer>';
-  wireLine();
+  fitLine(); wireLine();
   /* If the corpus lane has moved on since this payload was built, say so with the live count. */
   fetch("/wall/sonnet_compare.json", {cache: "no-cache"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(L){
     if (!L || !L.corpus || L.corpus.n <= D.snapshot.paired) return;
@@ -625,7 +642,7 @@ function spy(){
 var spyQueued = false;
 window.addEventListener("scroll", function(){ if (spyQueued) return; spyQueued = true;
   requestAnimationFrame(function(){ spyQueued = false; spy(); }); }, {passive: true});
-window.addEventListener("resize", function(){ measure(); spy(); });
+window.addEventListener("resize", function(){ measure(); spy(); fitLine(); });
 measure();
 fetch("/wall/sonnet_report.json", {cache: "no-cache"}).then(function(r){
   if (!r.ok) throw new Error("HTTP " + r.status);
