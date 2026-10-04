@@ -431,7 +431,10 @@ def highlights(t, p, cat):
 
 # ---------------------------------------------------------------- the analysis
 def analyse(xs: list[dict], s5: dict, out_dir: Path, img_index: dict, max_cards: int = 44) -> dict:
-    """xs: paired lane rows (5.5 + CX), s5: Sonnet 5 rows by key. out_dir: wall/report/fail."""
+    """xs: paired lane rows (5.5 + CX), s5: Sonnet 5 rows by key. out_dir: wall/report/fail.
+    Only rows the Sonnet 5 arm also read are analysed, whatever the caller passes: the three arms'
+    miss counts, overlap, drivers and fixes are a comparison and must share one denominator."""
+    xs = [r for r in xs if r["k"] in s5]
     answers = {"s55": lambda r: (r["sonnet_smiles"], r["sonnet_verdict"], r.get("sonnet_conf")),
                "s5": lambda r: (s5[r["k"]]["sonnet_smiles"], s5[r["k"]]["sonnet_verdict"], s5[r["k"]].get("sonnet_conf")),
                "cx": lambda r: (r["ocr_smiles"], r["ocr_verdict"], r["ocr_conf"])}

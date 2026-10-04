@@ -678,9 +678,12 @@ function openSheet(r){
     + smilesField(meLabel + " read", r.s || "(nothing emitted)",
                   twoReaders ? sconf : conf)
     + (r.ocr ? smilesField("CXMolScribe read", r.ocr, conf) : "")
-    /* The 5.5 tab pairs every image with the Sonnet 5 arm's reading of the same drawing. */
+    /* The 5.5 tab shows the Sonnet 5 arm's reading of the same drawing where there is one. The
+       Sonnet 5 arm stopped, so rows past it have none: say so (text from the payload) instead of
+       leaving the reader to wonder where the third reading went. */
     + (r.s5 ? smilesField("Sonnet 5 read (Sonnet 5 tab)", r.s5.s || "(nothing emitted)",
-        r.s5.conf != null && r.s5.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.s5.conf) + '</span>' : '') : "")
+        r.s5.conf != null && r.s5.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.s5.conf) + '</span>' : '')
+      : DATA.noS5 ? '<div class="kv"><label>Sonnet 5 read</label><code>' + esc(DATA.noS5) + '</code></div>' : "")
     + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
@@ -1122,6 +1125,10 @@ function render(){
       + c.n + ' of ' + c.corpus + '</span></div><div class="track"><i style="width:'
       + Math.max(0.6, c.n / c.corpus * 100).toFixed(1) + '%"></i></div></div>'
       + (c.cost ? '<div class="sub">' + esc(c.cost.note) + '</div>' : '')
+      /* What the Sonnet 5 box covers (only images both arms read), and the 5.5 rows it leaves out,
+         both sentences built by the builder from live counts. */
+      + (c.pairing ? '<div class="sub">' + esc(c.pairing.scope)
+          + (c.pairing.only_text ? ' ' + esc(c.pairing.only_text) : '') + '</div>' : '')
       + '<div class="sub">' + esc(DATA.headline) + '</div>'
       /* Say which model a tab is, where the link to the comparison lives. The 5.5 payload
          carries its own; the Sonnet 5 payload predates the field. */

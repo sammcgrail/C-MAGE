@@ -189,6 +189,11 @@ def ez_arm(label: str, items: list[tuple]) -> dict:
 
 # ---------------------------------------------------------------- sections
 def corpus_section(lane, s5, s55json, proto):
+    """Every Sonnet 5 vs 5.5 figure here is over xs, the lane rows the Sonnet 5 arm also read. The
+    5.5 rows with no Sonnet 5 reading (the lane reads on alone since the Sonnet 5 arm stopped) are
+    tallied apart in `pairing`; only the per-arm protocol split, which is each arm on its OWN rows
+    by design, and the 5.5 cost (its own ledger) see them."""
+    from build_sonnet55 import pairing
     xs = [r for r in lane if r["k"] in s5]
     ok55 = {r["k"] for r in xs if r["sonnet_verdict"] == "exact"}
     ok5 = {r["k"] for r in xs if s5[r["k"]]["sonnet_verdict"] == "exact"}
@@ -251,6 +256,7 @@ def corpus_section(lane, s5, s55json, proto):
         }
     return {
         "n": len(xs), "unpaired": len(lane) - len(xs), "corpus": s55json["compare"]["corpus"],
+        "lane": len(lane), "pairing": pairing(lane, s5),
         "s55": len(ok55), "s5": len(ok5), "cx": len(okcx),
         "s55_pct": pct(len(ok55), len(xs)), "s5_pct": pct(len(ok5), len(xs)), "cx_pct": pct(len(okcx), len(xs)),
         "vs_s5": {"ahead": len(ok55 - ok5), "behind": len(ok5 - ok55), "p": mcnemar(len(ok55 - ok5), len(ok5 - ok55))},
@@ -412,7 +418,10 @@ def cost_section(s55json, cmp_, nov, tech):
 
 def cadence_section(s55json, corpus_n, corpus_total, proto):
     """What the lanes cost and how fast they move. The dual-arm cadence (2 Oct on) is the live
-    one; the s55c cadence's discard counts are kept as history for the integrity section."""
+    one; the s55c cadence's discard counts are kept as history for the integrity section.
+    corpus_n is the Sonnet 5.5 lane's row count (NOT the paired count): what is left is what 5.5
+    has still to read. Once the Sonnet 5 arm has stopped (reader_protocol arm_stops) there are no
+    pairs left to read, so the pair figures are None and `s55_only` carries 5.5's own pace."""
     runs = sorted(s55json.get("runs", []), key=lambda r: r["finished"])
     if not runs:
         return None
@@ -442,12 +451,24 @@ def cadence_section(s55json, corpus_n, corpus_total, proto):
                 if h["at"] >= t0 and h.get("key"):
                     keys.setdefault(h["key"], set()).add(h["arm"])
             pairs72 = sum(1 for v in keys.values() if {"s5", "s55"} <= v)
-        pair_usd = sum(a["usd_mean"] for a in arms.values()) if len(arms) == 2 else None
+        s5_stop = (proto or {}).get("s5_stopped_at")
+        pair_usd = sum(a["usd_mean"] for a in arms.values()) if len(arms) == 2 and not s5_stop else None
+        n55_72 = None
+        if last:
+            n55_72 = len({h["key"] for h in hist if h["at"] >= t0 and h.get("key") and h["arm"] == "s55"})
+        s55_usd = arms.get("s55", {}).get("usd_mean")
         out["dual"] = {"since": since, "arms": arms, "pairs_72h": pairs72,
+                       "s5_stopped_at": s5_stop,
+                       # 5.5's own pace, the live figure once Sonnet 5 has stopped: images left to read,
+                       # what one costs (mean single-image reader), and how many it read in 72 h.
+                       "s55_left": left, "s55_usd": s55_usd,
+                       "s55_list_cost_left": round(left * s55_usd) if s55_usd else None,
+                       "s55_72h": n55_72,
                        "pairs_per_day_72h": round(pairs72 / 3, 1) if pairs72 is not None else None,
                        "pair_usd": round(pair_usd, 2) if pair_usd else None,
                        "list_cost_left": round(left * pair_usd) if pair_usd else None,
-                       "days_left_at_72h_pace": round(left / (pairs72 / 3), 1) if pairs72 else None,
+                       "days_left_at_72h_pace": round(left / (pairs72 / 3), 1) if pairs72 and not s5_stop else None,
+                       "s55_days_left_at_72h_pace": round(left / (n55_72 / 3), 1) if n55_72 else None,
                        "last": last, "halted": st.get("halted"), "quiet": st.get("quiet")}
     if CADENCE_STATE.exists():
         st = json.load(open(CADENCE_STATE))
@@ -483,7 +504,9 @@ def main() -> int:
     # The cadence appends rows while this runs; pin the report to the rows read above and make
     # every other payload agree with it, or say that it does not.
     corpus = corpus_section(lane, s5, s55json, proto)
-    snap = {"rows": len(lane), "paired": corpus["n"], "last_key": lane[-1]["k"] if lane else None,
+    snap = {"rows": len(lane), "paired": corpus["n"], "s5_rows": len(s5),
+            "s55_only": corpus["pairing"]["s55_only"]["n"], "scope": corpus["pairing"]["scope"],
+            "last_key": lane[-1]["k"] if lane else None,
             "last_name": lane[-1]["name"] if lane else None,
             "tab_rows": s55json["compare"]["n"], "tab_built": s55json.get("built"),
             "technique_images": tech["lanes"]["s55c"]["images"]}
@@ -512,7 +535,7 @@ def main() -> int:
         "technique": technique_section(tech),
         "batching": batching_section(tech, lane, s5),
         "cost": cost_section(s55json, cmp_, nov, tech),
-        "cadence": cadence_section(s55json, corpus["n"], corpus["corpus"], proto),
+        "cadence": cadence_section(s55json, len(lane), corpus["corpus"], proto),
         "protocol": proto,
     }
     OUT.write_text(json.dumps(payload, indent=1) + "\n")

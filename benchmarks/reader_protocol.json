@@ -1,5 +1,5 @@
 {
- "what": "How many images each blind Sonnet reader is handed, per arm, and from which row of that arm's results the current protocol applies. Read by build_sonnet55c.py, build_sonnet55.py and build_sonnet_report.py, which show the switch on the Sonnet 5.5 tab, /sonnet-compare and /sonnet-report.",
+ "what": "How many images each blind Sonnet reader is handed, per arm, and from which row of that arm's results the current protocol applies. Read by build_sonnet55c.py, build_sonnet55.py and build_sonnet_report.py, which show the switch on the Sonnet 5.5 tab, /sonnet-compare and /sonnet-report. `arm_stops` records an arm that stopped taking new images; the pages then compare only the images both arms read.",
  "switches": [
   {
    "at": "2026-10-02T22:00:00Z",
@@ -10,7 +10,10 @@
    "prompts": {"s55c": "tools/reader_prompt_s55c_single.txt", "s5": "tools/reader_prompt_s5_single.txt"},
    "why": "Cost. A ten-image reader re-reads its whole growing context on every step, so a batch of heavy molecules snowballs: one Sonnet 5.5 reader on ten large gap molecules cost $11.06 (35M cache-read tokens, 144 tool calls) against a $2.30 estimate. One image per reader caps that, lets the cadence predict each reader's cost from the molecule's size, and lets it stop a runaway reader without losing nine other readings.",
    "prompt_change": "The single-image prompts are the arms' ten-image prompts with only the image count changed: 'reading one chemical structure image ... the molecule it depicts', 'The image is:', 'Read the image yourself', 'Write the one entry, fig01'. Every other word, both integrity paragraphs, the sandbox, the exact-model check and the gate are unchanged.",
-   "pairing": "From this switch both arms read each new image in its own single-image reader, Sonnet 5 and Sonnet 5.5 started together, so every new image's pair completes together. The rows before it were read ten to a reader, with batch-mates in the same context."
+   "pairing": "From this switch, while both arms were reading, each new image was read by both in its own single-image reader, Sonnet 5 and Sonnet 5.5 started together, so each pair completed together. The rows before it were read ten to a reader, with batch-mates in the same context."
   }
+ ],
+ "arm_stops": [
+  {"arm": "s5", "at": "2026-10-04T21:00:00Z", "what": "The Sonnet 5 arm stopped taking new images. Sonnet 5.5 goes on through the corpus alone, first reading the Sonnet 5 images it lacked; every Sonnet 5 vs 5.5 figure covers only the images both arms read."}
  ]
 }

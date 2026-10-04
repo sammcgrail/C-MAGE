@@ -1,5 +1,5 @@
 {
- "built": "2026-10-04T20:56:08Z",
+ "built": "2026-10-04T22:06:42Z",
  "failures": {
   "cats": [
    {
@@ -5824,16 +5824,35 @@
  "snapshot": {
   "rows": 1257,
   "paired": 1252,
+  "s5_rows": 1253,
+  "s55_only": 5,
+  "scope": "Compare covers the 1,252 images both arms read; Sonnet 5 stopped at 1,253.",
   "last_key": "josamycin_cid5282165",
   "last_name": "Josamycin",
   "tab_rows": 1257,
-  "tab_built": "2026-10-04T20:19:42Z",
+  "tab_built": "2026-10-04T22:06:29Z",
   "technique_images": 1257
  },
  "corpus": {
   "n": 1252,
   "unpaired": 5,
   "corpus": 2510,
+  "lane": 1257,
+  "pairing": {
+   "paired": 1252,
+   "s5_arm": 1253,
+   "lane": 1257,
+   "s5_stopped_at": "2026-10-04T21:00:00Z",
+   "s55_only": {
+    "n": 5,
+    "s55": 5,
+    "cx": 2,
+    "s55_pct": 100.0,
+    "cx_pct": 40.0
+   },
+   "scope": "Compare covers the 1,252 images both arms read; Sonnet 5 stopped at 1,253.",
+   "only_text": "Sonnet 5.5 alone, no Sonnet 5 reading: 5 images, Sonnet 5.5 5 exact (100.0%), CXMolScribe 2 (40.0%). Not in any Sonnet 5 vs 5.5 figure."
+  },
   "s55": 1242,
   "s5": 944,
   "cx": 989,
@@ -8536,7 +8555,7 @@
   },
   "speed_ratio": 3.2,
   "cost_ratio": 3.5,
-  "built": "2026-10-04T20:19:43Z"
+  "built": "2026-10-04T22:06:29Z"
  },
  "batching": {
   "s5_first": {
@@ -8670,7 +8689,7 @@
   }
  },
  "cadence": {
-  "left": 1258,
+  "left": 1253,
   "cost_per_image": 0.258,
   "dual": {
    "since": "2026-10-02T22:00:00Z",
@@ -8691,10 +8710,16 @@
     }
    },
    "pairs_72h": 162,
+   "s5_stopped_at": "2026-10-04T21:00:00Z",
+   "s55_left": 1253,
+   "s55_usd": 0.415,
+   "s55_list_cost_left": 520,
+   "s55_72h": 187,
    "pairs_per_day_72h": 54.0,
-   "pair_usd": 1.44,
-   "list_cost_left": 1810,
-   "days_left_at_72h_pace": 23.3,
+   "pair_usd": null,
+   "list_cost_left": null,
+   "days_left_at_72h_pace": null,
+   "s55_days_left_at_72h_pace": 20.1,
    "last": "2026-10-04T12:23:36Z",
    "halted": null,
    "quiet": {
@@ -8720,7 +8745,8 @@
   "s5_single_rows": 177,
   "why": "Cost. A ten-image reader re-reads its whole growing context on every step, so a batch of heavy molecules snowballs: one Sonnet 5.5 reader on ten large gap molecules cost $11.06 (35M cache-read tokens, 144 tool calls) against a $2.30 estimate. One image per reader caps that, lets the cadence predict each reader's cost from the molecule's size, and lets it stop a runaway reader without losing nine other readings.",
   "prompt_change": "The single-image prompts are the arms' ten-image prompts with only the image count changed: 'reading one chemical structure image ... the molecule it depicts', 'The image is:', 'Read the image yourself', 'Write the one entry, fig01'. Every other word, both integrity paragraphs, the sandbox, the exact-model check and the gate are unchanged.",
-  "pairing": "From this switch both arms read each new image in its own single-image reader, Sonnet 5 and Sonnet 5.5 started together, so every new image's pair completes together. The rows before it were read ten to a reader, with batch-mates in the same context.",
-  "text": "Single-image readers from row 1071 of the Sonnet 5.5 arm and row 1077 of the Sonnet 5 arm (2026-10-02): one image per reader, both models reading each new image at the same time. Earlier rows were read 10 images to a reader, in one shared context."
+  "pairing": "From this switch, while both arms were reading, each new image was read by both in its own single-image reader, Sonnet 5 and Sonnet 5.5 started together, so each pair completed together. The rows before it were read ten to a reader, with batch-mates in the same context.",
+  "s5_stopped_at": "2026-10-04T21:00:00Z",
+  "text": "Single-image readers from row 1071 of the Sonnet 5.5 arm and row 1077 of the Sonnet 5 arm (2026-10-02): one image per reader; until Sonnet 5 stopped (2026-10-04) both models read each new image at the same time. Earlier rows were read 10 images to a reader, in one shared context."
  }
 }

@@ -402,7 +402,8 @@ function names(xs){ return xs.length && xs.length <= 6 ? ' (' + esc(xs.join(", "
 
 /* The corpus pairing: Sonnet 5.5's corpus arm (the Sonnet 5.5 tab) against the Sonnet 5 arm on
    the same images. Kept visibly apart from the hand-picked set below it, because those were
-   chosen on Sonnet 5's failures and these were not chosen at all. Grows with every batch. */
+   chosen on Sonnet 5's failures and these were not chosen at all. Covers ONLY the images both arms
+   read: the Sonnet 5 arm stopped, and Sonnet 5.5 rows past it are tallied apart (C.pairing), never here. */
 /* A capped list with an in-place "show all" (see .capbox). The button is hidden by
    fitCaps() when the content is shorter than the cap. */
 function capbox(inner, n, noun, cap){
@@ -428,7 +429,7 @@ document.addEventListener("click", function(e){
 
 function intro(){
   return '<section class="intro"><h1>Sonnet 5.5 vs Sonnet 5</h1>'
-    + '<p class="lede">Three sets, kept apart: the <b>corpus, paired</b> image for image (nothing skipped); <b>novel structures</b> no model can have memorised; and <b>28 hand-picked</b> images chosen on Sonnet 5’s failures. '
+    + '<p class="lede">Three sets, kept apart: the <b>corpus, paired</b> image for image on the images both models read (nothing skipped); <b>novel structures</b> no model can have memorised; and <b>28 hand-picked</b> images chosen on Sonnet 5’s failures. '
     + 'Same images, same blind pipeline, same RDKit scorer. The <a href="/sonnet-report#failures">findings report</a> classifies every miss and shows the missed drawings.</p>'
     + '<nav class="jump" aria-label="Sections"><a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#kindc">Hard edits</a><a href="#handpicked">Hand-picked</a><a href="/sonnet-report">Findings report</a></nav>'
     + '</section>';
@@ -443,9 +444,11 @@ function corpusSection(C){
       + '<div class="pc">' + x + '<small>/ ' + C.n + '</small></div><div class="of">' + esc(note) + '</div>'
       + '<div class="track"><i style="width:' + Math.round(x / C.n * 100) + '%"></i></div></div>'; };
   var nb = C.ahead + C.behind;
-  var verdict = 'First ' + C.n + ' corpus images, in order: Sonnet 5.5 <b>' + C.s55 + '/' + C.n + '</b>, Sonnet 5 <b>' + C.s5 + '/' + C.n + '</b>'
-    + (nb ? '; 5.5 ahead on ' + C.ahead + ', behind on ' + C.behind + ' (exact McNemar <b>p = ' + pfmt(C.p) + '</b>' + (C.p < 0.05 ? ').' : ', not significant yet).')
-      : '. They agree on every image so far.');
+  /* The scope sentence comes from the builder (build_sonnet55.pairing) with live counts. */
+  var verdict = (C.pairing ? esc(C.pairing.scope) + ' ' : 'On the ' + C.n + ' corpus images both read: ')
+    + 'Sonnet 5.5 <b>' + C.s55 + '/' + C.n + '</b>, Sonnet 5 <b>' + C.s5 + '/' + C.n + '</b>'
+    + (nb ? '; 5.5 ahead on ' + C.ahead + ', behind on ' + C.behind + ' (exact McNemar <b>p = ' + pfmt(C.p) + '</b>' + (C.p < 0.05 ? ').' : ', not significant).')
+      : '. They agree on every image.');
   var bt = C.batches.length > 1 ? '<table class="bd"><thead><tr><th>Batch</th><th class="num">n</th>'
       + '<th class="num">Sonnet 5</th><th class="num">5.5</th><th class="num">CXMS</th></tr></thead><tbody>'
       + C.batches.map(function(b){ return '<tr><td>' + (b.single ? esc(b.batch) + ' <span class="dim">1/reader</span>' : 'Batch ' + esc(b.batch)) + '</td><td class="num">' + b.n
@@ -468,9 +471,12 @@ function corpusSection(C){
   var notes = '<details class="fold"><summary>CXMolScribe, cost, readers per image, caveats</summary>'
     + '<p class="cmpnote">CXMolScribe on the same ' + C.n + ': <b>' + C.cx + '</b>. '
     + (C.cost_per_image != null ? 'Sonnet 5.5 cost about <b>' + money(C.cost_per_image) + '</b> per image at list price. ' : '')
-    + (C.unpaired ? C.unpaired + ' Sonnet 5.5 corpus images have no Sonnet 5 reading yet and are left out. ' : '') + '</p>'
+    + (C.pairing && C.pairing.only_text ? esc(C.pairing.only_text) + ' They are on the Sonnet 5.5 tab. '
+       : C.unpaired ? C.unpaired + ' Sonnet 5.5 corpus images have no Sonnet 5 reading and are left out. ' : '') + '</p>'
     + (C.protocol ? '<p class="cmpnote"><b>Single-image readers from row ' + C.protocol.s55c_from_row + '</b> of the Sonnet 5.5 tab and row '
-      + C.protocol.s5_from_row + ' of the Sonnet 5 tab (' + esc(C.protocol.at.slice(0, 10)) + '): one image per reader, both models reading each new image at the same time. '
+      + C.protocol.s5_from_row + ' of the Sonnet 5 tab (' + esc(C.protocol.at.slice(0, 10)) + '): one image per reader'
+      + (C.protocol.s5_stopped_at ? '; until Sonnet 5 stopped (' + esc(C.protocol.s5_stopped_at.slice(0, 10)) + ') both models read each new image at the same time. '
+         : ', both models reading each new image at the same time. ')
       + 'Earlier rows were read ' + C.protocol.before + ' to a reader in one shared context.</p>' : '')
     + caveat + '</details>';
   return '<section class="sec" id="corpus"><div class="sec-head"><h2>Corpus, paired</h2></div>'

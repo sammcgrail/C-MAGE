@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """The Sonnet 5.5 tab: Sonnet 5.5 reading the WHOLE corpus, in corpus order, paired image for
-image with the Sonnet 5 arm.
+image with the Sonnet 5 arm on every image both read. The Sonnet 5 arm stopped taking new images
+(benchmarks/reader_protocol.json arm_stops) and this lane reads on alone, so rows past it carry no
+Sonnet 5 reading: they count in the lane's own figures, never in a Sonnet 5 vs 5.5 one.
 
     build_sonnet55c.py record-run <agent-id> <batch>   credit a lane reader with its rows
     build_sonnet55c.py batch-note <batch> <text>       say how a batch came about (shown on the page)
@@ -98,7 +100,8 @@ def cmd_batch_note(batch: str, text: str) -> int:
 
 
 def paired(lane: list[dict], s5: dict[str, dict]) -> dict:
-    """5.5 against Sonnet 5 on every lane image the Sonnet 5 arm has also read."""
+    """5.5 against Sonnet 5 on every lane image the Sonnet 5 arm has also read, and ONLY those: a
+    5.5 row with no Sonnet 5 reading must not move any of these numbers."""
     xs = [r for r in lane if r["k"] in s5]
     ok55 = lambda r: r["sonnet_verdict"] == "exact"
     ok5 = lambda r: s5[r["k"]]["sonnet_verdict"] == "exact"
@@ -108,12 +111,17 @@ def paired(lane: list[dict], s5: dict[str, dict]) -> dict:
             "ahead": b, "behind": c, "p": float(f"{B55.mcnemar_exact(b, c):.3g}")}
 
 
-def method(proto: dict | None = None) -> list[dict]:
+def method(proto: dict | None = None, pr: dict | None = None) -> list[dict]:
+    stop = (proto or {}).get("s5_stopped_at")
     readers = ([
         f"Rows 1 to {proto['s55c_from_row'] - 1}: ten images per reader, read in one shared context. "
         f"From row {proto['s55c_from_row']} ({proto['at'][:10]}): single-image readers, one image per reader, "
-        "with the same prompt reworded only for the count (both are shown below). From then on Sonnet 5 reads "
-        "each new image in its own single-image reader at the same time, so each pair completes together.",
+        "with the same prompt reworded only for the count (both are shown below). "
+        + (f"Until the Sonnet 5 arm stopped ({stop[:10]}), Sonnet 5 read each new image in its own "
+           "single-image reader at the same time, so each pair completed together; since then Sonnet 5.5 "
+           "reads on alone." if stop else
+           "Sonnet 5 reads each new image in its own single-image reader at the same time, so each pair "
+           "completes together."),
         "Why: a ten-image reader re-reads its whole growing context at every step, so a batch of large "
         "molecules snowballs in cost; one image per reader caps that and lets a runaway reader be stopped "
         "without losing nine other readings.",
@@ -121,8 +129,9 @@ def method(proto: dict | None = None) -> list[dict]:
     return [
         {"h": "What this tab is", "points": [
             "Sonnet 5.5 reading the whole image corpus in the same order the Sonnet 5 arm read it (sorted "
-            "by compound key). Nothing is skipped or hand-picked, so every image here pairs with the "
-            "Sonnet 5 reading of the same drawing.",
+            "by compound key). Nothing is skipped or hand-picked."
+            + (f" {pr['scope']} Images Sonnet 5 did not read count only in Sonnet 5.5's own figures."
+               if pr else ""),
             "Scored exactly like the Sonnet 5 tab: RDKit canonical SMILES against the PubChem reference, "
             "exact / stereo-only / wrong / unparseable, and CXMolScribe's reading of the same image beside it.",
         ]},
@@ -192,6 +201,10 @@ def build() -> int:
     s_ex = sum(1 for r in rows if r["v"] == "exact")
     o_ex = sum(1 for r in rows if r["ocrv"] == "exact")
     P = paired(lane, s5)
+    PR = B55.pairing(lane, s5)
+    no_s5 = ("Sonnet 5 did not read this image (the Sonnet 5 arm has stopped), so it is not in any "
+             "Sonnet 5 vs 5.5 figure." if PR["s5_stopped_at"] else
+             "Sonnet 5 has not read this image, so it is not in any Sonnet 5 vs 5.5 figure.")
     runs = sorted(d["runs"].values(), key=lambda x: x["started"])
     cost = sum(r["cost_usd"] for r in runs)
     secs = sum(r["duration_s"] for r in runs)
@@ -225,6 +238,8 @@ def build() -> int:
             "agree": sum(1 for r in rows if r["o"] == "both"),
             "either": sum(1 for r in rows if r["o"] != "neither"),
             "paired": P,
+            # What the Sonnet 5 figure covers, and the 5.5 rows with no Sonnet 5 reading, apart.
+            "pairing": PR,
             "cost": {"usd": round(cost, 2), "reads": imgs, "perImage": round(cost / imgs, 2) if imgs else None,
                      "note": (f"Estimated API cost at list price: ${cost:,.2f} for the {imgs} Sonnet 5.5 reads "
                               f"shown, about ${cost / imgs:.2f} and {round(secs / imgs)} s per image.") if imgs else ""},
@@ -240,22 +255,23 @@ def build() -> int:
                   "bold": "Sonnet 5 vs 5.5, image for image →"},
         "prompt": prompt, "protocol": proto,
         "workflow": build_sonnet.WORKFLOW, "examples": [], "classes": classes,
-        "method": method(proto),
+        "method": method(proto, PR), "noS5": no_s5,
         "cx": sum(1 for r in rows if r.get("cx")), "cxLabel": "CXMolScribe returned CXSMILES",
         "stats": {"n": n, "exact": s_ex, "strict_pct": pct(s_ex, n)},
         "threshold": round(THRESHOLD * 100),
         "batches": {str(r["batch"]): d["batches"].get(str(r["batch"]), "") for r in runs},
         "runs": [{k2: v for k2, v in r.items() if k2 not in ("keys", "prompt")} for r in runs],
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "headline": ("Same drawings and order as the Sonnet 5 tab, same agent loop, same scorer"
+        "headline": ("Same corpus drawings, in the Sonnet 5 tab's order, same agent loop, same scorer"
                      + (f"; ten images per reader to row {single_from - 1}, one per reader from row "
                         f"{single_from}." if proto else ".")),
         "footer": (f"n={n} of {corpus_n}, growing every usage block"
                    + (f" (single-image readers from row {single_from})" if proto else "")
-                   + ". Corpus order, nothing skipped, so "
-                   f"every image pairs with the Sonnet 5 arm's reading of it: on these {P['n']}, Sonnet 5.5 "
+                   + f". Corpus order, nothing skipped. {PR['scope']} On those {P['n']:,}, Sonnet 5.5 "
                    f"{P['s55']} and Sonnet 5 {P['s5']} exact, 5.5 ahead on {P['ahead']} and behind on "
-                   f"{P['behind']} (exact McNemar p={P['p']}). Filenames anonymised; ground truth is PubChem."),
+                   f"{P['behind']} (exact McNemar p={P['p']})."
+                   + (f" {PR['only_text']}" if PR["only_text"] else "")
+                   + " Filenames anonymised; ground truth is PubChem."),
     }
     OUT.write_text(json.dumps(out, separators=(",", ":")))
     print(f"wrote {OUT} ({OUT.stat().st_size / 1e3:.1f} KB): {n} rows; Sonnet 5.5 {s_ex}/{n}, "

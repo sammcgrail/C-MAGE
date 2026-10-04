@@ -2,7 +2,8 @@
 """Build the Sonnet compare page (/sonnet-compare, was /sonnet-5-5): each image the s55 lane has
 read, beside the Sonnet 5 arm's reading of the SAME image, scored by the same rule -- plus, kept
 apart, the corpus pairing: every image the s55c lane (Sonnet 5.5 over the whole corpus, in the
-Sonnet 5 arm's order, see build_sonnet55c.py) has read, against Sonnet 5's reading of it.
+Sonnet 5 arm's order, see build_sonnet55c.py) AND the Sonnet 5 arm have both read. The Sonnet 5 arm
+has stopped (reader_protocol.json arm_stops); 5.5 rows past it are counted apart, never paired.
 
     build_sonnet55.py record-run <agent-id> <batch>     add a lane reader's run to the ledger
     build_sonnet55.py record-side <label> <agent-id> <pending.json> <answers.json> <batch>
@@ -304,10 +305,46 @@ def calibration(reads: list[dict]) -> dict:
             "brier": brier, "bins": bins}
 
 
+def pairing(lane: list[dict], s5: dict[str, dict]) -> dict:
+    """What the Sonnet 5 vs 5.5 comparison covers, and the Sonnet 5.5 rows it leaves out, with the
+    sentence every page shows for it. Shared by the 5.5 tab, this page and the report, so the three
+    say the same thing. `lane` is the s55c results in order, `s5` the Sonnet 5 arm by key.
+
+    Every compare figure is computed on `paired` keys only (lane rows whose key the Sonnet 5 arm has
+    read). Since the Sonnet 5 arm stopped (reader_protocol.json arm_stops) Sonnet 5.5 reads on alone,
+    so its rows without a Sonnet 5 reading grow every block; they are tallied here, apart, and never
+    enter a paired figure."""
+    import reader_protocol
+    paired_n = sum(1 for r in lane if r["k"] in s5)
+    only = [r for r in lane if r["k"] not in s5]
+    stop = reader_protocol.stopped("s5")
+    pct = lambda a, b: round(a / b * 100, 1) if b else None
+    s55_ok = sum(1 for r in only if r["sonnet_verdict"] == "exact")
+    cx_ok = sum(1 for r in only if r["ocr_verdict"] == "exact")
+    pl = lambda n, w: f"{n:,} {w}{'' if n == 1 else 's'}"
+    if stop:
+        scope = (f"Compare covers the {pl(len(s5), 'image')} Sonnet 5 read; Sonnet 5 stopped there."
+                 if paired_n == len(s5) else
+                 f"Compare covers the {pl(paired_n, 'image')} both arms read; Sonnet 5 stopped at {len(s5):,}.")
+    else:
+        scope = (f"Compare covers the {pl(paired_n, 'image')} both arms have read "
+                 f"(Sonnet 5 {len(s5):,}, Sonnet 5.5 {len(lane):,}).")
+    only_text = (f"Sonnet 5.5 alone, no Sonnet 5 reading: {pl(len(only), 'image')}, Sonnet 5.5 {s55_ok} exact "
+                 f"({pct(s55_ok, len(only))}%), CXMolScribe {cx_ok} ({pct(cx_ok, len(only))}%). "
+                 f"Not in any Sonnet 5 vs 5.5 figure.") if only else ""
+    return {"paired": paired_n, "s5_arm": len(s5), "lane": len(lane),
+            "s5_stopped_at": stop["at"] if stop else None,
+            "s55_only": {"n": len(only), "s55": s55_ok, "cx": cx_ok,
+                         "s55_pct": pct(s55_ok, len(only)), "cx_pct": pct(cx_ok, len(only))},
+            "scope": scope, "only_text": only_text}
+
+
 def corpus_pairs(s5: dict[str, dict]) -> dict | None:
-    """The unselected comparison, picked up automatically as the s55c lane grows: Sonnet 5.5 and
-    Sonnet 5 on every corpus image both have read. Kept apart from the hand-picked rows above it
-    on the page, because those were chosen on Sonnet 5's failures and these were not chosen."""
+    """The unselected comparison: Sonnet 5.5 and Sonnet 5 on every corpus image BOTH have read (xs);
+    every tally, batch row and diff below is over xs only, so Sonnet 5.5 rows with no Sonnet 5
+    reading (the lane reads on alone since the Sonnet 5 arm stopped) never move a figure here.
+    Kept apart from the hand-picked rows above it on the page, because those were chosen on
+    Sonnet 5's failures and these were not chosen."""
     lane = load_jsonl(CORPUS_RESULTS)
     if not lane:
         return None
@@ -325,17 +362,21 @@ def corpus_pairs(s5: dict[str, dict]) -> dict | None:
                 "ahead": b, "behind": c, "both": sum(1 for r in ys if ok55(r) and ok5(r)),
                 "p": float(f"{mcnemar_exact(b, c):.3g}")}
     # From the switch to single-image readers (benchmarks/reader_protocol.json) every reader is one image,
-    # so a per-batch table would grow a line per image: those rows are grouped ten lane rows at a time.
+    # so a per-batch table would grow a line per image: those rows are grouped ten PAIRED rows at a time,
+    # counted from the first paired row past the switch. Grouping by lane row instead let Sonnet 5.5 rows
+    # with no Sonnet 5 reading shift every group boundary after them (a group of ten lane rows held nine
+    # pairs), so a 5.5-only row changed the compare table; counting paired rows cannot.
     import reader_protocol
     proto = reader_protocol.summary(len(lane), len(s5))
     row_no = {r["k"]: i for i, r in enumerate(lane, 1)}
     single_from = proto["s55c_from_row"] if proto else None
+    pair_no = {r["k"]: j for j, r in enumerate(xs)}
+    j0 = next((pair_no[r["k"]] for r in xs if single_from and row_no[r["k"]] >= single_from), None)
 
     def group(r):
-        i = row_no[r["k"]]
-        if single_from and i >= single_from:
-            a = single_from + (i - single_from) // 10 * 10
-            return (1, a)
+        j = pair_no[r["k"]]
+        if j0 is not None and j >= j0:
+            return (1, j0 + (j - j0) // 10 * 10)
         return (0, batch_of.get(r["k"]))
     groups = sorted({group(r) for r in xs if group(r)[1] is not None})
 
@@ -346,7 +387,7 @@ def corpus_pairs(s5: dict[str, dict]) -> dict | None:
         return {"batch": f"Rows {min(rows)}-{max(rows)}", "single": True}
     cost = sum(r["cost_usd"] for r in runs.values())
     imgs = sum(r["images"] for r in runs.values())
-    out = {**tally(xs), "unpaired": len(lane) - len(xs),
+    out = {**tally(xs), "unpaired": len(lane) - len(xs), "pairing": pairing(lane, s5),
            "first": xs[0]["name"] if xs else None, "last": xs[-1]["name"] if xs else None,
            "protocol": proto,
            "batches": [dict(**label(g), **tally([r for r in xs if group(r) == g])) for g in groups],

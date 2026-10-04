@@ -346,7 +346,8 @@ function intro(D){
   var S = D.snapshot;
   return '<section class="intro"><h1>Sonnet 5.5 evaluation: why they miss</h1>'
     + '<p class="lede">Sonnet 5.5, Sonnet 5 and CXMolScribe reading the same drawings, scored by one RDKit rule against PubChem. Every miss classified by what differs, with the molecules that drive misses, the missed drawings themselves, and the fixes the data supports.</p>'
-    + '<div class="asof"><span>As of <b>' + n0(S.rows) + ' corpus rows</b>, ' + n0(S.paired) + ' paired (last: ' + esc(S.last_name) + ')</span><span>built ' + when(D.built) + '</span></div>'
+    + '<div class="asof"><span>As of <b>' + n0(S.rows) + ' Sonnet 5.5 corpus rows</b> (last: ' + esc(S.last_name) + '). '
+      + (S.scope ? esc(S.scope) : n0(S.paired) + ' paired.') + '</span><span>built ' + when(D.built) + '</span></div>'
     + '<div id="live"></div>'
     + '<nav class="jump" aria-label="Sections"><a href="#scores">Scores</a><a href="#failures">Why they miss</a><a href="#gallery">Missed molecules</a><a href="#fixes">Fixes</a><a href="#corpus">Corpus</a><a href="#cost">Cost</a><a href="#handpicked">Hand-picked</a><a href="#novel">Novel</a><a href="#ez">E/Z</a><a href="#technique">Technique</a><a href="#integrity">Integrity</a></nav>'
     + '</section>';
@@ -365,7 +366,10 @@ function scores(D){
     + card("s5", C.s5, '5.5 ahead <b>' + n0(C.vs_s5.ahead) + '</b>, behind <b>' + C.vs_s5.behind + '</b>')
     + card("cx", C.cx, '5.5 ahead <b>' + n0(C.vs_cx.ahead) + '</b>, behind <b>' + C.vs_cx.behind + '</b>')
     + '</div><div class="chips"><span>exact McNemar vs Sonnet 5 p = ' + pfmt(C.vs_s5.p) + '</span><span><b>' + money(T.s55c.cost_per_image) + '</b> vs ' + money(T.s5.cost_per_image) + ' per image</span>'
-    + '<span>hand-picked 28: <b>' + H.s55 + '</b> vs re-run ' + H.rerun + '</span><span>novel: <b>' + nov55 + '/' + nov + '</b></span><span>paired corpus, in corpus order, one reading each</span></div></section>';
+    + '<span>hand-picked 28: <b>' + H.s55 + '</b> vs re-run ' + H.rerun + '</span><span>novel: <b>' + nov55 + '/' + nov + '</b></span><span>paired corpus, in corpus order, one reading each</span></div>'
+    /* The three cards are the paired images only; 5.5's rows with no Sonnet 5 reading, apart. */
+    + (C.pairing ? '<p class="tnote">' + esc(C.pairing.scope) + (C.pairing.only_text ? ' ' + esc(C.pairing.only_text) : '') + '</p>' : '')
+    + '</section>';
 }
 
 function failures(D){
@@ -373,7 +377,9 @@ function failures(D){
   F.cats.forEach(function(c){ catOf[c.key] = c; });
   var top = function(arm){ var best = null; F.cats.forEach(function(c){ if (!best || T[arm].cats[c.key] > T[arm].cats[best.key]) best = c; }); return best; };
   var t5 = top("s5"), tcx = top("cx");
-  var take = '<p class="take"><b>Sonnet 5 misses by miscounting and miswiring; CXMolScribe by not parsing, counter-ions and metals; 5.5’s ' + T.s55.misses + ' misses are all double-bond E/Z.</b> '
+  var ez55 = T.s55.cats.ez_added + T.s55.cats.ez_omitted;
+  var take = '<p class="take"><b>Sonnet 5 misses by miscounting and miswiring; CXMolScribe by not parsing, counter-ions and metals; 5.5’s ' + T.s55.misses
+    + (ez55 === T.s55.misses && T.s55.misses ? ' misses are all double-bond E/Z.</b> ' : ' misses include ' + ez55 + ' double-bond E/Z.</b> ')
     + 'Sonnet 5: ' + esc(t5.label.toLowerCase()) + ' ' + T.s5.cats[t5.key] + ' of ' + T.s5.misses + '; CXMolScribe: ' + esc(tcx.label.toLowerCase()) + ' ' + T.cx.cats[tcx.key] + ' of ' + T.cx.misses + '.</p>';
   /* taxonomy: one small multiple per class, bar = share of that arm's misses, count printed */
   var groups = F.cats.map(function(c){
@@ -467,9 +473,11 @@ function corpus(D){
       + ' rows both arms read one-per-reader: 5.5 ' + P.paired_single.s55 + ', Sonnet 5 ' + P.paired_single.s5 + ', CXMolScribe ' + P.paired_single.cx + '; 5.5 ahead on ' + P.paired_single.ahead + ', behind on ' + P.paired_single.behind + '.</p></div>';
   }
   var details = det("Coverage, pairing and the row-level table", '<ul class="facts">'
-    + '<li><b>What it covers.</b> The first ' + n0(C.n) + ' of ' + n0(C.corpus) + ' corpus images in sorted-key order (' + esc(C.first) + ' to ' + esc(C.last) + '). Nothing skipped, so unselected; but alphabetical and mostly named drugs, which a model may have seen.'
-    + (C.unpaired ? ' ' + C.unpaired + ' Sonnet 5.5 rows have no Sonnet 5 reading yet and are left out.' : '') + '</li>'
-    + (D.protocol ? '<li><b>Readers.</b> Ten images per reader to row ' + D.protocol.s55c_from_row + ' (5.5) and ' + D.protocol.s5_from_row + ' (Sonnet 5); one image per reader since ' + esc(D.protocol.at.slice(0, 10)) + ', both arms reading each new image at the same time. Why: a ten-image reader re-reads its growing context at every step, so a batch of large molecules snowballs in cost.</li>' : '')
+    + '<li><b>What it covers.</b> ' + (C.pairing ? esc(C.pairing.scope) + ' ' : n0(C.n) + ' paired images. ') + n0(C.corpus) + ' corpus images in all, read in sorted-key order (paired: ' + esc(C.first) + ' to ' + esc(C.last) + '). Nothing skipped, so unselected; but alphabetical and mostly named drugs, which a model may have seen.'
+    + (C.pairing && C.pairing.only_text ? ' ' + esc(C.pairing.only_text) : C.unpaired ? ' ' + C.unpaired + ' Sonnet 5.5 rows have no Sonnet 5 reading and are left out.' : '') + '</li>'
+    + (D.protocol ? '<li><b>Readers.</b> Ten images per reader to row ' + (D.protocol.s55c_from_row - 1) + ' (5.5) and ' + (D.protocol.s5_from_row - 1) + ' (Sonnet 5); one image per reader since ' + esc(D.protocol.at.slice(0, 10))
+      + (D.protocol.s5_stopped_at ? '; until Sonnet 5 stopped (' + esc(D.protocol.s5_stopped_at.slice(0, 10)) + ') both arms read each new image at the same time, and since then Sonnet 5.5 reads alone. Why:'
+         : ', both arms reading each new image at the same time. Why:') + ' a ten-image reader re-reads its growing context at every step, so a batch of large molecules snowballs in cost.</li>' : '')
     + '<li><b>Both or neither.</b> All three right on ' + n0(C.all_three) + '; 5.5 or CXMolScribe right on ' + n0(C.either_s55_cx) + '; neither on ' + C.neither_s55_cx + '. Head to head: 5.5 vs CXMolScribe p = ' + pfmt(C.vs_cx.p) + '.</li></ul>'
     + '<div class="tscroll"><table><thead><tr><th class="num">Rows</th><th class="num">5.5</th><th class="num">Sonnet 5</th><th class="num">CXMS</th></tr></thead><tbody>'
     + C.series.filter(function(p, i, a){ return p[0] % 100 === 0 || i === a.length - 1; }).map(function(p){ return '<tr><td class="num">1–' + n0(p[0]) + '</td><td class="num">' + pc(p[1], p[0]) + '</td><td class="num">' + pc(p[2], p[0]) + '</td><td class="num">' + pc(p[3], p[0]) + '</td></tr>'; }).join("")
@@ -597,7 +605,10 @@ function integrity(D){
      "A prompt rule: write every final SMILES literally, or print the finished string."]
   ];
   var take = '<p class="take"><b>Five ways a reading could stop being a blind reading by the named model were found and closed</b>: filesystem snooping, delegation to Opus, the model alias, scanner false positives and assembled SMILES.'
-    + (DU ? ' The dual-arm cadence has ' + n0(C.left) + ' pairs left at about ' + money(DU.pair_usd) + ' a pair' + (DU.quiet ? ', paused until ' + when(DU.quiet.until) : '') + '.' : '') + '</p>';
+    /* Pairs only while both arms read; once Sonnet 5 has stopped there are no pairs left to price
+       (pair_usd is null), so the cadence line is Sonnet 5.5's own images left and cost per image. */
+    + (DU && DU.pair_usd != null ? ' The dual-arm cadence has ' + n0(C.left) + ' pairs left at about ' + money(DU.pair_usd) + ' a pair' + (DU.quiet ? ', paused until ' + when(DU.quiet.until) : '') + '.'
+       : DU && DU.s55_usd != null ? ' The cadence reads Sonnet 5.5 alone' + (DU.s5_stopped_at ? ' since Sonnet 5 stopped (' + esc(DU.s5_stopped_at.slice(0, 10)) + ')' : '') + ': ' + n0(DU.s55_left) + ' Sonnet 5.5 images left at about ' + money(DU.s55_usd) + ' an image' + (DU.quiet ? ', paused until ' + when(DU.quiet.until) : '') + '.' : '') + '</p>';
   return sec("integrity", "10", "Integrity and the cadence", take + det("The five, with what was found and what fixed it",
     '<ul class="found">' + items.map(function(x){ return '<li><h3>' + esc(x[0]) + '</h3><p><span class="k">Found</span>' + x[1] + '</p><p><span class="k">Fixed</span>' + x[2] + '</p></li>'; }).join("") + '</ul>'));
 }
