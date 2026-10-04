@@ -247,11 +247,9 @@ def build() -> int:
         "batches": {str(r["batch"]): d["batches"].get(str(r["batch"]), "") for r in runs},
         "runs": [{k2: v for k2, v in r.items() if k2 not in ("keys", "prompt")} for r in runs],
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "headline": ("Sonnet 5.5 reading the same drawings as the Sonnet 5 tab, in the same order"
-                     + (f": ten images per reader to row {single_from - 1}, single-image readers from row "
-                        f"{single_from}. " if proto else ". ")
-                     + "The same agent loop with a Python interpreter and RDKit, spawned on "
-                     "the exact model id and scored by the same rule."),
+        "headline": ("Same drawings and order as the Sonnet 5 tab, same agent loop, same scorer"
+                     + (f"; ten images per reader to row {single_from - 1}, one per reader from row "
+                        f"{single_from}." if proto else ".")),
         "footer": (f"n={n} of {corpus_n}, growing every usage block"
                    + (f" (single-image readers from row {single_from})" if proto else "")
                    + ". Corpus order, nothing skipped, so "
@@ -283,5 +281,15 @@ if __name__ == "__main__":
                 build_technique.build()
             except Exception as e:  # noqa: BLE001
                 print(f"technique build skipped: {e!r}", file=sys.stderr)
+            # The findings report (/sonnet-report, wall/sonnet_report.json) is rebuilt from the same
+            # live data on every tab build, so its "as of" stamp follows the cadence instead of
+            # freezing at a snapshot. Same rule as the technique build: it never blocks the tab
+            # (build_sonnet_report refuses with SystemExit if a stored verdict disagrees with
+            # verdict(), which is a reason to look, not a reason to halt the benchmark).
+            try:
+                import build_sonnet_report
+                build_sonnet_report.main()
+            except (Exception, SystemExit) as e:  # noqa: BLE001
+                print(f"report build skipped: {e!r}", file=sys.stderr)
         sys.exit(rc)
     raise SystemExit(__doc__)

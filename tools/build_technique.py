@@ -703,7 +703,13 @@ def lane_stats(rs: list) -> dict:
         "img_viewed_render_pct": pct(sum(1 for i in att if i["viewed_render"]), len(att)),
         "img_osra_pct": pct(sum(1 for i in att if i["osra"]), len(att)),
         "used": used, "used_pct": {k: pct(v, len(rs)) for k, v in used.items()},
-        "read_all_first_pct": pct(sum(1 for r in rs if r["read_all_first"]), len(rs)),
+        # "Read every image before any tool" only means something for a reader handed SEVERAL
+        # images: a single-image reader (reader_protocol.json) satisfies it by opening its one
+        # image, so counting those would inflate the figure as the single-image rows pile up.
+        "read_all_first_pct": pct(sum(1 for r in rs if r["read_all_first"] and r["n_img"] > 1),
+                                  sum(1 for r in rs if r["n_img"] > 1)),
+        "read_all_first_n": sum(1 for r in rs if r["n_img"] > 1),
+        "by_protocol": by_protocol(rs),
         "secs_per_image": round(sum(r["secs"] or 0 for r in rs) / n_img) if n_img else None,
         "cost_per_image": round(sum(r["cost"] or 0 for r in rs) / n_img, 3) if n_img else None,
         "out_tok_per_image": round(sum((r["tokens"] or {}).get("output", 0) for r in rs) / n_img) if n_img else None,
@@ -717,6 +723,31 @@ def lane_stats(rs: list) -> dict:
     out["answers_late_pct"] = pct(sum(1 for x in firstw if x >= 0.8), len(firstw))
     out["calls_hist"] = hist(calls_img, [(0, 2), (3, 5), (6, 10), (11, 20), (21, 40), (41, 10 ** 9)])
     out["crops_hist"] = hist(crops_img, [(0, 0), (1, 1), (2, 2), (3, 5), (6, 10), (11, 10 ** 9)])
+    return out
+
+
+def by_protocol(rs: list) -> dict:
+    """The same per-image figures split by how many images the reader was handed (ten, or one
+    since the 2 Oct switch in benchmarks/reader_protocol.json). A single-image reader pays its
+    whole setup for one image, so its calls, time and cost per image are not comparable with a
+    ten-image reader's, and the two must never be pooled when the protocol is the question."""
+    out = {}
+    for key, sel in (("single", lambda r: r["n_img"] == 1), ("multi", lambda r: r["n_img"] > 1)):
+        g = [r for r in rs if sel(r)]
+        n = sum(r["n_img"] for r in g)
+        imgs = [i for r in g for i in r["images"]]
+        att = [i for i in imgs if i["img"]]
+        crops = [i["crops"] for i in att]
+        out[key] = {
+            "readers": len(g), "images": n, "exact": sum(i["exact"] for i in imgs),
+            "exact_pct": pct(sum(i["exact"] for i in imgs), n),
+            "calls_per_image": round(sum(r["calls"] for r in g) / n, 1) if n else None,
+            "crops_img_mean": round(sum(crops) / len(crops), 2) if crops else None,
+            "secs_per_image": round(sum(r["secs"] or 0 for r in g) / n) if n else None,
+            "cost_per_image": round(sum(r["cost"] or 0 for r in g) / n, 3) if n else None,
+            "out_tok_per_image": round(sum((r["tokens"] or {}).get("output", 0) for r in g) / n) if n else None,
+            "read_all_first_pct": pct(sum(1 for r in g if r["read_all_first"]), len(g)) if key == "multi" else None,
+        }
     return out
 
 
@@ -822,11 +853,13 @@ def typical(rs: list, st: dict) -> list:
     sm, lg = sz.get("small") or {}, sz.get("large") or {}
     fmt = lambda x: ("%g" % round(x, 1)) if x is not None else "?"
     lines = []
-    if raf >= 50:
-        lines.append(f"Opens every image back to back before using any tool ({raf:.0f}% of readers).")
+    if raf is None:
+        pass   # every reader was handed one image, so there is no order to describe
+    elif raf >= 50:
+        lines.append(f"Opens every image back to back before using any tool ({raf:.0f}% of ten-image readers).")
     else:
         lines.append(f"Opens the first image and works it to an answer before opening the next "
-                     f"({100 - raf:.0f}% of readers).")
+                     f"({100 - raf:.0f}% of ten-image readers).")
     setup = []
     if u.get("install", 0) >= 20:
         setup.append(f"installs RDKit or a venv itself ({u['install']:.0f}%)")

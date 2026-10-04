@@ -41,24 +41,24 @@ a{color:var(--acc)}
 header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);
   backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .hrow{display:flex;align-items:center;gap:12px;max-width:1400px;margin:0 auto;
-  padding:10px calc(14px + env(safe-area-inset-right)) 10px calc(14px + env(safe-area-inset-left));
-  padding-top:calc(10px + env(safe-area-inset-top))}
+  padding:6px calc(14px + env(safe-area-inset-right)) 6px calc(14px + env(safe-area-inset-left));
+  padding-top:calc(6px + env(safe-area-inset-top))}
 .brand{font-weight:700;letter-spacing:.3px;font-size:16px;white-space:nowrap}
 .brand span{color:var(--dim);font-weight:400;font-size:13px}
 .seg{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;padding:2px;margin-left:auto}
 .seg button{appearance:none;background:none;border:0;color:var(--dim);font:inherit;
-  font-size:14px;padding:7px 13px;border-radius:6px;cursor:pointer;min-height:38px;
+  font-size:14px;padding:7px 13px;border-radius:6px;cursor:pointer;min-height:44px;
   white-space:nowrap}
 /* #1f6feb, not the accent #388bfd: white 14px text on the accent is 3.3:1 and fails AA;
    on #1f6feb it is 4.6:1. */
 .seg button[aria-selected=true]{background:#1f6feb;color:#fff;font-weight:600}
 /* The Sonnet compare page is its own URL, so its tab is a link styled as a tab. */
-.seg a.segl{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:38px;
+.seg a.segl{color:var(--dim);font-size:14px;padding:0 13px;border-radius:6px;min-height:44px;
   display:flex;align-items:center;white-space:nowrap;text-decoration:none}
 .seg a.segl:hover{color:var(--ink)}
 .ghost{appearance:none;background:none;border:1px solid var(--line);color:var(--ink);
-  font:inherit;font-size:13px;padding:8px 12px;border-radius:7px;cursor:pointer;min-height:38px}
+  font:inherit;font-size:13px;padding:8px 12px;border-radius:7px;cursor:pointer;min-height:44px}
 main{max-width:1400px;margin:0 auto;
   padding:0 calc(14px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom))
           calc(14px + env(safe-area-inset-left))}
@@ -86,7 +86,7 @@ main{max-width:1400px;margin:0 auto;
   border:1px solid var(--line)}
 .stack i{display:block;height:100%;position:relative;min-width:2px}
 .stack i span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:#06090d}
+  font-size:12px;font-weight:700;color:#06090d}
 /* Dark ink on the red segment is 4.33:1; white is 4.6:1. */
 .stack i.o-neither span,.stack i.o-misread span{color:#fff}
 /* Five states, three populations. Green and amber are CHECKED AND RIGHT, red is
@@ -126,7 +126,7 @@ main{max-width:1400px;margin:0 auto;
 .prog .track{height:8px;background:var(--panel);border:1px solid var(--line);overflow:hidden}
 .prog .track i{display:block;height:100%;background:var(--acc);min-width:2px}
 .pre{background:#0b0f14;border:1px solid var(--line);padding:12px;margin-top:10px;
-  font:11.5px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
+  font:12px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;
   color:var(--dim);user-select:text;-webkit-user-select:text;max-height:52vh;overflow-y:auto}
 .big{font-size:52px;font-weight:800;line-height:1;letter-spacing:-1.5px}
 .big small{font-size:17px;font-weight:500;color:var(--dim);letter-spacing:0;margin-left:8px}
@@ -138,9 +138,9 @@ main{max-width:1400px;margin:0 auto;
 /* Sticky jump bar so the lower sections are reachable without scrolling the wall. */
 .jump{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
   background:var(--bg);border-bottom:1px solid var(--line);padding:8px 0;margin-bottom:4px}
-.jump .jlbl{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.jump .jlbl{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
 .jump button{appearance:none;background:var(--panel);border:1px solid var(--line);color:var(--ink);
-  font:inherit;font-size:12px;padding:6px 11px;border-radius:999px;cursor:pointer;white-space:nowrap;min-height:34px}
+  font:inherit;font-size:12.5px;padding:6px 11px;border-radius:999px;cursor:pointer;white-space:nowrap;min-height:44px}
 .jump button:hover{border-color:var(--dim)}
 .block{margin:26px 0 8px;border-top:1px solid var(--line);padding-top:18px}
 .blockh{font-size:16px;font-weight:750;margin:0 0 8px}
@@ -149,7 +149,7 @@ main{max-width:1400px;margin:0 auto;
   border-left:3px solid var(--dim);border-radius:10px;padding:12px;cursor:pointer;color:var(--ink);font:inherit}
 .excard.ok{border-left-color:#3fb950} .excard.miss{border-left-color:#d29922}
 .excard:hover{border-color:var(--dim)}
-.extag{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:4px}
+.extag{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:4px}
 .extag.ok{color:#3fb950} .extag.miss{color:#d29922}
 .extitle{font-weight:700;font-size:13.5px;margin-bottom:5px;line-height:1.3}
 .exbody{font-size:12.5px;color:var(--dim);line-height:1.5}
@@ -159,12 +159,12 @@ main{max-width:1400px;margin:0 auto;
 .cls{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
 .clsh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
 .clslab{font-size:12.5px;font-weight:650;color:var(--ink);min-width:0}
-.clsn{color:var(--dim);font-weight:500;font-size:11px}
-.clschip{flex:0 0 auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.clsn{color:var(--dim);font-weight:500;font-size:12px}
+.clschip{flex:0 0 auto;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
 .clschip.s{background:rgba(63,185,80,.16);color:#3fb950}
 .clschip.c{background:rgba(88,166,255,.16);color:#58a6ff}
 .clschip.t{background:#1b222c;color:var(--dim)}
-.clsbar{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:11.5px;color:var(--dim)}
+.clsbar{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:12px;color:var(--dim)}
 .cll{flex:0 0 84px}
 .ctrack{flex:1 1 auto;min-width:0;height:7px;background:#0b0f14;border:1px solid var(--line);border-radius:5px;overflow:hidden}
 .ctrack i{display:block;height:100%}
@@ -182,7 +182,7 @@ main{max-width:1400px;margin:0 auto;
   background:var(--bg);scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .bar::-webkit-scrollbar{display:none}
 .chip{white-space:nowrap;background:var(--panel);border:1px solid var(--line);color:var(--dim);
-  font:inherit;font-size:13px;padding:7px 12px;border-radius:20px;cursor:pointer;min-height:36px}
+  font:inherit;font-size:13px;padding:7px 12px;border-radius:20px;cursor:pointer;min-height:44px}
 .chip[aria-pressed=true]{border-color:var(--acc);color:var(--ink);background:#12233c}
 /* The count is dimmed by COLOUR, not opacity: opacity .65 over the chip put it at 3.25:1. */
 .chip i{font-style:normal;color:var(--dim);margin-left:5px}
@@ -190,7 +190,7 @@ main{max-width:1400px;margin:0 auto;
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
 input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(--line);
   color:var(--ink);font:inherit;font-size:16px;padding:6px 13px;border-radius:20px;
-  min-height:38px;min-width:0}
+  min-height:44px;min-width:0}
 
 /* the wall */
 .wall{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));
@@ -203,11 +203,11 @@ input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(-
 .t.o-exact::after{background:var(--exact)} .t.o-stereo::after{background:var(--stereo)}
 .t.o-wrong::after{background:var(--wrong)} .t.o-invalid::after{background:var(--invalid)}
 .t b{position:absolute;top:0;right:0;background:rgba(13,17,23,.88);color:#fff;
-  font-size:10px;font-weight:600;padding:2px 5px}
+  font-size:12px;font-weight:600;padding:1px 5px}
 .t em{position:absolute;top:0;left:0;background:rgba(13,17,23,.88);color:#fff;
-  font-size:10px;font-style:normal;font-weight:600;padding:2px 5px}
+  font-size:12px;font-style:normal;font-weight:600;padding:1px 5px}
 .t u{position:absolute;left:0;right:0;bottom:4px;background:rgba(13,17,23,.82);color:#fff;
-  font-size:9.5px;text-decoration:none;padding:2px 4px;white-space:nowrap;overflow:hidden;
+  font-size:12px;text-decoration:none;padding:1px 4px;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;display:block}
 .more{grid-column:1/-1;text-align:center;color:var(--dim);padding:18px;font-size:13px}
 
@@ -229,7 +229,7 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
   padding:12px 46px 10px 16px;flex:0 0 auto}
 .shead h3{margin:0 0 5px;font-size:17px;line-height:1.25;overflow-wrap:anywhere}
 .shead .meta{color:var(--dim);font-size:12.5px}
-.sclose{position:absolute;top:6px;right:6px;width:38px;height:38px;border:0;border-radius:3px;
+.sclose{position:absolute;top:3px;right:3px;width:44px;height:44px;border:0;border-radius:3px;
   background:none;color:var(--dim);font-size:22px;line-height:1;cursor:pointer}
 .sclose:hover{color:var(--ink);background:#0b0f14}
 .sheet{padding:14px 16px calc(18px + env(safe-area-inset-bottom));overflow-y:auto;
@@ -242,14 +242,14 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .pics1{grid-template-columns:1fr}
 .pics figure{margin:0;background:#fff;overflow:hidden}
 .pics img{width:100%;display:block;max-height:34dvh;object-fit:contain}
-.pics figcaption{background:var(--panel);color:var(--dim);font-size:11px;padding:4px 6px;text-align:center}
+.pics figcaption{background:var(--panel);color:var(--dim);font-size:12px;padding:4px 6px;text-align:center}
 .kv{margin-bottom:11px}
-.kv label{display:block;color:var(--dim);font-size:11.5px;text-transform:uppercase;
+.kv label{display:block;color:var(--dim);font-size:12px;text-transform:uppercase;
   letter-spacing:.5px;margin-bottom:4px}
 .kv code{display:block;background:#0b0f14;border:1px solid var(--line);border-radius:6px;
   padding:9px 10px;font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
   word-break:break-all;user-select:text;-webkit-user-select:text}
-.badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:20px;
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;
   text-transform:uppercase;letter-spacing:.4px}
 .badge.exact{background:#0f3d20;color:#4ade80} .badge.stereo{background:#3d3010;color:#fbbf24}
 .note{background:#0b0f14;border:1px solid var(--line);border-left:3px solid var(--acc);
@@ -263,8 +263,8 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .badge.noref{background:#2a323d;color:#cbd5e1}
 .badge.unreadable{background:#1b1f25;color:var(--dim)}
 .cxnote{margin:7px 0 0;font-size:12px;line-height:1.5;color:var(--dim)}
-.cxnote code{display:inline;background:#161b22;border:0;padding:1px 4px;font-size:11.5px}
-.cxnote b{color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+.cxnote code{display:inline;background:#161b22;border:0;padding:1px 4px;font-size:12px}
+.cxnote b{color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:12px}
 .kv label .dim{color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400}
 .meta .badge{margin-right:6px;margin-bottom:4px;display:inline-block}
 .badge.wrong{background:#4a1513;color:#f87171} .badge.invalid{background:#21262d;color:var(--dim)}
@@ -284,7 +284,13 @@ details{margin-top:34px;border-top:1px solid var(--line);padding-top:14px}
 details.docsfold{margin-top:14px;border-top:0;padding-top:0}
 details.docsfold .docs{max-height:60vh;overflow-y:auto}
 details.docsfold summary{color:var(--acc)}
-summary{cursor:pointer;color:var(--dim);font-size:14px;padding:8px 0;min-height:38px}
+summary{cursor:pointer;color:var(--dim);font-size:14px;padding:8px 0;min-height:44px;display:flex;align-items:center}
+/* A fold inside a section: the long version of a note, one tap away, without the section-level rule. */
+details.fold{margin-top:8px;border-top:0;padding-top:0}
+details.fold>summary{color:var(--acc);font-size:13.5px;list-style:none}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:"\25B8";display:inline-block;width:1.1em;color:var(--dim);transition:transform .15s}
+details.fold[open]>summary::before{transform:rotate(90deg)}
 table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:10px;display:block;
   overflow-x:auto;white-space:nowrap}
 th,td{text-align:left;padding:7px 11px;border-bottom:1px solid var(--line)}
@@ -416,7 +422,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   .cmp.three{gap:6px}
   .cmp.three .side{padding:11px 9px}
   .cmp.three .pc{font-size:27px}
-  .cmp.three .who{font-size:11px;letter-spacing:.3px}
+  .cmp.three .who{font-size:12px;letter-spacing:0}
 }
 /* Below ~360px three tabs plus a brand plus a button genuinely do not fit on one
    line at a legible size. Drop the wordmark rather than shrink the type further
@@ -871,9 +877,8 @@ function tqRender(sec, d){
   if (!A || !B){ sec.innerHTML = '<h2 class="blockh">How the readers work</h2><p class="sub">No reader data yet.</p>'; return; }
   var G = d.groups, h = [];
   h.push('<h2 class="blockh">How the readers work</h2>');
-  h.push('<p class="sub">Every tool call in the transcripts of ' + A.readers + ' Sonnet 5.5 readers (' + A.images
-    + ' images) and ' + B.readers + ' Sonnet 5 readers (' + B.images + ' images), classified by what it did. '
-    + 'Correlation, not causation: hard drawings pull in more of everything.</p>');
+  h.push('<p class="sub">Every tool call of ' + A.readers + ' Sonnet 5.5 readers (' + A.images + ' images) and ' + B.readers
+    + ' Sonnet 5 readers (' + B.images + ' images), classified. Correlation, not causation: hard drawings pull in more of everything.</p>');
   /* KPI pairs */
   var kpis = [
     ["Tool calls per image", tqN(A.calls_per_image), tqN(B.calls_per_image)],
@@ -882,17 +887,17 @@ function tqRender(sec, d){
     ["Output tokens per image, thinking included", Math.round(A.out_tok_per_image / 1000) + "k",
       Math.round(B.out_tok_per_image / 1000) + "k"],
     ["List-price cost per image", "$" + tqN(A.cost_per_image, 2), "$" + tqN(B.cost_per_image, 2)],
-    ["Read every image before any tool", tqPct(A.read_all_first_pct), tqPct(B.read_all_first_pct)]];
+    ["Read every image before any tool (ten-image readers)", tqPct(A.read_all_first_pct), tqPct(B.read_all_first_pct)]];
   h.push('<div class="tqkpi">' + kpis.map(function(k){
     return '<div><div class="l">' + esc(k[0]) + '</div><div class="v"><i class="m55"></i><b>' + k[1]
       + '</b>5.5</div><div class="v"><i class="m5"></i><b>' + k[2] + '</b>5</div></div>';
   }).join("") + '</div>');
   /* typical run */
-  h.push('<h3>What most runs do</h3><div class="tqtyp">'
+  h.push('<details class="fold"><summary>What most runs do, step by step</summary><div class="tqtyp">'
     + [[A, "m55", "Sonnet 5.5"], [B, "m5", "Sonnet 5"]].map(function(x){
       return '<div><h4><i class="' + x[1] + '"></i>' + x[2] + ', step by step</h4><ol>'
         + (x[0].typical || []).map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ol></div>';
-    }).join("") + '</div>');
+    }).join("") + '</div></details>');
   /* tool-call mix */
   var mixRows = [["s55c", "Sonnet 5.5"], ["s5", "Sonnet 5"], null, ["s55", "Sonnet 5.5"], ["s5r", "Sonnet 5 re-run"]];
   var mmax = 0;
@@ -948,6 +953,9 @@ function tqRender(sec, d){
   var P = d.paired, S5r = L.s5r, S55 = L.s55;
   var t5 = B.vs_exact, crop = t5[0].all, drawn = t5[2].all;
   h.push('<h3>Does technique go with accuracy?</h3>');
+  h.push('<div class="tqnote"><p><b>No: it goes with drawing size.</b> Sonnet 5 cropped its harder images and scored lower on them ('
+    + tqPct(crop.yes_pct) + ' vs ' + tqPct(crop.no_pct) + '); within a size band the gap mostly closes. 5.5 has ' + (A.images - A.exact) + ' misses in ' + A.images + ', no spread to explain.</p></div>');
+  h.push('<details class="fold"><summary>The numbers behind that</summary>');
   h.push('<div class="tqnote"><p><b>Sonnet 5:</b> images it cropped were exact ' + tqPct(crop.yes_pct) + ' of the time, '
     + 'images it did not ' + tqPct(crop.no_pct) + '; drawn back ' + tqPct(drawn.yes_pct) + ' against ' + tqPct(drawn.no_pct)
     + '. That is selection, not harm: the cropped images are bigger (median ' + crop.yes_ha + ' heavy atoms against '
@@ -970,7 +978,7 @@ function tqRender(sec, d){
       function cell(y, yn, n, nn, l){ return '<td class="num" data-l="' + l + '">' + tqPct(y) + ' vs ' + tqPct(n) + '<small>' + yn + '/' + nn + '</small></td>'; }
       return '<tr><td>' + esc(t.label) + '</td>' + cell(t.all.yes_pct, t.all.yes_n, t.all.no_pct, t.all.no_n, "All sizes")
         + t.bins.map(function(b, i){ var k = (d.size_bins[i] || {}).key; return cell(b.yes_pct, b.yes_n, b.no_pct, b.no_n, {small: "Under 25 atoms", medium: "25–44 atoms", large: "45+ atoms"}[k] || ""); }).join("") + '</tr>';
-    }).join("") + '</tbody></table></div>');
+    }).join("") + '</tbody></table></div></details>');
   /* per-reader table */
   h.push('<h3 id="tq-readers">Every reader</h3><p class="cap">Tap a reader for its step sequence. Sort by any column.</p>'
     + '<div class="rtools" id="tqLanes"></div><div class="rtwrap"><table class="rt" id="tqTable"></table></div>'
@@ -1172,10 +1180,11 @@ function render(){
   if (DATA.workflow){
     var w = DATA.workflow, ws = el("section", "block"); ws.id = "sec-workflow";
     ws.innerHTML = '<h2 class="blockh">How this arm works</h2><p class="sub">' + esc(w.intro) + '</p>'
+      + '<details class="fold"><summary>The tools it calls, and how it segments a drawing</summary>'
       + '<div class="noteh">The tools it calls</div><ul class="notelist">'
       + (w.tools || []).map(function(t){ return '<li><b>' + esc(t.t) + '</b> — ' + esc(t.d) + '</li>'; }).join("")
       + '</ul><div class="noteh">How it segments a drawing</div><ol class="notelist">'
-      + (w.steps || []).map(function(s){ return '<li>' + esc(s) + '</li>'; }).join("") + '</ol>';
+      + (w.steps || []).map(function(s){ return '<li>' + esc(s) + '</li>'; }).join("") + '</ol></details>';
     v.appendChild(ws);
   }
   if (DATA.examples && DATA.examples.length){
