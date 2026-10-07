@@ -1331,10 +1331,13 @@ document.addEventListener("selectstart", function(e){
 /* Raw images is the default: it is the cleaner measurement (one already-cropped
    depiction per image, no figure extraction to go wrong) and the bigger corpus.
    ?tab=pdfs still deep-links to the document run. */
-(function(){ var t = new URLSearchParams(location.search).get("tab");
+/* The first data fetch waits for window load: iOS Safari's progress bar waits on
+   every request begun before it. */
+function start(){ var t = new URLSearchParams(location.search).get("tab");
   var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" ? t : "images";
   load(first);
   var warm = function(){ ["images","pdfs","sonnet","sonnet55"].forEach(function(x){
     if (x !== first) fetchTab(x).catch(function(){}); }); };
-  fetchTab(first).then(warm, warm); })();
+  fetchTab(first).then(warm, warm); }
+if (document.readyState === "complete") start(); else window.addEventListener("load", start, {once: true});
 </script>
