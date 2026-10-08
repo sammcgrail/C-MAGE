@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Left end:** a biphenyl-2-yl group on a carbamate NH, written `O=C(Nc1ccccc1-c1ccccc1)O-`, with the carbamate oxygen on C4 of a piperidine.
+- **Linker:** the piperidine nitrogen carries a CH2CH2C(=O)NH chain that leads to the central benzene ring.
+- **Central benzene ring:** going round from the amide NH, the substituents are Cl, H, CH2NH, OMe, H.
+- **Right end:** the CH2NH continues to CH2–CH(OH), and that carbon is attached to C5 of an 8-hydroxy-quinolin-2(1H)-one.
+
+The only wedge is the OH on the CH(OH) carbon. Its priorities are OH > CH2N > aryl > H, with H pointing away from the viewer. The OH → CH2N → aryl sequence runs clockwise, so the centre is R. In the SMILES order I wrote (CH2, H, O, aryl), that corresponds to `[C@H]`.
+
+SMILES: O=C(Nc1ccccc1-c1ccccc1)OC1CCN(CC1)CCC(=O)Nc1cc(OC)c(CNC[C@H](O)c2ccc(O)c3[nH]c(=O)ccc23)cc1Cl

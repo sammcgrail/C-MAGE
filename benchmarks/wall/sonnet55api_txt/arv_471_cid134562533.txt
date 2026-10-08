@@ -1,0 +1,15 @@
+I read the structure region by region and wrote it as a single SMILES.
+
+**Fragments**
+- **Glutarimide:** a piperidine-2,6-dione attached through its C3 to the isoindolinone nitrogen. The bond to that nitrogen is hashed.
+- **Isoindolin-1-one:** it carries a piperazin-1-yl group on the benzo ring, para to the carbonyl-bearing ring carbon.
+- **Linker:** the piperazine's other nitrogen goes through a CH2 to C4 of a piperidine. That piperidine's nitrogen is bonded to a para-substituted phenyl ring.
+- **Tetralin:** the phenyl ring is bonded to C1 of a 1,2,3,4-tetrahydronaphthalene. C2 carries a phenyl group, and a hydroxyl sits at C6.
+
+**Stereochemistry**
+- **Glutarimide C3:** the hashed bond puts the nitrogen behind the plane. Working out the CIP priorities gives S, which corresponds to `[C@H]` in the SMILES order I wrote.
+- **Tetralin C1 and C2:** both substituents (the aryl at C1 and the phenyl at C2) are drawn as wedges, so both hydrogens point back. Working from the drawn geometry and my atom order, C1 is `[C@H]` and C2 is `[C@@H]`.
+
+I checked the ring closures and the position of the hydroxyl against the drawing. The OH-bearing carbon is two atoms from the carbon that bears the CH2 (C4a), as drawn.
+
+SMILES: O=C1CC[C@H](N2Cc3cc(N4CCN(CC5CCN(CC5)c5ccc(cc5)[C@H]6[C@@H](c7ccccc7)CCc8cc(O)ccc68)CC4)ccc3C2=O)C(=O)N1

@@ -1,0 +1,23 @@
+The drawing is an anthracenone skeleton: a central six-membered ring fused to two benzene rings, with a CH2 at the top and a C=O at the bottom. This is dithranol (anthralin).
+
+Reading the central ring: the top vertex is CH2, bonded to two aromatic fusion carbons. The bottom vertex is C=O, bonded to the other two fusion carbons. Each outer ring carries an OH on the carbon adjacent to the fusion carbon next to the carbonyl, so both OH groups sit at the peri positions beside the C=O (positions 1 and 8).
+
+I wrote the SMILES by starting at the carbonyl carbon and going around the left ring:
+
+O=C1c2c(O)cccc2Cc2cccc(O)c21
+
+Atom check:
+- C1 is the carbonyl carbon.
+- c2 is the left fusion carbon next to the carbonyl.
+- c(O) is the aromatic carbon bearing OH.
+- ccc are the three aromatic CH carbons.
+- c2 is the left fusion carbon next to the CH2, which closes the left aromatic ring.
+- C is the CH2.
+- The second c2 is the right fusion carbon next to the CH2, opening a new ring-closure 2.
+- ccc are the three right-ring CH carbons.
+- c(O) is the right aromatic carbon bearing OH.
+- c21 is the right fusion carbon next to the carbonyl; it closes ring 2 (the right aromatic ring) and ring 1 (the central ring back to the carbonyl).
+
+Each benzene ring has six carbons: fusion, C-OH, three CH and fusion. The SMILES is valid and matches the drawing.
+
+SMILES: O=C1c2c(O)cccc2Cc2cccc(O)c21

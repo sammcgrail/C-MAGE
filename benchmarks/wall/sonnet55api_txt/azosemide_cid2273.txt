@@ -1,0 +1,27 @@
+The drawing shows a benzene ring carrying four substituents, plus a thiophene and a tetrazole.
+
+**Benzene ring.** Going around the ring from the top left carbon:
+- The top left carbon bears the tetrazole.
+- The top right carbon is CH.
+- The right carbon bears the sulfonamide, S(=O)(=O)N.
+- The bottom right carbon bears Cl.
+- The bottom left carbon is CH.
+- The left carbon bears the NH.
+
+**Tetrazole.** The carbon is bonded to N (drawn with a double bond), which connects to NH, then to N, then to N, and back to the carbon. The double bonds are C=N (the bottom left N) and N=N (the top N to the right N). The NH sits between the bottom left N and the top N. This is a 2H-tetrazole written as c1nn[nH]n1.
+
+**Side chain.** The ring NH is bonded to CH2, which is bonded to thiophene C2. The thiophene is c1cccs1.
+
+**SMILES.** Written with the ring atoms in order:
+- c1(NCc2cccs2) is the ring carbon with the NH side chain.
+- c(c2nn[nH]n2) is the next ring carbon, bearing the tetrazole.
+- c is the CH.
+- c(S(N)(=O)=O) is the sulfonamide carbon.
+- c(Cl) is the chlorine carbon.
+- c1 is the final CH, which closes the ring.
+
+Result: NS(=O)(=O)c1cc(-c2nn[nH]n2)c(NCc2cccs2)cc1Cl
+
+Checking the ring order: S carbon, then CH, then the tetrazole carbon, then the NH carbon, then CH, then the Cl carbon, which closes back to the S carbon. This matches the drawing.
+
+SMILES: NS(=O)(=O)c1cc(-c2nn[nH]n2)c(NCc2cccs2)cc1Cl

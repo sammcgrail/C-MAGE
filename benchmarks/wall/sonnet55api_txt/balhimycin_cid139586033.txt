@@ -1,0 +1,12 @@
+I read the image as a vancomycin-type glycopeptide. It has a glucose on the central aromatic ring and a 4-amino-4,6-dimethyl-5-oxo-tetrahydropyranyl sugar on the left. I transcribed it region by region and could not run a SMILES parser, so validity rests on my manual check of ring closures and valences.
+
+- **Left sugar:** a ring O–CH(CH3)–C(=O)–C(CH3)(NH2)–CH2–CH(O–) unit. The methyl on the quaternary carbon is hashed, which gives `[C@]` as written. The anomeric carbon is drawn with plain bonds, so it gets no stereo label.
+- **Glucose:** attached through O to the central aromatic ring. The CH2OH (hashed) and the OH at C3 (hashed) are the only stereo-defined centres, giving `[C@H](CO)` and `[C@H](O)` in the SMILES.
+- **Aromatic rings:** two chlorinated rings, one central ring carrying the glucose O, and two lower rings carrying the phenol OH groups. The lower two rings are joined by an aryl–aryl bond.
+- **Peptide macrocycle:**
+  - The right-hand end carries the CH(OH) and an N-methyl-leucine unit (the NHMe/isobutyl side chain).
+  - A CH2C(=O)NH2 side chain (asparagine) sits in the middle.
+  - A free COOH is at the lower left.
+- **Other stereocentres:** the backbone CH carbons and the benzylic CH–O are drawn with plain bonds, so I left them without stereo labels.
+
+SMILES: O=C1C(C)OC(C[C@]1(C)N)OC2c3ccc(c(Cl)c3)Oc4c(OC9O[C@H](CO)C(O)[C@H](O)C9O)c(cc5c4)Oc6c(Cl)cc(cc6)C(O)C(NC(=O)C(NC)CC(C)C)C(=O)NC(CC(N)=O)C(=O)NC5C(=O)NC7c8ccc(O)c(c8)-c8c(O)cc(O)cc8C(C(=O)O)NC(=O)C2NC7=O

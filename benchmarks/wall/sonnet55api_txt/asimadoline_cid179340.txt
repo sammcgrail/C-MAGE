@@ -1,0 +1,14 @@
+Reading the drawing region by region gives the following structure.
+
+- **Amide:** an N-methyl amide, with the carbonyl carbon bonded to a CH that carries two phenyl groups (a diphenylacetyl group).
+- **Amide nitrogen:** it bears the methyl group and a stereogenic CH. That CH carries a phenyl group and a CH2 attached to the pyrrolidine nitrogen.
+- **Pyrrolidine:** a five-membered ring containing N, with an OH at the 3-position.
+
+Stereochemistry comes only from the two hashed bonds.
+
+- **CH(Ph)(N) carbon:** the hashed bond to the CH2 puts that CH2 behind the plane and the H toward the viewer. The priorities are N > CH2N > Ph > H. Tracing N → CH2 → Ph runs clockwise on the page, and reversing for the front-facing H gives S. In the SMILES this is written `[C@@H]`.
+- **Pyrrolidine C–OH carbon:** the hashed OH puts the H toward the viewer. The priorities are OH > C2 (next to N) > C4 > H. Tracing OH → C2 → C4 runs clockwise on the page, and reversing for the H gives S. In the SMILES this is written `[C@H]`.
+
+The diphenylmethyl carbon is drawn with plain bonds, so it gets no stereo label.
+
+SMILES: CN([C@@H](c1ccccc1)CN1CC[C@H](O)C1)C(=O)C(c1ccccc1)c1ccccc1

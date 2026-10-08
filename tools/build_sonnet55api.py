@@ -31,6 +31,7 @@ from api_reader import SMILES_RE, parse_smiles  # noqa: E402
 
 RUN = HERE.parent / "benchmarks" / "published_runs" / "sonnet55_api"
 LEDGER = RUN / "ledger.jsonl"
+RETRIES = RUN / "retries.jsonl"      # max_tokens follow-ups (tools/api_reader.py followups)
 PROMPTS = {"v1": RUN / "prompt.txt", "v2": RUN / "prompt_v2.txt"}   # row["prompt"] names one; absent = v1
 PROMPT_NOTE = {"v1": "answer line written as SMILES: <smiles>", "v2": "answer line shown as SMILES: CCO"}
 BUCKETS = [(0, 15, "up to 15"), (16, 30, "16-30"), (31, 50, "31-50"), (51, 80, "51-80"), (81, 10 ** 6, "81 or more")]
@@ -82,11 +83,19 @@ def build() -> int:
     for p in (img, pred, ocr, txt):
         p.mkdir(parents=True, exist_ok=True)
 
+    rets = {}
+    for x in load_jsonl(RETRIES):
+        rets.setdefault(x["k"], []).append(x)
     rows, failed = [], []
-    for r in led:
-        if r["status"] != "ok":
-            failed.append(r["k"])
+    for r0 in led:
+        if r0["status"] != "ok":
+            failed.append(r0["k"])
             continue
+        # A max_tokens reading is scored on its last retry that finished (else its last retry that
+        # landed at all); both attempts stay in the ledgers and the row says it was retried.
+        rr = [x for x in rets.get(r0["k"], []) if x["status"] == "ok"]
+        fin = [x for x in rr if x.get("stop_reason") != "max_tokens"]
+        r = fin[-1] if fin else rr[-1] if rr else r0
         # Parsed again from the stored reply, so a parser fix applies to every row the same way.
         k, s = r["k"], parse_smiles(r.get("text")) or ""
         last = SMILES_RE.findall(r.get("text") or "")
@@ -98,18 +107,30 @@ def build() -> int:
         think = (u.get("output_tokens_details") or {}).get("thinking_tokens")
         row = {"k": k, "n": r["name"], "v": v, "g": v, "c": None, "s": s, "t": r["truth"],
                "p": 1 if has else 0, "r": relate(s, r["truth"]),
-               "rc": round(r["cost_usd"], 4), "rt": r["latency_s"], "bn": 1,
+               "rc": round(r0["cost_usd"] + sum(x.get("cost_usd") or 0 for x in rets.get(r0["k"], [])), 4),
+               "rt": round(r0["latency_s"] + sum(x.get("latency_s") or 0 for x in rr), 1), "bn": 1,
+               "mt": r0.get("max_tokens", 16000), "stop0": r0.get("stop_reason"),
                "stop": r.get("stop_reason"), "otok": u.get("output_tokens"), "ttok": think,
                "itok": u.get("input_tokens"), "wrapped": 1 if wrapped else 0,
                "pv": r.get("prompt", "v1"), "ha": heavy(r["truth"])}
         # The full reply goes in its own file, fetched when the sheet's fold is opened: inline it
         # would put megabytes into the tab payload at corpus scale.
         tf = txt / f"{k}.txt"
-        if not tf.exists():
-            tf.write_text(r.get("text") or "")
+        body = r.get("text") or ""
+        if r is not r0:
+            body = (f"[Scored reply: the {r['kind']} retry at max_tokens {r['max_tokens']:,}. The first reading, at "
+                    f"max_tokens {row['mt']:,}, stopped on max_tokens; its visible text follows the scored reply.]\n\n"
+                    + body + "\n\n---- first reading (cut off at max_tokens) ----\n\n" + (r0.get("text") or ""))
+        if not tf.exists() or tf.read_text() != body:
+            tf.write_text(body)
         row["tx"] = 1
-        row["rnote"] = (f"one API call, no tools · stop_reason {row['stop']} · {row['itok']:,} in / "
-                        f"{row['otok']:,} out tokens" + (f" ({think:,} thinking)" if think else ""))
+        row["rnote"] = (f"no tools · max_tokens {row['mt']:,} · stop_reason {row['stop0']}"
+                        + (f" · then {' + '.join(x['kind'] for x in rets[k])} retry at "
+                           f"{rets[k][-1]['max_tokens']:,}, stop_reason {row['stop']}" if k in rets else "")
+                        + f" · {row['itok']:,} in / {row['otok']:,} out tokens"
+                        + (f" ({think:,} thinking)" if think else ""))
+        if k in rets:
+            row["rf"] = "retried (" + ", ".join(dict.fromkeys(x["kind"] for x in rets[k])) + ")"
         g = reg.get(k)
         if g:
             if g["truth"] != r["truth"]:
@@ -125,9 +146,19 @@ def build() -> int:
     n = len(rows)
     pct = lambda a, b: round(a / b * 100, 1) if b else 0.0
     ex = sum(1 for r in rows if r["v"] == "exact")
-    cost = sum(r.get("cost_usd") or 0 for r in led)
+    cost = sum(r.get("cost_usd") or 0 for r in led) + sum(x.get("cost_usd") or 0 for xs_ in rets.values() for x in xs_)
     lat = [r["rt"] for r in rows]
-    mt = sum(1 for r in rows if r["stop"] == "max_tokens")
+    mt = sum(1 for r in rows if r["stop0"] == "max_tokens")
+    retried = [r for r in rows if r.get("rf")]
+    rescued = sum(1 for r in retried if r["stop"] != "max_tokens")
+    rescued_ex = sum(1 for r in retried if r["stop"] != "max_tokens" and r["v"] == "exact")
+    by_b = {}
+    for r in rows:
+        by_b.setdefault(r["mt"], []).append(r)
+    bsplit = [{"label": f"max_tokens {b:,}", "n": len(rs), "pct": pct(sum(x["v"] == "exact" for x in rs), len(rs)),
+               "text": f"{sum(x['v'] == 'exact' for x in rs)} of {len(rs)}, "
+                       f"{sum(x['stop0'] == 'max_tokens' for x in rs)} ran out"} for b, rs in sorted(by_b.items())]
+    bline = "; ".join(f"{x['label']}: {x['n']} images" for x in bsplit)
     other_stop = sorted({r["stop"] for r in rows} - {"end_turn", "max_tokens"})
     no_line = sum(1 for r in rows if not r["s"])
     wrapped_n = sum(r["wrapped"] for r in rows)
@@ -172,6 +203,8 @@ def build() -> int:
                   + ("" if len(ov) == len(rs) else f" (API {sum(x['v'] == 'exact' for x in ov)} on those)"))
         hsplit.append({"label": f"{lab} heavy atoms", "n": len(rs), "pct": pct(e, len(rs)), "text": t})
     splits = [{"h": "Exact by size (heavy atoms in the reference)", "rows": hsplit}]
+    if len(bsplit) > 1:
+        splits.insert(0, {"h": "Exact by output budget (first attempt)", "rows": bsplit})
     if len(vsplit) > 1:
         splits.insert(0, {"h": "Exact by prompt version", "rows": vsplit})
     vline = "; ".join(f"{x['label']}: {x['n']} images, {x['pct']}% exact" for x in vsplit)
@@ -184,7 +217,8 @@ def build() -> int:
         {"label": "Images", "value": str(n), "sub": "first in manifest order" + (f", {len(failed)} failed" if failed else "")},
         {"label": "Total cost", "value": f"${cost:.2f}", "sub": f"${cost / n:.3f} per image"},
         {"label": "Avg latency", "value": f"{sum(lat) / n:.1f} s", "sub": f"max {max(lat):.0f} s"},
-        {"label": "Hit max_tokens", "value": str(mt), "sub": "of 16,000"},
+        {"label": "Hit max_tokens", "value": str(mt),
+         "sub": (f"{rescued} finished on retry, {rescued_ex} exact" if retried else "first attempts")},
     ]
     models = sorted({r.get("model") for r in led if r["status"] == "ok"})
     out = {
@@ -203,7 +237,12 @@ def build() -> int:
                 "Messages API call per image: the PNG as base64 and a fixed prompt (below). No tools, no "
                 "code, no second look, no shared context between images.",
                 "The answer is the last \"SMILES: ...\" line of the reply. Adaptive thinking at the API "
-                "default; max_tokens 16,000.",
+                "default. Output budget: max_tokens 16,000 for the first rows, 64,000 (streamed) from the "
+                "switch on; each row records its own.",
+                "A reading that runs out of output is retried and scored on the retry, flagged on its tile "
+                "(↻) and in its sheet: a row read at 16,000 is re-read once at 64,000; one that runs out at "
+                "64,000 gets one retry with an added instruction to commit to an answer after one careful "
+                "pass. Both attempts are kept and counted in the cost.",
                 "Scored exactly like the other Sonnet tabs: RDKit canonical SMILES against the PubChem "
                 "reference, exact / stereo-only / wrong / unparseable.",
             ]},
@@ -214,7 +253,9 @@ def build() -> int:
         "headline": ("One API call per image, no tools. Cost at Sonnet 5.5 list price ($2 / $10 per MTok)."
                      + (f" {wrapped_n} prompt-v1 answers came wrapped in <smiles> tags and were unwrapped before scoring."
                         if wrapped_n else "")),
-        "footer": (f"n={n}, the first {n} corpus images in manifest order. Prompt versions: {vline}. Exact {ex}/{n}; stereo only "
+        "footer": (f"n={n}, the first {n} corpus images in manifest order. Prompt versions: {vline}. Output budget per first attempt: {bline}"
+                   + (f"; {len(retried)} max_tokens rows retried, {rescued} finished, {rescued_ex} exact" if retried else "")
+                   + f". Exact {ex}/{n}; stereo only "
                    f"{cnt('stereo')}; wrong {cnt('wrong')}; unparseable or no SMILES line {cnt('invalid')}"
                    f" (no SMILES line: {no_line}). Stop reasons other than end_turn: max_tokens {mt}"
                    + (f", {', '.join(other_stop)}" if other_stop else "") + f". ${cost:.2f} in total."
@@ -227,7 +268,7 @@ def build() -> int:
     }
     OUT.write_text(json.dumps(out, separators=(",", ":")))
     print(f"wrote {OUT} ({OUT.stat().st_size / 1e3:.1f} KB): {n} rows, exact {ex}/{n}, ${cost:.4f}, "
-          f"max_tokens {mt}, failed {len(failed)}, unwrapped {wrapped_n} ({wrapped_raw_ex} of them exact)"
+          f"max_tokens {mt} (retried {len(retried)}, finished {rescued}, exact {rescued_ex}), failed {len(failed)}, unwrapped {wrapped_n} ({wrapped_raw_ex} of them exact)"
           + (f"; vs tools reader on {vs['n']}: API {vs['api']} reader {vs['reader']} "
              f"ahead {vs['ahead']} behind {vs['behind']} p={vs['p']}" if vs else "; no overlap"))
     return 0

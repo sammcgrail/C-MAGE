@@ -1,0 +1,23 @@
+I read the drawing as a gold(I) cation paired with a thiolate on a pyranose ring. This is the aurothioglucose pattern, with S⁻ at the anomeric carbon.
+
+**Connectivity**
+- The ring has five carbons and one oxygen.
+- The anomeric carbon (C1) carries S⁻, drawn as a wedge.
+- C2, C3 and C4 each carry an OH.
+- C5 carries a CH2OH group, drawn as a hash.
+- Au⁺ is a separate ion.
+
+**Stereochemistry**
+I assigned each centre from its wedge or hash, with the implicit H taking the opposite side.
+
+| Ring carbon | Substituent and bond | Tag in SMILES |
+|---|---|---|
+| C1 | S⁻ wedge | `[C@H]1` |
+| C5 | CH2OH hash | `[C@H](CO)` |
+| C4 | OH wedge | `[C@@H](O)` |
+| C3 | OH hash | `[C@H](O)` |
+| C2 | OH wedge | `[C@H]1O` |
+
+I derived these by hand from the 2D geometry, so the @/@@ assignments carry some risk of a slip.
+
+SMILES: [Au+].[S-][C@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O

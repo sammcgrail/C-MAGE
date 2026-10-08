@@ -1,0 +1,13 @@
+I read the drawing region by region and built the SMILES from that. I then worked out each stereocentre from its wedge or hash.
+
+**Fragments**
+- **Isoquinoline:** a 7-chloro-4-methoxyisoquinoline, attached through its C1 oxygen to the pyrrolidine. The ring atoms, from C4 round to C4a, are C4(OMe), C3(H), N2, C1(O–), C8a, C8(H), C7(Cl), C6, C5, C4a.
+- **Pyrrolidine:** a 4-aryloxy-proline. C4 (O on a wedge) is R and C2 (carboxamide on a hash) is S.
+- **Acyl group on the pyrrolidine nitrogen:** a tert-leucine residue (C(=O)–CH(tBu)–NH) whose nitrogen is Boc-protected. The hashed N bond makes this carbon S.
+- **Cyclopropane:** a 1-amino-2-vinylcyclopropane-1-carboxamide. The ring carbon bearing the proline NH (wedge) also carries C(=O)NH–SO2–cyclopropyl. The adjacent ring carbon bears a hashed vinyl group.
+
+I checked each stereocentre by writing out the neighbour order in the SMILES and comparing it with the drawn geometry.
+
+The structure matches asunaprevir.
+
+SMILES: COc1cnc(O[C@@H]2C[C@@H](C(=O)N[C@]3(C(=O)NS(=O)(=O)C4CC4)C[C@H]3C=C)N(C2)C(=O)[C@@H](NC(=O)OC(C)(C)C)C(C)(C)C)c2cc(Cl)ccc12

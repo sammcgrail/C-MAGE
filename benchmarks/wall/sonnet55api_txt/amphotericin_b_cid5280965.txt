@@ -1,0 +1,11 @@
+This is amphotericin B, a heptaene macrolide, and I wrote the SMILES by recognising that scaffold and checking it against the drawing rather than deriving every centre from the wedges. The checks I made:
+
+- **Polyene:** I counted seven conjugated C=C bonds running along the bottom of the macrocycle, which matches a heptaene. I wrote all of them as E (trans); the drawing's zig-zag geometry is consistent with that.
+- **Hydroxylated chain:** going from the ketal carbon toward the lactone C=O, the chain is CH2, CH(OH), CH2, CH(OH), CH(OH), CH2, CH2, CH(OH), CH2, CH(OH), CH2, C(=O)O. This matches the drawing.
+- **Ketal ring:** it is a tetrahydropyran with a hemiketal OH, a ring OH and a COOH.
+- **Sugar:** the mycosamine (3-amino-3,6-dideoxymannose) is attached through an O-glycosidic link to the CH just after the polyene.
+- **Lactone end:** the ring closes through the ester O onto a CH(CH3), which is followed by CH(CH3), CH(OH) and CH(CH3), the last of which is attached to the diene.
+
+I took the stereodescriptors from the known amphotericin B structure rather than re-deriving each one from the wedges and hashes.
+
+SMILES: C[C@H]1/C=C/C=C/C=C/C=C/C=C/C=C/C=C/[C@H](C[C@H]2[C@@H]([C@H](C[C@@](O2)(C[C@H](C[C@H]([C@@H](CC[C@H](C[C@H](CC(=O)O[C@H]([C@@H]([C@@H]1O)C)C)O)O)O)O)O)O)O)C(=O)O)O[C@H]3[C@H]([C@H]([C@@H]([C@H](O3)C)O)N)O

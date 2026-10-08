@@ -1,0 +1,26 @@
+This structure is azathioprine: a purine joined through a sulfur atom to a 1-methyl-4-nitroimidazole.
+
+**Purine part.** The six-membered ring has these atoms in order:
+- C6, the carbon attached to S, at (587, 712)
+- N1 at (578, 510), double-bonded to C6
+- C2 at (398, 420), single-bonded to N1
+- N3 at (230, 530), double-bonded to C2
+- C4 at (238, 730), single-bonded to N3
+- C5 at (418, 822), double-bonded to C4
+
+The five-membered ring continues from C5 to NH, then to C8 at (187, 1052), then to N at (100, 870), which bonds back to C4. The N–C8 bond is double, as drawn, and the NH is attached to C5.
+
+**Imidazole part.** The ring is N1(CH3)–C5(S)=C4(NO2)–N3=C2–N1. The carbon bearing S is double-bonded to the carbon bearing the nitro group. The nitro group is drawn as the charge-separated form, [N+](=O)[O-].
+
+**SMILES, written from the purine C6:**
+- C6: `c1(Sc2...)`
+- Purine written with explicit bond orders: `S(C1=NC=NC2=C1NC=N2)`
+- Imidazole: `C1=C([N+](=O)[O-])N=CN1C`
+
+Putting the two together:
+
+`Cn1cnc([N+](=O)[O-])c1Sc1ncnc2nc[nH]c12`
+
+Check on the aromatic purine: C6 is `c1`, N1 is `n`, C2 is `c`, N3 is `n`, C4 is `c2`, then N9 is `n`, C8 is `c`, N7 is `[nH]`, and C5 is `c12`. C4 is bonded to the plain N, and C5 is bonded to the NH, which matches the drawing.
+
+SMILES: Cn1cnc([N+](=O)[O-])c1Sc1ncnc2nc[nH]c12

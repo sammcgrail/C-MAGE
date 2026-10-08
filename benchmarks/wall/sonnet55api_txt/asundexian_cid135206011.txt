@@ -1,0 +1,9 @@
+I read the drawing region by region and wrote it as one SMILES string.
+
+- **Side chain:** An ethyl group sits on a stereocentre drawn with a wedge. That carbon also carries the pyridone nitrogen and a C(=O)NH amide.
+- **Pyridone ring:** A 2-pyridone with the ring nitrogen on the stereocentre, a C=O next to that nitrogen, and an OMe on the carbon adjacent to the ring CH next to the nitrogen. The carbon between the OMe carbon and the CH next to the C=O carries an aryl group.
+- **Aryl group:** A chlorophenyl ring, with Cl para to the pyridone attachment point. The carbon ortho to that attachment is bonded to N1 of a 1,2,3-triazole. The triazole carries CF3 at C4.
+- **Anilide ring:** The amide NH is bonded to a benzene ring that carries a primary carboxamide (C(N)=O). A fluorine sits ortho to the carboxamide, which makes it meta to the NH.
+- **Stereochemistry:** The wedged ethyl bond points toward the viewer, so the implicit H points away. Viewed with H at the back, the order ethyl → N → C(=O) runs counterclockwise. For the neighbour order written in the SMILES (ethyl, H, N, C(=O)), this gives `[C@H]`.
+
+SMILES: CC[C@H](n1cc(OC)c(cc1=O)-c1cc(Cl)ccc1-n1cc(C(F)(F)F)nn1)C(=O)Nc1ccc(C(N)=O)c(F)c1

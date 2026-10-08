@@ -1,0 +1,13 @@
+The drawing is arsphenamine (Salvarsan) as the dihydrochloride, with two HCl shown as separate components.
+
+Each of the two benzene rings carries an NH2, an OH and an As substituent. Going around the left ring: the carbon bonded to As is attached to a CH, then the carbon bearing NH2, then the carbon bearing OH, then two more CH carbons. The NH2 and OH are therefore adjacent, and As sits para to OH and meta to NH2. The right ring has the same pattern.
+
+The two As atoms are joined by a double bond (As=As), and each As is bonded to one ring.
+
+SMILES for one ring: c1cc(O)c(N)cc1[As]=[As]c1ccc(O)c(N)c1
+
+Checking the left ring: the ring carbon bonded to As (call it C1) connects to CH (C2), then the carbon with NH2 (C3), then the carbon with OH (C4), then CH (C5), then CH (C6), which closes back to C1. In the SMILES `c1cc(O)c(N)cc1[As]` the order is c1, c, c(O), c(N), c, c1. This puts O on the third atom and N on the fourth, and the As-bearing carbon is the last ring atom, adjacent to c1. The As carbon is therefore bonded to the first atom (CH) and the fifth atom (CH), so the order from As is CH, CH(N side)… Rewriting from the As carbon is cleaner: `[As]c1ccc(O)c(N)c1`, which gives C1, CH, CH, C(OH), C(NH2), CH. Here OH is para to As and NH2 is meta, which matches the drawing.
+
+The full SMILES, written with the same pattern on both sides and the two HCl, is:
+
+SMILES: Cl.Cl.Nc1cc(ccc1O)[As]=[As]c1ccc(O)c(N)c1

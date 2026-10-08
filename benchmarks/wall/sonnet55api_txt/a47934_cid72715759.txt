@@ -1,3 +1,28 @@
+[Scored reply: the budget retry at max_tokens 64,000. The first reading, at max_tokens 16,000, stopped on max_tokens; its visible text follows the scored reply.]
+
+I read this as a sulfated, chlorinated glycopeptide-type macrocycle, and wrote the SMILES by tracing each ring and linker in the drawing. I did not run it through a parser. The atom-by-atom checks below were done by hand.
+
+**Rings and substituents**
+- **Ring A (top left):** an aryl ring bearing the O‑sulfate (OS(=O)(=O)O). It is attached to the CH(NH2) carbon and carries a diaryl ether oxygen to ring B.
+- **Ring B:** a meta-substituted ring bearing one OH, linked to ring A through the ether oxygen and to a CH carbon.
+- **Ring C (bottom left):** a chlorinated ring attached to a CH2 and to an ether oxygen leading to ring D.
+- **Ring D:** a ring bearing an OH, with ether oxygens to ring C and ring E.
+- **Ring E:** a chlorinated ring attached to the CH(OH) carbon.
+- **Ring F (top right):** a ring bearing two OH groups and the CH(COOH) carbon, joined by a biaryl bond to ring G.
+- **Ring G:** a ring bearing one OH and one Cl, attached to a CH carbon.
+
+**Linkages**
+- Six amide bonds join the residues around the macrocycles.
+- Ring G is joined to ring F by a biaryl bond.
+
+**Stereochemistry**
+- I took the stereo from the wedges and hashes at eight centres: CH(NH2), the CH next to the CH2, the CH next to ring B, the CH next to ring D, the CH next to ring G, the CH attached to the C=O/NH pair, CH(OH), and CH(COOH).
+- At the CH next to the C=O (the sixth centre), the H wedge overlaps the carbonyl carbon in the drawing. I assigned that centre assuming the H points toward the viewer.
+
+SMILES: OS(=O)(=O)Oc1ccc2cc1Oc1cc(O)cc(c1)[C@H](NC(=O)[C@H](Cc1ccc(c(Cl)c1)O%10)NC(=O)[C@@H]2N)C(=O)N[C@@H]8c5cc%10c(O)c(Oc6ccc(cc6Cl)[C@@H](O)[C@@H]9NC(=O)[C@H](NC8=O)c%11cc(-c%13c(O)cc(O)cc%13[C@H](C(=O)O)NC9=O)c(O)c(Cl)c%11)c5
+
+---- first reading (cut off at max_tokens) ----
+
 I read the drawing as a sulfated, chlorinated, cross-linked heptapeptide (a vancomycin-type glycopeptide aglycone) and wrote it residue by residue along the peptide backbone.
 
 **Backbone and residues (N- to C-terminus)**
