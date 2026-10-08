@@ -1,0 +1,30 @@
+The drawing shows an antimony(III) bis-catecholate complex, essentially stibophen: five sulfonate groups, five Na+ ions and six waters. I read it as follows.
+
+**Components**
+- Na+ appears three times at the top, plus two more at the right ("Na+Na+"), giving 5 Na+.
+- H2O appears 6 times.
+- Charges: five sulfonates (5−) plus one phenolate O− (1−) gives 6−, against 5 Na+. The Sb centre must therefore carry the balancing +1 charge in the intended formula, but as drawn Sb is neutral with no charge label. I follow the drawing and leave Sb uncharged.
+
+**Right-hand ring (catechol bound to Sb through two O atoms)**
+- Sb is bonded to O (top), O (bottom) and the O on the left ring.
+- The ring atoms, with the two Sb-bound oxygens on adjacent carbons:
+  - c1: carries O (top), fused
+  - c2: carries O (bottom), fused
+  - c3: CH
+  - c4: C(SO3−)
+  - c5: CH
+  - c6: C(SO3−), attached to c1
+- Written as SMILES: O1[Sb]...Oc2cc(S(=O)(=O)[O-])cc(S(=O)(=O)[O-])c12
+
+**Left ring**
+- A phenolate carbon bears O−, with a sulfonate on the adjacent carbon.
+- The next carbon bears the O–Sb link.
+- The ring then continues through a CH, a carbon with a sulfonate, and a CH.
+- Written as SMILES: c1(O[Sb])c([O-])c(S(=O)(=O)[O-])cc(S(=O)(=O)[O-])c1
+
+**Assembled SMILES**
+[Na+].[Na+].[Na+].[Na+].[Na+].O.O.O.O.O.O.[O-]c1c(S(=O)(=O)[O-])cc(S(=O)(=O)[O-])cc1O[Sb]1Oc2cc(S(=O)(=O)[O-])cc(S(=O)(=O)[O-])c2O1
+
+Checking the left ring in this string: c1([O-]) is bonded to c(SO3) and to c1(O–Sb) at ring closure. The sequence is C(O−), C(SO3), CH, C(SO3), CH, C(OSb), which is 6 carbons, so the ring is consistent.
+
+SMILES: [Na+].[Na+].[Na+].[Na+].[Na+].O.O.O.O.O.O.[O-]c1c(S(=O)(=O)[O-])cc(S(=O)(=O)[O-])cc1O[Sb]1Oc2cc(S(=O)(=O)[O-])cc(S(=O)(=O)[O-])c2O1
