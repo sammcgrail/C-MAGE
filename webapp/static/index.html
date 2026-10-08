@@ -553,6 +553,7 @@ function tile(r){
     + encodeURIComponent(r.k) + '.png" alt="">'
     + (r.c != null ? "<b>" + r.c + "</b>" : "")
     + (r.dup > 1 ? '<em>&times;' + r.dup + '</em>' : "")
+    + (r.rf ? '<em title="' + esc(r.rf) + '">&#8635;</em>' : "")
     + "<u>" + esc(r.n) + "</u>";
   var im = b.firstChild;
   if (im.complete) prefetchPred(r);
@@ -654,6 +655,7 @@ function openSheet(r){
     + '<div class="meta">' + badge(meLabel, v)
     + (twoReaders ? " " + badge("CXMolScribe", ocrState) : "")
     + (s5State ? " " + badge("Sonnet 5", s5State) : "")
+    + (r.rf ? ' <span class="badge noref">' + esc(r.rf) + '</span>' : "")
     + (r.alt ? " " + badge(DATA.altShort || "Other reader", {exact:"matched", stereo:"stereo", invalid:"unreadable"}[r.alt.v] || "misread") : "")
     + (r.d ? '<div style="margin-top:6px">' + esc(r.d)
         + (r.dup > 1 ? ' &middot; drawn ' + r.dup + ' times in this document' : '') + '</div>' : '')
