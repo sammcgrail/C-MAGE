@@ -1,0 +1,19 @@
+I read the molecule as a [2.2]paracyclophane core carrying two identical arms, one on each benzene ring.
+
+**Core.** The two benzene rings are joined by two CH2–CH2 bridges, one at the top and one at the bottom of the drawing. Each ring also carries a benzimidazole substituent next to one of its bridgehead carbons.
+
+**Each arm.**
+- The benzimidazole is attached through its 6-position, with N1 as the NH.
+- Its C2 is bonded to C2 of an octahydroindole (a cis-fused cyclohexane–pyrrolidine, both ring-fusion hydrogens drawn as wedges or both as hashes).
+- The octahydroindole nitrogen is acylated by an L-valine unit whose amine is capped as a methyl carbamate (NHC(=O)OMe).
+
+**Stereochemistry.** I assigned each centre from the wedges and hashes, and both arms come out with the same configuration:
+- The octahydroindole C2 is S.
+- The two ring-fusion carbons carry cis hydrogens.
+- The valine α-carbon is S, as in L-valine.
+
+That is why the same arm SMILES is used twice.
+
+**SMILES check.** I assembled the string as `core(ArL)(ArR)`, using different ring-closure digits for the core and the arms so they do not clash. Atom counts and ring closures agree with the drawing.
+
+SMILES: c1c(c4cc5[nH]c([C@@H]6C[C@@H]7CCCC[C@@H]7N6C(=O)[C@@H](NC(=O)OC)C(C)C)nc5cc4)c2ccc1CCc3c(c4cc5[nH]c([C@@H]6C[C@@H]7CCCC[C@@H]7N6C(=O)[C@@H](NC(=O)OC)C(C)C)nc5cc4)cc(CC2)cc3

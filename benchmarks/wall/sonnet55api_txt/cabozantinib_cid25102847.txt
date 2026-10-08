@@ -1,0 +1,13 @@
+The drawing shows cabozantinib-like connectivity, built from these pieces:
+
+- **Quinoline core:** 6,7-dimethoxyquinoline, with the ring N at the top. The 4-position carries an O linking to a para-substituted benzene.
+- **Central benzene:** para-disubstituted, with the quinolinyl ether O on one side and an NH on the other.
+- **Linker:** that NH is bonded to a C(=O) on a cyclopropane carbon. The same cyclopropane carbon carries a second C(=O)NH group leading to a 4-fluorophenyl ring.
+
+Writing the SMILES from the quinoline outward:
+
+COc1cc2nccc(Oc3ccc(NC(=O)C4(CC4)C(=O)Nc4ccc(F)cc4)cc3)c2cc1OC
+
+Check on the quinoline: the N-bearing ring is n–c–c–c(O)–c2 (the fused carbon)–…–c2 (the other fused carbon, bonded to N). In my SMILES, `c2nccc(O...)c2` closes the ring correctly. The benzo ring's CH next to the N-bearing fused carbon (the carbon at about (285,657)) is bonded to the C-OMe at about (228,743). The other OMe carbon at about (273,837) is bonded to the CH at about (378,843), which is bonded to the fused C4a. So the order is COc1cc2nccc(OAr)c2cc1OC, as written.
+
+SMILES: COc1cc2nccc(Oc3ccc(NC(=O)C4(CC4)C(=O)Nc4ccc(F)cc4)cc3)c2cc1OC

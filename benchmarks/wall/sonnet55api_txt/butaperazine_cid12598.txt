@@ -1,0 +1,23 @@
+The structure is a phenothiazine core with a butanoyl group (CCCC(=O)–) on one benzo ring and a 3-(4-methylpiperazin-1-yl)propyl chain on the ring nitrogen. This matches butaperazine.
+
+**Butanoyl group.** The chain runs CH3–CH2–CH2–C(=O), and the carbonyl carbon is attached to an aromatic carbon.
+
+**Substituted ring.** The carbonyl-bearing aromatic carbon sits at about (290, 747). Its neighbours are the carbon at (425, 747), which bonds to the carbon at (488, 863) next to N, and the carbon at (222, 860). From there the ring continues to (290, 977) and then to (421, 979), which bonds to S.
+
+So the ring is C(acyl), CH, C(N), C(S), CH, CH. The acyl carbon is therefore meta to the N-bearing carbon and para to the S-bearing carbon.
+
+**Check of the acyl position.** The ring atoms in order are:
+- a1: C(acyl)
+- a2: CH at (425, 747)
+- a3: C–N at (488, 863)
+- a4: C–S at (421, 979)
+- a5: CH at (290, 977)
+- a6: CH at (222, 860)
+
+The acyl carbon a1 is separated from a4 (C–S) by a2 and a3 on one side and by a6 and a5 on the other, so it is para to the C–S carbon.
+
+**SMILES.** Written starting from the acyl carbon: CCCC(=O)c1ccc2Sc3ccccc3N(CCCN4CCN(C)CC4)c2c1
+
+Reading the ring closures: c1 (acyl carbon), c (a6), c (a5), c2 (a4, bonded to S), then S, the second benzo ring c3ccccc3, then N bearing the side chain, then c2 (a3), then c1 (a2). This gives the correct pattern.
+
+SMILES: CCCC(=O)c1ccc2Sc3ccccc3N(CCCN4CCN(C)CC4)c2c1

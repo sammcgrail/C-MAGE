@@ -1,0 +1,17 @@
+This structure is caffeine, a xanthine core with three N-methyl groups.
+
+Reading the drawing atom by atom:
+- Six-membered ring: N (top left, bearing a methyl), C(=O) on the left, N (bottom, bearing a methyl), C(=O) at the bottom right, then the two fused carbons.
+- Five-membered ring: the fused carbon attached to the top N is double-bonded to the other fused carbon. The top fused carbon also bonds to the ring N= (top right), which is double-bonded to CH. That CH bonds to N (right, bearing a methyl), which bonds back to the second fused carbon.
+
+SMILES: Cn1c(=O)c2c(ncn2C)n(C)c1=O
+
+Checking this string against the drawing:
+- n1 is the bottom N-methyl, followed by c(=O), the bottom-right carbonyl.
+- c2 is the fused carbon attached to the right N-methyl.
+- c(...) is the fused carbon attached to the top N-methyl, and it carries the branch n c n2C. Here n is the ring N, c is the CH, and n2C is the right N-methyl closing ring 2 onto the first fused carbon.
+- n(C) is the top N-methyl, and c1=O is the left carbonyl, which closes ring 1 to the bottom N.
+
+Everything matches the picture.
+
+SMILES: Cn1c(=O)c2c(ncn2C)n(C)c1=O

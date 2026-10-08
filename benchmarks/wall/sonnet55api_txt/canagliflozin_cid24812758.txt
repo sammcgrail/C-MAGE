@@ -1,0 +1,16 @@
+The molecule is canagliflozin, a C-aryl glucoside, and I read it from the drawing in three parts.
+
+- **Fluorophenyl and thiophene:** a 4-fluorophenyl ring (F at the top left) is bonded to C2 of a thiophene. C5 of the thiophene carries a CH2 linker.
+- **Central aryl ring:** the CH2 links to a benzene ring that also carries a methyl group on the adjacent carbon. The ring's third substituent is the sugar, para to the methyl carbon's neighbour as drawn.
+- **Sugar ring:** a pyranose ring (five carbons and one ring oxygen) is attached through its anomeric carbon to the aryl ring. It carries three OH groups and one CH2OH.
+
+I assigned the stereochemistry from the wedges and hashes, taking each ring carbon in turn and checking the neighbour order in the SMILES:
+
+- The anomeric carbon has a hashed bond to the aryl ring.
+- The ring carbon bearing CH2OH has a hashed CH2OH bond.
+- The two OH groups next to the anomeric carbon and the ring CH2OH carbon are wedged.
+- The OH on the middle carbon is hashed.
+
+This gives the SMILES below. It matches the known canagliflozin stereochemistry as I recall it.
+
+SMILES: Cc1ccc(cc1Cc1ccc(s1)-c1ccc(F)cc1)[C@@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O

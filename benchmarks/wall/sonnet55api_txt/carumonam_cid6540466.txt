@@ -1,0 +1,9 @@
+I read the structure region by region and assembled the SMILES below.
+
+- **Oxime side chain:** a carboxymethyl group (HOOC–CH2–O–) is attached to the oxime nitrogen, which is double-bonded to a carbon (N=C).
+- **Thiazole:** the oxime carbon carries a 2-aminothiazol-4-yl ring and an amide carbonyl, C(=O)–NH.
+- **Oxime geometry:** from the drawn coordinates, the oxime oxygen lies on the opposite side of the C=N bond from the thiazole. I encoded this as `O/N=C(/c1...)`.
+- **β-lactam ring:** a four-membered ring with a carbonyl carbon, a ring nitrogen bearing SO3H, and two CH carbons. The amide NH is on one CH (hashed bond) and a CH2–O–C(=O)NH2 carbamate is on the other (hashed bond).
+- **Ring stereocentres:** working out the chirality from the hashed bonds and the implicit hydrogens gave `@@` for both CH carbons as written in the SMILES.
+
+SMILES: OC(=O)CO/N=C(/c1csc(N)n1)C(=O)N[C@@H]1C(=O)N(S(=O)(=O)O)[C@@H]1COC(N)=O

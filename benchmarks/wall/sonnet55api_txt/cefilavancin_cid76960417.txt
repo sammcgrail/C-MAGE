@@ -1,0 +1,16 @@
+I did not read every stereocentre off the image independently. For the vancomycin core I relied on my recollection of vancomycin's isomeric SMILES, so those centres are unchecked against the drawing.
+
+The molecule is a vancomycin–cephalosporin conjugate with three parts:
+
+- **Vancomycin aglycone and disaccharide.** This is the glycopeptide core with its vancosamine–glucose disaccharide, the N-methylleucine at the N-terminus, and the Asn side chain.
+- **Linker.** The C-terminal carboxylic acid is converted to an amide, –C(=O)NH–CH2CH2CH2–O–N=, which carries the oxime.
+- **Cephalosporin.** The oxime carbon bears a 2-amino-5-chlorothiazol-4-yl group and a C(=O)NH group on C7 of the cephem. The cephem has a pyridinium-methyl group at C3 and a carboxylate at C4.
+
+Stereochemistry that I worked out from the drawing:
+
+- **Oxime geometry.** From the bond directions, the O–N oxygen sits on the same side as the C(=O)N group and opposite the thiazole. I wrote this as `O/N=C(/thiazole)`, which places the oxygen and thiazole trans.
+- **Cephem centres.** I mapped the C6 and C7 configurations from the cefotaxime SMILES onto my atom ordering.
+
+I checked ring-closure labels and valences by hand, but I did not run the SMILES through a parser.
+
+SMILES: C[C@H]1[C@H]([C@@](C[C@@H](O1)O[C@H]2[C@H]([C@@H]([C@H](O[C@H]2OC3=C4C=C5C=C3OC6=C(C=C(C=C6)[C@H]([C@H](C(=O)N[C@H](C(=O)N[C@H]5C(=O)N[C@@H]7C8=CC(=C(C=C8)O)C9=C(C=C(C=C9O)O)[C@H](NC(=O)[C@H]([C@@H](C1=CC(=C(O4)C=C1)Cl)O)NC7=O)C(=O)NCCCO/N=C(/c%10nc(N)sc%10Cl)C(=O)N[C@@H]%11C(=O)N%12C(C(=O)[O-])=C(C[n+]%13ccccc%13)CS[C@H]%11%12)CC(=O)N)NC(=O)[C@@H](CC(C)C)NC)O)Cl)CO)O)O)(C)N)O

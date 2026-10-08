@@ -1,0 +1,30 @@
+This is a triarylmethane dye, a sodium salt with two sulfonate groups and one iminium cation.
+
+**Central carbon.** It is double-bonded to a ring carbon of the upper quinoid ring and single-bonded to two aryl groups: a para-phenylene bearing NH-C6H4-OEt, and a tolyl ring bearing the amine.
+
+**Quinoid ring (top).** Starting from the carbon double-bonded to the central carbon, the ring runs C(=N+) … as follows:
+- C1 is attached to the central carbon (C1=C central).
+- C2 carries the methyl group (the "C(C)" at the left of the ring).
+- C3 is CH, double-bonded to C2.
+- C4 is C(=N+).
+- C5 and C6 are CH=CH.
+
+The ring SMILES is C1(=C(central))C(C)=CC(=[N+](CC)Cc2cccc(S(=O)(=O)[O-])c2)C=C1.
+
+**Iminium nitrogen.** It carries an ethyl group and a benzyl group whose ring has the sulfonate at the meta position.
+
+**Lower tolyl ring.** The central carbon attaches at C1. The ortho carbon carries the methyl, and the carbon para to C1 carries the N(Et)(CH2-C6H4-SO3-) group.
+- Ring atoms: c1(C central) c(C) c c(N...) c c1.
+- Reading the drawing: C1 at (815,1040) is attached to the central carbon, and C2 at (903,1010) carries the methyl. C3 at (968,1070) is CH, and C4 at (953,1158) bears N. C5 at (868,1187) and C6 at (800,1127) are CH. So the methyl is ortho to C1 and the N is para to C1, which is consistent.
+
+**Left arm.** The para-phenylene ring is attached to NH, which is attached to a C6H4 ring bearing OEt at the para position.
+
+**Assembled SMILES:**
+
+[Na+].CCOc1ccc(Nc2ccc(cc2)C(=C2C=CC(=[N+](CC)Cc3cccc(c3)S(=O)(=O)[O-])C=C2C)c2ccc(N(CC)Cc3cccc(c3)S(=O)(=O)[O-])cc2C)cc1
+
+Check on the quinoid ring: C2 (=C central) is followed by C=CC(=N+)C=C2C. The ring atoms are C1(=central), C=C, C(=N+), C=C2(C), which gives 6 atoms. The methyl-bearing carbon is adjacent to C1, and the ring bonds around it are C(=N+)–C=C(C)–C1. In the drawing, C2(methyl)=C3H, C3 is bonded to C4(=N+), and C5=C6 are the other side. This matches the form C1(=central) C(C)=C C(=N+) C=C1, so I write it that way:
+
+C(=C1C(C)=CC(=[N+](CC)Cc3cccc(c3)S(=O)(=O)[O-])C=C1)
+
+SMILES: [Na+].CCOc1ccc(Nc2ccc(cc2)C(=C2C(C)=CC(=[N+](CC)Cc3cccc(c3)S(=O)(=O)[O-])C=C2)c2ccc(N(CC)Cc3cccc(c3)S(=O)(=O)[O-])cc2C)cc1

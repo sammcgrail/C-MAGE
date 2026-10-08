@@ -1,0 +1,9 @@
+The structure is cefotaxime, a cephalosporin, and I wrote the SMILES from the drawing region by region.
+
+- **Bicyclic core:** a β-lactam (C=O at the top) is fused to a six-membered dihydrothiazine ring containing S. The ring N carries a carboxylic acid on the adjacent alkene carbon.
+- **C3 side chain:** the other alkene carbon bears CH2–O–C(=O)CH3, an acetoxymethyl group.
+- **C7 side chain:** an NH–C(=O) amide leads to a C(=N–OCH3) carbon, which is attached to a 2-aminothiazol-4-yl ring.
+- **Ring stereocentres:** the wedge on the C7 amide N and the hashed H on C6 fix the two ring stereocentres. I took them to be the natural (6R,7R) cephalosporin configuration and used the standard cefotaxime SMILES for that, rather than assigning each @/@@ independently from the picture.
+- **Oxime geometry:** the OMe oxygen lies on the same side of the C=N bond as the amide carbonyl carbon. That carbon has higher CIP priority than the thiazole carbon, so the oxime is Z, and the SMILES encodes this with `/C(=N\OC)/`.
+
+SMILES: CC(=O)OCC1=C(N2[C@@H]([C@@H](C2=O)NC(=O)/C(=N\OC)/C3=CSC(=N3)N)SC1)C(=O)O

@@ -1,0 +1,20 @@
+This is the structure of capmatinib-like compound (imidazo[1,2-b][1,2,4]triazine core with a quinolin-6-ylmethyl group), and I read it region by region from the drawing.
+
+**Left side.** A methyl group is attached to an NH, which is attached to a C(=O). That carbonyl carbon is bonded to a benzene ring. The ring carbon next to the amide-bearing carbon carries F (ortho to the amide). The ring carbon para to the amide carries the bicyclic heteroaryl group.
+
+**Central bicycle.** I read the atoms as follows:
+- C2 is the carbon attached to the benzene ring.
+- N1 is bonded to C2 and to the bridgehead N.
+- The bridgehead N is also bonded to C(a), which carries the CH2 substituent.
+- C(a)=CH–N=C(bridge) completes the five-membered ring. The ring atoms are bridgehead N, C(a), CH, N, and the bridging carbon.
+- The bridging carbon is bonded to the N of the six-membered ring.
+- The six-membered ring runs: bridgehead N, N, C2, CH, N, bridging carbon.
+
+**Right side.** The CH2 links C(a) to quinoline position 6. In the drawing the CH2 attaches to a benzo-ring carbon that is one carbon removed from the ring-fusion carbon, which gives the 6-position.
+
+**SMILES.** Writing the connectivity out:
+CNC(=O)c1ccc(cc1F)-c1cnc2ncc(Cc3ccc4ncccc4c3)n2n1
+
+Check of the bicycle in this SMILES: c1 (C2) – c (CH) – n – c2 (bridge) – n – c – c(CH2Ar) – n2 (bridgehead) – n1. The ring-2 closure runs from the bridging carbon to the bridgehead N, and ring 1 closes from the bridgehead N's neighbour N back to C2. This gives five-membered ring atoms c2, n, c, c, n2, and six-membered ring atoms c1, c, n, c2, n2, n1, matching the drawing.
+
+SMILES: CNC(=O)c1ccc(cc1F)-c1cnc2ncc(Cc3ccc4ncccc4c3)n2n1
