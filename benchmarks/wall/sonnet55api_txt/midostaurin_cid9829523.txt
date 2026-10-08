@@ -1,0 +1,18 @@
+The drawing is midostaurin (PKC412), a staurosporine analogue with an N-benzoyl-N-methylamino group on the sugar ring. I read the structure in three parts and set the stereochemistry from the wedges and hashes.
+
+**Structure read from the drawing**
+- The core is an indolocarbazole. Two indole units are fused to a central benzene ring, which also carries a lactam (CH2–NH–C=O).
+- Both indole nitrogens are bridged to a seven-membered sugar-type ring. One nitrogen is attached to a quaternary carbon bearing a methyl, and the other to an acetal CH. These two carbons are joined through an oxygen bridge.
+- The sugar ring has an OMe carbon, an N(CH3)C(=O)Ph carbon, and a CH2.
+
+**Stereocentres**
+I assigned each centre by working out the orientation of its neighbours in the drawing, treating a hashed bond as pointing away from the viewer and a wedge as pointing toward it.
+- The quaternary C–CH3 has a hashed methyl, which gives `[C@@]`.
+- The C–OMe carbon has a wedged OMe, which gives `[C@@H]`.
+- The C–N(Me)Bz carbon has a wedged N, which gives `[C@@H]`.
+- The acetal CH has a hashed H, which gives `[C@@H]`.
+
+**SMILES check**
+Ring closure 1 is the oxygen bridge, ring closure 2 is the N–C(quaternary) bond, and the remaining digits close the aromatic rings. The string follows the drawing atom for atom.
+
+SMILES: C[C@@]12[C@@H]([C@@H](C[C@@H](O1)N3C4=CC=CC=C4C5=C6C(=C7C8=CC=CC=C8N2C7=C53)CNC6=O)N(C)C(=O)C9=CC=CC=C9)OC

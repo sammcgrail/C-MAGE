@@ -1,0 +1,16 @@
+This is mitoxantrone, an anthraquinone core with the following substituents.
+
+- The top ring carries an OH at each of its two upper corners, with two CH carbons between them.
+- The two carbonyls (C=O) sit in the middle ring.
+- The bottom ring carries an NH at each lower corner, and each NH is attached to a CH2CH2NHCH2CH2OH chain.
+
+Writing the SMILES from the top ring down: OC1=CC=C(O)C2=C1C(=O)C1=C(NCCNCCO)C=CC(NCCNCCO)=C1C2=O
+
+Checking the ring closures:
+- The first ring is C1(O)=CC=C(O)C2=C1…, so the atoms are C1(OH), CH, CH, C(OH), C2 and C1′, which makes 6 atoms.
+- C2=C1 gives the fusion atoms. The first fusion atom, C2, is bonded to C(OH) and the next fusion atom is bonded to C1(OH).
+- After C1 (the ring-closing atom) comes C(=O), then C1=C(N…)C=CC(N…)=C1, then C2=O.
+
+The second ring is C1=C(N)C=CC(N)=C1, where the first atom C1 is bonded to the carbonyl and the last atom C1 closes the ring to the first and bonds onward to C2=O. This is consistent. The final C2=O closes to the first fusion atom, C2.
+
+SMILES: OC1=CC=C(O)C2=C1C(=O)C1=C(NCCNCCO)C=CC(NCCNCCO)=C1C2=O

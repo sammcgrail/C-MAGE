@@ -1,0 +1,11 @@
+I read the drawing as mitiglinide, (2S)-2-benzyl-4-[(3aR,7aS)-octahydroisoindol-2-yl]-4-oxobutanoic acid. This is how I read it, region by region:
+
+- **Acid end:** a carboxylic acid (HO–C=O) is attached to a stereocentre. That carbon also carries a CH2–phenyl group (benzyl) and a CH2–C(=O)–N chain.
+- **Chain:** the CH2 next to the stereocentre is joined by a wedge bond and leads to a carbonyl whose carbon is bonded to the ring nitrogen, forming an amide.
+- **Bicyclic amine:** the nitrogen sits in a five-membered ring fused to a six-membered carbocycle, an octahydroisoindole. Both ring-fusion carbons carry hashed H atoms on the same face, so the fusion is cis.
+
+For the stereocentre, the priorities are COOH, then CH2C(=O)N, then CH2Ph, then H. With H pointing away, that sequence runs counterclockwise, so the centre is S. This is encoded as `[C@@H]` in the written order.
+
+For the two ring-fusion carbons, I assigned the tags from the hashed H atoms, which gives `[C@@H]` at each fusion carbon in the SMILES order used.
+
+SMILES: OC(=O)[C@@H](Cc1ccccc1)CC(=O)N1C[C@@H]2CCCC[C@@H]2C1

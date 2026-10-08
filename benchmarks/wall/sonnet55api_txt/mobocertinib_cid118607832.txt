@@ -1,0 +1,20 @@
+Reading the drawing region by region:
+
+- **Ester:** an isopropyl group, CC(C)O, is attached to a C(=O) that sits on the pyrimidine ring.
+- **Pyrimidine:** the ring atoms in order are C5 (bearing the ester), C4 (bearing the indole), N3, C2 (bearing the NH), N1, and C6 (the CH). C4 and C2 are joined through N3, and C2 and C6 through N1.
+- **Indole:** the pyrimidine C4 is bonded to indole C3. The indole nitrogen carries a methyl group, and the benzene ring is fused to the five-membered ring.
+- **Central benzene ring:**
+  - C1 carries the NH that links to pyrimidine C2.
+  - C2 carries the OMe.
+  - C3 is a CH.
+  - C4 carries N(Me)CH2CH2N(Me)2.
+  - C5 carries NHC(=O)C=C.
+  - C6 is a CH.
+
+SMILES, written from the ester end:
+
+CC(C)OC(=O)c1cnc(Nc2cc(NC(=O)C=C)c(N(C)CCN(C)C)cc2OC)nc1-c1cn(C)c2ccccc12
+
+Checking the benzene ring: c2 (the NH-bearing carbon), then cH, then c(NHacryl), then c(NMe...), then cH, then c(OMe), closing the ring. In the drawing the NH-bearing carbon is bonded to the OMe carbon and to a CH. The OMe carbon is also bonded to a CH, which connects to the carbon bearing N(Me). That carbon is next to the carbon bearing the acrylamide NH, which connects through a CH back to the NH-bearing carbon. This matches the SMILES, in which the acrylamide carbon is adjacent to the N(Me) carbon.
+
+SMILES: CC(C)OC(=O)c1cnc(Nc2cc(NC(=O)C=C)c(N(C)CCN(C)C)cc2OC)nc1-c1cn(C)c2ccccc12

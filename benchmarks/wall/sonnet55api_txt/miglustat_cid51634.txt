@@ -1,0 +1,16 @@
+I read the structure as N-butyl-1-deoxynojirimycin (miglustat): a piperidine ring bearing an N-butyl group, three hydroxyls and a CH2OH.
+
+**Connectivity**
+- The N-butyl chain has four carbons: CCCC–N.
+- The ring is N, CH2, CH(OH), CH(OH), CH(OH), CH(CH2OH), closing back to N.
+
+**Stereochemistry from the wedges and hashes**
+I took each centre in SMILES neighbour order (previous atom, H, substituent, next atom), with the implicit H pointing opposite the drawn wedge or hash.
+- C bearing the top OH (hashed): `[C@H]`
+- C bearing the right OH (wedge): `[C@@H]`
+- C bearing the lower OH (hashed): `[C@H]`
+- Ring C bearing the CH2OH (wedge): `[C@H]`
+
+I checked the chirality tags by hand from the 2D coordinates rather than with software, so a tag could be flipped.
+
+SMILES: CCCCN1C[C@H](O)[C@@H](O)[C@H](O)[C@H]1CO

@@ -1,0 +1,13 @@
+This looks like a 10-deacetyl docetaxel analog. It has the taxane core, a C13 side chain carrying a 2-furyl group instead of phenyl, and a propionate ester at C7.
+
+I built the SMILES from the docetaxel framework and checked each region against the drawing:
+
+- **Side chain (left):** the N-Boc amide (NHC(=O)OC(CH3)3) sits on a carbon bearing the 2-furyl ring. The next carbon has an OH and is attached to the ester C=O, which links to C13 of the core.
+- **Core, top:** the C11=C12 double bond carries a methyl. C10 bears an OH, so there is no acetate there, and C9 is a ketone.
+- **Core, right:** C7 carries an O-propionyl group (OC(=O)CC), where docetaxel has an OH.
+- **Core, bottom:** C4 bears an acetate and the oxetane ring is fused at C4/C5. C2 carries a benzoate, and C1 carries an OH.
+- **Gem-dimethyl:** the C15 gem-dimethyl bridge is drawn.
+
+For stereochemistry I took the docetaxel configuration and assumed the wedges and hashes match it. I did not re-derive each centre independently from the drawing.
+
+SMILES: CC1=C2[C@H](C(=O)[C@@]3([C@H](C[C@@H]4[C@]([C@H]3[C@@H]([C@@](C2(C)C)(C[C@@H]1OC(=O)[C@@H]([C@H](c5ccco5)NC(=O)OC(C)(C)C)O)O)OC(=O)c6ccccc6)(CO4)OC(=O)C)OC(=O)CC)C)O

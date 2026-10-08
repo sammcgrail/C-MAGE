@@ -1,0 +1,10 @@
+I read the molecule as a central pyridine ring with three substituents, and assigned the single stereocentre as S from the wedge.
+
+- **Pyridine core:** it carries an NH–pyrazin-2-yl group at C2, a 1-methylpyrazol-4-yl group at C4, and an NH–CH(CH3)–aryl group at C6.
+- **Pyrazine:** the left ring is a 1,4-diazine attached through its C2 carbon to the NH.
+- **Pyrazole:** the upper ring is N-methylated, with its C4 carbon attached to the pyridine.
+- **Aryl group:** the right ring is a 4-fluorophenyl on the stereocentre.
+- **Stereocentre:** the methyl is drawn on a wedge, so the implicit H points away from the viewer. The priorities are N > aryl > CH3 > H. Viewed from the front, N (lower left), then aryl (right), then CH3 (up) runs counterclockwise, which gives S.
+- **SMILES chirality tag:** writing the centre as `C[C@H](N...)Ar`, the neighbour order is CH3, H, N, aryl. I checked that `@` corresponds to S for this ordering.
+
+SMILES: C[C@H](Nc1cc(-c2cnn(C)c2)cc(Nc2cnccn2)n1)c1ccc(F)cc1

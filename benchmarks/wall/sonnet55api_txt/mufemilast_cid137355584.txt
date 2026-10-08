@@ -1,0 +1,8 @@
+I read the molecule as an apremilast-type structure: a thieno[3,4-c]pyrrole-4,6-dione carrying an acetamido group, with the imide nitrogen attached to a stereogenic carbon.
+
+- **Left heterocycle:** a thiophene fused to a cyclic imide (two C=O around the N). The thiophene carbon next to S carries an NHAc group (NH–C(=O)CH3). The other thiophene carbon next to S is a plain CH.
+- **Stereocentre:** it bears the imide N, a CH2–S(=O)(=O)CH3 group drawn on a hashed bond, the aryl ring and an implicit H. By CIP priority, N > CH2SO2 > aryl > H. With the CH2 pointing back, the H points toward the viewer, so the apparent clockwise sequence N → CH2 → aryl reverses to counterclockwise. This gives (S), which matches apremilast.
+- **Aryl ring:** the attachment carbon, then a CH, then C–OEt, then C–OMe, then two CH. This is a 3-ethoxy-4-methoxyphenyl ring.
+- **SMILES stereo tag:** in `[C@@H]` the neighbours are written in the order aryl, H, CH2, N. I checked that `@@` corresponds to (S) for this ordering.
+
+SMILES: CCOc1cc([C@@H](CS(C)(=O)=O)N2C(=O)c3csc(NC(C)=O)c3C2=O)ccc1OC

@@ -1,0 +1,17 @@
+This is the Wee1 inhibitor adavosertib (AZD1775).
+
+Reading the drawing region by region:
+- **Bicyclic core:** a pyrazolo[3,4-d]pyrimidin-3-one. The C=O carbon is bonded to N(allyl), and that N is bonded to the second N, which carries the pyridyl group. The second N is bonded to the ring-fusion carbon C7a, which is double-bonded to a pyrimidine N. The pyrimidine ring runs C7a=N–C(NHAr)=N–CH=C3a.
+- **N-allyl:** N–CH2–CH=CH2.
+- **Pyridyl substituent:** a pyridin-2-yl attached to the second N, with a C(C)(C)O group at the 6-position.
+- **Anilino group:** an NH-linked para-substituted phenyl bearing a 4-methylpiperazin-1-yl group.
+
+SMILES, written as the lactam ring first:
+C=CCN1N(c2cccc(C(C)(C)O)n2)C2=NC(Nc3ccc(N4CCN(C)CC4)cc3)=NC=C2C1=O
+
+Check of the ring closures:
+- N1 (allyl) – N(pyridyl) – C2 (C7a) =N–C(NHAr)=N–C=C2 (C3a)–C1(=O) closes back to N1.
+- C2 is opened at the fusion carbon C7a, and the later "C=C2" closes it at C3a. C7a=N, then C(NHAr)=N, then CH=C3a. So the pyrimidine ring is C7a, N, C, N, CH, C3a, which is six atoms.
+- C3a is bonded to C(=O), which closes ring 1 to N1. The five-membered ring is N1, N, C7a, C3a, C(=O), which is correct.
+
+SMILES: C=CCN1N(c2cccc(C(C)(C)O)n2)C2=NC(Nc3ccc(N4CCN(C)CC4)cc3)=NC=C2C1=O

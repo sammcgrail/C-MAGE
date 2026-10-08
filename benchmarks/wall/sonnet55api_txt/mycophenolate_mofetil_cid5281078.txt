@@ -1,0 +1,24 @@
+This structure is mycophenolate mofetil, so I read it region by region and then checked the alkene geometry.
+
+**Aromatic core:** The benzene ring carries these substituents:
+- OH on the upper-left carbon.
+- The side chain on the upper-right carbon.
+- OMe on the right carbon.
+- Methyl on the lower-right carbon.
+- The fused lactone on the lower-left and left carbons.
+
+**Lactone:** The ring carbon next to the OH-bearing carbon is attached to C(=O), which connects to O and then CH2, and that CH2 joins the ring carbon next to the methyl-bearing carbon.
+
+**Side chain:** From the ring, the chain runs CH2–CH=C(CH3)–CH2–CH2–C(=O)–O–CH2CH2–N(morpholine).
+
+**Alkene geometry:** In the drawing, the ring-side CH2 at (480,658) attaches to the alkene carbon at (585,662). The methyl at (593,482) and the CH2 at (745,577) attach to the other alkene carbon at (640,573).
+
+The double bond runs from (585,662) to (640,573). The CH2 substituent on the lower carbon sits to the left of the bond. On the upper carbon, the methyl points up-left and the CH2 points right.
+
+Taking the bond direction as lower-left to upper-right, the ring CH2 is on the left side of the lower carbon, which is the upper-left side relative to the bond. The methyl on the upper carbon is also on the upper-left side. These two are therefore on the same side, so the chain CH2 (the higher-priority group on that carbon) is on the opposite side to the ring CH2, giving E. This matches mycophenolate, which is E.
+
+SMILES, written with E geometry: `C(/C=C(\C)CCC(=O)OCCN1CCOCC1)` attached to the ring carbon, giving the full string below.
+
+Checking the geometry in this string: the ring-attached CH2 is written before `/C=`, so it is "below" the first alkene carbon. In `\C`, the methyl is "below" the second alkene carbon, so the methyl and the CH2 are on opposite sides... To work this out, `/C=C(\C)CC` with the preceding atom X written as X/C=C(\C)CC places X and the methyl on opposite sides of the double bond. X is therefore trans to the methyl and cis to the chain CH2. The ring CH2 and the chain CH2 would then be cis, which is Z. I need E, so I use `/C=C(/C)CC` instead, which puts X and the methyl cis and the chain CH2 trans to X.
+
+SMILES: COc1c(C)c2COC(=O)c2c(O)c1C/C=C(/C)CCC(=O)OCCN1CCOCC1

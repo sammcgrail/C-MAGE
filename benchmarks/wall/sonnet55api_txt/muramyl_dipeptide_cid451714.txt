@@ -1,0 +1,12 @@
+I read this as N-acetylmuramyl-L-alanyl-D-isoglutamine (muramyl dipeptide). Here is how I built the SMILES, working from the drawing region by region.
+
+**Fragments**
+- **Sugar ring:** a pyranose with a ring oxygen and five ring carbons. Starting at the anomeric carbon, it carries an OH (hashed bond), then C2 with an NHAc group (wedge). C3 carries the lactyl ether O (hashed), C4 an OH (wedge), and C5 a CH2OH (hashed).
+- **Lactyl unit:** O–CH(CH3)–C(=O) with a hashed methyl, joined by an amide NH to the next residue.
+- **Alanine unit:** NH–CH(CH3)–C(=O) with a wedged methyl, joined by an amide NH to the glutamine unit.
+- **Isoglutamine unit:** NH–CH(CH2CH2COOH)–C(=O)NH2, with the side-chain CH2 drawn hashed. The carboxamide is on the alpha carbon and the free acid is on the side chain.
+
+**Stereochemistry**
+I assigned each centre from the wedge or hash and the 2D positions of its neighbours, with the implicit H taken as the opposite side from the drawn wedge or hash. I did not independently re-check the resulting @/@@ marks, for example against a known MDP SMILES.
+
+SMILES: CC(=O)N[C@H]2[C@H](O)O[C@H](CO)[C@@H](O)[C@@H]2O[C@H](C)C(=O)N[C@@H](C)C(=O)N[C@H](CCC(=O)O)C(N)=O

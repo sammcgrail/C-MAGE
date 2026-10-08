@@ -1,0 +1,20 @@
+This is methylene blue chloride: a phenothiazinium core with a dimethyliminium group on one side and a dimethylamino group on the other, plus a chloride counterion.
+
+Reading the drawing:
+- The left ring carries the iminium, N⁺(C)(C)=C. The carbon bearing it is bonded to a CH that leads to the carbon attached to S, and to another CH that continues around the ring.
+- The central ring contains N, written N=C, and S, bonded to the two ring-fusion carbons on each side.
+- The right ring is aromatic and carries N(C)C.
+- Cl⁻ is a separate ion.
+
+Writing the SMILES from the left side:
+- C[N+](C)=C1C=CC2=NC3=CC=C(N(C)C)C=C3SC2=C1
+- Left ring: C1(=N+) – C=C – C2(=N) – C2'(S) = C1. The atoms are C1 (bearing N⁺), then CH=CH, then C2 (fusion carbon bonded to N by a double bond), then the other fusion carbon C(S), then CH back to C1.
+- In the drawing, the left ring has a C=C at the top left, the N⁺=C bond, and a C=C at the bottom (CH=C–S). This gives C1(=[N+])C=CC2=NC3=CC=C(N(C)C)C=C3SC2=C1.
+- Check the left ring: C1, C, C, C2, C(S) (the closing C2), and C= (CH) back to C1. That is six atoms.
+- Right ring: C3 (bonded to N), =C, C, C(NMe2), C, C3 (bonded to S). The ring closure uses C3 for the carbon bonded to S.
+
+Full SMILES: C[N+](C)=C1C=CC2=NC3=CC=C(N(C)C)C=C3SC2=C1.[Cl-]
+
+Double-bond check: C1(=N+), C=C, C2=N, C3=C (C3 then =CH), C(NMe2) with its neighbouring C=C, C3 closing, S, then C2=C1. The ring closure C2=C1 gives C(S)=CH, and the CH is bonded to C1 by a single bond. C1 already has its double bond to N⁺, so this is consistent.
+
+SMILES: C[N+](C)=C1C=CC2=NC3=CC=C(N(C)C)C=C3SC2=C1.[Cl-]

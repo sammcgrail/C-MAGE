@@ -1,0 +1,13 @@
+The drawing is metoclopramide, which I read as follows.
+
+- **Amine end:** a diethylamino group, N(CC)CC, attached to a two-carbon chain (CH2CH2) that ends in an amide NH.
+- **Amide:** the NH bonds to C(=O), which is attached to the aromatic ring.
+- **Ring substituents:** going around the ring from the carbonyl-bearing carbon, the next carbon carries OMe. After it comes a CH, then the carbon with NH2, then the carbon with Cl, then a CH that closes back to the first carbon. So the ring has C(=O) at position 1, OMe at 2, NH2 at 4 and Cl at 5.
+
+Written as SMILES, the chain is CCN(CC)CCNC(=O) and the ring is c1cc(N)c(Cl)cc1 with the substituents placed as above:
+
+CCN(CC)CCNC(=O)c1cc(Cl)c(N)cc1OC
+
+Checking the ring order in this string: c1 (bearing C=O), then cc(Cl), which gives CH and then C-Cl, then c(N), then c (CH), then c1OC (the carbon bearing OMe, bonded back to c1). This matches the drawing.
+
+SMILES: CCN(CC)CCNC(=O)c1cc(Cl)c(N)cc1OC

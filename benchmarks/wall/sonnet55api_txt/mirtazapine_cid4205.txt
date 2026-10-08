@@ -1,0 +1,19 @@
+This structure is mirtazapine, and I read it from the drawing as follows.
+
+**Pyridine ring (left):** The atoms are N, CH, CH, CH and two fused carbons. The ring nitrogen is bonded to a fused carbon (533,760) that also carries the other ring nitrogen. The other fused carbon (503,511) is bonded to the CH2 bridge.
+
+**Benzene ring (upper right):** Two of its carbons are fused to the central seven-membered ring. One is bonded to the CH2 bridge and the other to the CH carbon (980,805).
+
+**Central seven-membered ring:** Its atoms are CH2, the benzene carbon at (926,358), the benzene carbon at (1061,569), the CH at (980,805), N (the tertiary ring nitrogen), the pyridine carbon at (533,760), and the pyridine carbon at (503,511).
+
+**Piperazine ring:** Its atoms are N, CH, CH2, N(CH3), CH2 and CH2. The CH is bonded to the central-ring N, to the benzene carbon at (1061,569), and to a CH2 that leads to N-methyl. From the N-methyl, the chain goes through CH2, CH2 and back to the central-ring N.
+
+**SMILES:** Starting from the methyl group, CN1CCN2C(C1)c1ccccc1Cc1cccnc12. Checking the ring closures:
+- N1 is the N-methyl nitrogen, followed by CH2 and CH2 to N2.
+- C(C1) is the CH, and its CH2 closes ring 1 back to the N-methyl nitrogen.
+- c1ccccc1 is the benzene ring. The first aromatic carbon attaches to the CH, and the last one, which is ortho to the first, carries the CH2 bridge.
+- Cc1cccnc12 follows: the aromatic carbon c1 is bonded to the CH2 bridge, then come three CH carbons and the pyridine N. The final carbon closes ring 1 with c1 and ring 2 with N2.
+
+The pyridine ring order is c1 (503,511), then CH, CH, CH, N, and the carbon at (533,760), which closes the ring. That matches the drawing.
+
+SMILES: CN1CCN2C(C1)c1ccccc1Cc1cccnc12
