@@ -1,0 +1,27 @@
+The drawing is a tricyclic core with three substituents: a morpholinylmethyl group, an N-ethyl group and a difluorodimethoxyphenyl group.
+
+**Core (pyrrolo-fused naphthyridinone type):**
+- The pyrrole ring contains NH, a C bearing CH2-morpholine, a CH, and two fusion carbons.
+- The pyridine ring contains N, a CH, and a fusion carbon that connects through CH2 to the urea nitrogen. The two ring-fusion carbons are shared with the pyrrole and the urea ring.
+- The urea ring contains N(Et), C(=O), N(Ar), CH2, and the pyridine fusion carbon.
+
+**Core SMILES:**
+- Pyrrole NH: `[nH]1c(CN2CCOCC2)cc3c1ncc4c3N(CC)C(=O)N(Ar)C4`
+- Atom by atom, the pyrrole NH carbon is bonded to the pyridine N, which is bonded to the CH. That CH is bonded to the fusion carbon bearing the CH2.
+- The other fusion carbon, bonded to N(Et), is c3, which is also bonded to the pyrrole CH carbon.
+
+**Aryl group:**
+- The aryl ring carbon attached to N is flanked by two C–F carbons.
+- Each F-bearing carbon is next to a C–OMe, and the two OMe carbons are joined by a CH.
+- Aryl SMILES: `c1(F)c(OC)cc(OC)c(F)c1`, attached at the first atom.
+
+**Full SMILES:**
+`CCN1C(=O)N(c2c(F)c(OC)cc(OC)c2F)Cc2cnc3[nH]c(CN4CCOCC4)cc3c21`
+
+**Ring closure check:**
+- N1 (ethyl N) is followed by C(=O), then N(Ar), then CH2, then `c2`, the fusion carbon bonded to the CH2.
+- `c2cnc3[nH]c(...)cc3c21`: c2 is followed by cH, then n, then c3 (bonded to NH), then [nH], then c(CH2morph), then cH, then c3, which closes the pyrrole ring to the c3 carbon next to the pyridine N.
+- The last atom, `c21`, closes ring 2 to the first fusion carbon and ring 1 to N1.
+- The last carbon is therefore bonded to the pyrrole fusion carbon, the first fusion carbon and N1, which matches the drawing.
+
+SMILES: CCN1C(=O)N(c2c(F)c(OC)cc(OC)c2F)Cc2cnc3[nH]c(CN4CCOCC4)cc3c21

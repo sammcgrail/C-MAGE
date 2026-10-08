@@ -1,0 +1,12 @@
+Reading the drawing region by region:
+
+- **Left chain:** a methyl group is attached to an NH, which is attached to a CH2.
+- **Stereocentre:** the CH2 joins a carbon that carries an OH on a bold wedge and a bond to the ring. The wedge is the only stereo information in the drawing.
+- **Ring:** a benzene ring with the chain attached at one carbon and an OH on the ring carbon two positions away, so the two substituents are meta to each other.
+- **Identity:** this is phenylephrine.
+
+Assigning the stereocentre with the implicit H pointing away from the viewer, the CIP priorities are OH, then CH2N (N beats C), then the aryl carbon. On screen the OH (bottom), CH2N (upper left) and aryl (right) run clockwise, so the centre is R.
+
+Checking the SMILES `CNC[C@H](O)c1cccc(O)c1`: the neighbour order at the stereocentre is CH2, H, O, aryl. With `@`, viewing from the CH2, the sequence H, O, aryl runs counterclockwise. Working this through gives R, which matches the drawing.
+
+SMILES: CNC[C@H](O)c1cccc(O)c1

@@ -1,0 +1,19 @@
+The drawing shows a tricyclic aromatic system: a central six-membered ring containing two nitrogen atoms (labelled N, top and bottom), fused on each side to a benzene ring. This is phenazine.
+
+Reading the atoms:
+- The central ring has N at the top, a carbon at upper right (the fusion carbon), a carbon at lower right (the fusion carbon), N at the bottom, a carbon at lower left (the fusion carbon), and a carbon at upper left (the fusion carbon).
+- The two nitrogens sit at opposite positions (1,4 relationship) in the central ring.
+- Each outer ring is a benzene ring with four CH carbons and two fusion carbons.
+
+The aromatic SMILES is c1ccc2nc3ccccc3nc2c1.
+
+Checking it atom for atom:
+- c1ccc2 covers three CH carbons and then a fusion carbon, which opens ring 2.
+- n is the first nitrogen, followed by c3, the fusion carbon of the other benzene ring.
+- cccc is four CH carbons, then c3 closes that benzene ring with its second fusion carbon.
+- n is the second nitrogen, then c2 is the fusion carbon that closes the central ring.
+- c1 is the final CH, closing the first benzene ring.
+
+The first ring has c1, c, c, c2 (the fusion carbon), c2 (the closing fusion carbon) and the last c1, which is 6 atoms. The count is correct.
+
+SMILES: c1ccc2nc3ccccc3nc2c1

@@ -1,0 +1,16 @@
+This structure is a phenothiazine, which is the drug thioproperazine-like scaffold carrying a piperidine side chain (it resembles pipotiazine).
+
+Reading the drawing region by region:
+
+- **Sulfonamide:** the dimethylamino group N(C)C is bonded to S(=O)(=O), and that sulfur is attached to the aromatic carbon at the upper left of the left ring.
+- **Phenothiazine core:** the left benzene ring has a carbon bearing the sulfonamide, a CH next to it, and then the carbon attached to the ring nitrogen N10. The other fusion carbon is attached to S. The right benzene ring is unsubstituted.
+- **Linker:** the ring nitrogen carries a three-carbon chain (CCC) that ends at the piperidine nitrogen.
+- **Piperidine:** the ring has a 2-hydroxyethyl substituent (CCO) at the 4-position.
+
+Writing the SMILES, starting from the sulfonamide:
+
+CN(C)S(=O)(=O)c1ccc2Sc3ccccc3N(CCCN3CCC(CCO)CC3)c2c1
+
+Atom-by-atom check on the left ring: c1 (bearing S), c, c, c2 (bonded to S), then c2 closing at the carbon bonded to N, and finally c1, the CH between the S-bearing carbon and the N-bearing carbon. In the image the sulfonamide carbon is at upper left, with the CH to its right leading to the carbon attached to N. The carbon attached to S lies at the bottom right, so the order is consistent.
+
+SMILES: CN(C)S(=O)(=O)c1ccc2Sc3ccccc3N(CCCN3CCC(CCO)CC3)c2c1

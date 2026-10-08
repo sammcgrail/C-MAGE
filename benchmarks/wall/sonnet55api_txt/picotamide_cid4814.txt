@@ -1,0 +1,16 @@
+The structure is a benzene ring carrying three substituents, with two pyridin-3-ylmethyl amide arms.
+
+**Central benzene ring.** Reading the vertices: C1 at (597,826) bears the amide C(=O)NH on the left. C2 at (649,938) bears OMe. C3 at (771,949) is CH. C4 at (843,849) is CH. C5 at (791,738) bears the right amide C(=O)NH. C6 at (668,727) is CH.
+
+The ring order is C1, C2, C3, C4, C5, C6. C1 (left amide) and C5 (right amide) are both adjacent to C6, so they are meta to each other. OMe on C2 is ortho to C1 and para to C5.
+
+**Left arm.** C1 is attached to C(=O)NHCH2-pyridin-3-yl. In the pyridine, N sits at (268,367), with a CH at (147,355) on one side and a CH at (320,478) on the other. The carbon at (320,478) is bonded to the substituted carbon (250,578), so the substituent is on the 3-position.
+
+**Right arm.** C5 is attached to C(=O)NHCH2-pyridin-3-yl. The pyridine here has N at (1352,683), a CH at (1231,672), then the substituted carbon (1180,560). The substituted carbon is separated from N by one CH, so this is also a 3-pyridyl group.
+
+**SMILES.** Starting from the OMe carbon:
+COc1ccc(C(=O)NCc2cccnc2)cc1C(=O)NCc1cccnc1
+
+Checking connectivity: c1 (the OMe carbon) → c → c → c(C(=O)N...) is C5 → c is C6 → c1 closes the ring at C1 with its amide. The amide on C1 is ortho to OMe and the other amide is para to OMe, which matches the drawing.
+
+SMILES: COc1ccc(C(=O)NCc2cccnc2)cc1C(=O)NCc1cccnc1

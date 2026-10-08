@@ -1,0 +1,14 @@
+I read the structure region by region, writing the SMILES from the phosphonic acid end to the pyrrole end.
+
+- **Left end:** a phosphonic acid, P(=O)(OH)2, joined through a three-carbon chain to an ester oxygen. The ester carbonyl sits on C4 of a piperidine.
+- **Piperidine and chain:** the piperidine nitrogen carries CH2CH2 leading to the single stereocentre. That carbon bears an NH (to the aryl ring), a CH2–S–phenyl arm, and an implicit H.
+- **Central aryl ring:** it carries the NH, an ortho SO2CF3 group, and a para sulfonamide SO2–NH that links to a 1,4-phenylene ring.
+- **Phenylene–piperazine:** the phenylene ring bears a piperazine at its para position. The far piperazine nitrogen is attached to a fluorophenyl ring (F meta to the piperazine).
+- **Pyrrole:** the fluorophenyl ring is attached at pyrrole C3, which is flanked by:
+  - C2, bearing a 4-chlorophenyl;
+  - C4, bearing SO2CH3;
+  - C5, bearing CH3;
+  - N1, bearing isopropyl.
+- **Stereochemistry:** the only wedge is on the bond from the stereocentre to the chain CH2 that leads to the piperidine nitrogen, which I take to start at the stereocentre. The CIP priorities are N > CH2S > CH2CH2N > H. With the CH2 toward the viewer, H is at the back, and N → CH2S → CH2 runs clockwise on the page, so the centre is R. In the SMILES neighbour order (CH2, H, CH2S, N) this is written `[C@H]`.
+
+SMILES: OP(O)(=O)CCCOC(=O)C1CCN(CC1)CC[C@H](CSc1ccccc1)Nc1ccc(cc1S(=O)(=O)C(F)(F)F)S(=O)(=O)Nc1ccc(cc1)N1CCN(CC1)c1cc(F)cc(c1)-c1c(S(C)(=O)=O)c(C)n(C(C)C)c1-c1ccc(Cl)cc1

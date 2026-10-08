@@ -1,0 +1,23 @@
+I read this as a cyclic hexapeptide and wrote the SMILES by walking the ring from the Phe carbonyl around to the proline nitrogen.
+
+**Ring sequence (N to C direction, going around the macrocycle):**
+- The proline N carries the C=O of Phe.
+- Phe has a benzyl side chain.
+- Tyr has a 4-benzyloxybenzyl side chain.
+- Lys has a 4-aminobutyl side chain.
+- Trp has an indol-3-ylmethyl side chain.
+- Phenylglycine (Phg) has a phenyl directly on the α-carbon.
+- Proline carries a 4-O-carbamate, OC(=O)NCCN (aminoethyl carbamate), and its C=O closes the ring back onto the proline N through Phg.
+
+**Stereochemistry read from the wedges and hashes (CIP assignments):**
+- Phe α-carbon: S.
+- Tyr(OBn) α-carbon: S.
+- Lys α-carbon: S.
+- Trp α-carbon: R. The side-chain CH2 is hashed, so this residue is D-Trp.
+- Phg α-carbon: S.
+- Pro α-carbon (hashed H): S.
+- Pro C4 (hashed O): R.
+
+I converted each CIP assignment into @/@@ by tracking the neighbour order in the SMILES string.
+
+SMILES: O=C1[C@H](Cc2ccccc2)NC(=O)[C@H](Cc2ccc(OCc3ccccc3)cc2)NC(=O)[C@H](CCCCN)NC(=O)[C@@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](c2ccccc2)NC(=O)[C@@H]2C[C@@H](OC(=O)NCCN)CN12

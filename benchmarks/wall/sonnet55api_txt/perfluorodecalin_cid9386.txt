@@ -1,0 +1,34 @@
+The drawing shows perfluorodecalin: a bicyclic decalin skeleton of 10 carbons with every hydrogen replaced by fluorine.
+
+**Ring skeleton.** The two fused six-membered rings share a central bond between two bridgehead carbons. Each bridgehead carbon carries one F. The other 8 ring carbons are CF2 groups. That gives 2 + 16 = 18 F, which matches the 18 F labels in the drawing.
+
+**Atom positions.** Using approximate drawing coordinates:
+- Bridgeheads: C(750,630) top and C(750,870) bottom.
+- Left ring: C(540,509), C(332,630), C(332,870), C(540,990).
+- Right ring: C(958,509), C(1166,630), C(1166,870), C(958,990).
+
+**Ring connectivity.** Each ring runs bridgehead top → CF2 (540,509) → CF2 (332,630) → CF2 (332,870) → CF2 (540,990) → bridgehead bottom, and the right ring mirrors this.
+
+**SMILES.** Writing the left ring first, then closing the right ring through the two bridgeheads:
+
+FC1(F)C(F)(F)C(F)(F)C(F)(F)C2(F)C1(F)... 
+
+This first attempt does not close correctly, so I rebuilt it more carefully:
+
+- Start at the top bridgehead: C12(F), labelled with ring closures 1 and 2.
+- Left ring: C(F)(F)C(F)(F)C(F)(F)C(F)(F)C1(F), which returns to the bottom bridgehead and closes ring 1.
+- Right ring: C(F)(F)C(F)(F)C(F)(F)C(F)(F)2, which returns to the top bridgehead and closes ring 2.
+
+Putting these together gives FC12(F)... but the fluorine placement is cleaner written as:
+
+FC12C(F)(F)C(F)(F)C(F)(F)C(F)(F)C1(F)C(F)(F)C(F)(F)C(F)(F)C2(F)F
+
+Checking this string:
+- The top bridgehead is C12 with one F, so it is bonded to F, ring closure 1, ring closure 2 and the next carbon.
+- Four CF2 groups follow, then C1(F), the bottom bridgehead, which closes ring 1 to the top bridgehead.
+- Three more CF2 groups follow, then C2(F)F, a CF2 that closes ring 2 to the top bridgehead.
+- Ring 1 contains the top bridgehead, 4 CF2 and the bottom bridgehead, which is 6 atoms.
+- Ring 2 contains the top bridgehead, the bottom bridgehead, 3 CF2 and the final CF2, which is 6 atoms.
+- The F count is 1 + 8 + 1 + 6 + 2 = 18.
+
+SMILES: FC12C(F)(F)C(F)(F)C(F)(F)C(F)(F)C1(F)C(F)(F)C(F)(F)C(F)(F)C2(F)F
