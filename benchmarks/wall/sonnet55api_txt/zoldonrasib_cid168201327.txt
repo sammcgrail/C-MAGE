@@ -1,0 +1,21 @@
+I read the drawing as a macrocyclic indole carrying a morpholine, a piperazic-acid lactone and a spiro-diamine side chain, then wrote each region out in turn.
+
+**Regions**
+- **Pyridine arm:** the pyridine has a (1-methoxyethyl) group next to the ring nitrogen, a 4-cyclopropylpiperazin-1-yl group, and a bond to indole C2.
+- **Indole:** N1 carries CH2CF3. C3 carries a CH2–C(CH3)2–CH2–O chain that ends in the lactone C=O. C5 carries the morpholine nitrogen.
+- **Morpholine:** it is fused into the macrocycle. Its C2 is a stereocentre with an explicit hashed H, and it continues as CH2–CH(NH)–C(=O)–N.
+- **Piperazic acid:** a six-membered N–NH ring. The C(=O) from the chain acylates one nitrogen. The ring CH next to the NH carries the lactone carbonyl and an explicit hashed H.
+- **Side chain:** the NH is acylated by CH(cyclopentyl) that is bonded to a 2,6-diazaspiro[3.4]-type spiro-bis-pyrrolidine, with a hashed bond at the spiro carbon. The other pyrrolidine nitrogen bears C(=O) joined to an N-methylaziridine that has a cyclopropyl group on the adjacent carbon. Both aziridine bonds are wedged.
+
+**Stereochemistry** (assigned from the wedges and hashes, then converted to @/@@)
+- The methoxyethyl carbon is S.
+- The morpholine C2 is S.
+- The CH(NH) carbon is S.
+- The piperazic-acid CH is S.
+- The cyclopentyl-bearing CH is S.
+- The aziridine carbon bearing the carbonyl is R, and the one bearing the cyclopropyl is R.
+- The spiro carbon was converted directly from the geometry (hashed bond to the pyrrolidine CH2CH2 branch) rather than from CIP priorities.
+
+I checked that every ring-closure digit is opened and closed correctly. I have not run the SMILES through a parser.
+
+SMILES: C[C@H](OC)c1ncc(N2CCN(C3CC3)CC2)cc1-c1n(CC(F)(F)F)c2ccc3cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@@H](NC(=O)[C@@H](C1CCCC1)N1C[C@@]2(CC1)CN(C(=O)[C@H]1[C@@H](C5CC5)N1C)CC2)C[C@H]4CN3CCO4

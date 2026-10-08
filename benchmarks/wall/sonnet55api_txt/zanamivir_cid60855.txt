@@ -1,0 +1,24 @@
+I read this as zanamivir (the 4-guanidino-5-acetamido dihydropyran carboxylic acid with a glycerol side chain) and derived each stereocentre from the wedges and hashes.
+
+**Structure read from the drawing**
+- The ring is a six-membered dihydropyran: ring O, then C(COOH)=CH, then the CH bearing the guanidine, then the CH bearing the acetamide, then the CH attached to the ring O.
+- The carboxylic acid is on the ring carbon next to the ring O, and it is part of the C=C double bond.
+- The guanidine is attached through its imine nitrogen, as N=C(N)N.
+- The acetamide is NHC(=O)CH3.
+- The side chain is CH(OH)–CH(OH)–CH2OH.
+
+**Stereochemistry**
+
+I assigned each centre by viewing from the implicit hydrogen and converting to SMILES neighbour order.
+
+| Ring/side-chain centre | Drawn bond | Result |
+|---|---|---|
+| Carbon bearing the acetamide | hashed NH | `[C@@H]` |
+| Carbon bearing the guanidine | wedged N | `[C@@H]` |
+| Ring carbon next to the ring O | wedged ring O | `[C@H]` |
+| First side-chain carbon | wedged OH | `[C@H]` |
+| Second side-chain carbon | hashed OH | `[C@H]` |
+
+The acetamide and guanidine are trans, which fits zanamivir. I derived the guanidine-bearing centre as `@@`, though the version of the zanamivir SMILES I remember has `@` there. I kept the derived assignment.
+
+SMILES: CC(=O)N[C@@H]1[C@@H](N=C(N)N)C=C(C(=O)O)O[C@H]1[C@H](O)[C@H](O)CO

@@ -1,0 +1,13 @@
+This structure is zolpidem: an imidazo[1,2-a]pyridine core with a p-tolyl group and an N,N-dimethylacetamide side chain.
+
+Reading the drawing region by region:
+
+- **Imidazole ring:** N (upper left, double-bonded to the fused carbon at the top), then the carbon bearing the tolyl group, then the carbon bearing the CH2 side chain, then the bridgehead N, then the fused carbon.
+- **Pyridine ring:** the bridgehead N connects to CH, then C(CH3), then CH=CH, then the fused carbon.
+- **Substituents:** the tolyl ring carries a methyl at the position para to the point of attachment. The side chain is CH2–C(=O)–N(CH3)2.
+
+SMILES, written in order:
+- Core and substituents: Cc1ccc2nc(-c3ccc(C)cc3)c(CC(=O)N(C)C)n2c1
+- Ring check: c1 (C-Me) c c c2 (fused C) n c(Ar) c(CH2...) n2 c1. The pyridine ring is C(Me), CH, CH, C2, N, CH, which is 6 atoms. This matches the drawing, where the methyl-bearing carbon is adjacent to a CH that is bonded to the bridgehead N.
+
+SMILES: Cc1ccc(cc1)-c1nc2ccc(C)cn2c1CC(=O)N(C)C
