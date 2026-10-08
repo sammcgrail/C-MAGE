@@ -1,0 +1,26 @@
+I read the structure region by region.
+
+**Indole part (right):** The nitrogen is bonded to the sulfonyl group. C2 of the indole carries the chain. C3 is CH, and C3a and C7a are the ring-fusion carbons. The chlorine sits on the benzene ring carbon that is bonded to the CH next to C3a, which makes it C5.
+
+**Chain:** From C2 the chain runs CH2, CH2, CH2, then C(=O)OH, so it is a butanoic acid attached at C2.
+
+**Benzothiazole part (left):** The benzene ring carries the sulfonyl group. Its fusion carbons bear N (one side) and S (other side). The thiazole ring is N=CH–S.
+
+Tracing the ring atoms: the carbon bonded to S is bonded to the CH that is bonded to the sulfonyl-bearing carbon. The carbon bonded to N is bonded to the CH=CH on the top, which leads to the sulfonyl carbon. So the sulfonyl-bearing carbon is adjacent to one CH on the S-side ring carbon and one CH on the top. This makes it a benzothiazole with the sulfonyl at C5 or C6.
+
+Coordinates:
+- Sulfonyl carbon (595,563) is bonded to the top carbon (513,422) and the bottom carbon (514,705).
+- The bottom carbon (514,705) is bonded to the fusion carbon (352,706), which bears S.
+- The top carbon (513,422) is bonded to (350,423), which is bonded to the fusion carbon (268,565), which bears N.
+
+The sulfonyl carbon is therefore separated from the S-bearing fusion carbon (C7a) by one CH (C7), so it is C6. The sulfonyl is at position 6.
+
+**SMILES:** Benzothiazole written as c1nc2ccc(cc2s1) places S-bearing C7a followed by C7 and then C6.
+
+Writing it out: O=C(O)CCCc1cc2cc(Cl)ccc2n1S(=O)(=O)c1ccc2ncsc2c1
+
+Check on the sulfonyl-bearing ring: c1ccc2ncsc2c1 starts at the sulfonyl carbon (C6), then c (C5), c (C4), c2 (C3a, bonded to n), then n, c, s, c2 (C7a), then c1 (C7), which closes back to C6. This matches.
+
+Check on the indole ring: c1cc2cc(Cl)ccc2n1 has C2, C3, C3a, C4, C5(Cl), C6, C7, C7a, N. The chlorine is on C5, which is correct, as C4 is the CH next to C3a.
+
+SMILES: O=C(O)CCCc1cc2cc(Cl)ccc2n1S(=O)(=O)c1ccc2ncsc2c1

@@ -1,0 +1,21 @@
+I read this as an E. coli-type lipid A: a bisphosphate-free disaccharide of two glucosamines (4'-monophosphate, free reducing-end OH) joined by a 1→6 glycosidic bond, carrying six fatty acyl chains. I wrote the SMILES by region and did not independently verify every stereocentre against the wedges and hashes.
+
+**Left (reducing) glucosamine ring**
+- C1 carries a free OH.
+- C2 carries an N-linked (R)-3-hydroxytetradecanoyl amide.
+- C3 carries an O-linked (R)-3-hydroxytetradecanoyl ester.
+- C4 carries a free OH.
+- C6 is a CH2 linked through O to the other ring.
+
+**Right (non-reducing) glucosamine ring**
+- C1' is the glycosidic carbon, bonded to the O of the left ring's C6 CH2.
+- C2' carries an N-linked 3-(dodecanoyloxy)tetradecanoyl amide.
+- C3' carries an O-linked 3-(tetradecanoyloxy)tetradecanoyl ester.
+- C4' carries the phosphate, OP(=O)(O)O.
+- C6' is a CH2OH.
+
+**Chain lengths:** I counted the 3-hydroxytetradecanoyl chains as 14 carbons. I assumed the secondary acyl chains are dodecanoyl (12 carbons) and tetradecanoyl (14 carbons) from the drawing and the usual lipid A pattern, not from an exact carbon count.
+
+**Stereochemistry:** The ring stereocentres follow the natural D-glucosamine pattern, α at the reducing end and β at the distal ring. I assigned the (R)-3-acyl centres as `[C@H]` in the SMILES.
+
+SMILES: CCCCCCCCCCCC(=O)O[C@H](CCCCCCCCCCC)CC(=O)N[C@@H]1[C@@H](OC(=O)C[C@H](OC(=O)CCCCCCCCCCCCC)CCCCCCCCCCC)[C@H](OP(=O)(O)O)[C@@H](CO)O[C@H]1OC[C@H]1O[C@H](O)[C@H](NC(=O)C[C@H](O)CCCCCCCCCCC)[C@@H](OC(=O)C[C@H](O)CCCCCCCCCCC)[C@@H]1O

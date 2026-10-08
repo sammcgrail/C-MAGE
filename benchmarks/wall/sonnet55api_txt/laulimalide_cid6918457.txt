@@ -1,0 +1,17 @@
+I read the structure region by region and wrote the SMILES with stereochemistry taken from the wedges and hashes.
+
+**Regions of the molecule**
+- **Left ring:** a dihydropyran with a ring oxygen, a CH=C(CH3) double bond and a CH2. Its ring CH carries a wedged (E)-vinyl substituent.
+- **Side chain:** the vinyl group leads to a CH(OH) with a wedged OH. That carbon is bonded to the macrolactone carbon bearing the ester oxygen.
+- **Macrolactone:** it runs from the ester oxygen through a CH2 and an epoxide (two CH carbons bridged by O). It continues through a CH(OH), a CH2, a C(=CH2), a CH2, a CH(CH3), another CH2, and then the right-hand dihydropyran. The ring closes through a (Z)-CH=CH to the C(=O).
+- **Right ring:** a dihydropyran containing a CH=CH, with its two O-bearing CH carbons both drawn as stereocentres.
+
+**Double bonds**
+- The CH=CH conjugated to the lactone carbonyl is cis (Z), since both chain substituents lie on the same side.
+- The vinyl group on the left ring is trans (E).
+
+**Stereocentres:** I assigned all nine from the wedge and hash bonds.
+
+The SMILES below is hand-written, and I did not run it through a parser.
+
+SMILES: CC1=CCO[C@@H](C1)/C=C/[C@H](O)[C@@H]2C[C@@H]3O[C@H]3[C@@H](O)CC(=C)C[C@H](C)C[C@@H]4CC=C[C@H](O4)C/C=C\C(=O)O2

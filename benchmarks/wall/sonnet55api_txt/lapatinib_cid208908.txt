@@ -1,0 +1,14 @@
+This structure is lapatinib, read region by region as follows.
+
+- **Left chain:** a methyl on a sulfonyl group (CS(=O)(=O)), then a two-carbon chain (CC) to an NH, then a CH2 attached to the furan at C2.
+- **Furan:** the other α-carbon of the furan (C5) is bonded to the quinazoline at position 6.
+- **Quinazoline:** N1 and N3 are the two ring nitrogens, and C4 carries the NH link to the aryl group.
+- **Aryl group:** a benzene ring with Cl ortho to the O-benzyl ether; the benzyl ring bears F at the meta position.
+
+SMILES is built as: CS(=O)(=O)CCNCc1ccc(o1)-c1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1
+
+Atom check:
+- The quinazoline fused ring is written c1ccc2ncnc(N...)c2c1, with the furan attached at c1. In the drawing, the benzo ring carbon bearing the furan is adjacent to the carbon bonded to C4a (the junction carbon next to C4), which is position 5. The furan-bearing carbon is therefore C6, and my SMILES matches this: c1 (C6), then c (C7), c (C8), c2 (C8a), n (N1), c, n (N3), c(N) (C4), c2 (C4a), c1 (C5).
+- In the aryl ring, the NH attaches at c3, then c, c, then c(OBn), then c(Cl), then c3. The Cl is adjacent to the O-bearing carbon and meta to the NH, which matches the drawing.
+
+SMILES: CS(=O)(=O)CCNCc1ccc(o1)-c1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1

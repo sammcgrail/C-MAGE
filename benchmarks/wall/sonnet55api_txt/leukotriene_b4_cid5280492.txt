@@ -1,0 +1,13 @@
+I read the molecule as leukotriene B4, 5,12-dihydroxy-icosa-6,8,10,14-tetraenoic acid.
+
+**Chain.** Counting from the carboxylic acid: C1 is the COOH carbon, C2–C4 are CH2 groups, C5 carries an OH, and C6=C7, C8=C9 and C10=C11 are double bonds. C12 carries a second OH, C13 is CH2, C14=C15 is a double bond, and C16–C20 form a pentyl tail ending in CH3, giving 20 carbons in total.
+
+**Double bonds.** From the drawing, C6=C7 is cis (Z), C8=C9 is trans (E), C10=C11 is trans (E) and C14=C15 is cis (Z).
+
+**Stereocentres.** Both OH groups are drawn on wedges, with the implicit H pointing away. I worked out the chirality tags from the neighbour order around each carbon:
+- C5, with neighbours C4, H, OH, C6 in SMILES order, is `[C@H]`.
+- C12, with neighbours C11, H, OH, C13 in SMILES order, is `[C@H]`.
+
+This gives 5S,12R, the natural LTB4 configuration.
+
+SMILES: OC(=O)CCC[C@H](O)/C=C\C=C\C=C\[C@H](O)C/C=C\CCCCC

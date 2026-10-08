@@ -1,0 +1,14 @@
+I read the structure as lobeline: an N-methylpiperidine with a 2-oxo-2-phenylethyl group on one α-carbon and a 2-hydroxy-2-phenylethyl group on the other.
+
+**Connectivity**
+- The central ring has one N and five carbons, with an N-methyl group.
+- The right α-carbon carries a CH2–C(=O)–phenyl chain.
+- The left α-carbon carries a CH2–CH(OH)–phenyl chain.
+
+**Stereochemistry**
+I assigned each centre from the drawn wedge or hash, writing the SMILES neighbours in order and checking the sense on screen.
+- The right ring carbon has a hashed bond to its CH2, so its H points toward the viewer. The neighbours N → ring CH2 → side CH2 run clockwise, which gives `[C@@H]`.
+- The left ring carbon also has a hashed bond to its CH2. Taking the neighbour order H, ring CH2, N, side CH2 gives a clockwise sense, and one swap to the SMILES order gives `[C@H]`.
+- The carbinol carbon has a wedged OH, so its H points away from the viewer. The neighbours CH2 → O → phenyl run counterclockwise on screen, so the sense is clockwise from the H side. One swap to the SMILES order gives `[C@H]`.
+
+SMILES: CN1[C@@H](CC(=O)c2ccccc2)CCC[C@H]1C[C@H](O)c1ccccc1

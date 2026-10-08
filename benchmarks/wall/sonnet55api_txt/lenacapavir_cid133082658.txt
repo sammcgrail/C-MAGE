@@ -1,0 +1,11 @@
+I read this structure as lenacapavir and wrote the SMILES region by region from the drawing.
+
+- **Left side:** a methylsulfonyl group on a quaternary carbon bearing two methyls, joined by an alkyne to the 6-position of a pyridine.
+- **Pyridine:** its 2-position carries the stereogenic CH, and its 3-position is bonded to the indazole.
+- **Stereogenic CH:** it bears a 3,5-difluorobenzyl group (hashed bond) and an NH–C(=O)–CH2 amide. Working through the hashed bond and the implicit H gives `[C@H]` when written with the pyridine carbon first.
+- **Indazole:** it has a chloro substituent, an NHSO2CH3 group, and an N-CH2CF3 group.
+- **Right side:** the amide CH2 is attached to a pyrazole nitrogen. The pyrazole carries CF3 and is fused to a difluorocyclopentane that is itself fused to a cyclopropane. The two ring-fusion CH carbons have hashed H atoms, which give `[C@@H]1C[C@@H]12` in the order written.
+
+I checked ring closures and atom counts against the drawing.
+
+SMILES: CS(=O)(=O)C(C)(C)C#Cc1ccc(c(n1)[C@H](Cc1cc(F)cc(F)c1)NC(=O)Cn1nc(C(F)(F)F)c2c1C(F)(F)[C@@H]1C[C@@H]12)-c1ccc(Cl)c2c(NS(C)(=O)=O)nn(CC(F)(F)F)c12

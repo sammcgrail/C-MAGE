@@ -1,0 +1,15 @@
+This structure is a dibenz[b,f][1,4]oxazepine bearing an N-methylpiperazine on the imine carbon and a chlorine on one benzene ring. It is the loxapine skeleton.
+
+**Atoms and connectivity read from the drawing**
+- Left benzene ring: the carbon bearing Cl connects to a CH that leads to the ring-fusion carbon. That fusion carbon attaches to the imine carbon C(=N).
+- The adjacent ring-fusion carbon of the same ring bears the oxygen.
+- Seven-membered ring: this ring-fusion carbon, then O, then the right benzene ring carbon. The next carbon of the right ring carries the N, which is double-bonded to the imine carbon. The imine carbon bonds back to the left ring.
+- The imine carbon also bears the piperazine nitrogen, and the piperazine's far nitrogen carries the methyl group.
+
+**Writing the SMILES**
+CN1CCN(CC1)C1=Nc2ccccc2Oc2ccc(Cl)cc21
+
+**Check of the left ring**
+Reading the ring from the oxygen-bearing carbon (c2): `Oc2ccc(Cl)cc21` gives the O-bearing carbon, then CH, CH, C-Cl, CH, and finally the fusion carbon that closes both rings. In the drawing, the O-bearing carbon at (922, 595) is adjacent to the CH at (912, 415). That CH is adjacent to the CH at (752, 333), which is adjacent to the C-Cl at (600, 431). The C-Cl is adjacent to the CH at (610, 612), which is adjacent to the fusion carbon at (770, 693). This matches the SMILES.
+
+SMILES: CN1CCN(CC1)C1=Nc2ccccc2Oc2ccc(Cl)cc21

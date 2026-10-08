@@ -1,0 +1,20 @@
+The drawing is a benzodiazepine with a 7-chloro-5-(2-chlorophenyl) pattern and a 3-hydroxy-2-one lactam, which is lorazepam without stereochemistry.
+
+**Atoms and connectivity**
+- Seven-membered ring: NH, C(=O), CH(OH), N=, C(aryl)=, and the two fused aromatic carbons.
+- The NH attaches to a fused aromatic carbon.
+- The C=O carbon is bonded to the NH and to the CH(OH).
+- The CH(OH) is bonded to the imine N.
+- The imine N is double-bonded to the carbon that carries the 2-chlorophenyl group, and that carbon is bonded to the other fused aromatic carbon.
+- Chloro-substituted benzo ring: the fused carbon bonded to NH is at (503,623) and the other fused carbon is at (707,689).
+  - From (707,689) the ring runs to (866,546), then to the C–Cl carbon at (822,335), then (618,269), then (458,413), and back to (503,623).
+  - So the Cl-bearing carbon is two atoms away from the fused carbon (707,689), via (866,546).
+- Pendant phenyl ring: the ipso carbon is at (997,910), and the Cl is on the adjacent (ortho) carbon at (1087,1105).
+
+**SMILES construction**
+Starting from the lactam carbon: O=C1Nc2ccc(Cl)cc2C(c2ccccc2Cl)=NC1O
+
+Checking the benzo ring: c2 (the fused carbon bonded to N) is followed by c, c, c(Cl), c, then c2 (the fused carbon bonded to the imine carbon).
+- Fused carbon (503,623), then (458,413), then (618,269), then C–Cl (822,335), then (866,546), then fused carbon (707,689). This matches the drawing.
+
+SMILES: O=C1Nc2ccc(Cl)cc2C(c2ccccc2Cl)=NC1O

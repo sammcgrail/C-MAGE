@@ -1,0 +1,15 @@
+This structure is loratadine, read from the drawing as follows.
+
+- **Ester side chain:** an ethyl group (CH2CH3) is bonded to an O, which is bonded to a C(=O) that is attached to the piperidine nitrogen. This gives CCOC(=O)N.
+- **Piperidine:** a six-membered ring containing N, whose carbon opposite the nitrogen is double-bonded to the tricyclic core.
+- **Tricyclic core:** a pyridine ring is fused to a seven-membered ring, which is fused to a benzene ring. The seven-membered ring contains two CH2 groups and the exocyclic C=C carbon.
+- **Chlorine position:** Cl sits on the benzene ring.
+
+Pyridine ring atoms, going around the ring: N, CH, CH, CH, then the carbon bearing the CH2 (c4), then the carbon bonded to N and to the C=C carbon (c3).
+
+Writing the SMILES:
+CCOC(=O)N1CCC(CC1)=C2c3ncccc3CCc4cc(Cl)ccc24
+
+Checking the benzene ring: c4 is the carbon bonded to the CH2, followed by cH, then c(Cl), cH, cH, and finally c24, the carbon bonded to the C=C carbon, which closes ring 2 and ring 4. In the drawing, the benzene carbon attached to the C=C carbon (at 373,799) neighbours a CH (at 489,911). The other fused carbon (at 217,844) neighbours a CH (at 178,1002), which in turn neighbours the carbon bearing Cl (at 295,1114). So Cl is two atoms from the CH2-bearing fused carbon (CH, then C–Cl). The SMILES matches this: c4 (CH2-bearing), c (H), c(Cl), c, c, c24.
+
+SMILES: CCOC(=O)N1CCC(CC1)=C2c3ncccc3CCc4cc(Cl)ccc24
