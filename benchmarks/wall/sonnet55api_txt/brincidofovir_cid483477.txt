@@ -1,0 +1,10 @@
+I read the molecule as the hexadecyloxypropyl ester of cidofovir (HPMPC), a cytosine-based acyclic nucleoside phosphonate.
+
+- **Alkyl chain:** counting the zigzag vertices from the left end gives 16 carbons, so a hexadecyl group. It is joined through an ether O to a three-carbon propyl linker, which ends in an O bonded to phosphorus.
+- **Phosphonate:** P carries one =O, one OH, the ester O from the propyl linker, and a CH2 that leads to an ether O.
+- **Stereocentre:** the ether O is attached to a stereocentre bearing CH2OH and a wedged CH2 that connects to the cytosine N1. The wedge is the only stereo marking in the drawing.
+- **Base:** cytosine, with a 4-NH2, a 2-C=O, and a C5=C6 double bond.
+
+For the stereocentre, the priorities are O > CH2OH > CH2N > H. With the implicit H pointing away, O → CH2OH → CH2N runs counterclockwise, which is S. I encoded this as `[C@H]` with the neighbours written in the order O, H, CH2OH, CH2N.
+
+SMILES: CCCCCCCCCCCCCCCCOCCCOP(=O)(O)CO[C@H](CO)Cn1ccc(N)nc1=O

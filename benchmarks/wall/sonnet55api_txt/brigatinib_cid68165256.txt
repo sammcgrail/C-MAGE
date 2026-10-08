@@ -1,0 +1,14 @@
+This structure is brigatinib, and I read it region by region from the drawing.
+
+- **Pyrimidine core:** the ring atoms are N, C(H), C(Cl), C(NH-aryl), N and C(NH-aryl). The Cl sits on the carbon next to the CH.
+- **Left aryl group:** the NH at the 4-position of the pyrimidine attaches to a benzene ring that carries a P(=O)(CH3)2 group on the adjacent (ortho) carbon.
+- **Right aryl group:** the NH at the 2-position attaches to a second benzene ring. That ring has an OMe ortho to the NH and a piperidin-1-yl group para to the NH.
+- **Piperidine and piperazine:** the piperidine is substituted at its 4-position with a piperazine, and that piperazine carries an N-methyl group.
+
+I wrote the SMILES in this order: Clc1cnc(Nc2ccc(cc2OC)N2CCC(CC2)N2CCN(C)CC2)nc1Nc1ccccc1P(C)(C)=O.
+
+Checking the connectivity against the drawing:
+- In the pyrimidine, c1(Cl), then c(H), n, c(N...), n, and c1 bearing the NH closes the ring. That matches.
+- In the right benzene ring, c2 (bearing the NH), then c, c, c(N-piperidine), c, c2(OMe). The OMe carbon is adjacent to the NH carbon. The piperidine carbon is para to the NH carbon, which fits the drawing, where the ring carbon bearing N is opposite the NH carbon.
+
+SMILES: Clc1cnc(Nc2ccc(cc2OC)N2CCC(CC2)N2CCN(C)CC2)nc1Nc1ccccc1P(C)(C)=O

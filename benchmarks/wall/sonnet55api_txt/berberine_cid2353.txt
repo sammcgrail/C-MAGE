@@ -1,0 +1,22 @@
+This drawing is berberine, a protoberberine cation, and I read the SMILES from the structure as follows.
+
+**Left side:** a methylenedioxy group (O–CH2–O) is fused to a benzene ring.
+
+**Middle:** a saturated CH2–CH2 bridge links that benzene ring to the N+. The N+ is double-bonded to a carbon (C=N+) that is attached to the left benzene ring. This carbon is also bonded to a CH, which is bonded to the right-hand ring system.
+
+**Right side:** the CH=C junction leads into the right benzene ring. That ring carries two adjacent OMe groups. The other ring-fusion carbon connects through a CH to the N+.
+
+**SMILES construction:**
+- Start with the methylenedioxy ring: C1Oc2cc3c(cc2O1)...
+- The CH2CH2 bridge attaches to the left aromatic carbon, so: c3 CC[n+]...
+- Full string: COc1ccc2cc3-c4cc5OCOc5cc4CC[n+]3cc2c1OC
+
+**Check:**
+- The right ring atoms are c1 (C–OMe), c, c, c2 (fusion carbon), then cc3 for the CH and the carbon bonded to the left ring.
+- The ring closure back to c2 would be c...c2 at the other fusion carbon, which is bonded to the CH attached to N+.
+- Written out, c3 is the carbon next to N+ (the C=N+ carbon), bonded to the left aryl carbon c4. In c4cc5OCOc5cc4CC[n+]3, the first c4 is bonded to c3, and the final c4 carries the CH2. The bridge CC then reaches [n+]3, which closes the ring to c3.
+- After [n+]3 comes c, the CH bonded to N+, then c2 (the fusion carbon closing the right ring with the earlier c2), then c1OC (the second OMe carbon closing the ring with the first c1).
+- The right ring therefore has six atoms: c1(OMe), c, c, c2, c2′, c1′(OMe), which is correct.
+- The pyridinium ring has six atoms: c2, c (the CH between c2 and c3), c3, [n+], c (the CH), c2′, which is correct.
+
+SMILES: COc1ccc2cc3-c4cc5OCOc5cc4CC[n+]3cc2c1OC

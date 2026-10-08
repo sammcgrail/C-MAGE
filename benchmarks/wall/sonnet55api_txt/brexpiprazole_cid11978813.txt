@@ -1,0 +1,21 @@
+This structure is brexpiprazole-like, but the quinolinone is linked through a butoxy chain and there is no vinyl group, so it is closer to a brexpiprazole analog. The pieces are:
+
+- **Left side:** a benzothiophene attached through its 4-position to a piperazine nitrogen.
+- **Linker:** the other piperazine nitrogen carries a chain of 4 CH2 groups, which ends in an oxygen.
+- **Right side:** that oxygen is bonded to the 7-position of quinolin-2(1H)-one.
+
+**Benzothiophene.** The thiophene ring is S, CH, CH, then the fused carbons. The carbon next to S is a fusion carbon (C7a). The other fusion carbon (C3a) is bonded to the CH=CH. The benzene carbon adjacent to C3a bears the piperazine, so the attachment is at C4.
+
+SMILES for this part: c1cc(N2CCN(...)CC2)c2ccsc2c1
+
+**Linker.** Counting the chain from N: the bonds run N–C, C–C, C–C, then C–O, giving 4 carbons. This matches the picture, with vertices at 630, 705, 787 and 862 before the O.
+
+**Quinolinone.** The ring is O=c1ccc2ccc(OR)cc2[nH]1. The oxygen-bearing carbon is bonded to a CH on one side and to a CH adjacent to the fusion carbon (C8a) bonded to N. That places it at position 7.
+
+Combining the parts:
+
+O=c1ccc2ccc(OCCCCN3CCN(CC3)c3cccc4sccc34)cc2[nH]1
+
+Check on the benzothiophene: c3cccc4sccc34 starts at C4 (the attachment), then C5, C6, C7, then C7a (c4) bonded to s, then the two CH carbons, then C3a (c34), which closes to both C4 and C7a. This is correct.
+
+SMILES: O=c1ccc2ccc(OCCCCN3CCN(CC3)c3cccc4sccc34)cc2[nH]1
