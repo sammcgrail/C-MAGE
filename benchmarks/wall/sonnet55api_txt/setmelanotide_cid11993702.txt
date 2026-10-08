@@ -1,0 +1,15 @@
+I read this as a cyclic disulfide peptide, Ac‑Arg‑Cys‑D‑Ala‑His‑D‑Phe‑Arg‑Trp‑Cys‑NH2, with the two cysteines joined by an S–S bond. The N‑terminus is acetylated and the C‑terminus is a primary amide.
+
+The wedges and hashes give these configurations:
+- Arg1, Cys2, His, Arg6, Trp and Cys8 are L (natural).
+- Ala and Phe are D, because their wedges place the side chain toward the viewer.
+
+In the SMILES I wrote the chain from the acetyl end to the ring. I then went around the ring from Cys8 back to Cys2, which is the C‑to‑N direction, and closed it at the Cys2 carbonyl. The chirality tags were assigned to match that atom order.
+
+The side chains are:
+- Arg: a guanidine group, `CCCN=C(N)N`.
+- Trp: an indole.
+- His: an imidazole attached through its carbon next to the NH.
+- Phe: a benzyl group.
+
+SMILES: CC(=O)N[C@@H](CCCN=C(N)N)C(=O)N[C@H]1CSSC[C@@H](C(N)=O)NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CCCN=C(N)N)NC(=O)[C@@H](Cc2ccccc2)NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@@H](C)NC1=O

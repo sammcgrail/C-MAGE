@@ -1,0 +1,32 @@
+This structure matches selpercatinib (LOXO-292), so I read it region by region and wrote the SMILES from that.
+
+**Left side:** a 2-hydroxy-2-methylpropoxy group, CC(C)(O)CO–, attached to the pyrazolo[1,5-a]pyridine core.
+
+**Core:** the pyrazolo[1,5-a]pyridine carries a nitrile on the pyrazole carbon C3, the aryl group on C4, and the alkoxy group on C6. Atoms in the drawing:
+- The bridgehead N is bonded to the CH next to it (C7) and to the pyrazole N.
+- C7 is double-bonded to C6, which bears the O-alkyl group.
+- C5 is the CH between C6 and C4.
+- C4 bears the pyridyl ring and is bonded to C3a, which is bonded to C3 (C#N).
+- The pyrazole ring closes through C2 (CH) and N.
+
+Core SMILES: N#Cc1cnn2cc(OCC(C)(C)O)cc(c12)-Ar
+
+**Middle ring:** a pyridine bearing the core at one position and the diazabicycle at the 2-position, i.e. c1ccc(nc1)N.
+
+**Diazabicycle:** 3,6-diazabicyclo[3.1.1]heptane.
+- N3 is bonded to the pyridine, to CH2 (a), and to CH2 (b).
+- CH2 (a) leads to bridgehead C1.
+- CH2 (b) leads to bridgehead C5.
+- C1 and C5 are joined by a one-carbon bridge (CH2) and by N6.
+- N6 carries the CH2 linker.
+
+The ring SMILES is N1(CC2CC(C1)N2Cc...)... Checking against the drawing: N3 connects to CH2 (a, upper left) to C1 (upper), and to CH2 (b, lower) to C5. C1 connects to N6 and to the CH2 bridge. C5 connects to N6 and to the same CH2 bridge. So the bicycle is N3(CC1CC(C2)N1R)... which I write as N1(CC2CC(C1)N2R) with ring labels adjusted.
+
+**Right side:** the N6 substituent is CH2–(6-methoxypyridin-3-yl), i.e. Cc1ccc(OC)nc1.
+
+**Full SMILES:**
+N#Cc1cnn2cc(OCC(C)(C)O)cc(-c3ccc(nc3)N3CC4CC(C3)N4Cc3ccc(OC)nc3)c12
+
+Check of the diazabicycle: N3 is followed by C, then C4 (bridgehead), then C (bridge CH2), then C(C3) (the other bridgehead, with its CH2 closing back to N3), then N4, which closes to the first bridgehead. This gives bridgeheads joined by CH2, by N, and by the N3–CH2 paths on each side, which is correct.
+
+SMILES: N#Cc1cnn2cc(OCC(C)(C)O)cc(-c3ccc(nc3)N3CC4CC(C3)N4Cc3ccc(OC)nc3)c12

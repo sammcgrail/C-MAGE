@@ -1,0 +1,12 @@
+This drawing is the sodium salt of deoxycholic acid (sodium deoxycholate), a bile-acid steroid. I built the SMILES from the cholic acid skeleton and removed the 7-OH, then checked the stereocentres I could against the drawing.
+
+Features read from the drawing:
+- **Skeleton:** a four-ring steroid core with two angular methyl groups, drawn as wedges at C10 and C13.
+- **Side chain:** a branched chain at C17 ending in a carboxylate (C(=O)[O-]), with a wedged methyl at C20.
+- **Hydroxyl groups:** two OH groups, both hashed (α), at C3 and C12. There is no OH at C7, which distinguishes it from cholic acid.
+- **Ring-junction hydrogens:** wedged H at C5 (5β, cis A/B ring fusion) and at C8, hashed H at C9 and C14.
+- **Counter-ion:** Na⁺.
+
+I worked out the chirality tags at C3 and C5 directly from the drawing, and both matched the cholic acid template. I did not independently re-derive the remaining centres from the image.
+
+SMILES: C[C@H](CCC(=O)[O-])[C@H]1CC[C@@H]2[C@@]1([C@H](C[C@H]3[C@H]2CC[C@H]4[C@@]3(CC[C@H](C4)O)C)O)C.[Na+]

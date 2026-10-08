@@ -1,0 +1,9 @@
+I read the molecule as three linked parts and wrote the SMILES from them.
+
+- **Left fragment:** a pyrido[3,2-d]pyrimidine whose C4 carries an NH. The pyrimidine ring has two nitrogens, and the fused pyridine ring has one nitrogen next to the ring-fusion carbon.
+- **Centre:** the NH is attached to a stereocentre bearing CF3 and a quinoline C3. The NH bond is drawn as a hashed wedge, so the implicit H points toward the viewer.
+- **Quinoline:** it has Cl at C8 and, at C2, a pyridin-3-yl group present as the N-oxide (`[n+]([O-])`).
+
+For the stereocentre, viewed from the H (the viewer's side), N → quinoline C3 → CF3 runs clockwise. Writing the neighbours in the order CF3, H, N, C3 then gives `@`, so the centre is `[C@H]`.
+
+SMILES: FC(F)(F)[C@H](Nc1ncnc2cccnc12)c1cc2cccc(Cl)c2nc1-c1ccc[n+]([O-])c1

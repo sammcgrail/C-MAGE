@@ -1,0 +1,15 @@
+This structure is sacubitril, the ethyl ester of an N-succinyl biphenylalanine-derived amino acid. I read it in four parts:
+
+- **Ester end:** an ethyl ester, CCOC(=O), attached to a carbon bearing a methyl group drawn on a bold wedge.
+- **Backbone:** that carbon connects through a CH2 to a second stereocentre, which carries the amide NH and is drawn with a hashed bond to the CH2.
+- **Aryl group:** from the second stereocentre, a benzyl CH2 leads to a biphenyl, a para-substituted benzene ring linked to a plain phenyl ring.
+- **Acid end:** the NH is acylated by a succinic acid half-amide, NC(=O)CCC(=O)O.
+
+I assigned the stereocentres from the wedge and hash bonds using CIP priorities:
+
+- **Methyl-bearing carbon:** priorities are ester carbon, then CH2, then CH3, then H. With the methyl on a wedge the H points away, and the ester → CH2 → CH3 sequence runs clockwise on the page, so this centre is R.
+- **N-bearing carbon:** priorities are N, then the benzyl CH2, then the lower CH2, then H. The lower CH2 is hashed, so the H points toward the viewer. The N → benzyl → lower CH2 sequence runs clockwise on the page, which reverses to S.
+
+This gives (2R,4S), matching sacubitril. I then checked that the @/@@ tags in the SMILES below reproduce R at the methyl-bearing carbon and S at the N-bearing carbon.
+
+SMILES: CCOC(=O)[C@H](C)C[C@@H](Cc1ccc(cc1)-c1ccccc1)NC(=O)CCC(=O)O

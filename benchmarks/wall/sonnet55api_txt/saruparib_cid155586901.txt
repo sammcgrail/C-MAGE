@@ -1,0 +1,24 @@
+The drawing breaks into three parts: a bicyclic core, a piperazine linker, and a pyridine carboxamide.
+
+**Bicyclic core (1,5-naphthyridin-2-one).**
+- The left ring contains an ethyl-bearing carbon, a C=O carbon, and an NH, and it fuses with the right ring.
+- The right ring contains an aromatic N, a CH, a carbon bearing CH2, and another CH.
+- Reading the left ring: the ethyl-substituted carbon (C3) is bonded to the C=O carbon (C2), which is bonded to NH (N1). N1 is bonded to the fusion carbon C8a, which is bonded to the other fusion carbon C4a.
+- C4a is bonded to the aromatic N and also to the CH (C4) that closes the ring back to C3.
+- The right ring runs: C8a, a CH, the carbon bearing CH2, a CH, N, and C4a.
+- So the core is a 1,5-naphthyridin-2(1H)-one carrying the ethyl group.
+
+**Linker.** The CH2 on the right ring connects to a piperazine nitrogen. The other piperazine nitrogen is bonded to the pyridine.
+
+**Pyridine carboxamide.**
+- The pyridine ring has the piperazine at C5 and C(=O)NHCH3 at C2, next to the ring nitrogen.
+- The ring runs: the carbon attached to the piperazine N, a CH, the ring N, the carbon bearing the amide, a CH, and a CH.
+
+**SMILES assembly.**
+- Core: CCC1=Cc2ncc(CN3...)cc2NC1=O
+- Check of the core: C1 (ethyl-bearing) =C (C4), then c2 (C4a), n, c (CH), c(CH2...), c (CH), c2 (C8a), N, C1=O.
+- Full molecule: CCC1=Cc2ncc(CN3CCN(CC3)c3ccc(C(=O)NC)nc3)cc2NC1=O
+
+The ring-3 atoms in the pyridine fragment c3ccc(...)nc3 read as: c3 (attached to the piperazine N), c, c, c(amide), n, c3. This matches the drawing.
+
+SMILES: CCC1=Cc2ncc(CN3CCN(CC3)c3ccc(C(=O)NC)nc3)cc2NC1=O

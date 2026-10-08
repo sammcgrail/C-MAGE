@@ -1,0 +1,13 @@
+This is saracatinib (AZD0530), and I read the structure region by region.
+
+- **Quinazoline core:** N1 and N3 sit at the bottom, with C2 between them. C4 carries the NH. The benzo ring has the tetrahydropyranyloxy group at C5 and the OCH2CH2-(4-methylpiperazine) chain at C7.
+- **Aniline part:** The NH links to a benzodioxole ring (a 1,3-benzodioxole). The carbon bearing NH is adjacent to the ring-fusion carbon that bears the O, and the chlorine is on the next carbon. This gives a 5-chloro-1,3-benzodioxol-4-yl group.
+- **Tetrahydropyran:** It is a six-membered ring (O plus five carbons) attached through its C4 to the ether oxygen.
+
+Writing the SMILES in order:
+- Benzodioxole: c1(N...)c(Cl)ccc2OCOc12. The NH-bearing carbon is bonded to the fusion carbon that carries the O at the top of the drawing.
+- Full molecule: CN1CCN(CC1)CCOc1cc(OC2CCOCC2)c2c(c1)ncnc2Nc1c(Cl)ccc2OCOc12
+
+Checking the quinazoline: c1 (the C7 bearing O) is followed by cc(OC2CCOCC2), which is C8 and then C6. Here "cc(...)" means c1, then c (C8), then c(O-THP) (C6). In the drawing, the carbon bearing the THP oxygen is the one bonded to the ring-fusion carbon C4a, which is adjacent to C4. So the carbon labelled C6 above is really C5. The ring then runs C7(O-chain), C6 (CH), C5 (O-THP), C4a, C8a, C8 (CH). The SMILES c1cc(OTHP)c2c(c1)ncnc2N has C7, C6H, C5(OTHP), C4a (c2), then c(c1) as C8a with C8 closing the ring, then n, c, n, c2(N) as C4. This matches the drawing.
+
+SMILES: CN1CCN(CC1)CCOc1cc(OC2CCOCC2)c2c(c1)ncnc2Nc1c(Cl)ccc2OCOc12
