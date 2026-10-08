@@ -1,0 +1,13 @@
+This is a riociguat-like structure with an added fluorine and a 7-azaindazole core (a pyrazolo[3,4-b]pyridine). Reading the drawing region by region:
+
+- **Carbamate:** methyl carbamate, COC(=O)N–, attached to the pyrimidine.
+- **Pyrimidine:** C5 carries the NH, C4 and C6 carry NH2, and C2 attaches to the bicyclic core. The ring atoms are C2, N3, C4(NH2), C5(NHCOOMe), C6(NH2) and N1.
+- **Bicyclic core:** pyrazole C3 is bonded to the pyrimidine C2 and double-bonded to N2. N2 is bonded to N1, which carries the benzyl group. N1 is bonded to C7a, which is double-bonded to C3a. C7a is also bonded to the pyridine N7, then C6H, then C5(F), then C4H, then back to C3a.
+- **Benzyl group:** CH2 attached to a phenyl ring with fluorine on the ortho carbon.
+
+SMILES, building from the carbamate:
+COC(=O)Nc1c(N)nc(nc1N)-c1nn(Cc2ccccc2F)c2ncc(F)cc12
+
+Checking the bicyclic part: c1nn(...)c2ncc(F)cc12 gives C3, N2, N1, C7a, N7, C6, C5(F), C4, and C3a closing both rings. This is consistent with the drawing.
+
+SMILES: COC(=O)Nc1c(N)nc(nc1N)-c1nn(Cc2ccccc2F)c2ncc(F)cc12

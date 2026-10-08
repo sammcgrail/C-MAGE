@@ -1,0 +1,12 @@
+The drawing shows a benzimidazole core (a benzene ring fused to an imidazole with one NH and one =N). The structure has two substituents:
+
+- **Carboxamide:** a C(=O)NH2 group sits on the benzene carbon next to the ring-fusion carbon on the pyridine-type N side (position 4).
+- **Pyrrolidine at C2:** the imidazole carbon between the two nitrogens carries a pyrrolidine ring attached at its 2-position. That ring carbon also bears a methyl group, drawn as a hashed wedge.
+
+This matches veliparib.
+
+**Stereocentre.** Its four substituents rank by CIP priority as ring NH, then the benzimidazole C2 (N,N,N), then the ring CH2, then CH3. The hashed methyl points away from the viewer. In the drawing, NH (up), then C2 (right), then CH2 (lower left) runs clockwise. With the lowest-priority group pointing away, that gives **R**.
+
+**SMILES check.** In `C[C@@]1(CCCN1)c1nc2c(C(N)=O)cccc2[nH]1`, the neighbours of the stereocentre are written in the order CH3, ring-closure N, CH2, C2. `@@` means that, viewed from CH3, N→CH2→C2 runs clockwise. Viewed from the opposite side, with CH3 pointing away, N→C2→CH2 then runs clockwise, which is R and matches the drawing.
+
+SMILES: C[C@@]1(CCCN1)c1nc2c(C(N)=O)cccc2[nH]1

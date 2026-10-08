@@ -1,0 +1,24 @@
+The structure is a terphenyl: three benzene rings joined in a row, with a carboxylic acid at one end.
+
+**Right ring:** a benzene ring carrying COOH, attached at its para position to the middle ring.
+
+**Middle ring:** the bond to the right ring leaves from the vertex at (858, 724). The ring vertices run (760, 660), (858, 724), (852, 842), (747, 895), (648, 831), (655, 713).
+- (655, 713) bears the link to the left ring.
+- (648, 831) bears the OCH2CH2OH group.
+- Starting from the right-ring attachment at (858, 724), the next vertices are (852, 842), (747, 895), then (648, 831), which carries the O. So the O-bearing carbon is meta to the right-ring attachment.
+- The left-ring attachment at (655, 713) is ortho to the O-bearing carbon.
+- The left-ring attachment is also meta to the right-ring attachment, via (760, 660).
+
+**Left ring:** the vertices are (562, 532), (463, 467), (358, 520), (352, 639), (451, 703), (555, 649).
+- (555, 649) is the attachment to the middle ring.
+- (358, 520) bears the pyrrolidine N.
+- (352, 639) bears the tert-butyl group.
+- The pyrrolidine carbon is para to the attachment, and the tert-butyl carbon is meta to it.
+
+**SMILES, written from the right ring:**
+- OC(=O)c1ccc(cc1)-c1ccc(OCCO)c(c1)-c1ccc(N2CCCC2)c(c1)C(C)(C)C
+- In the middle ring, c1 is the attachment to the right ring, then c, c, c(OCCO), then c(c1) is the carbon bearing the left ring.
+- In the left ring, the attachment carbon is c1, followed by c, c, then c(N), then c(tBu), then c1 closing the ring.
+- Checking the middle ring: the attachment carbon (858, 724), then (852, 842), (747, 895), (648, 831) with O, then (655, 713) with the left ring, then (760, 660) closing back. This matches the drawing.
+
+SMILES: OC(=O)c1ccc(cc1)-c1ccc(OCCO)c(c1)-c1ccc(N2CCCC2)c(c1)C(C)(C)C

@@ -1,0 +1,28 @@
+The structure is an N-(1-adamantyl) amide of 2-(2-dimethylaminoethoxy)acetic acid.
+
+**Chain:** CN(C)CCOCC(=O)NC, with the amide nitrogen attached to a ring carbon of the adamantane.
+
+**Adamantane:** it has 10 carbons. I assigned the drawn vertices as follows:
+- C1 (1147,742) is the attachment carbon (quaternary).
+- C2 (1157,587) is a CH2 that bonds to C3.
+- C3 (1295,517) is a CH that bonds to C4 (1424,602) and to C8 (1200,844).
+- C4 (1424,602) is a CH2 that bonds to C5.
+- C5 (1416,757) is a CH that bonds to C6 (1278,827) and C9 (1408,911).
+- C6 (1278,827) is a CH2 that bonds back to C1.
+- C9 (1408,911) is a CH2 that bonds to C7 (1269,981).
+- C7 (1269,981) is a CH that bonds to C10 (1140,897) and C8 (1200,844).
+- C10 (1140,897) is a CH2 that bonds to C1.
+- C8 (1200,844) is a CH2 that bonds to C3 and C7.
+
+This gives C1 neighbors C2, C6, C10 plus N, which is correct for a 1-adamantyl group.
+
+**SMILES for the adamantyl:** C1 is written as C12(...), with the three bridgeheads C3, C5 and C7.
+- Start at C1 and go to C2, then C3 (opens ring 3), C4, C5 (opens ring 4), C6, closing back to C1 with ring label 1.
+- C5 continues to C9, then C7 (opens ring 5), then C10 closing to C1 with ring label 2.
+- C7 also bonds to C8, which closes onto C3 with ring label 3.
+
+Written out: N-C12CC3CC(C1)CC(C3)C2, where C3 is the bridgehead atom bonded to C8 and C7 is bonded to C8.
+
+Check with the standard 1-adamantyl SMILES, C12(CC3CC(CC(C3)C1)C2): C1 → C2 → C3 (bridgehead) → C4 → C5 (bridgehead) → C6 → C1 closure... This is the standard form, so I used it.
+
+SMILES: CN(C)CCOCC(=O)NC12CC3CC(CC(C3)C1)C2

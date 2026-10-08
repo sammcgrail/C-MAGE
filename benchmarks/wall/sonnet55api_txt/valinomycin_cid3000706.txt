@@ -1,0 +1,15 @@
+This looks like valinomycin, a 36-membered cyclodepsipeptide made of three repeats of D-Val, L-Lac, L-Val and D-Hiv. I read the ring connectivity from the drawing and took the stereochemistry from the known configuration of this compound. I did not verify each wedge or hash against the CIP assignments.
+
+**Ring order.** Going around the ring, the sequence is Lac C(=O)–NH–Val, then Val C(=O)–O–Hiv, then Hiv C(=O)–NH–Val, then Val C(=O)–O–Lac. This repeats three times, giving 12 residues in total.
+
+**Substituents.** The Val and Hiv residues carry isopropyl groups and the Lac residues carry methyl groups.
+
+**Stereochemistry.** The CIP configurations are L-Lac = S, L-Val = S, D-Val = R and D-Hiv = R. For each pattern, the neighbour order and CIP priorities are:
+- Lac: written as `O[C@@H](C)C(=O)`, priorities O > C(=O) > CH3, giving S.
+- Hiv: written as `O[C@H](C(C)C)C(=O)`, priorities O > C(=O) > iPr, giving R.
+- L-Val: written as `N[C@@H](C(C)C)C(=O)`, priorities N > C(=O) > iPr, giving S.
+- D-Val: written as `N[C@H](C(C)C)C(=O)`, same priorities, giving R.
+
+The SMILES below uses these patterns three times and closes the ring at the first oxygen.
+
+SMILES: O1[C@@H](C)C(=O)N[C@@H](C(C)C)C(=O)O[C@H](C(C)C)C(=O)N[C@H](C(C)C)C(=O)O[C@@H](C)C(=O)N[C@@H](C(C)C)C(=O)O[C@H](C(C)C)C(=O)N[C@H](C(C)C)C(=O)O[C@@H](C)C(=O)N[C@@H](C(C)C)C(=O)O[C@H](C(C)C)C(=O)N[C@H](C(C)C)C1=O

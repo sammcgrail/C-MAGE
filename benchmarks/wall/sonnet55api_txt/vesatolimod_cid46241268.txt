@@ -1,0 +1,20 @@
+I read the drawing region by region and assembled the SMILES from the fragments below.
+
+**Bicyclic core (pteridinone type):**
+- The pyrimidine ring has C4 bearing NH2, then N3, then C2 bearing the butoxy group, then N1, then C4a and C8a.
+- C4 (NH2) is double-bonded to the ring-fusion carbon C4a. C2 is double-bonded to N3 (the left N), and the right N is double-bonded to C8a.
+- The fused six-membered ring runs C4a–NH–C(=O)–CH2–N(benzyl)–C8a.
+
+**Substituents:**
+- The butoxy group is O–CH2CH2CH2CH3 on C2.
+- The N-benzyl group is a benzene ring substituted at the meta position with CH2–pyrrolidine (N-linked, five-membered ring).
+
+**SMILES assembly:**
+- Start with the amino-bearing carbon: Nc1nc(OCCCC)nc2c1NC(=O)CN2Cc1cccc(CN2CCCC2)c1
+- Ring closures: c1 opens at C4, and "nc(OCCCC)n" gives N3, C2 and N1. Then c2 is C8a, and "c1" closes the pyrimidine ring at C4a. NC(=O)CN2 closes the second ring back to C8a through label 2.
+- Ring label 2 is reused for the pyrrolidine after it has been closed, which is valid. The benzene ring opens with c1 after "Cc", so the label 1 is free again at that point.
+- Check on C8a: "nc2c1NC(=O)CN2..." places c2 as C8a, which is bonded to N1 and to c1 (C4a). N2 then closes to C8a. This is correct.
+
+The meta pattern is c1cccc(CN...)c1, where the first atom is attached to the CH2 and the substituted atom is two positions away from it (c1, c, c, c(sub), c1). The first atom is position 1, then 2, 3, and the substituent sits at position 4 in the SMILES order, which is adjacent to the closing atom (position 5), and the closing atom is adjacent to position 1. That makes position 4 sit two bonds from position 1 through the closing atom, so it is meta. This agrees with the drawing.
+
+SMILES: CCCCOc1nc(N)c2NC(=O)CN(Cc3cccc(CN4CCCC4)c3)c2n1
