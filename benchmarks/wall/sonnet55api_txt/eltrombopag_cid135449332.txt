@@ -1,0 +1,13 @@
+This structure looks like eltrombopag, drawn as a tautomer.
+
+**Biphenyl part.** One benzene ring carries the azo group and the OH on adjacent carbons. Its other neighbour of the OH-bearing carbon is bonded to the second benzene ring. That second ring carries COOH at the meta position relative to the biaryl bond.
+
+**Pyrazolone part.** The ring is C(CH3)=C(N=N–Ar)–C(=O)–N(Ar')–NH, closed back to the C(CH3). The ring is written as an NH, 3-methyl, 4-azo, 5-oxo tautomer. The N-aryl group is a 3,4-dimethylphenyl.
+
+**Writing the SMILES.**
+- Start with the acid ring: OC(=O)c1cccc(c1)-c1cccc(N=NC2=C(C)NN(C2=O)c2ccc(C)c(C)c2)c1O.
+- The central ring has the biaryl-bonded carbon, then the carbon bearing OH, then the carbon bearing the azo group. In the drawing, the ring carbon at the lower left (attached to the other aryl ring) is adjacent to the C–OH, and the C–OH is adjacent to the C–N=N. So the ring reads c1(Ar)c(O)c(N=N…)ccc1, which matches the SMILES above.
+- The pyrazolone ring closes correctly: C2(=C(C)NN(C2=O)Ar).
+- On the dimethylphenyl ring, the attachment carbon is position 1. Going around, the carbon at the lower left carries a methyl (position 3), the next carbon at the lower right carries a methyl (position 4), and the remaining positions are CH. This gives c2ccc(C)c(C)c2, which is correct.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N=NC2=C(C)NN(C2=O)c2ccc(C)c(C)c2)c1O

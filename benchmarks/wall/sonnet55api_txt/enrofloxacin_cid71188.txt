@@ -1,0 +1,14 @@
+This is enrofloxacin, a fluoroquinolone: a quinolone core with an N-cyclopropyl group, a 3-carboxylic acid, a 4-oxo group, a 6-fluoro substituent and a 7-(4-ethylpiperazin-1-yl) group.
+
+Reading the drawing region by region:
+- **Ethyl group:** the CH3–CH2 chain at the left attaches to the piperazine N.
+- **Piperazine:** a six-membered ring with two N atoms, one bearing the ethyl group and the other bonded to the aromatic ring.
+- **Benzene ring:** it carries the piperazine N at one carbon and F on the adjacent carbon. The ring is fused to the pyridone ring.
+- **Pyridone ring:** N1 carries the cyclopropyl group. C2 is a CH double-bonded to C3, which bears COOH. C4 is the C=O, attached to the fused benzene carbon.
+
+SMILES, written starting from the ethyl group:
+CCN1CCN(CC1)c1cc2n(C3CC3)cc(C(=O)O)c(=O)c2cc1F
+
+Atom check: c1 (bearing the piperazine) → cc2 (the CH, then the fused carbon bonded to N) → n(cyclopropyl) → c (CH) → c(COOH) → c(=O) → c2 (the other fused carbon) → c (CH) → c1F (the carbon bearing F, which closes the ring back to the piperazine-bearing carbon). This agrees with the drawing, where F sits on the carbon next to the piperazine carbon and below the CH that is adjacent to the C4a ring fusion.
+
+SMILES: CCN1CCN(CC1)c1cc2n(C3CC3)cc(C(=O)O)c(=O)c2cc1F

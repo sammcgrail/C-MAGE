@@ -1,0 +1,11 @@
+The drawing shows efavirenz. I read it as follows:
+
+- **Ring:** a benzoxazinone, i.e. a benzene ring fused to a six-membered ring containing a carbamate. The ring atoms in order are the quaternary stereocentre, O, C(=O), NH, and the two fused aromatic carbons.
+- **Benzene substituent:** a Cl on the benzene ring, para to the NH-bearing carbon.
+- **Stereocentre substituents:** a CF3 group and a cyclopropyl-C≡C– group. The alkyne is drawn on a wedge bond, so it points toward the viewer.
+
+I set the chirality from the wedge. In the SMILES the neighbours of the stereocentre are listed as alkyne, aryl carbon (ring closure 2), CF3, then O. Viewed from the alkyne side, the sequence aryl → CF3 → O runs counterclockwise, which gives `@`.
+
+As a check, the CIP priorities are O > CF3 > aryl > alkyne. With the lowest-priority alkyne toward the viewer, O → CF3 → aryl appears clockwise, so the true sense is counterclockwise. That makes the centre S, which matches efavirenz.
+
+SMILES: C1CC1C#C[C@]2(C(F)(F)F)OC(=O)Nc3ccc(Cl)cc23

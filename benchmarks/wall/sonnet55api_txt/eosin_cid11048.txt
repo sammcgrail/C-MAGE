@@ -1,0 +1,19 @@
+This is eosin Y disodium salt, drawn as an open-form xanthene with a benzoate group on the central carbon.
+
+Reading the structure region by region:
+
+- **Left ring:** a carbon bearing O⁻ is bonded to a carbon bearing Br at the top, which is bonded to the ring-fusion carbon attached to the ring oxygen. The ring continues through the second fusion carbon, then a CH, then a carbon bearing Br at the lower left, and back to the O⁻ carbon.
+- **Right ring:** the fusion carbon attached to the ring oxygen is bonded to a carbon bearing Br at the top. That carbon is bonded to the C=O carbon, then to a carbon bearing Br at the bottom right, then to a CH, then to the second fusion carbon, which is double-bonded to the central carbon.
+- **Central carbon and benzoate:** the central carbon links to the left-ring fusion carbon, the right-ring fusion carbon (double bond) and the benzoate ring. The benzoate ring carries an ortho C(=O)[O⁻].
+
+SMILES, written ring by ring:
+
+- Left ring: c1(Br)c([O-])c(Br)cc2c1Oc3c(Br)c(=O)c(Br)cc3=C2c4ccccc4C(=O)[O-].
+- Checking the left ring: atoms are C_a(Br), C_b(O⁻), C_c(Br), C_d(H), C_e (fusion to the central carbon) and C_f (fusion to O). C_f is bonded to C_a, so the ring closure is correct.
+- Right ring, starting from O: c3 (fusion, attached to O) → c(Br) → c(=O) → c(Br) → cH → c3 (fusion, =C central).
+
+For the left ring I use aromatic notation, which RDKit can kekulize here: the left ring has the bonds C_a=C_f, C_b=C_c and C_d=C_e, consistent with the drawing. The right ring is written with an exocyclic C=O and the central C=C, and the benzoate ring is aromatic.
+
+The two Na⁺ ions are added as separate components.
+
+SMILES: [Na+].[Na+].[O-]c1c(Br)cc2c(c1Br)Oc1c(Br)c(=O)c(Br)cc1=C2c1ccccc1C(=O)[O-]

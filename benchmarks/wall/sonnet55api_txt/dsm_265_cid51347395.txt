@@ -1,0 +1,22 @@
+This looks like the DSM265 analog: a triazolopyrimidine core with a CF2CH3 group, a methyl group, and an NH-aryl group bearing an SF5.
+
+**Core (read from the drawing):**
+- The triazole ring has C2 (bearing CF2CH3), N, N (the bridgehead), C (the fusion carbon) and N.
+- C2 is bonded to the top N (N1) and to the left N (N3).
+- N1 is bonded to the bridgehead N, which carries the NH-bearing carbon C7.
+- N3 is bonded to the fusion carbon C8a.
+- The pyrimidine ring runs: bridgehead N, C7 (NH-aryl), CH, C5 (methyl), N4, C8a.
+
+**Bonds:**
+- C2=N1 is a double bond, and N3=C8a is a double bond.
+- C7=CH is a double bond, and C5=N4 is a double bond.
+
+**SMILES pieces:**
+- Substituent on C2: CC(F)(F)
+- Triazole and pyrimidine written together: CC(F)(F)c1nc2nc(C)cc(Nc3ccc(S(F)(F)(F)(F)F)cc3)n2n1
+
+**Check of the ring closures:**
+- c1 is C2, n is N1... in the string above, the first n after c1 would be N3 (bonded to C2 and to C8a), so the order is c1 (C2), n (N3), c2 (C8a), n (N4), c(C) (C5), c (CH), c(N...) (C7), n2 (bridgehead, closing to C8a), n1 (N1, closing to C2).
+- The bridgehead N is bonded to C7, C8a and N1, which matches the drawing.
+
+SMILES: CC(F)(F)c1nc2nc(C)cc(Nc3ccc(S(F)(F)(F)(F)F)cc3)n2n1

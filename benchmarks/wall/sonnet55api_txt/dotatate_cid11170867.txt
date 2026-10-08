@@ -1,0 +1,20 @@
+I read the structure as DOTA-D-Phe-Cys-Tyr-D-Trp-Lys-Thr-Cys-Thr, a DOTA-conjugated octreotate-type peptide (DOTA-TATE), with a disulfide between the two Cys residues. I assigned each stereocentre from its wedge or hash bond.
+
+**Regions read from the drawing**
+- **Macrocycle:** the left ring is a 12-membered tetra-aza ring (cyclen) with three CH2COOH arms and a fourth CH2C(=O) arm that acylates the Phe nitrogen. This is DOTA.
+- **Peptide:** D-Phe is bonded to Cys. Cys is bonded to Tyr, Tyr to D-Trp, D-Trp to Lys, Lys to Thr, and Thr to the second Cys. The second Cys carries a C-terminal Thr acid.
+- **Ring:** the two Cys CH2 groups are joined through the S–S bond.
+
+**Stereochemistry from wedges and hashes**
+- D-Phe: `[C@H]`
+- Cys1 (alpha carbon of the first Cys, attached to Phe): `[C@H]`
+- Tyr: `[C@H]`
+- D-Trp: `[C@@H]`
+- Lys: `[C@H]`
+- Thr6: alpha `[C@H]`, side-chain `[C@@H]`
+- Cys7 (alpha carbon of the second Cys): `[C@@H]`
+- Thr8 (C-terminal Thr): alpha `[C@@H]`, side-chain `[C@@H]`
+
+These tags are in the atom order used in the SMILES below. I checked that the ring closures and the 12-membered DOTA ring close correctly.
+
+SMILES: OC(=O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)N[C@H](Cc2ccccc2)C(=O)N[C@H]3CSSC[C@@H](C(=O)N[C@@H]([C@@H](C)O)C(=O)O)NC(=O)[C@H]([C@@H](C)O)NC(=O)[C@H](CCCCN)NC(=O)[C@@H](Cc4c[nH]c5ccccc45)NC(=O)[C@H](Cc6ccc(O)cc6)NC3=O)CC1
