@@ -1,0 +1,11 @@
+This structure is alogliptin, a 6-(3-aminopiperidin-1-yl)-uracil bearing an N-methyl and an N-(2-cyanobenzyl) group. I read it region by region:
+
+- **Pyrimidinedione ring:** N1 carries the methyl (the line at the bottom right) and sits between two carbonyl carbons (the two C=O groups). The ring also contains a C=C. Its other nitrogen carries the benzyl CH2. The ring carbon next to that nitrogen carries the piperidine.
+- **Benzyl group:** The CH2 leads to a benzene ring with a nitrile (C≡N) on the adjacent (ortho) carbon.
+- **Piperidine ring:** It is attached through its nitrogen to the pyrimidinedione. The ring carbon at position 3 bears an NH2 drawn with a hashed bond.
+
+For the stereocentre at piperidine C3, the hashed NH2 points away from the viewer, so the implicit H points toward the viewer. The CIP priorities are NH2, then C2 (the CH2 bonded to N), then C4, then H. On the screen the sequence NH2 → C2 → C4 runs counterclockwise. Because H faces the viewer, the true sense is reversed, giving clockwise, which is (R).
+
+I wrote the SMILES with `[C@@H]` for the order C4, H, NH2, C2 and checked that this gives R.
+
+SMILES: CN1C(=O)C=C(N2CCC[C@@H](N)C2)N(Cc2ccccc2C#N)C1=O

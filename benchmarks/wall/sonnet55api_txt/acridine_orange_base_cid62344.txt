@@ -1,0 +1,17 @@
+The drawing shows acridine orange: a tricyclic acridine core with a dimethylamino group on each outer ring.
+
+**Core.** The central ring contains one N (bottom) and one CH (top). It is fused to a left benzene ring and a right benzene ring.
+
+**Substituents.** Each outer ring carries an N(CH3)2 group at the position meta to the ring fusion, on the carbon adjacent to the CH at the bottom of that ring.
+
+**Coordinates.** Left ring atoms: (480,517), (345,595), (345,750) bearing NMe2, (480,827), (615,750) fused, (615,595) fused. Central ring: (615,595), (750,517) CH, (885,595), (885,750), N (750,827), (615,750). Right ring: (885,595), (1020,517), (1155,595), (1155,750) bearing NMe2, (1020,827), (885,750).
+
+**SMILES.** I wrote the SMILES by going around the rings:
+- Start with CN(C)c1ccc2cc3ccc(N(C)C)cc3nc2c1.
+- Left ring: c1 (NMe2 carbon), c (345,595), c (480,517), c2 (615,595, fused), then the CH (750,517).
+- Then c3 (885,595, fused), c (1020,517), c (1155,595), c(NMe2) (1155,750), c (1020,827), c3 (885,750, fused).
+- Then n (750,827), c2 (615,750, fused), and c1 (480,827) closes the left ring.
+
+This matches the drawing atom for atom.
+
+SMILES: CN(C)c1ccc2cc3ccc(N(C)C)cc3nc2c1

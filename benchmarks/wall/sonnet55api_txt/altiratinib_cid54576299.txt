@@ -1,0 +1,17 @@
+I read the structure region by region, from left to right.
+
+- **Left end:** a cyclopropyl group attached to a C(=O) that is bonded to NH. This is a cyclopropanecarboxamide.
+- **Pyridine:** the NH is on C2 of the pyridine ring, and the ring nitrogen is adjacent to that carbon. The ring atoms run C2, then C3 (CH), then C4 (bearing O), then C5 (CH), C6 (CH), and N1.
+- **Central benzene:** the pyridine C4 is linked through an ether O to the central benzene. The benzene carries two fluorines and an NH.
+  - Ring atoms: C1 (O), C2 (F, lower left), C3 (CH), C4 (NH), C5 (F, upper right), C6 (CH).
+  - Going around from C(O) at the top left: C(O) is bonded to C(F) at the lower left and to CH at the top. The top CH is bonded to C(F) at the upper right. That C(F) is bonded to C(NH) on the right, then CH at the bottom, then back to C(F) at the lower left.
+  - So the ring is c1(O)cc(F)c(N)cc1F, with O and N para to each other, and F ortho to each.
+- **Right side:** the NH is bonded to C(=O), which is bonded to a cyclopropane quaternary carbon. That carbon also carries a second C(=O)NH-aryl group, where the aryl is 4-fluorophenyl.
+
+Assembled SMILES:
+
+O=C(C1CC1)Nc1cc(Oc2cc(F)c(NC(=O)C3(CC3)C(=O)Nc3ccc(F)cc3)cc2F)ccn1
+
+Check of the central ring: c2 (O attached), then c (CH), then c(F), then c(N...), then c (CH), then c2F. The ring closure atom bears F and is adjacent to the O-bearing carbon, which matches the drawing.
+
+SMILES: O=C(C1CC1)Nc1cc(Oc2cc(F)c(NC(=O)C3(CC3)C(=O)Nc3ccc(F)cc3)cc2F)ccn1

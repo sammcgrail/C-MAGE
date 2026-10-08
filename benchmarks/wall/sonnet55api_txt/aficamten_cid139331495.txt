@@ -1,0 +1,15 @@
+I read the structure in three parts and then assigned the stereocentre from the hashed bond.
+
+**Fragments**
+- **Left:** an ethyl group on C5 of a 1,2,4-oxadiazole (O, N, C, N, C in the ring). Its C3 is bonded to the benzene ring of the indane.
+- **Centre:** a 2,3-dihydro-1H-indene (indane). The oxadiazole sits on the benzene ring, and the five-membered ring carries an NH on its benzylic carbon.
+- **Right:** an amide, NH–C(=O), linked to C4 of a 1-methylpyrazole.
+
+**Stereochemistry**
+The indane C1 (the NH-bearing carbon) has a hashed bond to N, so N points away from the viewer and the implicit H points toward the viewer.
+
+Seen from the viewer's side, the other three substituents go CH2 (down), then aromatic C (upper left), then N (upper right). That is clockwise.
+
+In the SMILES `CC[C@H]3N...`, the neighbour order at the stereocentre is CH2, H, aromatic C (ring closure 3), N. Moving H to the front takes one swap, and the order (H, CH2, aromatic C, N) is clockwise, which is `@@`. Undoing the swap flips it back, so the original order is `@`, giving `[C@H]`.
+
+SMILES: CCc1nc(-c2ccc3c(c2)CC[C@H]3NC(=O)c2cnn(C)c2)no1

@@ -1,0 +1,10 @@
+I read the drawing as a six-carbon open-chain sugar: an aldehyde carbon (C1), a fluorine-bearing carbon (C2), three secondary alcohol carbons (C3–C5), and a terminal CH2OH (C6). The drawing shows a hashed bond to F on C2, hashed bonds to OH on C3 and C4, and a wedged bond to OH on C5.
+
+I assigned each stereocentre by looking at the neighbours in the order they appear in the SMILES string, treating the implicit H as lying opposite the drawn wedge or hash:
+
+- C2: F is hashed (back), so H is toward the viewer, which gives `[C@H]`.
+- C3: OH is hashed, giving `[C@@H]`.
+- C4: OH is hashed, giving `[C@H]`.
+- C5: OH is wedged, so H is at the back, giving `[C@H]`.
+
+SMILES: O=C[C@H](F)[C@@H](O)[C@H](O)[C@H](O)CO

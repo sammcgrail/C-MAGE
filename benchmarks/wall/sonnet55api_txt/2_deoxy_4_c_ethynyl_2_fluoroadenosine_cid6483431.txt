@@ -1,0 +1,17 @@
+I read this as islatravir (4'-ethynyl-2-fluoro-2'-deoxyadenosine): a 2-fluoroadenine base joined through N9 to a 2'-deoxyribose-type ring.
+
+**Base.** The purine carries F at C2 and NH2 at C6. The five-membered ring is closed through N9, which bears the sugar.
+
+**Sugar ring.** The ring has five atoms: O, C1', C2' (a CH2), C3' and C4'.
+- C1' is bonded to N9 by a bold wedge.
+- C3' carries OH on a hashed bond.
+- C4' carries a hashed ethynyl group and a CH2OH group.
+
+**Stereo assignment.** I assigned each centre from the wedge/hash geometry, with the SMILES neighbour order as written below.
+- C4' (neighbours ethynyl, C3', CH2OH, O): the three non-ethynyl groups run clockwise seen from the front, so counterclockwise seen from the ethynyl, giving `@`.
+- C1' (neighbours O, H, N, C2'): the implicit H points away, and O → N → C2' runs clockwise from the front, giving `@@`.
+- C3' (neighbours C2', H, C4', O): the implicit H points toward the viewer, and C2' → C4' → O runs counterclockwise from the front, giving `@@`.
+
+These match the known configuration of islatravir.
+
+SMILES: C#C[C@]1(CO)O[C@@H](n2cnc3c(N)nc(F)nc32)C[C@@H]1O

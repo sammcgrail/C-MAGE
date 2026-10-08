@@ -1,0 +1,27 @@
+Reading the drawing atom by atom, I get a bicyclic system: a six-membered ring fused to a five-membered ring.
+
+**Six-membered ring** (going around from the top):
+- N at the top, double-bonded to a CH on its left.
+- That CH is bonded to HN on the left.
+- HN is bonded to C(=O) at the bottom left.
+- C(=O) is bonded to fusion carbon C3a.
+- C3a is double-bonded to fusion carbon C7a.
+- C7a is bonded back to the top N.
+
+**Five-membered ring:**
+- C7a is bonded to NH.
+- NH is bonded to N.
+- N is double-bonded to a CH.
+- That CH is bonded to C3a.
+
+**SMILES:**
+- Starting at the C=O carbon: O=C1NC=NC2=C1C=NN2
+- Ring 1 runs C1, N, C, =N, C2, then C1 closes through the "=C1" atom (C3a).
+- C3a is written as "=C1", so C2=C1 is the C7a=C3a double bond.
+- Next comes C=N (the CH double-bonded to N), then N2 (the NH), which closes to C7a.
+
+**Check on the five-membered ring:** C7a, C3a, CH, N and NH are five atoms. The bonds are C7a=C3a, C3a–CH, CH=N, N–NH and NH–C7a, which matches the drawing.
+
+**Hydrogens:** the top N is double-bonded to CH, so it has no H. The six-membered ring N–H is the HN on the left, written as N in the SMILES (valence 3: C(=O), CH, H). That works.
+
+SMILES: O=C1NC=NC2=C1C=NN2

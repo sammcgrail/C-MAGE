@@ -1,0 +1,28 @@
+The drawing is a purine skeleton with a thione, i.e. a tautomer of 6-mercaptopurine.
+
+**Atoms and bonds read from the image:**
+- Six-membered ring: NH (top), CH, N (left), C(=S), C (fused), C (fused).
+- Five-membered ring: C (fused, top right), N (right), CH, NH (bottom), C (fused, bottom left).
+- The CH at the top left is double-bonded to the left N.
+- The C(=S) carbon is bonded to the left N and to the fused carbon at the bottom left.
+- The two fused carbons are joined by a double bond.
+- The right N is double-bonded to the CH of the five-membered ring (N=CH).
+- The bottom NH is bonded to the CH and to the fused carbon at the bottom left.
+
+**Writing the SMILES:**
+- Start at the top NH and go round the six-membered ring: N1C=NC(=S)C2=C1N=CN2.
+- Ring 1 starts at the top NH, then C (the CH), =N (left N), C(=S), then C2 (fused, bottom left).
+- C2 is double-bonded to the other fused carbon, written C1 so it closes ring 1 with the top NH.
+- That fused carbon (top right) is bonded to the right N, which is double-bonded to the CH (N=C), and the CH is bonded to the bottom NH. The bottom NH closes ring 2 back to C2.
+
+**Check:** the fused carbon bearing the top NH is double-bonded to C2, as drawn. The top-right fused carbon has bonds to NH, to the right N (single) and to C2 (double), so its valence is correct. The C(=S) carbon has bonds to N, S (double) and C2, so it is also correct.
+
+SMILES: S=C1N=CNC2=C1NC=N2
+
+Wait — this string places the NH on the wrong nitrogen of the five-membered ring, so I rewrote it to match the drawing. The fused carbon next to the top NH must be bonded to the right N (no H), and the fused carbon next to C(=S) must be bonded to the bottom NH.
+
+Corrected: S=C1N=CNC2=C1NC=N2
+
+Tracing it: C1(=S), N=, C, N(H), C2 (the fused carbon bonded to the top NH), =C1 (the fused carbon bonded to C(=S)), N(H), C, =N2 which closes back to the first fused carbon. This matches the drawing, with the right N on the carbon next to the top NH and the bottom NH on the carbon next to C(=S).
+
+SMILES: S=C1N=CNC2=C1NC=N2

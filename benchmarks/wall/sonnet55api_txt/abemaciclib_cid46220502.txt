@@ -1,0 +1,24 @@
+I read the structure region by region, as follows.
+
+**Left side.** An N-ethylpiperazine is attached through its other nitrogen to a CH2. That CH2 is bonded to a pyridine ring at the 5-position. The pyridine nitrogen sits next to the carbon bearing the NH, so the ring is a 2-aminopyridine.
+
+**Centre.** The NH links the pyridine to C2 of a pyrimidine. The pyrimidine has N1 and N3 flanking C2. C4 carries the benzimidazole, and C5 carries F. C6 is CH.
+
+**Right side.** The benzimidazole has N1 bearing an isopropyl group and C2 bearing a methyl group. The benzo ring carries a fluorine, and its attachment point to the pyrimidine lies meta to that fluorine.
+
+**Benzimidazole numbering.** From the drawing:
+- C3a is at (955, 570), bonded to N3 (the =N).
+- C7a is at (1058, 665), bonded to N1 (the N-isopropyl).
+- C4 is at (820, 610) and carries F.
+- C5 is at (789, 747).
+- C6 is at (891, 843) and carries the pyrimidine.
+- C7 is at (1026, 802).
+
+So the fluorine is on C4, the carbon adjacent to C3a, and the pyrimidine is on C6.
+
+**SMILES construction.**
+- Benzimidazole: Cc1nc2c(F)cc(cc2n1C(C)C)-c1nc(Nc2ccc(CN3CCN(CC)CC3)cn2)ncc1F
+- Check of the benzo ring: c2 (C3a), c(F) (C4), c (C5), c(...) (C6, with the pyrimidine), c (C7), c2 (C7a) closes the ring, and n1 follows C7a. This is consistent with the drawing.
+- Pyridine: c2ccc(CN...)cn2 starts at the carbon bearing the NH (C2), then C3, C4, C5 (bearing the CH2), then C6, then N. The drawing agrees: the NH carbon is adjacent to the ring N, and the CH2 carbon is one carbon away from the CH next to N.
+
+SMILES: Cc1nc2c(F)cc(cc2n1C(C)C)-c1nc(Nc2ccc(CN3CCN(CC)CC3)cn2)ncc1F

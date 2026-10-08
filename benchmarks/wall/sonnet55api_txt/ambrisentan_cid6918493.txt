@@ -1,0 +1,18 @@
+This molecule is ambrisentan, (S)-2-(4,6-dimethylpyrimidin-2-yloxy)-3-methoxy-3,3-diphenylpropanoic acid.
+
+**Reading the structure**
+- The left ring is a pyrimidine with methyl groups at positions 4 and 6, joined through its C2 to an ether oxygen.
+- That oxygen is attached by a wedge bond to the central CH carbon.
+- This CH carbon also carries a carboxylic acid (C(=O)OH) and a quaternary carbon.
+- The quaternary carbon bears two phenyl rings and an OCH3 group.
+
+**Stereochemistry**
+- The wedge oxygen points toward the viewer, so the implicit hydrogen points away.
+- The CIP priorities at the stereocentre are O > COOH (O,O,O) > C(Ph)2OMe (O,C,C) > H.
+- With H at the back, O (upper left) → COOH (down) → quaternary C (upper right) runs counterclockwise on the page, so the centre is S.
+
+**SMILES check**
+- In the SMILES below, the stereocentre's neighbours are written in the order quaternary C, H, O, COOH.
+- I worked out that `[C@@H]` in this order would give R, so `[C@H]` is needed for S.
+
+SMILES: COC(c1ccccc1)(c1ccccc1)[C@H](Oc1nc(C)cc(C)n1)C(=O)O

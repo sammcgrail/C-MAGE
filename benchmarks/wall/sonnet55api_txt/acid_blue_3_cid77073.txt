@@ -1,0 +1,25 @@
+The image shows two identical dye cations/anions plus one Ca2+. Each unit is a triarylmethane dye (patent blue / acid blue type).
+
+Reading one unit:
+- The central carbon is double-bonded to a cyclohexadienylidene ring that ends in an =N+(Et)2 group.
+- It is single-bonded to a 4-(diethylamino)phenyl ring.
+- It is also single-bonded to a third aromatic ring carrying the OH and two sulfonates.
+
+Third ring, numbered from the carbon attached to the central carbon:
+- C1 is the attachment carbon.
+- C2 bears SO3−.
+- C3 is CH.
+- C4 bears SO3−.
+- C5 bears OH.
+- C6 is CH.
+
+In the drawing, the ring carbon bonded to the central carbon is at the bottom. Going up and to the right, the next carbon bears the sulfonate at the lower right, then a CH. Next comes the carbon with the upper sulfonate, then the carbon with OH, then a CH back to the start.
+
+SMILES for one unit:
+CCN(CC)c1ccc(cc1)C(=C1C=CC(=[N+](CC)CC)C=C1)c1cc(O)c(cc1S(=O)(=O)[O-])S(=O)(=O)[O-]
+
+Checking the ring: c1 (attachment), then cc(O) gives CH then C-OH, then c(...S) gives the upper sulfonate carbon, then c gives the CH, then c1S(=O)(=O)[O-] closes the ring at the carbon bearing the lower sulfonate. In the written SMILES, `c1cc(O)c(cc1S...)S...` has the ring atoms attachment, CH, C(OH), C(SO3), CH, C(SO3), which matches the drawing.
+
+Charge balance per unit is +1 −2 = −1, so two units give −2, balanced by Ca2+.
+
+SMILES: CCN(CC)c1ccc(cc1)C(=C1C=CC(=[N+](CC)CC)C=C1)c1cc(O)c(cc1S(=O)(=O)[O-])S(=O)(=O)[O-].CCN(CC)c1ccc(cc1)C(=C1C=CC(=[N+](CC)CC)C=C1)c1cc(O)c(cc1S(=O)(=O)[O-])S(=O)(=O)[O-].[Ca+2]

@@ -1,0 +1,14 @@
+The drawing shows albendazole: a benzimidazole core carrying a methyl carbamate at C2 and a propylthio group on the benzene ring.
+
+Reading the structure region by region:
+
+- **Carbamate:** a methyl group is attached to O, which connects to C(=O), which connects to NH. This gives COC(=O)N.
+- **Imidazole ring:** the NH links to C2, which is double-bonded to N (no H, drawn at upper left) and single-bonded to NH (drawn at lower right). The N= connects to the ring-fusion carbon at upper right, and the NH connects to the other fusion carbon.
+- **Benzene ring:** it has six carbons, and the one bearing S sits at the far right of the ring.
+- **Propylthio chain:** S is followed by three carbons, CCC.
+
+Tracing the SMILES from the carbamate: COC(=O)NC1=Nc2ccc(SCCC)cc2N1.
+
+Checking the ring placement: the upper fusion carbon (bonded to N=) leads up to the top-left CH, then the top-right CH, then the C–S carbon, then the bottom CH, then the lower fusion carbon (bonded to NH). In the SMILES, c2 is the fusion carbon bonded to N=, followed by c, c, c(S), c, and then c2 bonded to NH. The ring has six atoms: c2, c, c, c(S), c, c2. This matches the drawing.
+
+SMILES: COC(=O)NC1=Nc2ccc(SCCC)cc2N1

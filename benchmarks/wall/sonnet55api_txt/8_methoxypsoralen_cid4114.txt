@@ -1,0 +1,19 @@
+This is a furocoumarin: a coumarin fused to a furan ring, carrying a methoxy group. It matches methoxsalen (8-methoxypsoralen, xanthotoxin).
+
+Reading the atoms from the drawing:
+- Furan ring: O at the lower left, bonded to CH=CH, which joins the benzene ring at the top-left fusion carbon (C 425,465). The O is also bonded to the other fusion carbon (C 420,690).
+- Benzene ring: C(425,465), CH(621,355), C(815,472), C(811,698), C(613,808), C(420,690).
+- Pyranone ring: C(815,472) bonded to CH(1012,363)=CH(1206,480), then C(=O)(1202,705), then O(1005,815), which bonds to C(811,698).
+- Methoxy group: attached at C(613,808), the carbon between the furan-bearing carbon and the pyranone-O-bearing carbon.
+
+SMILES, starting from the methoxy group:
+COc1c2occc2cc2ccc(=O)oc12
+
+Checking this string:
+- c1 is the carbon bearing OMe (613,808).
+- c2 is the furan-fused carbon (420,690), followed by o, c, c, then c2 (425,465), which closes the furan ring. The five-membered ring is c2, o, c, c, c2, so that is fine.
+- cc2 gives CH(621,355) and then C(815,472), which opens a new ring label 2.
+- ccc(=O)o gives CH, CH, C=O and O.
+- c12 is the C(811,698), closing ring 1 to the OMe carbon and ring 2 to C(815,472).
+
+SMILES: COc1c2occc2cc2ccc(=O)oc12

@@ -1,0 +1,25 @@
+This is acyclovir, a guanine with a (2-hydroxyethoxy)methyl group on N9.
+
+Reading the drawing region by region:
+
+- **Side chain:** HO–CH2–CH2–O–CH2– is attached to N9, the ring nitrogen at the lower left.
+- **Imidazole ring:** N9 is bonded to a CH carbon, which has a double bond to N7. N7 is bonded to C5. C5 is double-bonded to C4, and C4 is bonded back to N9.
+- **Pyrimidine ring:** C4 is bonded to N3, which is double-bonded to C2. C2 carries the NH2 group and is bonded to N1H. N1H is bonded to C6, which carries the C=O. C6 is bonded to C5.
+
+Writing this as SMILES: OCCOCn1cnc2c1nc(N)[nH]c2=O
+
+Atom-by-atom check against the drawing:
+
+- n1 is N9.
+- c is the CH carbon.
+- n is N7.
+- c2 is C5.
+- c1 is C4, closing the five-membered ring back to N9.
+- n is N3.
+- c(N) is C2 with the amino group.
+- [nH] is N1.
+- c2=O is C6, closing the six-membered ring back to C5.
+
+Bond orders also fit the drawing. The imidazole CH=N7 is aromatic, C4=C5 is aromatic, and C2=N3 is aromatic. The C=O carbon is aromatic in this SMILES, which RDKit accepts for this kind of ring.
+
+SMILES: OCCOCn1cnc2c1nc(N)[nH]c2=O

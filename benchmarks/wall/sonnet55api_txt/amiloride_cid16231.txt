@@ -1,0 +1,20 @@
+This is amiloride. The drawing shows a pyrazine ring with these substituents:
+
+- C–NH2 (top left of the ring)
+- N (top)
+- C–NH2 (right)
+- C–Cl (bottom right)
+- N (bottom)
+- C bearing the carbonyl (left)
+
+The carbonyl carbon is C(=O), attached to N=C(N)N, a guanidine group.
+
+I wrote the SMILES by walking around the ring from the carbonyl-bearing carbon: C(=O)(N=C(N)N) is attached to c1, then c(N) (the top-left NH2 carbon), then n, then c(N), then c(Cl), then n closing the ring.
+
+SMILES: NC(N)=NC(=O)c1nc(Cl)c(N)nc1N
+
+Checking the ring order: c1 (bearing C=O), then the top-left carbon with NH2 (c(N)), then N (top), then the right carbon with NH2, then the carbon with Cl, then N (bottom), back to c1. Written this way the ring is c1(C=O) c(N) n c(N) c(Cl) n, which gives c1c(N)nc(N)c(Cl)n1.
+
+Rewriting with that order: NC(N)=NC(=O)c1nc(Cl)c(N)nc1N. The ring runs c1, n, c(Cl), c(N), n, c1(N). That means c1 is bonded to the bottom N, then to C-Cl, then to the right C-NH2, then to the top N, then to the top-left C-NH2, which closes back to c1. This matches the drawing.
+
+SMILES: NC(N)=NC(=O)c1nc(Cl)c(N)nc1N

@@ -1,0 +1,19 @@
+I read the structure region by region.
+
+**Oxadiazole ring (left):** The atoms are O, then CH, then N, then C (attached to the phenyl), then N, closing back to O. Going round the ring: O1–C(H)=N–C(Ar)=N–O1. The O is bonded to a CH and to an N, and the N is bonded to the C bearing the aryl group. So the ring is c1ncon1 style, which is a 1,2,4-oxadiazole with the aryl at position 3.
+
+SMILES for the ring and phenyl: c1nc(-c2ccc(...)cc2)no1.
+
+**Para-substituted phenyl:** One end carries the oxadiazole and the other carries NH–C(=O)–CH2–N.
+
+**Central amide nitrogen:** This N carries three groups: the CH2, a 2,6-dimethylphenyl ring, and a C(=O) attached to the thiane ring.
+
+**Thiane ring:** The carbonyl carbon is attached to a ring CH. The ring is CH, CH2, CH2, S(=O)(=O), CH2, CH2, back to CH, so it is a 1,1-dioxothian-4-yl group.
+
+Full SMILES: O=C(Nc1ccc(cc1)-c1ncon1)CN(c1c(C)cccc1C)C(=O)C1CCS(=O)(=O)CC1
+
+I checked the oxadiazole connectivity. In the drawing, C(H) is bonded to O and double-bonded to N. That N is bonded to C3, which is bonded to the aryl group. C3 is double-bonded to the second N, which is bonded to O. In c1ncon1 notation, c1 (attached to aryl) – n – c – o – n1 would give the aryl carbon between two N atoms. That is the wrong order for this ring. The correct ring is c1(aryl)noc n1: the aryl carbon is bonded to N (which bonds to O) and to the other N (which bonds to CH). Written out: c1(-Ar)noc n1, which is c1(-Ar)nocn1.
+
+Corrected SMILES: O=C(Nc1ccc(cc1)-c1nocn1)CN(c1c(C)cccc1C)C(=O)C1CCS(=O)(=O)CC1
+
+SMILES: O=C(Nc1ccc(cc1)-c1nocn1)CN(c1c(C)cccc1C)C(=O)C1CCS(=O)(=O)CC1

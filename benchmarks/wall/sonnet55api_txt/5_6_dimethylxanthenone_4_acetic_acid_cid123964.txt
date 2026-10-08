@@ -1,0 +1,24 @@
+This is a xanthone core: two benzene rings joined by a ring oxygen and a ring carbonyl. It carries two methyl groups and a CH2COOH group.
+
+**Left ring.** Starting from the methyl-bearing carbons:
+- The carbon at (205,570) bears a methyl.
+- The carbon at (392,528) bears a methyl and is bonded to the carbon at (520,668).
+- (520,668) is bonded to the ring oxygen.
+- (463,853) is bonded to the carbonyl carbon at (593,994).
+- The remaining ring carbons are (277,893) and (148,752).
+
+**Right ring.**
+- (838,769) is bonded to the ring oxygen.
+- (1025,728) bears the CH2COOH group.
+- (1155,870) and (1098,1053) are the next two ring carbons.
+- (910,1095) is the ring carbon before (781,953), which is bonded to the carbonyl carbon.
+
+**SMILES.** Writing the left ring first, with the ring oxygen and carbonyl closing the central ring:
+
+Cc1ccc2c(c1C)oc1c(CC(=O)O)cccc1c2=O
+
+Check on the left ring: c1(C) is (205,570); c is (148,752); c is (277,893); c2 is (463,853); c(...) is (520,668), which carries the oxygen; c1C is (392,528), which closes the ring and carries the second methyl. This is correct.
+
+Check on the central ring: o is bonded to c1 at (838,769), then c(CC(=O)O) is (1025,728), then ccc is (1155,870), (1098,1053), (910,1095), then c1 is (781,953), then c2=O is the carbonyl carbon closing to (463,853). This is correct.
+
+SMILES: Cc1ccc2c(c1C)oc1c(CC(=O)O)cccc1c2=O

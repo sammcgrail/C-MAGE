@@ -7,7 +7,14 @@ one request per image, no tools, no shared context, the image as base64 and the 
 the answer taken from a final `SMILES: <smiles>` line.
 
     api_reader.py run   --out DIR --env-file FILE [--n 50] [--conc 4] [--budget 15]
+                        [--prompt-file prompt_v2.txt --prompt-version v2]
+                        [--max-consec-fail 5] [--publish-every 100 --publish-cmd CMD]
     api_reader.py status --out DIR
+
+Stops STARTING calls (in-flight ones land) on any of: the budget (spent + what the calls in flight
+are expected to cost reaches --budget), --max-consec-fail failures in a row, or a file DIR/STOP.
+--publish-cmd runs every --publish-every new ledger rows and once at the end; it is site-specific,
+so it lives outside this repo.
 
 Images are the FIRST n rows of corpus_images/manifest.csv (manifest order), read straight out of the
 three zips; a row whose PNG is missing from them is skipped and the next one taken. The key is read
@@ -136,6 +143,7 @@ def read_one(row: dict, key: str, prompt: str, out: Path, state: dict) -> dict:
             (out / "raw").mkdir(exist_ok=True)
             (out / "raw" / f"{row['key']}.json").write_text(json.dumps(j, indent=1))
             return {"k": row["key"], "name": row["name"], "truth": row["truth_smiles"], "status": "ok",
+                    "prompt": state["pv"],
                     "model": j.get("model"), "id": j.get("id"), "stop_reason": j.get("stop_reason"),
                     "stop_details": j.get("stop_details"), "text": text, "smiles": parse_smiles(text),
                     "usage": u, "latency_s": round(dt, 2), "cost_usd": round(cost(u), 5),
@@ -156,53 +164,95 @@ def read_one(row: dict, key: str, prompt: str, out: Path, state: dict) -> dict:
             break
         time.sleep(5)
     return {"k": row["key"], "name": row["name"], "truth": row["truth_smiles"], "status": "failed",
+            "prompt": state["pv"],
             "attempts": attempts, "errors": log, "cost_usd": 0.0,
             "ended": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 
 
 def cmd_run(a) -> int:
+    import subprocess
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    prompt = (out / PROMPT_NAME).read_text()
+    prompt = (Path(a.prompt_file) if a.prompt_file else out / PROMPT_NAME).read_text()
     key = read_key(Path(a.env_file))
     rows = pick(a.n)
-    done = {r["k"] for r in ledger(out)}
+    L0 = ledger(out)
+    done = {r["k"] for r in L0}
     todo = [r for r in rows if r["key"] not in done]
-    spent = sum(r.get("cost_usd") or 0 for r in ledger(out))
-    print(f"{len(rows)} picked, {len(done)} already in the ledger, {len(todo)} to read; ${spent:.4f} spent so far",
-          flush=True)
-    state = {"stop": None, "spent": spent}
+    spent = sum(r.get("cost_usd") or 0 for r in L0)
+    print(f"{len(rows)} picked, {len(done)} already in the ledger, {len(todo)} to read; ${spent:.4f} spent so far; "
+          f"prompt {a.prompt_version}, budget ${a.budget:.2f}, {a.conc} in flight", flush=True)
+    state = {"stop": None, "spent": spent, "pv": a.prompt_version, "fly": 0, "consec": 0,
+             "n_ok": sum(1 for r in L0 if r["status"] == "ok"), "since_pub": 0}
+
+    def avg() -> float:
+        return state["spent"] / state["n_ok"] if state["n_ok"] else 0.02
+
+    def check_stop() -> None:      # caller holds LOCK
+        if state["stop"]:
+            return
+        if (out / "STOP").exists():
+            state["stop"] = f"STOP file {out / 'STOP'}"
+        elif state["spent"] + state["fly"] * avg() >= a.budget:
+            state["stop"] = (f"budget: ${state['spent']:.2f} spent + {state['fly']} in flight x ${avg():.3f} "
+                             f">= ${a.budget:.2f}")
+        elif state["consec"] >= a.max_consec_fail:
+            state["stop"] = f"{state['consec']} failures in a row"
 
     def task(row):
         with LOCK:
-            if state["spent"] > a.budget:
-                state["stop"] = f"running total ${state['spent']:.2f} passed the ${a.budget:.2f} budget"
+            check_stop()
             if state["stop"]:
                 return None
-        rec = read_one(row, key, prompt, out, state)
+            state["fly"] += 1
+        try:
+            rec = read_one(row, key, prompt, out, state)
+        finally:
+            with LOCK:
+                state["fly"] -= 1
         if not rec:
             return None
         with LOCK:
             with open(out / "ledger.jsonl", "a") as fh:
                 fh.write(json.dumps(rec) + "\n")
             state["spent"] += rec.get("cost_usd") or 0
+            if rec["status"] == "ok":
+                state["n_ok"] += 1
+                state["consec"] = 0
+            else:
+                state["consec"] += 1
+            state["since_pub"] += 1
             u = rec.get("usage") or {}
             print(f"{rec['k']}: {rec['status']} stop={rec.get('stop_reason')} smiles={rec.get('smiles')!r} "
                   f"in={u.get('input_tokens')} out={u.get('output_tokens')} {rec.get('latency_s')} s "
                   f"${rec.get('cost_usd')}  total ${state['spent']:.4f}", flush=True)
-            if state["spent"] > a.budget and not state["stop"]:
-                state["stop"] = f"running total ${state['spent']:.2f} passed the ${a.budget:.2f} budget"
+            check_stop()
         return rec
+
+    def publish(final: bool) -> None:
+        if not a.publish_cmd:
+            return
+        print(f"PUBLISH ({'final' if final else 'periodic'}): {a.publish_cmd}", flush=True)
+        r = subprocess.run(a.publish_cmd, shell=True)
+        print(f"PUBLISH exit {r.returncode}", flush=True)
 
     with ThreadPoolExecutor(max_workers=a.conc) as ex:
         futs = [ex.submit(task, r) for r in todo]
         for f in as_completed(futs):
             f.result()
+            if a.publish_every and state["since_pub"] >= a.publish_every and not state["stop"]:
+                with LOCK:
+                    state["since_pub"] = 0
+                publish(False)       # workers keep reading while this runs
+            if state["stop"]:
+                for g in futs:
+                    g.cancel()
     L = ledger(out)
     ok = [r for r in L if r["status"] == "ok"]
     print(f"DONE: {len(ok)} ok, {len(L) - len(ok)} failed, ${sum(r.get('cost_usd') or 0 for r in L):.4f}"
           + (f"; STOPPED: {state['stop']}" if state["stop"] else ""), flush=True)
-    return 3 if state["stop"] else 0
+    publish(True)
+    return 3 if state["stop"] and not state["stop"].startswith("budget") else 0
 
 
 def cmd_status(a) -> int:
@@ -222,6 +272,11 @@ if __name__ == "__main__":
     r.add_argument("--n", type=int, default=50)
     r.add_argument("--conc", type=int, default=4)
     r.add_argument("--budget", type=float, default=15.0)
+    r.add_argument("--prompt-file")
+    r.add_argument("--prompt-version", default="v1")
+    r.add_argument("--max-consec-fail", type=int, default=5)
+    r.add_argument("--publish-every", type=int, default=0)
+    r.add_argument("--publish-cmd")
     s = sp.add_parser("status")
     s.add_argument("--out", required=True)
     a = ap.parse_args()
