@@ -1,0 +1,13 @@
+The drawing shows chlorpromazine, a phenothiazine with a 3-(dimethylamino)propyl chain on the ring nitrogen.
+
+**Ring system.** A tricyclic core: a benzene ring bearing Cl, a central ring containing N and S, and an unsubstituted benzene ring.
+
+**Side chain.** Starting from the ring N, three CH2 carbons lead to N(CH3)2. The labelled atoms are N at (860,880) and S at (1138,605). The substituent atoms and bonds are:
+- The Cl sits on the carbon at (578,451).
+- The carbon at (814,690) is bonded to N.
+- The carbon at (952,553) is bonded to S.
+- In the Cl ring, the carbon bonded to Cl is meta to the carbon bonded to N (via the carbon at 627,639) and para to the carbon bonded to S. This matches 2-chlorophenothiazine.
+
+**SMILES.** Writing the Cl ring first: c1(Cl)ccc2Sc3ccccc3N(CCCN(C)C)c2c1. Checking the Cl carbon (578,451): its neighbours are the carbon at (716,315), then (904,366), then (952,553), which bears S. So the Cl carbon, (716,315), (904,366) and the S-bearing carbon run in sequence, and the Cl carbon is para to the carbon at (814,690), which bears N. Wait, I need to recheck this. The ring order is 578 → 716 → 904 → 952 (S-bearing) → 814 (N-bearing) → 627 → back to 578. The Cl carbon is therefore adjacent to 627, which is adjacent to the N-bearing carbon, so Cl is meta to N and para to the S-bearing carbon. In my SMILES, Cl-C, then c, c, then c2 bearing S: that makes Cl-C, CH, CH, C(S), which is para. The ring closure then goes to the N-bearing carbon, followed by CH (c1) back to the Cl carbon, so the ring has 6 members and the SMILES is consistent.
+
+SMILES: CN(C)CCCN1c2ccccc2Sc2ccc(Cl)cc21

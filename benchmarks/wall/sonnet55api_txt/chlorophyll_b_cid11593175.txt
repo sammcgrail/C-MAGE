@@ -1,0 +1,22 @@
+I read the drawing as chlorophyll b (a Mg-chlorin with a 7-formyl group), written below as a SMILES with the Mg²⁺ ion as a separate component.
+
+**Macrocycle and substituents**
+- Ring A has a methyl, a vinyl group and an N⁻.
+- Ring B has a formyl (CHO) group, an ethyl group and a neutral imine N.
+- Ring C has a methyl and an N⁻.
+- Ring D is the reduced ring. It carries an N, a methyl on a hashed stereocentre, and the propionate ester chain on a wedged stereocentre.
+- Ring E is the five-membered ketone ring. It carries a ketone and a CO₂Me group on a hashed stereocentre.
+
+**Ester chain**
+- The ester O links to a phytyl chain: OCH₂–CH=C(CH₃)–(CH₂)₃–CH(CH₃)–(CH₂)₃–CH(CH₃)–(CH₂)₃–CH(CH₃)₂.
+- The double bond is drawn with the OCH₂ and the chain CH₂ on opposite sides (E), written `OC/C=C(\C)/CCC`.
+
+**Stereochemistry**
+I assigned each stereocentre from its wedge or hash:
+- Ring D: `[C@@H](C)` for the methyl-bearing carbon and `[C@@H]7` for the carbon carrying the chain.
+- Ring E: `[C@@H](C(=O)OC)` for the CO₂Me carbon.
+- Phytyl chain: `[C@H](C)` at both methyl-bearing carbons.
+
+I checked the ring closures and charges by hand but did not run the SMILES through a parser.
+
+SMILES: [Mg+2].CC1=C(C=C)C2=CC3=NC(=CC4=C(C)C5=C([N-]4)C([C@@H](C(=O)OC)C5=O)=C7N=C(C=C1[N-]2)[C@@H](C)[C@@H]7CCC(=O)OC/C=C(\C)/CCC[C@H](C)CCC[C@H](C)CCCC(C)C)C(CC)=C3C=O

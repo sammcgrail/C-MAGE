@@ -1,0 +1,20 @@
+This structure looks like a bosentan analogue, so I read it region by region.
+
+**Pyrimidine core.** The ring atoms are C4 (bearing NH), C5 (bearing OAr), C6 (bearing OCH2CH2OH), N1, C2 (bearing the pyridyl group) and N3.
+
+**Substituents on the pyrimidine.**
+- C5 carries an O linked to a 2-methoxyphenyl ring.
+- C6 carries OCH2CH2OH.
+- C4 carries NH–S(=O)(=O) joined to a pyridine at its 2-position. That pyridine has a methyl at position 5, and the ring is N1, C2 (S), C3, C4, C5 (Me), C6.
+- C2 carries a pyridin-4-yl group that has a tetrazole at its 2-position.
+
+**Sulfonamide pyridine.** Starting from the carbon bonded to S, the ring runs c1ccc(C)cn1. In the picture, the S-bearing carbon is bonded to N below it and to a CH on the right. That CH is followed by a CH, then the C(Me), then a CH, then N, so the ring is c1(S)ccc(C)cn1.
+
+**Central pyridine.** The carbon attached to the pyrimidine is the top-left vertex at (612,1036). Its neighbors are a CH at (480,1070) and a CH at (707,1131). From (480,1070) the ring goes to C(tetrazole) at (444,1202), then to N at (540,1297), then to a CH at (672,1264), then to a CH at (707,1131). So the pyridine is c1(pyrimidine)cc(tetrazolyl)ncc1.
+
+**Tetrazole.** The ring is C(attached) – N= N – NH – N=, written c1nnn[nH]1. Here the carbon connects to N(top) and to N(bottom right). The top N is double-bonded to the N at left, which connects to NH, which connects to the bottom N, which is double-bonded to the carbon. This is a tautomer of the 1H-tetrazole and can be written c1nnn[nH]1 or c1nn[nH]n1. In the drawing, NH sits between the left N and the bottom N, so the ring is C–N=N–NH–N=C, i.e. c1(...)nn[nH]n1.
+
+**SMILES assembly.**
+Cc1ccc(nc1)S(=O)(=O)Nc1nc(nc(OCCO)c1Oc1ccccc1OC)-c1ccnc(c1)-c1nn[nH]n1
+
+SMILES: Cc1ccc(nc1)S(=O)(=O)Nc1nc(nc(OCCO)c1Oc1ccccc1OC)-c1ccnc(c1)-c1nn[nH]n1

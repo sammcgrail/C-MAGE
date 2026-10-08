@@ -1,0 +1,13 @@
+This is clofazimine, a riminophenazine. The structure reads as follows.
+
+- **Phenazine core:** N10 carries a 4-chlorophenyl group and is bonded to the benzo ring and to a carbon of the substituted ring. The other ring nitrogen is N5, which is double-bonded within the ring.
+- **Substituted ring:** this ring has a C=N-isopropyl group (an imine carbon) and, on the adjacent carbon, an NH-(4-chlorophenyl) group.
+
+I wrote the SMILES by following the atoms around the ring system.
+
+1. Start with the isopropyl imine: CC(C)N=C1C=C2N(c3ccc(Cl)cc3)c3ccccc3N=C2C=C1Nc1ccc(Cl)cc1
+2. Check the ring bonding. C1 (the imine carbon) is bonded to C=C2, where the carbon bearing N10 is C2. The ring then runs C1, C(H)=, C2 (attached to N10), the other fused carbon (=N5), CH=, and C(NHAr), which closes back to C1.
+3. Check the double bonds. In the drawing, the imine carbon has a C=N double bond. The carbon next to it (the top CH) is double-bonded to the carbon attached to N10. The carbon attached to N5 is double-bonded to N5. The remaining CH is double-bonded to the C bearing NHAr.
+4. The SMILES CC(C)N=C1C=C2N(Ar)c3ccccc3N=C2C=C1NAr satisfies this. The ring runs C1, =C (CH), C2, then through the fused carbon C2' (=N), then CH=C1' (the NHAr carbon), which closes to C1. The valences work out.
+
+SMILES: CC(C)N=C1C=C2N(c3ccc(Cl)cc3)c3ccccc3N=C2C=C1Nc1ccc(Cl)cc1

@@ -1,0 +1,11 @@
+This looks like cefpirome, a cephalosporin, and I read it region by region.
+
+- **Core:** a β-lactam fused to a dihydrothiazine ring. The ring carbon bearing the CO2⁻ group is double-bonded to the carbon carrying the CH2 substituent.
+- **C-3 side chain:** the CH2 is attached to a pyridinium nitrogen. The pyridinium is fused to a cyclopentane ring, giving a 6,7-dihydro-5H-cyclopenta[b]pyridinium.
+- **C-7 side chain:** an amide, NH–C(=O), leads to a C(=N–OMe) carbon bearing a 2-aminothiazol-4-yl group.
+- **Oxime geometry:** I worked out the geometry from the drawn coordinates. The OMe is on the same side as the amide and opposite the thiazole, which is the Z (syn) isomer. In SMILES this is `CO/N=C(/thiazole)\C(=O)`.
+- **Ring-fusion stereocentres:** the amide-bearing carbon has the NH on a hashed bond and an implicit H. The adjacent carbon has an explicit H on a wedge. Working out the chirality from the drawn geometry gives `[C@H]` for the amide-bearing carbon and `[C@H]` for the ring-fusion carbon.
+
+The SMILES below was written to match the drawing atom for atom.
+
+SMILES: CO/N=C(/C1=CSC(N)=N1)\C(=O)N[C@H]2[C@H]3SCC(C[n+]4cccc5CCCc45)=C(N3C2=O)C(=O)[O-]

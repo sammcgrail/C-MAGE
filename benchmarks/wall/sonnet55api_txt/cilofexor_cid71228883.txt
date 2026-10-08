@@ -1,0 +1,16 @@
+The drawing breaks into five regions, read from left to right:
+
+1. **Pyridine ring:** N at the top, with the carboxylic acid at C4 and the azetidine attached at C2. This is an isonicotinic acid, 2-substituted.
+2. **Azetidine:** the ring nitrogen is bonded to pyridine C2. The carbon opposite the nitrogen carries an OH and the aryl group.
+3. **Central benzene ring:** it is attached to the azetidine C3. The ring carbon ortho to this attachment bears Cl. The carbon para to the attachment bears the O–CH2 ether.
+4. **Isoxazole:** C4 carries the CH2, C5 carries the cyclopropyl, and C3 carries the 2,6-dichlorophenyl group. The ring is C3=N–O–C5=C4.
+5. **2,6-Dichlorophenyl ring:** attached to isoxazole C3, with Cl at both ortho positions.
+
+Checking the central benzene ring: the carbon bonded to the azetidine is at (690, 625), the Cl-bearing carbon is at (778, 577), then the CH at (864, 627), then the O-bearing carbon at (862, 730). The Cl is therefore ortho to the azetidine attachment, and the O is para to it.
+
+SMILES for the acid and azetidine portion:
+OC(=O)c1ccnc(c1)N1CC(O)(C1)c1ccc(OCc2c(C3CC3)onc2-c2c(Cl)cccc2Cl)cc1Cl
+
+Checking the central ring in this SMILES: c1 (attached to the azetidine), then c, c, c(O...), c, c1Cl. The final ring atom bears Cl and closes onto the first, so it is ortho to the attachment point. The O-bearing carbon is the fourth atom, which is para to the first. This matches the drawing.
+
+SMILES: OC(=O)c1ccnc(c1)N1CC(O)(C1)c1ccc(OCc2c(C3CC3)onc2-c2c(Cl)cccc2Cl)cc1Cl

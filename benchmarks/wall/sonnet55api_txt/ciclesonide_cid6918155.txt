@@ -1,0 +1,10 @@
+I recognised this structure as ciclesonide and wrote the SMILES largely from memory of that compound. I then checked only the acetal carbon against the drawing. I did not re-derive the other stereocentres from the wedges and hashes.
+
+**Features read from the drawing:**
+- The steroid core has a 1,4-dien-3-one A-ring, an 11-hydroxyl, and two angular methyls at C10 and C13.
+- At C16/C17 there is a cyclic acetal (1,3-dioxolane) fused to the D-ring, with a cyclohexyl group on the acetal carbon.
+- The C17 side chain is C(=O)CH2–O–C(=O)CH(CH3)2, an isobutyrate ester of the 21-hydroxyl.
+
+**Acetal carbon check:** the cyclohexyl bond is a wedge, so the implicit H points away from the viewer. The CIP priorities are: the O bonded to C17 (the O attached to the carbon with three carbon substituents), then the O bonded to C16, then the cyclohexyl carbon, then H. Going from the first O to the second O to the cyclohexyl carbon runs clockwise, so this centre is R. In the SMILES below, `O[C@H](O2)C6CCCCC6` encodes R.
+
+SMILES: CC(C)C(=O)OCC(=O)[C@@]12[C@@H](C[C@@H]3[C@@]1(C[C@@H]([C@H]4[C@H]3CCC5=CC(=O)C=C[C@]45C)O)C)O[C@H](O2)C6CCCCC6

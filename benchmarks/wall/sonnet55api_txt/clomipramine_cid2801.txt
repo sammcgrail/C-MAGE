@@ -1,0 +1,27 @@
+This is clomipramine: an imipramine skeleton with a chlorine on one benzene ring.
+
+**Reading the structure**
+- The side chain is N(CH3)2–CH2CH2CH2–N, with the terminal dimethylamino nitrogen at the lower left.
+- The ring nitrogen sits between two aromatic rings and carries the propyl chain.
+- The two aromatic rings are bridged by a CH2–CH2 unit, making the seven-membered ring.
+- Chlorine is on the upper ring, at the carbon para to the ring carbon attached to the CH2 bridge.
+
+**Checking the chlorine position**
+The upper ring atoms, with approximate coordinates, are:
+- C1 (892,475): bonded to the CH2 bridge
+- C2 (795,650): bonded to N
+- C3 (595,653)
+- C4 (492,480): bears Cl
+- C5 (590,305)
+- C6 (790,302)
+
+C4 is para to C1 (C1→C2→C3→C4 is three bonds), so Cl is para to the CH2-bearing carbon and meta to the N-bearing carbon, as in clomipramine.
+
+**Writing the SMILES**
+Start from the chain: CN(C)CCCN1. The ring N then bonds to C2 of the chlorinated ring, giving c2cc(Cl)ccc2 with C1 as the last atom, which connects to CC (the bridge) and then to the lower ring.
+
+Ring N1, then chlorinated ring: c2cc(Cl)ccc2, where the first c2 is C2 (bonded to N), then c is C3, c(Cl) is C4, then c C5, c C6, and c2 is C1. C1 then bonds to CH2CH2, then the lower aromatic ring: c3ccccc3 closing back to N1.
+
+Full SMILES: CN(C)CCCN1c2cc(Cl)ccc2CCc2ccccc21
+
+SMILES: CN(C)CCCN1c2cc(Cl)ccc2CCc2ccccc21
