@@ -1,0 +1,17 @@
+I read the molecule as 5-fluoro-2'-deoxyuridine (floxuridine): a 5-fluorouracil ring joined through N1 to a 2-deoxyribofuranose ring.
+
+**Base.** The six-membered ring is N1, C2(=O), N3–H, C4(=O), C5(F) and C6, with a C5=C6 double bond. The fluorine sits on C5.
+
+**Sugar.** The five-membered ring is C1', C2' (CH2), C3', C4' and the ring oxygen.
+- C3' carries an OH on a wedge bond.
+- C4' carries a CH2OH on a hashed bond.
+- C1' is bonded to N1 by a hashed bond.
+
+**Stereochemistry.** I assigned each stereocentre from the wedge or hash bond and the 2D positions of its neighbours, with the implicit hydrogen taking the opposite side to the drawn bond.
+- C1': `[C@H]2`
+- C3': `[C@H](O)`
+- C4': `[C@@H](CO)O2`
+
+This gives the natural β-D configuration, consistent with floxuridine. The SMILES uses valid ring closures and matches the drawing atom for atom.
+
+SMILES: O=C1NC(=O)N(C=C1F)[C@H]2C[C@H](O)[C@@H](CO)O2

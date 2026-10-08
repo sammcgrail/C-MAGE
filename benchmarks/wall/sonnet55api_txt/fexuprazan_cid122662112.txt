@@ -1,0 +1,19 @@
+The drawing shows a pyrrole ring whose nitrogen carries a sulfonyl group.
+
+**Pyrrole ring:** The ring atoms are N, C2, C3, C4 and C5.
+- C2 (upper right of the ring) bears the 2,4-difluorophenyl group.
+- C3 bears the methoxy group.
+- C4 bears the CH2NHCH3 group.
+- C5 is an unsubstituted CH.
+
+**2,4-Difluorophenyl group:** The ring carbon attached to the pyrrole has a fluorine-bearing carbon next to it (ortho). The para position, across the ring from the attachment point, also carries fluorine. This gives c1(...)c(F)cc(F)cc1.
+
+**Sulfonyl group:** The sulfur is double-bonded to two oxygens and attached to a 3-fluorophenyl ring. The ring carbon bonded to sulfur is followed by a CH, then the carbon bearing fluorine, which makes the fluorine meta to the sulfur.
+
+**SMILES:** n1(S(=O)(=O)c2cccc(F)c2)cc(CNC)c(OC)c1-c1ccc(F)cc1F
+
+Atom-by-atom check:
+- Pyrrole ring: n1, then c (C5), c(CNC) (C4), c(OC) (C3), c1 (C2), which closes the ring.
+- Difluorophenyl ring: c1ccc(F)cc1F. The attachment carbon is followed by c, c, c(F), c, then c1F. The carbon bearing F is para to the attachment carbon (position 4), and the last carbon bearing F is ortho (position 2). This is correct.
+
+SMILES: CNCc1cn(S(=O)(=O)c2cccc(F)c2)c(-c2ccc(F)cc2F)c1OC

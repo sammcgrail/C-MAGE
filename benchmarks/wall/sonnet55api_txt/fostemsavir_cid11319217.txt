@@ -1,0 +1,25 @@
+This is the fostemsavir structure: a 6-azaindole (pyrrolo[2,3-c]pyridine) core carrying the phosphonooxymethyl group on the pyrrole nitrogen.
+
+**Core and substituents**
+- The phosphate is OP(=O)(O)O, attached through O–CH2 to the pyrrole nitrogen N1.
+- C3 of the pyrrole carries the C(=O)C(=O)N ketoamide. The amide nitrogen is part of a piperazine whose other nitrogen bears a benzoyl group.
+- The carbon adjacent to the pyrrole's C3a ring fusion carries OMe.
+- The carbon adjacent to C7a (next to the ring nitrogen) carries a 3-methyl-1,2,4-triazol-1-yl group.
+
+**Ring connectivity**
+- Pyrrole: N1(CH2OP)–CH=C(C3)–C3a–C7a.
+- Pyridine: C7a–C7(triazolyl)=N6–C5H=C4(OMe)–C3a.
+- Triazole: N1 is attached to C7. Going around the ring, N1 is bonded to C5H, which is bonded to N4, which is bonded to C3(CH3), which is bonded to N2, which closes back to N1. This gives n1cnc(C)n1 with N1 as the attachment point.
+
+**SMILES assembly**
+COc1cncc(n2cnc(C)n2)c1... would put the ring atoms in the wrong order, so I wrote the ring in order instead:
+
+c1(OC)cnc(n2cnc(C)n2)c2n(COP(=O)(O)O)cc(C(=O)C(=O)N3CCN(CC3)C(=O)c3ccccc3)c12
+
+Checking the ring closures: c1(OC) is C4, then c is C5, n is N6, c(triazole) is C7, c2 is C7a, n(...) is N1, c is C2, c(...) is C3, and c12 is C3a, which closes to C4 (ring 1) and to C7a (ring 2). This matches the drawing.
+
+SMILES: COc1cncc(n2cnc(C)n2)c1-,2 
+
+The line above is malformed, so the correct final answer is:
+
+SMILES: COc1cnc(-n2cnc(C)n2)c2c1c(C(=O)C(=O)N1CCN(C(=O)c3ccccc3)CC1)cn2COP(=O)(O)O

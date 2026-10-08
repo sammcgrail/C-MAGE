@@ -1,0 +1,12 @@
+I recognised the drawing as a fludrocortisone-type corticosteroid (9-fluoro-11,17,21-trihydroxypregn-4-ene-3,20-dione) and wrote the SMILES from that skeleton, then checked it against the image.
+
+**Structure read from the image:**
+- The four-ring steroid core has a C4=C5 double bond conjugated with the C3 ketone (the O at the far right).
+- There is a methyl at C10 and a methyl at C13, both drawn as bold wedges.
+- There is a hashed fluorine at C9, a wedged hydroxyl at C11, and a hashed hydroxyl at C17.
+- The C17 side chain is C(=O)CH2OH.
+- H at C8 is wedged and H at C14 is hashed.
+
+**Stereochemistry:** The drawn wedges and hashes match the natural configuration: 8β-H, 9α-F, 10β-Me, 11β-OH, 13β-Me, 14α-H, 17α-OH. I took the chirality tags from the known fludrocortisone SMILES, which I recalled from memory rather than looked up. I then checked the C9 tag by deriving it from the cortisol SMILES with F replacing H. The two agree, so C9 is `[C@@]`.
+
+SMILES: C[C@]12CCC(=O)C=C1CC[C@@H]3[C@@]2([C@H](C[C@]4([C@H]3CC[C@@]4(C(=O)CO)O)C)O)F

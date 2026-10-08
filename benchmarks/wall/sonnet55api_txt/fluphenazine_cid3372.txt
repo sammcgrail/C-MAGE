@@ -1,0 +1,19 @@
+The drawing is a phenothiazine with a CF3 group on one benzo ring, and its ring nitrogen carries a three-carbon chain to a piperazine bearing a 2-hydroxyethyl group. This is fluphenazine.
+
+**Phenothiazine core.** The left (CF3) ring has its CF3 carbon at (872, 596). Its neighbours are the carbon at (960, 506) and the carbon at (906, 716). The ring carbon at (1028, 746) bonds to N, and the one at (1114, 658) bonds to S. Going around the ring from the CF3 carbon, the order is C(CF3), CH (906, 716), C–N (1028, 746), C–S (1114, 658), CH (1082, 537), CH (960, 506). So the CF3 carbon is separated from the C–N carbon by one CH, which is meta to N and para to S. This matches fluphenazine, with CF3 at position 2.
+
+**Side chain.** From N, three CH2 groups lead to a piperazine nitrogen. The other piperazine nitrogen carries CH2CH2OH.
+
+**SMILES.** Written starting from the hydroxyethyl end:
+OCCN1CCN(CCCN2c3ccccc3Sc3ccc(C(F)(F)F)cc32)CC1
+
+Checking the ring closure in `N2c3ccccc3Sc3ccc(C(F)(F)F)cc32`:
+- N2 bonds to c3, the first atom of the right benzo ring.
+- That ring runs c3ccccc3, and its last atom bonds to S.
+- S bonds to the next aromatic carbon, opening ring 3 again (the C–S carbon).
+- Then come c, c, and c(CF3), so the CF3 carbon sits two atoms from the C–S carbon, which is para to S.
+- Then c and c32 follow, the last atom being the C–N carbon, which closes to N.
+
+This gives CF3 meta to N and para to S, consistent with the drawing.
+
+SMILES: OCCN1CCN(CCCN2c3ccccc3Sc3ccc(C(F)(F)F)cc32)CC1

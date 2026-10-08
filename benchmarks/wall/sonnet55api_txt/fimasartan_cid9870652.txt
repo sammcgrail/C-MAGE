@@ -1,0 +1,17 @@
+The drawing breaks down into five parts.
+
+- **Thioamide:** CN(C)C(=S)C. The dimethylamino nitrogen carries two methyls and is bonded to a C=S carbon, which connects through a CH2 to the pyrimidinone ring.
+- **Pyrimidinone ring:** The ring atoms are C5 (bearing the CH2), C4 (bearing a methyl), N3 (=N), C2 (bearing the butyl), N1 (bearing the benzyl), and C6 (=O).
+  - C5 is bonded to C4 by a double bond, C4 to N by a single bond, N=C2 by a double bond, C2 to N1 by a single bond, N1 to C(=O) by a single bond, and C(=O) back to C5.
+  - SMILES for the ring: CC1=C(CC(=S)N(C)C)C(=O)N(Cc...)C(CCCC)=N1
+- **Butyl group:** CCCC on C2.
+- **Biphenyl:** The N-CH2 is attached to a para-substituted benzene, whose other para position links to a second benzene ring. That ring carries the tetrazole at the ortho position.
+- **Tetrazole:** The drawing shows C(=N–NH–N=N) written as c1nnn[nH]1. The ring is C, N (drawn with a double bond to C), NH, N, N (double bond to the other N). The aromatic form is c1nn[nH]n1 or c1nnn[nH]1, and either works.
+
+Full SMILES: CCCCC1=NC(C)=C(CC(=S)N(C)C)C(=O)N1Cc1ccc(cc1)-c1ccccc1-c1nnn[nH]1
+
+Checking the tetrazole connectivity: the carbon is bonded to N (bottom left, which connects to NH) and to N (right). The NH connects to the top N, which connects to the right N, which connects back to the carbon. The ring is therefore C–N–NH–N–N, giving c1nn[nH]nn... that is five atoms: C, N(left), NH, N(top), N(right). The SMILES c1nnn[nH]1 reads C, N, N, N, NH, which gives the carbon bonded to NH. In the drawing the carbon is bonded to the left N, which is bonded to NH, so the correct ordering is c1(nn[nH]nn1) with C, N-left, NH, N-top, N-right.
+
+Tetrazole: c1nn[nH]nn1 would have 6 atoms, so the correct form is c1n[nH]nn1. That reads C, N(left), NH, N(top), N(right) closing to C, which matches the drawing.
+
+SMILES: CCCCC1=NC(C)=C(CC(=S)N(C)C)C(=O)N1Cc1ccc(cc1)-c1ccccc1-c1n[nH]nn1

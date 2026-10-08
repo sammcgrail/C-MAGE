@@ -1,0 +1,13 @@
+I read the molecule left to right as a chain of linked units, and assigned each stereocentre from its wedge or hash bond using CIP priorities.
+
+**Fragments read from the drawing**
+- **Top left:** an L-glutamate joined through a urea (NC(=O)N) to a second L-glutamate. Both are S, drawn with one hash and one wedge.
+- **Ornithine unit:** the second glutamate's side-chain carbonyl forms an amide with an ornithine nitrogen (three CH2 between Cα and Nδ). Its Cα is drawn with a hash and works out as R.
+- **Succinyl linker:** the ornithine Nδ is acylated by a succinyl group, N–C(=O)CH2CH2C(=O)–N.
+- **Lysine unit:** the succinyl group's other end is amidated by a lysine ε-nitrogen (four CH2 chain). Its Cα is R.
+- **Diaminopropionic acid unit:** the lysine α-NH is acylated by a diaminopropionic acid whose Cα is R. Its β-NH carries a 4-(di-tert-butylfluorosilyl)benzoyl group.
+- **Glutamate–macrocycle unit:** the diaminopropionic acid α-NH is acylated by a glutamate γ-carbonyl. This glutamate's Cα is S and is bonded directly to one nitrogen of a 12-membered ring with four nitrogens (cyclen). The other three ring nitrogens each carry a CH2COOH group.
+
+I converted each wedge/hash reading into @/@@ by permuting neighbour order against a known L-amino-acid SMILES.
+
+SMILES: OC(=O)CC[C@@H](C(=O)O)NC(=O)N[C@@H](CCC(=O)N[C@H](CCCNC(=O)CCC(=O)NCCCC[C@@H](NC(=O)[C@@H](CNC(=O)c1ccc(cc1)[Si](F)(C(C)(C)C)C(C)(C)C)NC(=O)CC[C@H](N2CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)O)CC2)C(=O)O)C(=O)O)C(=O)O)C(=O)O

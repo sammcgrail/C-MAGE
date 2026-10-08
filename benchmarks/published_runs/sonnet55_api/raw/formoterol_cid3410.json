@@ -1,0 +1,32 @@
+{
+ "model": "claude-sonnet-5-5",
+ "id": "msg_011CfqZYorwuPwtQsH71kZtE",
+ "type": "message",
+ "role": "assistant",
+ "content": [
+  {
+   "type": "text",
+   "text": "The drawing shows formoterol, with no wedges or hashes, so the SMILES carries no stereochemistry.\n\nReading the structure region by region:\n\n- **Left ring:** a benzene ring carrying an NH\u2013CHO (formamide) group, an adjacent OH, and the CH(OH)CH2 side chain. The OH and formamide are on neighbouring carbons. The side chain sits on the ring carbon that is meta to the formamide carbon and para to the OH carbon.\n- **Linker:** the side chain runs CH(OH)\u2013CH2\u2013NH\u2013CH(CH3)\u2013CH2, ending at the right ring.\n- **Right ring:** a para-substituted benzene bearing OCH3.\n\nLeft ring atom order, going around: C(NHCHO), C(OH), CH, CH, C(side chain), CH, back to C(NHCHO). The ring closure puts the side-chain carbon at the position meta to C(NHCHO) and para to C(OH), which matches the drawing.\n\nSMILES: O=CNc1cc(C(O)CNC(C)Cc2ccc(OC)cc2)ccc1O"
+  }
+ ],
+ "container": null,
+ "stop_reason": "end_turn",
+ "stop_sequence": null,
+ "stop_details": null,
+ "usage": {
+  "input_tokens": 3293,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 373,
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  }
+ },
+ "diagnostics": null
+}

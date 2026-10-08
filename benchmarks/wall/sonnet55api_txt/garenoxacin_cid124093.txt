@@ -1,0 +1,12 @@
+I read the molecule as a fluoroquinolone-type 4-quinolone-3-carboxylic acid core carrying three other substituents:
+
+- **Core:** a 4-oxo-1,4-dihydroquinoline with a carboxylic acid at C3.
+- **N1:** a cyclopropyl group.
+- **C8:** an OCHF2 (difluoromethoxy) group.
+- **C7:** a direct bond to an isoindoline ring. The ring is attached through its benzene carbon. Its CH2 sits next to the NH, and a methyl-bearing CH sits on the other side of the NH.
+
+**Stereocentre:** only the methyl-bearing isoindoline carbon has a wedge, and the methyl is on it. Viewed with the implicit H pointing away, the order N → aromatic C → CH3 runs clockwise. Writing the SMILES as `C[C@H]1N...c12` (neighbour order: Me, H, ring-closure aromatic C, N) matches this and gives `@`.
+
+I checked the ring closures and atom counts against the drawing.
+
+SMILES: C[C@H]1NCc2cc(ccc12)-c1ccc2c(c1OC(F)F)n(C1CC1)cc(C(=O)O)c2=O
