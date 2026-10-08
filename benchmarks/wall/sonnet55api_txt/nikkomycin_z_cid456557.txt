@@ -1,0 +1,12 @@
+This drawing appears to be nikkomycin Z. I built the SMILES from the image region by region and assigned each stereocentre from its wedge or hash bond.
+
+**Fragments**
+- **Uracil:** an N1-linked pyrimidine-2,4-dione ring, written `O=C1C=CN(C(=O)N1)`.
+- **Ribose-type ring:** a five-membered ring with one oxygen. C1' carries the uracil N on a hashed bond, C2' and C3' each carry a wedged OH, and C4' is joined to the ring O by a hashed bond.
+- **Exocyclic carbon (C5'):** it bears a free COOH and an NH on a hashed bond. That NH is the amide N of the chain.
+- **Chain:** the amide C=O leads to a CH(NH2) with a wedged NH2. Next is a CH with a wedged methyl, then a CH(OH) with a wedged OH.
+- **Pyridine:** a 5-hydroxypyridin-2-yl ring attached to the CH(OH) carbon, written `c3ccc(O)cn3`.
+
+**Stereochemistry:** I worked out each centre from the wedge/hash drawn at it and the 2D positions of its neighbours. I took the narrow end of each hashed bond to be at the stereocentre. The ring and chain centres came out as `[C@@H]2`, `[C@H]`, `[C@@H](O)`, `[C@H]2O`, `[C@H]`, `[C@@H](N)`, `[C@H](C)` and `[C@H](O)` in the SMILES below.
+
+SMILES: O=C1C=CN(C(=O)N1)[C@@H]2O[C@H]([C@H](NC(=O)[C@@H](N)[C@H](C)[C@H](O)c3ccc(O)cn3)C(=O)O)[C@@H](O)[C@H]2O

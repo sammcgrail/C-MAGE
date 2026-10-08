@@ -1,0 +1,21 @@
+This structure is nalidixic acid, a 1,8-naphthyridine core.
+
+**Atoms and bonds read from the drawing:**
+- Carboxylic acid: C(=O)O attached at C3 of the ring.
+- Ring carbon C4 carries the ketone (C=O).
+- C4 connects to the ring-fusion carbon C4a.
+- C4a is bonded to C5, which is double-bonded to C6 (the top of the second ring), and also to C8a through a double bond.
+- C6 connects to C7, which carries the methyl group.
+- C7 is double-bonded to N8, which is bonded to C8a.
+- C8a is bonded to N1, and N1 carries the ethyl group.
+- N1 is bonded to C2, and C2 is double-bonded to C3.
+
+**SMILES, traced around the rings:**
+CCN1C=C(C(O)=O)C(=O)C2=C1N=C(C)C=C2
+
+**Check:**
+- C2=C1 is the ring-fusion double bond (C4a=C8a). C8a closes the ring to N1, and C8a is also bonded to N8 (written as `N=C(C)`).
+- N8=C7(C) is followed by C6=C5, and C5 closes the ring to C4a (the `2` closure).
+- C6=C5 is the double bond drawn at the top of the second ring, so the second ring is C4a=C8a, N8=C7, C6=C5. That is a valid pyridine-type ring.
+
+SMILES: CCN1C=C(C(=O)O)C(=O)C2=C1N=C(C)C=C2

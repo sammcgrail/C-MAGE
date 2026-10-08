@@ -1,0 +1,17 @@
+This looks like a nikkomycin-type structure, and I read it region by region.
+
+**Left ring (imidazolone):** An aldehyde O=CH is attached to a ring carbon. That carbon is bonded to NH, which connects to C(=O), then to N (ring), then to CH=, which closes back to the aldehyde-bearing carbon. In SMILES: O=CC1=CN(...)C(=O)N1.
+
+**Furanose ring:** The ring N is attached to C1', which is bonded to the ring O. The ring O connects to C4'. C4' connects to C3' (OH), which connects to C2' (OH), which closes to C1'. In SMILES: C1(N...)OC(...)C(O)C1O.
+
+**Side chain from C4':** C4' bears a CH that carries both COOH and NH. The NH is acylated: NC(=O)C(N)C(C)C(O)c1ccc(O)cn1.
+
+**Pyridine ring:** The ring N is bonded to a carbon that carries the CH(OH) substituent. Going around the ring from that carbon: C2 (substituted), C3, C4, C5 (OH), C6, then N. In the drawing, C5 (bearing OH) is bonded to the CH that is bonded to N, so it is c1ccc(O)cn1. This matches.
+
+**Assembled SMILES (no stereo, since the drawing shows no wedges):**
+
+O=CC1=CN(C(=O)N1)C1OC(C(NC(=O)C(N)C(C)C(O)c2ccc(O)cn2)C(=O)O)C(O)C1O
+
+I checked the ring closures. The imidazolone is C1(CHO)=C–N(...)–C(=O)–N1, which gives a 5-membered ring. The furanose ring is C1 (anomeric), O, C4', C3', C2', closing back to C1, which is 5-membered. This is consistent.
+
+SMILES: O=CC1=CN(C(=O)N1)C1OC(C(NC(=O)C(N)C(C)C(O)c2ccc(O)cn2)C(=O)O)C(O)C1O

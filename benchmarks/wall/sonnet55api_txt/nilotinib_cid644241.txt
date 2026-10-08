@@ -1,0 +1,15 @@
+The drawing shows nilotinib, which I read region by region as follows.
+
+- **Left end:** a pyridin-3-yl ring is attached to C4 of a pyrimidine.
+- **Pyrimidine:** C2 carries an NH link to the central benzene ring.
+- **Central benzene ring:** it has a methyl group ortho to the NH-bearing carbon, and a C(=O)NH amide at the position meta to the NH.
+- **Amide nitrogen:** it is bonded to a second benzene ring that carries CF3 and a 4-methylimidazol-1-yl group, both meta to the amide attachment.
+- **Imidazole:** N1 is attached to the ring. C5 is a CH and C4 carries the methyl. N3 is the other ring nitrogen, and C2 is a CH between N1 and N3.
+
+Writing the SMILES from the left pyridine: c1cncc(c1)-c1ccnc(n1)Nc1cc(ccc1C)C(=O)Nc1cc(cc(c1)n1cnc(C)c1)C(F)(F)F
+
+Checks:
+- The central ring is c1cc(ccc1C)…, where the first atom bears the NH, the next is CH, the next bears the carbonyl, then two CH, and the ring-closing carbon bears the methyl. This puts the methyl ortho to the NH carbon and the carbonyl meta to it, matching the drawing.
+- The imidazole n1cnc(C)c1 has N1, C2, N3, C4 (methyl) and C5, as drawn.
+
+SMILES: Cc1cn(cn1)-c1cc(NC(=O)c2ccc(C)c(Nc3nccc(n3)-c3cccnc3)c2)cc(c1)C(F)(F)F

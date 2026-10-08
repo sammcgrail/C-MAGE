@@ -1,0 +1,22 @@
+The drawing shows a pyrimido[6,1-a]isoquinolin-4-one core with these features:
+
+- The dimethoxybenzene ring is fused to a CH2CH2 bridge that leads to the ring nitrogen N.
+- That N is bonded to the C=C carbon, which sits on the aromatic ring, and to the C=O carbon.
+- The C=O carbon is bonded to the second ring nitrogen, which carries the CH2CH2NHC(=O)NH2 chain.
+- The second ring nitrogen is also bonded to the carbon bearing the exocyclic imine, C(=N-mesityl).
+- That carbon is single-bonded to the =CH carbon, and the =CH carbon is double-bonded to the aromatic-attached carbon.
+
+Reading the atoms in order:
+
+- Ring N (bottom): N1, bonded to CH2, to the C=O carbon, and to the C= carbon.
+- The C= carbon (C11b) is bonded to the aromatic ring carbon, with a double bond to the CH.
+- The CH is bonded to C(=N-Ar), which is bonded to N(CCNC(N)=O), which is bonded to C(=O), which closes back to N1.
+
+SMILES, starting from the urea end:
+NC(=O)NCCN1C(=Nc2c(C)cc(C)cc2C)C=C2c3cc(OC)c(OC)cc3CCN2C1=O
+
+Checking the aromatic ring: c3 is bonded to C2 (the ring-fusion carbon). Next comes cc(OC), a CH and then the C-OMe. The top-left OMe sits on the carbon adjacent to the CH next to the fusion carbon, and the bottom OMe sits on the next carbon. After that comes c(OC), then cc3 for the CH and the fusion carbon bearing the CH2CH2. This matches the drawing.
+
+Mesityl: N-c2c(C)cc(C)cc2C gives 2,4,6-trimethylphenyl, which matches.
+
+SMILES: NC(=O)NCCN1C(=Nc2c(C)cc(C)cc2C)C=C2c3cc(OC)c(OC)cc3CCN2C1=O

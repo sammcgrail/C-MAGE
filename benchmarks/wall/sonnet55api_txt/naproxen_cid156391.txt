@@ -1,0 +1,10 @@
+This structure is naproxen: a 6-methoxynaphthalene ring attached at C2 to a CH(CH3)COOH side chain.
+
+**Stereochemistry:** The only stereocentre is the CH carbon, and the drawing gives it a wedge on the methyl group.
+- The CIP priorities are COOH > aryl > CH3 > H, and the implicit H points away from the viewer.
+- Viewed from the front, COOH (upper right), then aryl (left), then CH3 (down) runs counterclockwise.
+- That makes the centre S, so this is (S)-naproxen.
+
+**SMILES check:** In `C[C@@H](c1ccc2cc(OC)ccc2c1)C(=O)O`, the neighbours of the stereocentre are listed in the order CH3, H, aryl, COOH, and `@@` means clockwise when viewed from CH3. Moving H to the front changes the symbol to `@`. Viewed from the side opposite H, COOH → aryl → CH3 is then counterclockwise, which is S and matches the drawing.
+
+SMILES: C[C@@H](c1ccc2cc(OC)ccc2c1)C(=O)O

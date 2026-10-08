@@ -1,0 +1,14 @@
+The drawing shows an indole with a 1-methylpiperidin-4-yl group at C3 and a CH2CH2S(=O)(=O)NHCH3 chain at C5. This is naratriptan.
+
+Reading the structure region by region:
+
+- **Indole:** the NH sits at the top left, bonded to C2 (CH), which is double-bonded to C3. C3 carries the piperidine. C3 connects to C3a, which is fused to the benzene ring.
+- **Benzene ring:** it has C3a, C4 (CH), C5 (bearing the chain), C6 (CH), C7 (CH) and C7a. C7a is bonded to the NH.
+- **Side chain:** C5 bears CH2CH2 attached to S(=O)(=O)NHCH3.
+- **Piperidine:** it is attached through its C4 and has an N-methyl group.
+
+SMILES, built from the indole N: c1(C2CCN(C)CC2)c[nH]c3ccc(CCS(=O)(=O)NC)cc13
+
+Check of the ring closures: the first atom, c1, is C3. Then c[nH] gives C2 and N1. c3 is C7a, followed by c (C7), c (C6) and c(CC...) (C5). Next, c is C4 and c13 is C3a, which closes ring 1 to C3 and ring 3 to C7a. This is consistent with the drawing.
+
+SMILES: CNS(=O)(=O)CCc1ccc2[nH]cc(C3CCN(C)CC3)c2c1

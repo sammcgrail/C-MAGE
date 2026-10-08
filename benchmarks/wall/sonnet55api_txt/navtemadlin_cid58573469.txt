@@ -1,0 +1,18 @@
+I read the structure region by region and assigned each stereocentre from its wedge or hash bond.
+
+**Structure:**
+- The core is a six-membered lactam ring: N, then C=O, then a quaternary carbon, then CH2, then CH, then CH, closing back to N.
+- The quaternary carbon (C3) carries a wedged methyl and a CH2COOH group.
+- The CH next to the CH2 (C5) carries a wedged 3-chlorophenyl group.
+- The CH next to N (C6) carries a hashed 4-chlorophenyl group.
+- The nitrogen substituent is a CH bearing an isopropyl group and a wedged CH2–SO2–CH(CH3)2 arm.
+
+**Stereo assignment:** For each centre I took the wedge or hash to place the implicit H or substituent in front of or behind the page. I then read the other three neighbours clockwise or counterclockwise and matched that to the SMILES neighbour order.
+- N-substituent CH: @
+- Quaternary C3: @@
+- C5 (3-chlorophenyl): @
+- C6 (4-chlorophenyl): @
+
+This matches the AMG 232 (navtemadlin) skeleton, but I derived the stereo from the drawing rather than from memory of that compound.
+
+SMILES: CC(C)S(=O)(=O)C[C@H](C(C)C)N1C(=O)[C@@](C)(CC(=O)O)C[C@H](c2cccc(Cl)c2)[C@H]1c1ccc(Cl)cc1

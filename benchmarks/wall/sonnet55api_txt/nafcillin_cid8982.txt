@@ -1,0 +1,10 @@
+This structure is nafcillin: a penicillin core (a bicyclic β-lactam fused to a thiazolidine bearing gem-dimethyl and a carboxylic acid) whose 6-amino group is acylated by a 2-ethoxynaphthalene-1-carbonyl group.
+
+I read the three stereocentres from the wedges and hashes:
+- **C3, carboxylic acid carbon:** the COOH is on a wedge, and the implicit H is therefore at the back. This gives `[C@@H]`.
+- **C5, bridgehead next to S:** the H is on a wedge. This gives `[C@H]12`.
+- **C6, NH-bearing carbon:** the NH is on a hash, so the implicit H is toward the viewer. This gives `[C@@H]`.
+
+I then checked the SMILES atom by atom against the drawing, including the neighbour order at each stereocentre as written in the string.
+
+SMILES: CCOc1ccc2ccccc2c1C(=O)N[C@@H]1C(=O)N2[C@@H](C(=O)O)C(C)(C)S[C@H]12

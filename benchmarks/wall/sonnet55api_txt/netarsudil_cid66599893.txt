@@ -1,0 +1,12 @@
+I read the molecule as a 2,4-dimethylbenzoate ester of a 4-substituted benzyl alcohol, with the substituent carrying an amide to isoquinolin-6-yl.
+
+- **Left ring:** a benzene ring with methyl groups at positions 2 and 4 relative to the ester carbonyl carbon (C1), giving a 2,4-dimethylbenzoyl group.
+- **Linker:** the carbonyl is bonded to an ester oxygen, then a CH2, then a para-disubstituted benzene ring.
+- **Stereocentre:** this carbon carries the aryl ring, a CH2NH2 group drawn on a hashed bond, a C(=O)NH group, and an implicit H.
+- **Right ring system:** an isoquinoline with N at the top. Following the ring atoms, the nitrogen-bearing ring has C1 next to the ring fusion carbon, and the NH is attached to C6. So the amide nitrogen is on isoquinolin-6-yl.
+
+For the stereocentre, the CIP priorities are C(=O)N, then CH2NH2, then the aryl ring, then H. The hashed CH2NH2 points away from the viewer, so the implicit H points toward the viewer. On the page, the order C(=O)N (upper right), then CH2NH2 (bottom), then aryl (left) runs clockwise. Because H faces the viewer, the true sense is reversed, so the centre is S.
+
+For the SMILES `...c2ccc(cc2)[C@H](CN)C(=O)N...`, the neighbour order at this carbon is aryl, H, CH2N, C(=O). Working through this order, `@` gives R, so S requires `@@`.
+
+SMILES: Cc1ccc(C(=O)OCc2ccc(cc2)[C@@H](CN)C(=O)Nc2ccc3cnccc3c2)c(C)c1

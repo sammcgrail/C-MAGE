@@ -1,0 +1,14 @@
+This is a noscapine-type skeleton: a methylated tetrahydroisoquinoline carrying a methylenedioxy group and a methoxy group, linked to a dimethoxy-substituted phthalide (lactone) ring.
+
+**Connectivity, region by region**
+- Left ring system: a benzene ring fused to a methylenedioxy ring (O–CH2–O) and to a six-membered ring containing N-CH3 and a CH2CH2 bridge. One methoxy group sits on the benzene ring next to the stereocentre.
+- Right ring system: a benzene ring with two adjacent OMe groups, fused to a five-membered lactone (C(=O)–O–CH).
+- The two ring systems are joined by a single bond between the CH next to N and the CH bearing the lactone oxygen.
+
+**Stereochemistry**
+- The CH next to N has a wedge to N. Working through the neighbour order in the SMILES gives `[C@@H]`.
+- The lactone CH has a hashed bond to O. The same analysis gives `[C@H]`.
+
+I derived the chirality tags by hand from the wedge and hash geometry. The remembered SMILES for noscapine (S,R) has `[C@@H]` at the second centre, which differs from my derived `[C@H]`, so that centre is the least certain.
+
+SMILES: CN1CCc2cc3OCOc3c(OC)c2[C@@H]1[C@H]1OC(=O)c2c1ccc(OC)c2OC
