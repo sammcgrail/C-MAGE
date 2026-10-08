@@ -1,0 +1,18 @@
+I read this as a calicheamicin-type enediyne. Its aryl amide carries a 2-methoxyacryloyl group, and the amino sugar carries an isopropylamino group instead of the usual ethylamino. I wrote the SMILES region by region, then assigned each stereocentre from the wedge and hash bonds as drawn. I did not run a validity check or a structure-to-image comparison, so the stereo assignments rest on my hand reading of the wedges.
+
+**Regions and connectivity**
+
+- **Aryl ester:** a 4,5-dimethoxybenzoate whose ortho NH is acylated by CH2=C(OMe)–C(=O)–. The ester oxygen sits on C3 of the top-right 2,6-dideoxy sugar, which has a 4-OH and a 5-methyl.
+- **Core:**
+  - A cyclohexenone with a C=C bearing NHCO2Me.
+  - A CH–O (glycosidic) carbon next to the ketone.
+  - A quaternary C(OH).
+  - An exocyclic C=CH–CH2–S–S–S–CH3, drawn with the CH2 cis to the ring C3.
+  - A ten-membered ring in the order C≡C–CH=CH–C≡C, with the double bond drawn cis. It closes onto the carbon bearing the long hashed O-glycoside bond.
+- **Central pyranose:** carries a 3-OH, a 4-NH–O– linkage to the lower sugar, and a 5-methyl. Its C2 oxygen links to the upper-left sugar.
+- **Upper-left sugar:** a 4-OMe, 5-NH-isopropyl pyranose.
+- **Lower sugar:** a 4-OH, 3-SMe, 5-methyl pyranose, attached through its anomeric O to the N of the central sugar.
+
+**Stereochemistry:** the wedge and hash bonds fix the sugar centres and the three core stereocentres. I also encoded the cis ring alkene and the cis exocyclic C=C.
+
+SMILES: [C@@H]5(O[C@H]6C[C@H](OC(=O)c7cc(OC)c(OC)cc7NC(=O)C(=C)OC)[C@H](O)[C@H](C)O6)C(=O)C(NC(=O)OC)=C2/C(=C\CSSSC)[C@]5(O)C#C/C=C\C#C[C@@H]2O[C@@H]7O[C@H](C)[C@@H](NO[C@H]9C[C@H](O)[C@H](SC)[C@@H](C)O9)[C@H](O)[C@H]7O[C@H]8C[C@H](OC)[C@@H](NC(C)C)CO8

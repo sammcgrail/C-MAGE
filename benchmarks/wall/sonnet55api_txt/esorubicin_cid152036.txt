@@ -1,0 +1,8 @@
+I read this as the 4'-deoxy analogue of doxorubicin (esorubicin), and I took the stereochemistry from the known doxorubicin SMILES rather than deriving each centre from the wedges and hashes.
+
+- **Aglycone:** a tetracyclic anthraquinone with a methoxy group on the right-hand benzene ring and two phenolic OH groups on the central ring. The saturated ring carries a tertiary C(OH) bearing a C(=O)CH2OH side chain, drawn with a wedge. The adjacent CH carries the glycosidic oxygen, also drawn with a wedge.
+- **Sugar:** a six-membered ring containing one ring oxygen. Going round from the anomeric carbon (hashed bond to the glycosidic O): CH2, then CH(NH2) with a wedge, then CH2, then CH(CH3) with a wedge, then the ring O. Doxorubicin has an OH on the carbon next to the methyl-bearing carbon, and here that carbon is a plain CH2, so the sugar is deoxygenated at that position.
+
+To build the SMILES I took doxorubicin's SMILES and replaced the `[C@H](O)` in the sugar with `C`. I kept the other stereo tags unchanged, assuming the spatial arrangement matches the drawing.
+
+SMILES: COc1cccc2C(=O)c3c(O)c4C[C@](O)(C(=O)CO)C[C@H](O[C@H]5C[C@H](N)C[C@H](C)O5)c4c(O)c3C(=O)c12

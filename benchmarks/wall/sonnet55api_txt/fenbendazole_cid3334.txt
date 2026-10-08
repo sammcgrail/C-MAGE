@@ -1,0 +1,20 @@
+The drawing is a benzimidazole carbamate with a phenylthio substituent, which matches the structure of fenbendazole.
+
+- **Carbamate:** a methyl ester (CH3–O–C(=O)) attached to an NH.
+- **Imidazole ring:** that NH is bonded to C2 of the ring. C2 is double-bonded to N, which is bonded to the fused benzene carbon (C3a). The other ring nitrogen is NH, bonded to the second fused carbon (C7a).
+- **Fused benzene ring:** the carbon attached to S is two bonds away from the fusion carbon on the NH side.
+- **Thioether:** S links the benzimidazole to a phenyl ring.
+
+Tracing the fused benzene from the drawing:
+- Top-left carbon at (708, 645) is bonded to N= (the fusion carbon C3a).
+- Bottom-left carbon at (785, 763) is bonded to NH (C7a).
+- From C7a the ring continues to (925, 757), then to (989, 630), which bears S.
+- It then continues to (913, 512), then to (773, 519), and back to C3a.
+
+So from C7a (attached to NH), the next carbon is CH, and the one after that bears S. This is the 5(6)-substituted tautomer.
+
+SMILES: COC(=O)NC1=NC2=CC=C(SC3=CC=CC=C3)C=C2N1
+
+Checking the connectivity: C2 is the fusion carbon bonded to N=, then =CC=C(S…) gives CH, CH, then C(S). The ring is C3a, then CH (773,519), CH (913,512), C(S) (989,630), CH (925,757), and C7a. In the SMILES, C2 is C3a, "=CC=C(S...)" gives C(773), C(913)... and C(S) follows. Then "C=C2N1" gives CH (925) and C7a, which is bonded to N1(H). This is consistent with the drawing.
+
+SMILES: COC(=O)NC1=NC2=CC=C(SC3=CC=CC=C3)C=C2N1

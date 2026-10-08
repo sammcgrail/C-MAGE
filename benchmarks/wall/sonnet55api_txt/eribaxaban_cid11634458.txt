@@ -1,0 +1,16 @@
+I read the structure as a pyrrolidine-1,2-dicarboxamide and assigned the stereocentres from the two wedges.
+
+**Fragments**
+- The pyrrolidine nitrogen carries a C(=O)NH group attached to a 4-chlorophenyl ring.
+- Ring carbon C2 carries a wedged C(=O)NH group, which is attached to a benzene ring.
+- That benzene ring has a fluorine ortho to the NH. Para to the NH it has the nitrogen of a 2-pyridone, written n2ccccc2=O.
+- Ring carbon C4 carries a wedged OMe.
+
+**Stereochemistry**
+- At C2, the priorities are N > C(=O) > ring CH2 > H. With the carbonyl wedged toward the viewer, the H points away. N, C(=O) and CH2 then run clockwise on the page, so C2 is R.
+- At C4, the priorities are O > C5 (attached to N) > C3 > H. With the OMe wedged, the H points away. O, C5 and C3 then run clockwise, so C4 is R.
+- In the SMILES below, these correspond to `[C@@H]` at C4 and `[C@H]` at C2.
+
+**Check:** the SMILES parses and matches the drawing atom for atom (two aryl rings, a pyridone, two amide C=O groups, one urea C=O, OMe, F and Cl).
+
+SMILES: CO[C@@H]1C[C@H](C(=O)Nc2ccc(cc2F)-n2ccccc2=O)N(C1)C(=O)Nc1ccc(Cl)cc1

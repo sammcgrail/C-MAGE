@@ -1,0 +1,20 @@
+The drawing shows these parts:
+
+- **Left chain:** an isopropyl group, CH(CH3)2, attached to an NH. The NH connects to CH2CH2, which leads to the tertiary N.
+- **Tertiary N:** bonded to the ethylene chain, to a 3,5-dimethoxyphenyl ring, and to the quinoxaline.
+- **Quinoxaline:** the benzo ring carbon bearing the N is adjacent to the CH that sits next to the ring-fusion carbon bonded to the top N (N1). The fused ring is N1=C–C(pyrazolyl)=N4, where N1 is at the top and N4 is at the bottom. The top N connects to CH, which connects to the C bearing the pyrazole, which connects to the bottom N. The bottom N is bonded to the fusion carbon at the lower left.
+- **Pyrazole:** attached at its 4-position, with an N-methyl group.
+
+Writing the SMILES with the quinoxaline numbered:
+
+CC(C)NCCN(c1cc(OC)cc(OC)c1)c1ccc2ncc(nc2c1)-c1cnn(C)c1
+
+Checking the benzo ring: the carbon bearing N is at (660,568). Its neighbours are (675,455), which leads to (778,413) and then to the fusion carbon (868,482) attached to the top N, and (750,637), which leads to the fusion carbon (855,595) attached to the bottom N.
+
+In my SMILES, c1ccc2ncc(nc2c1): the c1 bearing N is followed by c, c, then c2 (fusion carbon), which is bonded to n, c, c(pyrazole), n, and the second fusion carbon c2. That closing carbon is followed by c1 (the CH), which closes back to the N-bearing carbon.
+
+So the N-bearing carbon is adjacent to the CH, which is adjacent to the fusion carbon bonded to the bottom N (the one next to the C-pyrazolyl). The drawing agrees: (750,637) is adjacent to the fusion carbon (855,595), which bears the bottom N next to the C-pyrazolyl. In my SMILES, c2 (second fusion carbon, closing) is attached to the n that is bonded to c(pyrazole), which matches.
+
+The other path in the SMILES runs from the N-bearing carbon through c, c to the first fusion carbon, which bears the n that bonds to the CH. This also matches the drawing.
+
+SMILES: CC(C)NCCN(c1cc(OC)cc(OC)c1)c1ccc2ncc(nc2c1)-c1cnn(C)c1

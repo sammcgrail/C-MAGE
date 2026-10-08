@@ -1,0 +1,19 @@
+The image shows three separate species: an Fe2+ ion, an unsubstituted cyclopentadienyl anion, and a substituted cyclopentadienyl anion carrying the side chains. In SMILES they are joined with dots.
+
+**Unsubstituted cyclopentadienyl anion.** This is a five-membered ring with one C⁻ and two double bonds: `[cH-]1cccc1`. Written with explicit Kekulé bonds, it is C1=CC=C[CH-]1.
+
+**Substituted cyclopentadienyl anion.** The ring has five carbons:
+- One carbon is C⁻ and bears the CH2NH substituent.
+- The adjacent ring carbon bears CH2N(CH3)2.
+- The remaining three ring carbons are CH.
+- The drawn double bonds are C(CH2N)=CH–CH=CH, with the C⁻ closing the ring.
+
+As SMILES: `[C-]1(CNc2ccnc3cc(Cl)ccc23)C(CN(C)C)=CC=C1`. The C⁻ carbon has no hydrogen because it carries a substituent. Its atoms are the C⁻, the C bearing CH2NMe2, and three CH carbons, which makes five in total.
+
+**Quinoline part.** The NH is attached at quinoline position 4. The ring nitrogen is N1, with C2 and C3 between N1 and C4. Cl sits at C7, which is on the benzo ring, meta to the ring fusion carbon next to N (C8a). Reading the drawing, C8a is bonded to C8, which is bonded to C7 (bearing Cl). So the SMILES is c1(NC...)ccnc2cc(Cl)ccc12, where the c2 after n is C8a, then c is C8, then c(Cl) is C7, then cc gives C6 and C5, and c12 is C4a. This matches.
+
+**Full SMILES.** `[Fe+2].c1cc[cH-]c1` would need Kekulé-style aromatic handling, so I use explicit double bonds instead:
+
+[Fe+2].C1=CC=C[CH-]1.[C-]1(CNc2ccnc3cc(Cl)ccc23)C(CN(C)C)=CC=C1
+
+SMILES: [Fe+2].C1=CC=C[CH-]1.[C-]1(CNc2ccnc3cc(Cl)ccc23)C(CN(C)C)=CC=C1
