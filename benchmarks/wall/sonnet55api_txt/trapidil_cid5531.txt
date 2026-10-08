@@ -1,0 +1,35 @@
+The drawing shows a [1,2,4]triazolo[1,5-a]pyrimidine core with a diethylamino group and a methyl group.
+
+**Atoms and bonds read from the image**
+- Diethylamino group: CCN(CC) attached to a ring carbon C7.
+- C7 is bonded to ring N (the bridgehead, N8).
+- C7=C6, where C6 is a CH.
+- C6 is bonded to C5, which carries the methyl group.
+- C5=N4.
+- N4 is bonded to C3a, the fused carbon.
+- C3a is bonded to the bridgehead N, and C3a=N3.
+- N3 is bonded to C2, a CH, drawn as N–C.
+- C2=N1, and N1 is bonded to the bridgehead N.
+
+**Ring bonds**
+- Six-membered ring: C7, C6, C5, N4, C3a and the bridgehead N.
+- Five-membered ring: bridgehead N, N1, C2, N3 and C3a.
+
+**SMILES construction**
+Start at the ethyl groups and the amine nitrogen, then go around the rings:
+CCN(CC)c1cc(C)nc2ncnn12
+
+Check of the ring closures:
+- c1 is C7.
+- c is C6.
+- c(C) is C5 with the methyl.
+- n is N4.
+- c2 is C3a.
+- n is N3.
+- c is C2.
+- n is N1.
+- n12 is the bridgehead N, which closes to C7 (ring 1) and to C3a (ring 2).
+
+This matches the drawing atom for atom.
+
+SMILES: CCN(CC)c1cc(C)nc2ncnn12

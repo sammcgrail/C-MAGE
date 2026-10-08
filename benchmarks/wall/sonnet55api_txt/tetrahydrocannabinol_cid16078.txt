@@ -1,0 +1,12 @@
+I read the drawing as a tricyclic cannabinoid skeleton, the tetrahydrocannabinol type, and wrote the SMILES from that.
+
+**Structure read from the image**
+- **Aromatic ring:** a benzene ring with an n-pentyl chain (5 carbons) on the left and an OH at the bottom.
+- **Pyran ring:** a ring oxygen joins the aromatic ring to a quaternary carbon bearing two methyl groups.
+- **Cyclohexene ring:** it contains one C=C double bond and a methyl on the alkene carbon at the far right.
+- **Ring-fusion stereocentres:** the two carbons where the rings join carry explicit H atoms. One H is drawn with a wedge (C6a) and the other with a hash (C10a), so the H atoms are trans.
+
+**Stereo assignment**
+I worked out each centre from the 2D coordinates. In the SMILES atom order, C6a has neighbours C6, H, C10a, C7. C10a has neighbours C10, H, C10b (aromatic), C6a. Both centres work out to `@@` in the string below.
+
+SMILES: CCCCCc1cc(O)c2c(c1)OC(C)(C)[C@@H]1CCC(C)=C[C@@H]21

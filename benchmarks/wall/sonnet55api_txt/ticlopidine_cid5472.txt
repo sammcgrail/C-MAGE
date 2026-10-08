@@ -1,0 +1,13 @@
+This is ticlopidine, a 4,5,6,7-tetrahydrothieno[3,2-c]pyridine carrying a 2-chlorobenzyl group on nitrogen.
+
+**Thiophene ring:** S is bonded to CH=CH, which connects to a fused carbon C3a (at about 388,702). C3a is double-bonded to C7a (at about 374,902), and C7a is bonded back to S. The ring is therefore S–CH=CH–C=C(–S), with C3a and C7a as the two fusion atoms.
+
+**Piperidine ring:** C3a is bonded to a CH2 (at 569,615), which is bonded to N. N is bonded to CH2 (at 720,927), then to CH2 (at 540,1014), then to C7a.
+
+**Benzyl group:** N is bonded to a CH2 (at 914,640), which is bonded to the aromatic carbon at 1079,752. The adjacent aromatic carbon at 1260,665 carries Cl, so the chlorine is ortho to the CH2.
+
+SMILES, written from the fusion carbon C3a:
+- C3a: `C1=C...` is awkward here, so I start from the thiophene CH instead: `Clc1ccccc1CN1CCc2sccc2C1`.
+- Check of the thiophene fragment: `c2sccc2` places C7a bonded to S, then S–CH=CH–C3a, with C3a closing the ring back to C7a. C3a is then bonded to the CH2 `C1`, which closes onto N. This matches the drawing.
+
+SMILES: Clc1ccccc1CN1CCc2sccc2C1

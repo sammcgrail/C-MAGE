@@ -1,0 +1,13 @@
+Reading the drawing region by region:
+
+- **Ester:** an ethyl group is attached to an O, which is attached to a C=O. The carbonyl carbon is joined to a quaternary ring carbon by a wedge bond.
+- **Ring:** a six-membered carbocycle. Going round from the quaternary carbon, the atoms are the quaternary C, a CH bearing the NMe2 group (hashed bond), a CH=CH double bond, and two CH2 groups back to the quaternary C.
+- **Quaternary carbon:** it also carries a phenyl ring, drawn as a benzene with three double bonds.
+- **Amine:** the nitrogen carries two methyl groups.
+
+Stereochemistry, assigned from the wedge and hash bonds:
+
+- **Quaternary carbon:** the carbonyl carbon is on the wedge (toward the viewer). I wrote the neighbours in the order carbonyl, ring-closure carbon (the CH–N), phenyl, ring CH2. Seen from the carbonyl, the other three run counterclockwise, which gives `@`.
+- **CH–N carbon:** the NMe2 group is on the hash (away from the viewer), so the implicit H points toward the viewer. I wrote the neighbours in the order alkene carbon, H, ring-closure carbon (the quaternary C), N. Seen from H, the alkene carbon, quaternary carbon and N run clockwise. Swapping H and the alkene carbon in the SMILES order flips this to `@`.
+
+SMILES: CCOC(=O)[C@]1(c2ccccc2)CCC=C[C@H]1N(C)C

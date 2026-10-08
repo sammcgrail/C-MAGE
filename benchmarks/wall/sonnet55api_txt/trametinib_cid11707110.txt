@@ -1,0 +1,26 @@
+This structure is trametinib, a pyridopyrimidine-trione core. I read it region by region.
+
+**Core.** The bicyclic system is a pyrido[4,3-d]pyrimidine-trione:
+- The pyrimidine ring has N1 bearing the aryl group, then C2(=O), N3 bearing the cyclopropyl, then C4(=O), then C4a and C8a.
+- The pyridone ring runs C4a=C5(NHAr)–N6(Me)–C7(=O)–C8(Me)=C8a.
+- C5 carries the NH-aryl group and N6 carries a methyl.
+- C7 is the carbonyl and C8 carries a methyl.
+
+**Substituents.**
+- The N-aryl group is a phenyl ring bearing an NHC(=O)CH3 group at the meta position.
+- The anilino group is 2-fluoro-4-iodophenyl, attached through NH.
+
+**Assembling the SMILES.**
+- Start with the acetamide: CC(=O)Nc1cccc(c1)
+- Attach N1: n1 (written as N in a Kekulé-style SMILES)
+- Then C2(=O), N3 with cyclopropyl, C4(=O), C4a, and so on.
+
+CC(=O)Nc1cccc(c1)N1C(=O)N(C2CC2)C(=O)C2=C1C(C)=C(... wait, the ring order needs care. C8a is attached to N1 and C8, and C4a is attached to C4 and C5. The order is C8a=C8(C)–C7(=O)–N6(C)–C5(Nar)=C4a.
+
+Written out: CC(=O)Nc1cccc(c1)N1C(=O)N(C2CC2)C(=O)C2=C1C(C)=C... this is incorrect, because C8a is double-bonded to C8 while C4a is double-bonded to C5. The corrected form is:
+
+N1C(=O)N(C2CC2)C(=O)C2=C(Nc3ccc(I)cc3F)N(C)C(=O)C(C)=C12
+
+Here C4a (C2=) is double-bonded to C5, and C8a (=C12) is double-bonded to C8 and closes rings 1 and 2. This matches the drawing.
+
+SMILES: CC(=O)Nc1cccc(c1)N1C(=O)N(C2CC2)C(=O)C2=C(Nc3ccc(I)cc3F)N(C)C(=O)C(C)=C12

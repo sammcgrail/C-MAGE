@@ -1,0 +1,9 @@
+I read the drawing as a tetrahydroquinoline, the torcetrapib scaffold, and assembled the SMILES region by region.
+
+- **Core ring:** a benzene ring fused to a saturated six-membered ring that contains N1. N1 carries an ethyl carbamate (N–C(=O)–O–CH2CH3). The benzo ring bears a CF3 group.
+- **C2 (next to N1):** carries an ethyl group on a hashed bond.
+- **C4:** carries a hashed bond to an exocyclic nitrogen. That nitrogen bears a methyl carbamate (C(=O)OCH3) and a benzyl group. The benzyl ring is 3,5-bis(trifluoromethyl)phenyl.
+- **Stereochemistry at C2:** only the two hashed bonds, at C2 and C4, show stereochemistry. For C2 I took the hashed ethyl as pointing away from the viewer, with H toward the viewer. Reading the neighbours N1, C3, ethyl then gives `[C@H]` in the SMILES order.
+- **Stereochemistry at C4:** I took the hashed N as pointing away, with H toward the viewer. Reading the neighbours C4a, N, C3 then gives `[C@@H]` in the SMILES order.
+
+SMILES: CCOC(=O)N1c2ccc(C(F)(F)F)cc2[C@@H](N(Cc2cc(C(F)(F)F)cc(C(F)(F)F)c2)C(=O)OC)C[C@H]1CC
