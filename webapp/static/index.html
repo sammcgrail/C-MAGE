@@ -78,6 +78,10 @@ main{max-width:1400px;margin:0 auto;
 .cmp .track{height:7px;background:#0b0f14;margin-top:9px;overflow:hidden}
 .cmp .track i{display:block;height:100%;background:var(--acc)}
 .cmp .side.lead .track i{background:var(--exact)}
+.cmp.cards{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cmp.cards .pc{font-size:26px}
+@media (max-width:640px){.cmp.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cmp.cards .side:first-child{grid-column:1 / -1}}
 /* Four outcomes, one stacked bar. "Sonnet was wrong" and "Sonnet was wrong where
    the pipeline was right" are different facts and only the second is interesting
    here, so the tile colour and the bar both key on the OUTCOME, not on either
@@ -456,6 +460,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
       <button role="tab" id="tab-pdfs" aria-selected="false">PDFs</button>
       <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet 5</button>
       <button role="tab" id="tab-sonnet55" aria-selected="false">Sonnet 5.5</button>
+      <button role="tab" id="tab-sonnet55api" aria-selected="false">Sonnet 5.5 API only</button>
       <a class="segl" href="/sonnet-compare">Sonnet compare</a>
     </div>
     <button class="ghost" id="try">Try a file</button>
@@ -649,6 +654,7 @@ function openSheet(r){
     + '<div class="meta">' + badge(meLabel, v)
     + (twoReaders ? " " + badge("CXMolScribe", ocrState) : "")
     + (s5State ? " " + badge("Sonnet 5", s5State) : "")
+    + (r.alt ? " " + badge(DATA.altShort || "Other reader", {exact:"matched", stereo:"stereo", invalid:"unreadable"}[r.alt.v] || "misread") : "")
     + (r.d ? '<div style="margin-top:6px">' + esc(r.d)
         + (r.dup > 1 ? ' &middot; drawn ' + r.dup + ' times in this document' : '') + '</div>' : '')
     + '</div>';
@@ -684,15 +690,19 @@ function openSheet(r){
     + (r.s5 ? smilesField("Sonnet 5 read (Sonnet 5 tab)", r.s5.s || "(nothing emitted)",
         r.s5.conf != null && r.s5.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.s5.conf) + '</span>' : '')
       : DATA.noS5 ? '<div class="kv"><label>Sonnet 5 read</label><code>' + esc(DATA.noS5) + '</code></div>' : "")
+    + (r.alt ? smilesField(DATA.altLabel || "Other reader", r.alt.s || "(nothing emitted)",
+        r.alt.conf != null && r.alt.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.alt.conf) + '</span>' : '')
+      : DATA.noAlt ? '<div class="kv"><label>' + esc(DATA.altLabel || "Other reader") + '</label><code>' + esc(DATA.noAlt) + '</code></div>' : "")
     + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
-    + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">' + esc(DATA.reader || "Sonnet") + ' API, at list price</span></label>'
-        + '<code>$' + r.rc.toFixed(2) + ' / image · ~' + fmtdur(r.rt) + ' / image'
-        + (r.bn === 1 ? '<br><span class="dim">read alone: one image per reader (single-image readers)</span>'
+    + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">' + esc(DATA.runNote || ((DATA.reader || "Sonnet") + ' API, at list price')) + '</span></label>'
+        + '<code>$' + (r.rnote ? r.rc.toFixed(3) : r.rc.toFixed(2)) + ' / image · ~' + fmtdur(r.rt) + ' / image'
+        + (r.rnote ? '<br><span class="dim">' + esc(r.rnote) + '</span>' : r.bn === 1 ? '<br><span class="dim">read alone: one image per reader (single-image readers)</span>'
           : '<br><span class="dim">a batch of ' + r.bn + ' read in one shared context: $'
             + r.bc.toFixed(2) + ' · ' + fmtdur(r.bs) + '</span>') + '</code></div>' : '')
     + verdictNote(r)
+    + (r.txt ? '<details class="fold"><summary>The full reply</summary><div class="pre">' + esc(r.txt) + '</div></details>' : '')
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy ' + esc(meLabel) + '\u2019s reading</button>';
   $("#sheetBody").scrollTop = 0;
@@ -1107,7 +1117,22 @@ function render(){
      RECALL over compounds catalogued, because those documents draw six times
      more than they list. The label ships with the payload. */
   var c = DATA.compare;
-  if (c) {
+  if (DATA.cards) {
+    /* The API-only tab: summary cards, then the same two-side panel as the Sonnet tabs for the
+       overlap with the tool-using reader (only when there is one), then the verdict bar. */
+    var vs = DATA.vs, vbest = vs ? Math.max(vs.sides[0].pct, vs.sides[1].pct) : 0;
+    hero.innerHTML = '<div class="cmp cards">' + DATA.cards.map(function(x){
+        return '<div class="side"><div class="who">' + esc(x.label) + '</div><div class="pc">'
+          + esc(x.value) + '</div><div class="of">' + esc(x.sub) + '</div></div>';
+      }).join("") + '</div>'
+      + stackOf(DATA.breakdown, s.n)
+      + (vs ? '<div class="cmp">' + vs.sides.map(function(x){
+          return '<div class="side' + (x.pct === vbest ? ' lead' : '') + '"><div class="who">' + esc(x.label)
+            + '</div><div class="pc">' + x.pct + '%</div><div class="of">' + x.exact + ' of ' + x.n
+            + '</div><div class="track"><i style="width:' + x.pct + '%"></i></div></div>';
+        }).join("") + '</div><div class="sub">' + esc(vs.text) + '</div>' : '')
+      + '<div class="sub">' + esc(DATA.headline) + '</div>';
+  } else if (c) {
     var best = Math.max.apply(null, c.sides.map(function(x){ return x.pct; }));
     hero.innerHTML =
       '<div class="cmp' + (c.sides.length === 3 ? ' three' : '') + '">' + c.sides.map(function(x){
@@ -1286,7 +1311,7 @@ function fetchTab(tab){
 
 function load(tab){
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
-  ["pdfs","images","sonnet","sonnet55"].forEach(function(t){
+  ["pdfs","images","sonnet","sonnet55","sonnet55api"].forEach(function(t){
     $("#tab-" + t).setAttribute("aria-selected", tab === t); });
   showTab($("#tab-" + tab));
   if (!READY[tab]) $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
@@ -1304,6 +1329,7 @@ function load(tab){
 $("#tab-pdfs").onclick = function(){ load("pdfs"); };
 $("#tab-sonnet").onclick = function(){ load("sonnet"); };
 $("#tab-sonnet55").onclick = function(){ load("sonnet55"); };
+$("#tab-sonnet55api").onclick = function(){ load("sonnet55api"); };
 /* On a phone the tab strip scrolls; keep the active tab in view and drop the edge fade
    once the strip is scrolled to its end. */
 function showTab(b){
@@ -1334,9 +1360,9 @@ document.addEventListener("selectstart", function(e){
 /* The first data fetch waits for window load: iOS Safari's progress bar waits on
    every request begun before it. */
 function start(){ var t = new URLSearchParams(location.search).get("tab");
-  var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" ? t : "images";
+  var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" || t === "sonnet55api" ? t : "images";
   load(first);
-  var warm = function(){ ["images","pdfs","sonnet","sonnet55"].forEach(function(x){
+  var warm = function(){ ["images","pdfs","sonnet","sonnet55","sonnet55api"].forEach(function(x){
     if (x !== first) fetchTab(x).catch(function(){}); }); };
   fetchTab(first).then(warm, warm); }
 if (document.readyState === "complete") start(); else window.addEventListener("load", start, {once: true});
