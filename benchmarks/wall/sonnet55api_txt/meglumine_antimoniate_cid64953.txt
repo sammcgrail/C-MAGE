@@ -1,0 +1,14 @@
+I read the drawing as two separate components, written below as a dot-separated SMILES.
+
+**Antimony component:** an Sb atom carries two double-bonded oxygens and one OH, which gives `O[Sb](=O)=O`.
+
+**Organic component:** the chain is HO–CH2–CH(OH)–CH(OH)–CH(OH)–CH(OH)–CH2–NH–CH3. I wrote it from the HO end as `OC[C@@H](O)[C@@H](O)[C@H](O)[C@@H](O)CNC`. Each stereocentre's tag comes from its drawn bond (wedge or hash) and its implicit hydrogen:
+
+| Carbon (from left) | OH bond | Tag |
+|---|---|---|
+| C2 | wedge | `@@` |
+| C3 | hash | `@@` |
+| C4 | hash | `@` |
+| C5 | hash | `@@` |
+
+SMILES: O[Sb](=O)=O.OC[C@@H](O)[C@@H](O)[C@H](O)[C@@H](O)CNC

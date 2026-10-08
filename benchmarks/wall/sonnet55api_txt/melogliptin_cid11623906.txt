@@ -1,0 +1,18 @@
+I read the structure in three parts and worked out each stereocentre from its wedge or hash.
+
+**Fragments**
+- **Left:** a 1,2,4-triazole attached through N1 to a CH2 group.
+- **Middle:** a cyclopentane substituted at positions 1 and 3. One carbon bears the CH2–triazole, drawn hashed. The other bears the NH, also drawn hashed.
+- **Linker:** NH–CH2–C(=O), connecting the cyclopentane to the pyrrolidine nitrogen as an amide.
+- **Right:** a pyrrolidine whose nitrogen is acylated. The carbon next to nitrogen carries a wedged C≡N. The carbon at position 4 carries a wedged F.
+
+**Stereo assignment**
+For each centre I took the implicit H as pointing opposite the wedged or hashed substituent. I then read the rotation of the remaining neighbours in the written SMILES order.
+- The CN-bearing pyrrolidine carbon is `@@`.
+- The CF carbon is `@`.
+- The cyclopentane carbon bearing NH is `@@`.
+- The cyclopentane carbon bearing CH2–triazole is `@`.
+
+I checked that ring closures and atom counts match the drawing.
+
+SMILES: N#C[C@@H]1C[C@H](F)CN1C(=O)CN[C@@H]1CC[C@H](Cn2cncn2)C1

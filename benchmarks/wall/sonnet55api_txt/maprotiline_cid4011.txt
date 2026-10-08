@@ -1,0 +1,20 @@
+This looks like maprotiline: a 9,10-dihydro-9,10-ethanoanthracene core with a 3-(methylamino)propyl chain on a bridgehead carbon.
+
+**Core.** Two benzene rings are joined through two bridgehead carbons. One bridgehead (at about 605,633) carries the side chain. The other (at about 297,865) is a CH. Two labelled "C" atoms form the ethano bridge between the bridgeheads. The path is bridgehead 297,865 – C (378,800) – C (517,693) – bridgehead 605,633.
+
+**Top benzene ring.** Its atoms are 430,558; 406,367; 230,290; 75,405; 97,598; 275,673. It is fused to the bridgehead at 605,633 (via 430,558) and to the CH bridgehead at 297,865 (via 275,673).
+
+**Bottom benzene ring.** Its atoms are 629,826; 806,902; 828,1094; 675,1209; 497,1133; 475,941. It is bonded to the bridgehead at 605,633 (via 629,826) and to the CH bridgehead at 297,865 (via 475,941).
+
+**Side chain.** From the quaternary bridgehead the chain runs CH2–CH2–CH2–NH–CH3.
+
+**SMILES.** Writing the quaternary bridgehead as C1 (ring-bond labels 1 and 2):
+- C12(CCCNC) opens the bridgehead with the side chain.
+- c3ccccc3 is the top benzene ring, and its last aromatic atom closes onto the CH bridgehead.
+- The bottom ring is opened from the quaternary carbon via ring label 2.
+
+Full string: CNCCCC12CCC(c3ccccc31)c1ccccc12
+
+Check: C12 is the quaternary carbon. The two bridge carbons CC follow, then C(...) is the CH bridgehead. Its first branch, c3ccccc31, is an aromatic ring that closes ring 3 within itself and closes ring 1 back to the quaternary carbon. After the branch, c1ccccc12 is the second aromatic ring, whose last atom closes ring 2 back to the quaternary carbon. Ring label 1 is reused after it was closed, which is valid. Both benzene rings are fused to both bridgeheads, as drawn.
+
+SMILES: CNCCCC12CCC(c3ccccc31)c1ccccc12

@@ -1,0 +1,17 @@
+Reading the drawing region by region:
+
+- **Left chain:** a methyl group is bonded to an NH, so the amine is a secondary N-methyl amine.
+- **Stereocentre:** the NH is bonded to a carbon that carries a hashed methyl (pointing back) and a CH2 that leads to the ring.
+- **Ring:** the CH2 is attached to a benzene ring drawn with three alternating double bonds, so it is a phenyl group.
+
+Together this is N-methyl-1-phenylpropan-2-amine (methamphetamine).
+
+**Stereochemistry:** the CIP priorities at the stereocentre are N > CH2Ph > CH3 > H.
+
+1. The hashed methyl points away from the viewer, so the implicit H points toward the viewer.
+2. In the drawing, N is up, CH2 is lower right and CH3 is lower left. Going N → CH2 → CH3 is clockwise as drawn.
+3. Because H faces the viewer, the true sense is reversed, giving counterclockwise, which is S.
+
+I wrote `CN[C@@H](C)Cc1ccccc1` and checked it: with the neighbour order N, H, CH3, CH2, `@@` means H, CH3, CH2 run clockwise when viewed from N. Moving H to the front of the list flips the symbol to `@`. Viewed from the side opposite H, N → CH2 → CH3 then runs counterclockwise, which is S, matching the drawing.
+
+SMILES: CN[C@@H](C)Cc1ccccc1

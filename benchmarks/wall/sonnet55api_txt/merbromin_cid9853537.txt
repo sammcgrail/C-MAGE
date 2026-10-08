@@ -1,0 +1,30 @@
+This is merbromin (mercurochrome) written as separate ions, with two Na+, one HO-, and an Hg+ bonded to the ring carbon.
+
+**Left ring.** The atoms are C(Hg) at (408,686), C(O-) at (290,809), C(Br) at (337,974), CH at (503,1014), C at (621,891), and C at (574,727), which bears the ring O. The bonds are:
+- C(Hg)=C(574,727), a double bond
+- C(O-)=C(Br), a double bond
+- CH=C(621,891), a double bond
+
+**Central ring.** The atoms are O, C(574,727), C(621,891), C9 at (787,933), C(905,810), and C(858,645).
+- C9=C(905,810) is a double bond.
+
+**Right ring.** The atoms are C(858,645), CH at (977,522), C(=O) at (1143,564), C(Br) at (1189,727), CH at (1071,850), and C(905,810).
+- C(858,645)=CH(977,522) is a double bond.
+- C(Br)=CH(1071,850) is a double bond.
+- C=O is a double bond.
+
+**Benzoate.** C9 is attached to a phenyl ring, which carries the carboxylate C(=O)[O-] on the adjacent carbon.
+
+**SMILES assembly.** I write the ions as separate fragments, starting with the three non-organic pieces and then the organic fragment:
+
+[Na+].[Na+].[OH-].[Hg+]c1c([O-])c(Br)cc2c1Oc1cc(=O)c(Br)cc1=C2c1ccccc1C(=O)[O-]
+
+**Check on the ring closures.** The left ring is c1(Hg) c([O-]) c(Br) c c2 c1 O. Here c1(Hg) is the atom at 408,686, then C(O-), C(Br), CH, and c2 at 621,891. The next atom, written c1 at 574,727, closes ring 1 with the Hg-bearing carbon. In my string, "cc2c1O" gives CH, then c2 (621,891), then c1 (574,727) closing to the Hg carbon, then O. This is correct.
+
+Then O connects to c1 at 858,645 (new ring label 1), followed by "c" for CH(977,522), "c(=O)", "c(Br)", "c" for CH(1071,850), and "c1" for C(905,810). The closure to 858,645 is correct. The double bond "=C2" goes from C(905,810) to C9, and C9 closes ring 2 with c2 at 621,891. This is correct.
+
+Kekulé validity: in the right ring, c1(858) = c(977), then c(=O), then c(Br) = c(1071), then c1(905), which has the exocyclic double bond to C9. This is consistent.
+
+The Hg+ is a single-bonded cation, as drawn.
+
+SMILES: [Na+].[Na+].[OH-].[Hg+]c1c([O-])c(Br)cc2c1Oc1cc(=O)c(Br)cc1=C2c1ccccc1C(=O)[O-]
