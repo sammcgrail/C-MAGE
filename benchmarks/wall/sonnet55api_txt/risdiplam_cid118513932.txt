@@ -1,0 +1,23 @@
+This looks like the risdiplam scaffold: a pyrido[1,2-a]pyrimidin-4-one core carrying a 2,8-dimethylimidazo[1,2-b]pyridazine and a 4,7-diazaspiro[2.5]octane.
+
+**Left bicycle (imidazo[1,2-b]pyridazine)**
+- Imidazole ring: N= C(ring fusion) – N(bridgehead) – CH= C(CH3) – back to N.
+- Pyridazine ring: the bridgehead N is bonded to a ring N, which is bonded to a C that carries the pyrimidinone. That C connects to CH, then C(CH3), then the fusion carbon.
+- SMILES for this part: Cc1cn2nc(cc(C)c2n1)-
+
+**Central pyrido[1,2-a]pyrimidin-4-one**
+- Substituent-bearing carbon C2, bonded to N1 (=N–), then the fusion carbon C9a, then N5 (bridgehead).
+- C2=C3, then C4(=O) attached to the bridgehead N.
+- Pyridine ring: bridgehead N–CH=C(N-substituent)–CH=CH–C9a.
+- SMILES: c1(...)cc(=O)n2cc(N...)ccc2n1
+
+**Right-hand amine**
+- The N is attached to CH2, then the spiro carbon (part of a cyclopropane), then NH, then CH2CH2 back to N.
+- SMILES: N1CC2(CC2)NCC1
+
+**Assembled SMILES**
+Cc1cn2nc(cc(C)c2n1)-c1cc(=O)n2cc(N3CCNC4(CC4)C3)ccc2n1
+
+Checking the piperazine ring: N3–C–C–NH–C4(spiro)–CH2–back to N3. This gives N, CH2, CH2, NH, C(spiro), CH2, which is 6 atoms, matching the drawing.
+
+SMILES: Cc1cn2nc(cc(C)c2n1)-c1cc(=O)n2cc(N3CCNC4(CC4)C3)ccc2n1

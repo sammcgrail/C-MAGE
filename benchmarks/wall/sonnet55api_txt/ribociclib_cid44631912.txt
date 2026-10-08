@@ -1,0 +1,18 @@
+This is ribociclib: 7-cyclopentyl-N,N-dimethyl-2-[(5-piperazin-1-ylpyridin-2-yl)amino]pyrrolo[2,3-d]pyrimidine-6-carboxamide.
+
+Reading the drawing region by region:
+- **Left:** an N,N-dimethyl amide (C(=O)N(C)C) is attached to the pyrrole carbon.
+- **Pyrrole ring:** the pyrrole nitrogen carries a cyclopentyl group.
+- **Pyrimidine ring:** it is fused to the pyrrole and has an NH at C2 linking to the pyridine.
+- **Pyridine ring:** the NH attaches at C2 of the pyridine, and the ring nitrogen is adjacent to that carbon. A piperazine is attached at C5 through its nitrogen.
+- **Right:** the piperazine ring ends in a free NH.
+
+SMILES, built from these pieces:
+CN(C)C(=O)c1cc2cnc(Nc3ccc(cn3)N3CCNCC3)nc2n1C1CCCC1
+
+Atom check:
+- The pyrrole ring is c1 (bearing the amide), c (CH), c2 (fusion carbon), then back through the ring closure to c2 (fusion carbon, bonded to n) and n1.
+- The pyrimidine ring runs c2, c (CH), n, c (bearing the NH), n, c2 (fusion carbon).
+- The pyridine ring is c3 (bearing the NH), c, c, c (bearing the piperazine), c (CH), n3.
+
+SMILES: CN(C)C(=O)c1cc2cnc(Nc3ccc(cn3)N3CCNCC3)nc2n1C1CCCC1

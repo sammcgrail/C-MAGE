@@ -1,0 +1,21 @@
+The structure is built from four parts, read region by region.
+
+1. **Benzisoxazole:** a 3-amino-1,2-benzisoxazole. The ring atoms run O1–N2=C3(NH2)–C3a–C7a, fused to a benzene ring. The benzene carbon attached to the pyrazole nitrogen is C5, which is para to C7a (the carbon bonded to O) and meta to C3a.
+
+2. **Pyrazole:** N1 carries the benzisoxazole. N2 is double-bonded to C3, which bears CF3. C4 is a CH, and C5 carries the carboxamide.
+
+3. **Amide and fluorophenyl:** the amide NH connects to a benzene ring. Going around that ring from the NH carbon: C1 (NH), C2 (F), C3 (CH), C4 (bonded to the imidazole N), C5 (CH), C6 (CH). The imidazole is therefore para to the NH carbon, with F ortho to the NH.
+
+4. **Imidazole:** N1 is attached to the aryl ring. C2 carries CH2N(CH3)2 and is double-bonded to N3. N3 connects to C4, which connects to C5, which returns to N1.
+
+SMILES assembly:
+
+- Benzisoxazole: Nc1noc2ccc(cc12)
+- Pyrazole: n3nc(C(F)(F)F)cc3C(=O)N
+- Aryl and imidazole: c4ccc(cc4F)-n5ccnc5CN(C)C
+
+Check of the benzisoxazole SMILES Nc1noc2ccc(...)cc12: c1 (C3), n, o, c2 (C7a), c (C7), c (C6), c(...) (C5), c (C4), c12 (C3a). C5 is the substituted carbon, as required.
+
+Full SMILES: Nc1noc2ccc(cc12)-n1nc(C(F)(F)F)cc1C(=O)Nc1ccc(cc1F)-n1ccnc1CN(C)C
+
+SMILES: Nc1noc2ccc(cc12)-n1nc(C(F)(F)F)cc1C(=O)Nc1ccc(cc1F)-n1ccnc1CN(C)C

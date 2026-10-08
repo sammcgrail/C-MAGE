@@ -1,0 +1,11 @@
+Reading the drawing gives rivastigmine:
+
+- **Carbamate end:** an N-ethyl-N-methyl carbamate, CCN(C)C(=O)O–, attached to the aromatic ring through the ester oxygen.
+- **Ring:** a benzene ring substituted at two meta positions.
+- **Side chain:** a CH(CH3)N(CH3)2 group on the other ring position. Its methyl is drawn on a wedge bond.
+
+**Stereocentre:** the CIP priorities at the stereocentre are N > aryl carbon > CH3 > H. The wedged methyl points toward the viewer, so the implicit H points away. Traced from the front, N (upper right), then aryl (upper left), then CH3 (down) runs counterclockwise. With H pointing away, that gives S.
+
+I checked the SMILES chirality tag against this. In `...c(c1)[C@H](C)N(C)C`, the neighbour order at the stereocentre is aryl, H, CH3, N. That order corresponds to S, which matches the drawing.
+
+SMILES: CCN(C)C(=O)Oc1cccc(c1)[C@H](C)N(C)C

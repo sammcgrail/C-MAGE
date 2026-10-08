@@ -1,0 +1,10 @@
+I read the drawing region by region and assembled the SMILES below. I did not run it through a parser, so validity is checked by hand only.
+
+- **Left end:** an acetamide (CH3–C(=O)–NH–) is attached to a CH2 group.
+- **Oxazolidinone ring:** that CH2 is bonded to C5 of a 2-oxazolidinone. C5 is bonded to the ring O and to the ring CH2, which leads to the ring N. The ring N carries the C2 carbonyl (C=O), which closes back onto the ring O.
+- **First aryl ring:** the ring N is bonded to a benzene ring. A fluorine sits ortho to the biaryl bond, and the second benzene ring is attached at the position para to the N.
+- **Second aryl ring:** a para-substituted benzene bearing CH2–NH–CH2–.
+- **Right end:** that chain ends on a 1,2,3-triazole (a five-membered ring with N, NH, N adjacent). It is attached at a carbon next to one ring N, with the NH in the middle of the three nitrogens, which gives c2cn[nH]n2.
+- **Stereochemistry:** the only stereocentre is the oxazolidinone C5. The bond to the CH2NHAc group is hashed, so that group points away from the viewer and the implicit H points toward the viewer. Looking from the H side, the substituents O, ring CH2 and CH2NHAc run clockwise. For the SMILES atom order (CH2NHAc, H, O, ring CH2) this corresponds to `@`, so the centre is written `[C@H]`. This matches the linezolid-type configuration.
+
+SMILES: CC(=O)NC[C@H]1CN(C(=O)O1)c1ccc(c(F)c1)-c1ccc(CNCc2cn[nH]n2)cc1

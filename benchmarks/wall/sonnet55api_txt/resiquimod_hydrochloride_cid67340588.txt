@@ -1,0 +1,28 @@
+The drawing shows an imidazo[4,5-c]quinoline core with an HCl salt (this matches the structure of an imiquimod/resiquimod analog).
+
+**Core ring system**
+- The imidazole ring is C2 (bearing the CH2OEt group), N3 (drawn as "N" at the top left of the ring), C3a, C9b and N1 (the lower N, bearing the alkyl chain).
+- The pyridine ring contains C4 (bearing NH2), N5, C5a, C9a, C9b and C3a.
+- The benzo ring is fused to the pyridine ring.
+
+**Substituents**
+- N1 carries CH2–C(CH3)2–OH.
+- C2 carries CH2–O–CH2CH3.
+- C4 carries NH2.
+
+**Assembly**
+Starting from the ethoxymethyl group and writing round the imidazole ring:
+CCOCc1nc2c(n1CC(C)(C)O)c1ccccc1nc2N
+
+Checking this against the drawing:
+- c1 is C2, with the CH2OEt group attached.
+- n is N3, which bonds to c2, the C3a carbon.
+- C3a is bonded to C4 (the one carrying NH2) and to C9b.
+- c(n1...) is C9b, bonded to N1. It is also bonded to the benzo carbon c1ccccc1, which is C9a.
+- The benzo ring then closes at C5a, which is bonded to N5 (written n), and N5 connects to C4 (c2N).
+
+In the SMILES "c2c(n1CC(C)(C)O)c1ccccc1nc2N", the atom c2 (C3a) is followed by c(...) (C9b), which carries N1 as a branch that closes ring 1 back to C2. Next comes c1ccccc1, where the first c1 is C9a and the last c1 is C5a, then n (N5), then c2N (C4 closing to C3a). Ring label 1 is reused after it has closed, which is valid.
+
+The HCl is added as a separate component.
+
+SMILES: CCOCc1nc2c(n1CC(C)(C)O)c1ccccc1nc2N.Cl

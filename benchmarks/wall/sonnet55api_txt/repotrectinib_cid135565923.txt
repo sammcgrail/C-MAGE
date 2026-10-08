@@ -1,0 +1,15 @@
+This reads as the macrocycle repotrectinib. I built the SMILES from the drawing region by region and assigned stereochemistry from the two drawn wedges.
+
+**Fused heterocycle:** a pyrazolo[1,5-a]pyrimidine. The pyrazole carbon bearing the carbonyl is bonded to the ring-fusion carbon, which carries the pyrimidine N. The other fusion atom is the bridgehead N bonded to the pyrazole N. The pyrimidine CH=CH sits next to the bridgehead N, and the pyrimidine carbon at the far end bears the NH.
+
+**Amide link:** the pyrazole carbon is attached to C(=O)–NH–CH2.
+
+**Stereocentre at the CH2–CH(CH3)–O carbon:** the methyl is on a solid wedge. Reading it with the implicit H pointing away, methyl → O → CH2 runs counterclockwise. In the SMILES order (Me, H, O-ring closure, CH2) this gives `[C@H]`.
+
+**Stereocentre at the NH–CH(CH3)–aryl carbon:** the methyl is on a hashed bond. The implicit H is toward the viewer, and N → Me → aryl runs clockwise. In the SMILES order (N, H, Me, aryl) this gives `[C@H]`.
+
+**Aryl ring:** it is attached to the CH(CH3) carbon and to the ring O on adjacent carbons. A meta CH separates the CH(CH3) attachment from the C–F, and the remaining two aromatic CH carbons lie between the C–F and the O-bearing carbon.
+
+The final SMILES closes the macrocycle through the ring-closure digit 1 at the oxygen.
+
+SMILES: C[C@H]1CNC(=O)c2cnn3ccc(nc23)N[C@H](C)c4cc(F)ccc4O1

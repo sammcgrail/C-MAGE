@@ -1,0 +1,16 @@
+This structure is rivaroxaban, read region by region from the drawing:
+
+- **Left ring:** a morpholin-3-one, with the ring N attached to the benzene ring and the C=O next to that N.
+- **Centre:** a para-disubstituted benzene linking the morpholinone N to the N of an oxazolidin-2-one.
+- **Oxazolidinone:** the ring carbon C5 carries a CH2–NH group on a hashed bond, so this is the one drawn stereocentre.
+- **Right side:** the NH is acylated by a thiophene-2-carbonyl group, with Cl on thiophene C5.
+
+**Stereocentre:** the CIP priorities are ring O > ring CH2 (attached to N) > CH2NH > H.
+
+- The hashed bond points the CH2NH group away from the viewer, so the implicit H points toward the viewer.
+- Viewed from the front, O (down) → ring CH2 (upper left) → CH2N (upper right) runs clockwise.
+- Because H faces the viewer, the true sense is reversed, giving S.
+
+I wrote the SMILES so that `[C@H]` has the neighbour order CH2N, H, ring-closure O, ring CH2, which encodes this S configuration.
+
+SMILES: O=C(NC[C@H]1CN(c2ccc(cc2)N2CCOCC2=O)C(=O)O1)c1ccc(Cl)s1

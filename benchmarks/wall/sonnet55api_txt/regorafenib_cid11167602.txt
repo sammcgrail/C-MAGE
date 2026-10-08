@@ -1,0 +1,15 @@
+The structure is regorafenib. I read it in three parts.
+
+**Left part.** A pyridine ring carries an N-methyl carboxamide (C(=O)NHCH3) at C2. The ring nitrogen is adjacent to C2, and the ether oxygen sits at C4.
+
+**Middle part.** The oxygen links the pyridine to a central benzene ring. On that ring, the urea NH is para to the oxygen, and a fluorine is ortho to the urea NH, which makes it meta to the oxygen.
+
+**Right part.** The urea carbonyl connects through a second NH to a phenyl ring. That ring has Cl at the para position and CF3 at the meta position, adjacent to the Cl.
+
+**SMILES assembly.** Starting from the methyl amide: CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(C(F)(F)F)c3)c(F)c2)ccn1
+
+Checking the central ring in the drawing: the O-bearing carbon is at the upper left (505,585), and the carbon bearing NH is at (685,703). Going around the ring: C(O), CH (600,537), CH (688,595), C(NH) (685,703), C(F) (587,750), CH (498,692), back to C(O). So C(NH) and C(O) are para, and F is on the carbon adjacent to C(NH). The SMILES c2ccc(N...)c(F)c2 matches this: c2 (O-bearing), c, c, c(N), c(F), c2.
+
+The right ring has the NH-bearing carbon at (1052,722), then CH (1058,615), CH (1155,568), C-Cl (1243,626), C-CF3 (1237,734), and CH (1142,780). In the SMILES c3ccc(Cl)c(CF3)c3: c3 (N-bearing), c, c, c(Cl), c(CF3), c3. This matches.
+
+SMILES: CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(C(F)(F)F)c3)c(F)c2)ccn1

@@ -1,0 +1,14 @@
+This looks like roscovitine, and I read the structure in these parts:
+
+- **Purine core:** a fused imidazole and pyrimidine ring.
+- **N9 substituent:** an isopropyl group.
+- **C6 substituent:** a benzylamino group (NH–CH2–phenyl).
+- **C2 substituent:** an NH attached to a stereocentre that carries an ethyl group, a CH2OH group and one implicit H.
+
+The ethyl bond at the stereocentre is hashed, so ethyl points away from the viewer and the implicit H points toward the viewer.
+
+The CIP priorities at the stereocentre are N, then CH2OH, then ethyl, then H. Viewed from the front, N (left) → CH2OH (lower right) → ethyl (upper right) runs counterclockwise. Because H faces the viewer, I reverse this, so the centre is R.
+
+In the SMILES written as CC[C@H](CO)N..., the `@` tag corresponds to R. I checked this by working out the chirality order from the ethyl carbon, and it matches the known SMILES form of (R)-roscovitine.
+
+SMILES: CC[C@H](CO)Nc1nc(NCc2ccccc2)c2ncn(C(C)C)c2n1

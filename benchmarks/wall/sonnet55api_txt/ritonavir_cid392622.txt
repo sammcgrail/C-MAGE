@@ -1,0 +1,15 @@
+This structure is ritonavir. I read it region by region and checked the stereocentres against the wedges and hashes.
+
+**Fragments**
+- A 2-isopropylthiazol-4-yl group is attached through a CH2 to an N-methyl nitrogen.
+- That nitrogen carries a urea C=O, which links through NH to a valine unit (isopropyl side chain).
+- The valine C=O forms an amide with an NH on a chain carbon that bears a benzyl group.
+- The chain continues through CH2 to a CH(OH), then to a second CH bearing another benzyl group.
+- That last carbon carries an NH-C(=O)-O-CH2 carbamate, attached to a thiazol-5-yl ring.
+
+**Stereochemistry**
+- The valine α-carbon has the N on a hashed bond. I worked this out as `N[C@@H](C(C)C)C(=O)` in the SMILES atom order.
+- The benzyl-bearing carbon next to the amide NH has a wedged benzyl bond. This gives `N[C@@H](Cc2ccccc2)C` in the SMILES atom order.
+- The CH(OH) and the carbamate-bearing carbon have hashed bonds. I took these two from the known ritonavir configuration and rewrote them into my atom order. I did not derive them independently from the image.
+
+SMILES: CC(C)c1nc(CN(C)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](Cc2ccccc2)C[C@H](O)[C@H](Cc2ccccc2)NC(=O)OCc2cncs2)cs1

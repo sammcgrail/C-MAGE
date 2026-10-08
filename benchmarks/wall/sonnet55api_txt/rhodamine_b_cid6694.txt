@@ -1,0 +1,19 @@
+This is rhodamine B hydrochloride: a xanthene core with a 2-carboxyphenyl group at C9, two diethylamino groups, and a chloride counterion.
+
+Reading the drawing:
+- The iminium nitrogen on the left carries two ethyl groups and is double-bonded (N+=C) to a ring carbon.
+- The right-hand nitrogen is a neutral NEt2 attached to the other ring.
+- The xanthene oxygen bridges the two fused rings.
+- The top phenyl ring bears a COOH group ortho to its bond to C9.
+
+I wrote the SMILES by starting from the left iminium nitrogen and following the ring bonds as drawn.
+
+Left ring: the iminium carbon C(=N+) is bonded to CH (the vertex at 428,787) and to CH (at 525,990). Going around: C(=[N+]) – CH= CH – C(ring fusion, 653,803) ... C(653,803) is double-bonded to C9 (770,748), and the other fusion carbon (643,935) is bonded to O.
+
+SMILES: CC[N+](CC)=C1C=CC2=C(c3ccccc3C(=O)O)c3ccc(N(CC)CC)cc3Oc2c1.[Cl-]
+
+Check of the left ring: C1(=N+) – C=C – C2(=C9) ... c2 (O-bearing) – c1 closing. The atoms are C1, C, C, C2, then c2 and c1 at the end, which gives 6 atoms: C1, CH, CH, C2, c(O-bearing, written "c2"), and "c1" (CH). This is correct: the iminium carbon is bonded to CH(525,990), which is bonded to C(643,935), the O-bearing carbon.
+
+Right ring: c3 (878,822, attached to C9) – ccc(N) – c – c3(O). Atoms: c3, c, c, c(N), c, c3(O) is 6 atoms, which is correct.
+
+SMILES: CC[N+](CC)=C1C=CC2=C(c3ccccc3C(=O)O)c3ccc(N(CC)CC)cc3Oc2c1.[Cl-]
