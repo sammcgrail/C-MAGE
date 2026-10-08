@@ -1,0 +1,18 @@
+The drawing shows oxcarbazepine: a dibenzazepine core with a central seven-membered ring.
+
+- **Seven-membered ring:** N, aromatic carbon (left ring), aromatic carbon (left ring), C=O, CH2, aromatic carbon (right ring), aromatic carbon (right ring), and back to N.
+- **N substituent:** a carboxamide, N–C(=O)NH2.
+- **Left benzene ring:** it is fused to the seven-membered ring through the carbon bonded to N and the carbon bonded to the ketone.
+- **Right benzene ring:** it is fused through the carbon bonded to N and the carbon bonded to the CH2.
+
+SMILES: NC(=O)N1c2ccccc2CC(=O)c2ccccc12
+
+Check on the ring closures: N1 is bonded to the left-ring carbon c2, which runs around the ring (c2ccccc2) with its last atom bearing the CH2.
+
+That gives N1–c2ccccc2–C–C(=O)–c2ccccc12. Here the left ring's first carbon is bonded to N and its last carbon to CH2, so CH2 is attached to the left ring and C(=O) to the right ring. In the image, the ketone is on the left ring and the CH2 on the right ring, so the string should be written the other way round. The ring-fusion connectivity is mirror-symmetric except for that placement, so I rewrite it to match the drawing:
+
+NC(=O)N1c2ccccc2C(=O)Cc2ccccc12
+
+Check: N1, then c2ccccc2, where the first carbon is bonded to N and the last carbon to C(=O). Next come CH2, then the right ring c2ccccc12, whose last carbon closes to N1 and whose first carbon is bonded to CH2. This matches the drawing.
+
+SMILES: NC(=O)N1c2ccccc2C(=O)Cc2ccccc12

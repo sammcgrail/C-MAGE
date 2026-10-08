@@ -1,0 +1,16 @@
+I read the molecule as a 2-aryl-4-amino-piperidine N-carboxamide, built from these parts:
+
+- **Left side:** a 3,5-bis(trifluoromethyl)phenyl ring on a CH(CH3) carbon, drawn with a wedged methyl. This carbon is bonded to N(CH3), which is part of the urea C(=O).
+- **Central ring:** the urea carbonyl is attached to the piperidine nitrogen. Piperidine C2 carries a 4-fluoro-2-methylphenyl group on a hashed bond. Piperidine C4 carries a hashed bond to a nitrogen.
+- **Right side:** that nitrogen belongs to a bicyclic lactam, a piperazine fused to a pyrrolidin-2-one (octahydropyrrolo[1,2-a]pyrazin-6-one). Its ring-fusion CH has a wedged H.
+
+I assigned the four stereocentres from the wedge and hash bonds, with the implicit H taken as pointing opposite the drawn wedge or hash:
+
+- CH(CH3): `[C@H]`
+- Piperidine C4: `[C@H]`
+- Piperidine C2: `[C@@H]`
+- Ring-fusion CH: `[C@H]`
+
+I checked the atom counts and ring connectivity against the drawing. The aryl ring has F para and CH3 ortho to the attachment point, and the piperazine ring closes through the lactam nitrogen.
+
+SMILES: C[C@H](c1cc(C(F)(F)F)cc(C(F)(F)F)c1)N(C)C(=O)N1CC[C@H](N2CCN3C(=O)CC[C@H]3C2)C[C@@H]1c1ccc(F)cc1C

@@ -1,0 +1,21 @@
+This structure is opicapone, and I read it from the drawing as follows.
+
+**Left ring (benzene):** The ring carries a nitro group (N+ with =O and O−), two adjacent OH groups, and the oxadiazole attachment. Going around the ring from the nitro carbon: C(NO2), then C(OH), then C(OH), then CH, then C(oxadiazole), then CH, back to C(NO2).
+
+**Middle ring (1,2,4-oxadiazole):** The oxadiazole carbon attached to the benzene (C5) is bonded to the ring O and to N=. That N connects to the second carbon (C3), which is attached to the pyridine ring. C3 is double-bonded to the next N, which bonds to the ring O.
+
+**Right ring (pyridine N-oxide):** Starting at the oxadiazole-bearing carbon:
+- It is bonded to C(Cl), which is double-bonded to N+(O−).
+- N+ is bonded to C(CH3).
+- That carbon is double-bonded to C(Cl), which is bonded to C(CH3).
+- That carbon is double-bonded back to the oxadiazole-bearing carbon.
+
+**SMILES:**
+Benzene ring: c1(cc(c(O)c(O)c1)[N+](=O)[O-]) bonded to the oxadiazole c2nc(no2) bonded to the pyridine c3c(Cl)[n+]([O-])c(C)c(Cl)c3C.
+
+Written as one string:
+Oc1cc(cc([N+](=O)[O-])c1O)-c1nc(no1)-c1c(Cl)[n+]([O-])c(C)c(Cl)c1C
+
+Checking the benzene ring: c1 (the OH carbon), then c (CH), then c(...) bearing the oxadiazole, then c (CH), then c(NO2), then c1(O). This gives OH, CH, C-oxadiazole, CH, C-NO2, C-OH, which matches the drawing.
+
+SMILES: Oc1cc(cc([N+](=O)[O-])c1O)-c1nc(no1)-c1c(Cl)[n+]([O-])c(C)c(Cl)c1C

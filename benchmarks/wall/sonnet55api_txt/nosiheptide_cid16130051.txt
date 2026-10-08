@@ -1,0 +1,20 @@
+I read the drawing as a nosiheptide-type thiopeptide macrocycle: a central 3-hydroxypyridine carrying several thiazoles, a 3-methylindole acid linked through a thioester and an ester, and a dehydroalanine amide tail. No wedges or hashes are drawn, so I included no stereochemistry. The cis/trans geometry of the two C=C bonds is also left unspecified.
+
+Building the SMILES region by region:
+
+1. **Tail:** a primary amide on a dehydroalanine (`NC(=O)C(=C)N...`), acylated through an amide to a thiazole C4. That thiazole's C2 is bonded to the pyridine.
+2. **Pyridine:**
+   - C2 bears the tail thiazole.
+   - C3 bears OH.
+   - C5 bears the upper-right thiazole.
+   - C6 bears the thiazole that closes the ring at the lower right.
+3. **Upper-right thiazole:** its C4 is acylated by the amide-linked threonine (`NC(C(C)O)C(=O)N`).
+4. **Dehydrobutyrine unit:** the threonine's C-terminal amide NH is attached to `C(=CC)`, which links to the top-left thiazole.
+5. **Top-left thiazole:** its C4 carries a C(=O)NH group that leads to a CH bearing a CH2–CH(OH)–C(=O)–O chain.
+6. **Ester and indole:** the ester oxygen connects through CH2 to C4 of the 3-methylindole. The indole C2 carries C(=O)S.
+7. **Thioester and cysteine unit:** the S–CH2–CH(NH…) segment connects through the middle-left thiazole, closing the macrocycle at the CH bearing the CH2–CH(OH) chain.
+8. **Lower thiazole:** attached to the cysteine-derived CH, it closes onto the pyridine C6.
+
+The ring-closure digits were checked so that the pyridine, each thiazole, the indole and the macrocycle close correctly.
+
+SMILES: NC(=O)C(=C)NC(=O)c1csc(n1)-c1nc2c(cc1O)-c1nc(cs1)C(=O)NC(C(C)O)C(=O)NC(=CC)c1nc(cs1)C(=O)NC3CC(O)C(=O)OCc4cccc5[nH]c(c(C)c45)C(=O)SCC(NC(=O)c6csc3n6)c7nc2cs7

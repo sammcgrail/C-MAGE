@@ -1,0 +1,24 @@
+This looks like a tamoxifen-related compound (a hydroxyethoxy analog of the chloro-tamoxifen type), so I read it region by region.
+
+- **Alkene:** the central C=C has two carbons. The upper carbon carries a phenyl ring (upper left) and a para-substituted phenyl ring. The lower carbon carries another phenyl ring and a CH2CH2Cl chain.
+- **Para-substituted ring:** it bears an O–CH2–CH2–OH group (O at the top right, then two CH2, then OH).
+- **Stereochemistry:** the double bond is drawn with plain bonds in a fixed layout, so cis/trans geometry could be assigned. I worked out the coordinates to see how the substituents sit.
+
+Coordinates:
+- C1 (upper alkene carbon) is at (505, 682).
+- C2 (lower alkene carbon) is at (478, 818).
+- C1 has the phenyl ring at (402, 591) and the aryl ring at (637, 637).
+- C2 has the CH2 at (347, 862) and the phenyl ring at (582, 908).
+
+The double-bond axis runs from C1 down to C2, pointing slightly left. The upper-left phenyl on C1 and the CH2Cl on C2 are both on the left side. The aryl ring on C1 and the phenyl on C2 are both on the right side. So the two left-hand groups are cis, and the two right-hand groups are cis.
+
+Writing the SMILES with the left-hand pair cis:
+ClCC/C(c1ccccc1)=C(/c1ccccc1)c1ccc(OCCO)cc1
+
+Here the CH2 (written before C2) is "/" relative to C2, which means the CH2 is below C2 in the usual writing convention. On C1, the "/c1ccccc1" written after the "=C(" means that group is above C1. Opposite sides of the double bond for these two groups would mean trans, which is the opposite of what I want.
+
+To place the CH2 and the upper-left phenyl cis, I need the same-direction pattern: `ClCC/C(c1ccccc1)=C(\c1ccccc1)c1ccc(OCCO)cc1`.
+
+Checking this: "CC/C" puts the CH2 below C2. The "\" on the phenyl of C1 puts it below C1 as well. So the CH2 and this phenyl are cis, as drawn.
+
+SMILES: ClCC/C(c1ccccc1)=C(\c1ccccc1)c1ccc(OCCO)cc1

@@ -1,0 +1,16 @@
+This reads as 16‑O‑demethylrapamycin (sirolimus with a free OH in place of one methoxy), and I wrote the SMILES by adapting the known rapamycin SMILES to what the drawing shows. I did not re-derive each stereocentre from the wedges and hashes; I kept rapamycin's.
+
+Reading the macrocycle from the pyran ring:
+- **Pyran ring:** an O‑bridged ring carries a methyl on a wedge, and the hemiketal carbon bears an OH.
+- **Amide/ester section:** the hemiketal carbon is followed by two adjacent C=O groups, then the piperidine N. The piperidine carbon next to N bears a hashed H and is bonded to a C(=O)–O ester.
+- **Ester side:** the ester O leads to a CH that carries the side chain and the ring CH2 leading to a ketone.
+- **Side chain:** CH(CH3)–CH2 leads to a cyclohexane ring bearing OMe and OH.
+- **Ketone to alkene:** the ketone is followed by CH(CH3) and a trisubstituted C=C(CH3).
+- **Hydroxyl and methoxy carbons:** next come CH(OH) and CH(OMe), then a C=O.
+- **Methylated section:** this C=O is followed by CH(CH3), CH2 and CH(CH3).
+- **Triene:** CH(CH3) leads into a conjugated triene, whose last carbon is the C(CH3)= that meets the next CH(OH).
+- **Closure:** CH(OH) then CH2 closes onto the pyran carbon.
+
+The carbon next to the pyran CH2 carries a free OH, not the OMe that rapamycin has at that position. So I changed the terminal `OC` of the rapamycin SMILES to `O`.
+
+SMILES: C[C@@H]1CC[C@H]2C[C@@H](/C(=C/C=C/C=C/[C@H](C[C@H](C(=O)[C@@H]([C@@H](/C(=C/[C@H](C(=O)C[C@H](OC(=O)[C@@H]3CCCCN3C(=O)C(=O)[C@@]1(O2)O)[C@H](C)C[C@@H]4CC[C@H]([C@@H](C4)OC)O)C)/C)O)OC)C)C)/C)O

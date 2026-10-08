@@ -1,0 +1,24 @@
+This is paliperidone, drawn without stereochemistry.
+
+Reading the drawing region by region:
+
+- **Benzisoxazole:** a benzene ring carries F. It is fused to an isoxazole ring made of C3, N, O and the two fusion carbons, and C3 is attached to the piperidine.
+- **Piperidine:** the 4-position is bonded to C3 of the benzisoxazole, and the ring nitrogen carries the ethylene linker.
+- **Linker:** N–CH2–CH2– runs to the pyrido[1,2-a]pyrimidinone core.
+- **Pyrimidinone core:**
+  - The carbon bearing the linker is C3.
+  - It is double-bonded to the carbon bearing the methyl group (C2).
+  - C2 is bonded to N=, and that N is double-bonded to the ring-fusion carbon (C9a).
+  - C3 is also bonded to the C=O carbon, which is bonded to the ring nitrogen.
+- **Saturated ring:** the ring nitrogen connects through CH2CH2CH2 to CH(OH), and CH(OH) connects to C9a.
+
+SMILES:
+Fc1ccc2c(c1)onc2C1CCN(CC1)CCC1=C(C)N=C2C(O)CCCN2C1=O
+
+Check on the benzisoxazole: c1 (F-bearing) ccc2 c(c1) o n c2. The atom "c2" after "ccc" is the fusion carbon bonded to C3, and the next "c(c1)" is the fusion carbon bonded to O. The drawing shows C3a attached to the CH of the benzene ring and C3, while C7a bears O. Writing it as Fc1ccc2c(c1)onc2… would give a different pattern, so I rewrote it as:
+
+Fc1ccc2c(c1)onc2 means: c1(F), c, c, c2 (fusion, ring-opening 2), c(c1) (the other fusion carbon, closing the benzene ring), o, n, c2 (closing to the first fusion carbon). That puts O on the fusion carbon next to the CH adjacent to C–F, and C3 on the other fusion carbon, which matches the drawing: F-bearing carbon, CH, then C7a (bonded to O).
+
+The final string is the same as above.
+
+SMILES: Fc1ccc2c(c1)onc2C1CCN(CC1)CCC1=C(C)N=C2C(O)CCCN2C1=O

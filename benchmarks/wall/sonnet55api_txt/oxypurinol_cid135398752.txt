@@ -1,0 +1,13 @@
+Reading the drawing atom by atom:
+
+- **Six-membered ring:** C(=O) at the left, then NH at the top, then a carbon (C7a) at the top right. That carbon is double-bonded to C3a at the lower right. C3a connects to the C(=O) at the bottom, which connects to HN at the lower left and back to the left C(=O).
+- **Five-membered ring:** C7a bonds to NH at the top right, then N, then =CH. The CH bonds to C3a, which closes the ring.
+- **Double bonds:** C7a=C3a is drawn as a double bond. The N=CH bond is also double. Both carbonyls are C=O.
+
+SMILES, written ring by ring:
+
+- Start with O=C1NC2=C(C=N2)... but the pyrazole has NH, so write it as C2 (C7a) bonded to the NH.
+- O=C1NC2=C(C=NN2)C(=O)N1 gives C7a bonded to N(H), then N, then =CH. Here C2=C(...) puts C7a double-bonded to C3a. C3a is bonded to CH, which is double-bonded to N, then NH, which closes back to C7a. This matches the drawing.
+- The ring closures work out: C1 is the left carbonyl, N is the top NH, C2 is C7a, and C( is C3a. The branch C=NN2 runs CH=N–NH and closes to C7a. Then C(=O)N1 is the bottom carbonyl and the lower-left NH, closing to C1.
+
+SMILES: O=C1NC2=C(C=NN2)C(=O)N1

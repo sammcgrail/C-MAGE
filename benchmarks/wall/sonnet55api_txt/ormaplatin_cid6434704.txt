@@ -1,0 +1,8 @@
+Reading the drawing gives two separate components:
+
+- **Platinum part:** a Pt²⁺ centre with four Cl atoms attached. The Cl atoms are drawn as neutral, so this is Cl[Pt+2](Cl)(Cl)Cl.
+- **Organic part:** a cyclohexane ring of six carbons. Two adjacent ring carbons each carry an NH₂ group, one on a wedge and one on a hash, so the amines are trans.
+
+For the stereocentres I started the SMILES at the wedged carbon, with its neighbour order N, H, ring-closure carbon, next ring carbon. The H is implicit and points away from the viewer, and N, the upper-left ring carbon and the lower ring carbon run counter-clockwise when viewed from the front. That gives `[C@@H]`. The hashed carbon is written last, with neighbour order ring carbon, H, ring-closure carbon, N. Its H points toward the viewer, and the three heavy neighbours run clockwise when viewed from the front. That gives `[C@H]`. The wedge/hash pair is trans, and `N[C@@H]1CCCC[C@H]1N` matches the (1R,2R) trans pattern, so the two assignments are consistent.
+
+SMILES: Cl[Pt+2](Cl)(Cl)Cl.N[C@@H]1CCCC[C@H]1N

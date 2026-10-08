@@ -1,0 +1,19 @@
+Reading the drawing region by region:
+
+- **Bicyclic amine:** it is a tropane (8-methyl-8-azabicyclo[3.2.1]octane). The N carries a methyl group and bridges the two bridgehead carbons. One bridge is a two-carbon CH2–CH2 unit on the left, and the other is a three-carbon CH2–CH(O)–CH2 unit on the right.
+- **Ester:** the carbon at the middle of the three-carbon bridge bears an O–C(=O) ester group.
+- **Acyl part:** the carbonyl carbon is bonded to a CH that carries a phenyl ring and a CH2OH group (a tropic acid ester).
+- **Stereochemistry:** both bridgehead hydrogens are drawn as wedges, so those two centres get @/@@ labels. The ester-bearing carbon and the CH(CH2OH)Ph carbon are drawn with plain bonds, so they get no stereo marks.
+
+I worked out each bridgehead's @/@@ from the drawn geometry, with the H wedged toward the viewer, and wrote the SMILES with the ring closures noted below.
+
+The SMILES has the following layout:
+
+- `CN1` is the N-methyl nitrogen.
+- `[C@@H]2` is the first bridgehead, and the ring-closure digit 2 links it to the CH2 on the three-carbon bridge.
+- `CC` is the two-carbon bridge.
+- `[C@H]1` is the second bridgehead, which closes the ring back to N.
+- `CC(C2)` is the three-carbon bridge, with the ester-bearing carbon in the middle.
+- `OC(=O)C(CO)c1ccccc1` is the ester and tropic acid side chain.
+
+SMILES: CN1[C@@H]2CC[C@H]1CC(C2)OC(=O)C(CO)c1ccccc1

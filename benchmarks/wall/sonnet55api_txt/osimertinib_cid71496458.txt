@@ -1,0 +1,16 @@
+This structure is osimertinib, read region by region from the drawing.
+
+- **Acrylamide:** a terminal vinyl group C=C attached to C(=O)NH, which is bonded to the central benzene ring.
+- **Central benzene ring:** it carries four substituents.
+  - NHC(=O)C=C (the acrylamide nitrogen).
+  - N(C)CCN(C)C at the position adjacent to the acrylamide nitrogen.
+  - OMe, meta to the acrylamide nitrogen and para to the N(C)CCN(C)C-bearing carbon.
+  - NH–pyrimidine at the position next to the OMe carbon.
+- **Pyrimidine:** the NH-bearing carbon (C2) sits between the two ring nitrogens. C4 carries the indole, and the remaining two carbons are CH=CH.
+- **Indole:** attached through its C3, with an N-methyl group on the indole nitrogen.
+
+Assembled as SMILES: C=CC(=O)Nc1cc(Nc2nccc(n2)-c2cn(C)c3ccccc23)c(OC)cc1N(C)CCN(C)C
+
+Checking the ring substitution pattern: the ring atoms run C1 (NHacryl), C2 (H), C3 (NH-pyrimidine), C4 (OMe), C5 (H), C6 (N(Me)CCNMe2). In the drawing, the acrylamide carbon at about (480,797) is adjacent to the N(Me) carbon at (528,686) and to the CH at (551,895). The CH leads to the carbon at (672,883) bearing the NH-pyrimidine. That carbon is adjacent to the OMe carbon at (721,772), which is adjacent to the CH at (651,675), which returns to the N(Me) carbon. This matches the SMILES.
+
+SMILES: C=CC(=O)Nc1cc(Nc2nccc(n2)-c2cn(C)c3ccccc23)c(OC)cc1N(C)CCN(C)C

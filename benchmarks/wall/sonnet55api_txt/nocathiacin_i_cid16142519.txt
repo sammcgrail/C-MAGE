@@ -1,0 +1,16 @@
+I read the drawing region by region and wrote the SMILES below. I did not run it through a validator.
+
+**Reading of the structure**
+- **Tail:** an acrylamide unit, C=C(C(N)=O)NC(=O), joined to a thiazole that is attached to the central pyridine.
+- **Pyridine:** it carries an OH. Its other two substituent positions each bear a thiazole, giving the macrocycle.
+- **Upper arc:** thiazole, then C(=O)–NH–threonine (with its CH(OH)CH3 side chain), then NH–C(=C(CH3)OCH3) (the methoxy-vinyl unit), then a second thiazole.
+- **Lower ring:** that second thiazole is followed by C(=O)–NH–CH, a third thiazole, C(=O)–NH–CH(CH2–O–C(=O)–) and a fourth thiazole, which closes back onto the pyridine.
+- **Indole core:** an N-hydroxy indole. The ester carbonyl sits on C2, and a CH2–O ether sits on C3. The benzene ring carries a CH2–O–C(=O) group.
+- **Sugar:** a 2,6-dideoxy sugar linked through a hashed glycosidic bond. Its ring has a 6-methyl (wedge), a 4-NMe2 (wedge) and a 3-methyl-3-OH (hashed methyl).
+
+**Stereochemistry**
+- I assigned stereo from the wedges and hashes at the threonine α and β carbons, the two ring CH carbons next to the thiazoles, the ether-bearing CH, the CH bearing CH2O, and the four sugar stereocentres.
+- The CH carrying the sugar oxygen has only plain bonds in the drawing, so I left it unspecified.
+- The methoxy-vinyl double bond is drawn with fixed geometry. The NH and the CH3 are on the same side, so I encoded it as `N/C(=C(\C)OC)`.
+
+SMILES: C=C(C(N)=O)NC(=O)c1csc(n1)-c1nc2c(cc1O)-c1nc(cs1)C(=O)N[C@@H]([C@@H](C)O)C(=O)N/C(=C(\C)OC)c1nc(cs1)C(=O)N[C@@H]3c1nc(cs1)C(=O)N[C@@H](COC(=O)c4n(O)c5cccc6c5c4CO[C@@H]3C(O[C@H]3C[C@](C)(O)[C@H](N(C)C)[C@H](C)O3)C(=O)OC6)c1nc2cs1

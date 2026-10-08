@@ -1,0 +1,21 @@
+The drawing shows a tetramethyltetrahydronaphthalene core, a stilbene-type linker to a benzoic acid, and a pyrazol-1-ylmethyl substituent.
+
+**Tetralin core.** The saturated ring has a C(CH3)2 group at the top left, two CH2 groups, and a second C(CH3)2 group at the bottom left. The aromatic ring is fused to it. Its two ring-fusion carbons are at about (362, 545) and (316, 666). The other four aromatic carbons are:
+- CH at (489, 525)
+- C at (571, 625), which carries the vinyl group
+- C at (525, 746), which carries the CH2–N group
+- CH at (398, 766)
+
+**Linker and acid.** The vinyl group is CH=CH, running from (700, 605) to (780, 704). It joins a para-substituted benzene ring that ends in COOH.
+
+**Pyrazole.** The CH2 at (607, 846) connects to N1 of the pyrazole. The ring is N1–N=CH–CH=CH back to N1.
+
+**Stereochemistry.** The double bond is drawn with the aryl groups on opposite sides, so it is trans (E). The two substituents on the double bond, the aryl carbon at (571, 625) and the aryl carbon at (909, 683), sit on opposite sides of the line from (700, 605) to (780, 704), which confirms E.
+
+**SMILES assembly.**
+- Start at the tetralin: CC1(C)CCC(C)(C)c2cc(CN3C=CC=N3)c(/C=C/c3ccc(C(=O)O)cc3)cc21
+- Check the ring closure: C1(C)(C) is the top quaternary carbon, then CC, then C(C)(C) at the bottom, then c2 (the ring-fusion carbon at (316, 666)). Next is cc, the CH at (398, 766), then c(CH2N) at (525, 746). After that comes c(vinyl) at (571, 625), then c, the CH at (489, 525), and finally c21 at (362, 545), which closes both rings.
+- This matches the drawing: the CH2N carbon is adjacent to the CH at (398, 766), and the vinyl carbon is adjacent to the CH at (489, 525).
+- Pyrazole written as N3C=CC=N3 gives N1–CH=CH–CH=N–N1, which is the correct ring.
+
+SMILES: CC1(C)CCC(C)(C)c2cc(Cn3cccn3)c(/C=C/c3ccc(C(=O)O)cc3)cc21

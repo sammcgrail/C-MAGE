@@ -1,0 +1,20 @@
+This is osimertinib mesylate: the osimertinib free base drawn together with methanesulfonic acid.
+
+**Methanesulfonic acid:** CS(=O)(=O)O
+
+**Osimertinib:**
+- The acrylamide is C=CC(=O)N, attached to the central benzene ring.
+- On the benzene ring, the carbon bearing NH-acryloyl sits next to the carbon bearing N(C)CCN(C)C.
+- The ring then continues through a CH to the carbon bearing OMe, then to the carbon bearing NH-pyrimidine, then through a CH back to the start.
+- The pyrimidine is attached through its C2 to the NH. Its N3 is bonded to C4, which carries the indole, and C5 and C6 are CH. The ring closes through N1 to C2.
+- The indole is attached at C3 and has an N-methyl group.
+
+Benzene ring SMILES: c1(NC(=O)C=C)c(N(C)CCN(C)C)cc(OC)c(Nc2nccc(n2)...)c1. I use a ring-closure form to keep the connectivity clear:
+
+C=CC(=O)Nc1cc(Nc2nccc(n2)-c2cn(C)c3ccccc23)c(OC)cc1N(C)CCN(C)C
+
+Checking the ring order: c1 (NHacryloyl), then c (H), then c(NH-pyrimidine), then c(OMe), then c (H), then c1 (N(Me)CCNMe2). The NHacryloyl carbon is adjacent to the N(Me) carbon, which matches the drawing. The NH-pyrimidine carbon is para to the N(Me) carbon, and the OMe is meta to the NHacryloyl carbon, as drawn.
+
+In the pyrimidine, c2nccc(n2) has C2 bonded to NH, then n, c, c, then c4 carrying the indole, then n2 closing back to C2. This is correct.
+
+SMILES: C=CC(=O)Nc1cc(Nc2nccc(n2)-c2cn(C)c3ccccc23)c(OC)cc1N(C)CCN(C)C.CS(=O)(=O)O

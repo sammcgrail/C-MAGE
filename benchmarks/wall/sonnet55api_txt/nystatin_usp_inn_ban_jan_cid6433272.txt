@@ -1,0 +1,19 @@
+I read this as a nystatin-type polyene macrolide. It has a 38-membered lactone ring, a hemiketal pyranose ring bearing a carboxylic acid, and a mycosamine-type amino sugar attached through an ether oxygen.
+
+**Macrolactone ring, traced from the ester carbonyl:**
+- Starting at the C=O, the chain runs CH2, then alternating CH(OH) and CH2 units, with a CH2–CH2 stretch and two adjacent CH(OH) groups near the hemiketal end.
+- It then reaches the hemiketal carbon, which carries a bold-wedge OH.
+- Next come the pyranose ring (a ring CH2, then CH(OH), then CH(COOH), then the CH–O ring carbon) and a CH2.
+- The CH–O-sugar carbon follows. It is drawn with plain bonds, so I gave it no stereo.
+- A tetraene follows, with four conjugated C=C bonds, then two sp3 CH2 groups, then a diene.
+- The ring ends with CH(CH3), CH(OH), CH(CH3) and CH(CH3)–O, closing onto the ester oxygen.
+
+**Amino sugar:** an O-glycoside carbon, a ring oxygen, CH(CH3), CH(OH), CH(NH2) and CH(OH). All of these are stereo-defined by the wedges and hashes.
+
+**Stereochemistry:**
+- Each wedge/hash centre was converted to @/@@ by working out the neighbour order in the SMILES string.
+- For the double bonds I assumed all-trans geometry. I checked this explicitly only for the 290→365, 430→510 and 750→820 bonds; the rest are assumed trans.
+
+I did not run the string through a parser, so validity is checked by hand only.
+
+SMILES: O=C1CC(O)CC(O)CC(O)CCC(O)C(O)C[C@]2(O)CC(O)C(C(=O)O)C(O2)CC(O[C@H]3O[C@H](C)[C@@H](O)[C@H](N)[C@@H]3O)/C=C/C=C/C=C/C=C/CC/C=C/C=C/[C@H](C)[C@@H](O)[C@@H](C)[C@H](C)O1

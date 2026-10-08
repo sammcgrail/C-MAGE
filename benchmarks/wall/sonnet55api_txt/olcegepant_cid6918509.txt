@@ -1,0 +1,15 @@
+I read this as the CGRP antagonist olcegepant (BIBN4096). I assembled the SMILES region by region, then worked out the two stereocentres from the wedge and hash bonds.
+
+**Structure read from the drawing**
+- **Aryl group:** a 3,5-dibromo-4-hydroxyphenyl ring attached through a CH2 to the first stereocentre (a tyrosine-like α-carbon).
+- **Urea:** that α-carbon bears an NH that is part of a urea. The urea carbonyl connects to a piperidine nitrogen, and the piperidine C4 carries the ring nitrogen of a 3,4-dihydroquinazolin-2(1H)-one.
+- **Amide link:** the α-carbon's C(=O) forms an amide with the NH of a lysine-like residue. That residue has a (CH2)4NH2 side chain.
+- **C-terminus:** the lysine carbonyl is bonded to a piperazine nitrogen. The other piperazine nitrogen carries a pyridin-4-yl group.
+
+**Stereochemistry**
+- **Tyrosine-like carbon:** the CH2 is on a wedge, so the implicit H points away from the viewer. Reading N → CH2 → C(=O) from the front goes counterclockwise. That gives N[C@H](Cc…)C(=O) when the SMILES is written starting from the urea N.
+- **Lysine-like carbon:** the chain bond is hashed, so the implicit H points toward the viewer. Reading N → chain → C(=O) from the front goes counterclockwise, which seen from H is `@`. Converting to the order N, H, chain, C(=O) gives `@@`, so this is N[C@@H](CCCCN)C(=O).
+
+I did not check the result against a database SMILES for olcegepant; the stereo descriptors come from my own reading of the wedges.
+
+SMILES: O=C(N[C@H](Cc1cc(Br)c(O)c(Br)c1)C(=O)N[C@@H](CCCCN)C(=O)N1CCN(CC1)c1ccncc1)N1CCC(CC1)N1Cc2ccccc2NC1=O
