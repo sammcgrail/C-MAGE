@@ -1,0 +1,12 @@
+I read the drawing region by region and assigned stereochemistry only where wedges, hashes or cis/trans geometry are drawn.
+
+- **Ester end:** a methyl ester, `COC(=O)`, attached to a C=C that is drawn trans. Four CH2 groups then lead to the ring.
+- **Ring:** a cyclopentanone with five carbons.
+  - The ring carbon bearing the chain has a bold wedge to that chain.
+  - Next is the C=O carbon, then a CH2.
+  - The next carbon carries OH on a bold wedge.
+  - The last ring carbon has a hashed bond to the side chain.
+- **Side chain on the ring:** a trans CH=CH, then a CH(OH) with the OH on a bold wedge, then a quaternary carbon with two methyls, and finally an n-butyl group (`CCCC`).
+- **Stereocentres:** I worked out each @/@@ from the 2D wedge and hash geometry, taking the implicit hydrogen as pointing opposite the drawn wedge or hash.
+
+SMILES: COC(=O)/C=C/CCCC[C@H]1C(=O)C[C@@H](O)[C@@H]1/C=C/[C@@H](O)C(C)(C)CCCC

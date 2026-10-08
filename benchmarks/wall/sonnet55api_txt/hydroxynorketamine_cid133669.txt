@@ -1,0 +1,19 @@
+Reading the drawing region by region:
+
+- **Cyclohexane ring:** it has six carbons. One is the quaternary carbon bearing NH2 and the aryl group. Next to it is the ketone carbon (C=O). Next to that is the CH bearing OH. Two CH2 groups complete the ring.
+- **Aryl group:** a benzene ring with Cl on the carbon ortho to the point of attachment.
+- **Stereochemistry:** all bonds are plain lines, with no wedges or hashes, so no stereo is specified.
+
+The SMILES, written atom by atom:
+
+- Ketone carbon: C1(=O)
+- CH(OH): C(O)
+- Two CH2 groups: CC
+- Quaternary carbon: C1(N)
+- Aryl: c1ccccc1Cl
+
+Combined: O=C1C(O)CCCC1(N)c1ccccc1Cl
+
+The ring has C1 (C=O), C(O), C, C, C, C1(N), which is six atoms. In the image, the ring runs C=O, CH(OH), CH2, CH2, CH2, then the quaternary carbon, so there are three CH2 groups. I count the vertices: the C=O carbon at (560,620), CH(OH) at (275,552), a CH2 at (75,765), a CH2 at (157,1045), a CH2 at (441,1112), and the quaternary carbon at (642,900). That is six, with three CH2 groups, which matches the SMILES.
+
+SMILES: O=C1C(O)CCCC1(N)c1ccccc1Cl

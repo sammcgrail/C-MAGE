@@ -1,0 +1,12 @@
+I read the structure as glecaprevir-type: a macrocycle with a quinoxaline, a bridged proline unit, a tert-leucine, a cyclopentane-fused carbamate, a difluoromethylcyclopropane amino acid and a methylcyclopropyl sulfonamide. I wrote the SMILES region by region and checked each wedge/hash against the drawing.
+
+- **Sulfonamide end:** a 1-methylcyclopropyl group on S(=O)(=O), which is bonded to NH, then C(=O), then the cyclopropane quaternary carbon.
+- **Cyclopropane:** the quaternary carbon carries the NH (hashed) and the C(=O)NH-sulfonyl group. The adjacent ring carbon carries a CHF2 (wedge).
+- **Pyrrolidine:** the ring is N, Cα, CH2, CH(O), CH2. Cα bears the hashed C(=O)NH, and the CH(O) has a hashed H.
+- **Amide link:** the pyrrolidine N is acylated by tert-leucine, drawn with a wedged tBu. Its NH forms a carbamate with the cyclopentane oxygen.
+- **Cyclopentane:** two adjacent CH carbons, one bearing the carbamate O and one bearing the ether O. Their H's are drawn hashed and wedged respectively.
+- **Macrocycle chain:** the ether O is followed by CH2, then CH=CH, then CF2, then the quinoxaline C2. The quinoxaline C3 is bonded to the pyrrolidine O. The drawn chain has only one CH2 between O and the alkene, and the double bond geometry is trans (E).
+
+I assigned @/@@ for each stereocentre by working out the geometry from the wedges and hashes.
+
+SMILES: CC1(CC1)S(=O)(=O)NC(=O)[C@]2(C[C@H]2C(F)F)NC(=O)[C@@H]3C[C@@H]4CN3C(=O)[C@@H](NC(=O)O[C@@H]5CCC[C@H]5OC/C=C/C(F)(F)c6nc7ccccc7nc6O4)C(C)(C)C

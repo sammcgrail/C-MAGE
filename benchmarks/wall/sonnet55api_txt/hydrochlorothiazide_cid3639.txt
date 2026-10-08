@@ -1,0 +1,17 @@
+The drawing is hydrochlorothiazide, which I read as follows.
+
+- **Benzene ring:** six carbons. One carries the sulfonamide group (S with two =O and NH2). The next carbon carries Cl. The adjacent ring carbon bears the ring NH. The carbon next to that is bonded to the ring S.
+- **Fused ring:** S(=O)(=O), then NH, then a CH2, then NH, which attaches to the aromatic carbon.
+
+Writing the SMILES from the sulfonamide nitrogen: NS(=O)(=O)c1cc2c(cc1Cl)NCNS2(=O)=O
+
+Check of the ring closures:
+- c1 is the carbon bearing the sulfonamide.
+- c is an aromatic CH.
+- c2 is the carbon bonded to the ring S, which closes with S2 at the end.
+- c( is the carbon bearing the ring NH. Its branch is cc1Cl, a CH followed by the C-Cl carbon, which closes ring 1 back to the sulfonamide carbon.
+- Then N, C, N, S2(=O)=O.
+
+The order around the ring is: C(SO2NH2), CH, C(S), C(N), CH, C(Cl), back to C(SO2NH2). In the image the Cl carbon is adjacent to both the sulfonamide carbon and a CH, and that CH is adjacent to the carbon bearing the NH. The sulfonamide carbon is adjacent to a CH, which is adjacent to the carbon bearing the ring S. This matches the SMILES.
+
+SMILES: NS(=O)(=O)c1cc2c(cc1Cl)NCNS2(=O)=O

@@ -1,0 +1,18 @@
+This is harmine, a β-carboline: a pyridine ring fused to a pyrrole ring, which is fused to a benzene ring.
+
+**Pyridine ring.** The atoms run N (left), CH, CH, C (fused, top), C (fused, bottom, attached to the NH carbon), and the C bearing the methyl group. The methyl-bearing carbon is bonded to N through a double bond.
+
+**Pyrrole ring.** The five-membered ring contains the NH, the fused carbon C9a (attached to the methyl-bearing pyridine carbon), the fused carbon at the top of the pyridine ring, and two fused carbons of the benzene ring.
+
+**Benzene ring.** The atoms are the fused carbon at the top, then CH, CH, C(OMe), CH, and the fused carbon bonded to NH. The methoxy group sits on the carbon three positions from the fused carbon that bears the NH.
+
+**SMILES construction.** Starting from the methyl group: Cc1nccc2c1[nH]c1cc(OC)ccc12
+
+- `c1` is the methyl-bearing carbon, followed by `n`, `c`, `c`, and `c2` (the fused carbon).
+- The next `c1` closes the pyridine ring; this is the carbon attached to the methyl-bearing carbon and to NH.
+- `[nH]` is followed by `c1`, the benzene carbon bonded to N.
+- Then `c` (CH), `c(OC)`, `c` and `c`, and finally `c12`, which closes both rings.
+
+Checking the benzene ring: the NH-bearing carbon (c1), then CH, then C(OMe), then CH, CH, and the fused carbon (c12). That is six atoms. The fused carbon c12 bonds to c2, the top pyridine fused carbon, which closes the pyrrole ring. In the drawing, the carbon next to the NH-bearing carbon is a CH and the OMe carbon follows it, which matches the SMILES.
+
+SMILES: Cc1nccc2c1[nH]c1cc(OC)ccc12

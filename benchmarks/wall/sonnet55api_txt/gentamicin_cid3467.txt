@@ -1,0 +1,28 @@
+This looks like a gentamicin-type aminoglycoside (gentamicin C1a/C2 type). I read it region by region.
+
+**Left ring (tetrahydropyran):**
+- Atoms in order: C(a), the anomeric carbon bonded to the exocyclic O and the ring O; C(b), which carries NH2; two CH2 groups; C(e), which carries the side chain; and the ring O.
+- Side chain on C(e): CH(CH3)NHCH3.
+
+**Central ring (2-deoxystreptamine):**
+- Six carbons.
+- C1 carries O (the link to the left ring) and sits next to C2, which carries OH.
+- C3 carries O (the link to the right ring).
+- C4 carries NH2, then a CH2, then C6, which carries NH2 and closes back to C1.
+
+**Right ring (garosamine):**
+- Atoms in order: the anomeric carbon, then CH(OH), then CH(NHMe), then C(CH3)(OH), then CH2, then the ring O.
+
+**SMILES, with no stereochemistry because the drawing shows no wedges or hashes:**
+
+Left ring: C1(OC2...)OC(C(C)NC)CCC1N
+
+Central ring: C2(N)CC(N)C(OC3...)C(O)C2
+
+Full: CNC(C)C1CCC(N)C(O1)OC2C(N)CC(N)C(OC3OCC(C)(O)C(NC)C3O)C2O
+
+Check on the central ring: C2 (the O-linked carbon) is bonded to C(N), then CH2, then C(N), then C(O-right ring), then C(OH), which closes back to C2. This gives C1(O-left), C2(OH), C3(O-right), C4(NH2), C5 (CH2), C6(NH2), which matches the drawing.
+
+Check on the right ring: C3 is the anomeric carbon, attached to O, then CH2, then C(C)(O), then C(NC), then C3O closing the ring. That is 5 carbons plus the ring O, which is 6 atoms, matching the drawing.
+
+SMILES: CNC(C)C1CCC(N)C(O1)OC2C(N)CC(N)C(OC3OCC(C)(O)C(NC)C3O)C2O
