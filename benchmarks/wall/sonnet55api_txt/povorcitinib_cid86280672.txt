@@ -1,0 +1,10 @@
+I read the structure in four parts:
+
+- **Left pyrazole:** a 3,5-dimethyl-1H-pyrazol-4-yl group, joined at C4 to a second pyrazole.
+- **Middle:** the second pyrazole is attached through its C4 and N1. Its N1 bonds to C3 of an azetidine, and that same carbon also carries a CH2C≡N group. The azetidine nitrogen bonds to the aryl ring.
+- **Aryl ring:** a benzene ring bearing the azetidine nitrogen, a fluorine on each side of it (at the two ortho positions), and the carboxamide para to the nitrogen.
+- **Amide side chain:** C(=O)NH on a single stereocentre that carries CH3 (hashed bond), CF3, the amide N and an implicit H.
+
+For the stereocentre, the CIP priorities are N > CF3 > CH3 > H. With the methyl hashed (away from the viewer), the implicit H points toward the viewer. Tracing N → CF3 → CH3 in the drawing goes clockwise, and flipping that for the H facing the viewer gives S. In the SMILES order N, H, CH3, CF3, S corresponds to `@@`, so the fragment is `N[C@@H](C)C(F)(F)F`.
+
+SMILES: Cc1n[nH]c(C)c1-c1cnn(c1)C1(CC#N)CN(C1)c1cc(F)c(cc1F)C(=O)N[C@@H](C)C(F)(F)F

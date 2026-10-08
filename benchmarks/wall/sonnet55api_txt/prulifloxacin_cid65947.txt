@@ -1,0 +1,15 @@
+This is prulifloxacin, but drawn with a four-membered azetidine-like ring: N, CH(CH3), S and C= form a 4-membered ring fused to the quinolone. I wrote the SMILES from the drawing as shown.
+
+**Reading the drawing**
+- Four-membered ring: N–CH(CH3)–S–C(=C…), where the C attached to S is double-bonded to the carbon bearing COOH.
+- Quinolone core: the C(=C) carbon bonded to S and N is the ring carbon next to N. The C bearing COOH is bonded to C(=O), which is bonded to the aromatic ring.
+- Aromatic ring: C(=O) attaches to an aromatic carbon. Going around, that carbon leads to a CH, then C–F, then C–N(piperazine), then CH, then the aromatic carbon bonded to N, which closes back to the first aromatic carbon.
+- Piperazine: N-aryl on one side, N–CH2– on the other.
+- Side chain: CH2 attached to a 1,3-dioxol-2-one ring, written C1=C(C)OC(=O)O1 with the CH2 on the first ring carbon and the methyl on the second.
+
+**Assembling the SMILES**
+- Start with the carboxylic acid on the quinolone: OC(=O)C1=C2SC(C)N2c2cc(N3CCN(CC4=C(C)OC(=O)O4)CC3)c(F)cc2C1=O
+- Ring-closure check: C1 (bearing COOH) =C2 (the carbon bonded to S and N) S C(C) N2 closes the four-membered ring, since C2, S, CH and N form the ring. N then attaches to the aromatic carbon c2 (a new ring label 2, reused after closure).
+- Aromatic carbons: c2 (bonded to N), cH, c(N-piperazine), c(F), cH, c2 (closing, bonded to C1=O). This gives c2cc(N3…)c(F)cc2C1=O. That is six aromatic atoms: c2, c, c(N), c(F), c, c2.
+
+SMILES: OC(=O)C1=C2SC(C)N2c2cc(N3CCN(CC4=C(C)OC(=O)O4)CC3)c(F)cc2C1=O

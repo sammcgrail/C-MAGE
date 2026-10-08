@@ -1,0 +1,10 @@
+This structure matches ponesimod. I read it region by region:
+
+- **Core ring:** a thiazolidin-4-one with C=O at C4, S at position 1, and ring N (position 3) bearing an o-tolyl group.
+- **C2 substituent:** an exocyclic C=N–propyl (propylimino) group.
+- **C5 substituent:** a benzylidene (=CH–aryl). The aryl ring carries Cl ortho to an ether O, and the ether chain is OCH2–CH(OH)–CH2OH.
+- **Glycerol stereocentre:** the OH is on a hashed bond. The priorities are OH > CH2OAr > CH2OH > H. With H toward the viewer, the sequence OH → CH2OAr → CH2OH runs counterclockwise, so reversing gives R. In SMILES, `OC[C@H](O)CO` encodes R.
+- **Benzylidene C=C:** the ring S and the aryl group lie on the same side of the double bond, so it is Z.
+- **C2=N bond:** in the drawing the propyl group sits on the same side as the ring N3 and opposite the S, so I encoded it as drawn (E by CIP, since S outranks N3). This differs from the 2Z descriptor I recall for ponesimod, but I followed the drawing.
+
+SMILES: CCC/N=C1/S/C(=C\c2ccc(OC[C@H](O)CO)c(Cl)c2)C(=O)N1c1ccccc1C

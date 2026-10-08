@@ -1,0 +1,13 @@
+The structure is ceftaroline fosamil, a cephalosporin prodrug, so I wrote the SMILES from the drawing and checked it against the known stereochemistry of this compound.
+
+**Fragments read from the image**
+- **Left side:** a 1,2,4-thiadiazole ring carries an NH–P(=O)(OH)₂ phosphoramidate group.
+- **Side chain:** an ethoxyimino group (CH₃CH₂–O–N=C) joins the thiadiazole to an amide C(=O)NH.
+- **Core:** a β-lactam fused to a six-membered S-containing ring (the cephem core) with a carboxylate on the ring alkene carbon.
+- **Right side:** an S–thiazole is attached at the 3-position of the cephem. The thiazole carries an N-methylpyridinium.
+
+**Stereochemistry**
+- The NH on the β-lactam carbon is drawn with a bold wedge, and the H on the ring-fusion carbon with a hash. This matches the natural (6R,7R) cephalosporin configuration, so I used the stereo descriptors of the known ceftaroline SMILES.
+- On the oxime, the O–Et group lies on the same side as the amide carbonyl. The carbonyl carbon outranks the thiadiazole carbon by CIP priority, so this is the Z oxime, and the slash marks in the SMILES encode the same arrangement.
+
+SMILES: CCO/N=C(/C1=NSC(=N1)NP(=O)(O)O)\C(=O)N[C@H]2[C@@H]3N(C2=O)C(=C(CS3)SC4=NC(=CS4)C5=CC=[N+](C=C5)C)C(=O)[O-]

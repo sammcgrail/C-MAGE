@@ -1,0 +1,22 @@
+This is pranoprofen: a 5H-chromeno[2,3-b]pyridine core carrying a 2-propanoic acid group.
+
+Reading the drawing region by region:
+
+- **Side chain:** a methyl group on a CH, which carries a COOH (drawn with C=O and HO). It is attached to the benzene ring. The CH has no wedge or hash, so no stereochemistry is assigned.
+- **Benzene ring:** six carbons. One bears the side chain, one is bonded to O, and one is bonded to the CH2. The ring runs from the side-chain carbon (523,677) through the carbon at 569,511, then 735,469, then 853,592 (bonded to O), then 808,757 (bonded to CH2), then 643,798, and back.
+- **Central ring:** the benzene carbon bearing O links to O, which links to the pyridine carbon at 1139,672. That carbon is bonded to N and is double-bonded to the carbon at 1093,837, which is bonded to the CH2 at 927,879. The CH2 connects back to the benzene carbon at 808,757.
+- **Pyridine ring:** N, then the carbon at 1424,753, then 1379,917, then 1213,959, then 1093,837, then 1139,672. The double bonds are N=C(1424), C(1379)=C(1213) and C(1093)=C(1139).
+
+SMILES, written from the side chain through the benzene ring and then the pyridine:
+
+CC(C(=O)O)c1ccc2Oc3ncccc3Cc2c1
+
+Check on ring closure: c1 is the side-chain carbon, c, c, then c2 (the carbon bonded to O), O, c3 (bonded to N), n, c, c, c, c3 (bonded to CH2), C, then c2 (closing onto the O-bearing carbon's ring partner), and c1 closing the benzene ring.
+
+This ordering gives a ring closure problem: the "c2" after CH2 would close with the O-bearing carbon, which is wrong. Rewriting so the ring closure is correct:
+
+c1 (side-chain carbon), c, c, c2 (O-bearing), then O, c3 n c c c c3 C, c2 (CH2-bearing, closing the central ring to c2), c1.
+
+In the written SMILES, the atom "c2" after the CH2 closes ring 2 with the O-bearing carbon. These two carbons are adjacent in the benzene ring, so the closure is valid. The benzene ring has c1, c, c, c2(O), c2(CH2), c1, which is six atoms.
+
+SMILES: CC(C(=O)O)c1ccc2Oc3ncccc3Cc2c1

@@ -1,0 +1,16 @@
+This looks like quizartinib (AC220), so I read it region by region and then wrote the SMILES.
+
+**Left end.** A tert-butyl group is attached to an isoxazole at C5. The ring runs O1, N2, C3, C4, C5. C3 carries the urea NH. This gives CC(C)(C)c1cc(NC(=O)N...)no1.
+
+**Urea and phenyl.** The urea is NH–C(=O)–NH. The second NH is bonded to a para-substituted phenyl ring.
+
+**Imidazo[2,1-b]benzothiazole.** The phenyl ring attaches at C2 of the imidazole ring. That imidazole has a CH, then an N that is part of the fused system, then a C bonded to S, and an N= closing back to C2. The benzo ring is fused through the N and the S. The aromatic carbon bonded to N is the ring-fusion carbon, and the carbon bonded to S is the other fusion carbon.
+
+**Benzo ring substituent.** The benzo ring carries an O–CH2CH2–morpholine substituent. The ring carbons run from the one bonded to N, then CH, then CH, then C–O, then CH, then the carbon bonded to S. The oxygen-bearing carbon is therefore para to the N-bearing carbon... checking against the drawing, the C–O carbon is attached to the CH next to the S-bearing fusion carbon, which matches this ordering.
+
+**Assembled SMILES.**
+CC(C)(C)c1cc(NC(=O)Nc2ccc(cc2)-c2cn3c(n2)sc2cc(OCCN4CCOCC4)ccc23)no1
+
+Ring closure check: in c2cn3c(n2)sc2cc(OCCN4CCOCC4)ccc23, n3 is bonded to the benzo carbon that closes ring 3 at the end. The benzo ring is c2 (bonded to S), c, c(O), c, c, c23 (bonded to N). So the C–O carbon is separated from the S-bearing carbon by one CH, which matches the drawing.
+
+SMILES: CC(C)(C)c1cc(NC(=O)Nc2ccc(cc2)-c2cn3c(n2)sc2cc(OCCN4CCOCC4)ccc23)no1

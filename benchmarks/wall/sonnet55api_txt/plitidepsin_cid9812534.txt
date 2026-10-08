@@ -1,0 +1,20 @@
+I read the drawing as a cyclic depsipeptide that looks like a didemnin analogue. I wrote the SMILES by following the chain from the pyruvyl-proline tail around the macrocycle.
+
+**Side chain (left to right in the drawing):**
+- A pyruvyl group, CH3C(=O)C(=O)–, is attached to the nitrogen of a proline ring.
+- That proline is bonded through its carbonyl to an N-methyl-leucine, which has a wedged isobutyl group.
+- The N-methyl-leucine carbonyl is bonded to the NH of a threonine-type residue, which is also part of the macrocycle.
+
+**Macrocycle, starting at the threonine α-carbon and going around:**
+1. The threonine α-carbon carries the side-chain NH (hashed bond). Its β-carbon bears a hashed methyl and the ring ester oxygen.
+2. That oxygen is esterified to the carbonyl of an N-methyl-O-methyltyrosine (4-methoxybenzyl side chain).
+3. The N-methyl-tyrosine nitrogen is acylated by a proline, whose nitrogen is in turn acylated by a leucine.
+4. The leucine NH is acylated by a CH(CH3) carbon, which is bonded to a ketone carbon.
+5. The ketone carbon is bonded to a CH carrying an isopropyl group, which bears the ester oxygen.
+6. That oxygen is esterified to a carbonyl, followed by the CH2 that the drawing labels "C".
+7. The CH2 is followed by CH(OH), then a CH bearing a sec-butyl group (hashed methyl) and the NH.
+8. That NH closes the ring onto the threonine carbonyl.
+
+I assigned the @/@@ marks from each wedge or hash and the neighbour order in the SMILES. The proline, tyrosine and leucine centres came out as the usual L configuration and the N-methyl-leucine in the tail as D. I did not run the string through a parser.
+
+SMILES: CC(=O)C(=O)N1CCC[C@H]1C(=O)N(C)[C@H](CC(C)C)C(=O)N[C@H]3[C@@H](C)OC(=O)[C@H](Cc4ccc(OC)cc4)N(C)C(=O)[C@@H]4CCCN4C(=O)[C@H](CC(C)C)NC(=O)[C@@H](C)C(=O)[C@H](C(C)C)OC(=O)C[C@H](O)[C@@H]([C@@H](C)CC)NC3=O

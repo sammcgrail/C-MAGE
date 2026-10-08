@@ -1,0 +1,15 @@
+This is quetiapine, a dibenzo[b,f][1,4]thiazepine bearing a piperazine that carries a 2-(2-hydroxyethoxy)ethyl chain.
+
+Reading the drawing region by region:
+- The left chain is HO–CH2–CH2–O–CH2–CH2–N, ending at a piperazine nitrogen.
+- The piperazine ring has two nitrogens. One carries the chain and the other is bonded to the amidine carbon.
+- The amidine carbon (C=N) is attached to the upper benzene ring.
+- That upper benzene ring is bonded to S.
+- S is bonded to the lower benzene ring.
+- The lower benzene ring carries the N of the C=N.
+
+The SMILES, with ring closures 1 and 2 for the two benzene rings and 3 for the piperazine, is OCCOCCN1CCN(CC1)C1=Nc2ccccc2Sc2ccccc12.
+
+I checked it against the drawing. The amidine carbon C1 is bonded to N (double bond), to the piperazine N, and to the upper benzene carbon. The N is bonded to the lower-ring carbon "c2", and the next ring atoms are cccc and then "c2", which bears S. After S comes a new benzene ring "c2ccccc12", whose last atom closes to the amidine carbon. This is consistent with the drawing. In my SMILES, the ring label 1 is reused after the piperazine closes, which is valid.
+
+SMILES: OCCOCCN1CCN(CC1)C1=Nc2ccccc2Sc2ccccc12

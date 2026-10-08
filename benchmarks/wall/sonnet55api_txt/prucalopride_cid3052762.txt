@@ -1,0 +1,16 @@
+This is prucalopride, read region by region from the drawing.
+
+- **Benzene ring:** it carries Cl at the top left, NH2 at the left, the fused dihydrofuran at the bottom, and the carboxamide at the right. The remaining ring CH sits between the Cl-bearing carbon and the amide-bearing carbon.
+- **Dihydrofuran ring:** the ring O is attached to the aromatic carbon next to the amide-bearing carbon. From O the chain runs CH2, CH2, and then back to the aromatic carbon next to the NH2-bearing carbon.
+- **Amide:** C(=O)NH links the benzene ring to the 4-position of a piperidine.
+- **Piperidine:** the ring nitrogen carries a 3-methoxypropyl chain, CCCOC.
+
+The SMILES is written as follows.
+
+Aromatic ring: c1(C(=O)N...) is the amide-bearing carbon, then cH, then c(Cl), then c(N), then c3 (attached to CH2), then c(O).
+
+SMILES: COCCCN1CCC(CC1)NC(=O)c1cc(Cl)c(N)c2CCOc12
+
+Check of the ring closures: c1 (amide carbon), c (H), c(Cl), c(N), c2 (bonded to CH2), then CCO, then c12, which closes to the O-bearing carbon, ring 2, and ring 1 back to the amide carbon. The O-bearing carbon is adjacent to the amide-bearing carbon, matching the drawing.
+
+SMILES: COCCCN1CCC(CC1)NC(=O)c1cc(Cl)c(N)c2CCOc12

@@ -1,0 +1,20 @@
+The drawing shows a six-membered ring with one nitrogen (pyridine). Each of the five ring carbons carries a deuterium (²H), so this is pyridine-d5.
+
+Ring atoms, going around from the top: N at the top, then the upper-right C (with D), the lower-right C (with D), the bottom C (with D), the lower-left C (with D), and the upper-left C (with D), which closes back to N.
+
+Double bonds, read from the drawing:
+- N=C on the upper-left side (N to the upper-left carbon).
+- C=C on the right side (upper-right carbon to lower-right carbon).
+- C=C on the lower-left side (lower-left carbon to the bottom carbon).
+
+This gives a Kekulé structure with three double bonds and every ring carbon bearing a deuterium.
+
+SMILES: [2H]c1nc([2H])c([2H])c([2H])c1[2H]
+
+Rewritten with the Kekulé bonds shown in the drawing:
+
+SMILES: [2H]C1=NC([2H])=C([2H])C([2H])=C1[2H]
+
+Checking the second form against the drawing: starting at the upper-left carbon (with D), C1=N is the double bond to N. N then single-bonds to the upper-right carbon, which is written C([2H]). That carbon double-bonds to the lower-right carbon, C([2H]). The lower-right carbon single-bonds to the bottom carbon, which double-bonds to the lower-left carbon. The lower-left carbon single-bonds back to C1. This matches the drawing. However, the string as written in the second form has the ring closure on the wrong atom: the last atom "C1[2H]" is the lower-left carbon and closes to the upper-left carbon, which is correct.
+
+SMILES: [2H]C1=NC([2H])=C([2H])C([2H])=C1[2H]

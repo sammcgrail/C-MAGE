@@ -1,0 +1,26 @@
+The image shows zinc pyrithione drawn as separate ions: two pyridine N-oxide rings, each carrying a thiolate, plus one Zn2+.
+
+Reading each ring:
+- Each ring has six vertices: N+ and five carbons.
+- N+ carries an O- substituent.
+- The carbon next to N+ carries S-.
+- In the top ring, the double bonds are N+=C (upper left), C=C (left side), and C=C (bottom, to the S-bearing carbon).
+
+Writing one ring as SMILES, starting from the thiolate:
+[S-]c1cccc[n+]1[O-]
+
+In the Kekulé form this is [O-][n+]1ccccc1[S-]. With explicit bonds it becomes [O-][N+]1=CC=CC=C1[S-].
+
+Checking the drawn bonds against this:
+- N+=C(top) is a double bond.
+- The top carbon is single-bonded to the upper-left carbon.
+- The upper-left carbon is double-bonded to the lower-left carbon (the left-side C=C).
+- The lower-left carbon is single-bonded to the bottom carbon.
+- The bottom carbon is double-bonded to the S-bearing carbon.
+- The S-bearing carbon is single-bonded to N+.
+
+This matches [O-][N+]1=CC=CC=C1[S-].
+
+The full structure is two of these rings plus the zinc ion:
+
+SMILES: [O-][N+]1=CC=CC=C1[S-].[O-][N+]1=CC=CC=C1[S-].[Zn+2]
