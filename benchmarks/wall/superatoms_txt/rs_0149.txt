@@ -1,0 +1,27 @@
+The drawing shows a spiro compound: a thioxanthene whose C9 is also the C9 of a fluorene.
+
+**Thioxanthene part.** The left benzene ring is unsubstituted. The sulfur bridges the left ring and the right ring. The right ring carries two ethyl groups: one on the carbon adjacent to the C–S carbon (position 4) and one at position 2, which is para to the C–S carbon on the other side. Going around the right ring from the C–S carbon:
+- C4a (bonded to S)
+- C4, with ethyl
+- C3, with H
+- C2, with ethyl
+- C1, with H
+- C9a (bonded to the spiro carbon)
+
+**Spiro carbon.** C9 is bonded to C9a of the right ring and C8a of the left ring. It is also bonded to two carbons of the fluorene, which is an unsubstituted biphenyl-type unit.
+
+**SMILES construction.**
+- Spiro carbon: C1(...)
+- Right ring: c2cc(CC)cc(CC)c2S
+- Because ring 2 closes through the S-bearing carbon, the sulfur is written as part of the ring that continues into the left benzene ring.
+
+Written out:
+C12(c3ccccc3-c3ccccc31)c1cc(CC)cc(CC)c1Sc1ccccc12
+
+Check on ring labels:
+- C12 opens rings 1 and 2.
+- c3ccccc3-c3ccccc31: the first benzene ring is closed with label 3 and then reused. The second benzene ring opens with label 3, and its last atom closes label 3 and also label 1 back to the spiro carbon, giving the five-membered fluorene ring.
+- c1cc(CC)cc(CC)c1S...: this reuses label 1 for the right ring. The first atom, bonded to the spiro carbon, is C9a. It is followed by C1(H), C2(Et), C3(H), C4(Et), and C4a, which closes ring 1 and carries S.
+- Sc1ccccc12: the left benzene ring ends by closing label 2 back to the spiro carbon.
+
+SMILES: C12(c3ccccc3-c3ccccc31)c1cc(CC)cc(CC)c1Sc1ccccc12

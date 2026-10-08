@@ -1,0 +1,22 @@
+The drawing is a thiohydantoin core with two aryl substituents, similar to enzalutamide but with an extra fluorine on the left ring.
+
+**Core ring:** The five-membered ring contains N (left), C=O, a quaternary carbon bearing two methyls, N (right), and C=S between the two nitrogens.
+
+**Left aryl ring (on the left N):**
+- The ring carbon attached to N has two neighbours.
+- One neighbour is C–F (the upper one).
+- Next to that carbon is C–CF3, then C–CN, then two CH carbons back to the N-bearing carbon.
+- SMILES for this ring: c1(N)c(F)c(C(F)(F)F)c(C#N)cc1.
+
+**Right aryl ring (on the right N):**
+- The ring carbon attached to N is at the left of the ring.
+- Going around, the next carbon is CH (top), then CH, then the carbon bearing C(=O)NHMe.
+- After that comes C–F, then CH back to the N-bearing carbon.
+- SMILES for this ring: c1ccc(C(=O)NC)c(F)c1.
+
+**Assembled SMILES:**
+CNC(=O)c1ccc(cc1F)N1C(=S)N(C(=O)C1(C)C)c1ccc(C#N)c(C(F)(F)F)c1F
+
+I checked the left ring: c1ccc(C#N)c(C(F)(F)F)c1F starts at the N-attached carbon, then CH, CH, C–CN, C–CF3, C–F, closing back to the start. This matches the drawing.
+
+SMILES: CNC(=O)c1ccc(cc1F)N1C(=S)N(C(=O)C1(C)C)c1ccc(C#N)c(C(F)(F)F)c1F

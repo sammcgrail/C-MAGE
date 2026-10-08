@@ -1,0 +1,8 @@
+This structure is lacosamide, (R)-2-acetamido-N-benzyl-3-methoxypropanamide.
+
+- **Chain:** a methoxy group (MeO) is attached to a CH2, which is bonded to the stereocentre. The stereocentre carries an NHAc group (acetamide) on a wedge, and is also bonded to a C(=O) carbon.
+- **Amide end:** that carbonyl carbon is bonded to NH, and the NH carries a benzyl group (Bn, CH2–C6H5).
+- **Stereochemistry:** the wedge marks the NHAc nitrogen as pointing toward the viewer, so the implicit H points away. The CIP priorities are N > C(=O)N > CH2OMe > H. Reading N → C(=O) → CH2 in the drawing runs clockwise with H at the back, which gives R.
+- **SMILES check:** I checked that `COC[C@@H](NC(C)=O)C(=O)NCc1ccccc1` encodes R. With the CH2 as the first neighbour, `@@` means H → N → C(=O) runs clockwise. Moving H to the front costs one swap, so viewed from the side opposite H, CH2 → N → C(=O) runs clockwise, which is the same cycle as N → C(=O) → CH2. That is R.
+
+SMILES: COC[C@@H](NC(C)=O)C(=O)NCc1ccccc1

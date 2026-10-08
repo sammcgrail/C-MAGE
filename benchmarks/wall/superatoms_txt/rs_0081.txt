@@ -1,0 +1,17 @@
+I read the molecule as a 3-hydroxy-4-methoxypyridine-2-carboxamide whose amide nitrogen is attached to C4 of a substituted tetrahydropyran ring.
+
+**Pyridine part.** The ring nitrogen sits at the bottom left. The carbon next to it carries the C(=O)NH group. Going round the ring, the next carbon carries OH, then the next carries OMe, and the last two carbons are plain CH.
+
+**Tetrahydropyran part.** The ring has one oxygen and five carbons:
+- The carbon bearing the amide N (C4) is drawn with plain bonds, so it gets no stereo label.
+- The CH2 carbons lie on either side of C4.
+- The quaternary carbon next to the ring oxygen carries a wedged methyl and a hashed benzyl (CH2–phenyl).
+- The carbon on the other side of the ring oxygen carries a wedged methyl.
+
+**Stereo assignment.** I worked out each centre from the wedge and hash geometry, with neighbours taken in SMILES order:
+- The quaternary carbon, written `C[C@](C)(Cc3ccccc3)O`, is `@`.
+- The CH(CH3) carbon, written `O[C@@H](C)C2`, is `@@`.
+
+Checked atom for atom against the drawing, the SMILES matches.
+
+SMILES: COc1ccnc(C(=O)NC2C[C@](C)(Cc3ccccc3)O[C@@H](C)C2)c1O

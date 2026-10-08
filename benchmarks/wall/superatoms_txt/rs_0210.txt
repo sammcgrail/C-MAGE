@@ -1,0 +1,13 @@
+The drawing shows a biphenyl carboxylic acid joined through a hydrazone to an N-aryl isatin (oxindole) unit.
+
+**Biphenyl part.** The top ring carries CO2H. The second ring is attached to it at the position meta to the acid. On the second ring, the carbon next to the biaryl bond bears OH, and the next carbon bears the NH–N= group. The OH and the hydrazine are therefore on adjacent carbons, and the ring is 2-hydroxy-3-hydrazinyl relative to the biaryl bond.
+
+**Hydrazone and oxindole.** The chain is HN–N=C3, where C3 is part of the oxindole ring. The oxindole has C2 as C=O and N1 bearing a 4-(trifluoromethyl)phenyl group. The benzo ring is fused to the oxindole.
+
+**Stereochemistry.** The C=N bond is drawn with the NH on one side, and the geometry is ambiguous. In the picture, the HN is at lower left of the N=, and the C3 ring carbon sits below and to the right. The N= is at the top, with HN to its left and C3 below it. On C3, the substituent C2 (C=O) points to the lower left and C3a points to the right. The NH is on the left of the N, and the C2 carbonyl side is on the left of C3, so these are on the same side (Z). I will write the SMILES with this geometry.
+
+SMILES written as: OC(=O)c1cccc(c1)-c1cccc(N/N=C2/C(=O)N(c3ccc(cc3)C(F)(F)F)c3ccccc23)c1O
+
+Checking the geometry: in `N/N=C2/C(=O)...`, the N before the first bond is written "N/N", meaning the aryl-NH is below the N=. Then `=C2/C(=O)` places C(=O) above C. These are opposite sides of the double bond, which would make the NH and C2 trans (E). To get Z, I use `N/N=C2\C(=O)`.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2\C(=O)N(c3ccc(cc3)C(F)(F)F)c3ccccc23)c1O

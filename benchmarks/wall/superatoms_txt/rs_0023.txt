@@ -1,0 +1,13 @@
+I read the molecule as a pyrazin-2(1H)-one core with three substituents:
+
+- **N1** carries a CH(ethyl)(cyclopropyl) group. The H on this stereocentre is drawn hashed, so it points away from the viewer.
+- **C3** is bonded to the nitrogen of a 7-bromo-5-methoxyindoline.
+- **C5** carries Cl, and C6 is a plain CH.
+
+**Stereocentre.** The CIP priorities are N > cyclopropyl > ethyl > H. In the drawing, N is at the bottom, cyclopropyl at the upper right and ethyl at the upper left. Going N → cyclopropyl → ethyl is counterclockwise on the page. With H pointing away, the centre is therefore S.
+
+**SMILES chirality.** In `CC[C@@H](C1CC1)N...` the neighbour order is ethyl, H, cyclopropyl, N. Working through the permutation, `@` gives R for this order, so `@@` gives the required S.
+
+**Indoline ring.** In `N2CCc3cc(OC)cc(Br)c32`, the ring-closing carbon (C7a) is bonded to the nitrogen. It sits next to the carbon bearing Br (C7), and the OMe is on C5, which matches the drawing.
+
+SMILES: CC[C@@H](C1CC1)N1C=C(Cl)N=C(N2CCc3cc(OC)cc(Br)c32)C1=O

@@ -1,0 +1,17 @@
+The drawing shows a dibenzofuran attached through its C4 position (the carbon next to the carbon bearing the ring oxygen) to a biphenyl. The biphenyl is para-linked, and its far end carries a CH2–S–CH2–CH(NH2)–C(=O)OMe chain, i.e. a cysteine methyl ester S-benzylated with the biphenyl-methyl group.
+
+Dibenzofuran numbering: the left benzene ring is fused to the furan ring. The lower ring carbon bonded to the oxygen-bearing carbon is C4, and that is where the biphenyl attaches.
+
+Writing the SMILES for dibenzofuran with the substituent at C4:
+c1ccc2c(c1)oc1c2cccc1-Ar
+
+Checking this string: the top ring is c1ccc2c(c1)o…, where c2 is the ring-fusion carbon bonded to the other benzene ring, and c(c1) is the carbon bonded to O. After o comes c1, the carbon bonded to O in the lower ring. Next is c2, the fusion carbon that closes ring 2 to the top ring. Then c, c, c, c1 run around the lower ring, with the last c1 being the carbon next to the O-bearing carbon, which is C4. This carbon carries the aryl group, and it closes ring 1 with the O-bearing carbon, so the connectivity matches the drawing.
+
+Full SMILES:
+COC(=O)C(N)CSCc1ccc(cc1)-c1ccc(cc1)-c1cccc2c1oc1ccccc12
+
+Checking the dibenzofuran part of this string: c1cccc2c1oc1ccccc12. The first atom c1 is C4, the attachment point. Then c, c, c, and c2 is the fusion carbon (C9b). The next atom, c1, closes the ring back to the attachment atom, so it is the O-bearing carbon (C4a). Then o, then c1ccccc12 gives the other benzene ring, closing to c2. This is consistent with the drawing.
+
+The stereocentre at the alpha carbon is drawn with plain bonds, so no stereo is specified.
+
+SMILES: COC(=O)C(N)CSCc1ccc(cc1)-c1ccc(cc1)-c1cccc2c1oc1ccccc12

@@ -1,0 +1,20 @@
+Reading the structure region by region:
+
+**Benzimidazolone (left).** The ring has N-methyl, a C=O between the two nitrogens, and a chlorine on the benzene ring. The other nitrogen carries the piperidin-4-yl group.
+
+- Let N1 be the N-Me nitrogen, C2 the C=O carbon, and N3 the nitrogen bearing the piperidine.
+- N3 attaches to C3a, then C4 (CH, which is also attached to C5 bearing Cl), and so on around the ring. In the drawing, the Cl-bearing carbon at the bottom is adjacent to a CH that is attached to the carbon next to N3 (C3a).
+- Tracing the ring: N3–C3a, then C3a–CH (upper right), then that CH–C(Cl), then C(Cl)–CH, then CH–C7a, and C7a–N1.
+- So the Cl sits meta to N3 and para to N1.
+
+**Linker.** The piperidine nitrogen connects to CH2–CH(OH)–CH2, which attaches to pyrazole N1.
+
+**Pyrazole.** N1 is bonded to N2, which is double-bonded to C3. C3 carries the 4-CF3-phenyl group. C4 carries the 4-pyridyl group. C5 is a CH bonded back to N1.
+
+**SMILES assembly.**
+
+- Benzimidazolone: CN1C(=O)N(C2CCN(CC(O)Cn3cc(-c4ccncc4)c(-c4ccc(C(F)(F)F)cc4)n3)CC2)c2cc(Cl)ccc12
+- Ring-closure check: N3 is followed by c2 (C3a), then c (the CH), then c(Cl), c, c, and c12 (C7a). C7a closes to N1 (ring label 1) and to C3a (label 2).
+- This gives Cl on the carbon two atoms from C3a, which matches the drawing.
+
+SMILES: CN1C(=O)N(C2CCN(CC(O)Cn3cc(-c4ccncc4)c(-c4ccc(C(F)(F)F)cc4)n3)CC2)c2cc(Cl)ccc12

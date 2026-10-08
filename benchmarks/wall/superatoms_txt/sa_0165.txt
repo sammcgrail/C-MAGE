@@ -1,0 +1,15 @@
+This is a dabigatran etexilate analogue (the drug itself carries an n-hexyl carbamate), so I read the structure as that scaffold and wrote the SMILES from the drawing.
+
+Reading the drawing region by region:
+- **Left end:** nHex–O–C(=O)–NH–C(=NH)–, which is an n-hexyl carbamate on an amidine.
+- **Phenyl ring:** para-substituted, with the amidine on one side and NH–CH2 on the other.
+- **Benzimidazole:** the CH2 attaches at C2. N1 carries a methyl, and N3 is the imine-type nitrogen. The carbonyl is on the benzo ring at C5.
+- **Amide:** C(=O)–N(pyridin-2-yl)–CH2CH2–CO2Et.
+
+Hexyl is written as CCCCCC.
+
+Benzimidazole SMILES: Cn1c(CNc2ccc(cc2)C(=N)NC(=O)OCCCCCC)nc2cc(ccc12)C(=O)N(CCC(=O)OCC)c1ccccn1
+
+Checking the ring fusion: n1 (N-methyl) is bonded to C2 and to the ring-fusion carbon c12 at the end. After n (N3) comes c2 (fusion carbon C3a), then c (C4), then c(...) (C5, carrying the carbonyl), then c (C6), then c (C7), then c12 (C7a, bonded to N1). C5 is therefore meta to C3a through C4, which matches the drawing, where the carbonyl carbon sits on the ring carbon adjacent to the top CH next to the fusion carbon bonded to N3.
+
+SMILES: CCCCCCOC(=O)NC(=N)c1ccc(NCc2nc3cc(C(=O)N(CCC(=O)OCC)c4ccccn4)ccc3n2C)cc1

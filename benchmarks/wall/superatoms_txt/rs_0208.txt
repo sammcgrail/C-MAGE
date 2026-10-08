@@ -1,0 +1,21 @@
+Reading the structure region by region:
+
+- **Left side:** a benzimidazolone. One nitrogen carries a CH2CN group, the C=O sits between the two nitrogens, and the other nitrogen is attached to C4 of a piperidine.
+- **Piperidine:** its nitrogen is linked to a three-carbon chain (N-CH2CH2CH2-N).
+- **Right side:** the chain ends on N1 of a pyrazole fused to a tetrahydropyridine. This is a 4,5,6,7-tetrahydro-pyrazolo[4,3-c]pyridine.
+  - The pyrazole N1 (bearing the chain) is bonded to C7a. C7a is bonded to C3a and to the CH2 at C7.
+  - C7 connects to C6 (CH2), then to N5, which carries the methylsulfonyl group, then to C4 (CH2), then back to C3a.
+  - C3a is bonded to C3, which carries the 4-CF3-phenyl group. C3 is double-bonded to N2, which is bonded to N1.
+
+SMILES assembly:
+
+- Benzimidazolone with the cyanomethyl group: N#CCn1c(=O)n(C2CCN(CC2)CCC...)c2ccccc12
+- Pyrazole part: n1nc(c2c1CCN(C2)S(C)(=O)=O)-c1ccc(cc1)C(F)(F)F
+- Chain attached to N1: CCCn3nc(-c4ccc(cc4)C(F)(F)F)c4CN(S(C)(=O)=O)CCc34
+
+Combined:
+N#CCn1c(=O)n(C2CCN(CC2)CCCn3nc(-c4ccc(cc4)C(F)(F)F)c4CN(S(C)(=O)=O)CCc34)c5ccccc15
+
+Ring closure check: in c4CN(...)CCc34, c4 is C3a, then C4 (CH2), N5, C6, C7, and c34 is C7a. C7a closes ring 3 to n3 (N1) and ring 4 to C3a, which is correct.
+
+SMILES: N#CCn1c(=O)n(C2CCN(CC2)CCCn3nc(-c4ccc(cc4)C(F)(F)F)c4CN(S(C)(=O)=O)CCc34)c5ccccc15

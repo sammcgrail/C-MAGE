@@ -1,0 +1,19 @@
+Reading the structure region by region:
+
+**Left fragment:** an oxindole (indolin-2-one). The nitrogen carries a piperidin-4-yl group, C2 is the carbonyl, C3 is CH2, and the benzo ring is fused to the five-membered ring.
+
+**Linker:** the piperidine nitrogen is joined to the pyrazole N1 by a chain of three CH2 groups. In the drawing the chain runs N–CH2–CH2–CH2–N, so I counted three carbons.
+
+**Right fragment:** a 4,5,6,7-tetrahydro-pyrazolo[4,3-c]pyridine.
+- N1 of the pyrazole carries the propyl chain, and N2 is the other pyrazole nitrogen.
+- C3 carries the 4-(trifluoromethyl)phenyl group.
+- C3a is bonded to a CH2 (C4), which connects to N5. N5 bears the methylsulfonyl group.
+- From N5 the ring continues through CH2 (C6) and CH2 (C7) to C7a, which is bonded to N1.
+
+**SMILES assembly:**
+- Oxindole with the piperidine: O=C1Cc2ccccc2N1C1CCN(CC1)CCCn1nc(-c2ccc(C(F)(F)F)cc2)c2CN(S(C)(=O)=O)CCc21
+- Pyrazole ring: n1 (N1), n (N2), c(Ar) (C3), c2 (C3a), then CN(Ms)CC (C4, N5, C6, C7), then c21 (C7a, closing both rings).
+
+This gives a valid SMILES that matches the drawing atom for atom.
+
+SMILES: O=C1Cc2ccccc2N1C1CCN(CC1)CCCn1nc(-c2ccc(C(F)(F)F)cc2)c2CN(S(C)(=O)=O)CCc21

@@ -1,0 +1,14 @@
+I read the structure as a coumarin core with three substituents, then wrote the SMILES region by region.
+
+**Coumarin core.** The ring oxygen O1 is bonded to C2 (C=O). C3 carries the CH2C(=O)NH-aryl chain, and C4 carries the aryl group. C4a, C5 (H), C6 (Me), C7 (Cl), C8 (H) and C8a close the benzo ring.
+
+**Amide side chain.** C3 bears CH2–C(=O)–NH–aryl. The aryl ring is 4-fluoro-2-(trifluoromethyl)phenyl: the NH-bearing carbon is C1, CF3 is on C2, and F is on C4. In the drawing, F sits at the top right and CF3 at the bottom, ortho to the NH carbon, which fits.
+
+**C4 aryl group.** This is a meta-disubstituted benzene. The C4 attachment is at one position, and the other substituent is CH=CH–C(=O)NH–SO2–Bu (n-butyl). The alkene is drawn trans (E).
+
+**SMILES assembly.**
+- Coumarin: O=C1Oc2cc(Cl)c(C)cc2C(c2cccc(c2)/C=C/C(=O)NS(=O)(=O)CCCC)=C1CC(=O)Nc1ccc(F)cc1C(F)(F)F
+- Benzo ring: c2cc(Cl)c(C)cc2 starts at C8a, then C8 (H), C7 (Cl), C6 (Me), C5 (H), and C4a. This matches the drawing.
+- Alkene: the aryl carbon is written before `/C=C/`, so the aryl and the C(=O) are on opposite sides, which gives trans.
+
+SMILES: O=C1Oc2cc(Cl)c(C)cc2C(c2cccc(c2)/C=C/C(=O)NS(=O)(=O)CCCC)=C1CC(=O)Nc1ccc(F)cc1C(F)(F)F

@@ -1,0 +1,19 @@
+The drawing shows a benzodioxole fused to a benzofuran.
+
+**Benzene ring (benzodioxole part).** Going around the ring from the top:
+- The top carbon carries OCH3.
+- The upper right carbon carries an O of the methylenedioxy bridge.
+- The lower right carbon carries the other O of the bridge. The two O atoms are joined through a CH2.
+- The bottom carbon carries the benzofuran-2-yl substituent.
+- The lower left carbon carries OH.
+- The upper left carbon is CH.
+
+**Benzofuran part.** The benzofuran is attached through its C2, the carbon next to the ring O. C3 is a CH, and the fused benzene ring is unsubstituted.
+
+**SMILES construction.**
+- Start with the methoxy carbon on the top ring carbon: COc1cc(O)c(c2cc3ccccc3o2)c2OCOc12.
+- The ring atoms in order are c1 (OMe), cH, c(OH), c(benzofuranyl), c2 (O, bridge), c12 (O, bridge, closing back to c1).
+- Check the bridge: c2OCOc12 puts the first O on the carbon next to the benzofuranyl-bearing carbon, and the second O on the carbon next to the OMe carbon. This matches the drawing.
+- Benzofuran: c2cc3ccccc3o2 gives C2, C3H, the fused benzene ring, and the ring O closing back to C2. This is correct.
+
+SMILES: COc1cc(O)c(-c2cc3ccccc3o2)c2OCOc12

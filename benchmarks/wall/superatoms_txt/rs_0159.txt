@@ -1,0 +1,18 @@
+The drawing is a coumarin (2H-chromen-2-one) core with three substituents.
+
+**Coumarin core.** The pyranone ring is O1–C2(=O)–C3=C4–C4a–C8a. The benzo ring carries Cl at C7 and a methyl at C6. C8 is the CH between C7 and C8a, and C5 is the CH next to C4a.
+
+**C3 substituent.** C3 bears CH2–C(=O)–NH–aryl. The aryl ring is attached through its C1, has CF3 at C2 (ortho), and has F at C4 (para to the N).
+
+**C4 substituent.** C4 bears a phenyl ring that is meta-substituted with CH2CH2C(=O)OEt, which is an ethyl propanoate chain.
+
+**SMILES assembly.**
+- Coumarin core: O=C1Oc2cc(Cl)c(C)cc2C(c3cccc(CCC(=O)OCC)c3)=C1...
+- C3 side chain, written as `CC(=O)Nc4ccc(F)cc4C(F)(F)F`.
+- Aryl ring: c4 (N-attached), then c, c, c(F), c, c4 with CF3, which places CF3 ortho and F para to N.
+
+Full SMILES: CCOC(=O)CCc1cccc(c1)C1=C(CC(=O)Nc3ccc(F)cc3C(F)(F)F)C(=O)Oc2cc(Cl)c(C)cc12
+
+Checking the fused ring: C1(=C(...)C(=O)Oc2cc(Cl)c(C)cc12). The atom c2 is C8a and is bonded to O. The next atoms are cH (C8), c(Cl) (C7), c(C) (C6), cH (C5), and c12 (C4a), which closes to C4 (ring 1) and to C8a (ring 2). This is correct.
+
+SMILES: CCOC(=O)CCc1cccc(c1)C1=C(CC(=O)Nc3ccc(F)cc3C(F)(F)F)C(=O)Oc2cc(Cl)c(C)cc12

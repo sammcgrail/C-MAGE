@@ -1,0 +1,24 @@
+Reading the drawing region by region:
+
+**Left bicycle.** This is a pyrido-oxazinone. The lactam ring has C(=O), then CH2, then O, then an aromatic carbon, then a second aromatic carbon bearing the lactam N. The pyridine ring is fused at those two carbons. The pyridine N is adjacent to the carbon attached to the lactam N.
+
+SMILES for this part: O=C1COc2cccnc2N1R
+
+Checking the pyridine ring: the N-bearing carbon (C8a) is bonded to the pyridine N, which is bonded to CH, CH, CH, and then the carbon bearing O. This gives c2cccnc2 with the O-carbon first and the N-carbon last, which matches the drawing.
+
+**Piperidine.** The lactam N is attached to C4 of the piperidine, and the piperidine N carries the side chain.
+
+**Linker.** From the piperidine N: CH2, CH(OH), CH2, then the pyrazole N1.
+
+**Pyrazole core.** N1 is bonded to N2, and N2 is double-bonded to C3. C3 carries the 4-CF3-phenyl group. C3 is bonded to C3a, which is double-bonded to C7a, and C7a is bonded to N1. C3a connects to CH2 (C4), then N5 (bearing SO2Me), then CH2 (C6), then CH2 (C7), then back to C7a.
+
+SMILES for this part: n1(CC(O)CN...)nc(-c2ccc(C(F)(F)F)cc2)c2c1CCN(S(C)(=O)=O)C2
+
+The ring closure works out: c2 is C3a, then c1 is C7a closing to N1, then CCN is C7, C6, N5, and the final C2 is C4 closing to C3a.
+
+**Full SMILES:**
+O=C1COc2cccnc2N1C1CCN(CC(O)Cn2nc(-c3ccc(C(F)(F)F)cc3)c3c2CCN(S(C)(=O)=O)C3)CC1
+
+No wedges or hashes are drawn, so no stereochemistry is included.
+
+SMILES: O=C1COc2cccnc2N1C1CCN(CC(O)Cn2nc(-c3ccc(C(F)(F)F)cc3)c3c2CCN(S(C)(=O)=O)C3)CC1

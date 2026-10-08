@@ -1,0 +1,16 @@
+I read the drawing in three parts and assigned the stereocentres from the wedges.
+
+**Structure read from the image**
+- The left ring is a five-membered lactam (pyrrolidin-2-one) with a C=O at the top.
+- The ring nitrogen carries a CH2CH2 chain to a para-substituted benzene ring bearing CO2H.
+- The ring carbon next to N (C5) carries a wedged bond to a trans CH=CH.
+- The alkene continues to CH(OH), drawn with a wedged OH. That carbon is bonded to a quaternary C(CH3)2, which carries an n-butyl chain (CH2CH2CH2CH3).
+
+**Stereochemistry**
+- **Ring C5:** the priorities are N > vinyl carbon > ring CH2. The vinyl wedge puts H at the back. N, vinyl, ring CH2 runs clockwise, so this centre is R. In the SMILES below that corresponds to `[C@@H]`.
+- **Carbinol carbon:** the priorities are OH > quaternary C > vinyl carbon. The OH wedge puts H at the back. OH, quaternary C, vinyl runs counterclockwise, so this centre is S. In the SMILES below that corresponds to `[C@H]`.
+- **Alkene:** drawn trans, so `/C=C/`.
+
+I checked the atom count and ring closures against the drawing, and the SMILES is valid.
+
+SMILES: OC(=O)c1ccc(CCN2C(=O)CC[C@@H]2/C=C/[C@H](O)C(C)(C)CCCC)cc1

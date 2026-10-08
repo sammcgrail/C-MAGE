@@ -1,0 +1,18 @@
+I read the drawing as three parts joined together, and assigned the stereocentres from the wedges and hashes.
+
+**Pyridine part.** The ring has N, then C2 bearing the amide carbonyl, C3 bearing the 2-chloroethyl carbonate O–C(=O)–O–CH2CH2Cl, C4 bearing OMe, and C5 and C6 as plain CH.
+
+**Ring.** It is a 9-membered dilactone. Going round from the top left, the atoms are:
+- C(=O)
+- ring O
+- CH(CH3), with the methyl on a wedge
+- CH–O–C(=O)CH(CH3)2, the isobutyrate, with the O on a hash
+- CH–CH2Ph, with the benzyl on a wedge
+- C(=O)
+- ring O
+- CH2
+- CH–NH, with N on a hash, which closes back to the first C(=O)
+
+**Stereochemistry.** For each of the four stereocentres I took the drawn wedge or hash, worked out the clockwise or counterclockwise order of the three other neighbours with the implicit H opposite, and converted that to the SMILES order. This gives `[C@H]` for the CH–N carbon, `[C@H]` for the CH-benzyl carbon, `[C@@H]` for the CH-isobutyrate carbon, and `[C@H]` for the CH-methyl carbon in the SMILES below.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1OC(=O)OCCCl

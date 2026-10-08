@@ -1,0 +1,23 @@
+The drawing shows a cyclopent[b]indole: a benzene ring fused to a pyrrole, which is fused to a cyclopentane. The substituents are a fluorine on the benzene ring and a CH2CO2H group on the cyclopentane.
+
+**Ring system and positions**
+- The pyrrole ring has N–H at the bottom. Its C2 (the carbon next to N) is fused to the cyclopentane, and its C3 is also fused to the cyclopentane.
+- The cyclopentane carbon attached to C2 (the one next to N) bears the CH2CO2H group.
+- The fluorine sits on the benzene carbon that is meta to the carbon bonded to N. It is attached to the ring carbon that is adjacent to the CH next to C3a (the pyrrole C3 attachment carbon).
+
+**Benzene ring atoms**
+Going around the ring, the atoms are C3a (attached to the pyrrole C3), C4 (the CH at the top, next to C3a), C5 (the carbon bearing F), C6 (CH), C7 (CH) and C7a (attached to N).
+
+**SMILES construction**
+Starting from the carbon bearing the acid side chain:
+OC(=O)CC1CCc2c1[nH]c1ccc(F)cc21
+
+Checking this against the drawing:
+- c2 is the pyrrole C3, and c1 (the ring-closing atom) is the pyrrole C2 bonded to N.
+- [nH] is followed by c1, the benzene carbon attached to N (C7a).
+- Next come c, c, then c(F), then c, and finally c21, which is C3a, bonded back to the pyrrole C3 (ring label 2) and closing the benzene ring (label 1).
+- Going from C7a: C7, C6, C5(F), C4, C3a. In the drawing, F is on the carbon that is one removed from C3a (C3a, then CH, then C–F), so F is on C5. This matches.
+
+The side-chain carbon is a stereocentre by connectivity but is drawn with plain bonds, so no stereochemistry is specified.
+
+SMILES: OC(=O)CC1CCc2c1[nH]c1ccc(F)cc21

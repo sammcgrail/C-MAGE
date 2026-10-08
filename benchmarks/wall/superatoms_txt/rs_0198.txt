@@ -1,0 +1,21 @@
+The molecule is a triarylamine. The central nitrogen carries three aryl groups:
+
+1. A 4-(pyren-1-yl)phenyl group.
+2. A 3-(diethylamino)phenyl group, with the NEt2 meta to the central N.
+3. A p-tolyl group.
+
+**Pyrene attachment.** The pyrene is attached through the carbon at its upper right (position 1 or 2). In the drawing, that carbon sits next to the ring-fusion carbon, and the CH=CH on the other side leads to the top ring. The attachment carbon is bonded to a fusion carbon, so I read it as pyren-1-yl.
+
+**Pyrene SMILES.** 1-Pyrenyl is c1ccc2ccc3cccc4ccc1c2c34, which is the parent ring written with the first atom as the attachment point. Checking it:
+- Atom 1, c1, is the attachment carbon (C1).
+- Next come c, c (C2 and C3), then c2 (C3a).
+- Then cc (C4, C5), c3 (C5a), ccc (C6, C7, C8), c4 (C8a), cc (C9, C10), then c1 (C10a, which closes ring 1 to the attachment carbon).
+- c2 (C10b) closes ring 2 and c34 (C10c) closes rings 3 and 4.
+
+Written out with the attachment carbon first, this is c1(...)ccc2ccc3cccc4ccc1c2c34.
+
+**Full SMILES.** Substituting the aryl-amine portion at the attachment carbon gives:
+
+Cc1ccc(cc1)N(c1ccc(cc1)-c1ccc2ccc3cccc4ccc1c2c34)c1cccc(c1)N(CC)CC
+
+SMILES: CCN(CC)c1cccc(c1)N(c1ccc(C)cc1)c1ccc(cc1)-c1ccc2ccc3cccc4ccc1c2c34

@@ -1,0 +1,21 @@
+I read the structure as three parts joined by amide bonds, then assigned the two stereocentres from the wedge and hash bonds.
+
+**Pyridine part:** The ring is a 3-hydroxy-4-methoxypyridine with a carboxamide at C2, next to the ring nitrogen. That gives `COc1ccnc(C(=O)N...)c1O`.
+
+**Cyclohexane core:** Going around the ring from the carbon that carries the NH:
+- CH(NH) with a bold wedge to N
+- CH2
+- a quaternary carbon bearing a methyl and a C(=O)N(CH3)CH2CH2Ph group, drawn with a hashed bond
+- CH2
+- C(CH3)2
+- CH2, closing back to the CH(NH)
+
+**Side chain:** The amide is N-methyl-N-(2-phenylethyl), written `C(=O)N(C)CCc3ccccc3`.
+
+**Stereochemistry:**
+- For the CH(NH) carbon, the wedge puts N toward the viewer and H behind. The priorities are N, then the CH2 leading to the quaternary carbon, then the other CH2. This gives R, which is `[C@H]` in the SMILES order I wrote.
+- For the quaternary carbon, the hashed C(=O)N is behind the plane. The priorities are C(=O)N, then the CH2 toward the CH(NH) carbon, then the CH2 toward the CMe2 carbon, then CH3. Converting this to SMILES neighbour order gives `[C@]`.
+
+The SMILES below is written to match the drawing atom for atom.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2C[C@](C)(C(=O)N(C)CCc3ccccc3)CC(C)(C)C2)c1O

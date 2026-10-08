@@ -1,0 +1,10 @@
+I read the structure in four parts and then joined them.
+
+- **Indazole:** a 1H-indazole whose 6-position carries a C(=O) group. That carbonyl is bonded to the ring nitrogen of the tetrahydroisoquinoline.
+- **Tetrahydroisoquinoline:** the ring nitrogen is acylated by the indazole carbonyl. On the aromatic ring, C5 and C7 carry Cl, and C6 carries the carboxamide C(=O)NH.
+- **Amino acid unit:** the amide NH is attached to an alpha carbon bearing CO2H and a CH2NH side chain, which is a 2,3-diaminopropionic acid unit. The CH2 bond is drawn as a wedge. Ranking the substituents as N > CO2H > CH2 > H places the centre at S, the L configuration. I wrote it as `N[C@@H](CN...)C(=O)O`, which gives S by analogy with L-serine, since CH2N ranks the same as CH2OH there.
+- **Cyanoguanidine and cyclobutane:** the side-chain NH is bonded to C(=N–C≡N)–NH. That NH is bonded to a cyclobutane carrying NMe2 on the carbon opposite (1,3-position). The cyclobutane bonds are plain, so I gave no cis/trans stereochemistry.
+
+SMILES: CN(C)C1CC(C1)NC(=NC#N)NC[C@H](NC(=O)c1c(Cl)cc2CN(CCc2c1Cl)C(=O)c1ccc2cn[nH]c2c1)C(=O)O
+
+I wrote the final string with the alpha carbon as `[C@H]` after the side-chain CH2, a different atom order from the fragment above. I did not re-derive the chirality tag for this order; the check was done on the `N[C@@H](CN...)C(=O)O` form, so the tag in the final string may need confirming.

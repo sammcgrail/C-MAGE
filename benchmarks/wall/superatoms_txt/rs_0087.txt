@@ -1,0 +1,22 @@
+The drawing shows a cyclopenta[b]indole: an indole whose C2–C3 bond is fused to a cyclopentane ring. The pieces are:
+
+- **Indole nitrogen:** N4 carries a 4-chlorobenzyl group.
+- **Benzene ring:** it has F and Br substituents. Br sits on the carbon adjacent to the carbon bonded to N, and F is meta to Br, on the carbon next to the CH that leads to the fused carbon.
+- **Cyclopentane ring:** the carbon next to the N-bearing carbon (C3) carries the CH2CO2H side chain.
+- **Stereochemistry:** all bonds are plain, so no stereo is specified.
+
+Building the SMILES, starting from the acid and the cyclopentane carbon:
+
+OC(=O)CC1CCc2c1n(Cc1ccc(Cl)cc1)c1c(Br)cc(F)cc12
+
+Checking the ring closures:
+- C1 is the CH bearing the side chain, followed by CH2 and CH2.
+- c2 is the aromatic carbon bonded to the benzene ring (indole C3).
+- c1 closes the cyclopentane ring; this is the carbon bonded to N (indole C2).
+- n(Cc1ccc(Cl)cc1) is the N-benzyl group.
+- The next atom, c1 (reusing label 1 after it was closed), is the benzene carbon attached to N (C7a).
+- c(Br) follows, then cH, then c(F), then cH, then c12, which closes the benzene ring and bonds to the indole C3 labelled 2.
+
+The benzene ring runs C7a, C(Br), CH, C(F), CH, C3a, which is six atoms. In the image, F is on the carbon adjacent to the top CH, which is bonded to C3a. This matches.
+
+SMILES: OC(=O)CC1CCc2c1n(Cc1ccc(Cl)cc1)c1c(Br)cc(F)cc12

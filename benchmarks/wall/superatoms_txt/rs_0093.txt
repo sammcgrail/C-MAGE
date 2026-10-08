@@ -1,0 +1,17 @@
+Reading the structure region by region:
+
+**Left fragment:** an oxindole (indolin-2-one). The lactam N is attached to C4 of a piperidine. The benzene ring carries Cl at position 6, which is the carbon adjacent to C7, the carbon next to the ring-fusion carbon C7a bonded to N.
+
+**Linker:** the piperidine N is joined to a three-carbon chain (the drawing shows N–CH2–CH2–CH2–N), and the chain ends on the pyrazole N1.
+
+**Right fragment:** a 4,5,6,7-tetrahydro-pyrazolo[4,3-c]pyridine.
+- Pyrazole: N1 (bearing the chain), N2, C3 (bearing the 4-CF3-phenyl), C3a, C7a.
+- C3a is connected to CH2 (C4), then N5 (bearing SO2Me), then C6H2, then C7H2, which connects to C7a. C7a is bonded to N1.
+
+**SMILES assembly:**
+- Oxindole: O=C1Cc2ccc(Cl)cc2N1C3CCN(CC3)...
+- Chain and pyrazole: CCCn4nc(c5ccc(cc5)C(F)(F)F)c6CN(CCc46)S(C)(=O)=O
+
+Checking the ring closures in the pyrazole portion: n4 is N1, n is N2, c(...) is C3, c6 is C3a, C is C4, N(...) is N5, CC is C6 and C7, and c46 is C7a, which closes to N1 (ring 4) and C3a (ring 6). This is consistent.
+
+SMILES: O=C1Cc2ccc(Cl)cc2N1C3CCN(CC3)CCCn4nc(c5ccc(cc5)C(F)(F)F)c6CN(CCc46)S(C)(=O)=O

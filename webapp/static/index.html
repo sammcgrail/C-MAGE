@@ -461,6 +461,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
       <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet 5</button>
       <button role="tab" id="tab-sonnet55" aria-selected="false">Sonnet 5.5</button>
       <button role="tab" id="tab-sonnet55api" aria-selected="false">Sonnet 5.5 API only</button>
+      <button role="tab" id="tab-superatoms" aria-selected="false">Superatoms (API)</button>
       <a class="segl" href="/sonnet-compare">Sonnet compare</a>
     </div>
     <button class="ghost" id="try">Try a file</button>
@@ -641,7 +642,8 @@ function openSheet(r){
      WHOSE, and on a tab that shows two readers side by side that is the one thing
      the labels have to carry. */
   var twoReaders = !!r.ocr;
-  var meLabel = twoReaders ? (DATA.reader || "Sonnet") : "CXMolScribe";
+  /* The API tabs (DATA.cards) have one reader and it is never CXMolScribe. */
+  var meLabel = twoReaders || DATA.cards ? (DATA.reader || "Sonnet") : "CXMolScribe";
   var s5State = r.s5 ? ({exact:"matched", stereo:"stereo", invalid:"unreadable"}[r.s5.v] || "misread") : null;
   var ocrState = r.ocrv === "exact" ? "matched" : r.ocrv === "stereo" ? "stereo"
                : r.ocrv === "invalid" ? "unreadable" : "misread";
@@ -820,11 +822,11 @@ function docsStrip(){
   wrap.className = "docsfold";
   var sum = el("summary", null, DOC
     ? "Showing only " + DOC + " — tap to change or clear"
-    : "Filter by document (" + DATA.docs.length + ")");
+    : "Filter by " + (DATA.docsLabel || "document") + " (" + DATA.docs.length + ")");
   wrap.appendChild(sum);
   var box = el("div", "docs");
   var all = el("button", "doc");
-  all.innerHTML = '<span class="nm">All documents</span><span class="n">'
+  all.innerHTML = '<span class="nm">All ' + (DATA.docsLabel ? DATA.docsLabel + 's' : 'documents') + '</span><span class="n">'
     + DATA.rows.length + "</span>";
   all.setAttribute("aria-pressed", DOC === null);
   all.onclick = function(){ DOC = null; SHOWN = STEP; render(); };
@@ -1331,7 +1333,7 @@ function fetchTab(tab){
 
 function load(tab){
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
-  ["pdfs","images","sonnet","sonnet55","sonnet55api"].forEach(function(t){
+  ["pdfs","images","sonnet","sonnet55","sonnet55api","superatoms"].forEach(function(t){
     $("#tab-" + t).setAttribute("aria-selected", tab === t); });
   showTab($("#tab-" + tab));
   if (!READY[tab]) $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
@@ -1350,6 +1352,7 @@ $("#tab-pdfs").onclick = function(){ load("pdfs"); };
 $("#tab-sonnet").onclick = function(){ load("sonnet"); };
 $("#tab-sonnet55").onclick = function(){ load("sonnet55"); };
 $("#tab-sonnet55api").onclick = function(){ load("sonnet55api"); };
+$("#tab-superatoms").onclick = function(){ load("superatoms"); };
 /* On a phone the tab strip scrolls; keep the active tab in view and drop the edge fade
    once the strip is scrolled to its end. */
 function showTab(b){
@@ -1380,9 +1383,9 @@ document.addEventListener("selectstart", function(e){
 /* The first data fetch waits for window load: iOS Safari's progress bar waits on
    every request begun before it. */
 function start(){ var t = new URLSearchParams(location.search).get("tab");
-  var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" || t === "sonnet55api" ? t : "images";
+  var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" || t === "sonnet55api" || t === "superatoms" ? t : "images";
   load(first);
-  var warm = function(){ ["images","pdfs","sonnet","sonnet55","sonnet55api"].forEach(function(x){
+  var warm = function(){ ["images","pdfs","sonnet","sonnet55","sonnet55api","superatoms"].forEach(function(x){
     if (x !== first) fetchTab(x).catch(function(){}); }); };
   fetchTab(first).then(warm, warm); }
 if (document.readyState === "complete") start(); else window.addEventListener("load", start, {once: true});

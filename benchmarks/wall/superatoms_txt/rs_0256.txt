@@ -1,0 +1,13 @@
+I read the structure region by region and assembled the SMILES from that.
+
+**Biphenyl part:** The top-left ring carries CO2H. A second ring is attached to it at the position meta to the CO2H. On that second ring, the carbon bearing the first ring is adjacent to the carbon bearing OH. The next carbon bears the NH–N= group.
+
+**Hydrazone and indolinone:** The NH is bonded to N=, which is double-bonded to C3 of the indolin-2-one. C2 is C=O and N1 carries a 4-propylphenyl group. The CF3 sits on the benzo ring at position 5, which is para to N1. C3a is bonded to C3, and C4 is the CH next to C3a. Going around the ring, C5 is the next carbon and carries the CF3.
+
+**Propyl chain:** From the phenyl ring the chain runs CH2–CH2–CH2, which is three carbons, so the group is propyl. The drawing shows the ring carbon, then a bond down-left, then a bond down, then a bond down-right, giving three carbons.
+
+**Stereochemistry:** The C=N bond is drawn with a defined geometry. The NH sits on the upper left of N, and N is attached to C3 of the indolinone. At C3 the substituents are C2 (the carbonyl, lower left) and C3a (right). The N= is at about (297, 400) with NH at (215, 380) to its left. C3 is at (320, 455), below and to the right of N. Looking at the C=N bond, the NH on N points left. On C3, C2 points left-down and C3a points right. The NH therefore lies on the same side as C2 (the left side), which makes it Z with respect to the carbonyl side.
+
+For the SMILES, I write `N(/N=C1/C(=O)...)` with the matching bond marks. Using the form `Oc1c(...)cccc1N/N=C1\C(=O)N(Ar)c2ccc(C(F)(F)F)cc12`: the N before the bond is written as `N/N=C1\C(=O)`. This means the NH is on the "below" side of the first bond and C(=O) is on the "below" side of the second bond with the backslash, which puts them on the same side (cis).
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2\C(=O)N(c3ccc(CCC)cc3)c3ccc(cc23)C(F)(F)F)c1O

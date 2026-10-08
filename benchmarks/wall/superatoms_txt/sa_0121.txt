@@ -1,0 +1,21 @@
+I read the molecule as an ethyl ester, N-linked alanine-type amide of a 2-carboxy-octahydrocyclopenta[b]pyrrole. This is a perindopril-like skeleton, but the bicycle is 5-5 rather than 6-5.
+
+**Skeleton**
+- The left bicycle has a pyrrolidine ring (N, C2 bearing CO2H, CH2, C3a, C6a) fused to a cyclopentane ring. The cyclopentane ring has three CH2 groups and the two fusion carbons.
+- N is acylated by C(=O)–CH(CH3)–NH–CH(CO2Et)–CH2CH2–Ph.
+- Ph and Et are expanded to phenyl and ethyl.
+
+**Stereocentres**
+- All five stereocentres are drawn with wedges or hashes, so all five carry stereo marks.
+- For each one I took the three drawn neighbours, worked out their rotation direction from the 2D coordinates, and combined that with whether the wedge or hash puts the implicit H in front or behind.
+- That gave the SMILES chirality tags below.
+
+| Centre | Tag |
+|---|---|
+| CH(CH3) (hashed methyl) | `@` |
+| CH(CO2Et) (wedged ester) | `@@` |
+| C2 (wedged CO2H) | `@` |
+| C3a (hashed H) | `@@` |
+| C6a (hashed H) | `@` |
+
+SMILES: C[C@H](N[C@@H](CCc1ccccc1)C(=O)OCC)C(=O)N1[C@H](C(=O)O)C[C@@H]2CCC[C@H]12

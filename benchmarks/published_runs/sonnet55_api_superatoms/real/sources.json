@@ -1,0 +1,28 @@
+{
+ "screen_cost": "$1.49 for 8544 images",
+ "licence": {
+  "USPTO": "MolScribe USPTO test set: drawings from US patent grants (USPTO public data; US patent drawings are generally free of copyright restrictions). Shown.",
+  "CLEF": "CLEF-IP 2012 chemical-structure recognition test set (via MolScribe): drawings cropped from patent documents, distributed for research. Shown, as patent drawings.",
+  "UOB": "UOB set (University of Birmingham, via MolScribe): drawings from the Maybridge catalogue, distributed for research; third-party catalogue artwork, so metrics only, no images republished.",
+  "acs": "ACS set (via MolScribe): figures cropped from American Chemical Society journal articles, copyright ACS; used for research measurement only, no images republished."
+ },
+ "screened": {
+  "USPTO": 5719,
+  "CLEF": 992,
+  "acs": 331,
+  "UOB": 1502
+ },
+ "candidates": {
+  "USPTO": 1525,
+  "CLEF": 217,
+  "acs": 127,
+  "UOB": 64
+ },
+ "picked": {
+  "USPTO": 200,
+  "UOB": 30,
+  "CLEF": 70,
+  "ACS": 40
+ },
+ "method": "Published drawings from the MolScribe real-image benchmarks (USPTO, CLEF-2012, UOB, ACS; huggingface.co/yujieq/MolScribe real.zip), truth = the benchmark's own full SMILES. All 8544 images were screened by Haiku 5.5 (one call each, $1.49) for text labels standing for two or more atoms; a label counts only if it maps to a known group AND that group is in the truth, and an image with any known label missing from its truth is dropped. Candidates: CLEF 217, UOB 64, USPTO 1525, acs 127. Sampled at random, half with two or more verified labels where available: ACS 40, CLEF 70, UOB 30, USPTO 200. Renamed rs_NNNN, re-saved as pixels only. UOB (Maybridge catalogue art) and ACS (journal figures) count in the metrics but are not shown; USPTO and CLEF drawings come from patents and are shown. Truth SMILES with R groups or dummy atoms are excluded."
+}

@@ -1,0 +1,11 @@
+The structure is orlistat. I built the SMILES by reading each group in turn and then assigning each stereocentre from the wedges and hashes.
+
+**Groups read from the drawing**
+- Leucine part: an N-formyl amine (OHC–NH) on an α-carbon that carries an isobutyl group and an ester C=O.
+- Ester oxygen: it links to a CH that carries an n-decyl–CH2 chain (11 carbons in total) and a CH2 leading to the ring.
+- Ring: a four-membered β-lactone (oxetan-2-one) with ring O, C=O, a hexyl-bearing carbon and a CH2-bearing carbon.
+
+**Stereocentres**
+CIP analysis of the wedges and hashes gives S at the leucine α-carbon, S at the ester carbon, S at the ring carbon bearing the CH2, and S at the ring carbon bearing the hexyl group. This matches orlistat's known configuration. I then converted each centre to @/@@ for this atom ordering.
+
+SMILES: CCCCCCCCCCC[C@@H](C[C@H]1[C@@H](C(=O)O1)CCCCCC)OC(=O)[C@H](CC(C)C)NC=O

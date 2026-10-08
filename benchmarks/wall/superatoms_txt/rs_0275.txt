@@ -1,0 +1,18 @@
+The drawing shows three connected parts.
+
+- **Biphenyl:** one ring carries SO2Me at the ortho position and is joined to a para-substituted phenyl ring. That phenyl ring bears a C(=O)NH amide group.
+- **Central ring:** an ortho-disubstituted benzene. One substituent is the NH of the biphenyl amide. The other is a C(=O)NH group leading to the third part.
+- **Nitrophenyl:** the amide nitrogen is attached to a ring with NO2 at the ortho position and Br at the para position relative to the NH.
+
+Checking the third ring: the NH-bearing carbon is C1, NO2 is on C2, and Br is on C4. In the image, the carbon bearing NO2 is at the bottom left, then a CH, then C-Br at the bottom right. So Br is meta to NO2 and para to NH, which fits.
+
+SMILES written piece by piece:
+
+- Methylsulfonyl phenyl: CS(=O)(=O)c1ccccc1
+- Linked to the para-phenyl: -c1ccc(cc1)C(=O)N
+- Central ring: Nc1ccccc1C(=O)N
+- Nitrophenyl: c1ccc(Br)cc1[N+](=O)[O-]
+
+Combined: CS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccccc1C(=O)Nc1ccc(Br)cc1[N+](=O)[O-]
+
+SMILES: CS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccccc1C(=O)Nc1ccc(Br)cc1[N+](=O)[O-]

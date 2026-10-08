@@ -1,0 +1,15 @@
+I read the structure region by region.
+
+**Biphenyl part.** The top-left ring carries CO2H and is joined to the second ring at the meta position. The second ring has the aryl attachment, then an adjacent C–OH, then an adjacent C–NH. So the ring runs C(aryl), C(OH), C(NH), CH, CH, CH.
+
+**Hydrazone linker.** The NH is bonded to N, which is double-bonded to C3 of the oxindole. The drawing shows no explicit geometry on this C=N, so I leave it unspecified.
+
+**Oxindole.** C3 is bonded to C2 (=O), and C2 is bonded to N1. N1 carries the aryl group and is also bonded to the fused benzene ring. The CF3 sits on the fused benzene at C6. Going around that ring from C3a, the carbons are C4, C5, C6 (CF3), C7 and C7a, with C7a bonded to N. In the drawing, C3a is at the upper left of the fused ring and the CF3 carbon is at the right, bonded to the carbon that sits above C7. That places CF3 at position 6.
+
+**N-aryl group.** The phenyl is attached to N at its C1. Moving around the ring, C3 carries Cl and C4 carries a methyl (the bond at the bottom is drawn with no label, so it is a CH3).
+
+**SMILES assembly.**
+- Acid ring: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3ccc(C)c(Cl)c3)c3cc(C(F)(F)F)ccc23)c1O
+- Oxindole ring: C2(=N...)C(=O)N(Ar)c3cc(CF3)ccc23. Here c3 is C7a, then c is C7, c(CF3) is C6, c is C5, c is C4, and c23 is C3a, which closes to C3. This matches the drawing.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3ccc(C)c(Cl)c3)c3cc(C(F)(F)F)ccc23)c1O

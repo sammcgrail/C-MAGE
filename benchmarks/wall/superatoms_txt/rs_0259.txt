@@ -1,0 +1,20 @@
+I read the structure region by region and assembled the SMILES from these pieces.
+
+- **Benzoic acid end:** a para-substituted benzene bearing COOH, with a CH2 attached at the para position.
+- **Linker:** the CH2 connects to an N that carries a methyl group. That N is bonded to the central benzene ring.
+- **Central benzene ring:** N is on C1, a methyl is on C2 (ortho to N), and the ether O is on C4 (para to N). The ring runs C1(N), C2(CH3), C3(H), C4(O), C5(H), C6(H).
+- **Ether and isoxazole:** the O connects to a CH2, which is attached to C4 of the isoxazole.
+- **Isoxazole ring:** the ring atoms are O1, N2, C3, C4, C5.
+  - C3 carries the 2-(trifluoromethoxy)phenyl group.
+  - C4 carries the CH2–O link.
+  - C5 carries the isopropyl group.
+  - C5 is bonded to O1, and O1 is bonded to N2, which is double-bonded to C3.
+  - The C4=C5 double bond is drawn.
+
+SMILES, written in the order benzoic acid, CH2, N(CH3), central ring, O, CH2, isoxazole:
+
+OC(=O)c1ccc(CN(C)c2ccc(OCc3c(C(C)C)onc3-c3ccccc3OC(F)(F)F)cc2C)cc1
+
+Check on the central ring: c2ccc(O...)cc2C starts at c2 (N-bearing), then c, c, c(O), c, and c2 carrying the methyl. That puts the methyl ortho to N and the O para to N, which matches the drawing.
+
+SMILES: OC(=O)c1ccc(CN(C)c2ccc(OCc3c(C(C)C)onc3-c3ccccc3OC(F)(F)F)cc2C)cc1

@@ -1,0 +1,16 @@
+Reading the drawing region by region:
+
+- **Left fragment:** a benzimidazolone (2-oxo-2,3-dihydrobenzimidazole). One nitrogen carries CH2-CN (NC-CH2-N). The other nitrogen is attached to C4 of a piperidine.
+- **Piperidine:** its nitrogen is attached to CH2-CH(OH)-CH2, and that chain ends on N1 of the pyrazole.
+- **Right fragment:** a 4,5,6,7-tetrahydropyrazolo[4,3-c]pyridine.
+  - Pyrazole atoms: N1 (bearing the chain), N2, C3 (bearing the 4-CF3-phenyl), C3a, C7a.
+  - Six-membered ring: C3a-CH2-N(SO2Me)-CH2-CH2-C7a.
+  - The N-methylsulfonyl group is attached to the ring nitrogen at the bottom.
+
+SMILES assembly:
+
+N#CCn1c(=O)n(C2CCN(CC2)CC(O)Cn2nc(-c3ccc(C(F)(F)F)cc3)c3CN(S(C)(=O)=O)CCc32)c2ccccc12
+
+Check on the pyrazole ring: n2 (N1), n (N2), c(Ar) (C3), c3 (C3a), then CN(Ms)CC, then c32 (C7a), which closes ring 3 to C3a and ring 2 to N1. The ring closure labels are reused after closing, which is valid. The piperidine ring label 2 is closed before the later "n2" opens it again, so that is also fine.
+
+SMILES: N#CCn1c(=O)n(C2CCN(CC2)CC(O)Cn2nc(-c3ccc(C(F)(F)F)cc3)c3CN(S(C)(=O)=O)CCc32)c2ccccc12

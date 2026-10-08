@@ -1,0 +1,26 @@
+I read the structure as a 16-membered macrolactone carrying two sugars, and wrote the SMILES region by region, assigning each wedge or hash to a chirality tag.
+
+**Macrolactone ring** (numbered from the lactone carbonyl as C1):
+- C1 is the lactone C=O and C2 is a CH2.
+- C3 carries a hashed OH and C4 a hashed OMe.
+- C5 carries a wedged O-glycoside link to the amino sugar.
+- C6 carries a wedged CH2CHO side chain, and C7 is a CH2.
+- C8 carries a wedged methyl and C9 a wedged OH.
+- C10=C11 and C12=C13 are two conjugated double bonds. Both are drawn trans (E).
+- C14 is a CH2, and C15 carries a wedged methyl and is bonded to the ring oxygen.
+
+**Amino sugar** (a mycaminose-type pyranose, attached at C5 of the ring):
+- The anomeric carbon has a wedged bond to the macrolide oxygen.
+- It carries a hashed 2'-OH, a wedged 3'-NMe2, and a 5'-methyl on a wedge.
+- The 4'-O is hashed and links to the second sugar.
+
+**Second sugar** (a mycarose-type branched pyranose):
+- The anomeric carbon is attached through a hashed bond.
+- C2'' is a CH2.
+- C3'' carries a methyl on a wedge and an O-propionyl group (the Et-C(=O)O label).
+- C4'' carries a hashed O-butyryl group (the nPr-C(=O)O label).
+- C5'' carries a wedged methyl.
+
+I did not run this through a SMILES parser. I did check the string by hand against the atoms and bonds in the drawing, including the chirality tags and the E,E geometry.
+
+SMILES: O=C1C[C@@H](O)[C@H](OC)[C@@H](O[C@@H]2O[C@H](C)[C@@H](O[C@H]3C[C@@](C)(OC(=O)CC)[C@@H](OC(=O)CCC)[C@H](C)O3)[C@H](N(C)C)[C@H]2O)[C@@H](CC=O)C[C@@H](C)[C@@H](O)/C=C/C=C/C[C@@H](C)O1

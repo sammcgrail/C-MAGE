@@ -1,0 +1,17 @@
+This is entacapone, a nitrocatechol with a cyanoacrylamide side chain.
+
+Reading the drawing:
+- The benzene ring carries two adjacent OH groups and a nitro group, with the NO2 carbon next to the OH carbon.
+- The ring carbon at the lower right (para to the OH carbon next to the nitro) bears the CH=C(CN)C(=O)NEt2 chain.
+- The ring atoms, going around, are C1 (attached to the chain), C2 (CH), C3 (C-OH, top), C4 (C-OH, left), C5 (C-NO2) and C6 (CH).
+- The chain is C1–CH=C(C#N)–C(=O)N(CC)CC.
+
+The drawing shows no wedges or hashes. The double bond could carry cis/trans geometry, but entacapone is the E isomer and the drawing is ambiguous. In the drawing, the ring sits on the left of the CH, with CN up and C(=O) to the right on the other carbon. The ring is at the lower left of the CH, and its bond runs to the upper right of the ring atom. On the CH carbon the substituents are the ring (to the left) and H. On the other carbon, CN points up and the amide points to the right.
+
+The ring bond goes from the CH carbon (915,880) to the ring carbon (725,832), so the ring lies to the upper left of the CH. The double bond runs from (915,880) to (1050,740). The amide carbon (1243,788) is to the right of the alkene carbon, lower than the CN. Relative to the double-bond axis, the ring is on the left/upper side of the axis. The CN at (1010,585) is on the upper left side, and the amide carbon at (1243,788) is on the lower right side. The axis direction is (135,−140). For the ring, the vector from the CH carbon is (−190,−48), with cross product 135·(−48) − (−140)(−190) = −6480 − 26600 = −33080. For the CN, the vector from the alkene carbon is (−40,−155), with cross product 135·(−155) − (−140)(−40) = −20925 − 5600 = −26525. The ring and CN have the same sign, so they are on the same side, which makes the ring cis to CN and trans to the amide. This is the E isomer, since CN is lower priority than C(=O)N and the ring is trans to the amide.
+
+SMILES: CCN(CC)C(=O)/C(C#N)=C/c1cc(O)c(O)c([N+](=O)[O-])c1
+
+Checking the SMILES: the ring is c1 (chain), cc(O) (CH then C-OH), c(O) (second C-OH), c(NO2), c1 (CH), which matches the drawing. For the stereo, the string `C(=O)/C(C#N)=C/c1`: the amide carbon is before the "/" on C, and the ring is after "/" on the CH, so the amide and ring are trans, as in the drawing.
+
+SMILES: CCN(CC)C(=O)/C(C#N)=C/c1cc(O)c(O)c([N+](=O)[O-])c1

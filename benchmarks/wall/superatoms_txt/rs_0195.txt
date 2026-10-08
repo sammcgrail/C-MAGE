@@ -1,0 +1,16 @@
+The drawing is a benzoxazinone joined through a piperidine and a propyl chain to a tetrahydropyrazolopyridine.
+
+**Left fragment:** 2H-benzo[b][1,4]oxazin-3(4H)-one. The ring runs C(=O)–CH2–O–aryl, with the nitrogen attached to the aryl ring and to C4 of the piperidine.
+
+**Piperidine and linker:** the piperidine nitrogen carries a three-carbon chain (CH2CH2CH2). That chain ends at N1 of the pyrazole.
+
+**Right fragment:**
+- The pyrazole has N1 (bearing the chain), N2, C3 (bearing the 4-CF3-phenyl group), C3a and C7a.
+- C3a connects to CH2 (C4), then N5 carrying SO2Me, then CH2 (C6), then CH2 (C7), which connects back to C7a.
+
+**SMILES assembly:**
+- Benzoxazinone with piperidine: O=C1COc2ccccc2N1C1CCN(CC1)CCCn1nc(c2ccc(cc2)C(F)(F)F)c2CN(CCc12)S(C)(=O)=O
+- Ring closure check: in n1nc(Ar)c2CN(CCc12)..., the pyrazole atoms are n1, n, c(Ar), c2 (C3a), then CH2, N, CH2, CH2, then c12 (C7a), which closes to n1 and to c2. This is correct.
+- Ring label reuse: the benzoxazinone ring "1" is closed at N1 before the piperidine "C1" opens, so the reuse is fine. The "c2ccccc2" labels are closed before later reuse.
+
+SMILES: O=C1COc2ccccc2N1C1CCN(CC1)CCCn1nc(-c3ccc(cc3)C(F)(F)F)c2CN(CCc12)S(C)(=O)=O

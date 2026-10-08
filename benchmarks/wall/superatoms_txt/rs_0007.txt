@@ -1,0 +1,19 @@
+The structure breaks into four parts.
+
+**Left part.** An ethyl ester, EtO-C(=O)-CH2, is attached to N1 of a benzimidazol-2-one. N3 of the benzimidazolone carries a piperidin-4-yl group.
+
+**Linker.** The piperidine N is bonded to CH2-CH(OH)-CH2, which connects to N1 of the pyrazole.
+
+**Right part.** This is a 4,5,6,7-tetrahydro-pyrazolo[4,3-c]pyridine. The pyrazole N1 is bonded to C7a, which is bonded to C7 (CH2), then C6 (CH2), then N5 (bearing the SO2Me group), then C4 (CH2), then C3a. C3a is bonded to C3, which carries the 4-CF3-phenyl group, and C3 is bonded to N2. N2 is bonded to N1.
+
+**SMILES assembly.**
+- Ester and benzimidazolone: CCOC(=O)CN1C(=O)N(C2CCN(CC2)...)c2ccccc12
+- Linker and pyrazole: CC(O)Cn1nc(-c2ccc(C(F)(F)F)cc2)c2CN(S(C)(=O)=O)CCc12
+
+The full SMILES is:
+
+CCOC(=O)CN1C(=O)N(C2CCN(CC(O)Cn3nc(-c4ccc(C(F)(F)F)cc4)c4CN(S(C)(=O)=O)CCc34)CC2)c2ccccc12
+
+The ring closures are consistent. In the pyrazole, n3 opens ring 3, then n, then c(aryl), then c4 (C3a, opens ring 4), then CN(...)CC, then c34 (C7a), which closes both rings 3 and 4. C7a bonds to n3 (N1) and to C3a (via ring 4), as required.
+
+SMILES: CCOC(=O)CN1C(=O)N(C2CCN(CC(O)Cn3nc(-c4ccc(C(F)(F)F)cc4)c4CN(S(C)(=O)=O)CCc34)CC2)c2ccccc12

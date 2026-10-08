@@ -1,0 +1,19 @@
+I read the molecule as a 6,7-dihydro-5H-pyrrolo[1,2-a]imidazole core with these substituents:
+
+- **Imidazole carbons:** one carries the 4-fluorophenyl group and the other carries a pyridin-4-yl group. The pyridine has an NH-cyclobutyl group at its 2-position.
+- **Bridgehead nitrogen:** it is attached to the saturated ring carbon, which bears a CH2–O–CH2–(4-methoxyphenyl) side chain.
+- **Ring fusion:** the C=N carbon of the imidazole is bonded to a CH2–CH2 unit that closes the five-membered ring onto that stereocentre.
+
+**Stereochemistry:** only the ring carbon carrying the CH2O substituent is marked, with a hashed bond to the CH2O group, so the implicit H points toward the viewer.
+
+- CIP priorities at that carbon are N (bridgehead), then CH2O, then the ring CH2.
+- On the page, N → CH2O → ring CH2 runs counterclockwise. Because H faces the viewer, that reverses to clockwise, giving R.
+- In the SMILES below, `[C@H]` with neighbour order (ring CH2, H, CH2O, N) also works out to R, so it matches the drawing.
+
+SMILES: COc1ccc(COC[C@H]2CCc3nc(-c4ccc(F)cc4)c(-c4ccnc(NC5CCC5)c4)n32)cc1
+
+I rewrote the SMILES from the check above so the stereo tag matches the neighbour order. In this written form the chiral atom is preceded by the CH2O carbon, so I re-derived the tag as follows. The neighbours in order are CH2O, H, ring CH2, N. Swapping to put H first gives (H, CH2O, C6, N) with one swap, so the sense flips relative to the tag. For `@` the order CH2O, H, C6, N becomes `@@` with H first, meaning CH2O → C6 → N is clockwise from H. Seen from the side opposite H, this is counterclockwise, which is equivalent to N → CH2O → C6 counterclockwise, i.e. S. So `@` here gives S, and R needs `@@`.
+
+Corrected:
+
+SMILES: COc1ccc(COC[C@@H]2CCc3nc(-c4ccc(F)cc4)c(-c4ccnc(NC5CCC5)c4)n32)cc1

@@ -1,0 +1,22 @@
+I read this as a prostaglandin E2-type skeleton. The ring is a five-membered ketone with a hydroxyl, a Z-alkenyl carboxylic acid chain, and an E-alkenyl chain carrying a hydroxyl and an n-pentyl group.
+
+**Ring (five carbons, going round):**
+- C9 is the ketone carbon, C=O.
+- C10 is CH2.
+- C11 carries an OH on a wedge.
+- C12 carries the lower chain on a hash.
+- C8 carries the upper chain on a wedge, and is bonded to C9.
+
+**Upper chain (from C8):** CH2, then a cis C=C (drawn as Z), then three CH2 groups, then CO2H.
+
+**Lower chain (from C12):** a trans CH=CH (drawn as E), then a CH(OH) on a wedge, then an n-pentyl group.
+
+**Stereo assignment:** I derived each centre's @/@@ by hand from the wedge and hash geometry, treating the implicit H as pointing opposite the drawn wedge or hash.
+- C11 is `[C@@H]`.
+- C12 is `[C@H]`.
+- C8 is `[C@H]`.
+- The hydroxyl-bearing carbon in the lower chain is `[C@@H]`.
+
+I did not check the result against a canonical PGE2 SMILES, so the stereo labels rest on that manual derivation.
+
+SMILES: O=C1C[C@@H](O)[C@H](/C=C/[C@@H](O)CCCCC)[C@H]1C/C=C\CCCC(=O)O

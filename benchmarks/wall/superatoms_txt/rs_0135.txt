@@ -1,0 +1,17 @@
+The drawing shows a bicyclic structure: an aromatic benzene ring fused to a six-membered ring that contains one C=C double bond.
+
+**Aromatic ring (right).** Going around the ring:
+- C1 carries OH (top).
+- C2 carries OCH3.
+- C3 is CH.
+- C4 carries OH (bottom).
+- C4a and C8a are the two fusion carbons.
+
+**Saturated ring (left).** From the top fusion carbon (C8a) the path is CH2, then C(CH3)=C(CH3), then CH2, and back to the bottom fusion carbon (C4a).
+
+**SMILES.** Starting at the top OH-bearing carbon:
+Oc1c(OC)cc(O)c2c1CC(C)=C(C)C2
+
+Check: c1 (OH) is bonded to c(OC), then cH, then c(O), then c2 (fusion carbon). The next atom c1 closes the aromatic ring and is the other fusion carbon, attached to the top CH2. That gives CC(C)=C(C)C2, where the last CH2 bonds back to the first fusion carbon, c2. The aromatic ring has six atoms: c1(OH), c(OMe), cH, c(OH), c2, and c1. This is correct.
+
+SMILES: Oc1c(OC)cc(O)c2c1CC(C)=C(C)C2

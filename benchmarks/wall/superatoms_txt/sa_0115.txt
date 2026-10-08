@@ -1,0 +1,15 @@
+I read the drawing as a tri-O-benzoyl-1-O-acetyl pentofuranose.
+
+**Ring and substituents**
+- The five-membered ring is O, C1, C2, C3, C4.
+- C1 carries OAc on a hashed bond (pointing away from the viewer).
+- C2 and C3 each carry OBz on a wedge (toward the viewer).
+- C4 carries CH2–OBz on a hashed bond.
+- Every other bond is plain.
+
+**Stereo assignment**
+For each ring carbon I took the implicit hydrogen as pointing opposite to the drawn wedge or hash. I then read the rotation of the other three neighbours from the 2D positions and converted it to @/@@ for the SMILES neighbour order.
+
+The result is C1 `@@`, C4 `@`, C3 `@@`, C2 `@`. I derived these by hand and did not run the SMILES through a toolkit to confirm them.
+
+SMILES: CC(=O)O[C@@H]1O[C@H](COC(=O)c2ccccc2)[C@@H](OC(=O)c2ccccc2)[C@H]1OC(=O)c1ccccc1

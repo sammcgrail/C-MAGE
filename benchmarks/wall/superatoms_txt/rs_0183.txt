@@ -1,0 +1,22 @@
+The drawing breaks down into three parts joined in a chain.
+
+**Biphenyl end:** One phenyl ring carries SO2NH2 at the ortho position and is bonded to a para-substituted phenyl ring. That second ring carries the C(=O)NH group.
+
+**Middle:** The amide NH is attached to a benzene ring. At the position ortho to the NH, an oxygen links to the naphthalene.
+
+**Naphthalene:** The oxygen is on C3, and CO2Me is on the adjacent C2. Bromine is on the far ring. Numbering the ring-fusion carbons as 4a and 8a:
+- C1 is the CH next to C2, which bears CO2Me.
+- C2 bears CO2Me and C3 bears the O-aryl group.
+- C4 is the CH next to C3.
+- C4a is the ring-fusion carbon, followed by C5, C6, C7, C8 and C8a.
+
+In the drawing, the ring carbon bearing O is at upper left, with a CH to its left that leads down to the ring-fusion carbon. The carbon bearing CO2Me is at upper right, with a CH below it (C1) that leads to the lower-right fusion carbon. From that fusion carbon, the ring continues down to a CH and then to the carbon bearing Br at the bottom. This places Br on the lower ring, meta to the fusion carbon on the C1 side. In naphthalene numbering that is position 7, with CO2Me on C2 and O on C3.
+
+Writing the SMILES from the O-bearing carbon:
+c1(Oc2ccccc2NC(=O)...)cc2ccc(Br)cc2cc1C(=O)OC
+
+Checking the fusion: the O-bearing carbon is C3. Its CH neighbor C4 leads to C4a. From C4a the path c c c(Br) c reaches C8a, which then leads to C1 and C2. So from C4a the atoms are C5, C6, C7 and C8. That puts Br on C6 if the order is C4a–C5–C6(Br), which is wrong for the drawing.
+
+The drawing has the CH adjacent to the fusion carbon on the C1 side (C8), then the CH, then the carbon bearing Br. Tracing from C8a: C8, C7(Br), C6, C5, C4a. In the SMILES written from C4a, the order is C5, C6, C7(Br), C8, C8a, which gives "ccc(Br)cc2". That matches the drawing, so Br is at C7 and the SMILES above is correct.
+
+SMILES: COC(=O)c1cc2cc(Br)ccc2cc1Oc1ccccc1NC(=O)c1ccc(cc1)-c1ccccc1S(N)(=O)=O

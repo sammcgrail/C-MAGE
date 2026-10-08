@@ -1,0 +1,14 @@
+I read the molecule region by region and wrote it as SMILES.
+
+**Fragments**
+- **Indazole:** a 1H-indazole attached through its 6-position to a carbonyl, with N1 bearing the H and N2=C3H.
+- **Tetrahydroisoquinoline:** its N2 is acylated by the indazole carbonyl. The aromatic ring carries Cl at C5 and C7, and a carboxamide at C6.
+- **Amino acid chain:** the C6 amide NH is bonded to a CH(CO2H) carbon, which carries a CH2–NH group.
+- **Cyanoguanidine:** that NH is bonded to C(=N–C≡N), whose other substituent is a pyrrolidine nitrogen.
+- **Pyrrolidine:** it has an NMe2 group at C3.
+
+**Stereochemistry**
+- **α-Carbon:** the CH2 bond is a wedge, so H points away from the viewer. The priorities are N > CO2H > CH2N. N, CO2H and CH2 run counterclockwise, so this centre is S. That corresponds to `N[C@@H](CN…)C(=O)O` in the SMILES.
+- **Pyrrolidine C3:** the NMe2 bond is hashed, so H points toward the viewer. The priorities are NMe2 > C2 (the ring carbon next to N) > C4. These run clockwise as drawn, and because H faces the viewer the true sense is counterclockwise, so this centre is S. That corresponds to `CC[C@H](N(C)C)C3` in the SMILES.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1CCc2c(C1)cc(Cl)c(C(=O)N[C@@H](CNC(=NC#N)N3CC[C@H](N(C)C)C3)C(=O)O)c2Cl

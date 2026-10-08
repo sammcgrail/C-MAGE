@@ -1,0 +1,22 @@
+The drawing is a biphenyl carboxylic acid joined through a hydrazone to an N-aryl isatin core.
+
+**Biphenyl part.** The top-left ring carries CO2H and is attached at the meta position to the second ring. In the second ring, the carbon bonded to the first ring is adjacent to the C–OH carbon, which is adjacent to the C–NH carbon. So the NH sits ortho to OH, and OH sits ortho to the biaryl bond. This is a 2-hydroxy-3-hydrazinyl-biphenyl-3'-carboxylic acid.
+
+**Hydrazone linker.** The NH–N= unit connects to C3 of the indolinone, with the double bond to C3.
+
+**Indolinone part.** C3 is bonded to C3a. C2 is the C=O and N1 carries the aryl group. The benzo ring runs C3a, C4, C5, C6, C7, C7a. The drawing places F on C4 (next to C3a) and F on C5. The N-aryl group is 3,4-dimethylphenyl.
+
+**Stereochemistry.** The C=N bond is drawn with a defined geometry. NH sits on the lower-left of N, and from C3 the C=O side points down-left while the C4 side points right. The hydrazone N is up-left of C3, and its NH goes to the left and down. Take the coordinates as C3 (~335, 460), N (~295, 400), NH (~230, 380).
+
+- At C3, the substituents are C2 (down-left, at ~295, 510) and C3a (right, at ~440, 430).
+- At N, the substituent is NH at (230, 380), to the left of N and slightly lower.
+- The N=C bond runs from (295, 400) to (335, 460), going down-right.
+- NH is on the left of this bond. C2 (295, 510) is also on the left or below it. So NH and C2 lie on the same side, which makes NH cis to C2(=O) and gives the Z isomer.
+
+Writing the SMILES with this geometry: `N(/N=C1/C(=O)N(...)c2ccc(F)c(F)c12)` needs checking. With the fragment written as `c1...N/N=C2\C(=O)...`, I will use the pattern `Nc...` → `N/N=C1/C(=O)...`. In `X/N=C/Y`, X and Y are on opposite sides. Written as `N(aryl)/N=C1\C(=O)N...`, the aryl-N and C(=O) are on the same side, which is Z. I use the backslash form for the same-side arrangement.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2/C(=O)N(c3ccc(C)c(C)c3)c3ccc(F)c(F)c23)c1O
+
+Checking the stereo in this string: `N/N=C2/C(=O)` places the aryl-N and C(=O) on opposite sides (E). To get the Z form I want, I change it to the backslash form.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2\C(=O)N(c3ccc(C)c(C)c3)c3ccc(F)c(F)c23)c1O

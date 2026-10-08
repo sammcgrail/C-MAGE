@@ -1,0 +1,14 @@
+Reading the drawing, I get a thiazolidine ring with these features:
+
+- **Ring:** S1, C2, N3 (drawn as HN), C4 and C5 (a CH2), forming a five-membered thiazolidine.
+- **C2:** bears a 4-methoxyphenyl group (a para-substituted benzene ring ending in OMe).
+- **C4:** bears CO2H on a hashed bond, so this is the only stereocentre drawn with stereo. C2 is drawn with plain bonds, so it gets no stereo.
+
+**Assigning C4:** the CIP priorities are N > CH2S > COOH > H.
+
+- With the COOH hashed (pointing away), the implied H points toward the viewer.
+- Going N → CH2S → COOH appears counterclockwise from the front. Because H faces the viewer, the true sense is reversed, so the centre is R. This matches the L-cysteine-derived configuration.
+
+**Choosing the SMILES tag:** in `OC(=O)[C@H]1CSC(N1)...` the neighbour order at C4 is COOH, H, N (ring closure), CH2. I worked out that `@` gives S for this ordering, so `@@` is needed for R.
+
+SMILES: OC(=O)[C@@H]1CSC(N1)c1ccc(OC)cc1
