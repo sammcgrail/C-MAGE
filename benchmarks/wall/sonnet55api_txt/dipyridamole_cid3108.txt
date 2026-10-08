@@ -1,0 +1,18 @@
+This is dipyridamole: a pyrimido[5,4-d]pyrimidine core carrying two piperidines and two bis(2-hydroxyethyl)amino groups.
+
+Reading the drawing:
+- The core is two fused six-membered rings. The top ring holds N (top left), C (top right, bearing piperidine), C (fusion, upper right), C (fusion, lower left) and N (bottom left), with the C bearing N(CH2CH2OH)2 on the left.
+- The right ring holds the two fusion carbons, N (upper right), C (bearing N(CH2CH2OH)2), N (lower right) and C (bottom, bearing piperidine).
+- Each piperidine is attached through its nitrogen, and each amino group carries two CH2CH2OH arms.
+
+Writing the SMILES, with the left ring atoms as C2(N(CCO)CCO)=N–C(pip)=C... in aromatic form:
+
+OCCN(CCO)c1nc(N2CCCCC2)c2nc(N(CCO)CCO)nc(N3CCCCC3)c2n1
+
+Check of connectivity:
+- c1 is the left carbon bearing the diethanolamine. Its neighbours are n (top left), which leads to c(pip) at the top right, and n1 (bottom left), which closes the ring.
+- The top-right carbon is c(N2CCCCC2), followed by c2, the upper fusion carbon.
+- From c2 comes n, then c(N(CCO)CCO) on the right, then n, then c(pip) at the bottom, then c2, the lower fusion carbon. The fusion carbon closes the ring to the n1 at the bottom left.
+- The upper fusion carbon bonds to the n at upper right, and the lower fusion carbon bonds to the bottom-left n, so the ring closure is consistent with the drawing.
+
+SMILES: OCCN(CCO)c1nc(N2CCCCC2)c2nc(N(CCO)CCO)nc(N3CCCCC3)c2n1

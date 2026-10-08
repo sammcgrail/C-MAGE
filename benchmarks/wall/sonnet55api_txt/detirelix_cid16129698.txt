@@ -1,0 +1,17 @@
+I read the structure from the N-terminus to the C-terminus as a linear peptide, and assigned each α-carbon from its wedge or hash bond.
+
+**Sequence as drawn:**
+1. N-terminal acetyl group on D-2-naphthylalanine (R at the α-carbon).
+2. D-4-chlorophenylalanine (R).
+3. D-tryptophan, with the indole attached through its 3-position (R).
+4. L-serine (S).
+5. L-tyrosine (S).
+6. A D-lysine-type residue (R) whose side chain is four CH2 groups ending in N=C(NHEt)NHEt, a bis-ethylguanidine.
+7. L-leucine (S).
+8. L-arginine (S), with its free guanidine.
+9. L-proline (S).
+10. D-alanine (R) with a C-terminal primary amide.
+
+For the SMILES, an L residue is written `N[C@@H](R)C(=O)` and a D residue `N[C@H](R)C(=O)`. I checked each α-carbon against the drawing by working out the sense of N→C(=O)→side chain relative to the wedge or hash, and each matched the assignment above. Proline was written as `N1CCC[C@H]1C(=O)`, which I checked gives S.
+
+SMILES: CC(=O)N[C@H](Cc1ccc2ccccc2c1)C(=O)N[C@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H](CO)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@H](CCCCN=C(NCC)NCC)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N1CCC[C@H]1C(=O)N[C@H](C)C(N)=O

@@ -1,0 +1,16 @@
+This structure matches deucravacitinib (BMS-986165), with a CD3 group on the amide nitrogen.
+
+Reading the drawing region by region:
+
+- **Cyclopropane amide:** a cyclopropyl ring attached to C(=O)NH, which is bonded to the pyridazine ring.
+- **Pyridazine ring:** C(NHC(=O)cPr)=N–N=C(C(=O)NHCD3)–C(NHAr)=CH–. In the image, the carbon at 262,600 carries the amide NH and is bonded to N (at 160,705). That N connects to a second N (at 200,845), which bonds to the carbon at 342,880 bearing the C(=O)NHCD3 group. The next carbon, at 441,775, carries the NH-aryl group, and the CH at 402,635 closes the ring back to the first carbon.
+- **Central benzene ring:** the NH is on one carbon, the OMe on the adjacent carbon, and the triazole on the carbon next to that.
+- **Triazole:** the ring carbon attached to the benzene is bonded to N (at 1120,805) and to N (at 1180,585). The ring is C3(=N–N(C)–C=N3), so the 1-methyl-1,2,4-triazol-3-yl group.
+
+SMILES for the triazole: c1(nn(C)cn1) is written as c1ncn(C)n1 with the attachment at c1. Here the attached carbon is bonded to N=, which bonds to N(CH3), then to CH, then to N, and back to the attached carbon. That gives c1nn(C)cn1.
+
+Full SMILES: O=C(C1CC1)Nc1cc(Nc2cccc(-c3nn(C)cn3)c2OC)c(C(=O)NC([2H])([2H])[2H])nn1
+
+Check on the pyridazine: c1 (NHCO-cPr), then cH, then c(NHAr), then c(C(=O)N...), then n, then n closing to c1. That is 6 atoms: c, c, c, c, n, n. This matches the drawing.
+
+SMILES: O=C(C1CC1)Nc1cc(Nc2cccc(-c3nn(C)cn3)c2OC)c(C(=O)NC([2H])([2H])[2H])nn1

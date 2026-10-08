@@ -1,0 +1,21 @@
+This is a deuterated ivacaftor (d9): a 4-oxo-1,4-dihydroquinoline-3-carboxamide attached through the amide N to a di-tert-butyl hydroxyphenyl ring. One tert-butyl group is fully deuterated (nine D) and the other is an ordinary tert-butyl.
+
+**Aryl ring.** Reading the ring atoms in order:
+- C1 carries the NH.
+- C2 carries the plain tert-butyl, on the lower left of C1.
+- C3 is an aromatic CH.
+- C4 carries the deuterated tert-butyl.
+- C5 carries the OH, at the top.
+- C6 is an aromatic CH, between C5 and C1.
+
+The OH is therefore ortho to the deuterated tert-butyl and meta to the NH. The plain tert-butyl is ortho to the NH. This matches ivacaftor, whose ring is 5-hydroxy-2,4-di-tert-butylphenyl.
+
+**Quinolone.** The amide carbon attaches to C3 of the quinolone. C4 is the ketone, and C2 is the CH next to the ring NH.
+
+**SMILES.** Written from the amide N: the aryl ring starts at c1 (bearing N), then c(C(C)(C)C) for the plain tert-butyl, then cc for the CH, then the deuterated tert-butyl carbon, then the OH carbon, then the last CH.
+
+Aryl part: `Nc1cc(O)c(C([2H])...)cc1C(C)(C)C`. In this ordering, c1 (N) is followed by a CH, then c(O), then c(tBu-d9), then a CH, then c1 carrying the plain tBu. That puts the plain tBu ortho to N, and the OH meta to N across the CH (N-bearing C1, CH, C-OH), which agrees with the analysis above.
+
+Full SMILES: `O=C(Nc1cc(O)c(C([2H])([2H])... )cc1C(C)(C)C)c1c[nH]c2ccccc2c1=O`, with the deuterated tert-butyl written as `C(C([2H])([2H])[2H])(C([2H])([2H])[2H])C([2H])([2H])[2H]`.
+
+SMILES: O=C(Nc1cc(O)c(C(C([2H])([2H])[2H])(C([2H])([2H])[2H])C([2H])([2H])[2H])cc1C(C)(C)C)c1c[nH]c2ccccc2c1=O

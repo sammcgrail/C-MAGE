@@ -1,0 +1,12 @@
+I read the structure as a 19-membered macrocycle containing a depsipeptide (ester plus amide) backbone. Going around the ring, the pieces are:
+
+1. An O-linked CH carrying an allyl group, drawn with a hashed bond.
+2. An ester C(=O) leading to a CH2CH2 unit and then an NH. This is a β-alanine-type unit.
+3. An N-methyl alanine residue, with its methyl on a wedge.
+4. An N-methyl valine residue, with its isopropyl on a wedge.
+5. An isoleucine residue whose N is on a wedge and whose sec-butyl CH has a hashed methyl.
+6. A proline residue with a hashed H, closing back onto the allyl-bearing CH through its N-acyl carbonyl.
+
+I assigned each stereocentre by working out the clockwise or counterclockwise order of its neighbours in the drawing and converting that to @ or @@ in the SMILES atom order. Because I wrote the SMILES in the opposite direction round the ring from the way I listed the residues above, I checked the connectivity again against the drawing. The sequence is ester O, C(=O), CH2CH2, NH, Ala, N-Me-Val, Ile, Pro, then back to the allyl CH.
+
+SMILES: C=CC[C@H]1OC(=O)CCNC(=O)[C@H](C)N(C)C(=O)[C@H](C(C)C)N(C)C(=O)[C@H]([C@@H](C)CC)NC(=O)[C@@H]2CCCN2C1=O

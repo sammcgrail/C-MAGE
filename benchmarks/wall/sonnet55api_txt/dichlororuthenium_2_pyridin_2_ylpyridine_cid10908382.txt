@@ -1,0 +1,22 @@
+The image shows three separate 2,2'-bipyridine molecules and one Cl–Ru–Cl unit, with no bonds between the fragments.
+
+Each bipyridine is drawn in a Kekulé form. Starting at the ring nitrogen, the SMILES is C1=CC=NC(=C1)... Written out as two linked rings, this gives c1ccnc(c1)-c1ccccn1. I use the Kekulé version to match the drawing.
+
+Reading the top-left ring: N is double-bonded to the CH at the upper left (N=C). That CH is single-bonded to the next CH. That CH is double-bonded to the CH at the lower left, which is single-bonded to the CH at the bottom, and so on. The ring atoms in order are N, C(top-left), C(left), C(bottom-left), C(bottom-right), C2 (the carbon attached to the other ring).
+
+- N=C: the double bond between N and the top-left carbon.
+- C–C: the bond from the top-left carbon to the left carbon is single.
+- C=C: the left carbon is double-bonded to the bottom-left carbon.
+- C–C: the bottom-left carbon is single-bonded to the bottom-right carbon.
+- C=C: the bottom-right carbon is double-bonded to the carbon attached to the other ring, C2.
+- C2–N: that carbon is single-bonded back to N.
+
+The SMILES for one ring is therefore N1=CC=CC=C1-, and the bipyridine is C1=CC=NC(=C1)... Using the explicit form, the ring is C1(=NC=CC=C1)... and the linked unit is:
+
+C1=CC=NC(=C1)C1=NC=CC=C1
+
+Here the second ring is N=C... Checking the right ring: N is double-bonded to the upper-right carbon, and the carbon attached to the other ring (C2) is double-bonded to the bottom-left carbon. So the right ring contributes C2=CC=CC=N2? In that ring C2 is single-bonded to N, with the double bond going to the CH. That gives C1(=CC=CC=N1)... which has N=C and C2=C in the right pattern. This is consistent with the drawing.
+
+The final SMILES for the whole image is three bipyridines plus Cl[Ru]Cl:
+
+SMILES: C1=CC=NC(=C1)C1=NC=CC=C1.C1=CC=NC(=C1)C1=NC=CC=C1.C1=CC=NC(=C1)C1=NC=CC=C1.Cl[Ru]Cl

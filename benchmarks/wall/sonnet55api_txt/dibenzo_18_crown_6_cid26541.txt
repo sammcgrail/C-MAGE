@@ -1,0 +1,26 @@
+The drawing is a macrocycle with two benzene rings fused into it and six ring oxygens, which matches dibenzo-18-crown-6.
+
+**Ring oxygens (six):**
+- top O at (748, 325)
+- upper left O at (380, 540)
+- upper right O at (1118, 540)
+- lower left O at (380, 965)
+- lower right O at (1118, 965)
+- bottom O at (748, 1175)
+
+**Connectivity around the macrocycle:**
+- The top O joins two CH2 carbons. The left one leads through another CH2 to the upper left O, and the right one leads through another CH2 to the upper right O.
+- The upper left O attaches to the left benzene carbon at (330, 675). That ring carbon is bonded to the one at (330, 825), which carries the lower left O. These two are adjacent aromatic carbons.
+- The lower left O is followed by CH2, CH2, then the bottom O, then CH2, CH2, then the lower right O.
+- The lower right O attaches to the right benzene carbon at (1168, 825). That carbon is bonded to the one at (1168, 675), which carries the upper right O.
+
+**SMILES:** I write the macrocycle starting from the top O, going around the left side, and closing back to the right side.
+
+O1CCOc2ccccc2OCCOCCOc3ccccc3OCC1
+
+Checking this string atom by atom:
+- O1, then CC, then O, then the aromatic ring c2ccccc2 (the two attachment carbons are adjacent), then O, CC, O, CC, O, then the second ring c3ccccc3, then O, CC, and ring closure to O1.
+- Counting the macrocycle: O1, C, C, O, c, c, O, C, C, O, C, C, O, c, c, O, C, C is 18 atoms, closing to O1. That is correct for an 18-membered ring.
+- Ordering around the ring: top O – CC – O(upper left) – Ar – Ar – O(lower left) – CC – O(bottom) – CC – O(lower right) – Ar – Ar – O(upper right) – CC – back to the top O. This matches the string.
+
+SMILES: O1CCOc2ccccc2OCCOCCOc3ccccc3OCC1

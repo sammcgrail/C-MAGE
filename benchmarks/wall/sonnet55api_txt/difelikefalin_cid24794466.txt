@@ -1,0 +1,19 @@
+I read the molecule as a linear pentapeptide-like chain: Phe, Phe, Leu, Lys, then a 4-aminopiperidine-4-carboxylic acid whose ring nitrogen is acylated by the Lys carbonyl.
+
+**Connectivity**
+- The top-right Phe has a free NH2 on its alpha carbon and a benzyl side chain. Its carbonyl is bonded to the NH of the second Phe.
+- The second Phe carries a second benzyl group and its carbonyl is bonded to the Leu NH.
+- Leu has an isobutyl side chain (CH2–CH(CH3)2) and its carbonyl is bonded to the Lys NH.
+- Lys has a four-carbon chain ending in NH2, and its carbonyl is bonded to the piperidine nitrogen.
+- The piperidine ring has six vertices (one N, five C). The carbon opposite the nitrogen carries both NH2 and COOH.
+
+**Stereochemistry**
+I assigned each alpha carbon from its wedge or hash bond using CIP priorities (N > C=O > side-chain CH2 > H):
+- Phe 1 has a wedged NH2 and comes out R.
+- Phe 2 has a hashed CH2 and comes out R.
+- Leu has a wedged CH2 and comes out R.
+- Lys has a hashed CH2 and comes out R.
+
+All four are D-configured. For this atom ordering (N written first, then H, side chain, C=O), R corresponds to `@`. The piperidine quaternary carbon has two identical ring arms, so it is not a stereocentre.
+
+SMILES: N[C@H](Cc1ccccc1)C(=O)N[C@H](Cc1ccccc1)C(=O)N[C@H](CC(C)C)C(=O)N[C@H](CCCCN)C(=O)N1CCC(N)(C(=O)O)CC1

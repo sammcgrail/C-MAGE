@@ -1,0 +1,15 @@
+I read this as dirithromycin, an erythromycin-type 14-membered macrolide with a 9,11-oxazine ring. I assembled the SMILES from the erythromycin A skeleton as I remember it. The drawing confirms the skeleton and substituents, but I took the stereo marks of the unchanged centres from my recollection of erythromycin A rather than re-deriving each from wedges.
+
+**Features read from the drawing**
+- The macrolactone runs from C1 (C=O) through C2 (Me), C3 (O-cladinose), C4 (Me), C5 (O-desosamine), C6 (Me, OH), C7 (CH2), C8 (Me), C9 (NH), C10 (Me), C11 (O), C12 (Me, OH) and C13 (ethyl) back to the ring oxygen.
+- The oxazine ring is C9–NH–CH(CH2OCH2CH2OCH3)–O–C11.
+- The sugar on the left is cladinose, with a 3-OMe, a 3-Me, a 4-OH and a 6-Me.
+- The sugar at the bottom is desosamine, with a 3-NMe2 and a 2-OH.
+
+**Stereo assigned directly from the drawing**
+- C9 has a hashed H, and the CIP priorities are N > C10 > C8 > H. This gives 9S, written `[C@@H]2` in the SMILES.
+- The oxazine C2 carries a hashed CH2 bond, and the priorities are O > N > CH2 > H. This gives R, written `[C@H](COCCOC)N2`.
+
+I checked the bracket and ring-closure counts by hand, but I did not run the string through a parser.
+
+SMILES: CC[C@@H]1[C@@]([C@@H]([C@H]([C@@H]2[C@@H](C[C@@]([C@@H]([C@H]([C@@H]([C@H](C(=O)O1)C)O[C@H]3C[C@@]([C@H]([C@@H](O3)C)O)(C)OC)C)O[C@H]4[C@@H]([C@H](C[C@H](O4)C)N(C)C)O)(C)O)C)C)O[C@H](COCCOC)N2)(C)O

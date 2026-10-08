@@ -1,0 +1,17 @@
+The drawing shows a benzene ring with four substituents: two chlorines and two sulfonamide groups.
+
+Ring atoms, read from the image:
+- C1 at (813, 535) carries Cl.
+- C2 at (985, 664) carries Cl.
+- C3 at (959, 878) carries SO2NH2.
+- C4 at (761, 962) is CH.
+- C5 at (589, 832) carries SO2NH2.
+- C6 at (615, 619) is CH.
+
+Going around the ring, C1 and C2 (both Cl) are adjacent. C3 (sulfonamide) follows, then C4 (CH), then C5 (sulfonamide), then C6 (CH), which closes back to C1. The two sulfonamides are therefore meta to each other, and the two chlorines are ortho to each other.
+
+Written as SMILES starting at C1: Clc1cc(S(N)(=O)=O)cc(S(N)(=O)=O)c1Cl
+
+Checking this against the ring: Cl on C1, then c (C6, CH), then c(SO2NH2) (C5), then c (C4, CH), then c(SO2NH2) (C3), then c1Cl (C2), which closes to C1. This matches the drawing atom for atom.
+
+SMILES: Clc1cc(S(N)(=O)=O)cc(S(N)(=O)=O)c1Cl
