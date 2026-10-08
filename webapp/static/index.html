@@ -702,9 +702,19 @@ function openSheet(r){
           : '<br><span class="dim">a batch of ' + r.bn + ' read in one shared context: $'
             + r.bc.toFixed(2) + ' · ' + fmtdur(r.bs) + '</span>') + '</code></div>' : '')
     + verdictNote(r)
-    + (r.txt ? '<details class="fold"><summary>The full reply</summary><div class="pre">' + esc(r.txt) + '</div></details>' : '')
+    + (r.tx ? '<details class="fold" id="replyfold"><summary>The full reply</summary><div class="pre">Loading…</div></details>' : '')
     + '<button class="ghost" onclick="navigator.clipboard.writeText('
     + JSON.stringify(r.s || "") + ')">Copy ' + esc(meLabel) + '\u2019s reading</button>';
+  /* The reply text is fetched only when its fold is opened (it is not in the tab payload). */
+  var rf = $("#replyfold");
+  if (rf) rf.addEventListener("toggle", function(){
+    if (!rf.open || rf.dataset.got) return;
+    rf.dataset.got = "1";
+    fetch("/wall/" + DATA.dir + "_txt/" + encodeURIComponent(r.k) + ".txt").then(function(x){
+      if (!x.ok) throw new Error("HTTP " + x.status); return x.text();
+    }).then(function(t){ rf.querySelector(".pre").textContent = t; },
+            function(e){ rf.querySelector(".pre").textContent = "Could not load the reply (" + e.message + ")"; });
+  });
   $("#sheetBody").scrollTop = 0;
   $("#sheet").showModal();
 }
@@ -1131,6 +1141,14 @@ function render(){
             + '</div><div class="pc">' + x.pct + '%</div><div class="of">' + x.exact + ' of ' + x.n
             + '</div><div class="track"><i style="width:' + x.pct + '%"></i></div></div>';
         }).join("") + '</div><div class="sub">' + esc(vs.text) + '</div>' : '')
+      /* Exact rate per bucket (prompt version, molecule size), one labelled bar each. */
+      + (DATA.splits || []).map(function(g){
+          return '<div class="noteh">' + esc(g.h) + '</div>' + g.rows.map(function(x){
+            return '<div class="mbar"><div class="lbl"><span>' + esc(x.label) + '</span><b>' + x.pct
+              + '% <span style="color:var(--dim);font-weight:400">' + esc(x.text) + '</span></b></div>'
+              + '<div class="track"><i style="width:' + Math.min(100, x.pct) + '%"></i></div></div>';
+          }).join("");
+        }).join("")
       + '<div class="sub">' + esc(DATA.headline) + '</div>';
   } else if (c) {
     var best = Math.max.apply(null, c.sides.map(function(x){ return x.pct; }));
