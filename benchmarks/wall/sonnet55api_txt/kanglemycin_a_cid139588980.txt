@@ -1,0 +1,17 @@
+I read the structure as a rifamycin-type ansamycin. It has a naphthoquinone–furanone core, a macrolactam chain, an acetate, a dimethylsuccinate half-ester and a fused dioxolane sugar.
+
+I assigned the stereocentres from the wedges and hashes, taking H as implicit and on the opposite side from the drawn wedge or hash. I did not re-parse the final SMILES with a toolkit.
+
+**Core.** The aromatic ring carries an OH and a CH3. It is fused to a quinone ring bearing the amide N on one carbon, and to a furanone ring. The furanone has a C=O, an O in the ring, and a CH that bears the exocyclic O.
+
+**Chain.**
+- The lactam C(=O) is attached to a C(CH3)=CH–CH=CH diene. Both double bonds are E, judged from the drawn geometry.
+- The chain then runs through a CH, a CH(OH), a CH(CH3), a CH(OH), a CH(CH3), a CH(OAc), a CH(CH3) and a CH(O-sugar).
+- Next comes an E-vinyl ether –CH=CH–O– to the furanone CH.
+- The first CH of the chain also carries a CH(CH3)–O ester.
+
+**Ester.** The ester is O–C(=O)–C(CH3)2–CH2–COOH.
+
+**Sugar.** It is a pyran ring with a CH3, a CH2, and a fused –O–CH2–O– dioxolane.
+
+SMILES: OC(=O)CC(C)(C)C(=O)O[C@H](C)[C@H]1/C=C/C=C(C)/C(=O)NC2=CC(=O)c3c(C2=O)c(O)c(C)c4c3C(=O)[C@H](O4)O/C=C/[C@H](O[C@@H]5C[C@@H]6OCO[C@@H]6[C@H](C)O5)[C@@H](C)[C@H](OC(C)=O)[C@@H](C)[C@@H](O)[C@@H](C)[C@H]1O

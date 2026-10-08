@@ -1,0 +1,19 @@
+This looks like iodixanol-type molecule, but here the amides carry a CH(CH2OH)CH(OH)CH2OH group and the linker is N-methyl malonyl diamide (iodixanol itself has a hydroxypropyl linker). I read the structure region by region.
+
+**Left ring.** The ring carbons are: the top carbon bearing C(=O)NH (upper chain), the carbon to its right bearing I, the carbon bearing N(Me), the bottom carbon bearing I, the left carbon bearing C(=O)NH (lower chain), and the upper-left carbon bearing I. So each ring has two carboxamides, three iodines, and one N-methyl amide nitrogen.
+
+**Amide side chains.** Each amide nitrogen is attached to CH(CH2OH)–CH(OH)–CH2OH. For the top-left chain, NH–CH(CH2OH)–CH(OH)–CH2OH matches the drawing. The other three chains are the same.
+
+**Linker.** The two ring nitrogens are joined as N(C)C(=O)CC(=O)N(C).
+
+**Left ring SMILES.** Ring atoms in order: c1(C(=O)NR) c(I) c(N(C)...) c(I) c(C(=O)NR) c1I.
+
+Writing the full SMILES, with R = C(CO)C(O)CO:
+
+OCC(O)C(CO)NC(=O)c1c(I)c(C(=O)NC(CO)C(O)CO)c(I)c(N(C)C(=O)CC(=O)N(C)c2c(I)c(C(=O)NC(CO)C(O)CO)c(I)c(C(=O)NC(CO)C(O)CO)c2I)c1I
+
+**Check on the left ring.** c1 (carboxamide), c(I), c(C(=O)N...), c(I), c(N...), c1I. That gives six atoms: C1 carboxamide, C2 I, C3 carboxamide, C4 I, C5 N, C6 I. This puts the N between two iodines and the two carboxamides flanking an iodine, which is the correct 2,4,6-triiodo-3,5-dicarboxamide pattern.
+
+**Right ring.** c2 (N), c(I), c(C(=O)N), c(I), c(C(=O)N), c2I. The N carbon sits between two I carbons, as required.
+
+SMILES: OCC(O)C(CO)NC(=O)c1c(I)c(C(=O)NC(CO)C(O)CO)c(I)c(N(C)C(=O)CC(=O)N(C)c2c(I)c(C(=O)NC(CO)C(O)CO)c(I)c(C(=O)NC(CO)C(O)CO)c2I)c1I

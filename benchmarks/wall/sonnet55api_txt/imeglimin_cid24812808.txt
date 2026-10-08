@@ -1,0 +1,10 @@
+Reading the ring atom by atom: the six-membered ring has C(NH2)=N, then C(N(CH3)2)=N, an NH between the two substituted carbons, and a CH carrying a methyl group between the two ring nitrogens.
+
+- The top-left carbon bears the NH2 group and is double-bonded to the left ring nitrogen.
+- The top-right ring atom is an NH, linking the NH2-bearing carbon to the right-hand carbon.
+- The right-hand carbon bears the dimethylamino group (N with two methyls) and is double-bonded to the bottom-right ring nitrogen.
+- The bottom-left carbon carries a hashed methyl and an implicit H. It sits between the left nitrogen and the bottom-right nitrogen, which lead to different environments, so it is a stereocentre and the hash defines its configuration.
+
+For the stereo, I wrote the SMILES with the neighbour order methyl, H, ring-closure N (bottom right), left N. The hashed methyl points away from the viewer, so the implicit H points toward the viewer. Seen from H, the sequence methyl → left N → bottom-right N runs clockwise. Reordering to the SMILES neighbour order takes two swaps, so the parity is unchanged and the tag is `@@`.
+
+SMILES: C[C@@H]1N=C(N)NC(N(C)C)=N1

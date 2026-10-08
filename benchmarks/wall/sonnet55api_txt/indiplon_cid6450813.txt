@@ -1,0 +1,15 @@
+This is zaleplon-like: a pyrazolo[1,5-a]pyrimidine bearing a 3-(N-methylacetamido)phenyl group at position 7 and a thiophene-2-carbonyl group at position 3.
+
+Reading the drawing region by region:
+- The acetamide is CH3-C(=O)-N(CH3)-Ar.
+- The benzene ring is attached to N at one carbon and to the bicyclic core at a meta position.
+- The bicyclic core has a bridgehead N (the one bonded to the aryl-bearing carbon), a neighbouring N= and CH, a C3 carrying the carbonyl, a fusion carbon, a ring N, and two CH carbons, with the aryl on C7.
+- The carbonyl links C3 to thiophene C2, and the thiophene S sits next to that carbon.
+
+SMILES, built from the core:
+- Aryl-bearing carbon: c1(...)ccnc2c(C(=O)c3cccs3)cnn12.
+- Full molecule: CC(=O)N(C)c1cccc(c1)-c1ccnc2c(C(=O)c3cccs3)cnn12.
+
+Check of the core ring closure: c1ccnc2c(...)cnn12 gives c1 (C7), c (C6), c (C5), n (N4), c2 (C3a), c(C3) bearing the carbonyl, c (C2), n (N1), n12 (bridgehead N closing to C7 and C3a). This matches the drawing.
+
+SMILES: CC(=O)N(C)c1cccc(c1)-c1ccnc2c(C(=O)c3cccs3)cnn12

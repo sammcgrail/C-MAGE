@@ -1,0 +1,16 @@
+This is a tautomer of indigo. Reading the drawing region by region:
+
+- **Left half:** a benzene ring is fused to a five-membered ring containing NH. The ring carbon C2 is double-bonded to C3, and C3 carries an OH. C2 is also bonded to the other half of the molecule.
+- **Right half:** a benzene ring is fused to a five-membered ring made of C(=O), C(=N), and the ring N. The C=O carbon is bonded to the aromatic carbon and to the C=N carbon. That C=N carbon is bonded to the left-hand C2, and the N attaches to the aromatic carbon.
+
+SMILES for the left half: Oc1c(c2ccccc2[nH]1)... Writing it out in full, with C3 bearing the OH and C2 bonded to the right half:
+
+Left: C3(O)=C2([nH]c4ccccc34)
+Right: C2'(=Nc5ccccc5C2'=O)
+
+The combined SMILES is:
+OC1=C(NC2=CC=CC=C12)C1=NC2=CC=CC=C2C1=O
+
+I checked it against the drawing. The left ring consists of C3 (=C2, bearing OH), C2, NH, and the two fused aromatic carbons. The right ring consists of C(=N), N, the aromatic carbon, the aromatic carbon, and C(=O). The bonds match.
+
+SMILES: OC1=C(NC2=CC=CC=C12)C1=NC2=CC=CC=C2C1=O
