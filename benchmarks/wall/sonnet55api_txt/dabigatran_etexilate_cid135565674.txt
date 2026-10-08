@@ -1,0 +1,13 @@
+This drawing matches dabigatran etexilate, so I read it region by region and then wrote the SMILES.
+
+**Hexyl carbamate end.** The chain has 6 carbons, drawn from the far-left methyl through the zigzag to the O. Reading the vertices: 75,885 → 108,835 → 170,840 → 203,793 → 265,797 → 297,747 → O. That is CH3, then 5 more carbons, so the chain is CCCCCC-O (hexyl). It is attached as O–C(=O)–NH–C(=N)–aryl, giving CCCCCCOC(=O)NC(=N)c1ccc(...)cc1.
+
+**Linker and benzimidazole.** The aryl group carries NH–CH2 on the para position, and the CH2 sits on C2 of the benzimidazole. N1 carries a methyl. The benzimidazole is attached at C5 to C(=O)N.
+
+**Amide end.** The amide nitrogen bears a pyridin-2-yl group and CH2CH2C(=O)OCH2CH3.
+
+**Benzimidazole SMILES.** The ring is Cn1c(CNc2ccc(cc2)C(=N)NC(=O)OCCCCCC)nc2cc(ccc12)C(=O)N(CCC(=O)OCC)c1ccccn1.
+
+**Ring-fusion check.** N1 (methylated) is bonded to C7a, which bonds to C7 and C6, then C5, which carries the carbonyl. C4 is next to C3a, which bonds to N3. In the drawing, the carbonyl-bearing carbon is bonded to the CH that is adjacent to C3a, which is C4. So the carbonyl carbon is C5, adjacent to C4 and C6, as written. In the SMILES, nc2cc(C(=O)...)ccc12 places c2 (C3a), then c (C4), then c(C=O) (C5), then c (C6), c (C7), c12 (C7a). This is consistent.
+
+SMILES: CCCCCCOC(=O)NC(=N)c1ccc(NCc2nc3cc(C(=O)N(CCC(=O)OCC)c4ccccn4)ccc3n2C)cc1

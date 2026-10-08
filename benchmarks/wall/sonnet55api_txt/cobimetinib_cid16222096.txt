@@ -1,0 +1,13 @@
+This structure is cobimetinib. I read it region by region:
+
+- **Left ring:** a benzene ring carrying iodine at the para position and fluorine at the ortho position relative to the NH link.
+- **Central ring:** a benzene ring with the carbonyl carbon on one carbon, the anilino NH on the adjacent carbon, and two adjacent fluorines on the next two ring carbons.
+- **Amide and azetidine:** the carbonyl is bonded to the nitrogen of a four-membered azetidine ring. The ring carbon opposite that nitrogen carries both an OH and the piperidine substituent.
+- **Piperidine:** a six-membered ring attached through its C2, which is next to the ring NH.
+- **Stereochemistry:** the only wedge is on the bond between the azetidine carbon and the piperidine C2. The azetidine carbon is not a stereocentre, because its two ring CH2 groups are equivalent. The wedge therefore defines the piperidine C2. With priorities N > azetidine C > ring CH2 > H, and the azetidine carbon toward the viewer, the sequence runs counterclockwise, giving S. In the SMILES below, `[C@@H]1CCCCN1` with the azetidine carbon as the preceding atom encodes that S centre.
+
+SMILES: O[C]1(CN(C1)C(=O)c1ccc(F)c(F)c1Nc1ccc(I)cc1F)[C@@H]1CCCCN1
+
+I wrote the azetidine carbon as `[C]` by mistake in that line; the valid, corrected SMILES is:
+
+SMILES: OC1(CN(C1)C(=O)c1ccc(F)c(F)c1Nc1ccc(I)cc1F)[C@@H]1CCCCN1

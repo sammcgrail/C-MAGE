@@ -1,0 +1,13 @@
+This structure matches delavirdine, which I read region by region from the drawing.
+
+- **Pyridine:** the ring has one N. The carbon next to that N carries the piperazine, and the next carbon carries NH-isopropyl.
+- **Piperazine:** one N is attached to the pyridine and the other is acylated by the C=O.
+- **Indole:** the C2 position carries the carbonyl. The methanesulfonamide (NHSO2CH3) sits at C5.
+
+Writing the SMILES from the isopropyl group:
+
+CC(C)Nc1cccnc1N1CCN(CC1)C(=O)c1cc2cc(NS(C)(=O)=O)ccc2[nH]1
+
+Checking the indole: c1 (C2, bearing the carbonyl), then c (C3), then c2 (C3a), then c (C4), then c(NHSO2Me) (C5), then c (C6), c (C7), and c2 (C7a) with [nH]1. In the drawing, C3a is bonded to C4, and C4 is bonded to the carbon bearing the sulfonamide. This agrees with the SMILES.
+
+SMILES: CC(C)Nc1cccnc1N1CCN(CC1)C(=O)c1cc2cc(NS(C)(=O)=O)ccc2[nH]1

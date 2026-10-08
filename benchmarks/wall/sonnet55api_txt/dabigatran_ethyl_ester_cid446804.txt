@@ -1,0 +1,14 @@
+This is the dabigatran ethyl ester skeleton, with the amidine drawn as a free C(=N)N and the ester as an ethyl ester.
+
+Reading the structure region by region:
+- Ethyl ester: CH3CH2-O-C(=O)-CH2CH2-N.
+- That nitrogen carries a 2-pyridyl group and an amide C(=O) linked to the benzimidazole at position 5.
+- Benzimidazole: N1 bears a methyl and C2 bears CH2-NH-aryl. The other ring nitrogen, N3, is a plain =N.
+- The aryl group is a para-substituted benzene bearing C(=N)N.
+
+SMILES check, writing from the ethyl group onward:
+CCOC(=O)CCN(c1ccccn1)C(=O)c1ccc2n(C)c(CNc3ccc(C(=N)N)cc3)nc2c1
+
+Benzimidazole ring: c1 (C5, bearing the carbonyl), then c, c, c2 (C7a, attached to N1), n(C), c(CN...), n, c2 (C3a), c1 (C4). C5 is attached to C4 and C6. C4 is adjacent to C3a, which is bonded to N3. In the drawing, the carbonyl-bearing carbon is next to the lower ring carbon, which connects to the carbon bonded to N3. This matches the SMILES, where c1 (C5) connects through c1 at the end (C4) to c2 (C3a), which is bonded to the n of N3. The ring closes correctly.
+
+SMILES: CCOC(=O)CCN(c1ccccn1)C(=O)c1ccc2n(C)c(CNc3ccc(C(=N)N)cc3)nc2c1

@@ -1,0 +1,16 @@
+I read the drawing as a bicyclic peptide, written here as a SMILES string. I traced the backbone residue by residue and then assigned stereocentres from the wedges and hashes.
+
+**Residues, N-terminus to C-terminus**
+1. Trp with a free NH2. Its indole is attached through C3 to the CH2, and through C7 to the ring ether oxygen.
+2. Asn, with a CH2C(=O)NH2 side chain.
+3. A residue whose alpha carbon (plain bonds, so no stereo) carries a CH(O–indole C7)(indol-3-yl) side chain. The H on the O-bearing carbon is wedged.
+4. Ser (L).
+5. A residue whose alpha carbon bears a CH(CH2CH2CH2NH2)(indol-6-yl) side chain. The H on that side-chain carbon is wedged.
+6. Ser (L).
+7. Phe (L), ending in COOH.
+
+**Ring closures:** `%10` joins the ring ether oxygen to the CH(O) carbon. `%11` joins that carbon back to the alpha carbon of residue 3, closing the macrocycle.
+
+**Stereochemistry:** I worked out CIP priorities and the wedge or hash direction at each drawn centre, then converted them to @/@@. The Trp, Asn, Ser and Phe alpha carbons come out S, as in L-amino acids. The CH(O) carbon is R, and the alpha carbon and side-chain carbon of residue 5 are both S. The alpha carbon of residue 3 is left unspecified because its bonds are plain.
+
+SMILES: N[C@@H](Cc1c[nH]c2c1cccc2O%10)C(=O)N[C@@H](CC(N)=O)C(=O)NC%11C(=O)N[C@@H](CO)C(=O)N[C@H](C(=O)N[C@@H](CO)C(=O)N[C@@H](Cc1ccccc1)C(=O)O)[C@@H](CCCN)c1ccc3c(c1)[nH]cc3[C@H]%11%10

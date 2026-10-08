@@ -1,0 +1,18 @@
+I read the drawing as a pyranose ring (five carbons plus one ring oxygen) carrying four OH groups and one CH2OH.
+
+**Ring and substituents.** Going around the ring from the top left:
+- The top-left carbon (C1) bears an OH drawn with plain bonds, so it gets no stereo label.
+- The next carbon down the left side (C2) bears an OH on a wedge.
+- The bottom-left carbon (C3) bears an OH on a hash.
+- The bottom-right carbon (C4) bears an OH on a wedge.
+- The right carbon (C5) bears a CH2OH on a hash and is bonded to the ring oxygen at the top.
+
+**Stereo assignment.** For each stereocentre I took the implicit H as pointing opposite the wedge or hash substituent. I then read the rotation of the other three neighbours from the 2D coordinates and converted to @ or @@ for the SMILES neighbour order. This gives:
+- C5: `[C@H](CO)`
+- C4: `[C@@H](O)`
+- C3: `[C@H](O)`
+- C2: `[C@H]1O`
+
+The SMILES below is valid and accounts for every atom in the drawing: 6 ring atoms, 4 OH groups and 1 CH2OH.
+
+SMILES: OC1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O

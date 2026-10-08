@@ -1,0 +1,10 @@
+I read the structure in four parts and then fixed the one stereocentre.
+
+- **Left ring:** a pyrazole with a 1-hydroxyethyl group on the carbon next to the NH. The carbon next to the other ring nitrogen carries the amide C(=O). The hydroxyethyl carbon is drawn with plain bonds, so it gets no stereo label.
+- **Linker:** the amide NH is attached to a CH that bears a hashed methyl and a CH2. The CH2 leads to N1 of the second pyrazole.
+- **Second pyrazole:** N1 is substituted by the CH2, and C3 (the carbon next to N2) carries the aryl ring.
+- **Aryl ring:** a phenyl ring with a nitrile (C#N) para to the pyrazole attachment, and a chlorine ortho to the nitrile (meta to the pyrazole).
+
+For the stereocentre, I ranked the substituents as N, then CH2 (which carries N), then CH3, then H. The methyl is hashed, so H points toward the viewer. N → CH2 → CH3 runs clockwise in the drawing, which reverses to counterclockwise with H toward the viewer. That gives S. In the SMILES, writing the neighbours in the order CH3, H, CH2, N corresponds to `@@`.
+
+SMILES: C[C@@H](Cn1ccc(-c2ccc(C#N)c(Cl)c2)n1)NC(=O)c1cc(C(C)O)[nH]n1

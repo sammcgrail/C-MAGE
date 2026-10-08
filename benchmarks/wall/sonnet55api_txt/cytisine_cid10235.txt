@@ -1,0 +1,15 @@
+I read the drawing as cytisine, a tricyclic skeleton with a 2-pyridone ring, a lactam N–CH2 bridge and a piperidine bearing an NH. The stereo comes from the two wedged hydrogens.
+
+**Connectivity**
+- The pyridone ring is O=C1–C=C–C=C2–N1. The carbonyl carbon is bonded to N, and the ring carries two C=C double bonds.
+- The ring nitrogen N is bonded to a CH2, which leads to the stereocentre at the bottom (call it C_b).
+- C_b is joined to a bridging CH2, which leads to the upper stereocentre (C_a).
+- C_a is bonded to the pyridone carbon C2. This is the closure of ring 2 in the SMILES.
+- C_a and C_b are also linked through CH2–NH–CH2 on the left, which closes the piperidine ring (ring closure 3 in the SMILES).
+
+**Stereochemistry**
+- Both hydrogens are drawn as wedges, toward the viewer.
+- For C_b, I took the neighbours in SMILES order (N-side CH2, H, ring-closure CH2, bridge CH2). Viewed from the front, the three carbon neighbours run clockwise with H toward the viewer. That gives `[C@H]`.
+- For C_a, I took the order (bridge CH2, H, pyridone carbon, CH2 toward NH). The three carbon neighbours run counterclockwise with H toward the viewer. That gives `[C@@H]`.
+
+SMILES: O=C1C=CC=C2N1C[C@H]3C[C@@H]2CNC3

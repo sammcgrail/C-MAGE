@@ -1,0 +1,13 @@
+I read the molecule as a boronic acid peptide with three parts:
+
+- **Boronic acid end:** a B(OH)2 group on a stereocentre that carries an isobutyl group (CH2CH(CH3)2) and an NH. This is a leucine-boronic-acid unit.
+- **Middle:** an amide to a threonine-like unit, with its alpha carbon bearing NH and its beta carbon bearing OH and CH3.
+- **Aryl end:** the threonine NH is acylated by a pyridine-2-carbonyl group, and the pyridine has a phenyl on the other carbon next to the ring nitrogen (the 6-position).
+
+I assigned stereochemistry at the three drawn stereocentres from the wedges and hashes:
+
+1. The boron-bearing carbon has a wedge to the CH2 and an implicit H pointing away. This gives `[C@H]` in the order B, H, CH2, N.
+2. The threonine alpha carbon has a hashed bond to NH, so its H points toward the viewer. This gives `[C@@H]` in the order C(=O), H, N, Cβ.
+3. The threonine beta carbon has a wedge to CH3 and its H points away. This gives `[C@@H]` in the order Cα, H, CH3, OH.
+
+SMILES: OB(O)[C@H](CC(C)C)NC(=O)[C@@H](NC(=O)c1cccc(-c2ccccc2)n1)[C@@H](C)O
