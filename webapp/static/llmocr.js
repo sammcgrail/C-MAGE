@@ -453,5 +453,14 @@ function render(view, data){
   liveControl();
 }
 
-window.LLMOCR = {render: render};
+/* The Gallery tab (gallery.js) opens this same sheet for its tiles. Its payload has the same arms in the
+   same order and rows of the same shape, so it can stand in for D when this tab has not been rendered. */
+function sheet(r, data){
+  if (!D || D.arms.map(function(a){ return a.id; }).join() !== data.arms.map(function(a){ return a.id; }).join()){
+    D = data; ARM = {}; IDX = {};
+    D.arms.forEach(function(a, i){ ARM[a.id] = a; IDX[a.id] = i; });
+  }
+  openSheet(r);
+}
+window.LLMOCR = {render: render, sheet: sheet};
 })();
