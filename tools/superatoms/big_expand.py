@@ -21,8 +21,8 @@ Sources (truth always from the source's own MOL data, never a model's reading):
 Dedupe: InChIKey against the corpus, every superatom set and the big set; at most PER_PATENT drawings per patent.
 
 A step: pick N -> pixels-only PNGs (assert no text chunks, RDKit cannot read a molecule back) -> append
-big/set.json + run_set.json -> CXMolScribe stage 3 (nice 15) on rows without a prediction, merged into the
-cxmolscribe/ pair -> Sonnet 5.5 API (api_reader_set.py, prompt v2, 64k, streamed) on rows without a reading,
+big/set.json + run_set.json -> CXMolScribe stage 3 (sharded, normal priority) on rows without a prediction, merged into the
+cxmolscribe/ pair (sharded, normal priority, finishes before the API read) -> Sonnet 5.5 API (api_reader_set.py, prompt v2, 64k, streamed) on rows without a reading,
 under the spend guard -> publish (build_superatoms.py, build_llmocr.py, CF purge, commit --only, push) ->
 2-line Signal to Sam.
 Caps: the big set's API spend <= BIG_CAP ($140, Sam; at the cap -> big/STOP, timer disabled); this month's API
@@ -30,7 +30,7 @@ spend (every published_runs ledger, backfill.month_api_spend's rule) + this step
 backfill.py's API_MONTH_CAP, $195): when that trips the API part is skipped, rows wait, and the timer carries on
 (the guard reopens at the monthly reset). The timer is disabled automatically once TARGET_PROTAC PROTAC rows have an
 API reading.
-tick gates: a NEW 5 h block (resets_at differs from the last one recorded), 5 h < 98%, week < 98% (Sam)."""
+tick gates: a NEW 5 h block (resets_at differs from the last one recorded), 5 h < 95%, week < 90% (Sam, 9 Oct)."""
 import argparse, collections, csv, datetime as dt, fcntl, glob, json, os, random, re, subprocess, sys, time
 from pathlib import Path
 
@@ -76,7 +76,7 @@ def _month_cap():
 
 MONTH_CAP = _month_cap()
 EST_PER_IMAGE = 0.06          # deliberately high for these sizes (measured ~$0.02-0.03 at 50-100 heavy atoms)
-CAP_5H, CAP_7D = 98.0, 98.0
+CAP_5H, CAP_7D = 95.0, 90.0    # Sam 9 Oct (was 98/98); backfill.py the same
 SEED = 20261009
 ORDER = [("odp", "protac"), ("odp", "peptide"), ("odp", "macrocycle"),
          ("train", "protac"), ("train", "peptide"), ("train", "macrocycle"), ("train", "other")]
@@ -370,26 +370,45 @@ def add_rows(n, source):
 
 
 # ------------------------------------------------------------------------------------------------ readers
+CX_SHARDS = 4                 # parallel stage-3 processes (16 cores; Sam 9 Oct: CX must never be what lags)
+CX_THREADS = 4                # torch / BLAS threads per shard
+
+
 def run_cx():
+    """Stage 3 on every row without a CX prediction, at normal priority, split into up to CX_SHARDS parallel
+    runs of run_stage3_only.sh (each its own image dir and run dir), then each run merged into the pair."""
     rows = set_rows()
     have = cx_have()
     todo = [x for x in rows if x["id"] not in have]
     if not todo:
         return 0
-    d = WORK / f"cx_in_{now().strftime('%Y%m%dT%H%M%S')}"
-    d.mkdir(parents=True)
-    for x in todo:
-        os.symlink(x["png"], d / f"{x['id']}.png")
+    stamp = now().strftime('%Y%m%dT%H%M%S')
+    k = max(1, min(CX_SHARDS, (len(todo) + 24) // 25))
     out = WORK / "cx_out"
     out.mkdir(exist_ok=True)
-    before = set(glob.glob(str(out / "run_*")))
-    log(f"CXMolScribe stage 3 on {len(todo)} images (nice 15)")
-    r = subprocess.run(["nice", "-n", "15", str(REPO / "benchmarks/run_stage3_only.sh"), "--images", str(d),
-                        "--out", str(out), "--device", "cpu"], capture_output=True, text=True)
-    runs = sorted(set(glob.glob(str(out / "run_*"))) - before)
-    if r.returncode != 0 or not runs:
-        raise RuntimeError(f"stage 3 failed rc={r.returncode}: {r.stderr[-400:]}")
-    merge_cx(runs[-1])
+    env = {**os.environ, **{v: str(CX_THREADS) for v in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS")}}
+    procs = []
+    for i in range(k):
+        d = WORK / f"cx_in_{stamp}_{i}"
+        d.mkdir(parents=True)
+        for x in todo[i::k]:
+            os.symlink(x["png"], d / f"{x['id']}.png")
+        o = out / f"{stamp}_{i}"
+        o.mkdir()
+        procs.append((o, subprocess.Popen([str(REPO / "benchmarks/run_stage3_only.sh"), "--images", str(d), "--out", str(o),
+                                           "--device", "cpu"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                                          text=True, env=env)))
+    log(f"CXMolScribe stage 3 on {len(todo)} images in {k} parallel shards")
+    errs = []
+    for o, p in procs:
+        _, err = p.communicate()
+        runs = sorted(glob.glob(str(o / "run_*")))
+        if p.returncode != 0 or not runs:
+            errs.append(f"{o.name} rc={p.returncode}: {(err or '')[-300:]}")
+    if errs:
+        raise RuntimeError("stage 3 failed: " + " | ".join(errs))
+    for o, _ in procs:
+        merge_cx(sorted(glob.glob(str(o / "run_*")))[-1])
     return len(todo)
 
 
