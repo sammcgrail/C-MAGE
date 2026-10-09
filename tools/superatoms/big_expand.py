@@ -60,7 +60,7 @@ PER_PATENT = 30               # the first 100 (test): 115 eligible, 44 from one 
 PER_PATENT_TRAIN = 20         # the training-set well: one patent can hold thousands of drawings
 PER_PATENT_ODP = 40           # a PROTAC patent holds hundreds of PROTACs
 ODP_POOL = WORK / "odp_pool.jsonl"
-MAX_WEEKS_PER_STEP = 8        # ODP weeks streamed per step at most (~4 GB each)
+MAX_WEEKS_PER_STEP = 16       # ODP weeks streamed per step at most (~4 GB, ~2.5 min each); ~25 capped PROTACs a week
 TARGET_PROTAC = 3000          # Sam: ~3000 PROTACs (ODP)
 BIG_CAP = 140.0               # Sam 2026-10-09 (was 70, then 100)
 
@@ -85,7 +85,8 @@ COMMIT = ["benchmarks/published_runs/sonnet55_api_superatoms/big",
           "benchmarks/wall/llmocr.json", "benchmarks/wall/llmocr_detail.json", "benchmarks/wall/llmocr_pred",
           "benchmarks/wall/superatoms.json", "benchmarks/wall/superatoms", "benchmarks/wall/superatoms_pred",
           "benchmarks/wall/superatoms_txt", "benchmarks/wall/superatoms_ocr"]
-PURGE = ["wall/llmocr.json", "wall/llmocr_detail.json", "wall/superatoms.json"]
+PURGE = ["wall/llmocr.json", "wall/llmocr_detail.json", "wall/superatoms.json", "wall/gallery.json"]
+TRACKED_ONLY = ["benchmarks/wall/gallery.json"]   # committed only once its owner (agent "gallery") tracks it
 
 
 def now():
@@ -487,7 +488,7 @@ def score():
 
 # ------------------------------------------------------------------------------------------------ publish
 def wait_repo_quiet(limit_s=900):
-    pat = re.compile(r"build_sonnet55c?\.py|build_wall\.py|build_sonnet\.py|build_superatoms\.py|build_llmocr\.py|git (commit|push|add)")
+    pat = re.compile(r"build_sonnet55c?\.py|build_wall\.py|build_sonnet\.py|build_superatoms\.py|build_llmocr\.py|build_gallery\.py|git (commit|push|add)")
     t0 = time.time()
     while time.time() - t0 < limit_s:
         if (REPO / ".git/index.lock").exists():
@@ -507,13 +508,17 @@ def publish(msg):
     while hold.exists() and time.time() - t0 < 3600:
         time.sleep(30)
     wait_repo_quiet()
-    for tool in ("build_superatoms.py", "build_llmocr.py"):
+    for tool in ("build_superatoms.py", "build_llmocr.py", "build_gallery.py"):
+        if not (TOOLS / tool).exists():
+            continue
         r = subprocess.run([PY, str(TOOLS / tool)], capture_output=True, text=True, cwd=str(REPO))
         if r.returncode != 0:
             raise RuntimeError(f"{tool} failed: {r.stderr[-400:]}")
     for u in PURGE:
         subprocess.run(["/root/seb/scripts/cf-purge", f"{SITE}/{u}"], capture_output=True)
     paths = [p for p in COMMIT if (REPO / p).exists()]
+    paths += [p for p in TRACKED_ONLY if subprocess.run(["git", "ls-files", "--error-unmatch", p], cwd=str(REPO),
+                                                         capture_output=True).returncode == 0]
     mf = WORK / "commit_msg.txt"
     mf.write_text(msg + "\n\nCo-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>\n")
     wait_repo_quiet()
