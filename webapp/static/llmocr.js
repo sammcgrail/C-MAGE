@@ -12,8 +12,11 @@ var CSS = [
 ".lo .lead .n{color:var(--dim);font-size:13px}",
 ".lo .lgd{display:flex;flex-wrap:wrap;gap:6px 14px;margin:6px 0 2px;font-size:12.5px;color:var(--dim)}",
 ".lo .lgd i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border-radius:2px}",
-".lo .grid{columns:3 360px;column-gap:12px;margin:12px 0}",
-".lo .card{background:var(--panel);border:1px solid var(--line);padding:13px 14px 12px;min-width:0;break-inside:avoid;margin:0 0 12px;display:inline-block;width:100%}",
+/* Two columns on a wide screen: the short cards stacked on the left, the tall size card on the right. */
+".lo .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin:12px 0}",
+"@media(min-width:900px){.lo .grid.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}}",
+".lo .gcol{display:flex;flex-direction:column;gap:12px;min-width:0}",
+".lo .card{background:var(--panel);border:1px solid var(--line);padding:13px 14px 12px;min-width:0}",
 ".lo .card h3{font-size:13.5px;font-weight:700;margin:0 0 10px;color:var(--ink)}",
 ".lo .card h3 span{color:var(--dim);font-weight:400}",
 ".lo .hb{display:grid;grid-template-columns:104px minmax(0,1fr) 56px 64px;align-items:center;column-gap:10px;row-gap:4px;margin:7px 0}",
@@ -23,6 +26,11 @@ var CSS = [
 ".lo .hb b{font-size:13px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}",
 ".lo .hb .k{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}",
 ".lo .hb .nt{grid-column:2/-1;font-size:12.5px;color:var(--dim)}",
+".lo .hbg{display:grid;grid-template-columns:max-content minmax(0,1fr) auto auto;column-gap:10px;row-gap:7px;align-items:center}",
+".lo .hbg .hb{display:contents}",
+".lo .hbg .hb .l{text-align:right}",
+".lo .hbg .hb b{min-width:3.7em}",
+".lo .hbg .grp{grid-column:1/-1;margin:8px 0 0} .lo .hbg .grp:first-child{margin-top:0}",
 ".lo .grp{margin:10px 0 2px;font-size:12px;color:var(--dim)}",
 ".lo .grp b{color:var(--ink);font-weight:600}",
 ".lo .grp:first-of-type{margin-top:0}",
@@ -56,7 +64,7 @@ var CSS = [
 ".lo-top{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-bottom:12px}",
 "@media(min-width:700px){.lo-top{grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:start}}",
 ".lo-in{background:#fff;margin:0} .lo-in img{width:100%;max-height:30dvh;object-fit:contain;display:block}",
-".lo-in figcaption{background:var(--panel);color:var(--dim);font-size:12px;padding:4px 0 0}",
+".lo-in figcaption{background:var(--panel);color:var(--dim);font-size:12px;padding:4px 0 0;text-align:center}",
 ".lo-arms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}",
 "@media(min-width:900px){.lo-arms{grid-template-columns:repeat(4,minmax(0,1fr))}}",
 ".lo-arm{background:#0b0f14;border:1px solid var(--line);padding:8px;min-width:0;display:flex;flex-direction:column;gap:6px}",
@@ -136,41 +144,45 @@ function legend(){
     return '<span><i style="background:' + a.color + '"></i>' + esc(a.label) + '</span>'; }).join("") + '</div>';
 }
 
+/* Every chart card puts its rows on ONE grid (rows are display:contents): the label column is as wide as
+   the widest label and right-aligned against the bars, so every bar starts at the same x. */
+function G(rows){ return '<div class="hbg">' + rows + '</div>'; }
+
 function cardShared(){
   var s = VW().shared;
   if (!s.n) return '<div class="card"><h3>Exact, images each arm has read <span>tool arms have not read these yet</span></h3>'
-    + VW().each.map(function(x){ var a = ARM[x.id];
+    + G(VW().each.map(function(x){ var a = ARM[x.id];
         return x.n ? hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact) + "/" + fmt(x.n), false)
                    : '<div class="hb"><span class="l">' + esc(a.short) + '</span><span class="nt">not read yet</span></div>';
-      }).join("") + '</div>';
+      }).join("")) + '</div>';
   return '<div class="card"><h3>Exact, same images <span>n = ' + fmt(s.n) + ', the images all four read</span></h3>'
-    + s.arms.map(function(x){ var a = ARM[x.id];
+    + G(s.arms.map(function(x){ var a = ARM[x.id];
         return hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact), false,
           a.label + ": exact " + x.exact + ", stereo only " + x.stereo + ", wrong " + x.wrong + ", unparseable " + x.invalid);
-      }).join("") + '</div>';
+      }).join("")) + '</div>';
 }
 
 function cardSize(){
   if (!VW().size.length) return '';
   return '<div class="card"><h3>Exact by molecule size <span>heavy atoms, same ' + fmt(VW().shared.n) + ' images</span></h3>'
-    + VW().size.map(function(g){
+    + G(VW().size.map(function(g){
         return '<div class="grp"><b>' + esc(g.label) + ' atoms</b> · n ' + fmt(g.n) + '</div>'
           + g.arms.map(function(x){ var a = ARM[x.id];
               return hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact), true, a.label + ": " + x.exact + " of " + g.n); }).join("");
-      }).join("") + '</div>';
+      }).join("")) + '</div>';
 }
 
 function cardCost(){
   var known = VW().cost.filter(function(c){ return c.usd != null; });
-  if (!known.length) return '';
+  if (known.length < 2) return '';     // one bar scaled to itself compares nothing
   var max = Math.max.apply(null, known.map(function(c){ return c.usd; }));
   return '<div class="card"><h3>Cost per image <span>API list price, ' + (VW().shared.n ? 'same images' : 'images each arm read') + '</span></h3>'
-    + VW().cost.map(function(c){ var a = ARM[c.id];
+    + G(VW().cost.map(function(c){ var a = ARM[c.id];
         if (c.usd == null) return '<div class="hb"><span class="l">' + esc(a.short) + '</span><span class="nt">'
           + esc(c.id === "cx" ? c.note : "not read yet") + '</span></div>';
         return hbar(a.short, c.usd / max * 100, a.color, "$" + (c.usd < 0.1 ? c.usd.toFixed(3) : c.usd.toFixed(2)), null, false,
           a.label + ": mean over " + c.n + " images");
-      }).join("") + '</div>';
+      }).join("")) + '</div>';
 }
 
 /* The renderer-control card reads /wall/control.json itself (its own builder rewrites it as control
@@ -196,19 +208,19 @@ function cardControl(){
   var c = D.control;
   if (!c) return '<div id="loctl"></div>';
   return '<div class="card" id="loctl"><h3>Corpus renderer vs another renderer <span>RDKit vs ' + esc(c.renderer) + ', same molecules</span></h3>'
-    + c.arms.map(function(x){ var a = ARM[x.id] || {label: x.id, short: x.id, color: "#8b98a5"};
+    + G(c.arms.map(function(x){ var a = ARM[x.id] || {label: x.id, short: x.id, color: "#8b98a5"};
         return '<div class="grp"><b>' + esc(a.label) + '</b> · n ' + fmt(x.n) + (x.p != null ? ' · ' + pv(x.p) : '') + '</div>'
           + hbar("RDKit", x.corpus_pct, a.color, p1(x.corpus_pct), fmt(x.corpus), true)
           + hbar(c.short || c.renderer, x.control_pct, a.color, p1(x.control_pct), fmt(x.control), true);
-      }).join("") + '</div>';
+      }).join("")) + '</div>';
 }
 
 function cardHand(){
   var h = D.hand;
   if (!h) return '';
   return '<div class="card"><h3>Sonnet 5 re-read test <span>n = ' + h.n + ' hand-picked images</span></h3>'
-    + h.bars.map(function(x){ var a = ARM[x.id];
-        return hbar(x.short || a.short, x.pct, a.color, x.exact + "/" + x.n, null, false, x.label); }).join("")
+    + G(h.bars.map(function(x){ var a = ARM[x.id];
+        return hbar(x.short || a.short, x.pct, a.color, p1(x.pct), x.exact + "/" + x.n, false, x.label); }).join(""))
     + '<p class="sub" style="font-size:12.5px;margin-top:6px">' + esc(h.note) + '</p></div>';
 }
 
@@ -224,24 +236,19 @@ function tile(r){
   return b;
 }
 
-var io = new IntersectionObserver(function(es){
-  if (es.some(function(e){ return e.isIntersecting; })){ S.shown += S.step; paint(); }
-}, {rootMargin: "3000px"});
 
 function rowsNow(){
   var f = filters().filter(function(x){ return x[0] === S.filter; })[0] || filters()[0];
   return D.rows.filter(function(r){ return inView(r) && f[2](r[2]) && (!S.q || r[1].toLowerCase().indexOf(S.q) >= 0); });
 }
 
+/* The wall is index.html's makeWall: appends batches, never rebuilds drawn tiles, end() in chunks. */
+var WALL = null;
 function paint(){
   var w = $("#lowall"); if (!w) return;
-  io.disconnect();
-  var rows = rowsNow(), frag = document.createDocumentFragment();
-  w.innerHTML = "";
-  rows.slice(0, S.shown).forEach(function(r){ frag.appendChild(tile(r)); });
-  w.appendChild(frag);
-  if (rows.length > S.shown){ var m = el("div", "more", fmt(rows.length - S.shown) + " more below"); w.appendChild(m); io.observe(m); }
-  else if (!rows.length) w.appendChild(el("div", "more", "Nothing matches."));
+  var rows = rowsNow();
+  if (WALL) WALL.disconnect();
+  WALL = window.makeWall(w, rows, tile, {step: S.step, empty: "Nothing matches."});
   if (GB) GB.setCount(rows.length);
 }
 
@@ -286,7 +293,8 @@ var GB = null;
 function pinnedBar(root){
   GB = window.gridBar({items: filterItems(), current: S.filter, query: S.q,
     onPick: function(k){ var stuck = GB.bar.classList.contains("stuck"); setFilter(k, stuck); },
-    onSearch: function(q){ S.q = q; S.shown = S.step; paint(); }});
+    onSearch: function(q){ var st = GB.bar.classList.contains("stuck"); S.q = q; S.shown = S.step; paint();
+      if (st) window.gridTop(GB.sent); }});
   root.appendChild(GB.sent); root.appendChild(GB.bar);
 }
 
@@ -365,8 +373,11 @@ function inView(r){ return S.view === "all" || r[3] === S.view; }
 function chartsHTML(){
   var V = VW(), corpusish = S.view === "all" || S.view === "c";
   return '<div class="sub n">' + fmt(V.n) + ' images · read by ' + D.arms.map(function(a){ return esc(a.short) + ' ' + fmt(V.read[a.id]); }).join(" · ") + '</div>'
-    + '<div class="grid">' + cardShared() + cardSize() + cardCost()
-    + (corpusish ? cardControl() + cardHand() : '') + '</div>';
+    + (function(){
+        var left = cardShared() + cardCost() + (corpusish ? cardControl() + cardHand() : ''), right = cardSize();
+        return '<div class="grid' + (right ? ' two' : '') + '"><div class="gcol">' + left + '</div>'
+          + (right ? '<div class="gcol">' + right + '</div>' : '') + '</div>';
+      })();
 }
 
 function viewSwitch(){
@@ -403,7 +414,7 @@ function render(view, data){
   view.appendChild(root);
   root.querySelector("#lofail").appendChild(chips());
   var wh = el("div", "ckey"); wh.id = "lowallh";
-  wh.innerHTML = 'Cells: ' + D.arms.map(function(a){ return '<span><u>' + esc(a.tag) + '</u> = ' + esc(a.label.replace(" (OCR)", "")) + '</span>'; }).join(" · ")
+  wh.innerHTML = 'Cells: ' + D.arms.map(function(a){ return '<span><u>' + esc(a.tag) + '</u> = ' + esc(a.label.replace(" (OCR)", "")) + '</span>'; }).join("")
     + ' &nbsp; <span><i class="c-e"></i>exact</span><span><i class="c-s"></i>stereo only</span>'
     + '<span><i class="c-w"></i>wrong</span><span><i class="c-i"></i>unparseable</span><span><i class="c-n"></i>not read</span>';
   root.appendChild(wh);
@@ -413,7 +424,7 @@ function render(view, data){
     + (D.withheld && D.withheld.n ? " Reference withheld on " + fmt(D.withheld.n) + " images until the tool-using readers have read them." : "");
   root.appendChild(f);
   root.querySelector("#lojump").onclick = function(){ $("#lofail").scrollIntoView({behavior: "smooth", block: "start"}); };
-  window.GRID_END = function(){ var n = rowsNow().length; if (S.shown < n){ S.shown = n; paint(); } };
+  window.GRID_END = function(cb, follow){ if (WALL) WALL.end(cb, follow); else if (cb) cb(); };
   root.querySelector("#loprompt").onclick = openPrompts;
   var sw = root.querySelector(".srcsw");
   if (sw) sw.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if (b) setView(b.dataset.v); });

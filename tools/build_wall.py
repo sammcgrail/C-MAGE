@@ -588,7 +588,7 @@ if __name__ == "__main__":
         d["headline"] = (
             f"Whole documents, unedited. Most of what these documents draw was never "
             f"catalogued by anyone, so those structures have no reference to check "
-            f"against — they are neither right nor wrong, and the grey band below is "
+            f"against — they are neither right nor wrong: the slate bar above is "
             f"them.")
         # The corpus as it stands, counted, never typed: the footer said "all 149 committed PDFs,
         # 1,900 pages" for three weeks after 53 of them were removed.

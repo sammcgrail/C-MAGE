@@ -43,14 +43,15 @@ body{user-select:none;-webkit-user-select:none}
   transition:box-shadow .15s}
 .gbar.stuck{box-shadow:0 8px 10px -8px rgba(0,0,0,.8)}
 .grow{display:flex;gap:8px;align-items:center;min-width:0}
-.gchip{flex:0 1 auto;min-width:0;max-width:62%;display:flex;align-items:center;gap:7px;min-height:44px;
+.gchip{flex:0 0 auto;min-width:0;max-width:calc(100% - 128px);display:flex;align-items:center;gap:7px;min-height:44px;
   padding:8px 14px;border-radius:22px;background:var(--panel);border:1px solid var(--line);color:var(--ink);
   font:inherit;font-size:13.5px;cursor:pointer}
 .gchip[aria-expanded=true]{border-color:var(--acc);background:#12233c}
 .gchip .gl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .gchip .gn{color:var(--dim);font-style:normal;font-variant-numeric:tabular-nums;white-space:nowrap}
 .gchip .car{color:var(--dim);font-weight:400;font-size:11px}
-.grow input[type=search]{flex:1 1 auto;min-width:0;width:auto}
+.grow input[type=search]{flex:1 1 0;min-width:120px;width:auto}
+.gchip .dot{flex:0 0 7px}
 .gpanel{position:absolute;left:0;right:0;top:calc(100% - 2px);background:var(--panel);border:1px solid var(--line);
   border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:7px;max-height:60vh;overflow:auto;
   overscroll-behavior:contain;box-shadow:0 14px 28px rgba(0,0,0,.6)}
@@ -63,6 +64,7 @@ body{user-select:none;-webkit-user-select:none}
   z-index:15;display:flex;flex-direction:column;gap:8px;opacity:0;transform:translateY(10px);pointer-events:none;
   transition:opacity .18s ease-out,transform .18s ease-out}
 .fab.on{opacity:1;transform:none;pointer-events:auto}
+body.menuopen .fab{opacity:0;pointer-events:none}
 .fab button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(22,27,34,.96);
   color:var(--ink);font-size:18px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.55);
   -webkit-tap-highlight-color:transparent;display:grid;place-items:center}
@@ -95,7 +97,7 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
 .ghost{appearance:none;background:none;border:1px solid var(--line);color:var(--ink);
   font:inherit;font-size:13px;padding:8px 12px;border-radius:7px;cursor:pointer;min-height:44px}
 main{max-width:1400px;margin:0 auto;
-  padding:0 calc(14px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom))
+  padding:0 calc(14px + env(safe-area-inset-right)) calc(140px + env(safe-area-inset-bottom))
           calc(14px + env(safe-area-inset-left))}
 
 /* hero */
@@ -121,13 +123,27 @@ main{max-width:1400px;margin:0 auto;
    the pipeline was right" are different facts and only the second is interesting
    here, so the tile colour and the bar both key on the OUTCOME, not on either
    reader's verdict alone. */
+/* Outcome bars: label | bar | n | % on one grid, so every bar starts at the same x. */
+.obars{display:grid;grid-template-columns:max-content minmax(0,1fr) auto auto;column-gap:10px;row-gap:7px;
+  align-items:center;margin:4px 0 12px;font-size:12.5px;color:var(--dim)}
+.obars .ol{display:flex;align-items:center;gap:6px;justify-content:flex-end;text-align:right;color:var(--ink)}
+.obars .ol i{width:9px;height:9px;display:block;flex:0 0 9px;border-radius:2px}
+.obars .otr{height:12px;background:#1c2128;border-radius:0 3px 3px 0;overflow:hidden}
+.obars .otr i{display:block;height:100%;border-radius:0 3px 3px 0}
+.obars b{color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.obars .op{text-align:right;font-variant-numeric:tabular-nums;min-width:3.4em}
+.obars .o-unreadable{background:#4b535d;box-shadow:none}
+/* Phone: the outcome labels are long, so each gets its own line above a full-width bar | n | % row. */
+@media(max-width:560px){.obars{grid-template-columns:minmax(0,1fr) auto auto;row-gap:3px}
+  .obars .ol{grid-column:1/-1;justify-content:flex-start;text-align:left;margin-top:5px}}
+.mbar .lbl b{font-variant-numeric:tabular-nums}
 .stack{display:flex;height:26px;overflow:hidden;margin:2px 0 9px;background:var(--panel);
   border:1px solid var(--line)}
 .stack i{display:block;height:100%;position:relative;min-width:2px}
 .stack i span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:12px;font-weight:700;color:#06090d}
 /* Dark ink on the red segment is 4.33:1; white is 4.6:1. */
-.stack i.o-neither span,.stack i.o-misread span{color:#fff}
+.stack i.o-neither span,.stack i.o-misread span,.stack i.o-noref span,.stack i.o-unreadable span{color:#fff}
 /* Five states, three populations. Green and amber are CHECKED AND RIGHT, red is
    CHECKED AND WRONG, slate is NOT CHECKABLE, dark is NOTHING CAME OUT. The slate
    is deliberately not a warning colour: those structures are neither right nor
@@ -224,7 +240,7 @@ main{max-width:1400px;margin:0 auto;
   font:inherit;font-size:13px;padding:8px 14px;border-radius:20px;cursor:pointer;min-height:44px}
 .chip[aria-pressed=true]{border-color:var(--acc);color:var(--ink);background:#12233c}
 /* The count is dimmed by COLOUR, not opacity: opacity .65 over the chip put it at 3.25:1. */
-.chip i{font-style:normal;color:var(--dim);margin-left:5px}
+.chip i{font-style:normal;color:var(--dim);margin-left:5px;white-space:nowrap}
 .chipdiv{flex:0 0 1px;align-self:stretch;background:var(--line);margin:0 4px}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
 input[type=search]{flex:0 0 220px;background:var(--panel);border:1px solid var(--line);
@@ -232,9 +248,9 @@ input[type=search]{flex:0 0 220px;background:var(--panel);border:1px solid var(-
   min-height:44px;min-width:0}
 
 /* the wall */
-.wall{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));
+.wall{min-height:calc(100dvh - 140px);align-content:start;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));
   padding-top:4px}
-.t{position:relative;background:#1c2128;overflow:hidden;cursor:pointer;
+.t{position:relative;background:#1c2128;overflow:hidden;cursor:pointer;contain-intrinsic-size:auto var(--th,var(--tile)) !important;
   border:0;padding:0;display:block;aspect-ratio:1;
   content-visibility:auto;contain-intrinsic-size:var(--tile)}
 .t img{width:100%;height:100%;object-fit:contain;display:block;background:#1c2128}
@@ -257,18 +273,20 @@ input[type=search]{flex:0 0 220px;background:var(--panel);border:1px solid var(-
 .c2{margin:4px 0 12px;max-width:760px}
 .c2k{display:flex;gap:14px;font-size:12.5px;color:var(--dim);margin-bottom:10px}
 .c2k i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border-radius:2px}
-.c2r{margin-bottom:14px}
-.c2l{font-size:13px;color:var(--ink);margin-bottom:4px} .c2l span{color:var(--dim)}
-.c2b{display:grid;grid-template-columns:96px 54px minmax(0,1fr) 70px;align-items:center;column-gap:10px;
-  font-size:12.5px;color:var(--dim);min-height:26px}
-.c2b .who{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.c2b b{color:var(--ink);font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+/* One grid for the whole chart (rows are display:contents), so every bar starts at the same x and the
+   label column is only as wide as the widest label, right-aligned against the bars. */
+.c2g{display:grid;grid-template-columns:max-content minmax(0,1fr) auto auto;column-gap:10px;row-gap:6px;
+  align-items:center;font-size:12.5px;color:var(--dim)}
+.c2r,.c2b{display:contents}
+.c2l{grid-column:1/-1;font-size:13px;color:var(--ink);margin-top:8px} .c2l span{color:var(--dim)}
+.c2l:first-child{margin-top:0}
+.c2b .who{text-align:right;white-space:nowrap}
+.c2b b{color:var(--ink);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums;min-width:3.6em}
 .c2b .kn{text-align:right;font-variant-numeric:tabular-nums}
 .c2b .tr{height:12px;background:#1c2128;overflow:hidden;min-width:0;border-radius:0 3px 3px 0}
 .c2b .tr i{display:block;height:100%;border-radius:0 3px 3px 0}
 .c2 .s, .c2k .s{background:#d55181} .c2 .c, .c2k .c{background:#d95926}
-@media(max-width:560px){.c2b{grid-template-columns:82px 50px minmax(0,1fr) 62px;column-gap:8px}}
-.wall.tx{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
+.wall.tx{grid-template-columns:repeat(auto-fill,minmax(148px,1fr))}
 .t.tx{aspect-ratio:auto;contain-intrinsic-size:auto 260px;text-align:left;background:var(--panel)}
 .t.tx img{height:auto;aspect-ratio:1;background:#1c2128}
 .t.tx img.ok{background:#fff}
@@ -327,7 +345,11 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
    break-all only breaks between letters and digits, and WebKit will not break a run of ';' even with
    overflow-wrap:anywhere; line-break:anywhere allows a break between any two characters. */
 .sheet code,.sheet .pre{overflow-wrap:anywhere;word-break:break-all;line-break:anywhere}
-.sheet code.clamp{max-height:9.2em;overflow:hidden;position:relative}
+.sheet code.prose{word-break:normal;line-break:auto;overflow-wrap:anywhere}
+/* Six whole lines (line-height 1.5) plus the box's padding, fading out, so no line is cut in half. */
+.sheet code.clamp{max-height:calc(9em + 20px);overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 2.2em),transparent);mask-image:linear-gradient(#000 calc(100% - 2.2em),transparent)}
+.sheet .smeta{margin:0 0 12px}
 .sheet .moreb{appearance:none;background:none;border:0;color:var(--acc);font:inherit;font-size:13px;
   padding:6px 0;min-height:44px;cursor:pointer}
 /* The input drawing first, full width, so it is the first thing in every sheet; the readings drawn
@@ -518,9 +540,10 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
             mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent)}
   .seg.at-end{-webkit-mask-image:none;mask-image:none}
   .seg::-webkit-scrollbar{display:none}
-  .seg button,.seg a.segl{padding:7px 9px;font-size:12.5px;flex:0 0 auto}
+  .seg button,.seg a.segl{padding:7px 8px;font-size:12.5px;flex:0 0 auto}
   .brand{display:none}
   #try{padding:8px 9px;font-size:12px;flex:0 0 auto}
+  #try .long{display:none}
   /* Three headline boxes at 390px: ~112px each, so the number and padding come down. */
   .cmp.three{gap:6px}
   .cmp.three .side{padding:11px 9px}
@@ -560,7 +583,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
       <button role="tab" id="tab-images" aria-selected="false">CMAGE</button>
       <button role="tab" id="tab-pdfs" aria-selected="false">PDFs</button>
     </div>
-    <button class="ghost" id="try">Try a file</button>
+    <button class="ghost" id="try">Try<span class="long"> a file</span></button>
   </div>
 </header>
 
@@ -573,7 +596,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=3abe4e6c4e"></script>
+<script src="/static/llmocr.js?v=47cb2bd496"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -850,29 +873,71 @@ function openSheet(r){
   $("#sheet").showModal();
 }
 
+/* ---- An incremental tile wall, shared by every tab (llmocr.js uses it too) ----
+   makeWall(el, rows, tileFn, opts) renders the first batch and APPENDS the next batch when a sentinel
+   3,000 px ahead comes into view; it never rebuilds tiles it already drew (the old paint() re-created
+   every tile on every batch). end() appends the rest in chunks, one frame each, then calls back, so
+   "to bottom" never blocks a frame for long. Tile heights are measured once and fed back as the
+   intrinsic size for content-visibility, so tiles that were never rendered have the right height and
+   scrolling back up does not drift. */
+function makeWall(wall, rows, tileFn, o){
+  o = o || {};
+  var shown = 0, step = o.step || 300, sentinel = null, busy = false;
+  var obs = new IntersectionObserver(function(es){
+    if (es.some(function(e){ return e.isIntersecting; })) more(step);
+  }, {rootMargin: "3000px"});
+  function more(n){
+    if (sentinel){ obs.unobserve(sentinel); sentinel.remove(); sentinel = null; }
+    var frag = document.createDocumentFragment(), to = Math.min(rows.length, shown + n);
+    for (var i = shown; i < to; i++) frag.appendChild(tileFn(rows[i]));
+    wall.appendChild(frag); shown = to;
+    if (shown < rows.length){
+      sentinel = el("div", "more", (rows.length - shown).toLocaleString("en-US") + " more below");
+      wall.appendChild(sentinel); obs.observe(sentinel);
+    }
+    measure();
+  }
+  var measured = false;
+  function measure(){
+    if (measured || !wall.firstElementChild || !wall.firstElementChild.classList.contains("t")) return;
+    measured = true;
+    requestAnimationFrame(function(){
+      /* Measure a tile that is really laid out: an off-screen content-visibility:auto tile reports its
+         placeholder height, which would feed the estimate back into itself. The probe stays visible. */
+      var t = wall.firstElementChild; t.style.contentVisibility = "visible";
+      var h = t.offsetHeight;
+      if (h) wall.style.setProperty("--th", h + "px");
+    });
+  }
+  if (window.ResizeObserver) new ResizeObserver(function(){ measured = false; measure(); }).observe(wall);
+  wall.innerHTML = "";
+  if (!rows.length) wall.appendChild(el("div", "more", o.empty || "Nothing matches."));
+  else more(o.first || step);
+  return {
+    /* follow: keep the view pinned to the growing end while chunks land, so "to bottom" moves at once
+       instead of sitting still until the last chunk. */
+    end: function(cb, follow){
+      if (busy) return; busy = true;
+      (function chunk(){
+        if (shown < rows.length){
+          more(600);
+          if (follow && FOLLOW) window.scrollTo(0, document.documentElement.scrollHeight);
+          requestAnimationFrame(chunk);
+        } else { busy = false; if (cb) cb(); }
+      })();
+    },
+    disconnect: function(){ obs.disconnect(); }
+  };
+}
+window.makeWall = makeWall;
+
+var WALLCTL = null;
 function paint(){
   var rows = DATA.rows.filter(match);
-  var wall = $("#wall");
-  wall.innerHTML = "";
-  var slice = rows.slice(0, SHOWN);
-  var frag = document.createDocumentFragment();
-  slice.forEach(function(r){ frag.appendChild(tile(r)); });
-  wall.appendChild(frag);
-  if (rows.length > SHOWN){
-    var m = el("div", "more", rows.length - SHOWN + " more below — keep scrolling");
-    wall.appendChild(m);
-    io.observe(m);
-  } else if (rows.length === 0){
-    wall.appendChild(el("div", "more", "Nothing matches that filter."));
-  }
+  if (WALLCTL) WALLCTL.disconnect();
+  WALLCTL = makeWall($("#wall"), rows, tile, {step: STEP, empty: "Nothing matches that filter."});
   if (GBAR) GBAR.setCount(rows.length);
 }
-
-/* Continuous scroll: tiles are appended as the sentinel comes into view, so the
-   reader never presses anything. There is no page size the reader can hit. */
-var io = new IntersectionObserver(function(es){
-  if (es.some(function(e){ return e.isIntersecting; })){ SHOWN += STEP; paint(); }
-}, {rootMargin: "3000px"});
 
 /* ---- Grid controls shared by every tab (CSS: .gbar, .fab) ----
    gridBar({items:[{key,label,n,color}], current, onPick, query, onSearch}) returns {sent, bar, setCount,
@@ -900,9 +965,9 @@ function gridBar(o){
     b.onclick = function(){ close(); o.onPick(it.key); };
     panel.appendChild(b);
   });
-  function close(){ panel.hidden = true; btn.setAttribute("aria-expanded", "false"); }
+  function close(){ panel.hidden = true; btn.setAttribute("aria-expanded", "false"); document.body.classList.remove("menuopen"); }
   btn.onclick = function(e){ e.stopPropagation(); var open = panel.hidden; panel.hidden = !open;
-    btn.setAttribute("aria-expanded", String(open)); };
+    btn.setAttribute("aria-expanded", String(open)); document.body.classList.toggle("menuopen", open); };
   row.appendChild(btn); row.appendChild(s); bar.appendChild(row); bar.appendChild(panel);
   bar._close = close;
   ACTIVE = {sent: sent, bar: bar, stuck: null};
@@ -956,15 +1021,22 @@ function glide(y){
   var far = Math.abs(y - window.scrollY) > 6 * window.innerHeight;
   window.scrollTo({top: y, behavior: REDUCED || far ? "auto" : "smooth"});
 }
+/* FOLLOW: "to bottom" keeps the view at the growing end until the rest has rendered, unless the reader
+   takes over (touch, wheel, a key, or "to top"). */
+var FOLLOW = false;
+["touchstart", "wheel", "keydown"].forEach(function(ev){
+  window.addEventListener(ev, function(){ FOLLOW = false; }, {passive: true});
+});
 FAB.addEventListener("click", function(e){
   var b = e.target.closest("button[data-d]"); if (!b) return;
-  if (b.dataset.d === "top"){ glide(0); return; }
-  if (window.GRID_END) window.GRID_END();
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+  if (b.dataset.d === "top"){ FOLLOW = false; glide(0); return; }
+  FOLLOW = true;
+  var go = function(){ if (!FOLLOW) return; requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var end = function(){ return document.documentElement.scrollHeight - window.innerHeight; };
     glide(end());
-    setTimeout(function(){ if (window.scrollY < end() - 2) window.scrollTo(0, end()); }, 450);
-  }); });
+    setTimeout(function(){ if (FOLLOW && window.scrollY < end() - 2) window.scrollTo(0, end()); FOLLOW = false; }, 450);
+  }); }); };
+  if (window.GRID_END) window.GRID_END(go, true); else go();
 });
 
 function chipItems(rows){
@@ -1007,7 +1079,8 @@ function chipbar(rows, v){
   });
   GBAR = gridBar({items: items, current: FILTER, query: Q,
                   onPick: function(k){ pick(k, true); },
-                  onSearch: function(q){ Q = q; SHOWN = STEP; paint(); }});
+                  onSearch: function(q){ var stuck = GBAR.bar.classList.contains("stuck"); Q = q; SHOWN = STEP; paint();
+                    if (stuck) gridTop(GBAR.sent); }});
   v.appendChild(box); v.appendChild(GBAR.sent); v.appendChild(GBAR.bar);
 }
 
@@ -1074,23 +1147,18 @@ function docsStrip(){
 /* Shared by all three tabs so they read the same way. Segment order is fixed by
    the payload, never sorted by size -- a bar that reorders itself between builds
    cannot be compared with the one you looked at yesterday. */
+/* Where every structure landed: one plain left-aligned bar per outcome on a shared 0-100% scale
+   (Sam, 9 Oct: no stacked, diverging or centred bars). Order is fixed by the payload. */
 function stackOf(parts, total){
   if (!parts || !parts.length || !total) return "";
-  return '<div class="stack">' + parts.map(function(x){
-      return x.n ? '<i class="o-' + x.key + '" style="width:' + (x.n / total * 100)
-        + '%" title="' + esc(x.label) + ': ' + x.n + '">'
-        + (x.n / total > 0.07 ? '<span>' + x.n + '</span>' : '') + '</i>' : '';
+  return '<div class="obars">' + parts.map(function(x){
+      var p = x.n / total * 100;
+      return '<span class="ol"><i class="o-' + x.key + '"></i>' + esc(x.label) + '</span>'
+        + '<span class="otr"><i class="o-' + x.key + '" style="width:' + Math.max(x.n ? 0.6 : 0, p) + '%"></i></span>'
+        + '<b>' + x.n.toLocaleString("en-US") + '</b><span class="op">' + p.toFixed(1) + '%</span>';
     }).join("") + '</div>'
-    + '<div class="key">' + parts.map(function(x){
-      return '<b><i class="o-' + x.key + '"></i>' + esc(x.label) + ' <u>' + x.n + '</u></b>';
-    }).join("") + '</div>'
-    /* Name the three populations once, under the legend. Without this the reader
-       has to infer that grey is not a failure. */
     + (parts.some(function(x){ return x.key === "noref"; })
-        ? '<p class="sub" style="margin:-4px 0 14px">Green matched its reference exactly; '
-          + 'amber matched it except for stereochemistry. Red was checked and was wrong. '
-          + 'Slate had no reference to check against — neither right nor wrong. '
-          + 'Dark produced nothing usable.</p>' : '');
+        ? '<p class="sub" style="margin:-2px 0 14px">Slate had no reference to check against: neither right nor wrong.</p>' : '');
 }
 
 /* ---- How the readers work: the Sonnet 5.5 tab's technique section (wall/technique.json,
@@ -1348,15 +1416,15 @@ function tqSection(v){
    wall first, wait for layout, then scroll with the sticky header's height taken off. Instant, not
    smooth: a smooth scroll over 2,500 tiles would start every image on the way. */
 function jumpTo(id){
-  if (id !== "sec-top" && DATA.rows && SHOWN < DATA.rows.length){ SHOWN = DATA.rows.length; paint(); }
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+  var after = function(f){ if (id !== "sec-top" && WALLCTL) WALLCTL.end(f); else f(); };
+  after(function(){ requestAnimationFrame(function(){ requestAnimationFrame(function(){
     if (id === "sec-top"){ window.scrollTo(0, 0); return; }
     if (id === "sec-bottom"){ window.scrollTo(0, document.documentElement.scrollHeight); return; }
     var t = document.getElementById(id); if (!t) return;
     if (t.tagName === "DETAILS") t.open = true;
     var off = ($("header") ? $("header").offsetHeight : 0) + 8;
     window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - off);
-  }); });
+  }); }); });
 }
 
 /* Lines the builder wants under a tab's hero (a corpus cut, deferred images, a caveat), one
@@ -1379,16 +1447,16 @@ function render(){
   var c = DATA.compare;
   if (DATA.c2) {
     /* Superatoms tab: one comparison, two readers per row. */
-    var c2 = DATA.c2, bar2 = function(x, k, who){ return '<div class="c2b"><span class="who">' + esc(who) + '</span><b>'
-        + x.pct + '%</b><span class="tr"><i class="' + k + '" style="width:' + x.pct + '%"></i></span><span class="kn">'
-        + x.exact + '/' + x.n + '</span></div>'; };
+    var c2 = DATA.c2, bar2 = function(x, k, who){ return '<div class="c2b"><span class="who">' + esc(who) + '</span>'
+        + '<span class="tr"><i class="' + k + '" style="width:' + x.pct + '%"></i></span><b>'
+        + (+x.pct).toFixed(1) + '%</b><span class="kn">' + x.exact + '/' + x.n + '</span></div>'; };
     hero.innerHTML = '<h2 class="blockh">' + esc(DATA.title) + '</h2>'
       + '<p class="sub">' + esc(DATA.headline) + '</p>'
       + (DATA.countLine ? '<p class="sub">' + esc(DATA.countLine) + '</p>' : '')
       + '<div class="c2"><div class="c2k"><span><i class="s"></i>' + esc(c2.a) + '</span><span><i class="c"></i>'
-      + esc(c2.b) + '</span></div>' + c2.rows.map(function(x){
+      + esc(c2.b) + '</span></div><div class="c2g">' + c2.rows.map(function(x){
         return '<div class="c2r"><div class="c2l">' + esc(x.label) + (x.note ? ' <span>' + esc(x.note) + '</span>' : '')
-          + '</div>' + bar2(x.a, "s", c2.as || c2.a) + bar2(x.b, "c", c2.bs || c2.b) + '</div>'; }).join("") + '</div>'
+          + '</div>' + bar2(x.a, "s", c2.as || c2.a) + bar2(x.b, "c", c2.bs || c2.b) + '</div>'; }).join("") + '</div></div>'
       + (DATA.pairLine ? '<p class="sub">' + esc(DATA.pairLine) + '</p>' : '')
       + (DATA.more ? '<details class="fold"><summary>' + esc(DATA.more.h) + '</summary>' + DATA.more.groups.map(function(g){
           return '<div class="noteh">' + esc(g.h) + '</div><ul class="notelist">' + g.rows.map(function(t){
@@ -1497,7 +1565,7 @@ function render(){
      the chips read "All 4484 / Exact 795" beside a wall showing 42 tiles, which is
      two different questions answered on one line. */
   chipbar(DATA.rows.filter(function(r){ return !DOC || r.d === DOC; }), v);
-  window.GRID_END = function(){ if (SHOWN < DATA.rows.length){ SHOWN = DATA.rows.length; paint(); } };
+  window.GRID_END = function(cb, follow){ if (WALLCTL) WALLCTL.end(cb, follow); else if (cb) cb(); };
   var wall = el("div", DATA.tileText ? "wall tx" : "wall"); wall.id = "wall"; v.appendChild(wall);
   if (DATA.workflow){
     var w = DATA.workflow, ws = el("section", "block"); ws.id = "sec-workflow";
@@ -1594,6 +1662,7 @@ function fetchTab(tab){
 function load(tab){
   if (typeof FAB !== "undefined") FAB.classList.remove("on");
   ACTIVE = null;
+  if (TAB && TAB !== tab) window.scrollTo(0, 0);
   window.GRID_END = null;
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
   ["llmocr","superatoms","images","pdfs"].forEach(function(t){
@@ -1644,6 +1713,9 @@ $("#sheet").onclick = function(e){ if (e.target.id === "sheet") $("#sheet").clos
       y = window.scrollY;
       b.style.position = "fixed"; b.style.top = -y + "px"; b.style.left = "0"; b.style.right = "0"; b.style.width = "100%";
     }
+    /* Only the title and the close button stay pinned; badges and the document line scroll with the body. */
+    var meta = $("#sheetHead .meta");
+    if (meta){ meta.classList.add("smeta"); $("#sheetBody").insertBefore(meta, $("#sheetBody").firstChild); }
     show();
     $("#sheetBody").scrollTop = 0;
     clampLong();
@@ -1656,7 +1728,11 @@ $("#sheet").onclick = function(e){ if (e.target.id === "sheet") $("#sheet").clos
      open and whenever a sheet fills in later (the LLM vs OCR sheet loads its answers after opening). */
   function clampLong(){
     [].forEach.call($("#sheetBody").querySelectorAll("code"), function(c){
-      if (c.dataset.cl || (c.textContent || "").length < 400) return;
+      if (c.dataset.cl) return;
+      var txt = c.textContent || "";
+      /* A note written in a code box ("$0.010 / image · ~4s ...") is prose: break it at spaces. */
+      if ((txt.match(/ /g) || []).length >= 3){ c.dataset.cl = "1"; c.classList.add("prose"); return; }
+      if (txt.length < 400) return;
       c.dataset.cl = "1"; c.classList.add("clamp");
       var m = el("button", "moreb", "Show all " + c.textContent.length.toLocaleString("en-US") + " characters");
       m.onclick = function(){ var on = c.classList.toggle("clamp"); m.textContent = on
