@@ -1,0 +1,35 @@
+Reading the drawing from left to right:
+
+**Left end.** A quaternary carbon carries a methyl group (the plain line going up-left), a wavy line pointing up-right, and a wavy line pointing down-left. So this carbon has two attachment points plus the methyl.
+
+**Chain.** From that quaternary carbon the chain continues: CH2, then CH(OH), then four CH2 groups, then the right-end carbon.
+
+To count the chain carbons, I list the vertices after the quaternary carbon (C1):
+- The CH2 at the bottom (about x=118) is C2.
+- The CH(OH) at about x=175 is C3.
+- Next, the bottom vertex at about x=232 is C4.
+- The top vertex at about x=290 is C5.
+- The next vertex at about x=348 is C6.
+- The top vertex at about x=405 is C7, which is shown as a peak.
+- The bottom vertex at about x=462 is C8.
+- The right quaternary carbon at about x=520 is C9. It has two wavy lines (up-left and down-right) and the trailing comma-like line going up-right, which is likely a methyl.
+
+Checking the right end: the wavy line at the upper left of the right carbon at about x=480 and the one at the lower right at about x=540 are both attachment points. The line toward the upper right at about x=580 is a plain line, so it is a methyl group. The right carbon is therefore also quaternary: C8, two wavy lines, and a methyl.
+
+The chain between the two quaternary carbons is C(CH3)(*) – CH2 – CH(OH) – CH2 – CH2 – CH2 – CH2 – C(CH3)(*)(*). The peak and valley vertices from x=118 to x=462 are 118, 175, 232, 290, 348, 405 and 462, which gives 7 vertices between the quaternary carbons, so the chain is CH2, CH(OH), CH2, CH2, CH2, CH2 and a final CH2 at 462. That makes four CH2 groups after CH(OH), consistent with the vertices at 232, 290, 348 and 405, plus 462 as the one before the quaternary carbon. In the drawing, the vertices after the CH(OH) at 175 are 232, 290, 348, 405 and 462, which is five CH2 groups, followed by the right quaternary carbon at 520.
+
+The SMILES is *C(C)(*)CC(O)CCCCCC(*)(*)C, using the wavy lines as attachment points. The left carbon has two attachment points, the methyl and the chain. The right carbon has two attachment points, the chain and a methyl.
+
+SMILES: *C(*)(C)CC(O)CCCCCC(*)(*)C
+
+Wait: that gives the right carbon three stars. I correct it so the right carbon has two stars, a methyl and the chain: CC(*)(*)CC(O)CCCCCC(C)(*)*, which is the same as the left-to-right form below.
+
+SMILES: *C(*)(C)CC(O)CCCCCC(*)(*)C
+
+Correction to the final answer, since the right carbon should have only two stars:
+
+SMILES: *C(*)(C)CC(O)CCCCCC(*)C
+
+Hmm, that makes the right carbon a CH with one star and a methyl. With two wavy lines plus a methyl plus the chain, it is a quaternary carbon, which needs three substituents other than the chain, so I use two stars and one methyl.
+
+SMILES: *C(*)(C)CC(O)CCCCCC(*)(*)C

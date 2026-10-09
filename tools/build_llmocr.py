@@ -157,7 +157,8 @@ def prompts(s55_runs: list[dict], led: list[dict]) -> list[dict]:
                        + f"; {', '.join(f'{m:,}' for m in mt)} and streamed for the rest") if early else
                       f"max_tokens {', '.join(f'{m:,}' for m in mt)}, streamed",
                       "Answer = the last \"SMILES:\" line of the reply"],
-         "prompts": [["Prompt", (API / "prompt_v2.txt").read_text().strip()]]},
+         "prompts": [["Prompt", (API / "prompt_v2.txt").read_text().strip()]] + (
+             [["Attachment-point fragments (wavy bond): the same prompt plus one line", wavy_line()]] if wavy_line() else [])},
         {"id": "s5", "model": "claude-sonnet-5",
          "settings": ["Claude Code agent; tools: Read (vision), Bash with Python, RDKit, PIL, OSRA",
                       "Lookups barred; every reader transcript screened before scoring",
@@ -170,6 +171,15 @@ def prompts(s55_runs: list[dict], led: list[dict]) -> list[dict]:
                       "CPU; output CXSMILES; confidence is the model's own score"],
          "prompts": []},
     ]
+
+
+def wavy_line() -> str:
+    """The one line the wavy-bond prompt adds to prompt_v2 (empty when that run dir is absent)."""
+    p = BS.RUN / "wavy" / "prompt_v2_wavy.txt"
+    if not p.exists():
+        return ""
+    base = set((BS.RUN / "prompt_v2.txt").read_text().splitlines())
+    return "\n".join(l for l in p.read_text().splitlines() if l not in base).strip()
 
 
 def removed_s5() -> list[dict]:
@@ -270,7 +280,7 @@ def _build() -> int:
             sa_cost[k] = (run.get("cost_usd") or 0) / n_, (run.get("duration_s") or 0) / n_, n_
     for x in sa_rows:
         k = x["k"]
-        src[k], truth[k], name[k] = ("b" if x["built"] else "g" if x["big"] else "r"), x["truth"], f"{k} · {x['name']}"
+        src[k], truth[k], name[k] = ("b" if x["built"] else "g" if x["big"] else "w" if x["wavy"] else "r"), x["truth"], f"{k} · {x['name']}"
         thumb(Path(x["png"]), WALL / "superatoms" / f"{k}.png")
         ans["api"][k] = {"s": x["s"], "v": x["v"], "c": None}
         cost["api"][k] = x["rc"]
@@ -282,14 +292,17 @@ def _build() -> int:
             cx_trained[k] = {"s": x["cx"], "v": x["cxv"], "c": x["cxc"]}
         else:
             ans["cx"][k] = {"s": x["cx"], "v": x["cxv"], "c": x["cxc"]}
+        if x["rule"]:
+            facts["api"][k].append("attachment points (*, [1*], R ...) normalised to * before scoring")
         facts["cx"][k] = ["local CPU, no API cost", "superatom labels expanded before scoring"] + (
+            ["attachment points normalised to * before scoring"] if x["rule"] else []) + (
             [BS.TRAIN_NOTE + ": not counted"] if x["trained"] else [])
         for arm in ("s5", "s55"):
             r = sa_reads[arm].get(k)
             if r:
                 if r.get("truth") and r["truth"] != x["truth"]:
                     raise SystemExit(f"{arm} {k}: backfill lane truth differs from the superatom set")
-                ans[arm][k] = {"s": r.get("sonnet_smiles") or "", "v": verdict(r.get("sonnet_smiles"), x["truth"]),
+                ans[arm][k] = {"s": r.get("sonnet_smiles") or "", "v": BS.score(r.get("sonnet_smiles"), x["truth"], x["rule"]),
                                "c": r.get("sonnet_conf")}
                 if k in sa_cost:
                     c_, t_, n_ = sa_cost[k]
@@ -360,7 +373,7 @@ def _build() -> int:
 
     order = sorted(src)
     VIEWS = [("all", "All images"), ("c", "Corpus"), ("b", "Superatoms, built"), ("r", "Superatoms, real"),
-             ("g", "Superatoms, real big (≥50 atoms)")]
+             ("g", "Superatoms, real big (≥50 atoms)"), ("w", BS.SECTION["wavy"])]
     views = {v: dict(charts([k for k in order if v == "all" or src[k] == v]), label=lab) for v, lab in VIEWS}
     views = {v: x for v, x in views.items() if x["n"]}
     corpus_view = views["c"]
@@ -480,6 +493,11 @@ def _build() -> int:
         method.append("Superatom drawings (built from corpus molecules, and real published drawings from USPTO and "
                       "CLEF) are read by the API arm and CXMolScribe; the tool arms read them as a backfill, and an "
                       "image counts in a chart only for the arms that have read it.")
+    if "w" in views:
+        method.append("Attachment-point fragments (wavy bond) are USPTO 2026 grants, read by the API arm and CXMolScribe. "
+                      "The API prompt adds one line asking for each attachment point as *. Before scoring, both "
+                      "answers and the reference map attachment spellings ([1*], [*:1], R, [R1] ...) to a bare *; "
+                      "the number and position of * must still match.")
     method.append("The tool arms run as agents at effort max; the API arm runs at the API default, so the tools-vs-API "
                   "gap mixes tools with effort.")
     method.append(f"The shared set (n = {n_sh:,}) is the images all four arms read: Sonnet 5's coverage, which is "

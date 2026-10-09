@@ -41,6 +41,7 @@ sys.path.insert(0, str(HERE.parent / "benchmarks"))
 import cxsmiles  # noqa: E402
 sys.path.insert(0, str(HERE / "superatoms"))
 import sa_abbrev  # noqa: E402
+import attach_norm  # noqa: E402
 
 OWN = dict(cxsmiles.ABBREVIATIONS)
 
@@ -75,7 +76,13 @@ CX = RUN / "cxmolscribe"
 OUT = WALL / "superatoms.json"
 DIR = "superatoms"
 SON, CXM = "Sonnet 5.5 (API)", "CXMolScribe"
-SECTION = {"synth": "Built drawings", "big": "Real, big (≥50 atoms)"}
+SECTION = {"synth": "Built drawings", "big": "Real, big (≥50 atoms)", "wavy": "Attachment-point fragments (wavy bond)"}
+# Attachment-point fragments (run dir wavy/, rows carry "score": "attach_norm"): a wavy line marks where the
+# fragment joins a larger molecule. A reader may spell that point *, [*], [1*], [*:1], R, [R1] ...; raw
+# verdict() would score [1*] as stereo, [*:1] as wrong and R as invalid, so both sides go through
+# attach_norm.norm() (spellings -> bare *, never adds, removes or moves one) before the unchanged verdict().
+RULES = {"attach_norm": attach_norm.norm}
+PARSE = {"attach_norm": attach_norm.parse_answer}
 # MolScribe TRAINING-set images (src "USPTO-train", the big set's PROTACs and peptides): CXMolScribe has
 # probably seen them, so its numbers on them are reported only inside their own section, flagged, and
 # never pooled into a CXMolScribe total (agreed with Sam, 9 Oct).
@@ -134,13 +141,26 @@ def _expand(sm, table):
         cxsmiles.ABBREVIATIONS = OWN
 
 
-def cx_score(sm, truth):
+def score(pred, truth, rule=None):
+    """verdict(), after the row's normalisation rule (if any) is applied to BOTH sides."""
+    f = RULES.get(rule) if rule else None
+    if rule and f is None:
+        raise SystemExit(f"unknown scoring rule {rule!r}")
+    if f is None:
+        return verdict(pred, truth)
+    t = f(truth)
+    if t is None:
+        raise SystemExit(f"reference does not survive {rule}: {truth}")
+    return verdict(f(pred) or "", t)
+
+
+def cx_score(sm, truth, rule=None):
     """(verdict with its own table only, verdict with labels expanded by its own table plus the labels
     these drawings use, expanded SMILES). Both are verdict(); expansion never guesses a label."""
     if not sm:
         return "invalid", "invalid", None
     own, full = _expand(sm, OWN), _expand(sm, FULL)
-    return (verdict(own, truth) if own else "invalid"), (verdict(full, truth) if full else "invalid"), full
+    return (score(own, truth, rule) if own else "invalid"), (score(full, truth, rule) if full else "invalid"), full
 
 
 def pct(a, b):
@@ -161,19 +181,20 @@ def mcnemar(rs, ka, kb):
 # The tool-using lanes that may read superatom drawings (a backfill job keys them by the superatom id,
 # sa_NNNN / rs_*, with an explicit "arm": "s5" or "s55"). A lane's default arm covers rows without one.
 SA_LANES = {"/root/cmage-work/sonnet/results.jsonl": "s5", "/root/cmage-work/sonnet-s55c/results.jsonl": "s55"}
-SA_LANE_GLOB = "/root/cmage-work/sonnet-*sa*/results.jsonl"
+SA_LANE_GLOB = ("/root/cmage-work/sonnet-*sa*/results.jsonl",   # sa5 / sa55: superatom drawings
+                "/root/cmage-work/sonnet-wv*/results.jsonl")    # wv55: attachment-point fragments (wv_*)
 ARM_OF = {"s5": "s5", "": "s5", "s55": "s55", "s55c": "s55"}
 
 
 def is_sa(k: str) -> bool:
-    return k.startswith("sa_") or k.startswith("rs_")
+    return k.startswith(("sa_", "rs_", "wv_"))
 
 
 def sa_tool_reads() -> dict:
     """arm ("s5" | "s55") -> superatom key -> that lane's row. Tolerant of a half-written last line."""
     import glob
     out = {"s5": {}, "s55": {}}
-    for p in list(SA_LANES) + sorted(glob.glob(SA_LANE_GLOB)):
+    for p in list(SA_LANES) + sorted(q for g in SA_LANE_GLOB for q in glob.glob(g)):
         if not Path(p).exists():
             continue
         for line in open(p):
@@ -218,17 +239,20 @@ def scored_rows():
             if k not in cxp:          # read by the API, not yet by CXMolScribe: not a pair yet, so not shown
                 pending.append(k)
                 continue
-            s = parse_smiles(r.get("text")) or ""
+            rule = m.get("score")
+            # parse_smiles strips * around the value (markdown bold), which eats a leading/trailing attachment point
+            s = (PARSE.get(rule) or parse_smiles)(r.get("text")) or ""
             cs, cc = cxp.get(k, (None, None))
-            craw, cexp, cex = cx_score(cs, m["truth"])
+            craw, cexp, cex = cx_score(cs, m["truth"], rule)
             u = r.get("usage") or {}
             think = (u.get("output_tokens_details") or {}).get("thinking_tokens")
             rows.append({
-                "k": k, "sec": sec, "built": sec == "synth", "big": sec == "big",
+                "k": k, "sec": sec, "built": sec == "synth", "big": sec == "big", "wavy": sec == "wavy",
+                "rule": rule, "kind": m.get("kind"), "n_attach": m.get("n_attach"),
                 "trained": m.get("src") in TRAIN_SRC, "cls": m.get("cls"), "src": "Built" if sec == "synth" else m["src"],
                 "labs": m.get("labels") or [], "truth": m["truth"], "png": m["png"], "show": m.get("show", True),
                 "name": m["name"] if sec == "synth" else f"{m['src']} {m['orig_id']}", "pk": m.get("plain_key"),
-                "s": s, "v": verdict(s, m["truth"]), "text": r.get("text") or "",
+                "s": s, "v": score(s, m["truth"], rule), "text": r.get("text") or "",
                 "rc": round(sum((x.get("cost_usd") or 0) for x in [r0] + rets), 4),
                 "rt": round((r0.get("latency_s") or 0) + sum(x.get("latency_s") or 0 for x in rets if x["status"] == "ok"), 1),
                 "mt": r0.get("max_tokens"), "stop": r.get("stop_reason"), "stop0": r0.get("stop_reason"),
@@ -277,12 +301,17 @@ def _build() -> int:
                "ocr": x["cx_raw_smiles"] or "(no answer)", "ocrv": x["cxv"], "ocrc": x["cxc"],
                "tl": [["Sonnet 5.5", s, x["v"]], [CXM, x["cx"], x["cxv"]]]}
         row["n"] = f"{k} · {x['name']}"
-        row["d"] = SECTION["synth"] if x["built"] else SECTION["big"] if x["big"] else f"Real: {x['src']}"
+        row["d"] = (SECTION["synth"] if x["built"] else SECTION["big"] if x["big"] else SECTION["wavy"] if x["wavy"]
+                    else f"Real: {x['src']}")
+        if x.get("kind"):
+            row["kind"] = x["kind"]
         if x["trained"]:
             row["trained"] = 1
         if x.get("cls"):
             row["cls"] = x["cls"]
-        row["rnote"] = (f"superatoms drawn: {', '.join(labs)} · one API call, no tools · max_tokens "
+        row["rnote"] = ((f"{x['n_attach']} attachment point{'s' if x['n_attach'] != 1 else ''} ({x['kind']}), "
+                         "scored with attachment spellings normalised to *" if x["wavy"] else
+                         f"superatoms drawn: {', '.join(labs)}") + " · one API call, no tools · max_tokens "
                         f"{(x['mt'] or 0):,} · stop_reason {x['stop0']} · "
                         f"{x['itok']:,} in / {x['otok']:,} out tokens · "
                         f"CXMolScribe on the same image: {x['cxv']} with its labels expanded"
@@ -293,7 +322,8 @@ def _build() -> int:
         thumb(Path(x["png"]), img / f"{k}.png")
         row["p"] = 1 if render_pred(s, pred / f"{k}.png") else 0
         row["po"] = 1 if render_pred(x["cx"], ocr / f"{k}.png") else 0
-        row["r"] = relate(s, x["truth"])
+        nf = RULES.get(x["rule"]) if x["rule"] else None
+        row["r"] = relate(nf(s) or s, nf(x["truth"])) if nf else relate(s, x["truth"])
         tf = txt / f"{k}.txt"
         if not tf.exists() or tf.read_text() != x["text"]:
             tf.write_text(x["text"])
@@ -308,7 +338,8 @@ def _build() -> int:
     gated = [r for r in rows if r.get("tw")]
 
     syn = [r for r in rows if r["sec"] == "synth"]
-    real = [r for r in rows if r["sec"] not in ("synth", "big")]
+    real = [r for r in rows if r["sec"] not in ("synth", "big", "wavy")]
+    wavy = [r for r in rows if r["sec"] == "wavy"]
     big = [r for r in rows if r["sec"] == "big"]
     big_held = [r for r in big if not r.get("trained")]
     big_train = [r for r in big if r.get("trained")]
@@ -326,6 +357,10 @@ def _build() -> int:
     for cls, lab in (("protac", "PROTACs"), ("peptide", "peptides"), ("macrocycle", "macrocycles")):
         groups.append((f"{SECTION['big']}, {lab} (USPTO 2017+)", [r for r in odp if r.get("cls") == cls]))
     groups.append((SECTION["big"] + ", USPTO training set", big_train))
+    groups.append((SECTION["wavy"], wavy))
+    for kind, lab in (("alkyl/acyclic", "alkyl or acyclic"), ("ring", "ring"), ("aryl", "aryl"),
+                      ("heteroaryl", "heteroaryl"), ("multi-attachment", "2 to 4 attachment points")):
+        groups.append((f"Wavy bond, {lab}", [r for r in wavy if r.get("kind") == kind]))
     c2rows = [{"label": lab, "note": f"n={len(rs)}" + (f" · {TRAIN_NOTE}" if rs is big_train else ""),
                "a": side(rs, S), "b": side(rs, C)} for lab, rs in groups if rs]
     # Headline totals: every shown image for the API arm; for CXMolScribe, every image except the ones
@@ -351,7 +386,7 @@ def _build() -> int:
         {"h": f"{CXM} with only its own abbreviation table (labels it lacks, e.g. CO2Me, NHMe, OTBS, stay unexpanded)",
          "rows": own}] + ([{"h": "Read but not shown or counted", "rows": not_counted}] if not_counted else [])}
     docs = []
-    for name in [SECTION["synth"]] + sorted({r["d"] for r in rows if r["sec"] != "synth"}, key=lambda n: (n == SECTION["big"], n)):
+    for name in [SECTION["synth"]] + sorted({r["d"] for r in rows if r["sec"] != "synth"}, key=lambda n: (n == SECTION["wavy"], n == SECTION["big"], n)):
         x = [r for r in rows if r["d"] == name]
         if x:
             docs.append({"name": name, "found": sum(r["v"] == "exact" for r in x), "expected": len(x)})
@@ -362,8 +397,13 @@ def _build() -> int:
                   + (f" + {len(big)} big, ≥50 atoms ("
                      + ", ".join(f"{s_} {n}" for s_, n in sorted(collections.Counter(r["src"] for r in big).items()))
                      + (f"; {len(big_train)} from MolScribe's training set" if big_train else "") + ")" if big else "")
+                  + (f" + {len(wavy)} attachment-point fragments ("
+                     + ", ".join(f"{s_} {n}" for s_, n in sorted(collections.Counter(r["src"] for r in wavy).items()))
+                     + ")" if wavy else "")
                   + ".")
-    assert len(rows) == len(syn) + len(real) + len(big) == sum(x["a"]["n"] for x in c2rows[:2]) + len(big)
+    assert len(rows) == len(syn) + len(real) + len(big) + len(wavy) == sum(x["a"]["n"] for x in c2rows[:2]) + len(big) + len(wavy)
+    assert len(wavy) == sum(len([r for r in wavy if r.get("kind") == k]) for k in
+                            ("alkyl/acyclic", "ring", "aryl", "heteroaryl", "multi-attachment")), "unknown wavy kind"
     assert len(big) == len(big_held) + len(big_train)
     out = {
         "arm": "Superatoms", "countLine": count_line, "dir": DIR, "reader": SON, "rows": rows, "tileText": 1,
@@ -384,7 +424,10 @@ def _build() -> int:
         "method": [{"h": "Scoring", "points": [
             "Both readers scored with the same function: RDKit canonical SMILES against the full molecule.",
             f"{CXM} writes superatoms as CXSMILES labels; each label is expanded before scoring, with its own "
-            "abbreviation table plus the labels these drawings use. A label in neither stays unexpanded and scores wrong."]}],
+            "abbreviation table plus the labels these drawings use. A label in neither stays unexpanded and scores wrong."]
+            + (["Attachment-point fragments: the prompt adds one line asking for each wavy-line attachment point as *. "
+                "Both answers and the reference have attachment spellings ([1*], [*:1], R, [R1] ...) mapped to a bare * "
+                "before scoring; the number and position of * must still match."] if wavy else [])}],
         "footer": count_line,
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }

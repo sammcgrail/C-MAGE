@@ -106,8 +106,8 @@ var V = {e:"exact", s:"stereo", w:"wrong", i:"invalid", "-":"not read", x:"inval
 var VL = {e:"exact", s:"stereo only", w:"wrong", i:"unparseable", "-":"not read", x:"excluded, not counted"};
 var S = {filter:"all", q:"", shown:150, step:150, detail:null, pending:null, view:"all", cardSet:"same"};
 /* Where an image came from: the corpus, or the superatom set (built, real). Rows carry it as r[3]. */
-var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms"};
-var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt", g: "superatoms_txt"};
+var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms", w: "superatoms"};
+var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt", g: "superatoms_txt", w: "superatoms_txt"};
 function VW(){ return D.views[S.view] || D.views.all; }
 var D = null, ARM = {}, IDX = {};
 /* One formatter: Number.toLocaleString builds a new one per call (~12 ms of a tab switch at 4x throttle). */
@@ -420,7 +420,7 @@ function chartsHTML(){
 }
 
 function viewSwitch(){
-  var order = ["all", "c", "b", "r", "g"].filter(function(v){ return D.views[v]; });
+  var order = ["all", "c", "b", "r", "g", "w"].filter(function(v){ return D.views[v]; });
   if (order.length < 2) return '';
   return '<div class="srcsw" role="group" aria-label="Image source">' + order.map(function(v){
     return '<button class="chip" data-v="' + v + '" aria-pressed="' + (S.view === v) + '">' + esc(D.views[v].label)

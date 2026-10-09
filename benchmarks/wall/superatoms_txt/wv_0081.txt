@@ -1,0 +1,24 @@
+The drawing is a fragment with four wavy-line attachment points, so the SMILES will contain four * atoms.
+
+Reading the atoms from left to right:
+- The leftmost carbon (C_a) carries a wavy bond going up and another going down-left, so it bears two attachment points. It is bonded to a CH2 (C_b).
+- C_b is bonded to C_c, which has a wavy bond going up and a double bond to C_d.
+- C_d is bonded to C_e, which carries two wavy bonds, one going up and one going down.
+
+That makes four wavy lines in total: two on C_a, one on C_c (the top one), and two on C_e. This would be five, so I recheck the picture.
+
+The top wavy line is attached to the carbon at the apex, drawn as a horizontal wavy line crossing a vertical bond. This is the substituent on C_c, one attachment point.
+
+The left wavy lines: one goes up at the top left and one goes down-left. They sit on the carbon at about (40, 105). The upper wavy line ends near (65, 40) and the lower one near (15, 135), both on that same carbon.
+
+The right side: one wavy line goes up toward (230, 45) and one goes down toward (295, 155). Both are on the carbon at about (265, 110).
+
+So there are five attachment points in total: two on C_a, one on C_c, and two on C_e.
+
+Writing the SMILES as C_a(*)(*)–C_b–C_c(*)=C_d–C_e(*)(*) gives:
+
+*C(*)CC(*)=CC(*)*
+
+Checking the atoms: C_a has two * plus C_b, which makes three bonds, so it is CH. C_e has two * plus C_d, so it is also CH. C_c has *, C_b and the double bond to C_d, which is four valences. C_d is CH.
+
+SMILES: *C(*)CC(*)=CC(*)*

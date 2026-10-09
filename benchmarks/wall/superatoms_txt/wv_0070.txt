@@ -1,0 +1,18 @@
+The drawing shows a spiro compound: a morpholine ring and a cyclopentane ring sharing one carbon.
+
+**Morpholine ring (6 atoms):** N, CH2, the spiro C, O, CH2, and a CH bearing a methyl group. The nitrogen is bonded to the CH2 that leads to the spiro carbon and to the CH(CH3) carbon.
+
+**Substituent on N:** a carbon with a wavy line (the attachment point) and two methyl groups. This is a C(CH3)2 group, so it contributes *C(C)(C)N.
+
+**Cyclopentane ring (5 atoms):** the spiro C, a CH2, a C(CH3)2, a CH2, and a CH2 back to the spiro C. Going around from the spiro carbon, the top-right CH2 connects to C(CH3)2, then to CH2, then CH2, and back to the spiro carbon. The gem-dimethyl carbon is therefore adjacent to a CH2 that is itself bonded to the spiro carbon.
+
+**SMILES assembly:**
+- Start with the attachment and N: *C(C)(C)N1
+- Continue around the morpholine: CC2(CCC(C)(C)C2)OCC1C
+- Here N1 is bonded to CH2, then to the spiro C2, which carries the cyclopentane (CCC(C)(C)C2). The spiro C then bonds to O, then CH2, then CH(CH3), which closes back to N1.
+
+The ring-closure bookkeeping checks out: the spiro C opens ring 2, the cyclopentane path is C, C, C(C)(C), C closing to the spiro carbon (five ring atoms including the spiro C), and the morpholine ring is N, CH2, spiro C, O, CH2, CH (six atoms).
+
+No wedges or hashes are drawn, so no stereochemistry is assigned.
+
+SMILES: *C(C)(C)N1CC2(CCC(C)(C)C2)OCC1C
