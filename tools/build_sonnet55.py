@@ -64,6 +64,11 @@ OUT = WALL / "sonnet_compare.json"   # wall/sonnet55.json is the Sonnet 5.5 corp
 CORPUS_RESULTS = Path("/root/cmage-work/sonnet-s55c/results.jsonl")
 CORPUS_LEDGER = HERE.parent / "benchmarks" / "sonnet55c_runs.json"
 LANE_MODEL = "claude-sonnet-5-5"
+# The dual cadence's state. Its "deferred" map holds, per arm, every key whose reader the cost/time
+# guard stopped; such a key waits until the rest of the corpus is read, so it is SKIPPED for now,
+# and every page that says "corpus order" has to name it.
+DUAL_STATE = Path("/root/cmage-work/dual/state.json")
+CORPUS_ROWS = HERE.parent / "benchmarks" / "corpus_rows.json"
 S5_MODEL = "claude-sonnet-5"
 
 
@@ -332,11 +337,73 @@ def pairing(lane: list[dict], s5: dict[str, dict]) -> dict:
     only_text = (f"Sonnet 5.5 alone, no Sonnet 5 reading: {pl(len(only), 'image')}, Sonnet 5.5 {s55_ok} exact "
                  f"({pct(s55_ok, len(only))}%), CXMolScribe {cx_ok} ({pct(cx_ok, len(only))}%). "
                  f"Not in any Sonnet 5 vs 5.5 figure.") if only else ""
-    return {"paired": paired_n, "s5_arm": len(s5), "lane": len(lane),
+    D = deferred(lane, s5)
+    if D["in_s5"]:
+        k = len(D["in_s5"])
+        s55_paired = sum(1 for r in lane if r["k"] in s5 and r["sonnet_verdict"] == "exact")
+        scope += (f" Not paired: {', '.join(D['in_s5_names'])} (deferred for Sonnet 5.5); counted as "
+                  f"{'a 5.5 miss' if k == 1 else '5.5 misses'}, 5.5 is {s55_paired:,} of {paired_n + k:,}.")
+    return {"paired": paired_n, "s5_arm": len(s5), "lane": len(lane), "deferred": D,
             "s5_stopped_at": stop["at"] if stop else None,
             "s55_only": {"n": len(only), "s55": s55_ok, "cx": cx_ok,
                          "s55_pct": pct(s55_ok, len(only)), "cx_pct": pct(cx_ok, len(only))},
             "scope": scope, "only_text": only_text}
+
+
+def deferred(lane: list[dict], s5: dict[str, dict]) -> dict:
+    """Sonnet 5.5 corpus keys the cadence has deferred and the lane has not read: a guard-stopped
+    reader requeues its key behind the rest of the corpus, so the lane's "corpus order" has these
+    holes. With the worst case: every deferred image counted as a miss."""
+    st = json.load(open(DUAL_STATE)) if DUAL_STATE.exists() else {}
+    have = {r["k"] for r in lane}
+    keys = sorted(k for k in ((st.get("deferred") or {}).get("s55") or {}) if k not in have)
+    names = {}
+    if keys and CORPUS_ROWS.exists():
+        names = {r["k"]: r.get("n") or r["k"] for r in json.load(open(CORPUS_ROWS))["rows"]}
+    # Corpus names run to 130 characters (a full IUPAC name); a list of them in one line needs a cap.
+    nm = lambda k: (lambda x: x if len(x) <= 32 else x[:30].rstrip("-[(, ") + "…")(names.get(k, k))
+    ex = sum(1 for r in lane if r["sonnet_verdict"] == "exact")
+    n, d = len(lane), len(keys)
+    pct = lambda a, b: round(a / b * 100, 1) if b else None
+    text = ""
+    if d:
+        text = (f"{d} image{'' if d == 1 else 's'} deferred by the cost/time guard, not yet read "
+                f"({', '.join(nm(k) for k in keys)}). Counted as misses: {ex:,} of {n + d:,} ({pct(ex, n + d)}%).")
+    in_s5 = [k for k in keys if k in s5]
+    return {"keys": keys, "names": [nm(k) for k in keys], "n": d,
+            "worst": {"exact": ex, "n": n + d, "pct": pct(ex, n + d)},
+            "in_s5": in_s5, "in_s5_names": [nm(k) for k in in_s5], "text": text}
+
+
+def renderer_caveat() -> dict | None:
+    """The renderer-oracle caveat for every page that quotes the tool-using Sonnet 5.5 figure.
+
+    The corpus drawings were made by RDKit, and the jailed readers have RDKit. A reader that draws
+    its candidate SMILES back and compares the drawing with the image (some try stereo or atom-order
+    variants until the pixel difference is zero) is checking against the image's own generator, a
+    check no real-world drawing allows. The API-only arm reads pixels with no tools, so its figure
+    is printed beside it. Numbers come from wall/technique.json and wall/sonnet55api.json."""
+    tq = WALL / "technique.json"
+    api = WALL / "sonnet55api.json"
+    if not api.exists():
+        return None
+    A = json.load(open(api))
+    st, vs = A.get("stats") or {}, A.get("vs") or {}
+    pc = None
+    if tq.exists():
+        L = (json.load(open(tq)).get("lanes") or {}).get("s55c") or {}
+        lv = {x.get("key"): x for x in L.get("reader_level") or []}.get("pixel_compare")
+        if lv:
+            pc = (lv["yes_n"], lv["yes_n"] + lv["no_n"])
+    text = ("Readers have RDKit, the corpus renderer, and can match their answer's drawing to the image"
+            + (f" ({pc[0]} of {pc[1]} readers diffed them in code)" if pc else "")
+            + "; the API-only arm is the no-tools measure: "
+            f"{st.get('strict_pct')}% exact ({st.get('exact'):,} of {st.get('n'):,})"
+            + (f"; on the {vs['n']:,} both read, API {vs['api']:,}, with tools {vs['reader']:,}"
+               if vs.get("n") else "") + ".")
+    return {"text": text, "api": {"exact": st.get("exact"), "n": st.get("n"), "pct": st.get("strict_pct")},
+            "vs": {k: vs.get(k) for k in ("n", "api", "reader")} if vs else None,
+            "pixel_compare": {"readers": pc[0], "of": pc[1]} if pc else None}
 
 
 def corpus_pairs(s5: dict[str, dict]) -> dict | None:
@@ -388,6 +455,10 @@ def corpus_pairs(s5: dict[str, dict]) -> dict | None:
     cost = sum(r["cost_usd"] for r in runs.values())
     imgs = sum(r["images"] for r in runs.values())
     out = {**tally(xs), "unpaired": len(lane) - len(xs), "pairing": pairing(lane, s5),
+           "renderer": renderer_caveat(),
+           # Hook for the renderer-control comparison (the same molecules drawn by another renderer,
+           # read by both arms). Filled by its own builder when that set has been read; null until then.
+           "rendererControl": None,
            "first": xs[0]["name"] if xs else None, "last": xs[-1]["name"] if xs else None,
            "protocol": proto,
            "batches": [dict(**label(g), **tally([r for r in xs if group(r) == g])) for g in groups],

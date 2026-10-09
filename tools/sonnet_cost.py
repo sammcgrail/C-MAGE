@@ -148,6 +148,12 @@ def update() -> dict:
         t, models, duration_s = reader_usage(p)
         if not t["requests"]:
             continue
+        if MODEL not in models:
+            # Not a Sonnet 5 reader at all: an orchestrator or auditor (Opus) whose transcript quotes
+            # an answer array. It used to stop the whole tally ("served by claude-opus-5-5"), and the
+            # tab then fell back to the saved figures without saying which were stale.
+            print(f"  skipped {os.path.basename(p)}: no request served by {MODEL} ({sorted(map(str, models))})")
+            continue
         other = sorted(str(m) for m in models if MODEL not in (m or ""))
         if other:
             raise ValueError(f"{os.path.basename(p)} was served by {other}, not {MODEL}; "
@@ -198,20 +204,56 @@ def update() -> dict:
     # molecule is the most recent run whose transcript holds that SMILES (a re-read supersedes
     # an excluded earlier read).
     per_key = {}
-    for r in (json.loads(l) for l in open(f"{A.WORK}/results.jsonl") if l.strip()):
-        smi, k = r.get("sonnet_smiles"), r["k"]
-        # A SMILES with E/Z bonds carries backslashes, which are doubled in the JSON transcript;
-        # match both forms (same tolerance as audit_sonnet_rows).
-        cands = [a for a in readers if smi and (smi in raw_by_aid.get(a, "")
-                                                or smi.replace("\\", "\\\\") in raw_by_aid.get(a, ""))]
-        if not cands:
+    flat = lambda x: re.sub(r"\\+", r"\\\\", x)
+    flat_raw: dict[str, str] = {}
+
+    def holds(a: str, smi: str) -> bool:
+        raw = raw_by_aid.get(a, "")
+        if smi in raw or smi.replace("\\", "\\\\") in raw:
+            return True
+        # A cis bond reaches a transcript with any number of backslashes (seven, through a
+        # shell-quoted python -c: friulimicin B). Compare with backslash runs collapsed on both
+        # sides, as audit_sonnet_rows and gate_and_score do, but only where every backslash-free
+        # piece is already present, so the collapse runs on a handful of transcripts.
+        if "\\" not in smi or any(pc not in raw for pc in re.split(r"\\+", smi) if pc):
+            return False
+        if a not in flat_raw:
+            flat_raw[a] = flat(raw)
+        return flat(smi) in flat_raw[a]
+
+    res = [json.loads(l) for l in open(f"{A.WORK}/results.jsonl") if l.strip()]
+    cands_of = {}
+    for r in res:
+        smi = r.get("sonnet_smiles")
+        cands_of[r["k"]] = [a for a in readers if smi and holds(a, smi)]
+    # Which run produced each published row. A SMILES can sit in several transcripts (a later
+    # reader may print a common molecule, or a re-reader the same answer), and "the most recent
+    # holder" gave 50 runs more or fewer rows than they published, so the per-image figures
+    # summed to $1150.65 against a published total of $1139.72. Each run has a known number of
+    # published rows; rows are given to holders that still have room, the unambiguous ones first,
+    # and only then to the most recent holder.
+    room = {a: readers[a].get("published", readers[a]["images"]) for a in readers}
+    owner = {}
+    for k, cs in sorted(cands_of.items(), key=lambda kv: (len(kv[1]), kv[0])):
+        if not cs:
             continue
-        aid = max(cands, key=lambda a: finished.get(a, 0))
+        free = [a for a in cs if room.get(a, 0) > 0]
+        aid = max(free or cs, key=lambda a: finished.get(a, 0))
+        room[aid] = room.get(aid, 0) - 1
+        owner[k] = aid
+    for r in res:
+        k = r["k"]
+        aid = owner.get(k)
+        if not aid:
+            continue
         rd = readers[aid]
         n = rd["images"] or 1
         per_key[k] = {"cost": round(rd["cost_usd"] / n, 4), "secs": round((rd.get("duration_s") or 0) / n),
                       "batch": n, "batch_cost": round(rd["cost_usd"], 2),
                       "batch_secs": rd.get("duration_s") or 0, "reader": aid[:8]}
+    missing = [r["k"] for r in res if r["k"] not in per_key]
+    if missing:
+        print(f"  WARNING no reader transcript holds the published answer of {missing}")
 
     rows = sorted(readers.values(), key=lambda r: r["finished"])
     totals = {k: sum(r[k] for r in rows) for k in TOKEN_KEYS + ("requests", "images", "excluded", "published")}
@@ -230,6 +272,8 @@ def update() -> dict:
         "cost_usd_all": round(spent, 2),
         "cost_usd_excluded": round(spent - shown, 2),
         "unattributed_excluded": unattributed,
+        "per_key_usd": round(sum(v["cost"] for v in per_key.values()), 2),
+        "per_key_n": len(per_key),
         "totals": totals, "readers": rows, "per_key": per_key,
     }
     OUT.write_text(json.dumps(out, indent=1) + "\n")

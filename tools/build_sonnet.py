@@ -2,8 +2,8 @@
 
 The comparison is only worth anything if it is fair, so three things are fixed:
 
-  * The SAMPLE is a deterministic stride over the sorted corpus, not a hand-pick.
-    A curated ten is a claim about the curator.
+  * The SAMPLE is the sorted corpus read in order, not a hand-pick (sample_text() measures
+    what it covers). A curated ten is a claim about the curator.
   * The FILENAMES are anonymised. The corpus names images `testosterone_cid6013`,
     so a model given the path could answer from the string without looking at the
     picture at all, and would score well for the wrong reason.
@@ -98,10 +98,55 @@ EXAMPLES = [
 ]
 
 
-def method_sections(excluded_n: int) -> list[dict]:
+def exclusion_points(excl: list[dict], published: set[str]) -> list[str]:
+    """The exclusion log, split by WHAT the reader did and WHEN, from the records themselves, with
+    whether each image was read again. A single "N excluded and re-read" was false once the arm
+    froze: the two OPSIN rows of 8 Oct were excluded and not re-read."""
+    def kind(e):
+        r = e.get("reason", "")
+        if "OPSIN" in r:
+            return "name-to-structure lookup (OPSIN)"
+        if "pypi" in r or "reachability" in r:
+            return "network call to pypi.org, refused before scoring"
+        return "PubChem lookup"
+    groups: dict = {}
+    for e in excl:
+        groups.setdefault((e.get("excluded_at", "")[:10], kind(e)), []).append(e)
+    pts = []
+    for (day, what), es in sorted(groups.items()):
+        rer = sum(1 for e in es if e["k"] in published)
+        readers = len({e.get("reader") for e in es})
+        pts.append(f"{len(es)} excluded ({what}, {day}, {readers} reader{'s' if readers != 1 else ''}): "
+                   + ("all re-read." if rer == len(es) else
+                      "not re-read (arm frozen), not on this tab." if rer == 0 else
+                      f"{rer} re-read, {len(es) - rer} not."))
+    scored = [e for e in excl if e.get("sonnet_verdict")]
+    if scored:
+        ex = sum(1 for e in scored if e["sonnet_verdict"] == "exact")
+        pts.append(f"{ex} of the {len(scored)} excluded readings that had been scored were exact.")
+    return pts
+
+
+def rerender_points(rr: list[dict], res: dict[str, dict]) -> list[str]:
+    """The 19 Sep re-render (commit 425403ba): overlapping depictions re-drawn corpus-wide with RDKit's
+    coordgen layout, both arms re-scored on the new images. Before/after from the pull log against
+    the published rows."""
+    if not rr:
+        return []
+    back = [e for e in rr if e["k"] in res]
+    cnt = lambda xs, f, v: sum(1 for x in xs if x.get(f) == v)
+    new = [res[e["k"]] for e in back]
+    return [
+        f"59 corpus drawings with overlapping atoms were re-drawn (RDKit coordgen, commit 425403ba); both arms "
+        f"re-scored on them. {len(rr)} Sonnet 5 readings of the old drawings were re-read: exact "
+        f"{cnt(rr, 'sonnet_verdict', 'exact')} -> {cnt(new, 'sonnet_verdict', 'exact')} (CXMolScribe "
+        f"{cnt(rr, 'ocr_verdict', 'exact')} -> {cnt(new, 'ocr_verdict', 'exact')}).",
+    ]
+
+
+def method_sections(excl: list[dict], published: set[str], rr: list[dict], res: dict[str, dict]) -> list[dict]:
     """The method note as titled sections of bullets, so the page renders structure rather
-    than one wall of prose. Kept to claims that hold at any batch size — no stale per-run
-    tallies. `excluded_n` is read from the exclusion log at build time."""
+    than one wall of prose. Every count is computed from the logs at build time."""
     return [
         {"h": "Blinding",
          "points": [
@@ -134,12 +179,11 @@ def method_sections(excluded_n: int) -> list[dict]:
          "points": [
              "The reference answers are PubChem SMILES, so a reader that looks the compound up "
              "copies the key instead of reading the drawing.",
-             "Every reader transcript is scanned for network requests to any host and for reads of "
-             "the answer files; a flagged reading is excluded and the image is re-read blind.",
-             f"{excluded_n} readings have been excluded this way and re-read. Every excluded reading "
-             "that had already been published had scored exact — which is what a copied key looks "
-             "like.",
-         ]},
+             "Every reader transcript is scanned for network requests and reads of the answer files; "
+             f"a flagged reading is excluded. {len(excl)} excluded:",
+         ] + exclusion_points(excl, published)},
+        {"h": "Re-drawn images",
+         "points": rerender_points(rr, res)},
         {"h": "Content-filter refusals",
          "points": [
              "The image set includes toxins. On one batch the Sonnet API returned a content-policy "
@@ -151,7 +195,7 @@ def method_sections(excluded_n: int) -> list[dict]:
     ]
 
 
-def cost_note(cost, published):
+def cost_note(cost, published, launches=None):
     """The page's one-line cost estimate, over the published reads only, or None before any cost
     has been recorded. A reading excluded for a lookup was re-run, and the re-run is what the
     page shows, so the excluded reading's share of its run's cost is not in this figure."""
@@ -161,9 +205,37 @@ def cost_note(cost, published):
         print(f"  WARNING cost covers {cost['reads']} published reads, the payload has {published}")
     return {
         "usd": cost["cost_usd"], "reads": cost["reads"], "perImage": cost["per_image_usd"],
+        "spent": launches,
         "note": (f"Estimated API cost at list price: ${cost['cost_usd']:,.0f} for the {cost['reads']} "
-                 f"Sonnet reads shown — about ${cost['per_image_usd']:.2f} per image."),
+                 f"Sonnet reads shown — about ${cost['per_image_usd']:.2f} per image."
+                 + (f" Total spent ${cost['cost_usd_all'] + launches['launcher_usd']:,.0f}, including readings "
+                    f"not shown (${cost['cost_usd_all'] - cost['cost_usd']:,.0f}) and launcher sessions "
+                    f"(${launches['launcher_usd']:,.2f})."
+                    if launches and "cost_usd_all" in cost else "")),
     }
+
+def sample_text(rows_in: list[dict], excluded: set[str]) -> str:
+    """Which images the arm covers, measured: the longest run of the sorted corpus it covers
+    (counting an excluded, not re-read key as covered), and how many it read beyond that."""
+    corpus = sorted(r["k"] for r in json.load(open(WALL.parent / "corpus_rows.json"))["rows"])
+    have = {r["k"] for r in rows_in}
+    i = 0
+    while i < len(corpus) and (corpus[i] in have or corpus[i] in excluded):
+        i += 1
+    in_prefix = sum(1 for k in corpus[:i] if k in have)
+    gone = sum(1 for k in corpus[:i] if k not in have)
+    rest = len(have) - in_prefix
+    st = Path("/root/cmage-work/dual/state.json")
+    stopped = sorted(k for k in ((json.load(open(st)).get("deferred") or {}).get("s5") or {})
+                     if k not in have) if st.exists() else []
+    names = {r["k"]: r.get("n") or r["k"] for r in json.load(open(WALL.parent / "corpus_rows.json"))["rows"]}
+    return (f"Not a hand-pick: the first {i:,} corpus images in sorted-key order"
+            + (f" ({gone} of them excluded and not re-read)" if gone else "")
+            + (f", plus {rest} images further along the corpus" if rest else "")
+            + "."
+            + (f" Not read (stopped by the cost/time guard): {', '.join(names.get(k, k) for k in stopped)}."
+               if stopped else ""))
+
 
 def main() -> int:
     # Read the append-only results file, not a snapshot. The batch harness appends
@@ -219,6 +291,8 @@ def main() -> int:
             "sconf": r.get("sonnet_conf"),
         })
 
+    excluded_keys = ({json.loads(l)["k"] for l in open(WALL.parent / "sonnet_excluded.jsonl") if l.strip()}
+                     if (WALL.parent / "sonnet_excluded.jsonl").exists() else set())
     n = len(rows)
     s_ex = sum(1 for r in rows if r["v"] == "exact")
     o_ex = sum(1 for r in rows if r["ocrv"] == "exact")
@@ -238,6 +312,12 @@ def main() -> int:
     # Attach the producing run's cost and wall-clock to each row, for the modal. One run reads
     # a batch in a single shared context, so cost/time are per batch and rc/rt are its per-image
     # share. Rows with no attributable run (e.g. an empty SMILES) simply carry no figures.
+    launches = None
+    try:
+        import launch_cost
+        launches = launch_cost.lane_total("s5", set(), launch_cost.update())
+    except Exception as e:  # noqa: BLE001
+        print(f"  WARNING launcher cost not computed: {e!r}")
     per_key = (cost or {}).get("per_key", {})
     for r in rows:
         rc = per_key.get(r["k"])
@@ -264,7 +344,7 @@ def main() -> int:
                 {"label": "CXMolScribe", "exact": o_ex, "pct": round(o_ex / n * 100, 1)},
             ],
             "agree": both, "either": either,
-            "cost": cost_note(cost, n),
+            "cost": cost_note(cost, n, launches),
             # Ordered worst-understood to best so the stacked bar reads left to
             # right as "who got it": both, then each alone, then neither.
             "breakdown": [
@@ -280,8 +360,13 @@ def main() -> int:
         },
         "prompt": PROMPT_TEXT,
         "workflow": WORKFLOW, "examples": EXAMPLES, "classes": struct_classes,
-        "method": method_sections(sum(1 for l in open(WALL.parent / "sonnet_excluded.jsonl") if l.strip())
-                                  if (WALL.parent / "sonnet_excluded.jsonl").exists() else 0),
+        "method": method_sections(
+            [json.loads(l) for l in open(WALL.parent / "sonnet_excluded.jsonl") if l.strip()]
+            if (WALL.parent / "sonnet_excluded.jsonl").exists() else [],
+            {r["k"] for r in rows_in},
+            [json.loads(l) for l in open(WALL.parent / "sonnet_rerendered.jsonl") if l.strip()]
+            if (WALL.parent / "sonnet_rerendered.jsonl").exists() else [],
+            {r["k"]: r for r in rows_in}),
         "cx": sum(1 for r in rows if r.get("cx")),
         "cxLabel": "CXMolScribe returned CXSMILES",
         "stats": {"n": n, "exact": s_ex, "strict_pct": round(s_ex / n * 100, 1)},
@@ -292,14 +377,16 @@ def main() -> int:
                      "with a Python interpreter and RDKit, and it used them — see the method "
                      "below."),
         "footer": (
-            "Sample is a deterministic stride over the sorted corpus, not a hand-pick. "
+            sample_text(rows_in, excluded_keys) + " "
             "Filenames were anonymised before the model saw them, because the corpus names "
             "images after their compounds and a model given the path could answer without "
             "looking. Scored with the same RDKit canonical comparison as every other arm. "
             f"n={n}: this is a probe, not a benchmark, and no percentage from it should be "
             "quoted as if it were one."),
     }
-    json.dump(d, open(WALL / "sonnet.json", "w"), separators=(",", ":"))
+    tmp = WALL / "sonnet.json.tmp"
+    json.dump(d, open(tmp, "w"), separators=(",", ":"))
+    os.replace(tmp, WALL / "sonnet.json")
     print(f"  sonnet {s_ex}/{n}  cxmolscribe {o_ex}/{n}  both {both}  either {either}")
     print(f"  payload {os.path.getsize(WALL/'sonnet.json')/1e3:.0f} KB")
     return 0

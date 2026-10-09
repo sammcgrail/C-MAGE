@@ -129,7 +129,9 @@ def method(proto: dict | None = None, pr: dict | None = None) -> list[dict]:
     return [
         {"h": "What this tab is", "points": [
             "Sonnet 5.5 reading the whole image corpus in the same order the Sonnet 5 arm read it (sorted "
-            "by compound key). Nothing is skipped or hand-picked."
+            "by compound key). Nothing is hand-picked."
+            + (f" {pr['deferred']['text']}" if pr and pr.get("deferred", {}).get("text") else
+               " Nothing is skipped.")
             + (f" {pr['scope']} Images Sonnet 5 did not read count only in Sonnet 5.5's own figures."
                if pr else ""),
             "Scored exactly like the Sonnet 5 tab: RDKit canonical SMILES against the PubChem reference, "
@@ -209,6 +211,14 @@ def build() -> int:
     cost = sum(r["cost_usd"] for r in runs)
     secs = sum(r["duration_s"] for r in runs)
     imgs = sum(r["images"] for r in runs)
+    # Everything the lane has spent, not only the readers of published rows: the launcher session of
+    # every spawn_reader.sh launch, and the readers whose rows never reached the page. Never blocks.
+    spent = None
+    try:
+        import launch_cost
+        spent = launch_cost.lane_total(LANE, set(d["runs"]), launch_cost.update())
+    except Exception as e:  # noqa: BLE001
+        print(f"  WARNING total spend not computed: {e!r}")
     pct = lambda a, b: round(a / b * 100, 1) if b else 0.0
     corpus_n = len(json.load(open(WALL / "images.json"))["rows"])
     classes = []
@@ -241,8 +251,13 @@ def build() -> int:
             # What the Sonnet 5 figure covers, and the 5.5 rows with no Sonnet 5 reading, apart.
             "pairing": PR,
             "cost": {"usd": round(cost, 2), "reads": imgs, "perImage": round(cost / imgs, 2) if imgs else None,
-                     "note": (f"Estimated API cost at list price: ${cost:,.2f} for the {imgs} Sonnet 5.5 reads "
-                              f"shown, about ${cost / imgs:.2f} and {round(secs / imgs)} s per image.") if imgs else ""},
+                     "spent": spent,
+                     "note": ((f"Estimated API cost at list price: ${cost:,.2f} for the {imgs} Sonnet 5.5 reads "
+                               f"shown, about ${cost / imgs:.2f} and {round(secs / imgs)} s per image.")
+                              + (f" Total spent ${cost + spent['launcher_usd'] + spent['unpublished_usd']:,.2f}, including "
+                                 f"launcher sessions (${spent['launcher_usd']:,.2f}) and {spent['unpublished_readers']} "
+                                 f"unpublished readers (${spent['unpublished_usd']:,.2f})." if spent else ""))
+                     if imgs else ""},
             "breakdown": [
                 {"key": "both", "label": "Both right", "n": sum(1 for r in rows if r["o"] == "both")},
                 {"key": "sonnet", "label": "Sonnet 5.5 only", "n": sum(1 for r in rows if r["o"] == "sonnet")},
@@ -253,6 +268,11 @@ def build() -> int:
         "xlink": {"href": "/sonnet-compare",
                   "text": "Every reading on this tab is Sonnet 5.5, in the Sonnet 5 arm's order.",
                   "bold": "Sonnet 5 vs 5.5, image for image →"},
+        # Lines under the hero: the deferred images and the renderer caveat. Built here, rendered as-is.
+        "heroNotes": [x for x in (PR.get("deferred", {}).get("text"), (B55.renderer_caveat() or {}).get("text")) if x],
+        # Hook for the renderer-control comparison (corpus molecules drawn by another renderer, read by
+        # both arms); its own builder fills it. Null until then.
+        "rendererControl": None,
         "prompt": prompt, "protocol": proto,
         "workflow": build_sonnet.WORKFLOW, "examples": [], "classes": classes,
         "method": method(proto, PR), "noS5": no_s5,
@@ -267,13 +287,18 @@ def build() -> int:
                         f"{single_from}." if proto else ".")),
         "footer": (f"n={n} of {corpus_n}, growing every usage block"
                    + (f" (single-image readers from row {single_from})" if proto else "")
-                   + f". Corpus order, nothing skipped. {PR['scope']} On those {P['n']:,}, Sonnet 5.5 "
+                   + (f". Corpus order; {PR['deferred']['n']} deferred by the cost/time guard and not yet read "
+                      f"({', '.join(PR['deferred']['names'])})." if PR.get("deferred", {}).get("n") else
+                      ". Corpus order, nothing skipped.")
+                   + f" {PR['scope']} On those {P['n']:,}, Sonnet 5.5 "
                    f"{P['s55']} and Sonnet 5 {P['s5']} exact, 5.5 ahead on {P['ahead']} and behind on "
                    f"{P['behind']} (exact McNemar p={P['p']})."
                    + (f" {PR['only_text']}" if PR["only_text"] else "")
                    + " Filenames anonymised; ground truth is PubChem."),
     }
-    OUT.write_text(json.dumps(out, separators=(",", ":")))
+    tmp = OUT.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(out, separators=(",", ":")))
+    os.replace(tmp, OUT)
     print(f"wrote {OUT} ({OUT.stat().st_size / 1e3:.1f} KB): {n} rows; Sonnet 5.5 {s_ex}/{n}, "
           f"CXMolScribe {o_ex}/{n}; paired with Sonnet 5 on {P['n']}: 5.5 {P['s55']} vs 5 {P['s5']}, "
           f"ahead {P['ahead']} behind {P['behind']} p={P['p']}; ${cost:.2f} over {imgs} reads")
