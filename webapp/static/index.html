@@ -213,6 +213,30 @@ input[type=search]{flex:0 0 190px;background:var(--panel);border:1px solid var(-
 .t u{position:absolute;left:0;right:0;bottom:4px;background:rgba(13,17,23,.82);color:#fff;
   font-size:12px;text-decoration:none;padding:1px 4px;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;display:block}
+/* Superatoms tab: two readers side by side per row, and tiles that carry the truth and both
+   answers under the image. Scoped by payload flags (DATA.c2, DATA.tileText). */
+.c2{margin:4px 0 12px}
+.c2k{display:flex;gap:14px;font-size:12.5px;color:var(--dim);margin-bottom:8px}
+.c2k i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+.c2r{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 12px;margin-bottom:12px}
+.c2l{grid-column:1/-1;font-size:13px;color:var(--ink)} .c2l span{color:var(--dim)}
+.c2b{display:grid;grid-template-columns:3.6em minmax(0,1fr) 3.9em;align-items:center;gap:6px;
+  font-size:12px;color:var(--dim);min-width:0}
+.c2b b{color:var(--ink);font-size:15px}
+.c2b>span:last-child{text-align:right}
+.c2b .tr{height:9px;background:var(--panel);border:1px solid var(--line);overflow:hidden;min-width:0}
+.c2b .tr i{display:block;height:100%}
+.c2 .s, .c2k .s{background:var(--acc)} .c2 .c, .c2k .c{background:var(--stereo)}
+.wall.tx{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
+.t.tx{aspect-ratio:auto;contain-intrinsic-size:auto 260px;text-align:left;background:var(--panel)}
+.t.tx img{height:auto;aspect-ratio:1;background:#fff}
+.t.tx::after{display:none}
+.t .tl{display:block;padding:4px 6px 6px;font-size:11px;line-height:1.45;color:var(--ink)}
+.t .tl span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t .tl small{font-size:11px;font-weight:600;color:var(--dim);margin-right:4px}
+.t .tl .m{display:inline-block;width:1.1em;text-align:center;font-weight:700}
+.t .tl .exact{color:var(--exact)} .t .tl .stereo{color:var(--stereo)} .t .tl .wrong{color:var(--wrong)}
+.t .tl .invalid{color:var(--dim)}
 .more{grid-column:1/-1;text-align:center;color:var(--dim);padding:18px;font-size:13px}
 
 /* detail sheet */
@@ -461,7 +485,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
       <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet 5</button>
       <button role="tab" id="tab-sonnet55" aria-selected="false">Sonnet 5.5</button>
       <button role="tab" id="tab-sonnet55api" aria-selected="false">Sonnet 5.5 API only</button>
-      <button role="tab" id="tab-superatoms" aria-selected="false">Superatoms (API)</button>
+      <button role="tab" id="tab-superatoms" aria-selected="false">Superatoms</button>
       <a class="segl" href="/sonnet-compare">Sonnet compare</a>
     </div>
     <button class="ghost" id="try">Try a file</button>
@@ -549,6 +573,7 @@ function prefetchPred(r){
 }
 
 function tile(r){
+  if (DATA.tileText) return tileText(r);
   var b = el("button", "t " + tileCls(r));
   b.innerHTML = '<img loading="lazy" decoding="async" src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt="">'
@@ -559,6 +584,20 @@ function tile(r){
   var im = b.firstChild;
   if (im.complete) prefetchPred(r);
   else im.addEventListener("load", function(){ prefetchPred(r); }, {once: true});
+  b.onclick = function(){ openSheet(r); };
+  return b;
+}
+
+/* Superatoms tab tile: the image, then the truth, then each reader's answer with its verdict mark. */
+function tileText(r){
+  var b = el("button", "t tx");
+  var M = {exact:"\u2713", stereo:"\u2248", wrong:"\u2717", invalid:"\u2013"};
+  function line(who, sm, v){ return '<span>' + (v ? '<i class="m ' + v + '">' + M[v] + '</i>' : '')
+    + '<small>' + esc(who) + '</small>' + esc(sm || "(none)") + '</span>'; }
+  b.innerHTML = '<img loading="lazy" decoding="async" src="/wall/' + DATA.dir + '/'
+    + encodeURIComponent(r.k) + '.png" alt="">'
+    + '<span class="tl">' + line("Truth", r.tw ? "withheld" : r.t, null)
+    + (r.tl || []).map(function(x){ return line(x[0], x[1], x[2]); }).join("") + '</span>';
   b.onclick = function(){ openSheet(r); };
   return b;
 }
@@ -1143,7 +1182,21 @@ function render(){
      RECALL over compounds catalogued, because those documents draw six times
      more than they list. The label ships with the payload. */
   var c = DATA.compare;
-  if (DATA.cards) {
+  if (DATA.c2) {
+    /* Superatoms tab: one comparison, two readers per row. */
+    var c2 = DATA.c2, bar2 = function(x, k){ return '<div class="c2b"><b>' + x.pct + '%</b><span class="tr"><i class="'
+        + k + '" style="width:' + x.pct + '%"></i></span><span>' + x.exact + '/' + x.n + '</span></div>'; };
+    hero.innerHTML = '<h2 class="blockh">' + esc(DATA.title) + '</h2>'
+      + '<p class="sub">' + esc(DATA.headline) + '</p>'
+      + '<div class="c2"><div class="c2k"><span><i class="s"></i>' + esc(c2.a) + '</span><span><i class="c"></i>'
+      + esc(c2.b) + '</span></div>' + c2.rows.map(function(x){
+        return '<div class="c2r"><div class="c2l">' + esc(x.label) + (x.note ? ' <span>' + esc(x.note) + '</span>' : '')
+          + '</div>' + bar2(x.a, "s") + bar2(x.b, "c") + '</div>'; }).join("") + '</div>'
+      + (DATA.pairLine ? '<p class="sub">' + esc(DATA.pairLine) + '</p>' : '')
+      + (DATA.more ? '<details class="fold"><summary>' + esc(DATA.more.h) + '</summary>' + DATA.more.groups.map(function(g){
+          return '<div class="noteh">' + esc(g.h) + '</div><ul class="notelist">' + g.rows.map(function(t){
+            return '<li>' + esc(t) + '</li>'; }).join("") + '</ul>'; }).join("") + '</details>' : '');
+  } else if (DATA.cards) {
     /* The API-only tab: summary cards, then the same two-side panel as the Sonnet tabs for the
        overlap with the tool-using reader (only when there is one), then the verdict bar. */
     var vs = DATA.vs, vbest = vs ? Math.max(vs.sides[0].pct, vs.sides[1].pct) : 0;
@@ -1250,7 +1303,7 @@ function render(){
      two different questions answered on one line. */
   v.appendChild(chipbar(DATA.rows.filter(function(r){ return !DOC || r.d === DOC; })));
   var head = el("div", "sub"); head.id = "count"; v.appendChild(head);
-  var wall = el("div", "wall"); wall.id = "wall"; v.appendChild(wall);
+  var wall = el("div", DATA.tileText ? "wall tx" : "wall"); wall.id = "wall"; v.appendChild(wall);
   if (DATA.workflow){
     var w = DATA.workflow, ws = el("section", "block"); ws.id = "sec-workflow";
     ws.innerHTML = '<h2 class="blockh">How this arm works</h2><p class="sub">' + esc(w.intro) + '</p>'
