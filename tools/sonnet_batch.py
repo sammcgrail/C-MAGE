@@ -73,8 +73,16 @@ if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
 # drawn by a different renderer (Indigo, its own layout) under neutral names. Its pool is
 # benchmarks/control_set.json; each row's png path is its image. Jailed readers have RDKit, the corpus
 # renderer, and pixel-match candidates against the image; on these drawings they cannot.
+# sa5 / sa55 (9 Oct, the backfill) are Sonnet 5 and Sonnet 5.5 on the SUPERATOM set (tools/superatoms/): the
+# built sa_NNNN drawings and the shown real rs_NNNN ones (UOB/ACS, show=false, are never claimed). Their pool is
+# the two set.json files of the superatoms API run, keyed by the superatom id, so no superatom reading can land
+# in a corpus ledger. Rows carry arm "s5" / "s55" (the page builders' contract) and lane "sa5" / "sa55".
+# nov5 (9 Oct) is Sonnet 5 on the novel set, the counterpart of nov.
 ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5", "s55c": "claude-sonnet-5-5",
-             "nov": "claude-sonnet-5-5", "ctl": "claude-sonnet-5-5"}
+             "nov": "claude-sonnet-5-5", "ctl": "claude-sonnet-5-5",
+             "sa5": "claude-sonnet-5", "sa55": "claude-sonnet-5-5", "nov5": "claude-sonnet-5"}
+ROW_ARM = {"sa5": "s5", "sa55": "s55"}     # the arm label a lane's rows carry, where it is not the lane name
+SA_RUN = Path("/root/C-MAGE/benchmarks/published_runs/sonnet55_api_superatoms")
 NOVEL_SET = Path("/root/C-MAGE/benchmarks/novel_set.json")
 NOVEL_IMAGES = "/root/cmage-work/novel/corpus_rdkit_1500"
 CONTROL_SET = Path("/root/C-MAGE/benchmarks/control_set.json")
@@ -104,8 +112,23 @@ def pending_path(slot: str) -> Path:
 WALL = Path("/root/C-MAGE/benchmarks/wall")
 
 
+def superatom_rows() -> list[dict]:
+    """The superatom pool: every built drawing and every SHOWN real one, as {k, t, n, png}. The name is the
+    neutral id (the drawing's compound name never travels with a claim)."""
+    out = []
+    for sec in ("synth", "real"):
+        f = SA_RUN / sec / "set.json"
+        if f.exists():
+            out += [{"k": x["id"], "t": x["truth"], "n": x["id"], "png": x["png"]} for x in json.load(open(f))
+                    if sec == "synth" or x.get("show")]
+    return out
+
+
 def corpus() -> list[dict]:
-    d = json.load(open(NOVEL_SET if ARM == "nov" else CONTROL_SET if ARM == "ctl" else CORPUS_ROWS))
+    if ARM in ("sa5", "sa55"):
+        d = {"rows": superatom_rows()}
+    else:
+        d = json.load(open(NOVEL_SET if ARM in ("nov", "nov5") else CONTROL_SET if ARM == "ctl" else CORPUS_ROWS))
     rows = sorted(d["rows"], key=lambda r: r["k"])
     missing = [r["k"] for r in rows if not r.get("t")]
     if missing:
@@ -123,8 +146,10 @@ def done_keys() -> set[str]:
 def image_index() -> dict[str, str]:
     if ARM == "ctl":
         return {r["k"] + ".png": r["png"] for r in json.load(open(CONTROL_SET))["rows"]}
+    if ARM in ("sa5", "sa55"):
+        return {r["k"] + ".png": r["png"] for r in superatom_rows()}
     idx = {}
-    for dd in ([NOVEL_IMAGES] if ARM == "nov" else sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500"))):
+    for dd in ([NOVEL_IMAGES] if ARM in ("nov", "nov5") else sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500"))):
         for p in glob.glob(dd + "/*.png"):
             idx.setdefault(os.path.basename(p), p)
     return idx
@@ -427,7 +452,8 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
             fh.write(json.dumps(dict(b, sonnet_smiles=pred, sonnet_verdict=v,
                                      sonnet_conf=a.get("confidence"),
                                      sonnet_name=a.get("name_if_recognised"),
-                                     **({"arm": ARM} if ARM else {}))) + "\n")
+                                     **({"arm": ROW_ARM.get(ARM, ARM)} if ARM else {}),
+                                     **({"lane": ARM} if ARM in ROW_ARM else {}))) + "\n")
     pending_path(slot).unlink(missing_ok=True)     # release the claim
     tot = len(done_keys())
     print(f"[{slot}] sonnet {s_ex}/{len(batch)}  cxmolscribe {o_ex}/{len(batch)}   cumulative {tot}")
