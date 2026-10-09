@@ -616,7 +616,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=8c572c713f"></script>
+<script src="/static/llmocr.js?v=ba11663ca4"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -942,6 +942,23 @@ function makeWall(wall, rows, tileFn, o){
   wall.innerHTML = "";
   if (!rows.length) wall.appendChild(el("div", "more", o.empty || "Nothing matches."));
   else more(o.first || step);
+  /* Preload the bottom so "to bottom" has nothing left to do: once the page is idle, warm the
+     image cache for the last screenful of tiles, then append the remaining tiles a small batch per
+     idle slot (content-visibility keeps undrawn tiles cheap). Stops when the wall is replaced. */
+  var dead = false, idle = window.requestIdleCallback
+    ? function(f){ requestIdleCallback(f, {timeout: 1500}); }
+    : function(f){ setTimeout(function(){ f({timeRemaining: function(){ return 8; }}); }, 120); };
+  if (o.src && rows.length > shown){
+    idle(function(){ if (dead) return;
+      rows.slice(-48).forEach(function(r){ var im = new Image(); im.decoding = "async"; im.src = o.src(r); });
+    });
+  }
+  (function fill(d){
+    if (!wall.isConnected && shown) dead = true;
+    if (dead || shown >= rows.length) return;
+    if (d && !busy) while (shown < rows.length && d.timeRemaining() > 4) more(40);
+    if (shown < rows.length) idle(fill);
+  })();
   return {
     /* follow: keep the view pinned to the growing end while chunks land, so "to bottom" moves at once
        instead of sitting still until the last chunk. */
@@ -955,7 +972,7 @@ function makeWall(wall, rows, tileFn, o){
         } else { busy = false; if (cb) cb(); }
       })();
     },
-    disconnect: function(){ obs.disconnect(); }
+    disconnect: function(){ dead = true; obs.disconnect(); }
   };
 }
 window.makeWall = makeWall;
@@ -964,7 +981,8 @@ var WALLCTL = null;
 function paint(){
   var rows = DATA.rows.filter(match);
   if (WALLCTL) WALLCTL.disconnect();
-  WALLCTL = makeWall($("#wall"), rows, tile, {step: STEP, empty: "Nothing matches that filter."});
+  WALLCTL = makeWall($("#wall"), rows, tile, {step: STEP, empty: "Nothing matches that filter.",
+    src: function(r){ return "/wall/" + DATA.dir + "/" + encodeURIComponent(r.k) + ".png"; }});
   if (GBAR) GBAR.setCount(rows.length);
 }
 

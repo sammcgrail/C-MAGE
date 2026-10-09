@@ -263,7 +263,8 @@ function paint(){
   var w = $("#lowall"); if (!w) return;
   var rows = rowsNow();
   if (WALL) WALL.disconnect();
-  WALL = window.makeWall(w, rows, tile, {step: S.step, empty: "Nothing matches."});
+  WALL = window.makeWall(w, rows, tile, {step: S.step, empty: "Nothing matches.",
+    src: function(r){ return "/wall/" + IMGDIR[r[3]] + "/" + encodeURIComponent(r[0]) + ".png"; }});
   if (GB) GB.setCount(rows.length);
 }
 
