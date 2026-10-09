@@ -104,7 +104,7 @@ var st = document.createElement("style"); st.textContent = CSS; document.head.ap
 
 var V = {e:"exact", s:"stereo", w:"wrong", i:"invalid", "-":"not read", x:"invalid"};
 var VL = {e:"exact", s:"stereo only", w:"wrong", i:"unparseable", "-":"not read", x:"excluded, not counted"};
-var S = {filter:"all", q:"", shown:150, step:150, detail:null, pending:null, view:"all"};
+var S = {filter:"all", q:"", shown:150, step:150, detail:null, pending:null, view:"all", cardSet:"same"};
 /* Where an image came from: the corpus, or the superatom set (built, real). Rows carry it as r[3]. */
 var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms"};
 var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt", g: "superatoms_txt"};
@@ -148,16 +148,32 @@ function legend(){
    the widest label and right-aligned against the bars, so every bar starts at the same x. */
 function G(rows){ return '<div class="hbg">' + rows + '</div>'; }
 
-/* Headline cards at the top. Row 1: the images all four read (same numbers as "Exact, same
-   images"). Row 2: every image each reader was run on, each on its own n. A view the tool arms
-   have not read has no shared set, so it gets row 2 only. bigCards() lives in index.html. */
-function bindAll(){}
+/* Headline cards at the top: ONE row, with a small icon toggle for which images they count.
+   "same" (default): the images all four read, so the readers are compared like for like.
+   "all": every image each reader was run on, each on its own n. A view the tool arms have not
+   read has no shared set, so it shows "all" and no toggle. bigCards() lives in index.html. */
+var ICON_SAME = '<svg viewBox="0 0 24 16" width="22" height="15" aria-hidden="true"><circle cx="9" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.2a6 6 0 0 1 0 9.6a6 6 0 0 1 0-9.6z" fill="currentColor"/></svg>';
+var ICON_ALL = '<svg viewBox="0 0 24 16" width="22" height="15" aria-hidden="true"><circle cx="9" cy="8" r="6" fill="currentColor" fill-opacity=".85"/><circle cx="15" cy="8" r="6" fill="currentColor" fill-opacity=".85"/></svg>';
+function bindAll(){
+  var t = $("#loset"); if (!t) return;
+  t.addEventListener("click", function(e){
+    var b = e.target.closest("button[data-set]"); if (!b || b.dataset.set === S.cardSet) return;
+    S.cardSet = b.dataset.set; $("#locards").innerHTML = topCards(); bindAll();
+  });
+}
 function topCards(){
   var V = VW(), s = V.shared, each = V.each.filter(function(x){ return x.n; });
-  var cards = function(xs){ return bigCards(xs.map(function(x){ var a = ARM[x.id];
-    return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; })); };
-  return (s.n ? '<div class="cmph"><b>Same images</b> · the ' + fmt(s.n) + ' all four read</div>' + cards(s.arms) : '')
-    + cards(each);
+  var set = s.n ? (S.cardSet || "same") : "all";
+  var xs = set === "same" ? s.arms : each;
+  var btn = function(k, icon, label){ return '<button type="button" data-set="' + k + '" aria-pressed="' + (set === k)
+    + '" aria-label="' + label + '" title="' + label + '">' + icon + '</button>'; };
+  return '<div class="cmph lo-seth"><span>' + (set === "same" ? 'Same ' + fmt(s.n) + ' images, all four readers'
+      : 'All images each reader read') + '</span>'
+    + (s.n ? '<span class="lo-set" id="loset" role="group" aria-label="Which images the cards count">'
+      + btn("same", ICON_SAME, "Same images for every reader") + btn("all", ICON_ALL, "Every image each reader read") + '</span>' : '')
+    + '</div>'
+    + bigCards(xs.map(function(x){ var a = ARM[x.id];
+        return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; }));
 }
 
 function cardShared(){
