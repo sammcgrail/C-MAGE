@@ -225,7 +225,7 @@ def scored_rows():
             think = (u.get("output_tokens_details") or {}).get("thinking_tokens")
             rows.append({
                 "k": k, "sec": sec, "built": sec == "synth", "big": sec == "big",
-                "trained": m.get("src") in TRAIN_SRC, "src": "Built" if sec == "synth" else m["src"],
+                "trained": m.get("src") in TRAIN_SRC, "cls": m.get("cls"), "src": "Built" if sec == "synth" else m["src"],
                 "labs": m.get("labels") or [], "truth": m["truth"], "png": m["png"], "show": m.get("show", True),
                 "name": m["name"] if sec == "synth" else f"{m['src']} {m['orig_id']}", "pk": m.get("plain_key"),
                 "s": s, "v": verdict(s, m["truth"]), "text": r.get("text") or "",
@@ -280,6 +280,8 @@ def _build() -> int:
         row["d"] = SECTION["synth"] if x["built"] else SECTION["big"] if x["big"] else f"Real: {x['src']}"
         if x["trained"]:
             row["trained"] = 1
+        if x.get("cls"):
+            row["cls"] = x["cls"]
         row["rnote"] = (f"superatoms drawn: {', '.join(labs)} · one API call, no tools · max_tokens "
                         f"{(x['mt'] or 0):,} · stop_reason {x['stop0']} · "
                         f"{x['itok']:,} in / {x['otok']:,} out tokens · "
@@ -317,8 +319,13 @@ def _build() -> int:
               ("Real, 1 superatom label", [r for r in real if nl(r) == 1]),
               ("Real, 2 superatom labels", [r for r in real if nl(r) == 2]),
               ("Real, 3 or more labels", [r for r in real if nl(r) >= 3]),
-              (SECTION["big"] + ", held-out USPTO", big_held),
-              (SECTION["big"] + ", USPTO training set", big_train)]
+              # Held-out = every big row CXMolScribe cannot have trained on: MolScribe's USPTO test images
+              # and post-2016 USPTO grants (src USPTO-ODP). Only USPTO-train carries the caveat.
+              (SECTION["big"] + ", held-out", big_held)]
+    odp = [r for r in big_held if r["src"] == "USPTO-ODP"]
+    for cls, lab in (("protac", "PROTACs"), ("peptide", "peptides"), ("macrocycle", "macrocycles")):
+        groups.append((f"{SECTION['big']}, {lab} (USPTO 2017+)", [r for r in odp if r.get("cls") == cls]))
+    groups.append((SECTION["big"] + ", USPTO training set", big_train))
     c2rows = [{"label": lab, "note": f"n={len(rs)}" + (f" · {TRAIN_NOTE}" if rs is big_train else ""),
                "a": side(rs, S), "b": side(rs, C)} for lab, rs in groups if rs]
     # Headline totals: every shown image for the API arm; for CXMolScribe, every image except the ones
@@ -352,9 +359,12 @@ def _build() -> int:
     real_src = sorted(collections.Counter(r["src"] for r in real).items())
     count_line = (f"{len(rows)} images: {len(syn)} built + {len(real)} real ("
                   + ", ".join(f"{s_} {n}" for s_, n in real_src) + ")"
-                  + (f" + {len(big)} big, ≥50 atoms ({len(big_held)} held-out, {len(big_train)} from the training set)" if big else "")
+                  + (f" + {len(big)} big, ≥50 atoms ("
+                     + ", ".join(f"{s_} {n}" for s_, n in sorted(collections.Counter(r["src"] for r in big).items()))
+                     + (f"; {len(big_train)} from MolScribe's training set" if big_train else "") + ")" if big else "")
                   + ".")
     assert len(rows) == len(syn) + len(real) + len(big) == sum(x["a"]["n"] for x in c2rows[:2]) + len(big)
+    assert len(big) == len(big_held) + len(big_train)
     out = {
         "arm": "Superatoms", "countLine": count_line, "dir": DIR, "reader": SON, "rows": rows, "tileText": 1,
         "title": f"Superatoms: {CXM} vs {SON}",
