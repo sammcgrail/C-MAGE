@@ -128,7 +128,7 @@ function bestOf(read, ex){
 /* ---- Reader cards ---- */
 function cardsInit(box){
   box.innerHTML = '<div class="cmp topc four">' + D.arms.map(function(a){
-    return '<div class="side"><span class="best">best</span><div class="who"><i style="background:' + a.color + '"></i>'
+    return '<div class="side"><div class="who"><i style="background:' + a.color + '"></i>'
       + esc(a.short) + '</div><div class="pc">–</div><div class="of">&nbsp;</div>'
       + '<div class="track"><i style="width:0;background:' + a.color + '"></i></div></div>';
   }).join("") + '</div>';
