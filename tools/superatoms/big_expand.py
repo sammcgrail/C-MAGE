@@ -393,28 +393,34 @@ def run_cx():
     return len(todo)
 
 
-def merge_cx(run_dir):
+def merge_cx(run_dir, sa=None, cxp=None):
     """Append a stage-3 run's rows to the published pair (text only, one row per id; the same rule as
-    merge_cx.py)."""
+    merge_cx.py). Every NEW row must be an id of some set.json; rows already in the pair are only checked for
+    duplicates, because a set may later drop an id (wavy/removed.json) while its old CX row stays in the pair (that
+    tripped `assert k in ids` on wv_0001 and halted the timer, 9 Oct 13:25Z). Atomic: both files are checked
+    before either is written."""
     import pandas as pd
-    ids = {x["id"] for d in ("synth", "real", "big", "wavy") if (SA / d / "set.json").exists()
-           for x in json.load(open(SA / d / "set.json"))}
-    seen = set()
+    sa, cxp = Path(sa or SA), Path(cxp or CXP)
+    ids = {x["id"] for d in sorted(sa.iterdir()) if (d / "set.json").exists() for x in json.load(open(d / "set.json"))}
+    seen, out = set(), {}
     for f in ("High", "Low"):
-        p = CXP / f"Completed_{f}Confidence_CMAGE.xlsx"
+        p = cxp / f"Completed_{f}Confidence_CMAGE.xlsx"
         old = pd.read_excel(p)
         newp = Path(run_dir) / "03_CXMS_Results" / f"Completed_{f}Confidence_CMAGE.xlsx"
         new = pd.read_excel(newp) if newp.exists() else old.iloc[0:0]
-        for dfr in (old, new):
+        for is_new, dfr in ((False, old), (True, new)):
             for fp in dfr["File Path"]:
                 k = Path(fp).stem
-                assert k in ids, k
-                assert k not in seen, f"{k} twice"
+                if is_new and k not in ids:
+                    raise AssertionError(f"new CX row {k} is in no set.json")
+                if k in seen:
+                    raise AssertionError(f"{k} twice")
                 seen.add(k)
         m = pd.concat([old, new.reindex(columns=old.columns)], ignore_index=True)
-        m = m.drop(columns=[c for c in m.columns if c == "Unnamed: 0"])
+        out[p] = m.drop(columns=[c for c in m.columns if c == "Unnamed: 0"])
+    for p, m in out.items():
         m.to_excel(p)
-    with open(CXP / "RUN.txt", "a") as fh:
+    with open(cxp / "RUN.txt", "a") as fh:
         fh.write(Path(run_dir).name + "  (big set, merged text-only)\n")
     log(f"merged {run_dir}; {len(seen)} ids have a CX row")
 
