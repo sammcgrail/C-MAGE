@@ -376,6 +376,9 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .note{background:#0b0f14;border:1px solid var(--line);border-left:3px solid var(--acc);
   padding:10px 12px;margin:12px 0;font-size:13px;color:var(--dim);line-height:1.45}
 .note b{color:var(--ink)}
+.tbd{background:rgba(218,54,51,.12);border:1px solid var(--wrong);border-left:4px solid var(--wrong);
+  border-radius:8px;padding:12px 14px;margin:4px 0 14px;font-size:14px;line-height:1.45;color:#ffb3ae}
+.tbd b{color:#ff7b72;letter-spacing:.3px}
 .note code{display:block;margin-top:7px;background:none;border:0;padding:0;
   font:12px/1.5 ui-monospace,Menlo,monospace;color:var(--ink);word-break:break-all;
   user-select:text;-webkit-user-select:text}
@@ -1438,6 +1441,8 @@ function render(){
   v.innerHTML = "";
   if (DATA.error){ v.appendChild(el("div", "err", DATA.error)); return; }
   if (TAB === "llmocr"){ LLMOCR.render(v, DATA); return; }
+  if (TAB === "pdfs") v.appendChild(el("div", "tbd", "")).innerHTML =
+    '<b>TBD — not working properly yet.</b> Treat the numbers on this tab as provisional.';
   var s = DATA.stats;
   var hero = el("div", "hero");
   /* The two tabs measure different things and must not share a caption. The
