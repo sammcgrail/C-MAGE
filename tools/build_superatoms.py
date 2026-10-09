@@ -9,11 +9,11 @@
 
 Two kinds of drawing, never pooled:
   built  RDKit-condensed drawings (tools/superatoms/): truth = the original full molecule, exact by
-         construction. A corpus molecule's truth is served only once a tool-using lane has read it
-         (build_wall.tool_read_keys, keyed on the corpus key).
+         construction. A reference is served only once both tool-using lanes have read the drawing,
+         or when it is a corpus molecule a tool lane has read (truth_visible).
   real   published drawings from the MolScribe real-image benchmarks (USPTO, CLEF-2012, UOB, ACS)
-         that show text superatoms; truth = the benchmark's SMILES. UOB and ACS count in every number
-         but are not shown (licence).
+         that show text superatoms; truth = the benchmark's SMILES. UOB and ACS are licence-restricted:
+         neither shown nor counted.
 
 Scoring is sonnet_batch.verdict() for both readers. CXMolScribe emits CXSMILES, where a drawn OMe stays
 a labelled dummy atom; compared as emitted, every superatom drawing fails by representation alone, so
@@ -154,19 +154,56 @@ def mcnemar(rs, ka, kb):
     return a, b, float(f"{B55.mcnemar_exact(a, b):.3g}")
 
 
-def build() -> int:
-    img, pred, txt, ocr = WALL / DIR, WALL / f"{DIR}_pred", WALL / f"{DIR}_txt", WALL / f"{DIR}_ocr"
-    for p in (img, pred, txt, ocr):
-        p.mkdir(parents=True, exist_ok=True)
-    cxp = cx_preds()
-    rows, hidden, failed, excluded, cost = [], [], [], [], 0.0
-    for sec in ("synth", "real"):
-        d = RUN / sec
-        if not (d / "set.json").exists():
+# The tool-using lanes that may read superatom drawings (a backfill job keys them by the superatom id,
+# sa_NNNN / rs_*, with an explicit "arm": "s5" or "s55"). A lane's default arm covers rows without one.
+SA_LANES = {"/root/cmage-work/sonnet/results.jsonl": "s5", "/root/cmage-work/sonnet-s55c/results.jsonl": "s55"}
+SA_LANE_GLOB = "/root/cmage-work/sonnet-*sa*/results.jsonl"
+ARM_OF = {"s5": "s5", "": "s5", "s55": "s55", "s55c": "s55"}
+
+
+def is_sa(k: str) -> bool:
+    return k.startswith("sa_") or k.startswith("rs_")
+
+
+def sa_tool_reads() -> dict:
+    """arm ("s5" | "s55") -> superatom key -> that lane's row. Tolerant of a half-written last line."""
+    import glob
+    out = {"s5": {}, "s55": {}}
+    for p in list(SA_LANES) + sorted(glob.glob(SA_LANE_GLOB)):
+        if not Path(p).exists():
             continue
+        for line in open(p):
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if not is_sa(r.get("k", "")):
+                continue
+            arm = ARM_OF.get(r.get("arm") or "", None) if r.get("arm") else SA_LANES.get(p)
+            if arm in out:
+                out[arm][r["k"]] = r
+    return out
+
+
+def sections() -> list:
+    """Every run dir with a set.json: the built set first, then the real sets, then anything added later."""
+    ds = [d for d in RUN.iterdir() if (d / "set.json").exists()]
+    return sorted(ds, key=lambda d: (d.name != "synth", d.name))
+
+
+def scored_rows():
+    """Every superatom drawing that was read, scored by both readers. Returns (rows, excluded, failed,
+    read_n, cost). Each row carries `show` (False for a licence-restricted source); the caller decides
+    what to do with those. Shared by this tab and the LLM vs OCR tab (build_llmocr)."""
+    cxp = cx_preds()
+    rows, failed, excluded, read_n, cost, pending = [], [], [], {}, 0.0, []
+    for d in sections():
+        sec = d.name
         meta = {x["id"]: x for x in json.load(open(d / "set.json"))}
         cost += sum((x.get("cost_usd") or 0) for x in load_jsonl(d / "ledger.jsonl") + load_jsonl(d / "retries.jsonl"))
-        for k, (r, r0, rets) in final_rows(d).items():
+        fr = final_rows(d)
+        read_n[sec] = len(fr)
+        for k, (r, r0, rets) in fr.items():
             m = meta[k]
             if k in EXCLUDE.get(sec, {}):
                 excluded.append(k)
@@ -174,55 +211,83 @@ def build() -> int:
             if r is None:
                 failed.append(k)
                 continue
+            if k not in cxp:          # read by the API, not yet by CXMolScribe: not a pair yet, so not shown
+                pending.append(k)
+                continue
             s = parse_smiles(r.get("text")) or ""
-            v = verdict(s, m["truth"])
             cs, cc = cxp.get(k, (None, None))
             craw, cexp, cex = cx_score(cs, m["truth"])
-            labs = m.get("labels") or []
             u = r.get("usage") or {}
-            row = {"k": k, "sec": sec, "src": "Built" if sec == "synth" else m["src"], "labs": labs,
-                   "v": v, "g": v, "c": None, "s": s, "t": m["truth"], "bn": 1,
-                   "rc": round(sum((x.get("cost_usd") or 0) for x in [r0] + rets), 4),
-                   "rt": round((r0.get("latency_s") or 0) + sum(x.get("latency_s") or 0 for x in rets if x["status"] == "ok"), 1),
-                   "cxv": cexp, "cxraw": craw,
-                   "ocr": cs or "(no answer)", "ocrv": cexp, "ocrc": None if cc is None else round(cc * 100),
-                   "tl": [["Sonnet 5.5", s, v], [CXM, cex or cs or "", cexp]]}
-            row["n"] = f"{k} · {m['name']}" if sec == "synth" else f"{k} · {m['src']} {m['orig_id']}"
-            row["d"] = SECTION["synth"] if sec == "synth" else f"Real: {m['src']}"
-            row["rnote"] = (f"superatoms drawn: {', '.join(labs)} · one API call, no tools · max_tokens "
-                            f"{r0.get('max_tokens'):,} · stop_reason {r0.get('stop_reason')} · "
-                            f"{u.get('input_tokens', 0):,} in / {u.get('output_tokens', 0):,} out tokens · "
-                            f"CXMolScribe on the same image: {cexp} with its labels expanded"
-                            + (f" ({cex})" if cex and cex != cs else "") + f"; {craw} with its own abbreviation table only")
-            pk = m.get("plain_key")
-            if pk:
-                row["pk"] = pk
-            if not m.get("show", True):
-                hidden.append(row)
-                continue
-            thumb(Path(m["png"]), img / f"{k}.png")
-            row["p"] = 1 if render_pred(s, pred / f"{k}.png") else 0
-            row["po"] = 1 if render_pred(cex or cs or "", ocr / f"{k}.png") else 0
-            row["r"] = relate(s, m["truth"])
-            body = r.get("text") or ""
-            tf = txt / f"{k}.txt"
-            if not tf.exists() or tf.read_text() != body:
-                tf.write_text(body)
-            row["tx"] = 1
-            rows.append(row)
+            think = (u.get("output_tokens_details") or {}).get("thinking_tokens")
+            rows.append({
+                "k": k, "sec": sec, "built": sec == "synth", "src": "Built" if sec == "synth" else m["src"],
+                "labs": m.get("labels") or [], "truth": m["truth"], "png": m["png"], "show": m.get("show", True),
+                "name": m["name"] if sec == "synth" else f"{m['src']} {m['orig_id']}", "pk": m.get("plain_key"),
+                "s": s, "v": verdict(s, m["truth"]), "text": r.get("text") or "",
+                "rc": round(sum((x.get("cost_usd") or 0) for x in [r0] + rets), 4),
+                "rt": round((r0.get("latency_s") or 0) + sum(x.get("latency_s") or 0 for x in rets if x["status"] == "ok"), 1),
+                "mt": r0.get("max_tokens"), "stop": r.get("stop_reason"), "stop0": r0.get("stop_reason"),
+                "retried": r is not r0, "itok": u.get("input_tokens", 0), "otok": u.get("output_tokens", 0),
+                "ttok": think, "cx_raw_smiles": cs, "cx": cex or cs or "", "cxv": cexp, "cxraw": craw,
+                "cxc": None if cc is None else round(cc * 100)})
+    scored_rows.pending = pending
+    return rows, excluded, failed, read_n, cost
 
-    # Truth gate (build_wall.gate_truth): a CORPUS molecule's reference is served only once a
-    # tool-using reader lane has read it; the gate is keyed on the corpus key, not the sa_ id.
-    read = build_wall.tool_read_keys()
-    gated = [r for r in rows if r.get("pk") and r["pk"] not in read]
-    for r in gated:
-        r["tw"] = 1
-        r["n"] = r["k"]           # the name is a lookup away from the structure: withheld too
-        for f in build_wall.TRUTH_FIELDS:
-            r.pop(f, None)
-    allr = rows + hidden
-    syn = [r for r in allr if r["sec"] == "synth"]
-    real = [r for r in allr if r["sec"] == "real"]
+
+def truth_visible(row: dict, reads: dict, corpus_read: set) -> bool:
+    """A superatom drawing's reference is served once BOTH tool lanes have read that image, or when it is
+    a corpus molecule a tool lane has already read (its reference is public on the corpus tabs)."""
+    return (row["k"] in reads["s5"] and row["k"] in reads["s55"]) or bool(row.get("pk") and row["pk"] in corpus_read)
+
+
+def build() -> int:
+    img, pred, txt, ocr = WALL / DIR, WALL / f"{DIR}_pred", WALL / f"{DIR}_txt", WALL / f"{DIR}_ocr"
+    for p in (img, pred, txt, ocr):
+        p.mkdir(parents=True, exist_ok=True)
+    allrows, excluded, failed, read_n, cost = scored_rows()
+    # Only what can be shown is counted: a licence-restricted drawing, an excluded one or a failed call
+    # is in no number on the tab (Sam, 9 Oct: "the totals equal what is shown").
+    hidden = [r for r in allrows if not r["show"]]
+    reads = sa_tool_reads()
+    corpus_read = build_wall.tool_read_keys()
+    rows = []
+    for x in allrows:
+        if not x["show"]:
+            continue
+        k, s, labs = x["k"], x["s"], x["labs"]
+        row = {"k": k, "sec": x["sec"], "src": x["src"], "labs": labs, "v": x["v"], "g": x["v"], "c": None,
+               "s": s, "t": x["truth"], "bn": 1, "rc": x["rc"], "rt": x["rt"], "cxv": x["cxv"], "cxraw": x["cxraw"],
+               "ocr": x["cx_raw_smiles"] or "(no answer)", "ocrv": x["cxv"], "ocrc": x["cxc"],
+               "tl": [["Sonnet 5.5", s, x["v"]], [CXM, x["cx"], x["cxv"]]]}
+        row["n"] = f"{k} · {x['name']}"
+        row["d"] = SECTION["synth"] if x["built"] else f"Real: {x['src']}"
+        row["rnote"] = (f"superatoms drawn: {', '.join(labs)} · one API call, no tools · max_tokens "
+                        f"{(x['mt'] or 0):,} · stop_reason {x['stop0']} · "
+                        f"{x['itok']:,} in / {x['otok']:,} out tokens · "
+                        f"CXMolScribe on the same image: {x['cxv']} with its labels expanded"
+                        + (f" ({x['cx']})" if x["cx"] and x["cx"] != x["cx_raw_smiles"] else "")
+                        + f"; {x['cxraw']} with its own abbreviation table only")
+        if x.get("pk"):
+            row["pk"] = x["pk"]
+        thumb(Path(x["png"]), img / f"{k}.png")
+        row["p"] = 1 if render_pred(s, pred / f"{k}.png") else 0
+        row["po"] = 1 if render_pred(x["cx"], ocr / f"{k}.png") else 0
+        row["r"] = relate(s, x["truth"])
+        tf = txt / f"{k}.txt"
+        if not tf.exists() or tf.read_text() != x["text"]:
+            tf.write_text(x["text"])
+        row["tx"] = 1
+        if not truth_visible(x, reads, corpus_read):
+            row["tw"] = 1
+            if x.get("pk"):
+                row["n"] = k      # a corpus molecule's name is a lookup away from its structure
+            for f in build_wall.TRUTH_FIELDS:
+                row.pop(f, None)
+        rows.append(row)
+    gated = [r for r in rows if r.get("tw")]
+
+    syn = [r for r in rows if r["sec"] == "synth"]
+    real = [r for r in rows if r["sec"] != "synth"]
     S, C = (lambda r: r["v"]), (lambda r: r["cxv"])
     nl = lambda r: len(r["labs"])
     groups = [("Built drawings", syn), ("Real drawings, all sources", real),
@@ -238,46 +303,52 @@ def build() -> int:
             a, b, p = mcnemar(rs, S, C)
             tests.append(f"{lab}: right only for {SON} {a}, only for {CXM} {b}; exact McNemar p={p}")
     own = [f"{lab}: {fmt(side(rs, lambda r: r['cxraw']))}" for lab, rs in groups if rs]
+    srcs = collections.Counter(r["src"] for r in hidden)
+    not_counted = ([f"{n} real drawings from {s_} (licence)" for s_, n in sorted(srcs.items())]
+                   + ([f"{len(excluded)} built drawing{'s' if len(excluded) != 1 else ''} whose label is ambiguous"]
+                      if excluded else [])
+                   + ([f"{len(failed)} failed call{'s' if len(failed) != 1 else ''}"] if failed else []))
     more = {"h": "Paired test and scoring", "groups": [
         {"h": "Exact McNemar, same images", "rows": tests},
         {"h": f"{CXM} with only its own abbreviation table (labels it lacks, e.g. CO2Me, NHMe, OTBS, stay unexpanded)",
-         "rows": own}]}
+         "rows": own}] + ([{"h": "Read but not shown or counted", "rows": not_counted}] if not_counted else [])}
     docs = []
-    for name in [SECTION["synth"]] + sorted({r["d"] for r in rows if r["sec"] == "real"}):
+    for name in [SECTION["synth"]] + sorted({r["d"] for r in rows if r["sec"] != "synth"}):
         x = [r for r in rows if r["d"] == name]
         if x:
             docs.append({"name": name, "found": sum(r["v"] == "exact" for r in x), "expected": len(x)})
     cnt = lambda key: sum(1 for r in rows if r["v"] == key)
-    shown = collections.Counter(r["d"] for r in rows)
-    real_shown = sorted((k[6:], n) for k, n in shown.items() if k.startswith("Real: "))
+    real_src = sorted(collections.Counter(r["src"] for r in real).items())
+    count_line = (f"{len(rows)} images: {len(syn)} built + {len(real)} real ("
+                  + ", ".join(f"{s_} {n}" for s_, n in real_src) + ").")
+    assert len(rows) == len(syn) + len(real) == sum(x["a"]["n"] for x in c2rows[:2])
     out = {
-        "arm": "Superatoms", "dir": DIR, "reader": SON, "rows": rows, "tileText": 1,
+        "arm": "Superatoms", "countLine": count_line, "dir": DIR, "reader": SON, "rows": rows, "tileText": 1,
         "title": f"Superatoms: {CXM} vs {SON}",
         "headline": f"Same images for both. {SON}: one API call per image, no tools.",
-        "c2": {"a": SON, "b": CXM, "rows": c2rows}, "more": more,
+        "c2": {"a": SON, "b": CXM, "as": "5.5 API", "bs": "CXMolScribe", "rows": c2rows}, "more": more,
         "breakdown": [{"key": "matched", "label": f"{SON} exact", "n": cnt("exact")},
                       {"key": "stereo", "label": "Stereo only", "n": cnt("stereo")},
                       {"key": "misread", "label": "Wrong", "n": cnt("wrong")},
                       {"key": "unreadable", "label": "None", "n": cnt("invalid")}],
         "docs": docs, "docsLabel": "section",
-        "withheld": {"n": len(gated), "note": build_wall.WITHHELD_NOTE},
+        "withheld": {"n": len(gated), "note": "Withheld until both tool-using readers have read this image"},
         "runNote": f"{SON}, one call, at list price",
-        "stats": {"n": len(allr), "built": side(syn, S), "built_cx": side(syn, C), "real": side(real, S),
-                  "real_cx": side(real, C), "hidden": len(hidden), "shown": len(rows)},
+        "stats": {"n": len(rows), "built": side(syn, S), "built_cx": side(syn, C), "real": side(real, S),
+                  "real_cx": side(real, C), "shown": len(rows)},
         "threshold": 101,
         "prompt": (RUN / "prompt_v2.txt").read_text().strip(),
         "method": [{"h": "Scoring", "points": [
             "Both readers scored with the same function: RDKit canonical SMILES against the full molecule.",
             f"{CXM} writes superatoms as CXSMILES labels; each label is expanded before scoring, with its own "
             "abbreviation table plus the labels these drawings use. A label in neither stays unexpanded and scores wrong."]}],
-        "footer": (f"{len(rows)} tiles: {shown[SECTION['synth']]} built + {sum(n for _, n in real_shown)} real ("
-                   + ", ".join(f"{s} {n}" for s, n in real_shown) + f"). UOB and ACS ({len(hidden)}) count in the "
-                   "numbers but aren't shown (licence)."),
+        "footer": count_line + (f" Reference withheld on {len(gated)} images until both tool-using readers have read them."
+                                if gated else ""),
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     OUT.write_text(json.dumps(out, separators=(",", ":")))
-    print(f"wrote {OUT}: " + "; ".join(f"{x['label']} {x['a']['exact']}/{x['a']['n']} vs {x['b']['exact']}/{x['b']['n']}"
-                                       for x in c2rows) + f"; ${cost:.2f}; CX predictions {len(cxp)}")
+    print(f"wrote {OUT}: {count_line} " + "; ".join(f"{x['label']} {x['a']['exact']}/{x['a']['n']} vs {x['b']['exact']}/{x['b']['n']}"
+                                                   for x in c2rows) + f"; ${cost:.2f}; withheld {len(gated)}; not counted: {not_counted}")
     for t in tests:
         print("  " + t)
     return 0

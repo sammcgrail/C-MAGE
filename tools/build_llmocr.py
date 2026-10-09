@@ -17,6 +17,7 @@ The reference SMILES goes into the detail file only for images a tool-using read
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -30,35 +31,45 @@ REPO = HERE.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(REPO / "benchmarks"))
 
-from build_wall import WALL, tool_read_keys, WITHHELD_NOTE  # noqa: E402
+from build_wall import WALL, tool_read_keys, render_pred  # noqa: E402
 from sonnet_batch import verdict  # noqa: E402
 from api_reader import parse_smiles  # noqa: E402
 import control_set as CS  # noqa: E402
+import build_wall  # noqa: E402
+_TILE = build_wall.TILE
+import build_superatoms as BS  # noqa: E402   (imports build_sonnet55, which changes build_wall.TILE)
+build_wall.TILE = _TILE
+from build_wall import thumb  # noqa: E402
 
 S55 = Path("/root/cmage-work/sonnet-s55c/results.jsonl")
 S55_RUNS = REPO / "benchmarks" / "sonnet55c_runs.json"
 S5 = Path("/root/cmage-work/sonnet/results.jsonl")
 S5_REMOVED = Path("/root/cmage-work/sonnet/removed.jsonl")
+S5_EXCLUDED = REPO / "benchmarks" / "sonnet_excluded.jsonl"
 S5_PAYLOAD = WALL / "sonnet.json"          # per-image cost (rc), traced by build_sonnet/sonnet_cost
 API = REPO / "benchmarks" / "published_runs" / "sonnet55_api"
 CORPUS = REPO / "benchmarks" / "corpus_rows.json"
 HAND = Path("/root/cmage-work/sonnet-s55/results.jsonl")
 HAND_LEDGER = REPO / "benchmarks" / "sonnet55_runs.json"
 CONTROL = WALL / "control.json"
+SA_RUNS = REPO / "benchmarks" / "sonnet_sa_runs.json"     # tool readers of superatom drawings (backfill)
 DUAL_STATE = Path("/root/cmage-work/dual/state.json")
 OUT = WALL / "llmocr.json"
+# Drawings of each answer, named by a hash of the SMILES they draw, so a changed answer can never be
+# shown with an old drawing (the per-key tiles of the older tabs are skipped when they exist).
+PRED = WALL / "llmocr_pred"
 DETAIL = WALL / "llmocr_detail.json"
 
 # Fixed display order and colour per arm (validated as an adjacent categorical set on the dark panel).
 ARMS = [
     {"id": "s55", "label": "Sonnet 5.5 · tools", "short": "5.5 tools", "tag": "5.5", "kind": "llm",
-     "color": "#3987e5", "pred": "sonnet55c_pred"},
+     "color": "#3987e5"},
     {"id": "api", "label": "Sonnet 5.5 · API", "short": "5.5 API", "tag": "API", "kind": "llm",
-     "color": "#d55181", "pred": "sonnet55api_pred"},
+     "color": "#d55181"},
     {"id": "s5", "label": "Sonnet 5 · tools", "short": "Sonnet 5", "tag": "5", "kind": "llm",
-     "color": "#9085e9", "pred": "sonnet_pred"},
+     "color": "#9085e9"},
     {"id": "cx", "label": "CXMolScribe (OCR)", "short": "CXMolScribe", "tag": "OCR", "kind": "ocr",
-     "color": "#d95926", "pred": "img_pred"},
+     "color": "#d95926"},
 ]
 IDS = [a["id"] for a in ARMS]
 CODE = {"exact": "e", "stereo": "s", "wrong": "w", "invalid": "i"}
@@ -121,37 +132,43 @@ def prompts(s55_runs: list[dict], led: list[dict]) -> list[dict]:
     agents = sorted({r.get("agent_type") for r in s55_runs if r.get("agent_type")})
     ok = [r for r in led if r.get("status") == "ok"]
     mt = sorted({r.get("max_tokens") for r in ok if r.get("max_tokens")})
-    no_mt = sum(1 for r in ok if not r.get("max_tokens"))
+    # The first rows predate the ledger's max_tokens/stream fields: they ran at 16,000, not streamed
+    # (build_sonnet55api.py reads a missing max_tokens as 16,000 for the same reason).
+    early = [r for r in ok if not r.get("max_tokens")]
+    early_hit = sum(1 for r in early if r.get("stop_reason") == "max_tokens")
     s5p = json.load(open(S5_PAYLOAD)) if S5_PAYLOAD.exists() else {"rows": []}
     s5_multi = sum(1 for r in s5p["rows"] if (r.get("bn") or 1) > 1)
     return [
         {"id": "s55", "model": ", ".join(models),
-         "settings": [f"Claude Code agent ({', '.join(agents)}), effort {', '.join(efforts)}",
+         "settings": [f"Claude Code agent, effort {', '.join(efforts)}",
                       "Tools: Read (vision), Bash with Python, RDKit, PIL, OSRA",
                       "Lookups barred; every reader transcript screened before scoring",
-                      "Images under anonymous names, pixels only",
-                      f"{s55_imgs:,} images were read ten per reader with the ten-image wording ({multi} readers); "
-                      "the rest one per reader with the prompt below"],
-         "prompt": (T / "reader_prompt_s55c_single.txt").read_text().strip()},
+                      "Images under anonymous names",
+                      f"Ten images per reader for {s55_imgs:,} images, one per reader for the rest; "
+                      "both wordings below"],
+         "prompts": [["One image per reader", (T / "reader_prompt_s55c_single.txt").read_text().strip()],
+                     ["Ten images per reader", (T / "reader_prompt_s55c.txt").read_text().strip()]]},
         {"id": "api", "model": ", ".join(sorted({r.get("model") for r in ok})),
          "settings": ["One Messages API call per image: the PNG and the prompt, nothing else",
                       "No tools, no system prompt, no second turn",
-                      "Thinking and effort at the API default; streamed",
-                      f"max_tokens {', '.join(f'{m:,}' for m in mt)}"
-                      + (f" ({no_mt} rows did not record it)" if no_mt else ""),
+                      "Thinking and effort at the API default",
+                      (f"max_tokens 16,000, not streamed, for the first {len(early)} images"
+                       + (f" ({early_hit} hit it and {'was' if early_hit == 1 else 'were'} re-read at 64,000)" if early_hit else "")
+                       + f"; {', '.join(f'{m:,}' for m in mt)} and streamed for the rest") if early else
+                      f"max_tokens {', '.join(f'{m:,}' for m in mt)}, streamed",
                       "Answer = the last \"SMILES:\" line of the reply"],
-         "prompt": (API / "prompt_v2.txt").read_text().strip()},
+         "prompts": [["Prompt", (API / "prompt_v2.txt").read_text().strip()]]},
         {"id": "s5", "model": "claude-sonnet-5",
          "settings": ["Claude Code agent; tools: Read (vision), Bash with Python, RDKit, PIL, OSRA",
                       "Lookups barred; every reader transcript screened before scoring",
                       "Images under anonymous names",
-                      f"{s5_multi:,} of {len(s5p['rows']):,} images read ten (or fewer) per reader, the rest one per reader",
-                      "The arm's prompt was reworded during its run; this is the final wording"],
-         "prompt": (T / "reader_prompt_s5.txt").read_text().strip()},
+                      f"Ten images per reader for {s5_multi:,} images, one per reader for the rest",
+                      "The prompt below is the arm's final wording; earlier batches used variants of it"],
+         "prompts": [["Prompt", (T / "reader_prompt_s5.txt").read_text().strip()]]},
         {"id": "cx", "model": "CXMolScribe (C-MAGE stage 3)",
          "settings": ["Stage 3 only on each 1500 px corpus PNG; no figure extraction or segmentation",
                       "CPU; output CXSMILES; confidence is the model's own score"],
-         "prompt": None},
+         "prompts": []},
     ]
 
 
@@ -177,7 +194,7 @@ def build() -> int:
             raise SystemExit(f"{arm} {k}: ledger truth differs from corpus_rows.json")
         ans[arm][k] = {"s": s or "", "v": verdict(s, t), "c": conf}
 
-    s55 = load_jsonl(S55)
+    s55 = [r for r in load_jsonl(S55) if r["k"] in corpus]
     for r in s55:
         put("s55", r["k"], r.get("sonnet_smiles"), r["truth"], r.get("sonnet_conf"))
     s55_runs = list((json.load(open(S55_RUNS)).get("runs") or {}).values())
@@ -213,7 +230,7 @@ def build() -> int:
                            f"{kfmt(u.get('input_tokens') or 0)} input",
                            f"stop: {r.get('stop_reason')}" + (f", retried after {r0.get('stop_reason')}" if r is not r0 else "")]
 
-    for r in load_jsonl(S5):
+    for r in (r for r in load_jsonl(S5) if r["k"] in corpus):
         put("s5", r["k"], r.get("sonnet_smiles"), r["truth"], r.get("sonnet_conf"))
     if S5_PAYLOAD.exists():
         for r in json.load(open(S5_PAYLOAD))["rows"]:
@@ -229,55 +246,109 @@ def build() -> int:
         facts["cx"][k] = ["local CPU, no API cost"]
         cx_drift += ans["cx"][k]["v"] != r.get("v")
 
+    # Superatom drawings (tools/build_superatoms.py scores them; licence-restricted ones are dropped).
+    # The API arm and CXMolScribe read all of them; the tool arms read them through the backfill lanes
+    # (BS.sa_tool_reads), so a new reading shows up on the next build with no change here.
+    src = {k: "c" for k in corpus}
+    sa_rows, _, _, _, _ = BS.scored_rows()
+    sa_rows = [x for x in sa_rows if x["show"]]
+    sa_reads = BS.sa_tool_reads()
+    sa_cost = {}
+    for run in ((json.load(open(SA_RUNS)).get("runs") or {}).values() if SA_RUNS.exists() else []):
+        n_ = run.get("images") or len(run.get("keys") or []) or 1
+        for k in run.get("keys") or []:
+            sa_cost[k] = (run.get("cost_usd") or 0) / n_, (run.get("duration_s") or 0) / n_, n_
+    for x in sa_rows:
+        k = x["k"]
+        src[k], truth[k], name[k] = ("b" if x["built"] else "r"), x["truth"], f"{k} · {x['name']}"
+        thumb(Path(x["png"]), WALL / "superatoms" / f"{k}.png")
+        ans["api"][k] = {"s": x["s"], "v": x["v"], "c": None}
+        cost["api"][k] = x["rc"]
+        facts["api"][k] = [money(x["rc"]), secs(x["rt"]),
+                           f"{kfmt(x['otok'] or 0)} output tokens" + (f" ({kfmt(x['ttok'])} thinking)" if x["ttok"] else ""),
+                           f"{kfmt(x['itok'] or 0)} input", f"stop: {x['stop']}" + (", retried" if x["retried"] else "")]
+        ans["cx"][k] = {"s": x["cx"], "v": x["cxv"], "c": x["cxc"]}
+        facts["cx"][k] = ["local CPU, no API cost", "superatom labels expanded before scoring"]
+        for arm in ("s5", "s55"):
+            r = sa_reads[arm].get(k)
+            if r:
+                if r.get("truth") and r["truth"] != x["truth"]:
+                    raise SystemExit(f"{arm} {k}: backfill lane truth differs from the superatom set")
+                ans[arm][k] = {"s": r.get("sonnet_smiles") or "", "v": verdict(r.get("sonnet_smiles"), x["truth"]),
+                               "c": r.get("sonnet_conf")}
+                if k in sa_cost:
+                    c_, t_, n_ = sa_cost[k]
+                    cost[arm][k] = c_
+                    facts[arm][k] = [money(c_), secs(t_)] + ([f"1 of {n_} images in one reader"] if n_ > 1 else [])
+
     ok = lambda a, k: ans[a].get(k, {}).get("v") == "exact"
     has = lambda a, k: k in ans[a]
 
-    # 1. Every arm on the images all four have read.
-    shared = sorted(k for k in corpus if all(has(a, k) for a in IDS))
-    n_sh = len(shared)
-    share = []
-    for a in ARMS:
-        vs = [ans[a["id"]][k]["v"] for k in shared]
-        share.append({"id": a["id"], "n": n_sh, "exact": vs.count("exact"), "stereo": vs.count("stereo"),
-                      "wrong": vs.count("wrong"), "invalid": vs.count("invalid"),
-                      "pct": pct(vs.count("exact"), n_sh)})
+    def charts(universe: list[str]) -> dict:
+        # 1. Every arm on the images all four have read.
+        shared = sorted(k for k in universe if all(has(a, k) for a in IDS))
+        n_sh = len(shared)
+        share = []
+        for a in ARMS:
+            vs = [ans[a["id"]][k]["v"] for k in shared]
+            share.append({"id": a["id"], "n": n_sh, "exact": vs.count("exact"), "stereo": vs.count("stereo"),
+                          "wrong": vs.count("wrong"), "invalid": vs.count("invalid"),
+                          "pct": pct(vs.count("exact"), n_sh)})
 
-    # 2. Head-to-head on each pair's own overlap: who alone got it right.
-    PAIRS = [("s55", "api"), ("s55", "s5"), ("api", "s5"), ("s55", "cx"), ("api", "cx"), ("s5", "cx")]
-    pairs = []
-    for x, y in PAIRS:
-        ks = [k for k in corpus if has(x, k) and has(y, k)]
-        b = sum(1 for k in ks if ok(x, k) and not ok(y, k))
-        c = sum(1 for k in ks if ok(y, k) and not ok(x, k))
-        both = sum(1 for k in ks if ok(x, k) and ok(y, k))
-        pairs.append({"a": x, "b": y, "n": len(ks), "a_exact": both + b, "b_exact": both + c,
-                      "a_pct": pct(both + b, len(ks)), "b_pct": pct(both + c, len(ks)),
-                      "a_only": b, "b_only": c, "both": both, "neither": len(ks) - both - b - c,
-                      "p": float(f"{mcnemar(b, c):.2g}")})
-    # Any Sonnet arm vs the OCR, over every image the OCR and at least one Sonnet arm read.
-    ks = [k for k in corpus if has("cx", k) and any(has(a, k) for a in ("s55", "api", "s5"))]
-    llm = lambda k: any(ok(a, k) for a in ("s55", "api", "s5"))
-    b = sum(1 for k in ks if llm(k) and not ok("cx", k))
-    c = sum(1 for k in ks if ok("cx", k) and not llm(k))
-    either = {"n": len(ks), "llm": sum(map(llm, ks)), "cx": sum(1 for k in ks if ok("cx", k)),
-              "llm_only": b, "cx_only": c, "any": sum(1 for k in ks if llm(k) or ok("cx", k))}
+        # 2. Head-to-head on each pair's own overlap: who alone got it right.
+        PAIRS = [("s55", "api"), ("s55", "s5"), ("api", "s5"), ("s55", "cx"), ("api", "cx"), ("s5", "cx")]
+        pairs = []
+        for x, y in PAIRS:
+            ks = [k for k in universe if has(x, k) and has(y, k)]
+            b = sum(1 for k in ks if ok(x, k) and not ok(y, k))
+            c = sum(1 for k in ks if ok(y, k) and not ok(x, k))
+            both = sum(1 for k in ks if ok(x, k) and ok(y, k))
+            pairs.append({"a": x, "b": y, "n": len(ks), "a_exact": both + b, "b_exact": both + c,
+                          "a_pct": pct(both + b, len(ks)), "b_pct": pct(both + c, len(ks)),
+                          "a_only": b, "b_only": c, "both": both, "neither": len(ks) - both - b - c,
+                          "p": float(f"{mcnemar(b, c):.2g}")})
+        # Any Sonnet arm vs the OCR, over every image the OCR and at least one Sonnet arm read.
+        ks = [k for k in universe if has("cx", k) and any(has(a, k) for a in ("s55", "api", "s5"))]
+        llm = lambda k: any(ok(a, k) for a in ("s55", "api", "s5"))
+        b = sum(1 for k in ks if llm(k) and not ok("cx", k))
+        c = sum(1 for k in ks if ok("cx", k) and not llm(k))
+        either = {"n": len(ks), "llm": sum(map(llm, ks)), "cx": sum(1 for k in ks if ok("cx", k)),
+                  "llm_only": b, "cx_only": c, "any": sum(1 for k in ks if llm(k) or ok("cx", k)),
+                  "api_alone": sum(1 for k in ks if has("api", k) and not has("s55", k) and not has("s5", k))}
 
-    # 3. Exact by size (heavy atoms in the reference), shared set.
-    ha = {k: heavy(truth[k]) for k in shared}
-    size = []
-    for lo, hi, lab in BUCKETS:
-        ks = [k for k in shared if ha[k] is not None and lo <= ha[k] <= hi]
-        if ks:
-            size.append({"label": lab, "n": len(ks),
-                         "arms": [{"id": a, "exact": sum(ok(a, k) for k in ks),
-                                   "pct": pct(sum(ok(a, k) for k in ks), len(ks))} for a in IDS]})
+        # 3. Exact by size (heavy atoms in the reference), shared set.
+        ha = {k: heavy(truth[k]) for k in shared}
+        size = []
+        for lo, hi, lab in BUCKETS:
+            ks = [k for k in shared if ha[k] is not None and lo <= ha[k] <= hi]
+            if ks:
+                size.append({"label": lab, "n": len(ks),
+                             "arms": [{"id": a, "exact": sum(ok(a, k) for k in ks),
+                                       "pct": pct(sum(ok(a, k) for k in ks), len(ks))} for a in IDS]})
 
-    # 4. Cost per image, shared set, where it is known.
-    costs = []
-    for a in ARMS:
-        cs = [cost[a["id"]][k] for k in shared if k in cost[a["id"]]]
-        costs.append({"id": a["id"], "usd": round(sum(cs) / len(cs), 3) if cs else None, "n": len(cs),
-                      "note": None if cs else "runs locally on CPU; no API cost"})
+        # 4. Cost per image, shared set, where it is known.
+        costs = []
+        for a in ARMS:
+            cs = [cost[a["id"]][k] for k in (shared or universe) if k in cost[a["id"]]]
+            costs.append({"id": a["id"], "usd": round(sum(cs) / len(cs), 3) if cs else None, "n": len(cs),
+                          "note": None if cs else "runs locally on CPU; no API cost"})
+
+        return {"n": len(universe), "shared": {"n": n_sh, "arms": share}, "pairs": [p_ for p_ in pairs if p_["n"]],
+                "either": either if either["n"] else None, "size": size, "cost": costs,
+                "read": {a: sum(1 for k in universe if has(a, k)) for a in IDS},
+                # Each arm on whatever it has read here: the only exact rate a view has before every arm has
+                # read any of its images (the superatom views, until the tool arms' backfill).
+                "each": [{"id": a, "n": sum(1 for k in universe if has(a, k)),
+                          "exact": sum(1 for k in universe if ok(a, k)),
+                          "pct": pct(sum(1 for k in universe if ok(a, k)), sum(1 for k in universe if has(a, k)))}
+                         for a in IDS]}
+
+    order = sorted(src)
+    VIEWS = [("all", "All images"), ("c", "Corpus"), ("b", "Superatoms, built"), ("r", "Superatoms, real")]
+    views = {v: dict(charts([k for k in order if v == "all" or src[k] == v]), label=lab) for v, lab in VIEWS}
+    views = {v: x for v, x in views.items() if x["n"]}
+    corpus_view = views["c"]
+    n_sh = corpus_view["shared"]["n"]
 
     # 5. The hand-picked set: 20 Sonnet 5 misses + 8 Sonnet 5 rights, read again by every arm.
     hand = None
@@ -293,20 +364,24 @@ def build() -> int:
         hk = [r["k"] for r in hrows]
         s5pub = {k: verdict(r.get("sonnet_smiles"), truth[k]) for k, r in
                  ((r["k"], r) for r in load_jsonl(S5)) if k in hk}
-        bars = [{"id": "s55", "label": "Sonnet 5.5 · tools",
-                 "exact": sum(verdict(r.get("sonnet_smiles"), r["truth"]) == "exact" for r in hrows), "n": len(hrows)}]
-        if rr:
-            bars.append({"id": "s5", "label": "Sonnet 5 · tools, re-run on the same prompt", "short": "Sonnet 5 re-run",
-                         "exact": sum(v == "exact" for v in rr.values()), "n": len(rr)})
-        for a in ("api", "cx"):
+        # Each arm's own corpus reading of these images; Sonnet 5's bar is its same-prompt re-read.
+        bars = []
+        for a in ("s55", "api"):
             got = [k for k in hk if has(a, k)]
             bars.append({"id": a, "label": ARMS[IDS.index(a)]["label"], "exact": sum(ok(a, k) for k in got),
                          "n": len(got)})
+        if rr:
+            bars.append({"id": "s5", "label": "Sonnet 5 · tools, re-read with the same prompt", "short": "Sonnet 5",
+                         "exact": sum(v == "exact" for v in rr.values()), "n": len(rr)})
+        got = [k for k in hk if has("cx", k)]
+        bars.append({"id": "cx", "label": ARMS[IDS.index("cx")]["label"], "exact": sum(ok("cx", k) for k in got),
+                     "n": len(got)})
         for x in bars:
             x["pct"] = pct(x["exact"], x["n"])
         miss = sum(1 for v in s5pub.values() if v != "exact")
         hand = {"n": len(hrows), "bars": bars,
-                "note": f"{miss} images Sonnet 5 first got wrong plus {len(hk) - miss} it got right, read again by each arm."}
+                "note": f"{miss} images Sonnet 5 got wrong and {len(hk) - miss} it got right; Sonnet 5 re-read them, "
+                        "the other bars are each arm's corpus reading."}
 
     # 6. Renderer control: the same molecules drawn by another renderer.
     control = None
@@ -322,41 +397,108 @@ def build() -> int:
             control = {"renderer": ren, "short": re.sub(r"^EPAM\s+|\s+[\d.]+$", "", ren), "set": C.get("set"),
                        "arms": arms}
 
-    # Caveats: one line each, current state only.
-    caveats = ["Tool readers can re-render their answer with RDKit, the corpus renderer; the API arm has no tools."]
-    rem = removed_s5()
-    if rem:
-        caveats.append(f"{len(rem)} Sonnet 5 row{'' if len(rem) == 1 else 's'} excluded (name lookup): "
-                       + ", ".join(name.get(r["k"], r["k"]) for r in rem) + "."
-                       if all("name-to-structure" in (r.get("reason") or "") for r in rem) else
-                       f"{len(rem)} Sonnet 5 rows excluded after audit: "
-                       + ", ".join(name.get(r["k"], r["k"]) for r in rem) + ".")
+    # Visible caveats: the two lines that change how the charts read. Everything else goes in the
+    # "Caveats & method" fold, one current-state line each, computed from the ledgers and payloads.
+    api_k = [k for k in ans["api"] if src[k] == "c"]
+    api_ex = sum(1 for k in api_k if ok("api", k))
+    caveats = [f"Tool readers can re-render with RDKit, the corpus renderer; the API arm (no tools) is the "
+               f"cleaner reading measure: {pct(api_ex, len(api_k))}% exact on the corpus ({api_ex:,} of {len(api_k):,}).",
+               "Exact = the PubChem reference's molecule after RDKit canonicalisation, stereo included."]
+    method = []
+    excl = load_jsonl(S5_EXCLUDED)
+    if excl:
+        # Same kinds as build_sonnet.exclusion_points, from the records themselves.
+        kind = lambda e: ("name-to-structure lookups" if "OPSIN" in (e.get("reason") or "") else
+                          "network-check refusals" if ("pypi" in (e.get("reason") or "") or "reachability" in (e.get("reason") or ""))
+                          else "PubChem lookups")
+        groups: dict[str, list] = {}
+        for e in excl:
+            groups.setdefault(kind(e), []).append(e)
+        rr = lambda es: sum(1 for e in es if e["k"] in ans["s5"])
+        part = lambda w, es: (f"{len(es)} {w} ("
+                              + ("each replaced by a clean re-read" if rr(es) == len(es) else "not re-read" if rr(es) == 0
+                                 else f"{rr(es)} replaced by a clean re-read, {len(es) - rr(es)} not") + ")")
+        method.append(f"{len(excl)} Sonnet 5 readings excluded: "
+                      + "; ".join(part(w, es) for w, es in sorted(groups.items(), key=lambda x: -len(x[1]))) + ".")
+    if S5_PAYLOAD.exists():
+        for m in json.load(open(S5_PAYLOAD)).get("method") or []:
+            for t in m.get("points") or []:
+                g = re.match(r"(\d+) corpus drawings with overlapping atoms were re-drawn", t)
+                if g:
+                    method.append(f"{g.group(1)} corpus images are redrawn versions (overlapping atoms fixed); "
+                                  "every reading shown is of the current drawing.")
     st = json.load(open(DUAL_STATE)) if DUAL_STATE.exists() else {}
     deferred = sorted(k for k in ((st.get("deferred") or {}).get("s55") or {}) if k not in ans["s55"])
     if deferred:
-        caveats.append("Not yet read by Sonnet 5.5 · tools: " + ", ".join(name.get(k, k) for k in deferred) + ".")
-    caveats.append("Exact = same molecule as the PubChem reference after RDKit canonicalisation, stereo included.")
+        n55 = sum(1 for k in ans["s55"] if src[k] == "c")
+        e55 = sum(1 for k in ans["s55"] if src[k] == "c" and ok("s55", k))
+        method.append(f"Sonnet 5.5 · tools worst case on the corpus, counting the {len(deferred)} not-yet-read hard images as "
+                      f"misses: {pct(e55, n55 + len(deferred))}% ({e55:,} of {n55 + len(deferred):,}). "
+                      "Not yet read: " + ", ".join(name.get(k, k) for k in deferred) + ".")
+    spent = []
+    P55 = WALL / "sonnet55.json"
+    if P55.exists():
+        sp = ((json.load(open(P55)).get("compare") or {}).get("cost") or {}).get("spent") or {}
+        if sp.get("total_usd"):
+            spent.append(f"Sonnet 5.5 · tools ${sp['total_usd']:,.0f}")
+    S5C = REPO / "benchmarks" / "sonnet_cost.json"
+    if S5C.exists() and S5_PAYLOAD.exists():
+        allc = json.load(open(S5C)).get("cost_usd_all")
+        sp = ((json.load(open(S5_PAYLOAD)).get("compare") or {}).get("cost") or {}).get("spent") or {}
+        if allc is not None:
+            spent.append(f"Sonnet 5 ${allc + (sp.get('launcher_usd') or 0):,.0f}")
+    arch = [r for p_ in sorted((API / "archive").glob("*.jsonl")) for r in load_jsonl(p_)]
+    api_all = sum(r.get("cost_usd") or 0 for r in led + rets + arch)
+    spent.append(f"Sonnet 5.5 · API ${api_all:,.0f}")
+    method.append("Total spent at list price, including launcher sessions and readings not shown: "
+                  + ", ".join(spent) + ". The cost chart is per image shown.")
+    method.append("Until 8 Oct the images handed to tool readers carried the answer SMILES in PNG metadata; "
+                  "two transcript audits found no reader read it. They are pixels only now.")
+    rem = removed_s5()
+    method.append(f"Sonnet 5 covers {sum(1 for k in ans['s5'] if src[k] == 'c'):,} corpus images"
+                  + (f" ({len(rem)} more read and excluded)" if rem else "") + ".")
+    if any(v in views for v in ("b", "r")):
+        method.append("Superatom drawings (built from corpus molecules, and real published drawings from USPTO and "
+                      "CLEF) are read by the API arm and CXMolScribe; the tool arms read them as a backfill, and an "
+                      "image counts in a chart only for the arms that have read it. Their reference is shown once "
+                      "both tool arms have read the image.")
+    method.append(f"The shared set (n = {n_sh:,}) is the images all four arms read: Sonnet 5's coverage, which is "
+                  "the start of the corpus in key order plus a few scattered keys.")
 
-    # Rows: one per corpus image any arm has read; verdict codes in ARMS order, "-" = not read.
+    # Rows: one per corpus image; verdict codes in ARMS order, "-" = not read, "x" = read and excluded.
+    s5_out = {r["k"] for r in removed_s5()} - set(ans["s5"])   # read, then excluded, not re-read
     read = tool_read_keys()
+    PRED.mkdir(parents=True, exist_ok=True)
+    drawn: dict[str, str] = {}
+
+    def draw(smi: str) -> str:
+        """File stem of the drawing of this exact SMILES, or "" when RDKit cannot draw it."""
+        if not smi:
+            return ""
+        if smi not in drawn:
+            h = hashlib.sha1(smi.encode()).hexdigest()[:16]
+            drawn[smi] = h if render_pred(smi, PRED / f"{h}.png") else ""
+        return drawn[smi]
+    sa_by = {x["k"]: x for x in sa_rows}
     rows, detail = [], {}
-    for k in sorted(corpus):
-        code = "".join(CODE[ans[a][k]["v"]] if has(a, k) else "-" for a in IDS)
-        rows.append([k, name[k], code])
-        d = {a: [ans[a][k]["s"], ans[a][k]["c"], facts[a].get(k) or []] for a in IDS if has(a, k)}
-        if k in read:
+    for k in order:
+        code = "".join(CODE[ans[a][k]["v"]] if has(a, k) else "x" if a == "s5" and k in s5_out else "-" for a in IDS)
+        rows.append([k, name[k], code, src[k]])
+        d = {a: [ans[a][k]["s"], ans[a][k]["c"], facts[a].get(k) or [], draw(ans[a][k]["s"])]
+             for a in IDS if has(a, k)}
+        if (k in read) if src[k] == "c" else BS.truth_visible(sa_by[k], sa_reads, read):
             d["t"] = truth[k]
         detail[k] = d
-    missing = {a["id"]: sum(1 for k in ans[a["id"]] if ans[a["id"]][k]["s"]
-                            and not (WALL / a["pred"] / f"{k}.png").exists()) for a in ARMS}
+    missing = {a["id"]: sum(1 for k in ans[a["id"]] if ans[a["id"]][k]["s"] and not drawn.get(ans[a["id"]][k]["s"]))
+               for a in ARMS}
 
     out = {
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "arms": [{**a, "read": len(ans[a["id"]])} for a in ARMS],
-        "shared": {"n": n_sh, "arms": share},
-        "pairs": pairs, "either": either, "size": size, "cost": costs, "hand": hand,
-        "control": control, "caveats": caveats, "prompts": prompts(s55_runs, led),
-        "withheld": {"n": sum(1 for k in detail if "t" not in detail[k]), "note": WITHHELD_NOTE},
+        "views": views, "hand": hand,
+        "control": control, "caveats": caveats, "method": method, "prompts": prompts(s55_runs, led),
+        "withheld": {"n": sum(1 for k in detail if "t" not in detail[k]),
+                     "note": "Withheld until the tool-using readers have read this image"},
         "rows": rows,
     }
     for p, obj in ((OUT, out), (DETAIL, detail)):
@@ -365,14 +507,15 @@ def build() -> int:
         os.replace(tmp, p)
     print(f"wrote {OUT.name} ({OUT.stat().st_size / 1e3:.0f} KB) and {DETAIL.name} "
           f"({DETAIL.stat().st_size / 1e3:.0f} KB): {len(rows)} images")
-    print(f"  read: " + ", ".join(f"{a} {len(ans[a])}" for a in IDS) + f"; shared {n_sh}")
-    for s in share:
-        print(f"  shared {s['id']}: {s['exact']}/{n_sh} = {s['pct']}%")
-    for p_ in pairs:
-        print(f"  {p_['a']} vs {p_['b']} n={p_['n']}: {p_['a_exact']} vs {p_['b_exact']} "
-              f"(only {p_['a_only']} / {p_['b_only']}, p={p_['p']})")
-    print(f"  cost: " + ", ".join(f"{c['id']} {c['usd']} (n {c['n']})" for c in costs))
-    print(f"  CXMolScribe verdicts that differ from corpus_rows.json: {cx_drift}; pred tiles missing: {missing}")
+    for v, V in views.items():
+        print(f"  [{v}] n {V['n']}, read " + ", ".join(f"{a} {V['read'][a]}" for a in IDS) + f"; shared {V['shared']['n']}")
+        for s_ in V["shared"]["arms"]:
+            print(f"    shared {s_['id']}: {s_['exact']}/{V['shared']['n']} = {s_['pct']}%")
+        for p_ in V["pairs"]:
+            print(f"    {p_['a']} vs {p_['b']} n={p_['n']}: {p_['a_exact']} vs {p_['b_exact']} "
+                  f"(only {p_['a_only']} / {p_['b_only']}, p={p_['p']})")
+        print(f"    cost: " + ", ".join(f"{c['id']} {c['usd']} (n {c['n']})" for c in V["cost"]))
+    print(f"  CXMolScribe verdicts that differ from corpus_rows.json: {cx_drift}; undrawable answers: {missing}")
     print(f"  withheld references: {out['withheld']['n']}; caveats: {len(caveats)}; control: {bool(control)}")
     return 0
 
