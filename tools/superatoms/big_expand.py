@@ -619,7 +619,9 @@ def tick():
         p5, p7, rs = u["5h"]["pct"], u["7d"]["pct"], u["5h"]["resets_at"]
     except Exception:
         log(f"tick: usage unreadable ({r.stderr[-200:]})"); return 0
-    block = (rs or "")[:16]
+    if not rs:      # between blocks the server reports resets_at null (seen 12:02Z): no block yet, wait for one
+        log(f"tick: no active 5 h block (resets_at null; 5 h {p5}%, week {p7}%); skip"); return 0
+    block = rs[:16]
     # the server's resets_at jitters by up to a minute (11:19 vs 11:20 seen), so a block is NEW only when it is
     # more than 30 min from the last one recorded
     def _t(x):
