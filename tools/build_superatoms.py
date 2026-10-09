@@ -290,7 +290,8 @@ def build() -> int:
     real = [r for r in rows if r["sec"] != "synth"]
     S, C = (lambda r: r["v"]), (lambda r: r["cxv"])
     nl = lambda r: len(r["labs"])
-    groups = [("Built drawings", syn), ("Real drawings, all sources", real),
+    real_names = " + ".join(sorted({r["src"] for r in real}))
+    groups = [("Built drawings", syn), (f"Real drawings ({real_names})", real),
               ("Real, 1 superatom label", [r for r in real if nl(r) == 1]),
               ("Real, 2 superatom labels", [r for r in real if nl(r) == 2]),
               ("Real, 3 or more labels", [r for r in real if nl(r) >= 3])]
@@ -325,14 +326,16 @@ def build() -> int:
     out = {
         "arm": "Superatoms", "countLine": count_line, "dir": DIR, "reader": SON, "rows": rows, "tileText": 1,
         "title": f"Superatoms: {CXM} vs {SON}",
-        "headline": f"Same images for both. {SON}: one API call per image, no tools.",
+        "headline": (f"Same images for both. {SON}: one API call per image, no tools. Exact = the reference molecule "
+                     "after RDKit canonicalisation, stereo included. Tiles: ✓ exact, ≈ stereo only, ✗ wrong, – no answer."),
         "c2": {"a": SON, "b": CXM, "as": "5.5 API", "bs": "CXMolScribe", "rows": c2rows}, "more": more,
         "breakdown": [{"key": "matched", "label": f"{SON} exact", "n": cnt("exact")},
                       {"key": "stereo", "label": "Stereo only", "n": cnt("stereo")},
                       {"key": "misread", "label": "Wrong", "n": cnt("wrong")},
                       {"key": "unreadable", "label": "None", "n": cnt("invalid")}],
         "docs": docs, "docsLabel": "section",
-        "withheld": {"n": len(gated), "note": "Withheld until both tool-using readers have read this image"},
+        "withheld": {"n": len(gated), "note": "Withheld until the tool-using readers (being backfilled) have read this "
+                                              "image, or, for a built drawing, its corpus molecule"},
         "runNote": f"{SON}, one call, at list price",
         "stats": {"n": len(rows), "built": side(syn, S), "built_cx": side(syn, C), "real": side(real, S),
                   "real_cx": side(real, C), "shown": len(rows)},
@@ -342,8 +345,8 @@ def build() -> int:
             "Both readers scored with the same function: RDKit canonical SMILES against the full molecule.",
             f"{CXM} writes superatoms as CXSMILES labels; each label is expanded before scoring, with its own "
             "abbreviation table plus the labels these drawings use. A label in neither stays unexpanded and scores wrong."]}],
-        "footer": count_line + (f" Reference withheld on {len(gated)} images until both tool-using readers have read them."
-                                if gated else ""),
+        "footer": count_line + (f" Reference withheld on {len(gated)} images until the tool-using readers, which are "
+                                "being backfilled, have read them (a built drawing: or its corpus molecule)." if gated else ""),
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     OUT.write_text(json.dumps(out, separators=(",", ":")))

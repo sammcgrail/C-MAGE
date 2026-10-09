@@ -61,7 +61,7 @@ var CSS = [
 ".lo .ckey{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--dim);margin:2px 0 6px}",
 ".lo .ckey i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}",
 ".lo .ckey u{text-decoration:none;color:var(--ink);font-weight:600}",
-".lo .bar{top:57px}",
+".lo .bar{top:var(--hh,57px)}",
 "@media(max-width:560px){.lo .hb{grid-template-columns:82px minmax(0,1fr) 50px 58px;column-gap:8px}",
 "  .lo .card{padding:12px 11px} .lo .wall{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}}",
 "#sheet.lo-wide{max-width:1080px}",
@@ -96,6 +96,11 @@ var CSS = [
 ".lo .n{margin-top:2px}",
 ".lo .fchips{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 10px}",
 ".lo .srcsw{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 8px}",
+".lo .lede p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--dim);max-width:900px}",
+".lo .lede{margin:0 0 10px}",
+".lo-arms{align-items:start}",
+".lo-arm.nr{padding:8px} .lo-ref p{margin:0;color:var(--dim);font-size:13px;line-height:1.45}",
+"@media(min-width:700px){.lo .t.lt .cells i{padding:0 2px}}",
 ".lo .srcsw .chip{color:var(--ink)}",
 "@media(max-width:560px){.lo .fchips{display:grid;grid-template-columns:1fr 1fr;gap:6px}",
 "  .lo .fchips .chip{white-space:normal;text-align:left;border-radius:10px;font-size:12.5px;padding:6px 10px;line-height:1.3}}",
@@ -117,6 +122,7 @@ var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt"};
 function VW(){ return D.views[S.view] || D.views.all; }
 var D = null, ARM = {}, IDX = {};
 var fmt = function(n){ return n == null ? "–" : (+n).toLocaleString("en-US"); };
+var p1 = function(x){ return x == null ? "\u2013" : (+x).toFixed(1) + "%"; };
 var pv = function(p){ return p < 0.001 ? "p<0.001" : "p=" + (+p).toPrecision(2).replace(/\.?0+$/, ""); };
 
 /* Filters: who got it right. Index order is the payload's arm order. */
@@ -153,12 +159,12 @@ function cardShared(){
   var s = VW().shared;
   if (!s.n) return '<div class="card"><h3>Exact, images each arm has read <span>tool arms have not read these yet</span></h3>'
     + VW().each.map(function(x){ var a = ARM[x.id];
-        return x.n ? hbar(a.short, x.pct, a.color, x.pct + "%", fmt(x.exact) + "/" + fmt(x.n), false)
+        return x.n ? hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact) + "/" + fmt(x.n), false)
                    : '<div class="hb"><span class="l">' + esc(a.short) + '</span><span class="nt">not read yet</span></div>';
       }).join("") + '</div>';
   return '<div class="card"><h3>Exact, same images <span>n = ' + fmt(s.n) + ', the images all four read</span></h3>'
     + s.arms.map(function(x){ var a = ARM[x.id];
-        return hbar(a.short, x.pct, a.color, x.pct + "%", fmt(x.exact), false,
+        return hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact), false,
           a.label + ": exact " + x.exact + ", stereo only " + x.stereo + ", wrong " + x.wrong + ", unparseable " + x.invalid);
       }).join("") + '</div>';
 }
@@ -174,8 +180,8 @@ function cardPairs(){
       + '%;background:' + color + '"></i></span>';
   }
   function row(la, lb, ca, cb, an, bn, foot, ap, bp){
-    return '<div class="pr"><div class="ph"><span>' + esc(la) + (ap != null ? ' ' + ap + '%' : '') + '</span><span>'
-      + (bp != null ? bp + '% ' : '') + esc(lb) + '</span></div><div class="dv"><b class="ln">' + fmt(an) + '</b>' + side(an, ca, true)
+    return '<div class="pr"><div class="ph"><span>' + esc(la) + (ap != null ? ' ' + p1(ap) : '') + '</span><span>'
+      + (bp != null ? p1(bp) + ' ' : '') + esc(lb) + '</span></div><div class="dv"><b class="ln">' + fmt(an) + '</b>' + side(an, ca, true)
       + '<span class="ax"></span>' + side(bn, cb, false) + '<b class="rn">' + fmt(bn) + '</b></div><div class="pf">' + foot + '</div></div>';
   }
   return '<div class="card"><h3>Who alone got it right <span>bars: images only one of the pair got exact; % on each pair\u2019s own n</span></h3>'
@@ -184,7 +190,7 @@ function cardPairs(){
           "n " + fmt(p.n) + " · both right " + fmt(p.both) + " · " + pv(p.p), p.ap, p.bp); }).join("")
     + (e && all.length > 1 ? row("Best of 3 Sonnet arms", "CXMolScribe", "#8b98a5", ARM.cx.color, e.llm_only, e.cx_only,
         "n " + fmt(e.n) + (e.api_alone ? " (" + fmt(e.api_alone) + " read only by the API arm)" : "")
-        + " · either right " + fmt(e.any), null, null) : '')
+        + " · either right " + fmt(e.any), e.llm / e.n * 100, e.cx / e.n * 100) : '')
     + '</div>';
 }
 
@@ -194,7 +200,7 @@ function cardSize(){
     + VW().size.map(function(g){
         return '<div class="grp"><b>' + esc(g.label) + ' atoms</b> · n ' + fmt(g.n) + '</div>'
           + g.arms.map(function(x){ var a = ARM[x.id];
-              return hbar(a.short, x.pct, a.color, x.pct + "%", fmt(x.exact), true, a.label + ": " + x.exact + " of " + g.n); }).join("");
+              return hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact), true, a.label + ": " + x.exact + " of " + g.n); }).join("");
       }).join("") + '</div>';
 }
 
@@ -236,15 +242,15 @@ function cardControl(){
   return '<div class="card" id="loctl"><h3>Corpus renderer vs another renderer <span>RDKit vs ' + esc(c.renderer) + ', same molecules</span></h3>'
     + c.arms.map(function(x){ var a = ARM[x.id] || {label: x.id, short: x.id, color: "#8b98a5"};
         return '<div class="grp"><b>' + esc(a.label) + '</b> · n ' + fmt(x.n) + (x.p != null ? ' · ' + pv(x.p) : '') + '</div>'
-          + hbar("RDKit", x.corpus_pct, a.color, x.corpus_pct + "%", fmt(x.corpus), true)
-          + hbar(c.short || c.renderer, x.control_pct, a.color, x.control_pct + "%", fmt(x.control), true);
+          + hbar("RDKit", x.corpus_pct, a.color, p1(x.corpus_pct), fmt(x.corpus), true)
+          + hbar(c.short || c.renderer, x.control_pct, a.color, p1(x.control_pct), fmt(x.control), true);
       }).join("") + '</div>';
 }
 
 function cardHand(){
   var h = D.hand;
   if (!h) return '';
-  return '<div class="card"><h3>Hand-picked set <span>n = ' + h.n + '</span></h3>'
+  return '<div class="card"><h3>Sonnet 5 re-read test <span>n = ' + h.n + ' hand-picked images</span></h3>'
     + h.bars.map(function(x){ var a = ARM[x.id];
         return hbar(x.short || a.short, x.pct, a.color, x.exact + "/" + x.n, null, false, x.label); }).join("")
     + '<p class="sub" style="font-size:12.5px;margin-top:6px">' + esc(h.note) + '</p></div>';
@@ -285,12 +291,14 @@ function paint(){
 
 function chips(){
   var box = el("div", "fchips");
+  var rd = VW().read, needs = {m55: ["s55"], mapi: ["api"], m5: ["s5"], mcx: ["cx"], ta: ["s55", "api"], at: ["s55", "api"]};
   filters().forEach(function(f){
+    if ((needs[f[0]] || []).some(function(a){ return !rd[a]; })) return;    // an arm with nothing read has no misses to show
     var n = D.rows.filter(function(r){ return inView(r) && f[2](r[2]); }).length;
     var b = el("button", "chip");
     var arm = {m55: "s55", mapi: "api", m5: "s5", mcx: "cx"}[f[0]];
     b.innerHTML = (f[0] === "all" ? "" : '<span class="dot" style="background:' + (arm ? ARM[arm].color : "#8b98a5") + '"></span>')
-      + esc(f[1]) + '<i>' + fmt(n) + '</i>';
+      + esc(f[1]) + '<i>' + fmt(n) + (arm ? '<small> / ' + fmt(rd[arm]) + '</small>' : '') + '</i>';
     b.dataset.f = f[0];
     b.setAttribute("aria-pressed", S.filter === f[0]);
     b.onclick = function(){ setFilter(f[0], true); };
@@ -348,11 +356,11 @@ function openSheet(r){
     var x = d[k] || {};
     var ref = $("#loref"), det = $("#lodet"); if (!ref || !det) return;
     ref.innerHTML = x.t ? '<div class="kv"><label>Reference (PubChem)</label><code>' + esc(x.t) + '</code></div>'
-             : '<div class="kv"><label>Reference</label><code>' + esc((D.withheld && D.withheld.note) || "Withheld") + '</code></div>';
+             : '<div class="kv"><label>Reference</label><p>' + esc((D.withheld && D.withheld.note) || "Withheld") + '</p></div>';
     det.innerHTML = D.arms.map(function(a, i){
       var v = c[i], y = x[a.id];
       var h = '<div class="lo-arm"><div class="ah"><i style="background:' + a.color + '"></i>' + esc(a.short) + '</div>';
-      if (!y) return h + '<div class="nr">' + esc(VL[v]) + '</div></div>';
+      if (!y) return h.replace('class="lo-arm"', 'class="lo-arm nr"') + '<div class="nr">' + esc(VL[v]) + '</div></div>';
       h += '<span class="badge ' + V[v] + '">' + esc(VL[v]) + '</span>'
         + (y[3] ? '<img loading="lazy" src="/wall/llmocr_pred/' + y[3] + '.png" alt="">' : '')
         + '<code>' + esc(y[0] || "(nothing emitted)") + '</code>'
@@ -422,16 +430,16 @@ function render(view, data){
   var root = el("div", "lo");
   root.innerHTML = '<div class="lead"><h2>LLM vs OCR</h2>'
     + '<span class="acts"><button class="chip" id="lojump">Failures ↓</button><button class="chip" id="loprompt">Prompts &amp; settings</button></span></div>'
+    + '<div class="lede">' + D.caveats.map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>'
     + viewSwitch() + legend()
     + '<div id="locharts">' + chartsHTML() + '</div>'
-    + '<ul class="cav">' + D.caveats.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ul>'
     + (D.method && D.method.length ? '<details class="fold lomethod"><summary>Caveats &amp; method</summary><ul class="cav">'
         + D.method.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join("") + '</ul></details>' : '')
     + '<div class="block" id="lofail"><h2 class="blockh">Failures and disagreements</h2></div>';
   view.appendChild(root);
   root.querySelector("#lofail").appendChild(chips());
   var wh = el("div", "ckey"); wh.id = "lowallh";
-  wh.innerHTML = 'Cells: ' + D.arms.map(function(a){ return '<span><u>' + esc(a.tag) + '</u> ' + esc(a.short) + '</span>'; }).join(" ")
+  wh.innerHTML = 'Cells: ' + D.arms.map(function(a){ return '<span><u>' + esc(a.tag) + '</u> = ' + esc(a.label.replace(" (OCR)", "")) + '</span>'; }).join(" · ")
     + ' &nbsp; <span><i class="c-e"></i>exact</span><span><i class="c-s"></i>stereo only</span>'
     + '<span><i class="c-w"></i>wrong</span><span><i class="c-i"></i>unparseable</span><span><i class="c-n"></i>not read</span>';
   root.appendChild(wh);

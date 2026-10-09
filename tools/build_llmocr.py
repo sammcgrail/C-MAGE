@@ -166,7 +166,7 @@ def prompts(s55_runs: list[dict], led: list[dict]) -> list[dict]:
                       "The prompt below is the arm's final wording; earlier batches used variants of it"],
          "prompts": [["Prompt", (T / "reader_prompt_s5.txt").read_text().strip()]]},
         {"id": "cx", "model": "CXMolScribe (C-MAGE stage 3)",
-         "settings": ["Stage 3 only on each 1500 px corpus PNG; no figure extraction or segmentation",
+         "settings": ["Stage 3 only on each image (corpus PNGs and superatom drawings); no figure extraction or segmentation",
                       "CPU; output CXSMILES; confidence is the model's own score"],
          "prompts": []},
     ]
@@ -331,7 +331,7 @@ def build() -> int:
         for a in ARMS:
             cs = [cost[a["id"]][k] for k in (shared or universe) if k in cost[a["id"]]]
             costs.append({"id": a["id"], "usd": round(sum(cs) / len(cs), 3) if cs else None, "n": len(cs),
-                          "note": None if cs else "runs locally on CPU; no API cost"})
+                          "note": None if cs else ("runs locally on CPU; no API cost" if a["id"] == "cx" else "not read yet")})
 
         return {"n": len(universe), "shared": {"n": n_sh, "arms": share}, "pairs": [p_ for p_ in pairs if p_["n"]],
                 "either": either if either["n"] else None, "size": size, "cost": costs,
@@ -364,24 +364,23 @@ def build() -> int:
         hk = [r["k"] for r in hrows]
         s5pub = {k: verdict(r.get("sonnet_smiles"), truth[k]) for k, r in
                  ((r["k"], r) for r in load_jsonl(S5)) if k in hk}
-        # Each arm's own corpus reading of these images; Sonnet 5's bar is its same-prompt re-read.
-        bars = []
-        for a in ("s55", "api"):
-            got = [k for k in hk if has(a, k)]
-            bars.append({"id": a, "label": ARMS[IDS.index(a)]["label"], "exact": sum(ok(a, k) for k in got),
-                         "n": len(got)})
+        # A Sonnet 5 test: the same images read twice by Sonnet 5 (first corpus reading, same-prompt
+        # re-read), with Sonnet 5.5 · tools on the same images for reference. Picked on Sonnet 5's results,
+        # so it measures Sonnet 5's run-to-run swing, not a fair arm-vs-arm rate.
+        bars = [{"id": "s5", "label": "Sonnet 5 · first read", "short": "S5 first read",
+                 "exact": sum(v == "exact" for v in s5pub.values()), "n": len(s5pub)}]
         if rr:
-            bars.append({"id": "s5", "label": "Sonnet 5 · tools, re-read with the same prompt", "short": "Sonnet 5",
+            bars.append({"id": "s5", "label": "Sonnet 5 · re-read, same prompt", "short": "S5 re-read",
                          "exact": sum(v == "exact" for v in rr.values()), "n": len(rr)})
-        got = [k for k in hk if has("cx", k)]
-        bars.append({"id": "cx", "label": ARMS[IDS.index("cx")]["label"], "exact": sum(ok("cx", k) for k in got),
-                     "n": len(got)})
+        got = [k for k in hk if has("s55", k)]
+        bars.append({"id": "s55", "label": "Sonnet 5.5 · tools", "short": "5.5 tools",
+                     "exact": sum(ok("s55", k) for k in got), "n": len(got)})
         for x in bars:
             x["pct"] = pct(x["exact"], x["n"])
         miss = sum(1 for v in s5pub.values() if v != "exact")
         hand = {"n": len(hrows), "bars": bars,
-                "note": f"{miss} images Sonnet 5 got wrong and {len(hk) - miss} it got right; Sonnet 5 re-read them, "
-                        "the other bars are each arm's corpus reading."}
+                "note": f"Picked on Sonnet 5's results ({miss} it got wrong, {len(hk) - miss} it got right), so this shows "
+                        "how much one Sonnet 5 reading swings, not a fair rate."}
 
     # 6. Renderer control: the same molecules drawn by another renderer.
     control = None
@@ -401,9 +400,12 @@ def build() -> int:
     # "Caveats & method" fold, one current-state line each, computed from the ledgers and payloads.
     api_k = [k for k in ans["api"] if src[k] == "c"]
     api_ex = sum(1 for k in api_k if ok("api", k))
-    caveats = [f"Tool readers can re-render with RDKit, the corpus renderer; the API arm (no tools) is the "
-               f"cleaner reading measure: {pct(api_ex, len(api_k))}% exact on the corpus ({api_ex:,} of {len(api_k):,}).",
-               "Exact = the PubChem reference's molecule after RDKit canonicalisation, stereo included."]
+    caveats = ["Four readers turn the same chemical-structure images into SMILES: RDKit drawings of PubChem molecules "
+               "(the corpus) and drawings with text superatoms. Exact = the reference molecule after RDKit "
+               "canonicalisation, stereo included; stereo only = right except for stereochemistry.",
+               f"Tool readers can re-render their answer with RDKit, the corpus renderer; the API arm (no tools) is the "
+               f"cleaner reading measure: {pct(api_ex, len(api_k))}% exact on the corpus ({api_ex:,} of {len(api_k):,}). "
+               "The renderer control card tests this."]
     method = []
     excl = load_jsonl(S5_EXCLUDED)
     if excl:
@@ -432,8 +434,9 @@ def build() -> int:
     if deferred:
         n55 = sum(1 for k in ans["s55"] if src[k] == "c")
         e55 = sum(1 for k in ans["s55"] if src[k] == "c" and ok("s55", k))
-        method.append(f"Sonnet 5.5 · tools worst case on the corpus, counting the {len(deferred)} not-yet-read hard images as "
-                      f"misses: {pct(e55, n55 + len(deferred))}% ({e55:,} of {n55 + len(deferred):,}). "
+        method.append(f"Sonnet 5.5 · tools reads the corpus in key order and has reached {n55 + len(deferred):,} of "
+                      f"{len(corpus):,} images; worst case, counting the {len(deferred)} it deferred as misses: "
+                      f"{pct(e55, n55 + len(deferred))}% ({e55:,} of {n55 + len(deferred):,}). "
                       "Not yet read: " + ", ".join(name.get(k, k) for k in deferred) + ".")
     spent = []
     P55 = WALL / "sonnet55.json"
@@ -460,8 +463,10 @@ def build() -> int:
     if any(v in views for v in ("b", "r")):
         method.append("Superatom drawings (built from corpus molecules, and real published drawings from USPTO and "
                       "CLEF) are read by the API arm and CXMolScribe; the tool arms read them as a backfill, and an "
-                      "image counts in a chart only for the arms that have read it. Their reference is shown once "
-                      "both tool arms have read the image.")
+                      "image counts in a chart only for the arms that have read it. A reference is shown once both "
+                      "tool arms have read the drawing, or, for a built drawing, once a tool arm has read its corpus molecule.")
+    method.append("The tool arms run as agents at effort max; the API arm runs at the API default, so the tools-vs-API "
+                  "gap mixes tools with effort.")
     method.append(f"The shared set (n = {n_sh:,}) is the images all four arms read: Sonnet 5's coverage, which is "
                   "the start of the corpus in key order plus a few scattered keys.")
 
@@ -498,7 +503,8 @@ def build() -> int:
         "views": views, "hand": hand,
         "control": control, "caveats": caveats, "method": method, "prompts": prompts(s55_runs, led),
         "withheld": {"n": sum(1 for k in detail if "t" not in detail[k]),
-                     "note": "Withheld until the tool-using readers have read this image"},
+                     "note": "Withheld until the tool-using readers have read this image (for a built superatom "
+                             "drawing: or its corpus molecule)"},
         "rows": rows,
     }
     for p, obj in ((OUT, out), (DETAIL, detail)):
