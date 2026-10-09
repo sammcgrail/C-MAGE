@@ -1,0 +1,10 @@
+I read the molecule in four pieces and joined them in SMILES.
+
+- **Left end:** a 4-phenylthiazol-2-yl group on an amide NH. That amide carbonyl is attached to the stereocentre.
+- **Stereocentre:** it carries the amide C(=O), a CH2–O group, and an NH drawn with a hashed bond. The NH acylates a 1-(methylsulfonyl)pyrrole-3-carboxylic acid.
+- **Linker:** CH2–O–CH2 leads to a para-disubstituted benzene. Its second CH2 is on an NH that forms an amide with a CH2CH2 chain, which ends on a piperazine nitrogen.
+- **Right end:** the other piperazine nitrogen is bonded to position 5 of an isoindoline-1,3-dione. The isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl group, which has no stereo drawn.
+
+For the stereocentre, the priorities are N > C(=O)N > CH2O > H. The hashed NH points away from the viewer, so H points toward the viewer. Reading N → C(=O) → CH2 on the page gives clockwise, and reversing for the H position gives S. In the SMILES order I wrote (C(=O), H, N, CH2), S corresponds to `@@`.
+
+SMILES: O=C(Nc1nc(-c2ccccc2)cs1)[C@@H](NC(=O)c1ccn(S(C)(=O)=O)c1)COCc1ccc(CNC(=O)CCN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)cc1

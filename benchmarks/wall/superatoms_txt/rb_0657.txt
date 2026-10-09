@@ -1,0 +1,16 @@
+I read the structure in segments and assembled the SMILES from them.
+
+- **Glutarimide (left):** a piperidine-2,6-dione attached through its C3 to the isoindolinone nitrogen. It is drawn with plain bonds, so no stereo is assigned.
+- **Isoindolinone:** the N–CH2 carbon of the five-membered ring sits next to the aromatic carbon bearing the piperidin-4-yl group. The ring carbonyl is on the other fused carbon, and the fluorine is meta to the piperidine.
+- **Linker:** the piperidine nitrogen is joined to a chain of 7 CH2 groups, counted vertex by vertex along the zigzag, ending in an aryl ether oxygen.
+- **Central phenyl:** it carries the ether oxygen, and the ortho position on one side bears F. The other ortho position is bonded to the quinazoline.
+- **Quinazoline:**
+  - C7 is attached to the central phenyl.
+  - C8 carries F.
+  - C6 carries Cl.
+  - C5 is CH.
+  - C4 carries the 4-acryloylpiperazine.
+  - C2 carries the O–CH2–(N-methylpyrrolidin-2-yl) group.
+- **Stereocentre:** the wedge on the pyrrolidine C2 points to the CH2O group, which puts H at the back. The CIP priorities are N > CH2O > ring CH2 > H, and N → CH2O → ring CH2 runs counterclockwise with H behind, so the centre is S. In the SMILES order OC[C@@H]3CCCN3C this is written `@@`.
+
+SMILES: O=C1CCC(C(=O)N1)N1Cc2c(C1=O)cc(F)cc2C1CCN(CC1)CCCCCCCOc1cccc(F)c1-c1c(F)c2nc(OC[C@@H]3CCCN3C)nc(N3CCN(C(=O)C=C)CC3)c2cc1Cl

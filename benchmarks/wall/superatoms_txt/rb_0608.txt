@@ -1,0 +1,24 @@
+I read the structure region by region and assembled the SMILES from the pieces below.
+
+**Left-hand end**
+- The pyrimidine carries Br at C5, an NH to the indoline at C4, and an NH to the central aryl ring at C2.
+- The indoline has an N-SO2CH3 group, and its C7 is bonded to the NH.
+
+**Central aryl ring**
+- Going round the ring: C–NH, C–OMe, CH, C–(piperidin-1-yl), C–CH3, CH.
+
+**Linker**
+- The piperidine N is on the aryl ring, and its C4 is bonded to a piperazine N.
+- The other piperazine N bears a CH2 that leads to C3 of a pyrrolidine.
+- The pyrrolidine N is attached to the isoindolinone aromatic ring.
+
+**Isoindolinone end**
+- The pyrrolidine N sits on the aromatic carbon adjacent to the CH that connects to the ring CH2 (position 5).
+- The lactam N carries a 2,6-dioxopiperidin-3-yl group. Its stereocentre is drawn with plain bonds, so it gets no stereo label.
+
+**Stereochemistry**
+- The only wedge/hash is the hashed CH2 bond at pyrrolidine C3.
+- The CIP priorities there are C2 (towards N) > CH2 (towards N) > C4 > H. The C2/CH2 tie is broken at the next sphere, where the pyrrolidine N's aryl carbon (C,C,C) outranks the piperazine ring CH2 (C,H,H).
+- With the CH2 pointing back and H toward the viewer, the centre is R. In the SMILES order CH2, H, C2 (ring closure), C4, that corresponds to `[C@H]`.
+
+SMILES: COc1cc(N2CCC(CC2)N2CCN(C[C@H]3CCN(C3)c3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3)CC2)c(C)cc1Nc1ncc(Br)c(Nc2cccc3CCN(S(C)(=O)=O)c23)n1

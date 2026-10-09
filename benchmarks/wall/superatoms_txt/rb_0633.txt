@@ -1,0 +1,19 @@
+I read the molecule as an MDM2-type spiro-oxindole ligand joined through a bicyclo[2.2.2]octane amide and a PEG-type linker to a lenalidomide unit.
+
+**Fragments**
+- **Spiro core:** an N-ethyl pyrrolidine with a spiro cyclohexane at C2 and a spiro 6-chloro-2-oxindole at C3. C4 carries the 3-chloro-2-fluorophenyl group, and C5 carries the carboxamide.
+- **Bicyclic amide:** the C5 carboxamide nitrogen is bonded to one bridgehead of a 1,4-disubstituted bicyclo[2.2.2]octane. The other bridgehead carries C(=O)NH.
+- **Linker:** NH–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–NH.
+- **E3 ligand:** the linker ends on the 4-amino group of a 2-(2,6-dioxopiperidin-3-yl)isoindolin-1-one. The glutarimide stereocentre is drawn without a wedge, so it has no stereo label.
+
+**Stereochemistry**
+The three pyrrolidine stereocentres were assigned from the wedges and hashes:
+- C5 has a hashed bond to the carbonyl, giving `[C@@H]`.
+- C4 has a wedge to the aryl group, giving `[C@@H]`.
+- The oxindole spiro carbon has a hashed bond to the aromatic carbon and a wedge to the lactam carbonyl, giving `[C@]`.
+
+The cyclohexane spiro carbon is drawn with plain bonds and is not a stereocentre, because the two ring arms are identical.
+
+I checked the ring closures, the 6-chloro position on the oxindole, and the bicyclooctane connectivity by hand. I did not run the SMILES through a parser.
+
+SMILES: CCN1C2(CCCCC2)[C@]3(c4ccc(Cl)cc4NC3=O)[C@@H](c5cccc(Cl)c5F)[C@@H]1C(=O)NC89CCC(CC8)(CC9)C(=O)NCCOCCOCCOCCNc%10cccc%11c%10CN(C%11=O)C%12CCC(=O)NC%12=O

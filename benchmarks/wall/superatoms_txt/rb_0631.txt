@@ -1,0 +1,10 @@
+I read the molecule region by region, left to right, and then checked the cyclobutane stereochemistry.
+
+- **Pyrimidine:** a 5-bromopyrimidine with an NH at C2 and an NH at C4.
+- **Indoline on C4:** the C4 NH goes to C7 of an indoline whose ring nitrogen carries a methylsulfonyl group.
+- **Aryl on C2:** the C2 NH goes to a benzene ring bearing an ortho OMe. Its other substituents are a piperidin-1-yl group and a methyl group ortho to it. The piperidine C4 is bonded to a piperazine nitrogen.
+- **Piperazine and cyclobutane:** the other piperazine nitrogen is acylated by a cyclobutane-1-carbonyl group. The cyclobutane C3 carries an N-methyl amino group.
+- **Cyclobutane stereochemistry:** the carbonyl is on a wedge and the N-methyl amino group is on a hash, so the 1,3-substituents are trans. I worked out the SMILES chirality tags from the 2D geometry and got `[C@H]` for the carbonyl-bearing carbon and `[C@@H]` for the nitrogen-bearing carbon.
+- **Phthalimide end:** the N-methyl nitrogen is attached to an isoindoline-1,3-dione. Its imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, and that carbon is drawn without stereo, so it has no tag.
+
+SMILES: O=C(N1CCN(CC1)C2CCN(CC2)c3cc(OC)c(Nc4ncc(Br)c(Nc5cccc6CCN(S(C)(=O)=O)c56)n4)cc3C)[C@H]7C[C@@H](C7)N(C)c8ccc9C(=O)N(C(=O)c9c8)C%10CCC(=O)NC%10=O

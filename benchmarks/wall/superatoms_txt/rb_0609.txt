@@ -1,0 +1,12 @@
+I read the structure in four pieces and joined them.
+
+1. **Left end:** a glutarimide (2,6-dioxopiperidin-3-yl) is attached through its ring nitrogen to a phthalimide. The phthalimide benzene ring carries an NH at the 5-position.
+2. **Linker:** from that NH, a chain of six CH2 groups leads to an amide NH. That amide is C(=O)CH2CH2CH2, followed by an ether oxygen and then CH2CH2 up to the stereocentre. I counted six CH2 units from the zigzag spacing, which is the least certain count in the drawing.
+3. **Stereocentre:** the carbon carries a hashed NH, so that NH points away from the viewer and the implicit H points toward the viewer. The priorities are N > C(=O) > CH2 > H. Viewed from the front, N → C(=O) → CH2 runs clockwise, and reversing for the H pointing toward the viewer gives S. In SMILES, `[C@H]` written as CH2 then H, N, C(=O) corresponds to S.
+4. **Right end:** the NH on the stereocentre is acylated by a pyrrole-3-carbonyl group whose ring nitrogen bears a methylsulfonyl group. The other carbonyl on the stereocentre is an amide to the NH of a 4-phenylthiazol-2-yl group.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)N[C@@H](CCOCCCC(=O)NCCCCCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)C(=O)Nc1nc(cs1)-c1ccccc1
+
+Wait — I rewrote the SMILES with a different atom order, so I rechecked the stereo tag. Here the neighbours of the stereocentre are N (preceding), H, CH2, C(=O). Moving from the earlier order (CH2, H, N, C=O) to this one swaps CH2 and N, which is one swap, so `@` becomes `@@`. The tag `[C@@H]` is therefore correct and still gives S.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)N[C@@H](CCOCCCC(=O)NCCCCCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)C(=O)Nc1nc(cs1)-c1ccccc1

@@ -1,0 +1,32 @@
+I read the structure region by region, from the left-hand glutarimide to the acryloyl group on the right.
+
+**Left end.** The glutarimide is O=C1CCC(C(=O)N1)…, with its C3 carbon bonded to the isoindolinone nitrogen.
+
+**Isoindolinone.** The nitrogen N2 carries CH2 (C1) and C(=O) (C3). The CH2 is attached to aromatic C7a, and the C=O carbon is attached to C3a.
+- Going around the benzene ring from the CH2 side: C7a (bonded to CH2), then C7 (bonded to the piperidine), then C6 (H), then C5 (F), then C4 (H), then C3a (bonded to C=O).
+- In the drawing, the carbon next to the CH2-bearing carbon carries the piperidine. The ring carbon below it is CH, and the one below that carries F. Then comes a CH, and then the carbon bearing the C=O.
+
+SMILES for this part: N1(C(=O)c2cc(F)cc(C3CCN(CC3)…)c2C1)
+
+**Piperidine and linker.**
+- The piperidine is attached at its C4 to the aromatic ring, and its nitrogen bears a CH2.
+- That CH2 connects to a cyclohexane (1,4-disubstituted, no stereo shown).
+- The cyclohexane's other substituent is CH2CH2O.
+
+**Aryl ether.**
+- The ether oxygen is attached to a phenyl ring that has F at one ortho position.
+- The other ortho position carries the quinazoline.
+
+**Quinazoline.**
+- The ring atoms are N1, C2 (H), N3 and C4 (bearing the piperazine), then C4a, C5 (H), C6 (Cl), C7 (aryl), C8 (F) and C8a.
+- Reading the drawing: C4a joins to the CH at C5, C5 joins to C6(Cl), C6 joins to C7 (the aryl-bearing carbon), C7 joins to C8(F), and C8 joins to C8a, which bears N1.
+
+**Piperazine and warhead.** The piperazine nitrogen on the far side is acylated by C(=O)C(Cl)=C.
+
+Assembled SMILES:
+
+O=C1CCC(N2Cc3c(C2=O)cc(F)cc3C2CCN(CC2)CC2CCC(CC2)CCOc2cccc(F)c2-c2c(F)c3ncnc(N4CCN(CC4)C(=O)C(Cl)=C)c3cc2Cl)C(=O)N1
+
+Check on the quinazoline portion: c2c(F)c3ncnc(N…)c3cc2Cl. The atoms are C7 (the aryl-bearing carbon, ring-opened as c2), then C8(F), then C8a (c3), then n, c, n, c(N) for C4, then C4a (c3), then c for C5, then c2Cl for C6. This closes correctly.
+
+SMILES: O=C1CCC(N2Cc3c(C2=O)cc(F)cc3C2CCN(CC2)CC2CCC(CC2)CCOc2cccc(F)c2-c2c(F)c3ncnc(N4CCN(CC4)C(=O)C(Cl)=C)c3cc2Cl)C(=O)N1

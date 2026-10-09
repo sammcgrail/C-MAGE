@@ -1,0 +1,10 @@
+I read the molecule in four pieces, left to right, and joined them in a single SMILES.
+
+1. **Left end:** a pyrrole carrying an N-methylsulfonyl group (CH3SO2–N) and a 3-carboxamide, written `CS(=O)(=O)n1ccc(c1)C(=O)N`.
+2. **Glycine and thiazole:** the amide NH is linked to a CH2–C(=O)–NH unit (glycine). That NH is attached to C2 of a thiazole (S1, C2, N3, C4, C5). C4 of the thiazole carries a piperidin-3-yl group, written `CC(=O)Nc1nc(cs1)C1CCCN(C1)`.
+3. **Linker:** the piperidine nitrogen is acylated by a C(=O) followed by a chain of CH2 groups ending in NH. Counting zigzag vertices gives the carbonyl carbon plus 10 CH2 groups, written `C(=O)CCCCCCCCCCN`.
+4. **Right end:** the NH is bonded to an isoindoline-1,3-dione at position 5. The ring nitrogen carries a 2,6-dioxopiperidin-3-yl group (a thalidomide-type unit), written `c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1`.
+
+The piperidine C3 and the glutarimide C3 are stereocentres by connectivity, but the drawing uses plain bonds, so I included no stereo marks.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)C1CCCN(C1)C(=O)CCCCCCCCCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

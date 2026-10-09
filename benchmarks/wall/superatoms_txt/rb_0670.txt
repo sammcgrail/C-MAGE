@@ -1,0 +1,17 @@
+I read the molecule as a PROTAC-type conjugate built from three parts:
+
+- **Left side:** a spiro-oxindole pyrrolidine. The spiro carbon joins the oxindole C3 to a pyrrolidine that carries a gem-dimethyl group, a phenyl group and a carboxamide.
+- **Linker:** the carboxamide nitrogen is attached to a 4-aminobenzamide, whose amide nitrogen continues into an –NH–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–NH– chain.
+- **Right side:** the chain ends on the 4-amino group of a lenalidomide-type isoindolinone, whose ring nitrogen carries the 2,6-dioxopiperidin-3-yl group.
+
+The glutarimide carbon has no wedge or hash in the drawing, so I left it without stereo.
+
+I assigned the three drawn stereocentres from the wedges and hashes:
+
+- The carboxamide-bearing pyrrolidine carbon has a hashed bond to the C=O, giving `[C@@H]`.
+- The phenyl-bearing carbon has a wedged phenyl, giving `[C@H]`.
+- The spiro carbon has a hashed aryl bond and a wedged oxindole C=O, giving `[C@]`.
+
+I worked out the @/@@ labels by hand from the drawn geometry and did not run the SMILES through a parser.
+
+SMILES: O=C1CCC(N2Cc3c(NCCOCCOCCOCCNC(=O)c4ccc(NC(=O)[C@@H]5NC(C)(C)[C@]6(c7ccccc7NC6=O)[C@H]5c5ccccc5)cc4)cccc3C2=O)C(=O)N1

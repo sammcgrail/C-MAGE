@@ -1,0 +1,11 @@
+I read the molecule as a PROTAC-type structure with five parts, and wrote the SMILES in this order.
+
+1. **Glutarimide–phthalimide (thalidomide-type) head:** a 2,6-dioxopiperidin-3-yl group on the nitrogen of an isoindoline-1,3-dione. The ring is substituted at the 4-position with an oxygen, giving an aryl–O–CH2–C(=O)–NH linker.
+2. **Linker:** the amide NH continues through a three-carbon chain (CH2CH2CH2) to a piperazine nitrogen.
+3. **Aryl piperazine:** the other piperazine nitrogen is bonded to a para-substituted benzene ring. That ring carries a C(=O) group attached to a piperidine nitrogen.
+4. **Piperidine:** the 3-position bears an NH, drawn with a hashed bond, that links to the pyrimidine.
+5. **Pyrimidine and indole:** the NH is attached at pyrimidine C2. The pyrimidine has Cl at C5 and an indol-3-yl group at C4.
+
+The only stereocentre drawn with a wedge or hash is piperidine C3. The hashed NH puts the implicit H toward the viewer. The priorities are NH, then ring C2 (which carries the ring N), then C4. Read from the front, N → C2 → C4 runs counterclockwise, and reversing for the front-facing H gives R. In the SMILES below, `[C@H]` with the neighbour order (C4, H, C2, N) also works out to R.
+
+SMILES: O=C1CCC(C(=O)N1)N1C(=O)c2cccc(OCC(=O)NCCCN3CCN(CC3)c3ccc(cc3)C(=O)N3CCC[C@H](C3)Nc3ncc(Cl)c(n3)-c3c[nH]c4ccccc34)c2C1=O

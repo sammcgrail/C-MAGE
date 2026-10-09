@@ -1,0 +1,20 @@
+I read the structure from left to right.
+
+**Left end.** A methylsulfonyl group, CH3-S(=O)(=O), sits on the N1 of a pyrrole. The pyrrole carries a C(=O)NH amide at position 3. In the ring, N1 is bonded to C2 (CH), which leads to C3 (bearing the carbonyl), then C4 and C5 as CH=CH back to N1. SMILES for this part: CS(=O)(=O)n1ccc(c1)C(=O)N...
+
+**Glycine linker.** The amide NH connects to CH2, then C(=O), then NH on the thiazole C2: ...C(=O)NCC(=O)Nc1nc(cs1)...
+
+**Thiazole to aryl.** The thiazole has S, C2 (bearing NH), N3, C4 (bearing the aryl group) and C5 (CH). C4 is attached to a meta-substituted phenyl, which is attached to pyridine C4. The pyridine C2 carries N(CH3). Pyridine atoms: N1, C2 (the N-methyl substituent), C3 (H), C4 (aryl), C5, C6.
+
+**Middle chain.** N(C)CC(=O)NC1CCN(CC1)CCOc... The piperidine C4 carries the NH, and the piperidine N carries CH2CH2-O-aryl.
+
+**Right end.** The aryl group is the isoindoline-1,3-dione benzene ring with the O at position 5. The imide N is attached to a 2,6-dioxopiperidin-3-yl group. The stereocentre there is drawn with plain bonds, so I give it no stereo.
+
+**Assembled SMILES.**
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(c1)N(C)CC(=O)NC1CCN(CC1)CCOc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+The pyrrole as written, n1ccc(c1)C(=O), has N1, C2, C3, then C(c1) closing the ring. That gives a ring of n1, c, c, c(, c1), which is five atoms. The carbonyl-bearing atom is the third one after N going the long way round and the second one going the short way round (via c1), so it is position 3. This is correct.
+
+**Pyridine.** c1ccnc(c1)N(C)...: the first atom c1 is the aryl-attached C4, then c (C5), c (C6), n (N1), c (C2, bearing N(C)), and c1 (C3) closes the ring. This is correct.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(c1)N(C)CC(=O)NC1CCN(CC1)CCOc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

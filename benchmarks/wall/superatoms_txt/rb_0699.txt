@@ -1,0 +1,25 @@
+I read the structure in four pieces and then joined them.
+
+**Glutarimide and isoindolinone (left).** The glutarimide is O=C1CCC(C(=O)N1)... with its C3 attached to the isoindolinone N. The isoindolinone has a C=O, an N, and a CH2 at C1. The benzo ring carries a piperidin-4-yl group at C7 (next to the CH2) and F at C5. Going around the benzo ring: C3a (attached to C=O), C4 (H), C5 (F), C6 (H), C7 (piperidine), C7a (attached to CH2).
+
+**Isoindolinone SMILES.** O=C1N(C2CCC(=O)NC2=O)Cc2c1cc(F)cc2C3CCN(CC3)...
+
+**Linker.** The piperidine N carries CH2CH2 to a para-disubstituted benzene. The other para position carries CH2CH2O.
+
+**Aryl ether and quinazoline (right).** The O is attached to a phenyl ring. That ring has F at one ortho position and the quinazoline at the other ortho position. The quinazoline is attached at C7 of the quinazoline ring system. Its substituents are:
+- C8 has F.
+- C6 has Cl.
+- C4 has the piperazine.
+- N1 and N3 are the ring nitrogens.
+
+The ring atoms run C4a, C5 (H), C6 (Cl), C7 (aryl), C8 (F), C8a, then N1, C2 (H), N3, C4 (piperazine). The piperazine N is acylated with C(=O)C(Cl)=C.
+
+**Quinazoline SMILES.** c1(N2CCN(CC2)C(=O)C(Cl)=C)ncnc3c(F)c(-c4c(F)cccc4OCC...)c(Cl)cc13
+
+**Full SMILES.** O=C1CCC(N2Cc3c(cc(F)cc3C3CCN(CCc4ccc(CCOc5cccc(F)c5-c5c(Cl)cc6c(N7CCN(CC7)C(=O)C(Cl)=C)ncnc6c5F)cc4)CC3)C2=O)C(=O)N1
+
+I checked the isoindolinone part of this string. The ring N2 is followed by CH2 (the C is lowercase c3 as the ring atom). The c3 atom is C7a, bonded to CH2. The next atom, c(cc(F)cc3...), is meant to be C3a, but I wrote it as a branch off the wrong atom. Re-deriving it properly gives: N2Cc3c(C2=O)cc(F)cc3C4CCN(...)CC4.
+
+Here c3 is C7a (attached to CH2). The following c(C2=O) is C3a, which closes the lactam. Then cc(F)c gives C4, C5 (F) and C6. Finally c3 is C7, which closes the ring to C7a and carries the piperidine. This matches the drawing.
+
+SMILES: O=C1CCC(N2Cc3c(C2=O)cc(F)cc3C3CCN(CCc4ccc(CCOc5cccc(F)c5-c5c(Cl)cc6c(N7CCN(CC7)C(=O)C(Cl)=C)ncnc6c5F)cc4)CC3)C(=O)N1

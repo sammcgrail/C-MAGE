@@ -1,0 +1,11 @@
+I read the molecule in three parts and wrote the SMILES from them.
+
+**Left end.** A pyridine carries a 5-methoxy group, a 2-carboxamide and a 4-(E)-vinyl group. The vinyl group is attached to a trans-1,4-disubstituted cyclohexane bearing CF3. The amide nitrogen is joined through a CH2 to a meta-substituted benzene ring.
+
+**Middle.** The benzene ring's other substituent is a CH2C(=O)NH group. This leads into a chain of six CH2 groups ending in a C(=O). That carbonyl is bonded to the NH of tert-leucine.
+
+**Right end.** This is a VHL ligand of the VH032 type. It consists of (S)-tert-leucine, a (2S,4R)-4-hydroxyproline and a 4-(4-methylthiazol-5-yl)benzylamide.
+
+I checked the stereocentres against the standard VHL-ligand SMILES. The tert-leucine centre must be written `@@` in my atom order, and the hydroxyproline centres come out as `[C@H]` and `[C@H]`. The cyclohexane is written as the trans isomer, matching the opposite wedge and hash on the two ring substituents.
+
+SMILES: COc1cnc(C(=O)NCc2cccc(CC(=O)NCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)c2)cc1/C=C/[C@H]1CC[C@@H](CC1)C(F)(F)F

@@ -1,0 +1,12 @@
+I read the molecule region by region, left to right.
+
+- **Pyrrole end:** A pyrrole carries a methylsulfonyl group on N and is substituted at C3 by a carboxamide. This is `CS(=O)(=O)n1ccc(c1)C(=O)N`.
+- **Stereocentre:** The central carbon has a wedge to the amide NH, a C(=O)NH branch and a CH2–O branch. With the implicit H at the back, N → C(=O) → CH2 runs counterclockwise. In SMILES written as N[C@@H](CH2…)C(=O)…, that corresponds to `@@`.
+- **Thiazole end:** The C(=O)NH is attached to C2 of a 4-phenylthiazole: `C(=O)Nc1nc(cs1)-c1ccccc1`.
+- **Ether and aryl:** The CH2–O–CH2 link leads to a para-disubstituted benzene whose other substituent is a C(=O) group.
+- **Spiro amine:** That carbonyl is bonded to the azetidine N of a 2,7-diazaspiro[3.5]nonane. The piperidine N (position 7) carries a three-carbon chain.
+- **Chain and cereblon-binding end:** The chain ends in an NH on C5 of a phthalimide-type isoindoline-1,3-dione. The imide N bears a 2,6-dioxopiperidin-3-yl group, drawn without stereo.
+
+I checked the ring closures and the six-membered aromatic ring of the isoindoline-dione by hand.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)N[C@@H](COCc1ccc(cc1)C(=O)N1CC2(C1)CCN(CCCNc1ccc3c(c1)C(=O)N(C3=O)C1CCC(=O)NC1=O)CC2)C(=O)Nc1nc(cs1)-c1ccccc1

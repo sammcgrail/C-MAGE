@@ -1,0 +1,15 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+**Left end.** A 2,6-dioxopiperidin-3-yl (glutarimide) group is attached through its ring nitrogen to a phthalimide. The phthalimide carries an NH substituent on the benzene ring.
+
+**Linker.** The NH leads into a chain of five CH2 groups, which ends at an amide NH. That amide carbonyl is followed by three CH2 groups, then an ether oxygen, then two more CH2 groups, reaching the stereocentre.
+
+**Stereocentre.** The carbon bears a hashed bond to NH, a CH2 on the left, and a C(=O)N on the right, with the hydrogen implicit. The priorities are N > C(=O)N > CH2 > H. With the NH behind the plane and the hydrogen toward the viewer, N → C(=O) → CH2 runs clockwise in the drawing. Reversing for the hydrogen facing the viewer gives S. In the SMILES order (preceding CH2, H, N, C=O), this is written `[C@H]`.
+
+**Right end.**
+- The stereocentre's NH is acylated by a pyrrole-3-carbonyl group. The pyrrole nitrogen carries a methylsulfonyl group (S(C)(=O)=O).
+- The stereocentre's carbonyl is an amide to the NH of a 2-aminothiazole, which has a phenyl group at the 4-position.
+
+I checked that the ring closures and atom counts in the SMILES match the drawing.
+
+SMILES: O=C1CCC(N2C(=O)c3ccc(NCCCCCNC(=O)CCCOCC[C@H](NC(=O)c4ccn(S(C)(=O)=O)c4)C(=O)Nc4nc(-c5ccccc5)cs4)cc3C2=O)C(=O)N1

@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+**Left fragment.** A pyridine bears CF3 at the 6-position and a carboxamide at the 2-position. The amide NH connects to C5 of a 2H-indazole, and C6 of the indazole carries OMe. The indazole N2 is attached to a spiro-cyclobutane.
+
+**Indazole.** The benzo ring atoms are C3a, C4, C5 (NH), C6 (OMe), C7 and C7a. N1 is attached to C7a, N2 carries the substituent, and C3 is the CH next to C3a.
+
+**Spiro core.** The cyclobutane CH bearing the indazole is bonded to two CH2 groups, which join at the spiro carbon. That spiro carbon is also part of a piperidine ring, which makes it a 2,7-diazaspiro[3.5]nonane-type system with a cyclobutane. The piperidine nitrogen is acylated.
+
+**Right fragment.** The acyl group is C(=O) attached to C4 of a piperidine that also carries F. The piperidine N is bonded to C5 of the isoindoline-1,3-dione. The isoindoline N carries a 2,6-dioxopiperidin-3-yl group.
+
+**SMILES assembly:**
+- Pyridine amide: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1(F)CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+- Indazole: c1cc2cn(nc2cc1OC) places C5 (NH), C4, C3a, C3, N2, N1, C7a, C7 and C6 (OMe) correctly.
+- Isoindoline: c1ccc2C(=O)N(...)C(=O)c2c1 with the piperidine N at the ring-opening atom. The drawing shows the attachment para to one carbonyl-bearing carbon, which is position 5 of the isoindoline, and this SMILES gives the same arrangement.
+
+No stereochemistry is drawn, so none is included.
+
+SMILES: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1(F)CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

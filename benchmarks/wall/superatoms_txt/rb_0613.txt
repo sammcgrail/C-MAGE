@@ -1,0 +1,24 @@
+I read the structure region by region, starting from the left.
+
+**Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. The SMILES fragment is FC(F)(F)c1cccc(n1)C(=O)N.
+
+**Indazole:** the amide NH is attached at C5 of a 2H-indazole, and the methoxy group sits on C6. The N2 nitrogen carries the spiro substituent.
+- Indazole fragment: c1(NC(=O)...)c(OC)cc2nn(R)cc2c1.
+- Ring check: the benzene ring runs C5(NH), C4 (CH), C3a, C7a, C7 (CH), C6 (OMe). C3a connects to C3 (CH), which connects to N2, then N1, then C7a.
+- Written out: c1(NC(=O)Ar)c(OC)cc2nn(cc2c1)R.
+
+**Spiro system:** a cyclobutane whose C attached to the indazole N2 is the 2-position. The spiro carbon is shared with a piperidine, giving 2,7-diazaspiro[3.5]nonane-like geometry. The cyclobutane has CH (bearing the indazole N), two CH2 groups, and the spiro carbon, so it is 7-azaspiro[3.5]nonane. The piperidine nitrogen is acylated.
+- Fragment: C1(CC2(C1)CCN(CC2)C(=O)...), where C1 is the CH bearing the indazole.
+
+**Carbonyl piperidine:** the C=O is attached to C4 of a piperidine that carries OH. The piperidine nitrogen is bonded to an aryl group.
+- Fragment: C(=O)C1(O)CCN(CC1)Ar.
+
+**Aryl group:** the isoindoline-1,3-dione bears a 2,6-dioxopiperidin-3-yl on its nitrogen. The piperidine nitrogen is attached at position 5 of the isoindoline.
+- Fragment: c1ccc2c(c1)C(=O)N(C3CCC(=O)NC3=O)C2=O.
+
+**Assembled SMILES:**
+FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1(O)CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+The ring-closure digits are reused after each ring closes, so they do not clash.
+
+SMILES: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1(O)CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

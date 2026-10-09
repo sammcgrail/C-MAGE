@@ -1,0 +1,20 @@
+Reading the structure region by region:
+
+**Left end.** A methylsulfonyl group (CH3-SO2) sits on the nitrogen of a pyrrole. The pyrrole is attached at its 3-position to a carboxamide, C(=O)NH. This gives CS(=O)(=O)n1ccc(c1)C(=O)N.
+
+**Glycine linker.** The amide NH connects to a CH2, then to C(=O), then to NH, which is bonded to C2 of a thiazole. The fragment is NCC(=O)Nc1nc(...)cs1.
+
+**Thiazole.** S is at the left, C2 at the bottom (bearing the NH), N at the right, C4 at the upper right, and C5 at the upper left, as CH. C4 carries the piperidin-3-yl group.
+
+**Piperidine.** The ring N is acylated. C3 is attached to the thiazole.
+
+**Acyl chain.** From the piperidine N: C(=O), then CH2 ×4, then O. Counting the vertices from the carbonyl to the O gives the carbonyl C, then four CH2 (one at the 4 o'clock bend, then 3 more), then O. The drawing shows N–C(=O)–C–C–C–C–O, so there are 4 CH2 groups. This is a 5-aryloxy-pentanoyl group.
+
+**Aryl/imide part.** The O is on a benzene ring that is fused to a phthalimide. The imide N carries a 2,6-dioxopiperidin-3-yl group, as in a thalidomide derivative with the 4-oxy substituent.
+
+**SMILES assembly.**
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)C1CCCN(C1)C(=O)CCCCOc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12
+
+Checking the pyrrole: n1ccc(c1)... gives N1, C2, C3 (bearing the carboxamide) — written this way, the ring atoms are n1, c, c, c(...), c1, so the substituted carbon is the third atom, with c1 as the fifth. In the drawing, the N is bonded to CH (top, adjacent to the C bearing the amide) and to CH (bottom). The substituted carbon is therefore at position 3, which is correct. The SMILES n1ccc(c1) places the substituted carbon at position 4 from N going one way, but via c1 it is 2 bonds away from N, so it is position 3. This is correct.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)C1CCCN(C1)C(=O)CCCCOc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

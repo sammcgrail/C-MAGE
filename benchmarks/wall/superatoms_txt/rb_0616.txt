@@ -1,0 +1,14 @@
+I read the molecule as a thalidomide-type cereblon ligand joined through a linker to a pyrimidine–indole kinase-binding group.
+
+**Left to right:**
+- **Glutarimide:** a 2,6-dioxopiperidin-3-yl ring, attached through its C3 to the nitrogen of a phthalimide (isoindoline-1,3-dione). This stereocentre is drawn with plain bonds, so I gave it no stereo.
+- **Phthalimide:** the aryl ring carries an –O–CH2–C(=O)–NH– group at position 4.
+- **Linker:** the amide NH is followed by four CH2 groups, counted vertex by vertex along the zigzag, which end at the piperidine nitrogen.
+- **Piperidine:** the ring carbon at position 3 carries an NH group on a wedge bond, which leads to the pyrimidine.
+- **Pyrimidine:** 2-amino, 5-chloro, with an indol-3-yl group (free NH) at position 4.
+
+**Stereocentre at piperidine C3:** the wedged NH points to the lower right, ring C2 to the lower left, and ring C4 up, with H pointing back. The priorities are N > C2 (N,H,H) > C4 (C,H,H). Going N → C2 → C4 runs clockwise with H at the back, so the centre is R.
+
+In the SMILES, the atom is written as `CCC[C@@H](N…)C4`, with neighbours in the order C4, H, N, C2. This order corresponds to R, so `@@` is the correct tag.
+
+SMILES: O=C1CCC(N2C(=O)c3c(OCC(=O)NCCCCN4CCC[C@@H](Nc5ncc(Cl)c(-c6c[nH]c7ccccc67)n5)C4)cccc3C2=O)C(=O)N1

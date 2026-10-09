@@ -1,0 +1,26 @@
+I read the structure region by region, left to right.
+
+**Left end (glutarimide):** The piperidine-2,6-dione ring is O=C1CCC(N2...)C(=O)N1. Its C3 carbon is bonded to the isoindolinone nitrogen.
+
+**Isoindolinone:** The nitrogen N2 is bonded to a CH2 and to a C(=O). The CH2 is attached to the benzene ring, and the C=O is attached to the other benzene carbon. The aryl NH sits on the benzene carbon para to the carbonyl-bearing carbon; I place it on position 5 of the isoindolinone. From the drawing, the CH2 attaches at the ring carbon next to the one bearing the NH-substituted carbon. The ring atoms are:
+- c1: bears the CH2
+- c2: CH
+- c3: bears the NH
+- c4: CH
+- c5: CH
+- c6: bears the C=O
+
+**Linker and cyclopropane:** The chain is NH-CH2CH2-NH-C(=O)-C1(CC1), where the quaternary cyclopropane carbon carries the pyridine.
+
+**Pyridine:** The ring is attached at C2 (adjacent to N). Going around, N1, C2 (bearing the cyclopropane), C3 (CH), C4 (bearing the aryl group), C5 (CH), C6 (CH). This gives c1(ccnc(c1)C2(CC2)...).
+
+**Phenyl and thiazole:** The pyridine C4 carries a meta-substituted phenyl. The phenyl is attached to thiazole C4. The thiazole C2 carries NH-C(=O)-CH2-NH-C(=O)-pyrrole.
+
+**Pyrrole:** The pyrrole is attached at its 3-position and has N-SO2CH3 on nitrogen: c1cn(S(C)(=O)=O)cc1.
+
+**Assembled SMILES:**
+O=C1CCC(N2Cc3cc(NCCNC(=O)C4(CC4)c4cc(ccn4)-c4cccc(c4)-c4csc(NC(=O)CNC(=O)c5ccn(c5)S(C)(=O)=O)n4)ccc3C2=O)C(=O)N1
+
+In the isoindolinone, c3 is bonded to CH2 and then cc(N...) ccc3C2=O. The CH2-bearing carbon is followed by CH, then C-NH, then CH, CH, and finally the carbon bearing C=O, which closes the ring. This matches the drawing.
+
+SMILES: O=C1CCC(N2Cc3cc(NCCNC(=O)C4(CC4)c4cc(ccn4)-c4cccc(c4)-c4csc(NC(=O)CNC(=O)c5ccn(c5)S(C)(=O)=O)n4)ccc3C2=O)C(=O)N1

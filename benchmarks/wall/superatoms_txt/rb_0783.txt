@@ -1,0 +1,13 @@
+Reading the structure region by region, from left to right:
+
+- **Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. The pyridine carries CF3 at C6, and C2 bears C(=O)NH.
+- **Indazole:** the amide NH is attached at C5 of a 2H-indazole, which carries OMe at C6. N2 of the indazole is attached to the spiro system.
+- **Spiro system:** a cyclobutane C3 bonded to the indazole N2, with the spiro carbon at the opposite corner. The spiro carbon is shared with a piperidine, so this is 7-azaspiro[3.5]nonane. The piperidine N is acylated.
+- **Linker:** the acyl group is C(=O) attached to C4 of a second piperidine. That piperidine's N is attached to the isoindolinone aryl ring.
+- **Right end:** the isoindolinone is a lactam with C=O at C1 and CH2 at C3. The N is attached to the 2,6-dioxopiperidin-3-yl group, and the piperidine N sits on the aryl carbon at position 5.
+
+Writing the SMILES for the indazole: c1(NC(=O)...)c(OC)cc2nn(...)cc2c1. The ring atoms are C5 (NH), C6 (OMe), C7 (H), C7a, N1, N2 (substituted), C3 (H), C3a, C4 (H). In SMILES: COc1cc2nn(cc2cc1NC(=O)c1cccc(n1)C(F)(F)F)C1CC2(C1)CCN(CC2)C(=O)C1CCN(CC1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O.
+
+The isoindolinone ring needs checking. The drawing shows the aryl carbon bearing the piperidine N para to the carbon bonded to the C=O-bearing ring fusion carbon. I wrote c1ccc2C(=O)N(Cc2c1): the attachment atom c1 is followed by c, c, then c2, which bears C(=O). So the attachment carbon is meta to the carbonyl-bearing fusion carbon through the path c1–c–c–c2, which is three bonds away, i.e. para. The other path is c1–c(last)–c2(CH2-bearing), where the last aromatic c lies between the attachment carbon and the CH2-bearing fusion carbon. So the attachment carbon is meta to the CH2-bearing fusion carbon. In the drawing, the piperidine N-bearing carbon is adjacent to the CH carbon next to the CH2-bearing fusion carbon, which matches.
+
+SMILES: COc1cc2nn(cc2cc1NC(=O)c1cccc(n1)C(F)(F)F)C1CC2(C1)CCN(CC2)C(=O)C1CCN(CC1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O

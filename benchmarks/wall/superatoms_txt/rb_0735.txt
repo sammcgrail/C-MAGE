@@ -1,0 +1,11 @@
+I read the structure in four parts and assembled the SMILES from them.
+
+- **Left end:** a pyridine with a 5-methoxy group and a 4-vinyl group at the 4-position. The vinyl carries a 4,4-difluorocyclohexyl ring. The double bond is drawn trans (E), with the pyridine and the cyclohexyl on opposite sides. The cyclohexyl carbon is not a stereocentre because of the symmetric CF2 at the 4-position, so the hashed bond adds no stereo. The pyridine C2 carries a carboxamide, C(=O)NH–CH2–.
+- **Middle:** that CH2 is attached to a benzene ring substituted meta with CH2–C(=O)NH. This is followed by four CH2 groups and a C(=O)NH, which links to the tert-leucine unit.
+- **Right of the chain:** the tert-leucine is drawn as the S configuration (tert-butyl on a wedge). Its carbonyl acylates the nitrogen of a 4-hydroxyproline.
+- **Hydroxyproline stereochemistry:** the drawing gives the 2S,4R pattern, with a wedged amide at C2 and a hashed OH at C4. In the SMILES order I used, both centres come out as `@`.
+- **Right end:** the proline amide NH–CH2 is attached to a para-substituted phenyl bearing a 4-methylthiazol-5-yl group.
+
+I derived the `@`/`@@` tags by comparing neighbour order against the standard L-tert-leucine and trans-4-hydroxy-L-proline SMILES.
+
+SMILES: COc1cnc(cc1/C=C/C1CCC(F)(F)CC1)C(=O)NCc1cccc(c1)CC(=O)NCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

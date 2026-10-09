@@ -1,0 +1,20 @@
+Reading the structure from left to right:
+
+1. **Left end:** a methylsulfonyl group, CH3-S(=O)(=O), is attached to the N1 of a pyrrole. The carboxamide sits at C3 of the pyrrole: c1cn(S(C)(=O)=O)cc1C(=O)N.
+2. **Linker:** the amide NH connects to CH2, then C(=O), then NH on C2 of a thiazole.
+3. **Thiazole:** S1, C2 (bearing the NH), N3, C4 (bearing the aryl group), C5 (CH). SMILES: c1(NC(=O)...)nc(-Ar)cs1.
+4. **Aryl group:** a meta-disubstituted benzene. One substituent is the thiazole; the other is the pyridine.
+5. **Pyridine:** the ring attaches to the phenyl at C4 and to the cyclopropyl at C2, next to the ring N. The ring atoms run N, C2 (cyclopropyl), C3 (H), C4 (phenyl), C5 (H), C6 (H).
+6. **Cyclopropane:** a 1,1-disubstituted ring, with the pyridine on one substituent and C(=O) on the other. The carbonyl connects to the nitrogen of piperidine A.
+7. **Bipiperidine:** piperidine A has its 4-position bonded to the 4-position of piperidine B. Piperidine B's N bears C(=O)CH2O-Ar.
+8. **Right end:** the aryl group is a phthalimide ring with the O at position 4 and the imide N bearing a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so it gets no stereo label.
+
+Assembled SMILES:
+
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(c1)C1(CC1)C(=O)N1CCC(CC1)C1CCN(CC1)C(=O)COc1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1=O
+
+The pyrrole as drawn has N1 bearing the sulfonyl, C2 (H), C3 (carboxamide), C4 (H), C5 (H). In my SMILES, n1ccc(c1) places the substituted carbon at position 4 instead of 3. The correct form is n1cc(cc1)C(=O)..., where n1, c (C2), c(...) (C3, substituted), c (C4), c1 (C5).
+
+The pyridine SMILES c1ccnc(c1)C1... gives: c1 (C4, phenyl), c (C5), c (C6), n, c (C2, cyclopropyl), c1 (C3). This is correct.
+
+SMILES: CS(=O)(=O)n1cc(cc1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(c1)C1(CC1)C(=O)N1CCC(CC1)C1CCN(CC1)C(=O)COc1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1=O

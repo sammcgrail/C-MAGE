@@ -1,0 +1,20 @@
+This is a PROTAC-type molecule. I read it in pieces and then joined them.
+
+**Left fragment.** An indoline carries N-SO2CH3 on its nitrogen. Its C7 bears an NH that connects to C4 of a pyrimidine. The pyrimidine has Cl at C5, and its C2 carries an NH that connects to the dihydrobenzofuran.
+
+Indoline with N-mesyl: CS(=O)(=O)N1CCc2cccc(N...)c21
+
+**Pyrimidine.** The ring atoms are C4 (NH-indoline), C5 (Cl), C6 (H), N1, C2 (NH-aryl) and N3. SMILES: c1(Nc2cccc3CCN(S(C)(=O)=O)c23)c(Cl)cnc(N...)n1
+
+**Dihydrobenzofuran.** The ring is O1CCc2c1c(NH-)ccc2(N-piperidine). The oxygen is attached to C7a. C7 carries the NH to the pyrimidine, and C4 carries the piperidine. Fragment: c1(N-pyrimidine)ccc(N2CCC(CC2)...)c2CCOc12
+
+**Piperidine and piperazine.** The piperidine N is attached to the aryl ring, and its C4 is attached to a piperazine N. The other piperazine N carries a propyl chain, which ends at C3 of an azetidine. The azetidine N is attached to C5 of the isoindoline-1,3-dione, which has N-(2,6-dioxopiperidin-3-yl).
+
+Chain: N-CH2CH2CH2-C3 of azetidine. In the drawing, the piperazine N goes to CH2, CH2, CH2, then the azetidine carbon, so there are three CH2 groups.
+
+**Full SMILES:**
+CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(N5CCC(CC5)N5CCN(CCCC6CN(C6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)CC5)c5CCOc45)ncc3Cl)c21
+
+Checking the dihydrobenzofuran: c4ccc(N...)c5CCOc45. Atom c4 (bearing NH) is bonded to c45, the last atom, which bears O, so C7 is adjacent to C7a. The ring then runs c4, c, c, c(N-piperidine), c5 (C3a, bearing CH2), with CCO leading back to c45. This is correct.
+
+SMILES: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(N5CCC(CC5)N5CCN(CCCC6CN(C6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)CC5)c5CCOc45)ncc3Cl)c21

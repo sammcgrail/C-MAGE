@@ -1,0 +1,11 @@
+I read the structure in three parts, then wrote the SMILES with stereochemistry only where the drawing shows it.
+
+**Left end:** A pyridine ring has a 5-methoxy group, a 4-vinyl group and a 2-carboxamide. The vinyl group is drawn as an E-alkene and is attached to a cyclohexane ring. The ring carries a CF3 group at C4. The ring bonds are a hash on the alkenyl carbon and a wedge on the CF3 carbon, which places the two substituents trans (1,4).
+
+**Middle:** The pyridine amide NH is attached to a CH2 on a meta-disubstituted benzene. The other meta position carries CH2C(=O)NH, followed by four CH2 groups and then C(=O)NH.
+
+**Right end:** This part is the usual VHL ligand: tert-leucine, then 4-hydroxyproline, then an amide to the benzylic CH2 of 4-(4-methylthiazol-5-yl)benzene. I took the tert-leucine as S and the hydroxyproline as (2S,4R), which is the standard configuration, and encoded the chirality tags to match.
+
+I checked the SMILES for valid ring closures and consistent chirality tags, but I have not run it through a parser.
+
+SMILES: COc1cnc(C(=O)NCc2cccc(CC(=O)NCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)c2)cc1/C=C/[C@H]1CC[C@H](C(F)(F)F)CC1

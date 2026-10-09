@@ -1,0 +1,21 @@
+Reading the structure region by region:
+
+1. **Pyrrolo[2,3-d]pyrimidine core.** The pyrimidine has C2 bearing an NH-aryl group and C4 bearing an NH-indoline group. The fused pyrrole carries an NH.
+   - SMILES for this part: c1(Nc...)nc(N...)c2cc[nH]c2n1
+
+2. **Indoline.** The aniline-type NH is attached at C7 of the indoline, and the indoline N1 carries a methylsulfonyl group.
+   - SMILES for this part: Nc1cccc2CCN(S(C)(=O)=O)c12
+
+3. **Fluorophenyl ring.** The NH is on the ring carbon at position 1. F sits on a carbon meta to the NH, and the piperidine N sits on the carbon adjacent to the F carbon, para to the NH.
+   - SMILES for this part: c1cc(N)cc(F)c1N1CCC(CC1)...
+
+4. **Piperidine to piperazine to acyl chain.** The piperidine C4 is attached to a piperazine N. The other piperazine N is acylated: N-C(=O)CH2-azetidin-3-yl. The azetidine N is bonded to the isoindoline-1,3-dione at position 5.
+   - SMILES for this part: C(=O)CC1CN(C1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+The glutarimide carbon is drawn with plain bonds, so I give no stereochemistry.
+
+Assembled SMILES:
+
+O=C(CC1CN(C1)c1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O)N1CCN(CC1)C1CCN(CC1)c1ccc(Nc2nc(Nc3cccc4CCN(S(C)(=O)=O)c34)c3cc[nH]c3n2)cc1F
+
+SMILES: O=C(CC1CN(C1)c1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O)N1CCN(CC1)C1CCN(CC1)c1ccc(Nc2nc(Nc3cccc4CCN(S(C)(=O)=O)c34)c3cc[nH]c3n2)cc1F

@@ -1,0 +1,23 @@
+I read the structure in segments, left to right, and then wrote the SMILES.
+
+**Left end.** A 7H-pyrrolo[2,3-d]pyrimidine core. C2 carries an NH to the aryl ring. C4 carries an NH to the indoline. The pyrrole NH is at the lower left.
+
+**Indoline.** The aromatic C7 is attached to the NH. The indoline N1 carries a methylsulfonyl group, S(=O)(=O)C. The ring is N1-CH2-CH2-C3-C3a, fused to the benzene ring.
+
+**Aryl ring.** The NH attaches at one carbon. F is on the carbon two positions away (meta). The piperidine N is on the carbon para to the NH, adjacent to the CF carbon. Written from the NH carbon: c1(NH)ccc(N-pip)c(F)c1.
+
+**Linker.** The aryl-bound piperidine N connects through its 4-position to a piperazine N. The other piperazine N carries CH2CH2 to the 4-position of a second piperidine. That piperidine's N is bonded to the isoindolinone.
+
+**Isoindolinone.** The aryl carbon bearing the piperidine N is C5. The C=O sits at C1, and the CH2 at C3 is attached to N2. N2 carries the glutarimide, a 2,6-dioxopiperidin-3-yl group.
+
+**Assembling the SMILES.**
+
+Core: c1nc2[nH]ccc2c(n1)N... The pyrrolopyrimidine is N1=C(NHAr)-N3=C(NHAr')-C4a=C... fused to the pyrrole, with C7a bonded to N7H. Written out: c12[nH]ccc1c(Nc1cccc3c1N(S(C)(=O)=O)CC3)nc(Nc1ccc(N3CCC(CC3)N3CCN(CC3)CCC3CCN(CC3)c3ccc4c(c3)CN(C3CCC(=O)NC3=O)C4=O)c(F)c1)n2
+
+Checking the pyrrolopyrimidine ring closure: c12 is C7a, bonded to [nH], then c, c, then c1 (C4a, closing ring 1 to C7a). Then c(NHAr') is C4, followed by n (N3), then c(NHAr) is C2, then n2 (N1), closing to C7a. This is correct.
+
+For the indoline, c1cccc3c1N(...)CC3: the first atom c1 is C7 (attached to NH), then c, c, c are C6, C5, C4, then c3 is C3a, and c1 is C7a, which closes the benzene ring with C7. C7a is followed by N, then CC3 closes to C3a. This is correct.
+
+For the isoindolinone, c3ccc4c(c3)CN(...)C4=O: c3 is C5, then c, c, then c4 is C7a (bearing C=O at the end), and c(c3) is C3a, which closes the ring to C5 through the c3 atom. Then CN(...)C4=O gives the CH2, N, and C=O closing back to C7a. This is correct.
+
+SMILES: O=C1CCC(N2Cc3cc(N4CCC(CCN5CCN(CC5)C5CCN(CC5)c5ccc(Nc6nc(Nc7cccc8c7N(S(C)(=O)=O)CC8)c7cc[nH]c7n6)cc5F)CC4)ccc3C2=O)C(=O)N1

@@ -1,0 +1,28 @@
+I read the structure region by region and assembled the SMILES from the pieces below.
+
+**Left side: pyrimidine and indoline**
+- The pyrimidine has N1, C2 (bearing the NH-aryl), N3, C4 (bearing the NH-indoline), C5 (bearing Br) and C6 (a CH).
+- The indoline is N-methylsulfonyl: N1 carries S(=O)(=O)C, and C7 is attached to the NH. The indoline SMILES is c1cccc2CCN(S(C)(=O)=O)c12, with the NH attached at the carbon next to the ring-fusion carbon that bears N.
+
+**Central aryl ring**
+- Going around the ring: C1 bears the NH, C2 bears OMe, C3 is CH, C4 bears the piperidine N, C5 bears the methyl, and C6 is CH.
+- In the drawing, the NH carbon sits at the left, OMe is on the carbon above it, a CH follows, then the carbon bearing the piperidine, then the carbon bearing the methyl, then a CH that closes back to the NH carbon.
+
+**Linker**
+- The aryl-bound piperidine N connects through its C4 to a piperazine N.
+- The other piperazine N carries a CH2 that leads to C4 of a second piperidine.
+- That second piperidine's N is attached to the isoindolinone aromatic ring.
+
+**Right side: isoindolinone and glutarimide**
+- The isoindolinone N is attached to the 3-position of piperidine-2,6-dione.
+- The isoindolinone carbonyl sits on the ring carbon at the bottom of the five-membered ring, and the CH2 sits at the top.
+- The piperidine N is attached at the position para to the carbonyl-bearing carbon.
+- Writing the ring from the CH2 side: C1(=O)N(CC2=C1...) and so on. The aromatic carbon bearing the piperidine is adjacent to the CH-bearing carbon (the one next to CH2), so it is meta to the CH2-bearing ring-fusion carbon.
+
+**Assembled SMILES**
+Left to right:
+- Pyrimidine: Brc1cnc(Nc2cc(C)c(cc2OC)N3CCC(CC3)N4CCN(CC5CCN(CC5)c6ccc7C(=O)N(Cc7c6)C8CCC(=O)NC8=O)CC4)nc1Nc9cccc%10CCN(S(C)(=O)=O)c9%10
+- Central ring: Nc2cc(C)c(cc2OC)N3 reads as the NH carbon c2, then cH, then C(Me), then the carbon bearing N, then cH, then the carbon bearing OMe. This matches the drawing.
+- Isoindolinone: c6ccc7C(=O)N(Cc7c6)... has c6 bearing the piperidine N, then cH, cH, then c7 bearing C(=O), with the CH2-bearing carbon c7 closing the ring and then cH (c6) back to the start. The piperidine-bearing carbon is therefore adjacent to the CH that neighbors the CH2-bearing carbon. This matches the drawing.
+
+SMILES: Brc1cnc(Nc2cc(C)c(cc2OC)N3CCC(CC3)N4CCN(CC5CCN(CC5)c6ccc7C(=O)N(Cc7c6)C8CCC(=O)NC8=O)CC4)nc1Nc9cccc%10CCN(S(C)(=O)=O)c9%10

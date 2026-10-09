@@ -1,0 +1,16 @@
+Reading the structure region by region:
+
+- **Left end:** two 4-fluorophenyl rings are attached to one carbon, which is double-bonded to C4 of a piperidine ring.
+- **Linker:** the piperidine nitrogen carries CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-C(=O)NH-. Counting from the nitrogen, there are two carbons, then O, two carbons, O, two carbons, O, two carbons, and then the carbonyl. The final O is attached to CH2CH2C(=O), so the chain is N-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-C(=O)NH. The three O atoms in the drawing are at x = 497, 660 and 825. The first segment from N runs to the first O through two carbons, the next two segments each have two carbons, and the last segment to the carbonyl has two carbons.
+- **Right end:** the amide NH is attached to the aromatic ring of a phthalimide (isoindoline-1,3-dione). Its imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, so this is a pomalidomide-type unit. The glutarimide stereocentre is drawn with plain bonds, so no stereochemistry is given.
+
+SMILES assembly:
+- Left end: Fc1ccc(cc1)C(c1ccc(F)cc1)=C1CCN(CC1)
+- Linker: CCOCCOCCOCCC(=O)N
+- Right end: c1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1, with the amide N attached to the ring carbon next to the ring-fusion carbon.
+
+Full SMILES: Fc1ccc(cc1)C(c1ccc(F)cc1)=C1CCN(CC1)CCOCCOCCOCCC(=O)Nc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12
+
+The glutarimide in this SMILES needs checking: C3CCC(=O)NC3=O would put a carbonyl on the ring carbon next to the substituted carbon, which is correct. The ring is C3 (CH), CH2, CH2, C(=O), NH, C(=O) closing back to C3, so this is right.
+
+SMILES: Fc1ccc(cc1)C(c1ccc(F)cc1)=C1CCN(CC1)CCOCCOCCOCCC(=O)Nc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

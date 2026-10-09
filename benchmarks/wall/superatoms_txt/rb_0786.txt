@@ -1,0 +1,19 @@
+I read the structure region by region, from the left-hand end to the right.
+
+**Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. The pyridine carries CF3 at C6, the ring N sits between C2 and C6, and C2 bears C(=O)NH–.
+
+**Indazole:** the NH is attached to C5 of a 2H-indazole. C6 carries OMe. N2 carries the spiro-ring substituent.
+- Indazole SMILES: c1(NC(=O)...)c(OC)cc2nn(R)cc2c1
+- Ring walk: C5 (bearing NH) bonds to C4 (CH), which bonds to C3a, then C3 (CH), then N2 (bearing R), then N1, then C7a, then C7 (CH), then C6 (OMe), and back to C5.
+
+**Spiro linker:** N2 is attached to a cyclohexane carbon. That cyclohexane is spiro-fused to a piperidine, giving 3-azaspiro[5.5]undecane. The piperidine N is acylated.
+- SMILES: C1CC2(CCN(CC2)C(=O)...)CC1, with the indazole N attached at the first carbon.
+
+**Acyl group:** the carbonyl is attached to C4 of a piperidine. That piperidine's N is bonded to C5 of an isoindoline-1,3-dione.
+
+**Glutarimide:** the isoindoline N carries 2,6-dioxopiperidin-3-yl. No stereochemistry is drawn.
+
+**Assembled SMILES:**
+FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CCC2(CC1)CCN(CC2)C(=O)C1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+SMILES: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CCC2(CC1)CCN(CC2)C(=O)C1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

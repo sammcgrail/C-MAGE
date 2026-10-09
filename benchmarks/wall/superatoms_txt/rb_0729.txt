@@ -1,0 +1,23 @@
+I read the structure region by region, left to right.
+
+**Left end:** a pyridine bearing CF3 at the 6-position and a carboxamide at the 2-position: FC(F)(F)c1cccc(n1)C(=O)N.
+
+**Indazole:** the amide NH sits on C5 of a 2H-indazole. C6 carries OMe. N2 carries the cyclobutyl group.
+- Ring atoms: c1 (C5, bearing NH), then c(OC) (C6), then cH (C7), then c7a, which bonds to N1. N1 is "n", N2 is "n" bearing the substituent, C3 is cH, and C3a is c.
+- SMILES for this part: NC(=O)... c1cc2cn(nc2cc1OC)
+
+**Spiro linker:** a 2-azaspiro system, specifically 7-azaspiro[3.5]nonane. The cyclobutane carbon bonded to the indazole N2 is C2 of the cyclobutane, and the spiro carbon is shared with the piperidine. The piperidine nitrogen is acylated.
+- SMILES: C1(CC2(C1)CCN(CC2)C(=O)...)
+
+**Piperidine:** the carbonyl attaches at C4 of a piperidine. The adjacent C3 carries CF2. N1 bears the aryl group. Ring: C4(C(=O))–C(F)(F)–CH2–N–CH2–CH2.
+- SMILES: C1(C(=O)...)CCN(CC1(F)F)c...
+
+**Aryl and glutarimide:** the aryl is a phthalimide (isoindoline-1,3-dione) attached at its 5-position, with N-(2,6-dioxopiperidin-3-yl).
+- SMILES: c1ccc2c(c1)C(=O)N(C2=O)C1CCC(=O)NC1=O
+
+**Full SMILES:**
+FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1CCN(CC1(F)F)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Check on the phthalimide attachment: the ring atom c1 is attached to the piperidine N and then runs ccc2 …c2c1. The atoms are c1 (attached), c, c, then c2 (bearing C(=O)N), the imide, C(=O), and c2 (closing the ring), then c1. This gives c1 adjacent to the last aromatic carbon c, which is adjacent to the c2 bearing the C(=O). The arrangement matches the drawing: the attached carbon is meta to one ring-fusion carbon and para to the other, which is the 5-position.
+
+SMILES: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1CCN(CC1(F)F)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

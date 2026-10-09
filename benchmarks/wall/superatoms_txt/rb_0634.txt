@@ -1,0 +1,30 @@
+The structure is a PROTAC-like molecule. I read it region by region and then assembled the SMILES.
+
+**Left side: pyrrolo[2,3-d]pyrimidine**
+- The 7H-pyrrolo[2,3-d]pyrimidine has N7 as HN, C7a, N1, C2 (bearing the NH-aryl group), N3, C4 (bearing NH-indoline), C4a, C5 and C6.
+- SMILES fragment: c1(Nc2ccc(c(F)c2)N...)nc(N...)c3cc[nH]c3n1
+
+**Indoline**
+- The indoline is attached through its C7 to the NH on C4 of the pyrimidine.
+- The indoline N1 carries a methylsulfonyl group: N1(S(C)(=O)=O)CCc2cccc(N...)c12.
+
+**Central aryl and linker**
+- The aryl ring has the NH at C1, F at C3, and the piperidine N at C4.
+- The piperidine C4 is bonded to a piperazine N.
+- The other piperazine N bears CH2 attached to azetidine C3.
+- The azetidine N is attached to the isoindolinone aromatic ring.
+
+**Isoindolinone**
+- The isoindolinone is O=C1N(CC2=C1C=CC(=C2)N...)C3CCC(=O)NC3=O.
+- The azetidine N sits on the aromatic carbon para to the ring-fusion carbon bearing the C=O. In the drawing, the C=O-bearing carbon is at the right, the aromatic carbon bearing the azetidine N is at the upper left, and the CH2-bearing carbon is at the lower left.
+- Following the ring: C(=O) attaches to c7a at the upper right, then CH=CH, then the carbon bearing the azetidine N, then CH, then c3a bearing the CH2. The azetidine-bearing carbon is therefore meta to c3a and para to c7a.
+- SMILES fragment: O=C1c2ccc(N3CC(C3)CN...)cc2CN1C1CCC(=O)NC1=O
+
+**Full SMILES**
+CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(c(F)c4)N4CCC(CC4)N4CCN(CC5CN(C5)c5ccc6C(=O)N(CC6c5)... 
+
+I wrote the isoindolinone closure carefully in the final string. The azetidine-bearing ring is c5ccc6c(c5)CN(C6=O)C7CCC(=O)NC7=O. In this ring, c5 is the carbon bearing the azetidine N, then cc, then c6, which carries the C=O. The next atom, c(c5), is the fused carbon bearing the CH2 and closing back to c5.
+
+The full assembled SMILES is below.
+
+SMILES: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(c(F)c4)N4CCC(CC4)N4CCN(CC5CN(C5)c5ccc6C(=O)N(Cc6c5)C5CCC(=O)NC5=O)CC4)nc4[nH]ccc34)c21

@@ -1,0 +1,11 @@
+I read the structure in sections, left to right, and assembled the SMILES from that.
+
+- **Left end:** a glutarimide (2,6-dioxopiperidin-3-yl) is attached through its ring nitrogen to an isoindolin-1-one. The isoindolinone has a fluorine on the benzene ring and a piperidin-4-yl group next to the CH2 of the lactam ring.
+- **Linker:** the piperidine nitrogen carries a CH2CH2 chain leading to a cyclohexane (drawn without stereo marks). From the cyclohexane, a second CH2CH2 chain ends in an ether oxygen.
+- **Aryl ether:** the oxygen is bonded to a benzene ring that has a fluorine on one ortho position and the quinazoline on the other.
+- **Quinazoline:** it carries a chlorine at C6 and a fluorine at C8, and its C7 is bonded to the fluorophenyl ring. Its C4 is bonded to a piperazine nitrogen.
+- **Piperazine:** the carbon next to the acylated nitrogen carries a CH2CN group drawn on a wedge. The acylated nitrogen bears a 2-chloroacryloyl group, C(=O)C(Cl)=C.
+- **Stereocentre:** this is the only stereocentre with a wedge, so it is the only one given stereo. The ring nitrogen outranks the ring CH2, which outranks CH2CN, and with the wedged CH2CN toward the viewer this gives R. In the SMILES this is written `[C@@H]`.
+- **Glutarimide carbon:** it is a stereocentre by connectivity but is drawn with plain bonds, so it has no stereo label.
+
+SMILES: O=C1CCC(C(=O)N1)N1Cc2c(C3CCN(CCC4CCC(CC4)CCOc4cccc(F)c4-c4c(Cl)cc5c(N6C[C@@H](CC#N)N(C(=O)C(Cl)=C)CC6)ncnc5c4F)CC3)cc(F)cc2C1=O

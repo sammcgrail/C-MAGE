@@ -1,0 +1,9 @@
+I read the structure in segments from left to right and wrote each one as SMILES.
+
+- **Left end:** a pyridine ring with a 5-methoxy group, a 2-carboxamide, and an E-vinyl group at C4. The vinyl group is attached to a cyclohexane carrying CF3 at the 4-position. The hashed bond to the vinyl group and the wedged bond to CF3 are on opposite faces, so the ring is 1,4-trans.
+- **Middle:** the amide N–CH2 leads to a meta-disubstituted benzene. Its other substituent is CH2C(=O)NH, followed by a chain of four ether oxygens: NCCOCCOCCOCCOCC(=O).
+- **Right end:** the standard VHL-type ligand: tert-leucine amide, then (2S,4R)-4-hydroxyproline, then the amide to 4-(4-methylthiazol-5-yl)benzyl.
+
+I worked out the @/@@ markers by neighbour-order comparison against the standard VHL ligand SMILES and by hand for the trans-cyclohexane. I did not run the SMILES through a parser.
+
+SMILES: COc1cnc(cc1/C=C/[C@H]2CC[C@@H](CC2)C(F)(F)F)C(=O)NCc1cccc(c1)CC(=O)NCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

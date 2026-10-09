@@ -1,0 +1,16 @@
+I read the molecule as a PROTAC-type conjugate in three parts, joined through a para-substituted benzamide:
+
+- **Thalidomide-type end:** a 4-amino-isoindoline-1,3-dione carrying the 2,6-dioxopiperidin-3-yl group on the imide nitrogen. Its 4-NH leads into a chain of four CH2 groups ending in an amide NH.
+- **Linker:** that amide NH is acylated by a para-disubstituted benzene ring, giving a benzamide. The other ring position carries an NH that forms the second amide.
+- **Spiro core:** the second amide carbonyl sits on a pyrrolidine. Its ring carbons and nitrogen are:
+  - C2, bearing the C(=O)NH group;
+  - C3, bearing the 3-chloro-2-fluorophenyl group;
+  - C4, spiro-fused to a 6-chloro-2-oxindole;
+  - C5, spiro-fused to a cyclohexane;
+  - the ring NH.
+
+**Stereochemistry:** I assigned C2, C3 and the oxindole spiro carbon from the wedges and hashes, working out each chirality tag from the 2D coordinates. The cyclohexane spiro carbon is not a stereocentre, so it has no tag. The thalidomide-type piperidine CH is drawn plain and has no tag.
+
+I checked ring sizes and substituent positions against the drawing: the oxindole is a six-membered benzo ring with Cl at C6, and the aryl ring has F ortho and Cl meta to the attachment point. The SMILES below is valid and matches the drawing atom for atom.
+
+SMILES: O=C(Nc1ccc(cc1)C(=O)NCCCCNc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)[C@@H]1NC2(CCCCC2)[C@@]3(C(=O)Nc4cc(Cl)ccc34)[C@H]1c1cccc(Cl)c1F

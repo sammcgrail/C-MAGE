@@ -1,0 +1,30 @@
+The structure reads as a PROTAC-like molecule. I worked through it region by region.
+
+**Left side: pyrrolo[2,3-d]pyrimidine**
+- The 7H-pyrrolo[2,3-d]pyrimidine has C2 bearing NH-aryl and C4 bearing NH-indoline.
+- SMILES for this core: c1(Nc2ccc(...)c(F)c2)nc(Nc2cccc3c2N(S(C)(=O)=O)CC3)c2cc[nH]c2n1
+
+**Indoline**
+- The indoline is attached through its C7 to the NH.
+- N1 carries the methylsulfonyl group, and C2 and C3 are CH2 groups.
+- SMILES: c2cccc3c2N(S(C)(=O)=O)CC3
+
+**Central aryl ring**
+- The NH is at C1 of the phenyl ring, F is meta to the NH, and the piperidine N is para to the NH.
+- The F is ortho to the piperidine, so the aryl group is Nc1ccc(N2CCC(CC2)...)c(F)c1.
+
+**Linker**
+- Piperidine C4 connects to piperazine N1.
+- Piperazine N4 connects to CH2, which connects to C4 of a second piperidine.
+- The N of that second piperidine is bonded to the isoindoline-1,3-dione aromatic ring at position 5.
+
+**Right side: isoindoline-dione**
+- The imide N carries a 2,6-dioxopiperidin-3-yl group.
+- The stereocentre is drawn with plain bonds, so no stereo is specified.
+
+**Full SMILES**
+CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(N5CCC(CC5)N5CCN(CC6CCN(CC6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)CC5)c(F)c4)nc4[nH]ccc34)c21
+
+I checked the ring closure labels in this SMILES and they are consistent. The aryl-attached isoindoline ring is c6ccc7C(=O)N(...)C(=O)c7c6, which gives position 5 attachment.
+
+SMILES: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(N5CCC(CC5)N5CCN(CC6CCN(CC6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)CC5)c(F)c4)nc4[nH]ccc34)c21

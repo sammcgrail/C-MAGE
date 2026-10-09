@@ -1,0 +1,15 @@
+I read the molecule as a PROTAC-type compound with three parts: a pyrimidine ligand, an undecanoyl linker, and a VHL-type hydroxyproline ligand.
+
+**Left end.** A 2-(isopropylsulfonyl)anilino group sits on C4 of a 5-chloropyrimidine. C2 of the pyrimidine carries an NH attached to C3 of a piperidine. That NH is drawn on a hashed bond, and working through the CIP priorities gives (R).
+
+**Linker.** The piperidine nitrogen carries a chain of 10 CH2 groups ending in a C=O, so the acid portion is undecanoyl. That C=O forms an amide with the tert-leucine nitrogen.
+
+**Tert-leucine.** The tert-butyl group is on a hashed bond, which gives (S).
+
+**Hydroxyproline.** The proline nitrogen is acylated by the tert-leucine carbonyl. The ring is (2S,4R), with the OH on a wedge.
+
+**Right end.** The proline carboxamide nitrogen is bonded to a (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group, with the methyl on a hashed bond.
+
+I checked each stereocentre by working out the CIP order from the drawing and then confirming that the @/@@ in the SMILES gives the same descriptor. The benzylic centre needed `[C@H]` rather than `[C@@H]` to come out as (S).
+
+SMILES: CC(C)S(=O)(=O)c1ccccc1Nc1nc(N[C@@H]2CCCN(C2)CCCCCCCCCC(=O)N[C@H](C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@H](C)c2ccc(cc2)-c2scnc2C)C(C)(C)C)ncc1Cl

@@ -1,0 +1,23 @@
+Reading the structure region by region:
+
+1. **Left end:** a morpholine nitrogen is attached to C6 of a pyridine. The pyridine C2 carries a C(=O)NH amide.
+2. **Indazole:** the amide NH is attached to C5 of a 2H-indazole, and C6 bears OMe. N2 of the indazole is attached to the cyclobutane.
+3. **Spirocycle:** the cyclobutane is the spiro[3.5] system, 7-azaspiro[3.5]nonane. The cyclobutane CH bearing the indazole is opposite the spiro carbon, and the piperidine nitrogen is acylated.
+4. **Acyl piperidine:** the carbonyl is attached to C4 of a piperidine. Its nitrogen is attached to the aryl ring of the isoindoline-1,3-dione.
+5. **Isoindoline-dione:** the isoindoline N carries a 2,6-dioxopiperidin-3-yl group. The ring bears F and the piperidine N on adjacent carbons.
+
+Indazole numbering and SMILES: 2H-indazole is c1cc2cc(NC(=O)...)c(OC)cc2nn1 with the substituent on N2.
+Writing it as n1(R)cc2cc(NC(=O)Ar)c(OC)cc2n1, the C3–H is next to N2 and C3a is fused. C3a connects to C4, then C5 (the NH amide, drawn upper left), then C6 (OMe), then C7, then C7a, which bonds to N1. This matches the drawing.
+
+Spiro part: C1(CC2(C1)CCN(CC2)C(=O)...), where the cyclobutane CH is attached to the indazole N.
+
+Isoindoline aryl ring: the ring carbons are C3a, C4(H), C5(N-piperidine), C6(F), C7(H), C7a. In the drawing, the piperidine N is at the lower carbon, which is adjacent to the CH that bonds to the lower carbonyl-bearing carbon. F is on the carbon above it, adjacent to the CH on the upper side.
+
+SMILES for the aryl: O=C1N(C2CCC(=O)NC2=O)C(=O)c2cc(N3CCC(CC3)C(=O)...)c(F)cc12
+
+Full SMILES:
+COc1cc2nn(cc2cc1NC(=O)c1cccc(N2CCOCC2)n1)C1CC2(C1)CCN(CC2)C(=O)C1CCN(CC1)c1cc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2cc1F
+
+Check the aryl ring: c1cc2C(=O)N(...)C(=O)c2cc1F. The atom c1 (with the piperidine N) is followed by c (CH), then c2 (the fused carbon with C=O), then the other fused carbon c2, then c (CH), then c1F. F therefore sits on the carbon adjacent to the piperidine-bearing carbon, which is correct.
+
+SMILES: COc1cc2nn(cc2cc1NC(=O)c1cccc(N2CCOCC2)n1)C1CC2(C1)CCN(CC2)C(=O)C1CCN(CC1)c1cc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2cc1F

@@ -1,0 +1,10 @@
+I read the structure in four parts and wrote each as SMILES, then joined them.
+
+1. **Left end:** a 2-methoxy-6,7-dihydro-5H-benzo[7]annulene. The seven-membered ring carries a phenyl on the alkene carbon C8 and a 4-substituted phenyl on the alkene carbon C9. The ring is C9=C8(Ph)–CH2–CH2–CH2 back to the aromatic ring.
+2. **Linker:** the aryl group is bonded through the phenyl para position to a piperidine nitrogen. Piperidine C4 carries a CH2 that links to one nitrogen of a piperazine.
+3. **Right end:** the other piperazine nitrogen is bonded to C5 of an isoindolin-1-one. The isoindolinone nitrogen is bonded to C3 of a piperidine-2,6-dione (glutarimide).
+4. **Stereochemistry:** the only stereocentre drawn is the glutarimide C3, where the bond to the isoindolinone nitrogen is hashed. Nitrogen is behind the plane, so the hydrogen is toward the viewer. With priorities N > C(=O) > CH2 > H, the N→C=O→CH2 sequence runs clockwise as drawn, which reverses to counterclockwise with H toward the viewer. That gives S. In the SMILES below, `N(C2=O)[C@H]1CCC(=O)NC1=O` encodes S.
+
+The alkene in the seven-membered ring sits in a ring with no cis/trans markings drawn, so I added no double-bond stereo.
+
+SMILES: COc1ccc2c(c1)CCCC(c1ccccc1)=C2c1ccc(cc1)N1CCC(CC1)CN1CCN(CC1)c1ccc2c(c1)CN(C2=O)[C@H]1CCC(=O)NC1=O

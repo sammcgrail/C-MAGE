@@ -1,0 +1,15 @@
+I read the molecule as a PROTAC-type conjugate. It joins an anilino-pyrimidine kinase-inhibitor fragment to a VHL E3 ligase ligand through an amide-terminated alkyl chain on a piperidine nitrogen.
+
+**Left fragment.** An isopropylsulfonyl-substituted phenyl ring is attached through NH to C4 of a 5-chloropyrimidine. C2 of the pyrimidine carries an NH linked to C3 of a piperidine. The N–H bond on that piperidine carbon is hashed. Working through the CIP priorities (N, then ring C2, then ring C4, then H) gives the R configuration, which is [C@@H] in the SMILES below.
+
+**Linker.** Counting zigzag vertices from the piperidine nitrogen gives 10 CH2 groups followed by the amide C=O.
+
+**VHL ligand.**
+- The amide NH is attached to a tert-leucine residue (tert-butyl on the alpha carbon).
+- The tert-leucine is acylated onto a 4-hydroxyproline nitrogen.
+- The proline carboxamide is bonded to an (S)-1-(4-(4-methylthiazol-5-yl)phenyl)ethylamine.
+- The drawing matches the standard VHL ligand, so I used its usual stereochemistry: (S)-tert-leucine, 4R-hydroxyproline with 2S, and (S)-methylbenzyl.
+
+I checked the SMILES for valid ring closures and atom counts against the drawing.
+
+SMILES: CC(C)S(=O)(=O)c1ccccc1Nc1nc(N[C@@H]2CCCN(C2)CCCCCCCCCCC(=O)N[C@H](C(C)(C)C)C(=O)N2C[C@@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)ncc1Cl

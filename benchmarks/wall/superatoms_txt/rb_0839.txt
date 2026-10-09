@@ -1,0 +1,29 @@
+Reading the structure region by region:
+
+**Left fragment.** An indoline (2,3-dihydroindole) has its N-1 carrying a methylsulfonyl group, N(S(C)(=O)=O). Its C-7 carries an NH that links to C4 of a pyrimidine. The pyrimidine has Br at C5, N1 and N3, and C2 bears an NH to the aryl ring.
+
+**Central aryl ring.** Going around the ring from the NH-bearing carbon:
+- C1 carries the NH.
+- C2 is CH.
+- C3 carries the methyl (the methyl at the top).
+- C4 carries the piperidine N.
+- C5 is CH.
+- C6 carries OMe.
+
+So the ring is c1(N)cc(C)c(N-pip)cc1OC, with the OMe ortho to the NH.
+
+**Linker.** The piperidine N is attached to piperidine C4, which bonds to a piperazine N. The other piperazine N is acylated: C(=O)CCN. That N belongs to a second piperazine whose far N is attached to the isoindoline-dione aryl ring at C5.
+
+**Right fragment.** The isoindoline-1,3-dione N carries a 2,6-dioxopiperidin-3-yl group. No stereochemistry is drawn.
+
+**Assembly.**
+- Indoline: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4cc(OC)c(cc4... — the ring order needs care, so I write it explicitly below.
+- Pyrimidine: c3nc(N...)ncc3Br, where C4 bears the indoline NH, C5 bears Br, C6 is CH, N1 is the CH-adjacent N, and C2 bears the aryl NH.
+- Aryl: Nc4cc(C)c(N5CCC(CC5)N6CCN(CC6)C(=O)CCN7CCN(CC7)c8ccc9C(=O)N(C%10CCC(=O)NC%10=O)C(=O)c9c8)cc4OC.
+
+Full SMILES:
+CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4cc(C)c(cc4OC)N5CCC(CC5)N6CCN(CC6)C(=O)CCN7CCN(CC7)c8ccc9C(=O)N(C%10CCC(=O)NC%10=O)C(=O)c9c8)ncc3Br)c21
+
+Check on the aryl ring: c4 (NH) – c (H) – c(C) – c(N-pip) – c (H) – c4(OC). In my string, "Nc4cc(C)c(cc4OC)N5..." gives c4, c, c(C), c(...) with the branch cc4OC, meaning c(H) then c4(OC). This is consistent, and the piperidine N is attached to the c( ) atom.
+
+SMILES: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4cc(C)c(cc4OC)N5CCC(CC5)N6CCN(CC6)C(=O)CCN7CCN(CC7)c8ccc9C(=O)N(C%10CCC(=O)NC%10=O)C(=O)c9c8)ncc3Br)c21

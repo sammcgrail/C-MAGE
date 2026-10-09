@@ -1,0 +1,20 @@
+I read the structure from left to right.
+
+**Left end:** a methylsulfonyl group, CH3-SO2-, is attached to the nitrogen of a pyrrole. The pyrrole is substituted at C3 with a C(=O)NH group. In SMILES this fragment is CS(=O)(=O)n1ccc(c1)C(=O)N.
+
+**Glycine linker:** the amide NH connects to CH2, then C(=O), then NH, which is bonded to C2 of the thiazole.
+
+**Thiazole:** S1 is bonded to C2 (bearing the NH), N3, C4 (bearing the aryl group) and C5 (the CH). This gives c1(NC(=O)...)nc(-Ar)cs1.
+
+**Biphenyl:** the thiazole C4 carries a phenyl ring that is attached at its meta position to a second phenyl ring. That second ring carries a CH2NH group at the meta position relative to the biaryl bond.
+
+**Linker chain:** CH2-NH-C(=O)-CH2CH2-O-CH2CH2-O-CH2CH2-NH-Ar.
+
+**Right end:** the aryl ring is the benzo ring of a phthalimide, with the NH at position 5. The imide nitrogen is bonded to C3 of a glutarimide, 2,6-dioxopiperidin-3-yl, drawn with no stereochemistry.
+
+**Assembled SMILES:**
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1cccc(c1)CNC(=O)CCOCCOCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+**Phthalimide ring check:** the benzo ring is c1ccc2c(c1)C(=O)N(...)C2=O. The amine-bearing carbon sits at position 5, and the ring fusion carbons are c2 and c(c1). In my SMILES, Nc1ccc2C(=O)N(...)C(=O)c2c1, the amine carbon c1 is followed by c, c, then c2 (fusion carbon with C(=O)), and after the imide the other fusion carbon c2 is followed by c1 (CH) that closes back to the amine carbon. The amine carbon is therefore adjacent to that CH, which is itself adjacent to a fusion carbon. This is position 5, as drawn.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1cccc(c1)CNC(=O)CCOCCOCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

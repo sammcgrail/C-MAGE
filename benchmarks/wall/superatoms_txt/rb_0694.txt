@@ -1,0 +1,18 @@
+I read the structure region by region, from the left end to the right.
+
+**Left end.** A methylsulfonyl group (CH3-SO2) sits on the nitrogen of a pyrrole. The pyrrole is attached at its 3-position to a carboxamide, so this fragment is 1-(methylsulfonyl)pyrrole-3-carboxamide. Its SMILES is CS(=O)(=O)n1ccc(c1)C(=O)N.
+
+**Linker to the thiazole.** The amide NH connects to a CH2, then to C(=O), then to NH on the thiazole C2. This is a glycine unit: C(=O)NCC(=O)Nc1nc(cs1)...
+
+**Thiazole to pyridine.** The thiazole carries a phenyl group at C4. The phenyl is meta-substituted and bonded to the 4-position of a pyridine. The pyridine's 2-position carries a piperazine nitrogen. Numbering the pyridine from N1, C2 bears the piperazine, C3 is the CH between C2 and C4, and C4 bears the phenyl. In the drawing, the ring carbon attached to the phenyl has a CH above it, which leads to the carbon bearing the piperazine, and that carbon is adjacent to N. This matches: c1(-c2cccc(c2)...)cc(N...)ncc1.
+
+**Piperazine to the PEG chain.** The other piperazine nitrogen is acylated: C(=O)CCOCCOCCN, where the final NH is attached to the aryl ring of the isoindoline-dione.
+
+**Right end.** The aryl NH sits on the benzene ring of a phthalimide. The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group. This is a pomalidomide/thalidomide-type fragment: N1C(=O)c2ccc(N...)cc2C1=O with N-C1CCC(=O)NC1=O.
+
+**Assembled SMILES.**
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(c1)N1CCN(CC1)C(=O)CCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O
+
+I checked the pyridine: c1ccnc(c1)N is atom a (attached to the phenyl), then c, c, n, c(N), c1 closing back to a. So the ring runs a–CH–CH–N–C(pip)–CH–a. This puts the phenyl at the 4-position and the piperazine at the 2-position, as drawn.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(c1)N1CCN(CC1)C(=O)CCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O

@@ -1,0 +1,20 @@
+Reading the structure from left to right:
+
+1. **Methylsulfonyl pyrrole:** CS(=O)(=O)n1ccc(c1)C(=O)N. The pyrrole nitrogen carries the mesyl group, and C3 carries the carboxamide. In the drawing, N1 sits at the lower left, the top carbon is C2, and C3 bears the C(=O).
+2. **Glycine linker:** the carboxamide nitrogen is NH–CH2–C(=O)–NH, and this last NH attaches to C2 of the thiazole.
+3. **Thiazole:** C2 bears the NH, N3 is the ring nitrogen, C4 carries the aryl group, and C5 is CH next to S. SMILES: c1(NC(=O)...)nc(-Ar)cs1.
+4. **Phenyl and pyridine:** the thiazole C4 is bonded to a benzene ring, which is meta-disubstituted. The other substituent is pyridin-4-yl. The pyridine N is adjacent to the C2 that carries the O–CH2CH2–NH chain.
+5. **Chain:** OCCNC(=O)CCOCCOCCO–Ar. Counting from the amide C=O: CH2, CH2, O, CH2, CH2, O, CH2, CH2, O, then the aryl.
+6. **Phthalimide:** the isoindoline-1,3-dione bears the ether oxygen at the 5-position. The ring N is attached to the 2,6-dioxopiperidin-3-yl group. No stereochemistry is drawn.
+
+Assembled SMILES:
+
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(OCCNC(=O)CCOCCOCCOc2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c1
+
+Checking the pyrrole: n1ccc(c1) gives N1, C5, C4, C3 (bearing the carbonyl), and C2 closing back to N1. This is correct.
+
+Checking the pyridine: c1ccnc(O...)c1 starts at C4 (attached to the phenyl), then C5, C6, N, C2 (bearing the O), and C3. This is correct.
+
+Checking the phthalimide: c2ccc3C(=O)N(...)C(=O)c3c2 places the O-bearing carbon at c2, which is adjacent to the last ring carbon (c2, the CH next to the ring fusion). This puts the O at the 5-position, which matches the drawing.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1ccnc(OCCNC(=O)CCOCCOCCOc2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c1

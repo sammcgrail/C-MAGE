@@ -1,0 +1,19 @@
+I read this as an MDM2-inhibitor/cereblon-ligand PROTAC and wrote the SMILES from that reading. The chain runs from the isoindolinone-glutarimide end to the spiro-oxindole end.
+
+**Regions of the drawing**
+- **Cereblon end:** a 3-(1-oxoisoindolin-2-yl)piperidine-2,6-dione, with the alkyne on the isoindolinone ring carbon next to the CH2.
+- **Linker:** the alkyne goes to CH2–O–CH2CH2–O–CH2CH2–NH–C(=O), which ends on a para-substituted benzene ring.
+- **Aryl amide:** that benzene carries an NH–C(=O) linking it to the pyrrolidine carboxamide.
+- **Pyrrolidine core:**
+  - The ring is NH, the CH bearing the carboxamide, the CH bearing 3-chloro-2-fluorophenyl, a spiro carbon (the oxindole C3), and a second spiro carbon that is also a cyclohexane carbon.
+  - The oxindole is 6-chloro-2-oxo-indoline, spiro-fused through its C3.
+
+**Stereochemistry**
+- The carboxamide is drawn hashed on its CH carbon.
+- The aryl group is drawn on a wedge.
+- At the oxindole spiro carbon I read the C=O bond as a wedge and the aryl bond as hashed. This last assignment was the least certain part of the image.
+- From these I assigned `@@` to the carboxamide CH, `@` to the aryl CH, and `@@` to the oxindole spiro carbon. The cyclohexane spiro carbon is drawn with plain bonds, so it has no stereo label.
+
+I checked ring closure numbering and the neighbour order at each stereocentre by hand; I did not run the SMILES through a parser.
+
+SMILES: O=C(Nc1ccc(cc1)C(=O)NCCOCCOCC#Cc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O)[C@@H]1NC2(CCCCC2)[C@@]2(C(=O)Nc3cc(Cl)ccc32)[C@H]1c1cccc(Cl)c1F

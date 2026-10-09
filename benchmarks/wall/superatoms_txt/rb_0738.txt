@@ -1,0 +1,21 @@
+Reading the drawing region by region:
+
+**Glutarimide.** A piperidine-2,6-dione whose C3 is attached to the isoindolinone nitrogen: O=C1CCC(C(=O)N1)N...
+
+**Isoindolinone.** The nitrogen is bonded to a CH2 and to a C=O. The benzene ring carries fluorine and the piperidin-4-yl group. The C=O carbon is attached to aromatic carbon C7a, and the CH2 to C3a. The aromatic carbon next to C3a bears the piperidine, and the next one bears F. SMILES fragment: N1(C2CCC(=O)NC2=O)Cc2c(C3CCN(CC3)...)cc(F)cc2C1=O.
+
+**Linker.** The piperidine nitrogen carries a three-carbon chain (N-CH2CH2CH2-O) to the phenoxy oxygen: N(CCCOc...).
+
+**Phenyl ring.** The ring carbon bearing O is adjacent to the carbon bearing the quinazoline and to an aromatic CH. The carbon on the other side of the quinazoline-bearing carbon bears F. Fragment: Oc1cccc(F)c1-c...
+
+**Quinazoline.** N1=CN=C(N-piperazine)c2cc(Cl)c(Ar)c(F)c12. Numbering: C4 bears the piperazine, C4a is the ring-fusion carbon, C5 is CH, C6 bears Cl, C7 bears the aryl group, C8 bears F, and C8a bears N1.
+
+**Piperazine.** The far nitrogen carries an acyl group, C(=O)C(Cl)=C (2-chloroacryloyl).
+
+Assembled SMILES:
+
+O=C1CCC(N2Cc3c(C4CCN(CCCOc5cccc(F)c5-c5c(F)c6ncnc(N7CCN(C(=O)C(Cl)=C)CC7)c6cc5Cl)CC4)cc(F)cc3C2=O)C(=O)N1
+
+Checking the quinazoline: c6ncnc(...)c6cc5Cl runs c6 (C8a), n, c, n, c(C4), c6 (C4a), c (C5), c5Cl (C6). The ring-closure 5 starts at c5 (C7, attached to the phenyl) and then c(F) is C8. In my string, "-c5c(F)c6ncnc(...)c6cc5Cl" has c5 as C7, c(F) as C8, c6 as C8a, and the final c5Cl as C6 closing the ring to C7. This is consistent.
+
+SMILES: O=C1CCC(N2Cc3c(C4CCN(CCCOc5cccc(F)c5-c5c(F)c6ncnc(N7CCN(C(=O)C(Cl)=C)CC7)c6cc5Cl)CC4)cc(F)cc3C2=O)C(=O)N1

@@ -1,0 +1,18 @@
+I read the structure region by region, left to right.
+
+**Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. The pyridine ring carries CF3 at C6 and C(=O)NH at C2.
+
+**Indazole:** the amide NH is attached at C5 of a 2H-indazole, and OMe is at C6. N2 of the indazole carries the cyclobutyl group.
+
+**Spiro core:** the cyclobutane is attached to N2 through its 2-position carbon. Its other ring carbons include the spiro carbon, which is shared with a piperidine. This is a 2-azaspiro[3.5]... no: the cyclobutane has 4 carbons (CH, CH2, spiro C, CH2), and the piperidine ring has 5 carbons plus N, which makes it 7-azaspiro[3.5]nonane. The piperidine nitrogen is acylated.
+
+**Acyl group:** the carbonyl is attached to C4 of a piperidine, which also bears a methyl drawn with a hashed bond. C4 is not a stereocentre because the ring is symmetric, so I give no stereo. The nitrogen of this piperidine is attached to the aryl group.
+
+**Right end:** the aryl group is C5 of an isoindoline-1,3-dione. Its N is attached to C3 of a 2,6-dioxopiperidine. That carbon is drawn plain, so it gets no stereo.
+
+**SMILES assembly:**
+- Pyridine amide: O=C(Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1(C)CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)c1cccc(n1)C(F)(F)F
+- Indazole: c1cc2cn(nc2cc1OC), with the amide N on c1 (C5) and OMe on the last carbon (C6). The ring fusion order is c1(NHC=O) c c2 c n(R) n c2 c c1 OC. Here C5 is attached to C4, which is attached to C3a, then C3, then N2, then N1, then C7a, C7, and C6 (OMe). This matches the drawing.
+- Isoindoline: c1ccc2C(=O)N(...)C(=O)c2c1, with the piperidine N on the first atom. The ring is attached at C5, which is meta to one carbonyl-bearing carbon and para to the other, and this arrangement is consistent with the drawing.
+
+SMILES: O=C(Nc1cc2cn(nc2cc1OC)C1CC2(C1)CCN(CC2)C(=O)C1(C)CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)c1cccc(n1)C(F)(F)F

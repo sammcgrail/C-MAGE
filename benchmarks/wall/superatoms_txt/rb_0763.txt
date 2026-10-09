@@ -1,0 +1,11 @@
+I read the structure in sections and joined them into one SMILES.
+
+- **Left side:** a 5-bromopyrimidine carrying two NH substituents. One NH leads to the 1-(methylsulfonyl)indoline at its 7-position. The other NH leads to the substituted benzene.
+- **Benzene ring:** it carries OMe, a methyl and the piperidine nitrogen, arranged as drawn.
+- **Linker:** the piperidine is 4-substituted by a piperazine. The piperazine's other nitrogen bears a CH2 attached to a cyclobutane.
+- **Cyclobutane:** it is 1,3-disubstituted, with a wedge on the CH2 side and a hash on the N(Me) side. That makes the two substituents trans.
+- **Right side:** the N-methylamino group is attached to the 5-position of a phthalimide, whose imide nitrogen carries a 2,6-dioxopiperidin-3-yl group.
+
+The trans relationship is encoded as `[C@H]...[C@@H]` in the order the cyclobutane atoms are written. I derived this from the known pattern for 1,3-disubstituted rings and adjusted it for the neighbour order in my string. I did not check it with a toolkit. The trans cyclobutane has a mirror plane, so it adds no absolute stereochemistry. The glutarimide carbon is drawn with plain bonds, so it has no stereo label.
+
+SMILES: COc1cc(N2CCC(CC2)N2CCN(CC2)C[C@H]2C[C@@H](C2)N(C)c2ccc3c(c2)C(=O)N(C2CCC(=O)NC2=O)C3=O)c(C)cc1Nc1ncc(Br)c(Nc2cccc3CCN(S(C)(=O)=O)c23)n1

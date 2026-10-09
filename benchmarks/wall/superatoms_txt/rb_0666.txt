@@ -1,0 +1,27 @@
+I read the structure region by region, from the left side to the right.
+
+**Left side.** A pyrimidine ring has Cl at C5, an NH to the indoline at C4, and an NH to the aryl ring at C2. The indoline is attached through its C7. Its N1 carries a methylsulfonyl group, N1S(C)(=O)=O.
+
+**Central aryl ring.** The ring carries the NH at one position, OMe ortho to it, and a piperidin-1-yl group meta to the NH (on the other side of the OMe carbon's neighbour). A methyl sits ortho to the piperidine.
+
+Going around the ring: C1 bears NH, C2 bears OMe, C3 is CH, C4 bears the piperidine, C5 bears CH3, and C6 is CH.
+
+**Linker.** The piperidine N connects through its C4 to a piperazine N. The other piperazine N is acylated by C(=O) attached to C4 of a second piperidine. That piperidine's N is bonded to C5 of an isoindolinone.
+
+**Isoindolinone.** The lactam N is attached to the 3-position of a piperidine-2,6-dione, written C1CCC(=O)NC1=O.
+
+**SMILES assembly.**
+
+Pyrimidine: Clc1cnc(Nc2cc(C)c(cc2OC)...)nc1N...
+
+Aryl ring: c2(N...)c(OC)cc(N3CCC(CC3)N4CCN(CC4)C(=O)C5CCN(CC5)c6ccc7c(c6)CN(C8CCC(=O)NC8=O)C7=O)c(C)c2
+
+Checking the ring closure: the aryl ring is c2(NH-)c(OC)cc(N-pip)c(C)c2, which has six atoms.
+
+Isoindolinone: c6ccc7c(c6)CN(...)C7=O. Atom c6 bears the piperidine N, and the ring continues c, c, c7 (which bears C=O), then c(c6) (which bears CH2). This gives c6 (C5), then c (C6), c (C7), c7 (C7a, attached to C=O), c(c6) (C3a, with CH2 attached) closing back through c6 (C4). That is consistent with the drawing.
+
+SMILES: COc1cc(N2CCC(CC2)N2CCN(CC2)C(=O)C2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)Cc3c2)c(C)cc1Nc1ncc(Cl)c(Nc2cccc3CCN(S(C)(=O)=O)c23)n1
+
+Let me re-check that this matches my intended aryl pattern. The ring is c1(OMe) c c(pip) c(C) c c1(NH), so OMe is adjacent to the NH carbon, and the piperidine is meta to the OMe carbon, with CH between them. The methyl is ortho to the piperidine, and the CH is between the methyl carbon and the NH carbon. This matches the drawing.
+
+SMILES: COc1cc(N2CCC(CC2)N2CCN(CC2)C(=O)C2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)Cc3c2)c(C)cc1Nc1ncc(Cl)c(Nc2cccc3CCN(S(C)(=O)=O)c23)n1

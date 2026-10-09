@@ -1,0 +1,8 @@
+I read the molecule in four pieces and joined them in one SMILES string.
+
+- **Left fragment:** a 6,7-dihydro-5H-benzo[7]annulene. The benzene ring carries an OH. The seven-membered ring has a C=C bearing a 4-substituted phenyl on one carbon and a 6-(trifluoromethyl)pyridin-3-yl group on the other, followed by three CH2 groups.
+- **Linker:** the phenyl is attached through its para position to the nitrogen of a piperidine. The piperidine 4-position carries a CH2 that leads to one nitrogen of a piperazine.
+- **Right fragment:** the other piperazine nitrogen is bonded to C5 of an isoindolin-1-one, whose ring nitrogen bears a piperidine-2,6-dione (glutarimide) at its 3-position.
+- **Stereochemistry:** the glutarimide stereocentre is the only one drawn with a wedge or hash. I read it as the (S) configuration, the same as in lenalidomide, and encoded it as `[C@H]` with the preceding atom being the isoindolinone nitrogen. The ring C=C is in a seven-membered ring, so I gave it no cis/trans marking.
+
+SMILES: Oc1ccc2c(c1)CCCC(c1ccc(nc1)C(F)(F)F)=C2c1ccc(cc1)N1CCC(CC1)CN1CCN(CC1)c1ccc2c(c1)CN(C2=O)[C@H]1CCC(=O)NC1=O

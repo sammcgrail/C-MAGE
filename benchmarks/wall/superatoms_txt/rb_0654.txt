@@ -1,0 +1,25 @@
+Reading the structure region by region, from left to right:
+
+**Left end.** A spiro[2.3]hexane: a cyclopropane spiro-fused to a cyclobutane. The cyclobutane carbon opposite the spiro atom (position 5) carries the vinyl substituent. SMILES for this part: C1CC12CC(C2)C=C...
+
+**Vinyl linker.** The double bond is drawn with E (trans) geometry. It connects the spiro ring to C4 of the pyridine.
+
+**Pyridine.** Ring atoms: N1, C2 (bearing the carboxamide), C3 (H), C4 (vinyl), C5 (OMe), C6 (H).
+
+**Amide and benzene.** The pyridine C2 carries C(=O)NH-CH2-Ar. The benzene is 1,3-disubstituted, with CH2NH on one carbon and CH2C(=O)N(CH3)- on the other.
+
+**PEG chain.** N(Me)-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-O-Ar. This is three ether oxygens in the chain, followed by the aryl-O.
+
+**Right end.** The phthalimide carries the O-linker at position 5. The imide nitrogen is attached to the 2,6-dioxopiperidin-3-yl group. Its stereocentre is drawn with plain bonds, so no stereo is given.
+
+Assembled SMILES:
+
+C1CC12CC(C2)/C=C/c1cc(nc(c1)... 
+
+I rewrote the pyridine with explicit ring closure: c1(/C=C/C2CC3(CC3)C2)cc(C(=O)NCc2cccc(c2)CC(=O)N(C)CCOCCOCCOCCOc2ccc3c(c2)C(=O)N(C2CCC(=O)NC2=O)C3=O)ncc1OC
+
+Checking the pyridine: c1(vinyl) is C4, then c is C3, then c(C(=O)N...) is C2, then n, then c (C6, H), then c1OC (C5 with OMe), which closes back to C4. This is correct.
+
+Checking the phthalimide: Oc2ccc3c(c2)C(=O)N(...)C3=O. The aromatic carbon bearing O is attached to c, c, then c3 (a ring-fusion carbon), then c(c2), the other fusion carbon, which is attached to the CH that closes the ring. This is correct and gives the 5-substituted pattern.
+
+SMILES: c1(/C=C/C2CC3(CC3)C2)cc(C(=O)NCc2cccc(c2)CC(=O)N(C)CCOCCOCCOCCOc2ccc3c(c2)C(=O)N(C2CCC(=O)NC2=O)C3=O)ncc1OC

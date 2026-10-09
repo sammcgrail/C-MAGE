@@ -1,0 +1,10 @@
+I read the structure in four parts and wrote the SMILES for each, then joined them.
+
+- **Thalidomide-type end:** a 2,6-dioxopiperidin-3-yl group on the N of an isoindoline-1,3-dione. The aromatic ring carries an O–CH2–C(=O)–NH linker at the position next to the carbonyl.
+- **Linker:** –NH–CH2CH2–O–CH2CH2–NH–CH2– connects the acetamide to the chiral carbon.
+- **Middle section:** the chiral CH carries a 4-chlorophenyl group (bold wedge) and a C(=O) that forms an amide with a piperazine nitrogen. Ranking the substituents by CIP priority (C(=O)N, then CH2N, then aryl, then H) gives S at this centre.
+- **Right-hand end:** the other piperazine N is attached to C4 of a 6,7-dihydro-5H-cyclopenta[d]pyrimidine. The methyl at C5 is on a hashed bond and gives R. The OH at C7 is on a wedge and also gives R, so this is the (5R,7R) arrangement.
+
+I converted each CIP assignment into @/@@ by checking the neighbour order in the SMILES string.
+
+SMILES: O=C1CCC(N2C(=O)c3c(OCC(=O)NCCOCCNC[C@H](c4ccc(Cl)cc4)C(=O)N5CCN(CC5)c6ncnc7c6[C@H](C)C[C@H]7O)cccc3C2=O)C(=O)N1

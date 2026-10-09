@@ -1,0 +1,16 @@
+I read the structure as a PROTAC-type molecule with three parts, and I assigned the four stereocentres from the wedges and hashes.
+
+**Fragments**
+- **Spirooxindole core:** the pyrrolidine ring is NH–CH(C(=O)NH–Ar)–CH(aryl)–C(spiro, oxindole)–C(spiro, cyclohexane). The oxindole carries Cl at C6. The aryl group is 3-chloro-2-fluorophenyl.
+- **Linker:** the carboxamide nitrogen is attached to a 1,4-phenylene ring. This ring carries a second amide, C(=O)NH–CH2CH2–O–CH2CH2–NH.
+- **Cereblon ligand:** the linker ends on C4 of an isoindolin-1-one, whose ring nitrogen is attached to a 2,6-dioxopiperidin-3-yl group. The stereocentre on that piperidine carbon is drawn with plain bonds, so it has no stereo label.
+
+**Stereochemistry**
+- The carboxamide-bearing carbon has a hashed bond to its C(=O), which gives `[C@@H]`.
+- The aryl-bearing carbon has a wedge to the aryl group, which gives `[C@H]`.
+- The oxindole spiro carbon has a hashed bond to the aromatic carbon and a wedge to the lactam C=O, which gives `[C@]`.
+- The cyclohexane spiro carbon is not a stereocentre.
+
+I checked the ring closures and the ring sizes by hand, but I did not run the SMILES through a parser.
+
+SMILES: O=C(Nc1ccc(cc1)C(=O)NCCOCCNc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O)[C@@H]1NC2(CCCCC2)[C@]3([C@H]1c1cccc(Cl)c1F)C(=O)Nc1cc(Cl)ccc13

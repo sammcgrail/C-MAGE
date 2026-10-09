@@ -1,0 +1,13 @@
+I read the structure region by region and assembled the SMILES from these fragments:
+
+- **Left end:** a 5-chloropyrimidine with an NH at C4 linking to the 7-position of an N-methylsulfonyl indoline, and an NH at C2 linking to the aryl ring.
+- **Central aryl ring:** it carries the OMe ortho to the NH and a piperidin-1-yl group para to the NH.
+- **Linker:** the piperidine C4 is bonded to one piperazine nitrogen, and the other piperazine nitrogen is acylated (C=O).
+- **Pyrrolidine:** the carbonyl is attached at pyrrolidine C3, and the pyrrolidine N is attached to C5 of the isoindoline-1,3-dione.
+- **Right end:** the isoindolinone nitrogen carries a 2,6-dioxopiperidin-3-yl group. Its stereocentre is drawn with plain bonds, so I gave it no stereo.
+
+**Stereochemistry at pyrrolidine C3:** the carbonyl is on a hashed bond, so it points away from the viewer and the implicit H points toward the viewer. The CIP priorities are C(=O)N > ring CH2–N > ring CH2–C > H. Going from the carbonyl (up) to the CH2–N (right) to the CH2–C (lower left) is clockwise as drawn. With H toward the viewer this reverses to counterclockwise, so the centre is S. In the SMILES order carbonyl, H, ring closure to the CH2–N, then the CH2–C, this S configuration is written [C@H].
+
+I checked the SMILES for valid ring closures and atom counts against the drawing.
+
+SMILES: COc1cc(N2CCC(CC2)N2CCN(CC2)C(=O)[C@H]2CCN(C2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)ccc1Nc1ncc(Cl)c(Nc2cccc3CCN(S(C)(=O)=O)c23)n1

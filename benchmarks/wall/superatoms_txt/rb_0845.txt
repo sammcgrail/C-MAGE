@@ -1,0 +1,14 @@
+Reading the structure from left to right:
+
+1. Left end: a methylsulfonyl group (CH3-S(=O)(=O)) on the nitrogen of a pyrrole. The ring is N1, C2, C3 (bearing the carboxamide), C4, C5. The ring is drawn with N at the bottom left, an upper carbon, then C3 bearing the C(=O), so it is a pyrrole-3-carboxamide: CS(=O)(=O)n1ccc(c1)C(=O)N...
+2. The amide NH connects to CH2, then C(=O)NH on thiazole C2: C(=O)NCC(=O)Nc1nc(cs1)...
+3. Thiazole: S, C2 (bearing NH), N3, C4 (bearing the aryl group), C5 (H). The C4 aryl is a biphenyl; both rings are meta-linked. The second ring carries CH2NH.
+4. Chain: CH2-NH-C(=O)-CH2CH2-O-CH2CH2-O-CH2CH2-NH-Ar.
+5. Right end: the aryl ring is the isoindoline-1,3-dione (phthalimide) with NH at position 4, and the imide N bears a 2,6-dioxopiperidin-3-yl group. This is the pomalidomide unit.
+
+SMILES assembly:
+CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1cccc(c1)CNC(=O)CCOCCOCCNc1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1=O
+
+The pyrrole SMILES n1ccc(c1)C(=O) gives N1, C2, C3, C4(substituted), C5, so the substituent sits on the carbon adjacent to C5 and is a 3-substituent. Written as n1ccc(c1)..., the atoms are n1, c, c, c(substituted), c1 closing to n. That makes the substituted carbon adjacent to the closing carbon, which is adjacent to N, so it is position 3. This matches the drawing.
+
+SMILES: CS(=O)(=O)n1ccc(c1)C(=O)NCC(=O)Nc1nc(cs1)-c1cccc(c1)-c1cccc(c1)CNC(=O)CCOCCOCCNc1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1=O
