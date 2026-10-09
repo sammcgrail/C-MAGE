@@ -156,7 +156,7 @@ function topCards(){
   var cards = function(xs){ return bigCards(xs.map(function(x){ var a = ARM[x.id];
     return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; })); };
   return (s.n ? '<div class="cmph"><b>Same images</b> · the ' + fmt(s.n) + ' all four read</div>' + cards(s.arms) : '')
-    + '<div class="cmph"><b>Everything each was run on</b>' + (s.n ? ' · own n' : '') + '</div>' + cards(each);
+    + '<div class="cmph"><b>All available images</b></div>' + cards(each);
 }
 
 function cardShared(){
