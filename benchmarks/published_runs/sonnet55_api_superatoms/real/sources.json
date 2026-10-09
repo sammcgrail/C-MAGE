@@ -24,5 +24,21 @@
   "CLEF": 70,
   "ACS": 40
  },
- "method": "Published drawings from the MolScribe real-image benchmarks (USPTO, CLEF-2012, UOB, ACS; huggingface.co/yujieq/MolScribe real.zip), truth = the benchmark's own full SMILES. All 8544 images were screened by Haiku 5.5 (one call each, $1.49) for text labels standing for two or more atoms; a label counts only if it maps to a known group AND that group is in the truth, and an image with any known label missing from its truth is dropped. Candidates: CLEF 217, UOB 64, USPTO 1525, acs 127. Sampled at random, half with two or more verified labels where available: ACS 40, CLEF 70, UOB 30, USPTO 200. Renamed rs_NNNN, re-saved as pixels only. UOB (Maybridge catalogue art) and ACS (journal figures) count in the metrics but are not shown; USPTO and CLEF drawings come from patents and are shown. Truth SMILES with R groups or dummy atoms are excluded."
+ "method": "Published drawings from the MolScribe real-image benchmarks (USPTO, CLEF-2012, UOB, ACS; huggingface.co/yujieq/MolScribe real.zip), truth = the benchmark's own full SMILES. All 8544 images were screened by Haiku 5.5 (one call each, $1.49) for text labels standing for two or more atoms; a label counts only if it maps to a known group AND that group is in the truth, and an image with any known label missing from its truth is dropped. Candidates: CLEF 217, UOB 64, USPTO 1525, acs 127. Sampled at random, half with two or more verified labels where available: ACS 40, CLEF 70, UOB 30, USPTO 200. Renamed rs_NNNN, re-saved as pixels only. UOB (Maybridge catalogue art) and ACS (journal figures) count in the metrics but are not shown; USPTO and CLEF drawings come from patents and are shown. Truth SMILES with R groups or dummy atoms are excluded.",
+ "expansion_2026_10_09": {
+  "added": {
+   "USPTO": 1406,
+   "CLEF": 150
+  },
+  "ids": "rs_0341..rs_1896",
+  "with_2plus_labels": 527,
+  "rescreen": "451 USPTO/CLEF replies that had not parsed (Haiku max_tokens 400) re-screened at max_tokens 2000, 450 parsed, $0.15",
+  "method": "Every remaining qualifying USPTO and CLEF image (same select_real.py rules as the first sample), not a sample; UOB and ACS not used. Renamed rs_NNNN in seeded random order, pixels only.",
+  "set_total": {
+   "USPTO": 1606,
+   "UOB": 30,
+   "CLEF": 220,
+   "ACS": 40
+  }
+ }
 }

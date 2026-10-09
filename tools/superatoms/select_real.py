@@ -76,6 +76,10 @@ def norm(l):
 
 def main():
     recs = [json.loads(l) for l in open(ROOT / "real/classify.jsonl")]
+    # a parsed re-screen (rescreen_real.py, 2026-10-09) replaces an unparsed original
+    rp = ROOT / "real/classify_retry.jsonl"
+    retry = {r["id"]: r for r in map(json.loads, open(rp)) if "labels" in r} if rp.exists() else {}
+    recs = [retry.get(r["id"], r) if "labels" not in r else r for r in recs]
     cands, stats = [], collections.Counter()
     for r in recs:
         stats[(r["set"], "screened")] += 1

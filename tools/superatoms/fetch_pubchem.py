@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """Resolve pubchem_names.txt on PubChem (PUG REST, <= 3/s) -> synth/pubchem.json: name, CID,
-isomeric SMILES, InChIKey. A name that does not resolve is recorded and skipped."""
-import json, time, urllib.parse, urllib.request
+isomeric SMILES, InChIKey. A name that does not resolve is recorded and skipped.
+
+    fetch_pubchem.py [NAMES OUT]     defaults: pubchem_names.txt synth/pubchem.json
+    (the 2026-10-09 expansion: pubchem_names2.txt more/pubchem2.json)"""
+import json, sys, time, urllib.error, urllib.parse, urllib.request
 from pathlib import Path
 ROOT = Path("/root/cmage-work/superatoms")
-OUT = ROOT / "synth/pubchem.json"
+NAMES = ROOT / (sys.argv[1] if len(sys.argv) > 2 else "pubchem_names.txt")
+OUT = ROOT / (sys.argv[2] if len(sys.argv) > 2 else "synth/pubchem.json")
 cache = json.load(open(OUT)) if OUT.exists() else {}
-names = [l.strip() for l in open(ROOT / "pubchem_names.txt") if l.strip() and not l.startswith("#")]
+names = [l.strip() for l in open(NAMES) if l.strip() and not l.startswith("#")]
 for n in names:
     if n in cache:
         continue

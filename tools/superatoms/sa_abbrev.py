@@ -63,26 +63,51 @@ def _restrict(d, elems):
     return d
 
 
-def _defs():
-    txt = "".join(f"{l}\t{s}\t{d}\t{w}\n" for l, s, d, w in EXTRA)
+# v2 (2026-10-09 expansion, sa_0176 on): more protecting groups, placed BEFORE the v1 list (larger
+# groups first: Trt before Ph, PMB before Bn/OMe, Piv/OPiv before tBu, OMOM/OSEM/OTHP before OMe).
+EXTRA2 = [
+    ("Trt", "*C(c1ccccc1)(c1ccccc1)c1ccccc1", "Trt", "Trt"),
+    ("OSEM", "*OCOCC[Si](C)(C)C", "OSEM", "SEMO"),
+    ("SEM", "*COCC[Si](C)(C)C", "SEM", "SEM"),
+    ("OTHP", "*OC1CCCCO1", "OTHP", "THPO"),
+    ("THP", "*C1CCCCO1", "THP", "THP"),
+    ("OMOM", "*OCOC", "OMOM", "MOMO"),
+    ("MOM", "*COC", "MOM", "MOM"),
+    ("PMB", "*Cc1ccc(OC)cc1", "PMB", "PMB"),
+    ("OPiv", "*OC(=O)C(C)(C)C", "OPiv", "PivO"),
+    ("Piv", "*C(=O)C(C)(C)C", "Piv", "Piv"),
+    ("Alloc", "*C(=O)OCC=C", "Alloc", "Alloc"),
+]
+ONLY_ON.update({"Trt": {7, 8, 16}, "SEM": {7}, "THP": {7}, "MOM": {7}, "PMB": {7}, "Piv": {7}, "Alloc": {7}})
+# v2 also drops RDKit's "NC" (isocyanide drawn "NC"/"CN": the same letters as a left-pointing nitrile,
+# so the drawing would not determine the molecule; sa_0034 was excluded for exactly this).
+DROP_DEFAULTS_V2 = DROP_DEFAULTS | {"NC"}
+
+
+def _defs(extra=EXTRA, drop=DROP_DEFAULTS):
+    txt = "".join(f"{l}\t{s}\t{d}\t{w}\n" for l, s, d, w in extra)
     defs = [(_restrict(d, ONLY_ON[d.label]) if d.label in ONLY_ON else d)
             for d in rdAbbreviations.ParseAbbreviations(txt)]
     have = {d.label for d in defs}
-    defs += [d for d in rdAbbreviations.GetDefaultAbbreviations() if d.label not in have | DROP_DEFAULTS]
+    defs += [d for d in rdAbbreviations.GetDefaultAbbreviations() if d.label not in have | drop]
     return defs
 
 
-ALL = _defs()
+ALL_V1 = _defs()                                    # the first 175 (build_set.py)
+ALL_V2 = _defs(EXTRA2 + EXTRA, DROP_DEFAULTS_V2)    # the 2026-10-09 expansion (build_more.py)
+# ALL: every label any built drawing can carry (lookup of display forms, CX label expansion); never
+# used to condense.
+ALL = ALL_V1 + [d for d in ALL_V2 if d.label not in {x.label for x in ALL_V1}]
 DEF_SMILES = {d.label: Chem.MolToSmiles(d.mol) for d in rdAbbreviations.GetDefaultAbbreviations()}
-DEF_SMILES.update({e[0]: e[1] for e in EXTRA})
+DEF_SMILES.update({e[0]: e[1] for e in EXTRA + EXTRA2})
 
 
 def labels_of(m):
     return [a.GetProp("atomLabel") for a in m.GetAtoms() if a.HasProp("atomLabel")]
 
 
-def condense(mol, max_cov=0.8):
-    c = rdAbbreviations.CondenseMolAbbreviations(mol, ALL, maxCoverage=max_cov)
+def condense(mol, max_cov=0.8, defs=None):
+    c = rdAbbreviations.CondenseMolAbbreviations(mol, ALL_V1 if defs is None else defs, maxCoverage=max_cov)
     for a in c.GetAtoms():      # belt and braces: the attachment rule must hold on every label
         if a.HasProp("atomLabel") and a.GetProp("atomLabel") in ONLY_ON:
             nb = a.GetNeighbors()
