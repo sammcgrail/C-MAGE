@@ -332,5 +332,12 @@ if __name__ == "__main__":
                 build_sonnet_report.main()
             except (Exception, SystemExit) as e:  # noqa: BLE001
                 print(f"report build skipped: {e!r}", file=sys.stderr)
+            # The LLM vs OCR tab (the site's default, wall/llmocr.json) follows the cadence the same
+            # way, and never blocks the tab build either.
+            try:
+                import build_llmocr
+                build_llmocr.build()
+            except (Exception, SystemExit) as e:  # noqa: BLE001
+                print(f"llmocr build skipped: {e!r}", file=sys.stderr)
         sys.exit(rc)
     raise SystemExit(__doc__)

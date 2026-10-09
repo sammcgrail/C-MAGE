@@ -480,13 +480,10 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="hrow">
     <div class="brand">C-MAGE <span>structures out of documents</span></div>
     <div class="seg" role="tablist">
-      <button role="tab" id="tab-images" aria-selected="true">Images</button>
+      <button role="tab" id="tab-llmocr" aria-selected="true">LLM vs OCR</button>
+      <button role="tab" id="tab-images" aria-selected="false">Images</button>
       <button role="tab" id="tab-pdfs" aria-selected="false">PDFs</button>
-      <button role="tab" id="tab-sonnet" aria-selected="false">Sonnet 5</button>
-      <button role="tab" id="tab-sonnet55" aria-selected="false">Sonnet 5.5</button>
-      <button role="tab" id="tab-sonnet55api" aria-selected="false">Sonnet 5.5 API only</button>
       <button role="tab" id="tab-superatoms" aria-selected="false">Superatoms</button>
-      <a class="segl" href="/sonnet-compare">Sonnet compare</a>
     </div>
     <button class="ghost" id="try">Try a file</button>
   </div>
@@ -501,6 +498,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody"></div>
 </dialog>
 
+<script src="/static/llmocr.js"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -1175,6 +1173,7 @@ function render(){
   var v = $("#view");
   v.innerHTML = "";
   if (DATA.error){ v.appendChild(el("div", "err", DATA.error)); return; }
+  if (TAB === "llmocr"){ LLMOCR.render(v, DATA); return; }
   var s = DATA.stats;
   var hero = el("div", "hero");
   /* The two tabs measure different things and must not share a caption. The
@@ -1398,14 +1397,14 @@ function fetchTab(tab){
 
 function load(tab){
   TAB = tab; FILTER = "all"; DOC = null; Q = ""; SHOWN = STEP;
-  ["pdfs","images","sonnet","sonnet55","sonnet55api","superatoms"].forEach(function(t){
+  ["llmocr","images","pdfs","superatoms"].forEach(function(t){
     $("#tab-" + t).setAttribute("aria-selected", tab === t); });
   showTab($("#tab-" + tab));
   if (!READY[tab]) $("#view").innerHTML = '<div class="sub" style="padding:40px 0">Loading…</div>';
   fetchTab(tab).then(function(d){
     if (TAB !== tab) return;          // the user moved to another tab while this downloaded
     DATA = d; DATA.threshold = d.threshold || 84; render();
-    history.replaceState(null, "", "?tab=" + tab + (tab === "sonnet55" && TQVIEW ? "&view=technique" : ""));
+    history.replaceState(null, "", "?tab=" + tab);
   }).catch(function(e){
     if (TAB !== tab) return;
     DATA = {error: "This tab has no results yet — " + e.message, rows: [], stats: {}};
@@ -1414,9 +1413,7 @@ function load(tab){
 }
 
 $("#tab-pdfs").onclick = function(){ load("pdfs"); };
-$("#tab-sonnet").onclick = function(){ load("sonnet"); };
-$("#tab-sonnet55").onclick = function(){ load("sonnet55"); };
-$("#tab-sonnet55api").onclick = function(){ load("sonnet55api"); };
+$("#tab-llmocr").onclick = function(){ load("llmocr"); };
 $("#tab-superatoms").onclick = function(){ load("superatoms"); };
 /* On a phone the tab strip scrolls; keep the active tab in view and drop the edge fade
    once the strip is scrolled to its end. */
@@ -1442,15 +1439,14 @@ document.addEventListener("contextmenu", function(e){
 document.addEventListener("selectstart", function(e){
   if (!e.target.closest("code, input, textarea")) e.preventDefault();
 });
-/* Raw images is the default: it is the cleaner measurement (one already-cropped
-   depiction per image, no figure extraction to go wrong) and the bigger corpus.
-   ?tab=pdfs still deep-links to the document run. */
+/* LLM vs OCR is the default tab. Any other ?tab= value, including the retired
+   sonnet / sonnet55 / sonnet55api tabs, lands on it. */
 /* The first data fetch waits for window load: iOS Safari's progress bar waits on
    every request begun before it. */
 function start(){ var t = new URLSearchParams(location.search).get("tab");
-  var first = t === "pdfs" || t === "sonnet" || t === "sonnet55" || t === "sonnet55api" || t === "superatoms" ? t : "images";
+  var first = t === "images" || t === "pdfs" || t === "superatoms" ? t : "llmocr";
   load(first);
-  var warm = function(){ ["images","pdfs","sonnet","sonnet55","sonnet55api","superatoms"].forEach(function(x){
+  var warm = function(){ ["llmocr","images","pdfs","superatoms"].forEach(function(x){
     if (x !== first) fetchTab(x).catch(function(){}); }); };
   fetchTab(first).then(warm, warm); }
 if (document.readyState === "complete") start(); else window.addEventListener("load", start, {once: true});
