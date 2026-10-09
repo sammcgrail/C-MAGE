@@ -2,6 +2,7 @@
 """Gate one Sonnet reader and score it, or refuse with a reason. Used for the ad-hoc batches.
 
     gate_and_score.py <slot> <agent-id>
+    gate_and_score.py --selftest      (run with the RDKit python; must print GATE SELFTEST PASS)
 
 First, a content-filter refusal. If the API refused (stop_reason "refusal", or the synthetic
 "can't help with this" error) and the reader did NOT go on to write every answer, nothing is
@@ -10,8 +11,16 @@ is released so the rest go back in line, and the exit code is 4. The filter judg
 conversation, so the image on screen at the refusal is not necessarily the one that tripped it
 (see sonnet_batch.py). A reader that was refused but still wrote every answer is gated as normal.
 
+Before anything else, every blind image the claim lists (/tmp/blind<arm>_<slot>/<img>.png) and
+every image in that directory must exist and be PIXELS ONLY (png_clean.assert_pixel_only): until
+8 Oct every corpus PNG carried its own answer in zTXt chunks, so an image with any text or foreign
+chunk means the reader was handed its key, whatever it did with it. Refused, nothing scored.
+
 Every check must pass before a single row is scored:
-  1. scan_reader_transcript finds no answer-key access for this slot's claim (exit 0).
+  1. scan_reader_transcript finds no answer-key access for this slot's claim (exit 0). The kinds
+     in S.NEVER_WAIVE (png-metadata, name-to-structure, nested-model, obfuscated-exec) are then
+     re-checked by the scanner in a SEPARATE process, so a wrapper that monkeypatches scan_file to
+     waive a reviewed finding (as for a Monitor call on 6 Oct) can never waive one of those.
   2. Every assistant message was served by exactly the lane's model id, and the reader called no
      sub-agent (a delegated image is read by the sub-agent's model, invisibly to check 2).
   3. The answers file covers exactly the images handed to the reader (/tmp/blind_<slot>/imgNN.png,
@@ -34,6 +43,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+import png_clean as P  # noqa: E402
 import scan_reader_transcript as S  # noqa: E402
 import sonnet_batch as B  # noqa: E402  (paths come from here, so SONNET_ARM moves the gate too)
 
@@ -120,6 +130,33 @@ def answers_complete(ans_path: Path, claim: Path, expected: list[str]) -> bool:
     return got == expected and os.path.getmtime(ans_path) > os.path.getmtime(claim)
 
 
+def blind_pixel_problems(blind: Path, claimed: list[str], present: list[str]) -> list[str]:
+    """Why the images handed to the reader cannot be trusted: a claimed image that is missing,
+    or any claimed or present image that is not a PNG or carries a chunk outside png_clean.KEEP.
+    Empty list = every image is pixels only."""
+    problems = []
+    for stem in sorted(set(claimed) | set(present)):
+        p = blind / f"{stem}.png"
+        try:
+            data = p.read_bytes()
+        except OSError as e:
+            problems.append(f"{p}: missing or unreadable ({e.__class__.__name__})")
+            continue
+        try:
+            P.assert_pixel_only(data, str(p))
+        except P.PngMetadataError as e:
+            problems.append(str(e) if str(p) in str(e) else f"{p}: {e}")
+    return problems
+
+
+def hard_findings(tp: str, claim: Path) -> tuple[int, str]:
+    """Re-scan for the never-waivable kinds in a separate process. (exit code, output)."""
+    r = subprocess.run([MS_PY, str(HERE / "scan_reader_transcript.py"), "--path", str(tp),
+                        "--rows", str(claim), "--only", ",".join(S.NEVER_WAIVE)],
+                       capture_output=True, text=True)
+    return r.returncode, (r.stdout + r.stderr).strip()
+
+
 def handle_refusal(slot: str, aid: str, records: list[dict], at: int, expected: list[str]) -> int:
     opened = opened_before(records, at, slot, expected)
     print(f"REFUSED BY CONTENT FILTER [{slot}] at record {at}, before the reader wrote every answer. "
@@ -152,6 +189,19 @@ def main(slot: str, aid: str) -> int:
     if not expected:
         fail(f"no {B.STEM}*.png in {blind}; cannot tell which slots were handed to the reader")
 
+    # -1. pixels only. Checked before anything else, the refusal path included: an image that
+    # carried its answer voids the reading whatever the reader did with it.
+    try:
+        claimed_imgs = [b["slot"] for b in json.load(open(claim))]
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        fail(f"claim {claim} unreadable: {e}")
+    bad = blind_pixel_problems(blind, claimed_imgs, expected)
+    if bad:
+        for b in bad:
+            print(f"  {b}")
+        fail(f"{len(bad)} blind image(s) missing or carrying non-pixel chunks; the reader may have been "
+             f"handed its answer key. Nothing scored")
+
     # 0. content-filter refusal
     refused = first_refusal(records)
     if refused is not None:
@@ -170,8 +220,14 @@ def main(slot: str, aid: str) -> int:
         fail("transcript has zero tool calls")
     if findings:
         for f in findings:
-            print(f"  L{f['line']} {f['kind']} {f['target'][:120]} -> {f['informs'] or 'UNMAPPED'}")
+            hard = "  [NEVER WAIVABLE]" if f["kind"] in S.NEVER_WAIVE else ""
+            print(f"  L{f['line']} {f['kind']} {f['target'][:120]!r} -> {f['informs'] or 'UNMAPPED'}{hard}")
         fail(f"{len(findings)} scan finding(s); exclude the named slots before scoring")
+    rc, out = hard_findings(tp, claim)
+    if rc != 0:
+        print(out)
+        fail(f"separate-process re-scan found never-waivable finding(s) ({', '.join(S.NEVER_WAIVE)}) "
+             f"or could not scan (exit {rc})")
 
     # 2. served model + 4. whole-transcript containment
     models: dict[str, int] = {}
@@ -225,7 +281,75 @@ def main(slot: str, aid: str) -> int:
     return subprocess.call([MS_PY, str(HERE / "sonnet_batch.py"), "score", str(ans_path), slot])
 
 
+def selftest() -> int:
+    """The pixel-only gate and the never-waivable re-scan, on synthetic files."""
+    import tempfile
+    from rdkit import Chem
+    from rdkit.Chem.Draw import rdMolDraw2D
+    ok = True
+
+    def check(cond, msg):
+        nonlocal ok
+        ok = ok and bool(cond)
+        print(("  PASS  " if cond else "  FAIL  ") + msg)
+
+    d = rdMolDraw2D.MolDraw2DCairo(300, 300)
+    rdMolDraw2D.PrepareAndDrawMolecule(d, Chem.MolFromSmiles("C[C@H](N)C(=O)O"))
+    d.FinishDrawing()
+    raw = d.GetDrawingText()                       # RDKit default: the molecule in zTXt chunks
+    tmp = Path(tempfile.mkdtemp(prefix="gate_selftest_"))
+    blind = tmp / "blind"
+    blind.mkdir()
+    (blind / "fig01.png").write_bytes(P.pixel_only(raw))
+    check(P.text_chunks(raw), "control: the RDKit default render carries text chunks")
+    check(blind_pixel_problems(blind, ["fig01"], ["fig01"]) == [], "a pixel-only image passes")
+    (blind / "fig02.png").write_bytes(raw)
+    bad = blind_pixel_problems(blind, ["fig01"], ["fig01", "fig02"])
+    check(len(bad) == 1 and "fig02" in bad[0], f"an RDKit render with metadata refuses {bad}")
+    (blind / "fig02.png").write_bytes(P.pixel_only(raw))
+    bad = blind_pixel_problems(blind, ["fig01", "fig03"], ["fig01", "fig02"])
+    check(len(bad) == 1 and "fig03" in bad[0] and "missing" in bad[0], f"a claimed image that is missing refuses {bad}")
+    (blind / "fig04.png").write_bytes(b"GIF89a")
+    bad = blind_pixel_problems(blind, ["fig01"], ["fig04"])
+    check(len(bad) == 1 and "not a PNG" in bad[0], f"a non-PNG refuses {bad}")
+
+    claim = tmp / "pending_x.json"
+    claim.write_text(json.dumps([{"slot": "fig01", "k": "alanine_cid5950", "name": "Alanine",
+                                  "truth": "C[C@@H](C(=O)O)N"}]))
+
+    def transcript(name, cmd):
+        p = tmp / name
+        p.write_text(json.dumps({"type": "assistant", "message": {"content": [
+            {"type": "tool_use", "id": "t", "name": "Bash", "input": {"command": cmd}}]}}) + "\n")
+        return p
+    clean = transcript("agent-clean.jsonl", "/root/C-MAGE/.venv-ms/bin/python -c \"from PIL import Image; "
+                                            "print(Image.open('/tmp/blinds55c_x/fig01.png').size)\"")
+    rc, out = hard_findings(str(clean), claim)
+    check(rc == 0, f"re-scan: a clean transcript passes (exit {rc})")
+    for name, cmd, kind in [
+        ("agent-png.jsonl", "python3 -c \"from rdkit import Chem; print(Chem.MolFromPNGFile('/tmp/blinds55c_x/fig01.png'))\"",
+         "png-metadata"),
+        ("agent-opsin.jsonl", "python3 -c \"from py2opsin import py2opsin; print(py2opsin('alanine'))\"", "name-to-structure"),
+        ("agent-claude.jsonl", "claude -p 'read /tmp/blinds55c_x/fig01.png'", "nested-model")]:
+        p = transcript(name, cmd)
+        # A wrapper that waives findings in-process must not reach the separate process.
+        real, S.scan_file = S.scan_file, (lambda *a, **k: ([], 1))
+        try:
+            rc, out = hard_findings(str(p), claim)
+        finally:
+            S.scan_file = real
+        check(rc == 1 and kind in out, f"re-scan: {kind} refuses even with scan_file monkeypatched (exit {rc})")
+    # A Monitor finding is waivable (it is not in NEVER_WAIVE), so the re-scan ignores other kinds.
+    p = transcript("agent-curl.jsonl", "curl -s https://example.org/x")
+    rc, _ = hard_findings(str(p), claim)
+    check(rc == 0, "re-scan: a waivable kind (network) is left to the in-process scan")
+    print("GATE SELFTEST", "PASS" if ok else "FAIL")
+    return 0 if ok else 1
+
+
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["--selftest"]:
+        raise SystemExit(selftest())
     if len(sys.argv) != 3:
         raise SystemExit(__doc__)
     raise SystemExit(main(sys.argv[1], sys.argv[2]))
