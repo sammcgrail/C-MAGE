@@ -333,7 +333,7 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 /* showModal focuses the first focusable thing; the body (tabindex -1, autofocus) takes it, so opening
    a sheet by tap never lights up the close button. Tab still reaches it, with its ring. */
 #sheetBody:focus{outline:none}
-.shead .meta .badge{font-size:11px;padding:2px 8px;letter-spacing:.3px}
+.shead .meta .badge,.smeta .badge{font-size:11px;padding:3px 9px;letter-spacing:.3px}
 .sclose:focus-visible::before{box-shadow:0 0 0 2px var(--acc)}
 /* The body is the only thing that scrolls: never sideways, and a fling at its end does not carry on
    into the page behind (that and the body lock in openSheetLock below). */
