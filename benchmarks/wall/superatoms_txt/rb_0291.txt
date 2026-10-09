@@ -1,0 +1,15 @@
+This structure reads as a VHL-ligand-type conjugate. I read it in these pieces:
+
+- **Left end:** a pyrazin-2-ylamino group (NH-pyrazine) on C2 of a pyridine. C6 of the pyridine carries a 3,3-difluoropyrrolidin-1-yl group, and C4 carries a piperidin-4-yl group.
+- **Linker:** the piperidine nitrogen is acylated by a pyrazine-2,5-dicarbonyl unit. The other pyrazine carbonyl forms an amide NH to tert-leucine.
+- **Right end:** the tert-leucine carbonyl is attached to the nitrogen of a 4-hydroxyproline. Its carboxamide is bound to a 1-(4-(4-methylthiazol-5-yl)phenyl)ethylamine.
+
+For stereochemistry I took the standard VHL-ligand configuration and checked the SMILES chirality tags against it atom by atom:
+
+- **tert-Leucine:** (S).
+- **4-Hydroxyproline:** (2S,4R).
+- **Methylbenzylamine carbon:** (S).
+
+I did not re-derive these from the individual wedges and hashes in the drawing.
+
+SMILES: c1cnc(cn1)Nc1cc(cc(n1)N1CCC(F)(F)C1)C1CCN(CC1)C(=O)c1cnc(cn1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

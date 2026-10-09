@@ -1,0 +1,20 @@
+I read the molecule in five pieces and joined them into one SMILES.
+
+**Fragments**
+- **Left end:** an imidazo[1,2-a]pyridine carrying CF2–PO(OH)2 at C6 and a carboxamide at C2.
+- **Bicyclic core:** an N-methyl-substituted 8-membered diazocinone fused to a pyrrolidine. The ketone sits on the carbon between the pyrrolidine N and the CH–NH carbon.
+- **Side chain:** a glutamine residue (CH2CH2C(=O)NH2). Its NH is bonded to the pyrrolidine C=O, and its C=O is bonded to the NH of the phenyl-bearing carbon.
+- **Linker:** a PhCH(NH–)CH2–O unit, then 9 CH2 groups, then a C≡C. I counted the zigzag vertices in the drawing to get 9; this is the least certain count.
+- **Right end:** the alkyne attaches to C4 of an isoindolin-1-one whose N carries a 2,6-dioxopiperidin-3-yl group. That stereocentre is drawn plain, so it carries no stereo tag.
+
+**Stereochemistry**
+I assigned CIP descriptors from the wedges and hashes:
+- Ring-fusion carbon: R.
+- Pyrrolidine CH(C=O): S.
+- CH–NH carbon in the 8-membered ring: S.
+- Glutamine α-carbon: S.
+- Phenyl-bearing CH: R.
+
+I then converted each descriptor into @ or @@ using the neighbour order in the SMILES string. The assignment of the ring-fusion carbon depends on reading which end of its wedge is the narrow one, which is slightly uncertain in the image.
+
+SMILES: CN1CC[C@H]2CC[C@@H](C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](COCCCCCCCCCC#Cc3cccc4c3CN(C3CCC(=O)NC3=O)C4=O)c3ccccc3)N2C(=O)[C@@H](NC(=O)c2cn3cc(C(F)(F)P(=O)(O)O)ccc3n2)C1

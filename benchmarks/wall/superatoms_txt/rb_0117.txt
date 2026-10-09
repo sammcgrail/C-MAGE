@@ -1,0 +1,11 @@
+I read the structure as a VHL-type PROTAC and assembled the SMILES from these pieces:
+
+- **Left end:** a 4-cyanopyridin-2-yl group on an NH. The NH is attached to C2 of a central pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group at C6 and a piperidin-4-yl group at C4.
+- **Linker:** the piperidine nitrogen is acylated by a succinyl chain, N–C(=O)CH2CH2C(=O)–NH.
+- **tert-Leucine:** the succinyl chain ends on the NH of a tert-leucine residue, drawn with a wedge on the α-carbon.
+- **Hydroxyproline:** the tert-leucine carbonyl is attached to the proline nitrogen. The 4-hydroxy group is drawn with a hash and the C2 carbonyl bond with a wedge.
+- **Right end:** the proline amide NH is attached to a CH(CH3) drawn with a wedge. That carbon bears a phenyl ring carrying a 4-methylthiazol-5-yl group.
+
+I took the wedge and hash directions to match the standard VHL ligand (S-tert-leucine, 4R-hydroxy-2S-proline, S-α-methylbenzylamine) rather than reading them off the image pixel by pixel. I then re-ordered each stereocentre's neighbours for the way I wrote the SMILES and adjusted the @/@@ marks accordingly.
+
+SMILES: N#Cc1ccnc(Nc2cc(C3CCN(CC3)C(=O)CCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc(n2)N2CCC(F)(F)C2)c1

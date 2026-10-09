@@ -1,0 +1,19 @@
+This is a PROTAC-like molecule. I read it in three parts: the pomalidomide end, the linker, and the isoquinoline/pyrazolotriazine end.
+
+**Pomalidomide end.** The isoindoline-1,3-dione carries an NH at the 4-position of the benzene ring. The imide nitrogen is attached to a piperidine-2,6-dione at its 3-position. This part is: O=C1CCC(N2C(=O)c3cccc(NCC(=O)...)c3C2=O)C(=O)N1.
+
+**Linker.** From the aryl NH the chain runs: NH–CH2–C(=O)–NH–CH2CH2–O–CH2CH2–N(CH3)–CH2–CH=CH–C(=O)–NH–. The double bond is drawn trans (E). The final NH is attached to the isoquinoline at C6.
+
+**Isoquinoline.** The ring system has C1 bearing the aryl group and N2 next to it. The fused benzo ring carries the amide NH at C6. Written from the amide: c1cc2c(cc1)c(-aryl)nccc2. In the image, C1 is attached to the phenyl and N lies below it. The amide-bearing carbon is on the upper-left of the benzo ring, adjacent to C5, which is attached to C4a. I wrote this as c1(NC(=O)...)ccc2c(c1)ccnc2-Ar, checking the ring positions:
+- Atoms: c1 (C6), c (C7), c (C8), c2 (C8a), c(c1) (C5, closing to C6 through c1), then C4a is the same atom as c2's partner.
+- This SMILES is not quite right, so I rewrote it as c1(N...)ccc2c(c1)ccnc2Ar. The atoms are C6, C7, C8, C8a (c2), C4a (c(c1)), then ccn gives C4, C3, N2, and c2 is C1 closing to C8a.
+- Here the c(c1) atom is bonded to C5, which closes the ring to C6. That requires an extra atom. Correct is c1(N)ccc2c(c1)ccnc2: C6, C7, C8, C8a, C4a (with branch c1 = C5 closing to C6), then C4, C3, N, C1. C1 closes to C8a, so C1 is attached to C8a, which is correct.
+
+**Aryl and pyrazolotriazine end.** The phenyl is ortho-substituted with CH2NH–. The NH is attached to the triazine carbon (C4) of a pyrazolo[1,5-a][1,3,5]triazine. The triazine C2 carries a 4-aminopiperidin-1-yl group. The pyrazole carbon C8 carries an isopropyl group.
+
+Pyrazolotriazine SMILES: c1(NCAr)nc(N2CCC(N)CC2)nc3c(C(C)C)cnn13.
+
+Full SMILES:
+O=C1CCC(N2C(=O)c3cccc(NCC(=O)NCCOCCN(C)C/C=C/C(=O)Nc4ccc5c(c4)ccnc5-c4ccccc4CNc4nc(N5CCC(N)CC5)nc5c(C(C)C)cnn45)c3C2=O)C(=O)N1
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCC(=O)NCCOCCN(C)C/C=C/C(=O)Nc4ccc5c(c4)ccnc5-c4ccccc4CNc4nc(N5CCC(N)CC5)nc5c(C(C)C)cnn45)c3C2=O)C(=O)N1

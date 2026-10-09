@@ -1,0 +1,11 @@
+I read the structure in five parts and wrote each into the SMILES.
+
+1. **Macrocycle:** a 12-membered cyclen ring with four N–CH2C(=O)NH2 arms. One ring carbon next to a nitrogen carries a CH2–C6H4 (para) substituent.
+2. **Thiourea link:** the aryl NH–C(=S)–NH connects to the ε-nitrogen of the first lysine, through its (CH2)4 side chain.
+3. **First lysine:** its α-NH is acylated by a C(=O)CH2CH2 unit that begins a PEG chain. The chain runs –O–CH2CH2–O–CH2CH2–O–CH2CH2–NH–C(=O)CH2–O– and ends at the quinoline. Its carbonyl is amidated by the second lysine. From the wedge geometry I assigned it the S configuration, which is L-lysine.
+4. **Second lysine:** it has a free CO2H, and its ε-NH carries a 4-iodophenylacetyl group. The wedge geometry again gives S, so this is also L-lysine.
+5. **Quinoline end:** the quinoline is substituted at C7 by the ether oxygen and at C4 by C(=O)NH–CH2–C(=O)–N(pyrrolidine). The pyrrolidine carries a 2-cyano group drawn on a hashed bond. Working out the CIP priorities gives the R configuration, which I encoded as `[C@@H]`.
+
+I checked the quinoline connectivity: C7 sits between C6 and C8, and C4 sits next to C4a. The cyclen ring also closes correctly. I did not run the SMILES through a parser.
+
+SMILES: NC(=O)CN1CCN(CC(N)=O)CCN(CC(N)=O)CC(Cc2ccc(NC(=S)NCCCC[C@H](NC(=O)CCOCCOCCOCCNC(=O)COc3ccc4c(C(=O)NCC(=O)N5CCC[C@@H]5C#N)ccnc4c3)C(=O)N[C@@H](CCCCNC(=O)Cc3ccc(I)cc3)C(=O)O)cc2)N(CC(N)=O)CC1

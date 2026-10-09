@@ -1,0 +1,18 @@
+I read the structure in four pieces and joined them.
+
+**Left fragment.** The core is a pyrazolo[1,5-a][1,5]benzodiazepine. The pyrazole carries a carboxamide (C(N)=O) at C3 and a 4-phenoxyphenyl group at C2. The pyrazole's N1 is bonded to a CH2CH2 chain, which runs to the benzene ring. The benzene ring is bonded to an NH, and that NH is bonded to the pyrazole C3a.
+
+**Core SMILES.** NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3ccc(cc3Nc12)C(=O)N...
+
+Checking the connectivity: the pyrazole atoms are C3 (carboxamide), C2 (aryl), N1 (=N), N (bonded to CH2), and C3a (bonded to NH). The ring closure labels in the SMILES are c1 (C3), c(aryl) (C2), n (N1), n2 (N bearing the CH2), then CCc3ccc(...)cc3N, then c12 (C3a), which closes to C3 and to the pyrazole N.
+
+**Benzene ring.** The ring runs from the CH2 side to the NH side. The carbonyl-bearing carbon is adjacent to the CH carbon next to the NH-bearing carbon, and the SMILES c3ccc(C(=O)...)cc3N matches this. The aromatic atoms are c3 (bonded to CH2), c, c, c(C=O), c, and c3(N).
+
+**Linker.** The carbonyl is bonded to a piperazine nitrogen. The other piperazine nitrogen carries a CH2 that leads to C4 of a piperidine. The piperidine nitrogen is bonded to the aryl ring of the isoindoline-1,3-dione.
+
+**Right fragment.** The isoindoline-1,3-dione nitrogen is bonded to C3 of a glutarimide (2,6-dioxopiperidin-3-yl). The piperidine nitrogen sits at position 5 of the isoindoline. The 3-position of the glutarimide is drawn without a wedge, so I gave it no stereochemistry.
+
+**Full SMILES.**
+NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3ccc(cc3Nc12)C(=O)N1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+SMILES: NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3ccc(cc3Nc12)C(=O)N1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

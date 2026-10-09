@@ -1,0 +1,18 @@
+I read the structure region by region and wrote the SMILES in that order.
+
+**Left to right:**
+- **Pyridazine:** a 3-amino pyridazine (NH2 on the carbon next to the ring N). Its 4-position carries the piperazine nitrogen, and its 6-position carries the aryl group.
+- **Aryl group:** a 3-fluoro-2-hydroxyphenyl ring.
+- **Linker:** the piperazine's other nitrogen is attached to CH2–C(=O)–NH.
+- **tert-Leucine unit:** the NH is bonded to a stereocentre bearing a tert-butyl group and a C(=O) that acylates the pyrrolidine nitrogen.
+- **Pyrrolidine:** the ring has a hydroxyl at C4 and a C2 carboxamide.
+- **Amide side chain:** the carboxamide nitrogen is attached to a CH(CH3) that carries a 4-(4-methylthiazol-5-yl)phenyl group.
+
+**Stereochemistry:**
+- **tert-Leucine centre:** the wedged N bond gives the S configuration, written `N[C@@H](C(C)(C)C)C(=O)`.
+- **Hydroxyproline:** drawn as the usual VHL-ligand (2S,4R) pattern. I did not assign these two centres independently from the wedges; I took the standard VHL-ligand configuration and re-ordered its SMILES to match my atom order.
+- **Benzylic CH(CH3) centre:** the hashed methyl gives S, written `N[C@@H](C)c`.
+
+The SMILES below was assembled by hand; I did not run it through a parser.
+
+SMILES: Nc1nnc(-c2cccc(F)c2O)cc1N1CCN(CC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)CC1

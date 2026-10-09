@@ -1,0 +1,18 @@
+I read the structure region by region, from left to right.
+
+**Left end:** a 1,2,4-oxadiazole with a tert-butyl group at C3 and a carboxamide at C5. In the drawing, O1 is at the top, N2 is at the upper left, C3 carries the t-Bu, N4 is at the bottom, and C5 carries the amide. The SMILES is CC(C)(C)c1noc(n1)C(=O)NCc...
+
+**Benzyl ring:** the CH2 attaches to an aromatic ring that has a methyl group ortho to the CH2. The pyrrolopyrimidine is attached para to the CH2. Ring atoms: c1 (bearing CH2), c(C) (bearing the methyl), cH, c(bearing the pyrrolopyrimidine), cH, cH. This gives Cc1cc(ccc1CNC(=O)...)-c2...
+
+**Pyrrolo[2,3-d]pyrimidine:** C4 carries the aryl group. The ring runs C4, N3, C2, N1, C7a, then C4a. The pyrrole ring runs C4a, C5 (CH), C6 (bearing the phenyl), N7 (H), and C7a. The SMILES is c2ncnc3[nH]c(cc23)-c4ccc(cc4)...
+
+**Phenyl and piperidines:** the para-phenylene carries a piperidin-4-yl group. That piperidine nitrogen is linked by CH2 to the 4-position of a second piperidine, whose nitrogen is attached to the isoindolinone.
+
+**Isoindolinone:** the aryl carbon is C5 of the isoindolinone. The CH2 (C1) is attached to N, and the C=O (C3) is on the other side. In the drawing, the aryl carbon bearing the piperidine N lies next to the CH carbon that is adjacent to the CH2-bearing carbon. The ring is c1cc2CN(C(=O)c2cc1)... where the piperidine N attaches to c1. The N is substituted with a 2,6-dioxopiperidin-3-yl group.
+
+**Full SMILES:**
+CC(C)(C)c1noc(n1)C(=O)NCc1ccc(cc1C)-c1ncnc2[nH]c(cc12)-c1ccc(cc1)C1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O
+
+I checked the isoindolinone ring: c1ccc2C(=O)N(Cc2c1)... The atoms are c1 (attached to the piperidine N), c, c, c2 (bearing C=O), then C(=O), N, CH2, c2 (the ring-fusion carbon), and c1 (CH, closing the ring). So the CH adjacent to the CH2-bearing fusion carbon sits between that fusion carbon and the N-bearing carbon. This matches the drawing, where the aryl-N carbon is meta to the C=O-bearing fusion carbon, giving the 5-position.
+
+SMILES: CC(C)(C)c1noc(n1)C(=O)NCc1ccc(cc1C)-c1ncnc2[nH]c(cc12)-c1ccc(cc1)C1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O

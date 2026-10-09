@@ -1,0 +1,13 @@
+I read the molecule left to right as a PROTAC-type conjugate and wrote the SMILES from that reading.
+
+- **Left end:** a 4-cyanopyridin-2-yl group joined through NH to the 2-position of a central pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group at C6 and a piperidin-4-yl group at C4.
+- **Linker:** the piperidine nitrogen is acylated by a succinyl group (C(=O)CCC(=O)), which links through NH to two arginine residues in a row. Their stereocentres are drawn with plain bonds, so I left them unspecified.
+- **Right end:** a tert-leucine residue, then a 4-hydroxyproline, then an amide NH on a 1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group.
+
+For the stereocentres drawn with wedges, I assigned CIP labels from the drawing and checked that the SMILES gives the same labels:
+
+- **tert-Leucine alpha carbon:** S, from the hashed N bond.
+- **Hydroxyproline:** (2S,4R).
+- **Benzylic CH(CH3):** S, from the wedged methyl.
+
+SMILES: N#Cc1ccnc(Nc2cc(C3CCN(CC3)C(=O)CCC(=O)NC(CCCNC(=N)N)C(=O)NC(CCCNC(=N)N)C(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc(n2)N2CCC(F)(F)C2)c1

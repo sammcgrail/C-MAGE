@@ -1,0 +1,12 @@
+I read the drawing region by region and wrote each fragment as SMILES, then joined them.
+
+1. **Glutarimide:** the 2,6-dioxopiperidin-3-yl group is attached through its ring carbon to the isoindoline-1,3-dione nitrogen.
+2. **Isoindoline-1,3-dione ring:** this benzo ring carries an NH-CH2CH2- chain and an azetidin-1-yl group on adjacent carbons.
+3. **NH chain:** the chain leads to C6 of a 2-azaspiro[3.3]heptane, and the spiro N is linked through CH2 to the cyclohexane.
+4. **Cyclohexane:** the 1,4-disubstituted ring has a hashed CH2 bond and a wedged pyrazole-N bond, so it is trans. I worked out the @/@@ labels from the wedge directions, taking the first ring path in the SMILES as clockwise in the drawing.
+5. **Pyrazole:** the N1-linked pyrazole carries CHF2 at C3 and an amide NH at C4. The amide is a pyrazolo[1,5-a]pyrimidine-3-carboxamide with a morpholine at C5.
+6. **Azetidine branch:** the azetidine C3 is bonded to a piperidine N, and the piperidine C4 carries a para-phenylene. That phenylene is joined by NH to a pyrazine bearing a primary carboxamide and a piperidin-1-yl group.
+
+I checked the ring closures and atom counts against the drawing; the SMILES was not run through a validator.
+
+SMILES: O=C1CCC(C(=O)N1)N2C(=O)c3ccc(N4CC(C4)N5CCC(CC5)c6ccc(Nc7nc(N8CCCCC8)cnc7C(N)=O)cc6)c(NCCC9CC%10(C9)CN(C%10)C[C@@H]%11CC[C@H](CC%11)n%12cc(NC(=O)c%13cnn%14ccc(N%15CCOCC%15)nc%13%14)c(C(F)F)n%12)c3C2=O

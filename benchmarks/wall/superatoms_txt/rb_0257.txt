@@ -1,0 +1,15 @@
+I read the structure in regions and assembled the SMILES from them.
+
+- **Macrocycle:** a cyclen (12-membered ring with four nitrogens) in which every nitrogen carries a CH2C(=O)NH2 group. One ring carbon, between two adjacent nitrogens, bears a CH2–C6H4 (p-phenylene) group.
+- **Thiourea link:** the para position of that benzene ring carries NH–C(=S)–NH, which connects through (CH2)4 to the ε-carbon of the central lysine.
+- **Central lysine:** its α-NH is acylated by a C(=O)CH2CH2 unit followed by a triethylene-glycol-type chain, with three ether oxygens and a terminal NH. That NH is acylated by C(=O)CH2–O, which is attached to the quinoline at C7.
+- **Second lysine:** the central lysine's C(=O) forms an amide with the α-NH of a second lysine, which has a free CO2H. Its ε-NH is acylated by (4-iodophenyl)acetyl.
+- **Quinoline end:** the quinoline C4 carries C(=O)NH–CH2–C(=O)–N linked to a pyrrolidine whose C2 bears B(OH)2.
+- **Stereochemistry:**
+  - Both lysine α-carbons are drawn with wedges and work out as S, the L configuration.
+  - The boroproline carbon is drawn with a hashed bond to boron and works out as R. That is the same spatial arrangement as L-proline, because boron ranks below the ring carbon in priority.
+  - The ring carbon of the cyclen is drawn with plain bonds, so it gets no stereo label.
+
+I wrote the SMILES with these pieces joined in that order and checked ring closures and atom counts against the drawing.
+
+SMILES: NC(=O)CN1CCN(CC(N)=O)CCN(CC(N)=O)CC(Cc2ccc(NC(=S)NCCCC[C@H](NC(=O)CCOCCOCCOCCNC(=O)COc3ccc4c(C(=O)NCC(=O)N5CCC[C@H]5B(O)O)ccnc4c3)C(=O)N[C@@H](CCCCNC(=O)Cc3ccc(I)cc3)C(=O)O)cc2)N(CC(N)=O)CC1

@@ -1,0 +1,19 @@
+I read this as a rifamycin-type ansa macrocycle fused to a phenoxazine, with a 4-piperidinyloxy group on the benzo ring and an N-Boc on the piperidine nitrogen. The stereo tags were derived from the wedges and hashes in the drawing, not copied from a known rifamycin SMILES, so they are the least certain part.
+
+**Macrocycle, read from the vinyl ether round to the amide:**
+- The vinyl ether O is attached to the quaternary ketal carbon by a bold wedge.
+- The chain continues CH=CH (trans), then CH(OMe), CH(Me), CH(OAc), CH(Me), CH(OH), CH(Me), CH(OH) and CH(Me).
+- Each of these eight stereocentres has a wedge or hash, and I assigned its tag from the 2D geometry.
+- A trans CH=CH and a cis C(Me)=CH then lead to the amide C(=O)NH. I wrote the cis alkene as Z.
+
+**Aromatic core:**
+- The furanone ring holds the ketal carbon (methyl and O substituents), a ring O, and the C=O.
+- The benzene ring carries a methyl and an OH.
+- The quinone-type ring B carries a ketone, the NH-bearing carbon, the oxazine carbon bonded to O, and the C=N carbon.
+- The phenoxazine O and N close the oxazine ring onto the benzo ring.
+
+**Piperidine substituent:** the O-linked carbon sits meta to the phenoxazine O on the benzo ring. The piperidine nitrogen carries Boc, C(=O)OC(CH₃)₃.
+
+I checked the ring-closure digits and the aromatic ring sizes by hand; the SMILES was not run through a parser.
+
+SMILES: O1/C=C/[C@H](OC)[C@@H](C)[C@@H](OC(C)=O)[C@H](C)[C@H](O)[C@H](C)[C@@H](O)[C@@H](C)/C=C/C=C(C)\C(=O)NC2=C3Oc4cc(OC5CCN(CC5)C(=O)OC(C)(C)C)ccc4N=C3c3c(C2=O)c(O)c(C)c2c3C(=O)[C@]1(C)O2

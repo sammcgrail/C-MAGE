@@ -1,0 +1,25 @@
+I read the drawing region by region and assembled the SMILES from that.
+
+**Left side**
+- A 6‑methoxypyridin‑3‑yl group is attached to a benzene ring.
+- On the neighbouring ring carbons, that benzene carries a three‑carbon chain, CH2CH2CH2, that ends at an ether oxygen on the central benzene ring.
+- Its other neighbouring ring carbon carries a CH2–O link to a pyridine, which closes the macrocycle.
+
+**Macrocycle core**
+- The pyridine is 2,6‑disubstituted: the O–CH2 link sits on one side and the central benzene on the other.
+- On the central benzene, the ether oxygen is ortho to a CH2 substituent and meta to the pyridyl attachment.
+
+**Right side**
+- The central benzene's CH2 leads to C2 of a benzimidazole.
+- N1 carries a CH2–oxetan‑2‑yl group.
+- The carboxylic acid sits at C6, on the carbon meta to the ring fusion carbon bonded to N3.
+
+**Stereochemistry**
+- The only drawn stereo element is the hashed bond from the N–CH2 group to the oxetane C2.
+- The CIP priorities at that carbon are O > CH2N > ring CH2 > H.
+- With the CH2N group pointing away, the implicit H points toward the viewer. The O → CH2N → ring CH2 sequence then looks clockwise, so the centre is S.
+- In the SMILES this is written as `[C@@H]`, which I checked against the neighbour order CH2N, H, O, C3.
+
+The ring‑closure labels are kept distinct so that each ring closes on the correct atoms.
+
+SMILES: COc1ccc(cn1)-c1ccc2COc3cccc(n3)-c3ccc(Cc4nc5ccc(cc5n4C[C@@H]6CCO6)C(=O)O)c(c3)OCCCc2c1

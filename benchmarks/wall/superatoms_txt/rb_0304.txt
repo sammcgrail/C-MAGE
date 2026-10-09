@@ -1,0 +1,10 @@
+This SMILES was read from the drawing region by region. It is a PROTAC-type molecule with these parts:
+
+- **VHL ligand:** a 4-methylthiazol-5-yl phenyl group on an (S)-1-arylethylamide, joined to a 4-hydroxyproline and a tert-leucine residue. Stereochemistry is taken from the drawn wedges and matches the usual VHL ligand configuration (S ethylamine, 2S,4R hydroxyproline, S tert-leucine).
+- **Linker:** an amide from the tert-leucine nitrogen, then CH2CH2–O–CH2CH2–O–CH2CH2–NH.
+- **Isoquinoline:** attached through its C6 amine, with a 2-substituted phenyl at C1.
+- **Pyrazolo[1,5-a][1,3,5]triazine:** the phenyl carries a CH2–NH group joined to the triazine C4. The triazine has an isopropyl on the pyrazole ring and a piperidin-3-yloxy group at C2. The piperidine carbon is drawn with a wedge to oxygen, which I read as R.
+
+I checked the ring-closure order of the isoquinoline and the triazine fusion against the drawing. For the piperidine centre, I worked out that `O[C@@H]3CCCNC3` gives R.
+
+SMILES: Cc1ncsc1-c1ccc(cc1)[C@H](C)NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@@H](NC(=O)CCOCCOCCNc2ccc3c(c2)ccnc3-c2ccccc2CNc2nc(O[C@@H]3CCCNC3)nc3c(C(C)C)cnn23)C(C)(C)C

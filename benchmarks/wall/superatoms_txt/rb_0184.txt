@@ -1,0 +1,8 @@
+I read the molecule region by region and wrote the SMILES from that reading.
+
+- **Left end:** a 2-hydroxyphenyl group sits on a pyridazine ring. The ring carries an NH2 next to the ring nitrogens and a piperazine on the adjacent carbon.
+- **Middle:** the piperazine's other nitrogen is attached to C2 of a thiazole. The thiazole's C4 carries a carboxamide.
+- **Right end:** the amide nitrogen is bonded to a tert-leucine residue. Its carbonyl acylates the nitrogen of a 4-hydroxyproline. That proline's carboxamide is attached to the (1-arylethyl)amine, where the aryl is a 4-(4-methylthiazol-5-yl)phenyl group.
+- **Stereochemistry:** the drawing shows wedges and hashes at the tert-leucine carbon, the two proline carbons (C2 and C4) and the benzylic CH(CH3). I took the configurations to match the standard VHL ligand pattern (S tert-leucine, 2S,4R hydroxyproline, S methylbenzylamine). I then converted the chirality tags to the atom order of my SMILES. These tags rest on that convention and the conversion, not on an independent check of each wedge in the image.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CCN(CC1)c1nc(cs1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

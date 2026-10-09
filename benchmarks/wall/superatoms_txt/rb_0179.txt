@@ -1,0 +1,14 @@
+I read the molecule as a ⁶⁴Cu-NODAGA conjugate of a fluorinated cyanopyrrolidine (FAP-inhibitor-type) warhead, and wrote the SMILES in these segments:
+
+1. **Warhead:** a (S)-2-cyano-4,4-difluoropyrrolidine whose ring nitrogen is acylated by glycine. I assigned S from the wedged nitrile.
+2. **Linker to the peptide:** the glycine NH is acylated by quinoline-4-carboxylic acid. The quinoline 8-NH carries a succinyl linker.
+3. **Peptide:** Asp–Lys–Asp–Cys. I took all four residues as L, since the drawing's wedges match the usual L form. The lysine side chain is a free CH₂CH₂CH₂CH₂NH₂, and both Asp side chains are free carboxylic acids.
+4. **Cysteine attachment:** the cysteine sulfur is joined to a succinimide ring, which is N-linked through an ethylene bridge to an amide NH.
+5. **Chelator (NODAGA):** that amide is a glutaryl-type CH₂CH₂C(=O) chain leading to a carbon that bears a carboxylate and the first nitrogen of a 1,4,7-triazacyclononane ring. The other two ring nitrogens each carry a CH₂COO group.
+6. **Copper:** the ⁶⁴Cu is bonded to the three ring nitrogens and the three carboxylate oxygens.
+
+To keep the SMILES valid, I wrote the three nitrogen–Cu dashed bonds as charge-separated bonds: [N+] on each ring nitrogen and [64Cu-3]. The three O–Cu bonds are plain single bonds. The net charge is zero.
+
+I have not run this through a parser.
+
+SMILES: N#C[C@@H]1CC(F)(F)CN1C(=O)CNC(=O)c1ccnc2c(NC(=O)CCC(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CSC3CC(=O)N(CCNC(=O)CCC(C(=O)O%10)[N+]4%11CC[N+]%12(CC(=O)O%14)CC[N+]%13(CC(=O)O%15)CC4)C3=O)C(=O)O)cccc12.[64Cu-3]%10%11%12%13%14%15

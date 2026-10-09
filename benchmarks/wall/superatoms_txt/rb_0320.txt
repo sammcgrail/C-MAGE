@@ -1,0 +1,12 @@
+This SMILES was read from the drawing and not machine-checked. The scaffold, sequence and DOTA–Ga part follow the picture. Several details are assumed, as noted below.
+
+**Peptide.** Reading the backbone from the N-terminus, the sequence is hexanoyl–Cys–Pro–Pro–Thr–Gln–Phe–Cys–Asp–NH2.
+- The N-terminal acyl chain is read as hexanoyl. The drawing cuts the chain off at the edge, so its length is a best guess.
+- I assigned all residues the L configuration, since a few wedges are hard to read.
+- Threonine is written as L-Thr, (2S,3R).
+
+**Scaffold.** The two cysteine sulfurs each link through a CH2 to a 1,3,5-trisubstituted benzene ring. The third ring substituent is CH2 bonded to a piperazine nitrogen.
+
+**Chelator.** The other piperazine nitrogen carries C(=O)CH2 bonded to one nitrogen of a cyclen ring. The other three cyclen nitrogens each carry a CH2C(=O)O arm. Ga is bonded to all four ring nitrogens and the three carboxylate oxygens, drawn as plain bonds as in the image. Written this way, the four-bonded nitrogens will probably trigger a valence warning in RDKit.
+
+SMILES: CCCCCC(=O)N[C@@H](CSCc4cc(CN5CCN(CC5)C(=O)CN%10%16CCN%11(CC(=O)O[Ga]%16%11%12%13%14%15)CCN%12(CC(=O)O%14)CCN%13(CC(=O)O%15)CC%10)cc(c4)CS%20)C(=O)N6CCC[C@H]6C(=O)N7CCC[C@H]7C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](Cc8ccccc8)C(=O)N[C@@H](C%20)C(=O)N[C@@H](CC(O)=O)C(N)=O

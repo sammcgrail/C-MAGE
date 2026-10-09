@@ -1,0 +1,8 @@
+I wrote this SMILES by reading the drawing as a rifamycin-type ansa macrocycle fused to a phenoxazine. I took the stereochemistry of the ansa chain and the quaternary carbon from the known rifamycin SV SMILES, so it is borrowed from that template rather than re-derived from the wedges and hashes. I checked that the atoms and bonds match the drawing, but I did not run the string through a validator.
+
+- **Core:** The drawn core is a naphthoquinone-type ring system with a methyl, a free OH and a lactone-type furanone (C=O plus the quaternary C–CH₃). A phenoxazine is fused onto it, carrying an SMe on the carbon next to the ring N and an OCH₂CH₂NMe₂ group on the other side of that ring.
+- **Ansa chain:** The chain leaves the quaternary carbon through O–CH=CH–CH(OMe), then runs through CH(CH₃), CH(OAc), CH(CH₃), CH(OH), CH(CH₃), CH(OH), CH(CH₃) and CH=CH–CH=C(CH₃). It ends at the amide C(=O)–NH, which attaches to the quinone ring.
+- **Quaternary carbon:** It carries the methyl, the furanone C=O, the furan ring O and the vinyl ether O.
+- **Kekulé form:** I wrote the core in explicit Kekulé form because the quinone ring with an exocyclic C=O would not parse reliably as aromatic.
+
+SMILES: C[C@H]1/C=C/C=C(\C(=O)NC2=C3Oc4cc(OCCN(C)C)cc(SC)c4N=C3C5=C6C(=O)[C@](O/C=C/[C@@H]([C@H]([C@H]([C@@H]([C@@H]([C@@H]([C@H]1O)C)O)C)OC(=O)C)C)OC)(C)OC6=C(C)C(O)=C5C2=O)/C

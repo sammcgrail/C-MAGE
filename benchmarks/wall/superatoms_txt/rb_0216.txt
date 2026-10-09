@@ -1,0 +1,14 @@
+I read the structure in four regions and joined them into one SMILES.
+
+1. **Left end:** a 2,6-dioxopiperidin-3-yl group is attached to the isoindoline-1,3-dione nitrogen. The aryl carbon at position 4 of the isoindoline-dione carries a tertiary amine nitrogen.
+2. **Two arms on that nitrogen:**
+   - A two-carbon chain leads to C4 of a piperidine. That piperidine nitrogen bears a CH2 attached to a cyclohexane.
+   - A four-carbon chain (counted from the zigzag) leads to a second piperidine nitrogen. C4 of that piperidine carries a para-phenylene group.
+3. **Cyclohexane:** it is 1,4-disubstituted, with a wedge at the pyrazole-bearing carbon and a hash at the CH2-bearing carbon. Opposite faces mean trans. For this trans-1,4 ring I used the pattern `[C@H]5CC[C@H](CC5)`. I checked the chirality tags by comparing neighbour order against the known trans-1,4-dimethylcyclohexane SMILES and flipping one tag because two neighbours are swapped.
+4. **Right side:**
+   - The pyrazole is N1-linked to the cyclohexane and carries CHF2 at C3.
+   - Its C4 bears an NH-C(=O) amide.
+   - The amide carbonyl is attached to C3 of a pyrazolo[1,5-a]pyrimidine, which has a morpholine at C5.
+5. **Bottom right:** the phenylene's NH is attached to a pyrazine. The pyrazine carries a piperidin-1-yl group and a primary carboxamide (C(N)=O).
+
+SMILES: O=C1CCC(C(=O)N1)N2C(=O)c3cccc(N(CCC4CCN(CC4)C[C@H]5CC[C@H](CC5)n6cc(NC(=O)c7cnn8ccc(N9CCOCC9)nc78)c(C(F)F)n6)CCCCN%10CCC(CC%10)c%11ccc(cc%11)Nc%12nc(N%13CCCCC%13)cnc%12C(N)=O)c3C2=O

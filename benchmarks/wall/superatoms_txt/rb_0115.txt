@@ -1,0 +1,14 @@
+I read the structure as a macrocyclic peptide-like molecule and built the SMILES from its parts.
+
+**Fragments**
+- **Ornithine residue:** NH2–(CH2)3–CH, with its α-NH linked through a CH2 to the 3-position of a pyridine. The drawing shows three chain CH2 groups, so this is ornithine.
+- **Lysine residue:** NH2–(CH2)4–CH, whose α-NH is acylated by the ornithine C=O. There are four chain CH2 groups.
+- **N-methyl tryptophan:** the lysine C=O joins the N-methyl nitrogen. The side chain is CH2 to indol-3-yl.
+- **Pyridine to benzene link:** the pyridine carries S at C2 and CH2NH at C3. The sulfur joins a benzene ring.
+- **Benzene substituents:** the ring carries S, CH2NH (which closes the macrocycle onto the Trp C=O), a 4-pyridon-1-yl-acetic acid, and Cl.
+- **Pyridone:** N–CH2COOH, C2=O, and the aryl group at C4.
+
+**Stereochemistry**
+All three α-carbons are drawn with wedges and each works out as S, matching the L-amino-acid configuration. I checked each centre by CIP priorities (N > C=O > CH2, with H pointing back). That gives `[C@H]` for ornithine and `[C@@H]` for both lysine and tryptophan in the SMILES order I wrote.
+
+SMILES: NCCC[C@H]1C(=O)N[C@@H](CCCCN)C(=O)N(C)[C@@H](Cc2c[nH]c3ccccc23)C(=O)NCc2c(Sc3ncccc3CN1)c(Cl)ccc2-c1ccn(CC(=O)O)c(=O)c1

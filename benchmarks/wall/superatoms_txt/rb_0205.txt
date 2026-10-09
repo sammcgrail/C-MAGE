@@ -1,0 +1,25 @@
+The drawing is a BTK-degrader PROTAC. It has a pyrazolo-benzodiazepine core linked through a piperazine amide and a piperidine to a thalidomide-type ligand.
+
+**Core.** The pyrazole ring contains C3 (bearing the carboxamide), C2 (bearing the 4-phenoxyphenyl group), N, and N1, plus the fused carbon attached to NH.
+- The pyrazole carbon bearing C(=O)N is bonded to the pyrazole carbon bearing the NH, and the other pyrazole carbon bears the aryl group.
+- The ring N1 bonds to CH2CH2, which connects to the benzo ring.
+- The seven-membered ring runs: pyrazole C (attached to NH), NH, aryl C, aryl C, CH2, CH2, N1 (pyrazole).
+
+Pyrazole SMILES: c1(C(N)=O)c(-c2ccc(Oc3ccccc3)cc2)nn3c1Nc4ccc(cc4CC3)C(=O)...
+
+Here the pyrazole atoms are c1 (carboxamide carbon), c(Ar), n, n3, and c1 (the carbon bonded to NH).
+
+**Benzo ring.** The NH-bearing aromatic carbon is c4. The ring then continues ccc(C=O)cc4 with the CH2 attached at the final ring carbon. In the drawing, the carbonyl-bearing carbon is para to the NH-bearing carbon's neighbor, which is consistent with this layout.
+
+**Linker.** The carbonyl is attached to a piperazine N. The other piperazine N carries a CH2 that leads to piperidine C4. The piperidine N is bonded to the isoindoline-1,3-dione at position 5. The isoindoline N bears the 2,6-dioxopiperidin-3-yl group.
+
+**Assembly.**
+NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3cc(ccc3Nc12)C(=O)N1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Ring closure check: c1 (carboxamide carbon) … n n2 CC c3 cc(...)ccc3 N c12. The final atom c12 closes ring 1 to the carboxamide carbon and ring 2 to the n2 nitrogen. This works because the c bonded to N (the NH-bearing carbon) is bonded to the carboxamide carbon and to the ring nitrogen. In the drawing, that carbon is bonded to NH, to the carboxamide-bearing carbon, and to N1, so the connectivity matches.
+
+The benzo ring: c3 (bearing CH2), c (H), c(C=O), c, c, c3(N). The CH2-bearing carbon is adjacent to a CH, which is adjacent to the carbonyl carbon, matching the drawing.
+
+The isoindoline attachment: c1ccc2C(=O)N...C(=O)c2c1 places the piperidine N on the aromatic carbon c1, which is adjacent to the CH next to the ring-fusion carbon, giving position 5. This matches the drawing.
+
+SMILES: NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3cc(ccc3Nc12)C(=O)N1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

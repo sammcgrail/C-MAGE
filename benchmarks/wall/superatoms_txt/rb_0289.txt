@@ -1,0 +1,11 @@
+I read the molecule as a macrocycle built from three amino-acid residues joined through an aryl–S–pyridine linker.
+
+1. **Diaminobutyric acid (Dab) residue.** An H2N–CH2CH2– side chain is on the alpha carbon. The wedge shows S (L) configuration. Its alpha NH is linked through a CH2 to the pyridine ring.
+2. **Lysine residue.** An H2N–(CH2)4– side chain is on the alpha carbon. The wedge shows S (L) configuration. Its C=O is bonded to the N-methyl nitrogen of the next residue.
+3. **N-methyl tryptophan residue.** The side chain is CH2–indol-3-yl, and the wedge shows S (L) configuration. Its C=O is bonded to an NH that carries a benzylic CH2.
+4. **Benzene ring (C1–C6).** C1 bears the CH2NH, C2 bears the S, C3 bears F, and C4 and C5 are CH. C6 bears the 4-carboxyphenyl group.
+5. **Pyridine ring.** C2 is bonded to the S. C3 bears the CH2 that connects to the Dab alpha NH.
+
+I wrote the SMILES with the Dab alpha carbon first. Its chirality tag is @, adjusted for the neighbour order that results from the ring-closure digit. The Lys and Trp alpha carbons use @@, which matches their order in the L-amino-acid pattern N[C@@H](R)C(=O). The ring closures and substituent positions were checked against the drawing atom for atom.
+
+SMILES: NCC[C@H]1C(=O)N[C@@H](CCCCN)C(=O)N(C)[C@@H](Cc2c[nH]c3ccccc23)C(=O)NCc4c(-c5ccc(C(=O)O)cc5)ccc(F)c4Sc6ncccc6CN1

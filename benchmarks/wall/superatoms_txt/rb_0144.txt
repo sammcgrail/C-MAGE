@@ -1,0 +1,22 @@
+This is a PROTAC-type molecule: a BTK-binding pyrazolo-benzodiazepine joined through a piperidine linker to a thalidomide-type group. I read it in three parts.
+
+**Left part: pyrazolo[1,5-a][1,5]benzodiazepine core**
+- The pyrazole carries a 4-phenoxyphenyl group on C2 and a carboxamide on C3.
+- C3a of the pyrazole is bonded to an NH, which is bonded to the benzene ring.
+- The pyrazole N1 is bonded to a CH2CH2 chain, which is bonded to the benzene ring, closing the seven-membered ring.
+- The benzene ring carries an NH substituent at the position para to the ring NH.
+
+**Linker**
+- The benzene NH is bonded to CH2, then to piperidine C4. The piperidine N is bonded to the aryl ring of the isoindoline-1,3-dione.
+
+**Right part**
+- The isoindoline-1,3-dione N is bonded to C3 of a 2,6-dioxopiperidine.
+- C3 of the dioxopiperidine is a stereocentre by connectivity but is drawn with plain bonds, so it gets no stereo label.
+
+**SMILES assembly**
+- Pyrazole: c1(C(N)=O) c(-c2ccc(Oc3ccccc3)cc2) nn3 c1 Nc4ccc(NCC5CCN(CC5)...)cc4 CC3.
+- Written out: NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3cc(NCC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)C(=O)c5c4)ccc3Nc12
+- Ring closure check: c1 (C3) … c12 closes the pyrazole at C3a, which is bonded to N-pyrazole (ring 2) and to C3 (ring 1). The N is written "nn2", so the ring-2 label sits on N1. The fused benzene ring uses label 3: c3cc(...)ccc3, and the ring NH sits between the last aromatic carbon and c12. This is consistent.
+- Isoindoline: c4ccc5C(=O)N(...)C(=O)c5c4. The piperidine N is attached to the c4 that starts the ring. The ring runs c4, c, c, c5 (bearing C=O), then c5 (bearing the other C=O), then c4 closing. The aryl carbon is meta to one carbonyl-bearing carbon and para to the other, matching the drawing, where the piperidine N is on the carbon adjacent to the CH that sits next to the ring-fusion carbon.
+
+SMILES: NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3cc(NCC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)C(=O)c5c4)ccc3Nc12

@@ -1,0 +1,16 @@
+Reading the structure region by region:
+
+- **Macrocycle:** a cyclen (1,4,7,10-tetraazacyclododecane) ring. Three nitrogens carry CH2C(=O)NH2 arms. The fourth carries CH2C(=O)NH–CH2–, which links to the cyclohexane.
+- **Cyclohexane:** 1,4-disubstituted, bearing the CH2NH group at one position and C(=O)NH at the other. No stereochemistry is drawn.
+- **Amino acid:** the C(=O)NH– from the cyclohexane acylates the α-amine of a 2-naphthylalanine. Its carbonyl forms an amide with NH–(CH2)4–, which is the lysine side-chain amine.
+- **Urea:** the lysine α-carbon carries NH–C(=O)–NH–, the other side of which is the glutamate α-carbon. Lysine has its COOH, and glutamate has COOH on the α-carbon plus a CH2CH2COOH side chain.
+
+Chain check from the lysine amine: NH–CH2 (the bond leaves NH), then CH2, CH2, CH2, then CH(COOH). In the image, NH–CH2 is followed by three more vertices before the CH(COOH). That gives four CH2 groups, as in lysine.
+
+SMILES assembly:
+
+NC(=O)CN1CCN(CC(=O)NCC2CCC(CC2)C(=O)NC(Cc2ccc3ccccc3c2)C(=O)NCCCCC(NC(=O)NC(CCC(=O)O)C(=O)O)C(=O)O)CCN(CC(N)=O)CCN(CC(N)=O)CC1
+
+Ring check: N1, CC, N(arm), CC, N, CC, N, CC back to N1. In the SMILES, N1CCN(...)CCN(...)CCN(...)CC1 contains four nitrogens, each separated by two carbons. The first nitrogen has the NC(=O)C arm, the second the linker arm, and the third and fourth have amide arms, so three amide arms and one linker arm in total, as drawn.
+
+SMILES: NC(=O)CN1CCN(CC(=O)NCC2CCC(CC2)C(=O)NC(Cc2ccc3ccccc3c2)C(=O)NCCCCC(NC(=O)NC(CCC(=O)O)C(=O)O)C(=O)O)CCN(CC(N)=O)CCN(CC(N)=O)CC1

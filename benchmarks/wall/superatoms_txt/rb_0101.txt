@@ -1,0 +1,21 @@
+I read the molecule as a macrocyclic peptide-like structure and wrote it as a single ring-closed SMILES.
+
+**Ring components, in order around the macrocycle:**
+- A diaminobutyric acid residue: H2N-CH2CH2-CH(NH-)-C(=O)-. Its alpha carbon carries the ring-closing NH-CH2 link to the pyridine.
+- A lysine residue (free 4-aminobutyl side chain), joined to the first residue by an amide.
+- An N-methyl tryptophan residue whose indole bears a 2-methyl group, joined through an N-methyl amide.
+- Its C(=O)-NH-CH2 link to a benzene ring.
+- The benzene ring, numbered from the CH2NH carbon:
+  - C1 carries the CH2NH.
+  - C2 carries the S to the pyridine.
+  - C3 carries Cl.
+  - C4 and C5 are CH.
+  - C6 carries the pyridone.
+- A pyridine joined through S at its C2, with CH2-NH at its C3, closing the ring back to the diaminobutyric acid alpha-NH.
+- A 2-pyridone attached at its 4-position, with N-CH2-COOH.
+
+**Stereochemistry:** The drawing shows wedges at three alpha carbons: the diaminobutyric acid, the lysine and the N-methyl tryptophan. In each case the wedged bond goes to the side chain. Working out the geometry from the 2D layout (hydrogen pointing back), each centre comes out as S, which is the L-amino acid configuration. No other stereo is drawn.
+
+I checked the chirality tags in the SMILES against that: the diaminobutyric acid centre needed `[C@H]1` because of the order in which the ring-closure digit appears, and the other two are `[C@@H]`.
+
+SMILES: NCC[C@H]1C(=O)N[C@@H](CCCCN)C(=O)N(C)[C@@H](Cc2c(C)[nH]c3ccccc23)C(=O)NCc4c(c(Cl)ccc4-c5ccn(CC(=O)O)c(=O)c5)Sc6ncccc6CN1

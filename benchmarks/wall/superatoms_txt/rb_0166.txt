@@ -1,0 +1,13 @@
+I read the structure region by region, then checked the three stereocentres against the wedges.
+
+**Macrocycle backbone** (going round the ring):
+- The left residue is an ornithine. Its α-carbon carries a wedged CH2CH2CH2NH-Boc chain and a ring NH. That NH is joined through a CH2 to C3 of a pyridine.
+- The pyridine C2 carries the ring sulfur. The sulfur is bonded to an aryl carbon that sits between a C–F carbon and the carbon bearing the CH2.
+- The aryl ring has a CH2 (leading to the NH of the tryptophan amide), then C–Br, two CH carbons, C–F, and the C–S carbon.
+- The left residue's C=O is bonded to the NH of the top residue.
+- The top residue is also an ornithine, with a wedged CH2CH2CH2NH-Boc chain. Its C=O is bonded to the N-methyl nitrogen of the tryptophan.
+- The tryptophan α-carbon carries a wedged CH2 to indole C3 and a C(=O)NH–CH2-aryl amide. The indole nitrogen carries a Boc group.
+
+**Stereochemistry:** I assigned CIP priorities (N > C=O > CH2 > H) from the wedge geometry. All three stereocentres come out as S, consistent with L-amino acids. I then checked that the SMILES chirality tags (@@ for the left ornithine, @ for the other two) reproduce S at each centre.
+
+SMILES: CC(C)(C)OC(=O)NCCC[C@@H]1NCc2cccnc2Sc2c(F)ccc(Br)c2CNC(=O)[C@H](Cc2cn(C(=O)OC(C)(C)C)c3ccccc23)N(C)C(=O)[C@H](CCCNC(=O)OC(C)(C)C)NC1=O

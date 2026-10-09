@@ -1,0 +1,10 @@
+I read the structure region by region and wrote it as one SMILES, left to right.
+
+- **Glutarimide:** a 2,6-dioxopiperidin-3-yl ring (`O=C1CCC(C(=O)N1)`), attached through its C3 to the imide nitrogen of the next unit. C3 is drawn with plain bonds, so no stereo is assigned.
+- **Phthalimide:** an isoindoline-1,3-dione carrying a fluorine and a piperazin-1-yl group on adjacent aromatic carbons.
+- **Linker:** the piperazine's other nitrogen is joined through a CH2 to C4 of a piperidine. That piperidine's nitrogen is bonded to C6 of an isoquinoline.
+- **Isoquinoline and phenyl:** the isoquinoline C1 carries a phenyl ring. Its ortho position bears a CH2–NH group.
+- **Pyrazolo[1,5-a][1,3,5]triazine:** the NH is attached to C4 of this bicyclic core. The core carries an isopropyl group on the pyrazole carbon next to the ring fusion and, at C2, an O-linked piperidin-3-yl group.
+- **Stereocentre:** the piperidin-3-yl carbon has a bold wedge to oxygen. With H pointing away, O → C2 → C4 runs clockwise and the priorities are O > C2 > C4, so it is R. In the SMILES this is written `O[C@@H]%10CCCNC%10`.
+
+SMILES: O=C1CCC(C(=O)N1)N1C(=O)c2cc(F)c(cc2C1=O)N1CCN(CC1)CC1CCN(CC1)c1ccc2c(c1)ccnc2-c1ccccc1CNc1nc(O[C@@H]2CCCNC2)nc2c(C(C)C)cnn12

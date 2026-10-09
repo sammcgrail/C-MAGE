@@ -1,0 +1,11 @@
+I read the drawing as a 1-ring macrocycle built from these pieces, then wrote the SMILES from them.
+
+- **Ornithine unit:** the side chain is CH2CH2CH2NH-Boc. Its α-carbon carries a ring secondary amine (NH–CH2 to the pyridine) and a C(=O) that forms an amide to the next residue.
+- **Diaminobutyric acid unit:** the side chain is CH2CH2NH-Boc. Its α-carbon is bonded to the amide NH on one side and to C(=O)–N(CH3) on the other.
+- **N-methyl tryptophan unit:** the α-carbon carries CH2 to the indole C3, and the indole nitrogen bears a Boc group. Its C(=O) forms an amide to NH–CH2 on the benzene ring.
+- **Benzene ring:** the substituents run CH2N, then Br, two CH, then Cl, then S. Both the Br and the S are ortho to the CH2N carbon.
+- **Pyridine ring:** C3 carries the CH2N, and C2 carries the S, which bridges to the benzene ring. The ring nitrogen is adjacent to C2.
+
+All three wedged α-carbons work out to S, which is consistent with L-amino acids. I assigned each from the wedge direction and CIP priorities (N > C=O > side-chain CH2 > H, with H pointing away from the viewer), then mapped that onto the SMILES neighbour order.
+
+SMILES: CC(C)(C)OC(=O)NCCC[C@H]1C(=O)N[C@@H](CCNC(=O)OC(C)(C)C)C(=O)N(C)[C@@H](Cc2cn(C(=O)OC(C)(C)C)c3ccccc23)C(=O)NCc4c(Br)ccc(Cl)c4Sc5ncccc5CN1

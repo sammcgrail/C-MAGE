@@ -1,0 +1,9 @@
+I read the drawing region by region and assembled the SMILES from that.
+
+- **Left end:** a 4-cyanopyridin-2-yl group joined through NH to the C2 of a central pyridine. The central pyridine carries a 3,3-difluoropyrrolidin-1-yl group at C6 and a piperidin-4-yl group at C4.
+- **Middle:** the piperidine nitrogen is acylated by a para-substituted benzoyl group. The other end of the benzene ring is an amide NH to a tert-leucine unit, drawn with a wedge.
+- **Right end:** the tert-leucine carbonyl joins the nitrogen of a 4-hydroxyproline, with a hashed OH and a wedged carboxamide. That amide NH is bonded to a wedged CH(CH3) attached to a phenyl ring. The phenyl ring carries a 4-methylthiazol-5-yl group at the para position.
+
+I did not derive the stereocentres from the wedges myself. I assumed the drawing matches the standard VHL-ligand configuration: (S)-tert-leucine, (2S,4R)-4-hydroxyproline and the (S)-1-arylethylamine. I then translated the chirality tags to fit the atom order of my SMILES. The wedge-based match to that standard is therefore the main uncertainty.
+
+SMILES: N#Cc1ccnc(c1)Nc1cc(cc(n1)N1CCC(F)(F)C1)C1CCN(CC1)C(=O)c1ccc(cc1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

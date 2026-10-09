@@ -1,0 +1,12 @@
+I read the drawing in pieces and joined them in one SMILES. I did not run it through a parser.
+
+- **Left end:** an N-methyl pyrazinone. It carries a 2-methyl-3-aryl ring bearing a 4-tert-butylbenzamide, and an anilino NH whose phenyl has a para C(=O) to a piperazine.
+- **Linker:** the other piperazine nitrogen goes through CH2CH2OCH2CH2OCH2C(=O)NH to the tert-leucine unit.
+- **Central unit:** tert-leucine is coupled to 4-hydroxyproline, then to an NH-CH2 on a benzene ring. That benzene is para to a 4-methylthiazol-5-yl group and carries an O-CH2CH2-O-CH2CH2-N(CH3)-CH2 chain meta to the thiazole.
+- **Right end:** the chain leads to a trans-1,4-cyclohexyl ring on N2 of a 2H-indazole. The indazole has a 6-C(CH3)2OH and a 5-NHC(=O) to a 6-CF3-pyridin-2-yl.
+
+Stereochemistry:
+- tert-Leucine, 4-hydroxyproline C4 and proline C2 are all drawn with wedges or hashes. I assigned them as the usual (S,R,S) VHL-ligand configuration, which is consistent with the drawing.
+- The cyclohexane has one hashed and one wedged bond across the 1,4-positions, which I took as trans. I encoded that as `[C@H]...[C@H]` after reordering the neighbours for this SMILES atom order.
+
+SMILES: Cn1cc(-c2cccc(NC(=O)c3ccc(C(C)(C)C)cc3)c2C)nc(Nc4ccc(cc4)C(=O)N5CCN(CC5)CCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N6C[C@H](O)C[C@H]6C(=O)NCc7ccc(-c8scnc8C)cc7OCCOCCN(C)C[C@H]9CC[C@H](CC9)n%10cc%11cc(NC(=O)c%12cccc(n%12)C(F)(F)F)c(cc%11n%10)C(C)(C)O)c1=O

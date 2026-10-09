@@ -1,0 +1,13 @@
+I read the structure in sections and assembled one SMILES, assigning stereochemistry only where wedges or hashes are drawn.
+
+**Fragments**
+- **Left end:** a 4-methylthiazol-5-yl group sits on a benzene ring. That ring carries a CH2NH–C(=O) link to the hydroxyproline amide, and an ortho O–CH2CH2 chain.
+- **Hydroxyproline and tert-leucine:** the proline is (2S,4R) with the 4-OH. Its nitrogen is acylated by tert-leucine (S), whose NH carries a 1-fluorocyclopropanecarbonyl group. I checked each centre against the drawn wedges and hashes using CIP priorities.
+- **Linker:** the O–CH2CH2 chain ends on a piperidine N. That piperidine is joined at C4 to the N of a second piperidine, whose C4 bears CH2–NH–.
+- **Isoquinoline:** the NH is attached at C6 of an isoquinoline. C1 of the isoquinoline carries an ortho-substituted phenyl ring.
+- **Phenyl substituent:** the phenyl bears a CH2NH group on a pyrazolo[1,5-a][1,3,5]triazine.
+- **Pyrazolotriazine:** this core has an isopropyl group at C8 and an NH-(piperidin-3-yl) group on the other triazine carbon. The wedge on that piperidine C3–N bond gives the R configuration.
+
+I checked ring closures and branch order in the final string by hand; it was not run through a parser.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C2(F)CC2)C(C)(C)C)c(OCCN2CCC(CC2)N2CCC(CNc3ccc4c(c3)ccnc4-c3ccccc3CNc3nc(N[C@@H]5CCCNC5)nc5c(C(C)C)cnn35)CC2)c1

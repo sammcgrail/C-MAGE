@@ -1,0 +1,11 @@
+I read the structure in pieces and joined them into one SMILES; I counted chain carbons from the drawing, but some counts are estimates.
+
+- **Left end:** a 4-amino-isoindoline-1,3-dione carrying an N-(2,6-dioxopiperidin-3-yl) group. Its amino N is linked through CH2C(=O) to a tertiary amide nitrogen.
+- **Two chains on the amide N:**
+  - Upper chain: a butyl chain (4 carbons, an estimate) ending in a secondary NH. That NH is bonded to a CH2 on the cyclohexane.
+  - Lower chain: a hexyl chain (6 carbons, also an estimate) ending on a piperazine nitrogen.
+- **Cyclohexane:** a 1,4-disubstituted ring with a bold wedge to the indazole N2 and a hashed bond to the CH2. That pairing means trans, and I encoded it as `[C@H]...[C@@H]` (worked out by hand, not checked with software).
+- **Indazole (top right):** a 2H-indazole with a 2-hydroxypropan-2-yl group on C6 and an NH-C(=O) link to a 6-(trifluoromethyl)pyridine-2-carboxamide on C5.
+- **Piperazine side:** the piperazine's other N carries C(=O)-C6H4 (para). The ring is joined through NH to C3 of a 4-methyl-pyrazin-3(4H)-one. C6 of that pyrazinone carries a phenyl ring bearing an ortho-methyl and a meta-NHC(=O)-C6H4-tBu (para tert-butyl).
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCC(=O)N(CCCCNC[C@H]4CC[C@@H](CC4)n4cc5cc(NC(=O)c6cccc(C(F)(F)F)n6)c(C(C)(C)O)cc5n4)CCCCCCN4CCN(CC4)C(=O)c4ccc(cc4)Nc4nc(cn(C)c4=O)-c4cccc(NC(=O)c5ccc(cc5)C(C)(C)C)c4C)c3C2=O)C(=O)N1

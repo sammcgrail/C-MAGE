@@ -1,0 +1,12 @@
+I read the structure region by region and assembled the SMILES from these parts.
+
+- **Glutarimide and isoindoline-dione:** a 2,6-dioxopiperidin-3-yl group sits on the imide nitrogen of a 1,3-dioxoisoindoline. The aromatic carbon next to a carbonyl carbon (position 4) carries a tertiary amine nitrogen.
+- **Substituents on that nitrogen:**
+  - A CH2CH2 chain leads to C4 of a piperidine. That piperidine nitrogen bears a CH2 group joined to a cyclohexane.
+  - A four-carbon chain leads to a second piperidine nitrogen. That piperidine's C4 is attached to a para-substituted phenyl ring, which carries an NH on a pyrazine. The pyrazine has a carboxamide, and a piperidin-1-yl group sits on the carbon next to the ring nitrogen.
+- **Cyclohexane:** it is 1,4-disubstituted. One bond is a wedge to the benzothiazole C2 and the other is a hash to the CH2, so the two substituents are trans.
+- **Benzothiazole:** the ring carbon next to the C(CH3)2OH-bearing carbon is a CH, and the carbon next to that bears the amide NH. The NH is acylated by 6-(trifluoromethyl)picolinic acid.
+
+For the trans cyclohexane I used the template X[C@H]1CC[C@H](Y)CC1. Because the two ring substituents differ, the ring is achiral and only the cis/trans relationship matters, so this encodes the drawn geometry.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(N(CCC4CCN(C[C@H]5CC[C@H](c6nc7cc(C(C)(C)O)c(NC(=O)c8cccc(C(F)(F)F)n8)cc7s6)CC5)CC4)CCCCN4CCC(CC4)c4ccc(Nc5nc(N6CCCCC6)cnc5C(N)=O)cc4)c3C2=O)C(=O)N1

@@ -1,0 +1,12 @@
+I read the drawing as a macrocycle built from two ornithines, an N‑methyl tryptophan and a diaryl sulfide linker, and wrote the SMILES from that.
+
+**Linker.** A pyridine carries the CH2–NH at C3 and the sulfur at C2. The sulfur joins to a benzene ring. On that benzene, the carbon next to the C–S carbon bears CH2–NH. Going round the ring, the next carbon bears the 4‑carboxyphenyl group, then two CH carbons, then a Cl‑bearing carbon that sits next to the C–S carbon.
+
+**Peptide chain.** Going round the ring from the pyridine side:
+1. The first ornithine has an NH–CH2 link to the pyridine, a CH2CH2CH2NH2 side chain on a wedge, and a C(=O) that leads to the next residue's NH.
+2. The second ornithine has an NH, a wedged CH2CH2CH2NH2 side chain, and a C(=O) bonded to the N‑methyl nitrogen.
+3. The N‑methyl tryptophan has a wedged CH2‑indol‑3‑yl side chain and a C(=O) bonded to the NH–CH2 on the benzene ring.
+
+**Stereochemistry.** Each of the three α‑carbons has a wedged side chain and an implicit hydrogen pointing away. Priorities N > C(=O) > CH2 > H run counterclockwise on the page in each case, so all three are S (L‑amino acids). I converted this to @/@@ by neighbour order in the SMILES string.
+
+SMILES: NCCC[C@@H]1NCc2cccnc2Sc2c(Cl)ccc(-c3ccc(C(=O)O)cc3)c2CNC(=O)[C@H](Cc2c[nH]c3ccccc23)N(C)C(=O)[C@H](CCCN)NC1=O

@@ -1,0 +1,12 @@
+I read the structure in four parts and then wrote the SMILES.
+
+1. **Left benzene ring.** It carries the nitrile. Next to it, a three-carbon chain (CH2CH2CH2) runs to an aryl ether oxygen on the middle benzene. A CH2–O link joins it to the 2-position of the pyridine.
+2. **Pyridine and middle benzene.** The pyridine 6-position bonds directly to the middle benzene. That ring bears the propyl ether oxygen on one carbon and, on the adjacent carbon, the CH2 that leads to the benzimidazole. This closes the macrocycle.
+3. **Benzimidazole.** C2 carries the CH2 linker. N1 carries the oxetan-2-ylmethyl group. Position 4 carries OCH2CH2OMe. Position 6 carries CO2Me.
+4. **Oxetane stereocentre.** The CH2N bond is drawn hashed.
+   - The CIP priorities are ring O, then CH2N, then ring CH2, then H.
+   - In the drawing, O is up, CH2N is down-right (hashed, pointing away), and the ring CH2 is left, so H points toward the viewer.
+   - O → CH2N → CH2 runs clockwise on the page. Because H faces the viewer, the true configuration is the reverse, which is S.
+   - In my SMILES the neighbour order at this atom is CH2N, H, O, ring CH2. `@` would give R, so `@@` gives S.
+
+SMILES: N#Cc1ccc2COc3cccc(n3)-c3ccc(Cc4nc5c(OCCOC)cc(C(=O)OC)cc5n4C[C@@H]4CCO4)c(c3)OCCCc2c1

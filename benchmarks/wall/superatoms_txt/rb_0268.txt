@@ -1,0 +1,11 @@
+This is the macrolide zotarolimus (ABT-578), which is rapamycin with the C-40 hydroxyl replaced by a 1-tetrazolyl group.
+
+I wrote the SMILES in three parts:
+
+1. **Macrocycle and pyran/pipecolate region:** I used the rapamycin skeleton from memory and did not re-derive its stereocentres from the drawing. It has the hemiketal pyranose with methyl and OH, the diketo amide to the pipecolate, the lactone, the triene, the two OMe groups, the ketones and the allylic OH.
+2. **Cyclohexane ring:** I assigned this stereochemistry from the wedges in the drawing. The ring carries the chain CH2 (bold wedge), the OMe (bold wedge) and the tetrazole N (bold wedge), written as `[C@@H]4CC[C@H](N5C=NN=N5)[C@H](OC)C4`.
+3. **Tetrazole:** it is attached through N1 as `N5C=NN=N5`.
+
+I did not run the SMILES through a validator; I only checked ring closures and parentheses by hand.
+
+SMILES: C[C@@H]1CC[C@H]2C[C@@H](/C(=C/C=C/C=C/[C@H](C[C@H](C(=O)[C@@H]([C@@H](/C(=C/[C@H](C(=O)C[C@H](OC(=O)[C@@H]3CCCCN3C(=O)C(=O)[C@@]1(O2)O)[C@H](C)C[C@@H]4CC[C@H](N5C=NN=N5)[C@H](OC)C4)C)/C)O)OC)C)C)/C)OC

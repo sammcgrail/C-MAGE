@@ -1,0 +1,11 @@
+I read the structure region by region and wrote the SMILES in the same order.
+
+- **Left end:** a 2,6-dioxopiperidin-3-yl (glutarimide) group is attached to the nitrogen of an isoindoline-1,3-dione. The glutarimide carbon is drawn with plain bonds, so it has no stereo label.
+- **Linker:** the isoindolinedione ring carries a piperidin-1-yl group. That piperidine is substituted at C4 with CH2 to the nitrogen of a second piperidine, whose C4 carries CH2–NH.
+- **Isoquinoline:** the NH is bonded to C6 of an isoquinoline. C1 of the isoquinoline carries an ortho-disubstituted phenyl ring.
+- **Right end:** the phenyl ring bears CH2–NH, which is attached to a pyrazolo[1,5-a][1,3,5]triazine. This bicycle has an isopropyl group on the pyrazole carbon and an NH–(piperidin-3-yl) group on the other triazine carbon.
+- **Stereochemistry:** the only wedge is on the piperidin-3-yl carbon, with the wedge bond going to the exocyclic NH. I assigned this centre as R. In the SMILES it is written `[C@@H]`, using neighbour order N, H, ring C2, ring C4.
+
+I checked that the ring closures and the bridgehead nitrogen of the pyrazolotriazine are consistent with the drawing.
+
+SMILES: O=C1CCC(C(=O)N1)N2C(=O)c3ccc(cc3C2=O)N4CCC(CC4)CN5CCC(CC5)CNc6ccc7c(c6)ccnc7-c8ccccc8CNc9nc(N[C@@H]%10CCCNC%10)nc%11c(C(C)C)cnn9%11

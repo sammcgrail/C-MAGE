@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them.
+
+- **Left end:** a 4-phenoxyphenyl group sits on a dihydro pyrazolo[1,5-a][1,3]benzodiazepine, with a primary carboxamide on the pyrazole carbon next to it. The ring NH is drawn explicitly.
+- **Benzodiazepine benzo ring:** the amide carbonyl is on the carbon para to the NH-bearing carbon and meta to the CH2-bearing carbon. I checked this against the ring vertices in the drawing.
+- **Linker:** a C(=O)NH group leads to a 1,4-disubstituted cyclohexane. One substituent is drawn with a wedge and the other with a hash, so the ring is trans. The other cyclohexane substituent is a CH2 attached to a piperazine nitrogen.
+- **Right end:** the piperazine's other nitrogen is bonded to a fluoro-substituted isoindoline-1,3-dione (the fluorine is on the carbon adjacent to the piperazine-bearing carbon). The isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl group, drawn with no stereochemistry.
+
+For the trans ring I wrote `N[C@H]1CC[C@H](CN...)CC1`. I derived this ordering by working through the chirality of each ring carbon, using the pattern `C[C@H]1CC[C@H](C)CC1` for trans-1,4 disubstitution.
+
+SMILES: NC(=O)c1c(-c2ccc(Oc3ccccc3)cc2)nn2CCc3cc(ccc3Nc12)C(=O)N[C@H]1CC[C@H](CN2CCN(CC2)c2cc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3cc2F)CC1

@@ -1,0 +1,12 @@
+I read the molecule as a linear peptide with several modified ends. From the drawing, region by region:
+
+- **Peptide backbone:** the sequence runs from the left as Asp, a modified Lys, Asp, Lys, Asp, Cys. Re-deriving the CIP label at each stereocentre from the wedges and hashes gave all six residues as L (S for the Asp and Lys centres, R for Cys).
+- **Left Asp:** its β-carboxyl forms the amide to the modified Lys α-amine, and its α-COOH is free. Its α-NH is acylated by a succinyl linker to the 8-amino group of a quinoline.
+- **Modified Lys:** the ε-nitrogen is the ring N of a pyrrolidine carrying a 3-CH2NH-succinyl link, which leads to a second 8-aminoquinoline.
+- **Quinoline caps:** each quinoline is 4-carboxamide-linked to Gly, which is acylated onto the N of a (2S)-2-cyano-4,4-difluoropyrrolidine. Both cyano stereocentres work out to S.
+- **Cys end:** the Cys sulfur is attached to a succinimide ring. The succinimide N is bonded to a 5-substituted fluorescein, a spiro lactone with a 3,6-dihydroxyxanthene.
+- **Free side chains:** the Lys side chain ends in NH2, and both Asp side chains end in COOH.
+
+I checked the SMILES for ring-closure digits and branch balance, and for the quinoline and fluorescein substitution positions.
+
+SMILES: N#C[C@@H]1CC(F)(F)CN1C(=O)CNC(=O)c1ccnc2c(NC(=O)CCC(=O)N[C@@H](CC(=O)N[C@@H](CCCCN3CCC(CNC(=O)CCC(=O)Nc4cccc5c(C(=O)NCC(=O)N6CC(F)(F)C[C@H]6C#N)ccnc45)C3)C(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CSC4CC(=O)N(c5ccc6c(c5)C(=O)OC67c8ccc(O)cc8Oc8cc(O)ccc78)C4=O)C(=O)O)C(=O)O)cccc12

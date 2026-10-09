@@ -1,0 +1,16 @@
+I read this as an MMAE-type payload (dimethyl-Val, Val, N-methyl-dolaisoleucine, dolaproine) carrying a quinoxaline–disulfide-bridged antibody attachment. The linker is built as follows:
+
+- The Dap carbonyl is amidated by NH–CH(CH2N3)–CH2–C6H4 (para-phenylene).
+- The aryl NH is acylated by the C-terminus of Asn–Ala–Ala.
+- The Ala N-terminus carries C(=O)CH2CH2–O–CH2CH2–O–CH2CH2–NH–C(=O)–quinoxaline.
+- The quinoxaline has two CH2–S groups on the pyrazine ring, and both S atoms bond to the "Ab" circle.
+
+I wrote "Ab" as a wildcard atom `*`, since it is not a real element.
+
+Stereochemistry:
+
+- **Payload core:** I copied the stereocentres from the standard MMAE SMILES, matched to the drawn connectivity. I did not re-derive each one from the wedges.
+- **Azidomethyl carbon:** I read it from the drawn wedge and assigned S.
+- **Asn and the two Ala:** I assumed L configuration rather than reading each wedge individually.
+
+SMILES: CC[C@H](C)[C@@H]([C@@H](CC(=O)N1CCC[C@H]1[C@@H]([C@@H](C)C(=O)N[C@H](CN=[N+]=[N-])Cc1ccc(cc1)NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](C)NC(=O)[C@H](C)NC(=O)CCOCCOCCNC(=O)c1ccc2nc3CS*SCc3nc2c1)OC)OC)N(C)C(=O)[C@H](C(C)C)NC(=O)[C@H](C(C)C)N(C)C

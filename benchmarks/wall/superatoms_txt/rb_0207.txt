@@ -1,0 +1,11 @@
+I read the molecule as a macrocycle built from these pieces:
+
+1. **Top ring:** a benzene ring carries a 2-methoxypyridin-4-yl group. Its other two ring substituents sit on adjacent carbons: a CH2–O link and a three-carbon chain (CH2CH2CH2).
+2. **Central pyridine:** it is 2,6-disubstituted. One side is the O–CH2 link to the top ring, and the other side is bonded to the lower benzene ring.
+3. **Lower benzene ring:** the propyl chain ends in an aryl ether O on this ring. The carbon next to the O-bearing carbon carries a CH2 group that leads to the benzimidazole.
+4. **Benzimidazole:** C2 is attached to that CH2. N1 carries an oxetan-2-ylmethyl group. The carboxylic acid sits at position 6.
+5. **Oxetane stereocentre:** I took the hashed bond to run from the oxetane C2 back to the CH2N carbon, which puts H toward the viewer. With priorities O > CH2N > ring CH2 > H, that gives the S configuration. In SMILES this is written `[C@@H]`.
+
+I checked the SMILES by tracing each ring closure and substituent position against this reading.
+
+SMILES: COc1cc(ccn1)-c1ccc2c(c1)CCCOc1cc(ccc1Cc1nc3ccc(cc3n1C[C@@H]1CCO1)C(=O)O)-c1cccc(n1)OC2

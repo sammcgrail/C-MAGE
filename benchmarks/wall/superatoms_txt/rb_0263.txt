@@ -1,0 +1,10 @@
+I read the drawing as a macrocyclic peptide-like ring and wrote the SMILES from its parts.
+
+- **Ornithine residue:** H2N‑(CH2)3‑CH with its alpha‑NH bonded to a CH2 on pyridine C3. Its C=O links to the lysine NH.
+- **Lysine residue:** NH‑CH with a (CH2)4NH2 side chain. Its C=O links to the N‑methyl nitrogen of tryptophan.
+- **N‑methyl tryptophan residue:** N(CH3)‑CH(CH2‑indol‑3‑yl)‑C(=O). Its C=O links to an NH that carries a CH2 on the central benzene ring.
+- **Central benzene ring, substituents in order around the ring:** CH2NH, then 4‑carboxyphenyl, then two ring CH, then OCH3, then S. The S is bonded to pyridine C2, which closes the macrocycle.
+
+For stereochemistry, I assumed all three stereocentres are L (S), consistent with the wedge bonds drawn. I did not check each wedge against the CIP rules. I worked out the chirality symbols from the atom order in the SMILES: the ornithine centre needs `@` and the lysine and tryptophan centres need `@@`.
+
+SMILES: NCCC[C@H]1C(=O)N[C@@H](CCCCN)C(=O)N(C)[C@@H](Cc2c[nH]c3ccccc23)C(=O)NCc2c(ccc(OC)c2Sc2ncccc2CN1)-c1ccc(C(=O)O)cc1

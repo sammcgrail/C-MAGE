@@ -1,0 +1,18 @@
+I read the structure as a macrocycle built from a 2-thio-pyridine and a 2-thio-aryl ring joined through sulfur, with three amino-acid residues closing the ring. The SMILES below was assembled by hand from the drawing and not run through a parser.
+
+**Aryl and pyridine rings (bottom)**
+- The pyridine is attached at C3 to a CH2–NH group and at C2 to the sulfur.
+- The benzene ring carries the sulfur on one carbon.
+- Its neighbouring carbon carries a CH2–NH(C=O) group.
+- The next carbon carries Br.
+- Two CH positions follow, and the last carbon, which is also adjacent to the sulfur-bearing carbon, carries Cl.
+
+**Residues around the ring**
+- The Dab residue has its α-carbon bonded to the NH of the pyridine CH2–NH, to a C(=O)NH amide, and to a wedged CH2CH2NHC(=O)C(CH3)3 (pivalamide) side chain.
+- The Lys residue is attached through that amide NH. Its wedged side chain is (CH2)4NH–Boc, and its C=O links to N(CH3).
+- The N-methyl Trp residue has a wedged CH2 to an indol-3-yl group whose N1 carries Boc. Its C=O links to the NH–CH2 of the benzene ring, closing the macrocycle.
+
+**Stereochemistry**
+I assigned CIP priorities from the wedge positions at each of the three α-carbons. All three work out as S, which matches L-Dab, L-Lys and L-Trp. In the SMILES this corresponds to `[C@@H]` for the Dab carbon and `[C@H]` for the Trp and Lys carbons.
+
+SMILES: CC(C)(C)C(=O)NCC[C@@H]1NCc2cccnc2Sc2c(CNC(=O)[C@H](Cc3cn(C(=O)OC(C)(C)C)c4ccccc34)N(C)C(=O)[C@H](CCCCNC(=O)OC(C)(C)C)NC1=O)c(Br)ccc2Cl

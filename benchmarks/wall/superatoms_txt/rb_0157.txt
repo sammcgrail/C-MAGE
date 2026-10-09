@@ -1,0 +1,9 @@
+I read this as a VHL-ligand-based PROTAC-type molecule and built the SMILES from its pieces. I assumed the standard VHL stereochemistry (2S,4R hydroxyproline, S tert-leucine, S methylbenzyl amine) for the wedge/hash pattern shown, and I did not re-derive each centre directly from the drawn wedges.
+
+- **Left end:** a 4-cyanopyridin-2-yl group joined through NH to the 2-position of a central pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group at C6 and a piperidin-4-yl group at C4.
+- **Linker:** the piperidine nitrogen is acylated by a biphenyl-4,4'-dicarbonyl unit. Its other end forms an amide with the tert-leucine NH.
+- **Right end:** the tert-leucine carbonyl acylates the hydroxyproline nitrogen. The proline carboxamide is bonded to the (1-aryl)ethyl amine. The aryl group is a phenyl bearing a 4-methylthiazol-5-yl substituent.
+
+I rewrote the stereo tags from the standard VHL-ligand SMILES so they match the atom order of my string.
+
+SMILES: N#Cc1ccnc(Nc2cc(C3CCN(CC3)C(=O)c3ccc(cc3)-c3ccc(cc3)C(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc(n2)N2CCC(F)(F)C2)c1

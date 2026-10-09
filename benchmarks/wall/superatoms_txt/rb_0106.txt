@@ -1,0 +1,10 @@
+This is a VHL-recruiting PROTAC-type molecule. I read it in four parts and joined them with the linker.
+
+- **Left end:** a 4-cyanopyridin-2-yl group is attached through NH to a central pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group on one side of the ring nitrogen and a piperidin-4-yl group on the other side.
+- **Linker:** the piperidine nitrogen is acylated as N–C(=O)CH2CH2C(=O)–NH, a succinyl linker.
+- **Tert-leucine unit:** the NH leads to a tert-butyl-bearing stereocentre, then C(=O) into the hydroxyproline nitrogen.
+- **Right end:** a 4-hydroxyproline (hydroxyl drawn on a hashed bond) is joined by an amide to the (1-aryl)ethylamine. The aryl is a 4-(4-methylthiazol-5-yl)phenyl group.
+
+For stereochemistry, I took the three drawn centres to be the standard VHL ligand configuration and checked the chirality tags against the known reference SMILES for that ligand. Each centre was compared after reordering its neighbours, and the tags in the answer match: tert-leucine S, hydroxyproline (2S,4R) and the benzylic methyl-bearing carbon S.
+
+SMILES: N#Cc1ccnc(Nc2cc(C3CCN(CC3)C(=O)CCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc(n2)N2CCC(F)(F)C2)c1

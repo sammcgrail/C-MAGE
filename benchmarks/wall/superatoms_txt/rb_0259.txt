@@ -1,0 +1,13 @@
+I read the molecule as a macrocycle built from a 2,3-disubstituted pyridine, a 2,3,4,6-substituted benzene joined by a thioether, and three amino-acid residues. The SMILES is written starting from the pyridine ring.
+
+**Fragments read from the drawing**
+- **Pyridine:** C2 carries the S bridge and C3 carries a CH2–NH group.
+- **Benzene ring:** one carbon bears S, the adjacent carbon bears the CH2–NH group, and the next carbon bears Br. The other carbon next to the S-bearing one bears Cl.
+- **Dab residue:** the α-carbon is bonded to the ring-side NH and to a C(=O). Its side chain is CH2CH2NH–C(=O)C(CH3)3, a pivaloyl amide.
+- **Orn(Boc) residue:** the side chain is (CH2)3NH–C(=O)OC(CH3)3, and the α-carbon carries an NH and a C(=O) that connects to the N-methyl amide.
+- **Trp(Boc) residue:** the nitrogen is N-methylated, the side chain is CH2 to indol-3-yl, and the indole N carries a Boc group. The C(=O) of this residue is bonded to NH–CH2 on the benzene ring.
+
+**Stereochemistry**
+Each of the three α-carbons has a wedge on its side-chain bond, which puts the implicit H at the back. Tracing the three drawn neighbours of each centre gives a clockwise N → side chain → C(=O) sequence, which corresponds to `@@` in the SMILES order N, H, side chain, C(=O). All three centres therefore take `@@`.
+
+SMILES: c1cnc2c(c1)CN[C@@H](CCNC(=O)C(C)(C)C)C(=O)N[C@@H](CCCNC(=O)OC(C)(C)C)C(=O)N(C)[C@@H](Cc1cn(C(=O)OC(C)(C)C)c3ccccc13)C(=O)NCc1c(Br)ccc(Cl)c1S2

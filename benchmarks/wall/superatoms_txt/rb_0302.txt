@@ -1,0 +1,16 @@
+I read the structure as a macrocycle built from three amino-acid units, closed through a fluorophenyl thioether bridge to a pyridine.
+
+**Fragments**
+- **Ornithine 1 (lower left):** its alpha NH is bonded to a CH2 on the 3-position of a pyridine. Its C=O is amidated by the NH of ornithine 2.
+- **Ornithine 2 (top):** its C=O is bonded to the N-methyl nitrogen of the tryptophan unit.
+- **N-methyl tryptophan:** it carries an indol-3-ylmethyl side chain. Its C=O is amidated by an NH that leads to a CH2 on the fluorophenyl ring.
+- **Pyridine:** the S sits at its 2-position and links to the fluorophenyl ring.
+- **Fluorophenyl ring:** it carries S, F, the CH2NH group, and a 6-carboxypyridin-3-yl group.
+
+**Stereochemistry**
+For each of the three alpha carbons I took the wedged side-chain bond as pointing toward the viewer, which puts the implicit H at the back. Reading the CIP priorities (N > C=O > side chain) from the drawing gives S at each centre, so all three are L-amino-acid configurations. In the SMILES, N[C@@H](side chain)C(=O) encodes this for each one.
+
+**Check**
+I confirmed the ring closures against the drawing. The fluorophenyl ring runs C(pyridyl), CH, CH, C(F), C(S), C(CH2N). The S-bearing pyridine is S at position 2 and CH2 at position 3. The carboxypyridine ring is C(COOH), CH, CH, C(aryl), CH, N.
+
+SMILES: O=C(O)c1ccc(cn1)-c1ccc(F)c2Sc3ncccc3CN[C@@H](CCCN)C(=O)N[C@@H](CCCN)C(=O)N(C)[C@@H](Cc3c[nH]c4ccccc34)C(=O)NCc12

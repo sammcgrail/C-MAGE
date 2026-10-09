@@ -1,0 +1,19 @@
+I read the structure region by region, from left to right.
+
+**Left fragment.** A 6-methylpyridin-2-yl group is attached through NH to a C(=O). That carbonyl sits on a benzene ring. Going around the ring from the carbonyl-bearing carbon, the substituents are a methyl, then fluorine, then the carbon bonded to the pyrazole. This gives the aryl group c1(C(=O)Nc2cccc(C)n2)c(C)c(F)c(-c...)cc1.
+
+**Central tricycle.** The pyrazole ring is C2(aryl)=N–N1(CH2CH2–)–C(=C3 ...)...
+- The pyrazole atoms are C2 (bearing the aryl group), C3 (bearing the carboxamide), C3a, N1 and N.
+- C3a is bonded to NH, and the NH is bonded to a benzene carbon.
+- The benzene ring is fused to the seven-membered ring through two adjacent carbons, one bearing the NH and the other bearing the CH2CH2 chain that leads to N1.
+- The seven-membered ring therefore contains N1, C3a, NH, two benzo carbons and two CH2 groups, which makes 7 atoms.
+- The piperazine sits on the benzo ring, para to the NH-bearing carbon... in the drawing it is on the carbon meta to the CH2-bearing carbon, which I take as given.
+
+**Right side.** Piperazine N–CH2–piperidin-4-yl. The piperidine nitrogen is attached to the isoindolinone at position 5. The isoindolinone N carries the 2,6-dioxopiperidin-3-yl group.
+
+**SMILES assembly.**
+- Pyrazole: `NC(=O)c1c(-c2ccc(C(=O)Nc3cccc(C)n3)c(C)c2F)nn2CCc3cc(N4CCN(CC5CCN(CC5)c5ccc6C(=O)N(C7CCC(=O)NC7)Cc6c5)CC4)ccc3Nc12`
+- Benzo ring: in `c3cc(...)ccc3N`, c3 carries the CH2 (attached to the chain), then cH, then c(piperazine), then cH, cH, then c3 carrying the NH. So the piperazine is meta to the CH2-bearing carbon and para to the NH-bearing carbon. In the drawing, the piperazine carbon is adjacent to the CH that is adjacent to the CH2-bearing carbon, which matches.
+- Isoindolinone: `c5ccc6C(=O)N(...)Cc6c5`. The piperidine N-bearing carbon is c5. Going around, c5, c, c, c6 (carrying C=O), then c6 (carrying CH2), then c5 (CH), closing the ring. The drawing shows the N-aryl carbon adjacent to a CH that is adjacent to the CH2-bearing carbon, so it is position 5, which matches.
+
+SMILES: NC(=O)c1c(-c2ccc(C(=O)Nc3cccc(C)n3)c(C)c2F)nn2CCc3cc(N4CCN(CC5CCN(CC5)c5ccc6C(=O)N(C7CCC(=O)NC7=O)Cc6c5)CC4)ccc3Nc12

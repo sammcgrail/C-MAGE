@@ -1,0 +1,10 @@
+I read the structure region by region and wrote it as the SMILES below. I did not run it through a parser, so validity is checked only by hand.
+
+- **Left end:** a glutarimide (2,6-dioxopiperidin-3-yl) on the nitrogen of an isoindoline-1,3-dione.
+- **Isoindoline ring:** one aromatic carbon carries an NH–CH2CH2 chain. The next carbon carries an azetidine nitrogen.
+- **Spiro linker:** the ethyl chain ends on a 2-azaspiro[3.3]heptane, attached at the cyclobutane CH. The azetidine nitrogen of the spiro unit bears a CH2 that leads to a cyclohexane.
+- **Cyclohexane:** it is 1,4-disubstituted with one wedged and one hashed bond, which makes it trans. I encoded this as `[C@H]…[C@H]`. The absolute configuration is a best guess from the wedge/hash drawing.
+- **Right end of the cyclohexane:** the cyclohexane carries a benzothiazole at C2. The benzothiazole has a 2-hydroxypropan-2-yl group and an NH–C(=O) link to a 6-(trifluoromethyl)pyridine-2-yl group.
+- **Lower branch:** the azetidine nitrogen on the isoindoline is linked through azetidine C3 to a piperidine nitrogen. Piperidine C4 carries a para-phenylene, which is joined through NH to a pyrazine. The pyrazine carries a carboxamide and a piperidin-1-yl group.
+
+SMILES: O=C1CCC(C(=O)N1)N2C(=O)c3ccc(N%10CC(C%10)N%11CCC(CC%11)c%12ccc(cc%12)Nc%13nc(N%14CCCCC%14)cnc%13C(N)=O)c(NCCC4CC5(C4)CN(C5)C[C@H]6CC[C@H](CC6)c7nc8cc(C(C)(C)O)c(NC(=O)c9cccc(n9)C(F)(F)F)cc8s7)c3C2=O

@@ -1,0 +1,29 @@
+I read the structure region by region, left to right.
+
+**Left end:** a 6-methylpyridin-2-yl group, written Cc1cccc(n1)N. Its NH is joined to a C(=O) that sits on a benzene ring.
+
+**Substituted benzene:** the ring runs C1 (bearing the amide C=O), C2 (methyl), C3 (F), C4 (attached to the pyrazole), then C5 and C6 (both H). SMILES: c1(C(=O)Nc2cccc(C)n2)ccc(c(F)c1C)-…
+
+**Central tricycle:** a pyrazolo[1,5-a][1,5]benzodiazepine.
+- The pyrazole has C2 bearing the aryl group, C3 bearing the CONH2, and C3a attached to the NH.
+- The NH is bonded to the benzo ring.
+- The pyrazole N1 connects through CH2CH2 to the benzo ring.
+
+Written as a SMILES fragment: c1(Ar)nn2CCc3cc(N4CCN(CC5CCN(CC5)Ar')CC4)ccc3Nc2c1C(N)=O
+
+**Benzo ring substitution:** the piperazine sits on the benzo carbon para to the NH-bearing carbon. In the drawing, the benzo carbon attached to NH lies at the lower left of the ring. Going around from it: the carbon attached to NH, then the upper-left CH, the upper-right CH, the carbon bearing piperazine, the lower CH, and the carbon bearing CH2. This puts the piperazine meta to the CH2-bearing carbon and para to the NH carbon, which matches the SMILES above.
+
+**Piperazine to the right end:** the piperazine's other N carries CH2 to piperidine C4. The piperidine N is attached to the isoindolinone aromatic ring.
+
+**Isoindolinone:**
+- The aromatic carbon bearing the piperidine N sits next to the carbon bearing F, and is also adjacent to the ring CH that leads to the C=O-bearing carbon.
+- The C=O-bearing carbon is C7a and the CH2-bearing carbon is C3a.
+- Going around the ring: C(=O)-attached carbon, CH, C(N-piperidine), C(F), CH, then the CH2-attached carbon.
+- SMILES: N1(CC2=CC(F)=C(N…)C=C2C1=O)
+
+**Glutarimide:** the isoindolinone N carries C3 of the piperidine-2,6-dione, written C1CCC(=O)NC1=O.
+
+**Full SMILES:**
+Cc1cccc(NC(=O)c2ccc(c(F)c2C)-c2nn3CCc4cc(ccc4Nc3c2C(N)=O)N2CCN(CC3CCN(CC3)c3cc4C(=O)N(Cc4cc3F)C3CCC(=O)NC3=O)CC2)n1
+
+SMILES: Cc1cccc(NC(=O)c2ccc(c(F)c2C)-c2nn3CCc4cc(ccc4Nc3c2C(N)=O)N2CCN(CC3CCN(CC3)c3cc4C(=O)N(Cc4cc3F)C3CCC(=O)NC3=O)CC2)n1

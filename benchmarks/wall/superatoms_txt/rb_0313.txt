@@ -1,0 +1,22 @@
+I read the molecule as a maleimidocaproyl linker, a peptide spacer, a methylene-oxy-acetyl unit, and a camptothecin-type payload. The SMILES below is built from that reading.
+
+**Linker and spacer (left to right)**
+- The maleimide ring is attached through its nitrogen to a chain of five CH2 groups, then a C(=O)NH. I counted five CH2 vertices between the maleimide N and the first carbonyl.
+- The peptide sequence is Gly-Gly-Phe-Gly.
+- After the last Gly comes NH–CH2–O–CH2–C(=O)–N(CH3)–CH2, which attaches to the aromatic ring of the payload.
+
+**Phenylalanine stereocentre**
+- The benzyl group is on a wedge, with N at lower left and C(=O) at lower right.
+- With the implicit H pointing away, N → C(=O) → CH2 runs counterclockwise, so the centre is S (L-Phe).
+- That gives `N[C@@H](Cc1ccccc1)C(=O)` in the written order.
+
+**Payload**
+- It is a camptothecin-type pentacycle (quinoline, pyrroline, pyridone, lactone) with the CH2N(Me) side chain at the quinoline 7-position.
+- On the benzo ring, the methyl sits upper left and the fluorine lower left. Counting from the quinoline N, the ring reads: junction carbon, CH, C–F, C–CH3, CH, junction carbon.
+- The quaternary carbon carries a hashed ethyl and a wedged OH.
+- The lowest-priority substituent (ethyl) points away, and OH → lactone C(=O) → ring carbon runs counterclockwise, so the centre is S, as in natural camptothecin.
+- Written in the order C(=O), ethyl, OH, ring carbon, this is `[C@@]`.
+
+I checked that ring-closure labels are reused only after they have been closed, and that atom counts match the drawing.
+
+SMILES: O=C1C=CC(=O)N1CCCCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)NCOCC(=O)N(C)Cc1c2Cn3c(=O)c4COC(=O)[C@@](CC)(O)c4cc3-c2nc2cc(F)c(C)cc12

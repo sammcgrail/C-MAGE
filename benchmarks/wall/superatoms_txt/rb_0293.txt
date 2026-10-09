@@ -1,0 +1,29 @@
+Reading the drawing region by region, from left to right:
+
+**Left end (pomalidomide-type unit).** The glutarimide is O=C1CCC(N2C(=O)c3cccc(NCC(=O)...)c3C2=O)C(=O)N1. The isoindoline-1,3-dione has an NH at position 4, and this NH is attached to CH2–C(=O)–NH.
+
+**Linker.** From the amide NH the chain runs: NH–CH2CH2–O–CH2CH2–O–CH2CH2–N(CH3)–CH2–CH=CH–C(=O)–NH–. The double bond is drawn trans.
+
+**Isoquinoline.** The amide NH is on C6 of the isoquinoline. C1 of the isoquinoline carries the aryl group, and N2 is the ring nitrogen next to C1.
+- SMILES for this unit: c1(-aryl)nccc2cc(NC(=O)...)ccc12
+
+**Phenyl ring.** It is ortho-disubstituted. One substituent is the isoquinoline C1 and the other is CH2–NH–, which is attached to the triazine carbon.
+
+**Pyrazolo[1,5-a][1,3,5]triazine.** The ring atoms are:
+- C4, bearing the NH
+- N3
+- C2, bearing the piperidine
+- N1
+- C8a
+- C8, bearing the isopropyl group
+- C7H
+- N6, which is bonded to the bridgehead N5
+
+The SMILES for the bicycle is c1(NCc...)nc(N2CCC(N)CC2)nc2c(C(C)C)cnn12.
+
+**Full SMILES.**
+O=C1CCC(N2C(=O)c3cccc(NCC(=O)NCCOCCOCCN(C)C/C=C/C(=O)Nc4ccc5c(c4)ccnc5-c4ccccc4CNc4nc(N5CCC(N)CC5)nc5c(C(C)C)cnn45)c3C2=O)C(=O)N1
+
+Checking the isoquinoline: c4ccc5c(c4)ccnc5-Ar has c4 as C6 (bearing the NH), then c, c, then c5 as C8a. In that string c5 is bonded to the N-bearing carbon at its end, so it is C1 (c5 closing at "nc5-"). Reading it through: C6 (c4), C7, C8, C8a (c5), C4a (c(c4)), C5 (the c4 in parentheses closes the ring), C4, C3, N2, C1 (c5, bearing the aryl). So C6 is bonded to C5, which is bonded to C4a. This is correct.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCC(=O)NCCOCCOCCN(C)C/C=C/C(=O)Nc4ccc5c(c4)ccnc5-c4ccccc4CNc4nc(N5CCC(N)CC5)nc5c(C(C)C)cnn45)c3C2=O)C(=O)N1

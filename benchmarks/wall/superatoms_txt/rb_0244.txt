@@ -1,0 +1,28 @@
+I read the structure in pieces, then assembled the SMILES and assigned each stereocentre from its wedge or hash.
+
+**Fragments**
+- **Indole:** 5-(difluoromethylphosphonic acid)-indole-2-carboxamide, written `c1cc2cc(C(F)(F)P(=O)(O)O)ccc2[nH]1`.
+- **Bicyclic core:** an 8-membered ring fused to a pyrrolidine. The ring atoms are N(pyrrolidine), the ring-fusion CH, CH2, CH2, N-Me, CH2, CH(NH-acyl) and C=O.
+- **Glutamine:** a Gln residue whose side chain is CH2CH2C(=O)NH2.
+- **Phenylglycine:** a Phg residue.
+- **Linker:** 7 CH2 groups followed by a C=O, giving an 8-carbon acyl chain.
+- **tert-Leucine:** a Tle residue carrying a tert-butyl group.
+- **Hydroxyproline:** 4-hydroxyproline.
+- **Amine cap:** the (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethylamine amide.
+
+**Stereocentres (assigned from the wedges and hashes)**
+- Bicyclic CH(NH): S
+- Ring-fusion CH: R
+- Pyrrolidine Cα: S
+- Gln: S
+- Phg: S
+- Tle: S
+- Hydroxyproline C4 (OH hashed): R
+- Hydroxyproline C2: S
+- Benzylic CH(CH3): S
+
+These match the usual L-amino-acid and VHL-ligand configurations.
+
+**Checks:** all ring-closure digits are opened and closed, and digits 1 and 3 are reused only after they have been closed.
+
+SMILES: O=C(c1cc2cc(C(F)(F)P(=O)(O)O)ccc2[nH]1)N[C@H]1CN(C)CC[C@H]2CC[C@@H](C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](c3ccccc3)C(=O)NCCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)N2C1=O

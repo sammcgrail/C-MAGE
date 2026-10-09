@@ -1,0 +1,18 @@
+I read the structure in sections and wrote the SMILES in the same order.
+
+**Fragments**
+- **Left end:** a 4-cyanopyridin-2-yl group joined through NH to the central pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group on one side of the ring nitrogen. At the para position it carries a piperidin-4-yl group.
+- **Piperidine nitrogen:** acylated by a cyclobutane-1,2-dicarbonyl unit. Both carbonyl bonds are drawn as wedges, so the two substituents are cis.
+- **Cyclobutane amide:** the second carbonyl forms an amide with the NH of tert-leucine.
+- **tert-Leucine:** its carbonyl acylates a 4-hydroxyproline nitrogen.
+- **Hydroxyproline:** the OH is drawn hashed and the carboxamide bond is wedged. The carboxamide nitrogen carries a (1-arylethyl) group whose methyl is wedged. The aryl group is 4-(4-methylthiazol-5-yl)phenyl.
+
+**Stereochemistry from the wedges (CIP assignments)**
+- Cyclobutane carbon bearing the piperidine carbonyl: R. The other cyclobutane carbon: S.
+- tert-Leucine α-carbon: S.
+- Hydroxyproline C2: S. C4 (the carbon bearing OH): R.
+- Benzylic carbon of the 1-arylethyl group: S.
+
+I converted each assignment into the matching @/@@ tag by checking the neighbour order in the written SMILES. I also checked the ring closures and the ring sizes (6-membered pyridines, 4-membered cyclobutane, 5-membered pyrrolidines).
+
+SMILES: N#Cc1ccnc(Nc2cc(cc(n2)N2CCC(F)(F)C2)C2CCN(CC2)C(=O)[C@@H]2CC[C@@H]2C(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)c1

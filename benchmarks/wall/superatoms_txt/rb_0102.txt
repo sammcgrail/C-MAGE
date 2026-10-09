@@ -1,0 +1,17 @@
+I read the molecule from left to right as a peptide-like chain.
+
+**Chain, from the C-terminus:**
+- C-terminal penicillamine: a free carboxylic acid, an α-carbon bearing C(CH3)2SH, and an NH. The hashed bond to the CMe2SH carbon gives the R centre, i.e. L-penicillamine.
+- Asp 1: CH2COOH side chain on a wedge bond, S configuration (L).
+- Lys: a 4-carbon chain ending in NH2 (the side chain is (CH2)4NH2), drawn on a hashed bond, S configuration (L).
+- Asp 2: CH2COOH side chain on a wedge bond, S configuration (L).
+- Succinyl linker: NH–C(=O)CH2CH2C(=O)–NH.
+
+**Quinoline and C-terminal cap:**
+- The succinyl NH is attached at C8 of a quinoline.
+- C4 of the quinoline carries C(=O)NH–CH2–C(=O)–, which is acylated onto a pyrrolidine nitrogen.
+- The pyrrolidine has CF2 at C4 and a hashed nitrile at C2, which works out to S.
+
+**Stereo encoding:** I wrote the SMILES from the penicillamine end. For that atom ordering I derived the tags by permuting the standard L-amino-acid pattern, which gives @ for the penicillamine, both Asp and the Lys centres. I checked the pyrrolidine C2 separately by CIP priorities (N > CN > CH2 > H), and @ gives S there.
+
+SMILES: OC(=O)[C@H](C(C)(C)S)NC(=O)[C@H](CC(=O)O)NC(=O)[C@H](CCCCN)NC(=O)[C@H](CC(=O)O)NC(=O)CCC(=O)Nc1cccc2c(C(=O)NCC(=O)N3CC(F)(F)C[C@H]3C#N)ccnc12

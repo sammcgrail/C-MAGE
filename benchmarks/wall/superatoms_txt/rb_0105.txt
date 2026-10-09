@@ -1,0 +1,17 @@
+I read the drawing in four parts and wrote the SMILES by joining them.
+
+- **Left end:** a 4-cyanopyridin-2-yl group joined through NH to a second pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group at C6 and a piperidin-4-yl group at C4.
+- **Linker:** the piperidine nitrogen is acylated by a 4-(aminomethyl)benzoyl group, and the benzylic nitrogen is a secondary amine.
+- **Central amino acid:** that amine is attached to the alpha carbon of a tert-leucine unit, whose carbonyl forms the amide to the pyrrolidine nitrogen.
+- **Right end:** a 4-hydroxypyrrolidine-2-carboxamide whose amide nitrogen carries a 1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group.
+
+I assigned stereochemistry from the wedges and hashes, using CIP priorities with the hydrogen pointing away from the viewer:
+
+- **tert-Leucine alpha carbon:** S.
+- **Pyrrolidine C2:** S, from the wedged carboxamide.
+- **Pyrrolidine C4:** R, from the hashed OH, giving the trans-4-hydroxy-L-proline pattern.
+- **Benzylic CH(CH3) carbon:** S, from the wedged methyl.
+
+I then wrote each centre in SMILES and checked its @/@@ symbol against these assignments. That check showed the initial tert-leucine, C4 and benzylic centres needed their symbols reversed, and the final string below uses the corrected ones.
+
+SMILES: N#Cc1ccnc(c1)Nc1cc(cc(n1)N1CCC(F)(F)C1)C1CCN(CC1)C(=O)c1ccc(cc1)CN[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

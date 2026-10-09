@@ -1,0 +1,18 @@
+I read the drawing left to right and wrote the SMILES in that order. The linker order is:
+
+1. Maleimide, joined through N to a five-CH2 chain and then a C=O (a 6-maleimidocaproyl amide).
+2. A glutamic acid residue whose side-chain amide is N-methyl on a five-hydroxyl open-chain polyol (an N-methylglucamine-type unit).
+3. Three alanine residues in a row.
+4. An NH–CH2–O–CH2–C(=O)–NH spacer.
+5. A camptothecin-type core. It carries SMe and F on the benzo ring, the CH2NH linker at the C7 position, and the lactone C(Et)(OH).
+
+I assigned stereochemistry only at the drawn wedge/hash centres:
+
+- **Polyol:** the four hydroxyl-bearing carbons come out as (S) at the first carbon (counting from the N-methyl end), with the other three consistent with the N-methylglucamine pattern.
+- **Glutamic acid:** L configuration.
+- **Alanines:** all three are L.
+- **Lactone quaternary carbon:** I assumed the natural (S)-camptothecin configuration. The Et and OH bond depiction was hard to read.
+
+I did not run the SMILES through a parser. I checked the ring closures by hand and worked out the chirality tags from the drawn 2D geometry.
+
+SMILES: CC[C@@]1(O)C(=O)OCC2=C1C=C1N(C2=O)CC2=C1N=C1C=C(F)C(SC)=CC1=C2CNC(=O)COCNC(=O)[C@H](C)NC(=O)[C@H](C)NC(=O)[C@H](C)NC(=O)[C@H](CCC(=O)N(C)C[C@H](O)[C@@H](O)[C@H](O)[C@H](O)CO)NC(=O)CCCCCN1C(=O)C=CC1=O

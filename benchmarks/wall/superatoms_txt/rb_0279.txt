@@ -1,0 +1,17 @@
+I read the structure region by region and assigned stereochemistry from the wedges and hashes.
+
+**Fragments**
+- **Left end:** a 4-cyanopyridin-2-yl group is attached through NH to a second pyridine. That pyridine carries a 3,3-difluoropyrrolidin-1-yl group at C6 and a piperidin-4-yl group at C4.
+- **Linker:** the piperidine nitrogen is acylated by a cyclobutane-carbonyl group. The cyclobutane has a bold wedge on one ring carbon and a hash on the adjacent one, which makes it trans-1,2-disubstituted. Its second carbonyl forms an amide with tert-leucine NH.
+- **tert-Leucine:** the α-carbon is drawn as S, and its carbonyl is bonded to the proline nitrogen.
+- **Hydroxyproline:** the ring is (2S,4R)-4-hydroxyproline. Its C2 carboxamide is bonded to the amine of an (S)-1-arylethylamine.
+- **Right end:** the aryl group is a 4-(4-methylthiazol-5-yl)phenyl.
+
+**Stereo check**
+- Cyclobutane: the carbon bearing the bold-wedged carbonyl is [C@H] and the carbon bearing the hashed carbonyl is [C@@H] in the SMILES below. I derived these from the drawn geometry and did not cross-check them against a reference.
+- tert-Leucine α-carbon: S.
+- Proline C2: S.
+- Proline C4: R, matching the hashed OH.
+- Ethylamine carbon: S, matching the wedged methyl.
+
+SMILES: N#Cc1ccnc(Nc2cc(C3CCN(CC3)C(=O)[C@H]3CC[C@@H]3C(=O)N[C@H](C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)C(C)(C)C)cc(n2)N2CCC(F)(F)C2)c1

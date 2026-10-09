@@ -1,0 +1,17 @@
+I read the structure region by region and wrote it as one SMILES. I have not run it through a parser, so the validity check was done by hand.
+
+**Fragments identified**
+- Two identical arms, each built from (S)-2-cyano-4,4-difluoropyrrolidine, an N-acylglycine and a quinoline-4-carboxamide. Each quinoline carries an 8-NH-succinyl linker.
+- One arm ends on the α-amine of an Asp whose side chain forms an amide with the Lys-derived residue's α-NH. The other arm ends, through a succinamide, on a CH2-NH that sits on a 1,4-disubstituted triazole.
+- The triazole N1 is joined by a (CH2)4 chain to the α-carbon of the Lys-derived residue.
+- The peptide runs: Asp(side-chain isopeptide) – Lys(triazole) – Asp – Lys – Asp – Cys.
+- The Cys sulfur is attached to a succinimide whose N carries a fluorescein, a spiro-lactone with two phenolic OH groups. The succinimide carbon bonded to S is a stereocentre by connectivity but is drawn with plain bonds, so I gave it no stereo.
+
+**Stereochemistry**
+- Both cyanopyrrolidine centres work out as S (one wedged, one hashed).
+- All six amino-acid α-carbons work out as the natural L configuration: S for Asp and Lys, R for Cys.
+
+**Judgement call**
+- I placed the maleimide nitrogen on the 5-position of the fluorescein benzo ring (meta to the spiro-bearing carbon). The drawing was not clear enough to rule out the 6-isomer.
+
+SMILES: N#C[C@@H]1CC(F)(F)CN1C(=O)CNC(=O)c1ccnc2c(NC(=O)CCC(=O)NCc3cn(CCCC[C@H](NC(=O)C[C@H](NC(=O)CCC(=O)Nc4cccc5c(C(=O)NCC(=O)N6CC(F)(F)C[C@H]6C#N)ccnc45)C(=O)O)C(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CSC7CC(=O)N(c8ccc9C(=O)OC%10(c%11ccc(O)cc%11Oc%11cc(O)ccc%10%11)c9c8)C7=O)C(=O)O)nn3)cccc12
