@@ -1,0 +1,14 @@
+I read the structure in three parts and wrote them as one SMILES string.
+
+**Left part.** An indazole is substituted at N1 with a propyl chain ending in NH on C2 of a 1,4,5,6-tetrahydropyrimidine. Its C5 carries C(=O)NH–CH2, which leads to a CH bearing a methyl ester and an NH–SO2 group. The wedge on the ester bond gives this carbon the S configuration.
+
+**Middle part.** A biphenyl is sulfonylated at both para positions. One sulfonyl joins the NH of the left part. The other forms a sulfonamide with NH–CH2CH2–NH, which continues into the right part.
+
+**Right part.**
+- Two glutamate residues, each drawn with a wedge and each S, carry γ-CO2tBu esters. They are joined to each other and to the ethylenediamine linker by amide bonds.
+- The N-terminal glutamate is acylated by a bromoacetyl-type CH2C(=O) group on a cyclen (12-membered ring with four nitrogens).
+- The other three cyclen nitrogens each carry CH2CO2tBu.
+
+I checked the chirality tags by CIP priorities against the drawn wedges. The three stereocentres come out as [C@@H] for the diaminopropionate carbon and [C@H] for each glutamate carbon, given the atom order in the SMILES below.
+
+SMILES: COC(=O)[C@@H](NS(=O)(=O)c1ccc(cc1)-c1ccc(cc1)S(=O)(=O)NCCNC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)CN1CCN(CC(=O)OC(C)(C)C)CCN(CC(=O)OC(C)(C)C)CCN(CC(=O)OC(C)(C)C)CC1)CNC(=O)c1ccc2c(cnn2CCCNC2=NCCCN2)c1

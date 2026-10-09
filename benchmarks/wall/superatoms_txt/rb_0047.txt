@@ -1,0 +1,31 @@
+The drawing breaks down into five regions, which I read in turn and then joined into one SMILES.
+
+**Left end (7-azabicyclo[2.2.1]heptane).** The nitrogen bridges two bridgehead carbons. Each bridgehead is joined to the other by a two-carbon bridge, so the ring is N1C2CCC1CC2.
+
+**Amide and linker.** The nitrogen is acylated by C(=O)C(C)(C)–, and that quaternary carbon is attached to the thiophene ring.
+
+**Thieno[2,3-b]pyrrole core.**
+- Thiophene atoms: S, C2 (bearing the quaternary carbon), C3(H), C3a, and C6a.
+- Pyrrole atoms: C3a, C4 (bearing the ethyl chain), C5 (bearing the aryl group), N6(H), and C6a.
+- C6a is bonded to both S and N.
+- Written out: C1(=CC2=C(S1)NC(Ar)=C2CCN...). The ring closure is C2 = c3a, with c3a–C(CCN)=C(Ar)–NH–C6a.
+- Check: the thiophene ring is S–C2=C3–C3a=C6a–S, and the pyrrole ring is C3a–C4=C5–N–C6a. Here C3a=C6a is a double bond, C2=C3 is a double bond, and C4=C5 is a double bond.
+- SMILES for the core: C1(=CC2=C(S1)NC(Ar)=C2CCN…).
+
+**Aryl group.** A 3,5-dimethylphenyl ring sits on C5 of the pyrrole.
+
+**Right side.**
+- The ethyl chain ends in NH–C(=N–C(=O)OiPr)–N, where the last N is the nitrogen of a pyrrolidine.
+- The pyrrolidine carries a 4-pyridyl group at C3.
+- Pyrrolidine: N1CC(c2ccncc2)CC1.
+
+**Assembled SMILES:**
+CC(C)OC(=O)N=C(NCCC1=C(c2cc(C)cc(C)c2)NC2=C1C=C(S2)C(C)(C)C(=O)N1C2CCC1CC2)N1CCC(C1)c1ccncc1
+
+In the core, C1 is the C4 carbon, and C2 is C6a, which is bonded to N and to S. The ring closure then runs C2=C1, which is wrong, so I rewrote it explicitly.
+
+Core atoms: C4(=C5(Ar)–N6H–C6a(=C3a–…)). I wrote C4 as C1(CCN…)=C(Ar)NC2=C1C=C(S2)…, which has C4=C5, N, then C6a (ring label 2) double-bonded to C3a, which closes ring 1 with C4 by a single bond. C3a then bonds to C3H, which is double-bonded to C2, and C2 bonds to S, which closes back to C6a. This is consistent.
+
+The bicyclic nitrogen label reuses ring numbers 1 and 2 after they have closed, which is valid.
+
+SMILES: CC(C)OC(=O)N=C(NCCC1=C(c2cc(C)cc(C)c2)NC2=C1C=C(S2)C(C)(C)C(=O)N1C2CCC1CC2)N1CCC(C1)c1ccncc1

@@ -1,0 +1,13 @@
+The SMILES below was read region by region from the drawing.
+
+- **Left end:** an imidazole ring carrying a trityl (triphenylmethyl) group on N1. Its C2 bears an NH that links to an N-propyl chain (three CH2 groups).
+- **Indazole:** the propyl chain is attached at N1 of the indazole. The carboxamide C(=O)NH sits at C5.
+- **Amino acid unit:** the amide NH leads to CH2, then to the α-carbon, which carries a sulfonamide NH and a methyl ester (CO2Me).
+- **Sulfonyl aryl group:** the sulfonamide sulfur is bonded to a benzene ring with methyl groups at both ortho positions. At the para position there is an O–CH2CH2CH2–C(=O)–NH–CH2CH2–NH–C(=O)–O–CH2–Ph chain, which is a Cbz-protected diamine.
+- **Stereochemistry:** the only wedge is on the α-carbon, with the N bond toward the viewer. The priorities are N > C(=O)OMe > CH2N, and the sequence runs counterclockwise with H at the back, so the centre is S. In the SMILES, `[C@H]` written as `NC[C@H](N…)C(=O)OC` encodes S.
+
+SMILES: COC(=O)[C@@H](NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)OCc2ccccc2)cc1C)CNC(=O)c1ccc2c(c1)cnn2CCCNc1nccn1C(c1ccccc1)(c1ccccc1)c1ccccc1
+
+Wait — I must check that the chirality tag in this written order still gives S. Here the neighbour order is (C=O, H, N, CH2) with `@@`. Moving H to the front takes one swap, giving (H, C=O, N, CH2) with `@`. Viewed from H, C=O→N→CH2 is counterclockwise, so with H at the back it is clockwise. That is the same cyclic order as N→CH2→C=O, which is the reverse of N→C=O→CH2, so this is R. The tag must therefore be `@`, not `@@`.
+
+SMILES: COC(=O)[C@H](NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)OCc2ccccc2)cc1C)CNC(=O)c1ccc2c(c1)cnn2CCCNc1nccn1C(c1ccccc1)(c1ccccc1)c1ccccc1

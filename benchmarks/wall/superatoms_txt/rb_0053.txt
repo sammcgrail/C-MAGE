@@ -1,0 +1,12 @@
+I read the molecule in pieces and joined them into one SMILES.
+
+- **Left end:** a tetrahydropyrimidine ring, drawn as a six-membered cyclic guanidine (C2 with ring N–H and ring N=). Its exocyclic NH leads into a propyl chain on N1 of an indazole.
+- **Indazole:** it carries a C(=O)NH amide at C5. That amide is attached to the CH2 of a 2,3-diaminopropionate unit.
+- **Diaminopropionate centre:** it bears a methyl ester and an NH–SO2 group. The wedge to the ester gives the S configuration, which I checked by CIP priorities (N > CO2Me > CH2 > H).
+- **Sulfonyl aryl group:** a 2,6-dimethylphenyl ring with an O–(CH2)3–C(=O)NH chain at the para position.
+- **Linker:** that chain continues through –NH–CH2CH2–NH– to a glutamic acid unit. This first glutamate has a wavy bond at its alpha carbon, so it gets no stereo label. Its side chain is CH2CH2CO2tBu.
+- **Second glutamate:** it is joined by an amide, bears an NH–Cbz group and a CH2CH2CO2tBu side chain, and the wedge gives S (N > C(=O)N > CH2 > H).
+
+The SMILES was written by hand and the chirality tags were derived by CIP analysis. I did not run it through a parser.
+
+SMILES: COC(=O)[C@@H](NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)C(CCC(=O)OC(C)(C)C)NC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)OCc2ccccc2)cc1C)CNC(=O)c1ccc2c(cnn2CCCNC2=NCCCN2)c1

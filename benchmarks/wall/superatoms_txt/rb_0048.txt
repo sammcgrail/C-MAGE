@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Indazole end:** the indazole N1 carries a three-carbon chain ending in NH attached to the 2-position of a pyrimidine. The indazole C5 carries a carbonyl that forms an amide with an NH.
+- **Amino-acid core:** that amide NH is attached to a CH2, then a CH bearing a methyl ester (CO2Me) and a sulfonamide NH. The ester is drawn on a wedge, which I translated to `[C@H]` in the SMILES.
+- **Biphenyl linker:** the sulfonamide S(=O)(=O) joins to a para-linked biphenyl, whose far end carries a second S(=O)(=O)NH.
+- **Cbz end:** that second sulfonamide NH is followed by CH2CH2 and an NH–C(=O)–O–CH2–phenyl (Cbz) group.
+
+Only the one wedged carbon gets a stereo label. I assigned `@` by viewing the centre with H pointing away: CH2, N and C(=O) run counterclockwise, which corresponds to `[C@H]` when written with the ester carbon first.
+
+SMILES: COC(=O)[C@H](CNC(=O)c1ccc2c(cnn2CCCNc2ncccn2)c1)NS(=O)(=O)c1ccc(cc1)-c1ccc(cc1)S(=O)(=O)NCCNC(=O)OCc1ccccc1

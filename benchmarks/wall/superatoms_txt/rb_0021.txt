@@ -1,0 +1,12 @@
+I read the molecule as a pyrrolidine core, with each fragment attached to it as follows.
+
+- **Pyrrolidine N-acyl group:** a 2-hydroxy-2-phenylacetyl group (mandelyl). The OH is wedged and H is hashed, which I assign as R.
+- **Pyrrolidine C4:** it carries a 7-methoxy-2-phenylquinolin-4-yloxy group, with O hashed and H wedged. I assign it R.
+- **Pyrrolidine C2:** H is hashed, and I assign it S.
+- **Amide on C2:** it links to a 1-amino-2-vinylcyclopropane-1-carboxamide whose acyl nitrogen carries a cyclopropylsulfonyl group (an acyl sulfonamide).
+- **Cyclopropane C1:** the amide N is wedged, and I assign it R. At first I misjudged this centre as S because I ignored that the carbonyl substituent sits behind the plane. Taking that into account gives R.
+- **Cyclopropane C2:** H is wedged, which puts the vinyl group trans to the amide N, and I assign it S. This is the usual (1R,2S) vinyl-cyclopropane amino acid pattern.
+
+I converted each centre to @/@@ by working out the permutation parity of the neighbour order in the SMILES string. I did not run the string through a parser.
+
+SMILES: O=C([C@H](O)c1ccccc1)N1C[C@H](Oc2cc(-c3ccccc3)nc3cc(OC)ccc23)C[C@H]1C(=O)N[C@@]1(C[C@H]1C=C)C(=O)NS(=O)(=O)C1CC1

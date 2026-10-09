@@ -1,0 +1,19 @@
+I read the structure region by region and assembled the SMILES below.
+
+**Left end.** A tetrahydropyrimidine ring (six-membered: NH, CH2, CH2, CH2, N, and the C=N carbon). Its C2 carries an NH that connects to a propyl chain of three CH2 groups, which ends on N1 of the indazole.
+
+**Indazole.** N1 bears the propyl chain and N2 is the =N. C3 is the CH, and the benzo ring carries a C(=O)NH group at C5.
+
+**Amino acid core.** The amide NH is attached to CH2, then to a CH that carries the wedged CO2Me and an NH–SO2 group. This is a 2,3-diaminopropionic acid methyl ester.
+
+**Aryl sulfonyl group.** The sulfonyl is on a benzene ring with methyls at both ortho positions. At the para position there is an O–CH2CH2CH2–C(=O)NH group.
+
+**Right-hand chain.** The amide NH continues to CH2CH2, then NH–C(=O)–CH(NH2)–CH2CH2–C(=O)OtBu. The CH(NH2) is drawn with a wavy bond, so it has no defined stereo.
+
+**Stereochemistry of the wedged carbon.** The wedged carbon has the CH2NH group to the left, the ester C to the upper right (wedge), and the NH below. I wrote the SMILES as NC[C@H](NS...)C(=O)OC and checked the chirality against the wedge. Viewed from the central carbon, the neighbors are CH2 (left, upper), NH (down) and C(ester) (right, wedge, toward the viewer), with H pointing away.
+
+In the SMILES `NC[C@H](N)C(=O)OC`, the neighbor order is CH2, H, N, C(ester). With @, looking from CH2, the sequence H, N, C(ester) runs counterclockwise. Equivalently, the order CH2, N, C(ester) viewed with H away is determined by swapping H, which gives clockwise (@@ becomes @ on swapping). Since H is in the back, the drawing needs CH2 → N → C(ester) read in 2D: left-up, down, right. Going from upper left to down to right is counterclockwise on the page. That is the same as a counterclockwise reading viewed with H at the back (the wedge puts the ester toward the viewer, so H is behind).
+
+For `[C@H]` with the order CH2, H, N, C: moving H to the front gives `[C@@H]`-style reordering (H, CH2, N, C is one swap, so @@). Looking from H, CH2 → N → C is then clockwise. Looking from the opposite side (H away), it is counterclockwise, which matches the drawing. So `[C@H]` is correct.
+
+SMILES: COC(=O)[C@H](NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)C(N)CCC(=O)OC(C)(C)C)cc1C)CNC(=O)c1ccc2c(cnn2CCCNC2=NCCCN2)c1

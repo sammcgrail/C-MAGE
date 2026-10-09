@@ -1,0 +1,10 @@
+I read the structure in sections from left to right and assembled the SMILES from them.
+
+- **Left end:** A 2-amino-3,4,5,6-tetrahydropyridine (cyclic amidine) is linked through NH and a three-carbon chain to C3 of a 1-methylindazole.
+- **Indazole and first amino acid:** The indazole carries a C6 carboxamide, which is bonded to the NH of a 3-amino-alanine unit. That unit has a methyl ester, and its α-carbon is drawn with a wedge. I assigned it S.
+- **Sulfonamide:** The α-nitrogen carries a sulfonyl group attached to a 2,6-dimethylphenyl ring. The para position bears an O–CH2CH2CH2–C(=O)NH– chain.
+- **Linker:** The chain continues through NH–CH2CH2–NH (I read the unlabelled "N" as NH).
+- **Glutamate residues:** Two glutamic acid residues follow, each with a tert-butyl ester on its side chain. Both α-carbons are drawn with wedges and work out as S, which I encoded as `[C@H]` in the SMILES below.
+- **Macrocycle:** The second glutamate's N-terminus is acylated by a chloroacetyl-type CH2C(=O) unit. This is bonded to a 12-membered cyclen ring (four N, eight CH2). The other three ring nitrogens each carry a CH2C(=O)O-tert-butyl group.
+
+SMILES: COC(=O)[C@H](NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)CN2CCN(CC(=O)OC(C)(C)C)CCN(CC(=O)OC(C)(C)C)CCN(CC(=O)OC(C)(C)C)CC2)cc1C)CNC(=O)c1ccc2c(CCCNC3=NCCCC3)nn(C)c2c1

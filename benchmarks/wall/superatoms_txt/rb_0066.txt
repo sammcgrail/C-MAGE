@@ -1,0 +1,8 @@
+I read the molecule as a perylene core with two indeno-type five-membered rings fused across its peri positions. Each five-membered ring also carries a benzo-fused six-membered ring, giving a diindeno[1,2,3-cd:1',2',3'-lm]perylene skeleton with a naphthalene unit at each end. Four aryl groups are attached to these naphthalene-type units:
+
+- **Top unit:** a naphth-2-yl group on the left carbon and a biphenyl-2-yl (ortho-phenylphenyl) group on the right carbon.
+- **Bottom unit:** a biphenyl-3-yl (meta-phenylphenyl) group on the left carbon and a p-tolyl (4-methylphenyl) group on the right carbon.
+
+I built the SMILES by walking the ring system atom by atom and assigning ring-closure digits to the fused bonds. I checked the substitution patterns by counting positions: the naphthyl is attached at position 2, the top biphenyl is ortho, the bottom biphenyl is meta, and the tolyl is para. I did not run the string through a parser, so validity is checked by hand only.
+
+SMILES: c1(-c2ccc3ccccc3c2)c2ccccc2c(-c2ccccc2-c2ccccc2)c2c1c3ccc4c5ccc6c7c(-c8cccc(-c9ccccc9)c8)c8ccccc8c(-c8ccc(C)cc8)c7c(cc9)c6c5c9c(ccc2%10)c4c3%10

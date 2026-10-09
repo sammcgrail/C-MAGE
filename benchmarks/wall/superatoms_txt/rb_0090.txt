@@ -1,0 +1,11 @@
+I read the structure region by region, from left to right, and assembled the SMILES below. I did not run it through a parser.
+
+- **Left end:** a 1H-indazole carrying a 3-carbon chain on N1. The chain ends in an NH attached to C2 of a 1,4,5,6-tetrahydropyrimidine ring.
+- **Indazole C5:** a carboxamide, C(=O)NH-CH2, leading to the first stereocentre.
+- **First stereocentre:** a 2,3-diaminopropanoate methyl ester carbon. Its N is sulfonylated and its CO2Me is on a wedge. I assigned it S (L configuration).
+- **Centre:** a biphenyl-4,4'-disulfonyl unit. One sulfonyl is an NH-sulfonamide to the amino acid above. The other is a sulfonamide to NH-CH2CH2-NH.
+- **Right end:** two glutamic acid residues linked as an amide. Each has a γ-CO2tBu on a wedged CH2, which I assigned S (L). The first is acylated at the ethylenediamine NH. The second has its N protected as a Cbz carbamate (C(=O)OCH2Ph).
+
+I worked out each @/@@ label from the wedge geometry and the CIP priorities, then checked it against the atom order in the SMILES. All three centres are S.
+
+SMILES: COC(=O)[C@@H](NS(=O)(=O)c1ccc(cc1)-c1ccc(cc1)S(=O)(=O)NCCNC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)OCc1ccccc1)CNC(=O)c1ccc2c(cnn2CCCNC2=NCCCN2)c1

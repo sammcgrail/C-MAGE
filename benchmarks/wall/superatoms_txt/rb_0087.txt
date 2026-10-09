@@ -1,0 +1,19 @@
+The SMILES below was read region by region from the drawing.
+
+- **Carbamate end:** an isopropyl ester, `CC(C)OC(=O)`, bonded to an imine nitrogen, `N=C`.
+- **Guanidine carbon:** it carries an NH and a piperidine nitrogen. The piperidine has a tetrahydropyran-4-yl group at its 4-position.
+- **Side chain:** the NH is attached to a CH2, then to a stereocentre bearing a methyl, which is drawn as a hashed bond.
+- **Core:** a thieno[2,3-b]pyrrole.
+  - The pyrrole NH sits next to the carbon bonded to sulfur.
+  - The pyrrole carbon next to the NH carries a 3,5-dimethylphenyl group.
+  - The other pyrrole carbon carries the side chain.
+  - The thiophene carbon next to sulfur carries C(CH3)2–C(=O)–N.
+- **Amide nitrogen:** it is the bridging nitrogen of a 7-azabicyclo[2.2.1]heptane.
+
+**Stereocentre:** the hashed methyl points away from the viewer, so the implicit H points toward the viewer.
+- CIP priorities are CH2N, then the pyrrole carbon, then CH3, then H.
+- Viewed from the front, CH2N (upper right) → pyrrole C (down) → CH3 (upper left) runs clockwise.
+- With H toward the viewer, the true sense is reversed, so the centre is S.
+- In the SMILES, writing the centre as `[C@@H]` after the preceding CH2 gives S.
+
+SMILES: CC(C)OC(=O)N=C(NC[C@@H](C)c1c(-c2cc(C)cc(C)c2)[nH]c2sc(C(C)(C)C(=O)N3C4CCC3CC4)cc12)N1CCC(CC1)C1CCOCC1

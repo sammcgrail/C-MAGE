@@ -1,0 +1,39 @@
+The drawing is symmetric about a central benzene ring, with a carbazole-phenyl-diene arm on each side.
+
+**Left arm.** A carbazole is joined through its N to a para-phenylene. That ring carries CH=CH–CH=C(CH3)–, and the chain ends on the central ring.
+
+**Central ring.** Its vertices are:
+- C1, upper left, bearing the left-hand C(CH3)= group.
+- C2, top.
+- C3, upper right, bearing the right-hand C(CH3)= group.
+- C4, lower right.
+- C5, bottom, bearing N(Et)2.
+- C6, lower left.
+
+The right-hand chain is on the carbon at the upper right of the ring. The N(Et)2 is on the lower-right carbon, which is adjacent to the carbon bearing the right-hand chain. So the ring has:
+- the left chain at one carbon (call it a),
+- the right chain at a carbon para to a,
+- the NEt2 at a carbon ortho to the right chain and meta to the left chain.
+
+**Right arm.** The right-hand chain reads C(CH3)=CH–CH=CH–, then para-phenylene, then the carbazole N.
+
+**SMILES construction.**
+- Carbazole N-aryl: n1c2ccccc2c2ccccc12
+- Left arm: c1ccc(cc1)/C=C/C=C(C)/c1ccc(c(c1)N(CC)CC)C(C)=CC=Cc1ccc(cc1)n1c2ccccc2c2ccccc12
+
+In the central ring, the atom order is c1 (left chain), c, c (the ring carbon bearing the right chain), then c(N), then c1. In the SMILES `c1ccc(c(c1)N(CC)CC)C(C)=...`, the atoms are:
+- c1: the carbon bearing the left chain,
+- c: the next ring carbon,
+- c: the next ring carbon,
+- c(...): the carbon bearing the right chain, which also has a branch,
+- inside that branch, c(c1)N: the carbon bearing N, then c1 closing the ring.
+
+Writing the ring as c1(a) c c c(right chain) c(N) c1 puts the right chain para to a. The NEt2 carbon is adjacent to the right-chain carbon and is also adjacent to the final ring-closing carbon, which is adjacent to a. This matches the drawing.
+
+Stereochemistry is left out because the drawing shows no explicit cis/trans geometry.
+
+SMILES: CCN(CC)c1cc(C(C)=CC=Cc2ccc(cc2)-n2c3ccccc3c3ccccc23)ccc1C(C)=CC=Cc1ccc(cc1)-n1c2ccccc2c2ccccc12
+
+Wait — this string puts the chains differently from what I derived, so I checked it against the drawing. In `CCN(CC)c1cc(X)ccc1Y`, N is on c1, X is meta to N, and Y is ortho to N. Here X is the left chain and Y is the right chain, so the right chain is ortho to N and the left chain is meta to N. The two chains are para to each other. This matches the drawing.
+
+SMILES: CCN(CC)c1cc(C(C)=CC=Cc2ccc(cc2)-n2c3ccccc3c3ccccc23)ccc1C(C)=CC=Cc1ccc(cc1)-n1c2ccccc2c2ccccc12

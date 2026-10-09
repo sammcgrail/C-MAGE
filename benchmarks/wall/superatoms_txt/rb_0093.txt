@@ -1,0 +1,14 @@
+I read the structure in four regions and joined them into one SMILES.
+
+1. **Left end:** a 2-aminoimidazole joined through an N-propyl chain to N1 of an indazole. The indazole carries a carboxamide at C5.
+2. **Diaminopropionic acid unit:** the amide nitrogen is attached to CH2, then to the stereocentre bearing COOH, which is drawn with a wedge. The other substituent on that centre is an NH-sulfonyl group. I assigned S, so the SMILES uses `[C@@H]` in `NC[C@@H](C(=O)O)N`.
+3. **Aryl sulfonamide and linker:** the sulfonyl sits on a 2,6-dimethylphenyl ring that has a para O-CH2CH2CH2-C(=O)NH. That leads to NH-CH2CH2-NH-C(=O) (I read the unlabelled "N" as NH).
+4. **Right end:**
+   - The linker ends in two glutamate tert-butyl ester units joined by amide bonds.
+   - The first glutamate carbon, next to the linker, is drawn with a wavy bond, so it has no stereo label.
+   - The second glutamate carbon is wedged, and I assigned S (L-glutamate), written `[C@H]` in this SMILES.
+   - Its N is acylated by CH2C(=O) attached to a cyclen ring (12-membered, four N). The other three ring nitrogens each carry CH2C(=O)OtBu.
+
+I did not run this through a SMILES parser. The two stereo labels were worked out by hand from the wedge directions and CIP priorities.
+
+SMILES: N1=C(NCCCn2ncc3cc(C(=O)NC[C@@H](C(=O)O)NS(=O)(=O)c4c(C)cc(OCCCC(=O)NCCNC(=O)C(CCC(=O)OC(C)(C)C)NC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)CN5CCN(CC(=O)OC(C)(C)C)CCN(CC(=O)OC(C)(C)C)CCN(CC(=O)OC(C)(C)C)CC5)cc4C)ccc32)NC=C1

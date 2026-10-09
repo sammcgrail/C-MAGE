@@ -1,0 +1,15 @@
+I read the structure in sections and wrote the SMILES from that. The N label on the amide in the middle of the diethylenediamine linker is drawn without an H, and I assumed it is NH.
+
+**Left end.** A 2-amino-3,4,5,6-tetrahydropyridine ring (cyclic amidine, C=N in the ring) is linked through NH–CH2CH2 to N1 of an indazole. The indazole carries a carbonyl at C5.
+
+**Amino acid.** The C5 carbonyl forms an amide with NH–CH2–CH(COOH)–NH. The CH has a wedge to COOH, which I encoded as `[C@@H]`. That CH2–CH(COOH)–NH unit is a 2,3-diaminopropionic acid core. Its α-nitrogen carries the sulfonamide.
+
+**Aryl sulfonyl.** The sulfonamide sulfur bears a 2,6-dimethylphenyl ring with an ether oxygen at C4. That oxygen continues as O–CH2CH2CH2–C(=O)–NH.
+
+**Linker.** The chain runs NH–CH2CH2–NH, where the second NH is the N label in the drawing.
+
+**Glutamate residues.** The first residue is a glutamic acid whose side chain is CH2CH2CO2tBu. Its wedge goes to the side-chain CH2, giving `[C@H]`. The second glutamate has the same side chain, and its wedge also goes to the side-chain CH2, which also gives `[C@H]` in the order written. Its α-nitrogen is capped as a benzyl carbamate (Cbz).
+
+I checked that ring-closure digits are reused only after the previous ring is closed.
+
+SMILES: C1CCN=C(C1)NCCn1ncc2cc(ccc21)C(=O)NC[C@@H](C(=O)O)NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)OCc2ccccc2)cc1C

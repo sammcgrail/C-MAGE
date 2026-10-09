@@ -1,0 +1,11 @@
+I read the molecule as an adenine linked through N9 to an isopropylidene-protected ribose-type ring. The C4′ carbon of that ring carries a trans CH=CH–CH2–NH–C(=O)– chain, and the chain ends in a 2,2-diphenyl-1,3-benzodioxole bearing a thiazol-2-yl group.
+
+- **Adenine:** the 6-amino purine, attached to C1′ through N9.
+- **Sugar ring:** a five-membered ring (O4′, C1′–C4′) with a 2′,3′-O-isopropylidene (dimethyl dioxolane) fused on the C2′–C3′ bond.
+- **Linker:** C4′ is bonded to C5′=C6′ (drawn trans), then C7′H2, then the amide NH and C=O.
+- **Aryl part:** the carbonyl sits on C7 of the benzodioxole, next to one ring oxygen. C2 of the dioxole carries two phenyl groups. A thiazol-2-yl group is at C5, meta to the carbonyl.
+- **Stereochemistry:** I took the sugar configuration from adenosine, written as `n2[C@@H]1O[C@H](CO)[C@@H](O)[C@H]1O`. I then re-derived the chirality marks for C3′ and C2′ after closing the acetonide ring, because the neighbour order changed. The C5′=C6′ double bond is written trans (`/C=C/`).
+
+I checked the SMILES by hand for valid ring closures and atom counts against the drawing; I did not run it through a parser.
+
+SMILES: Nc1ncnc2c1ncn2[C@@H]1O[C@H](/C=C/CNC(=O)c3cc(-c4nccs4)cc4OC(c5ccccc5)(c5ccccc5)Oc34)[C@H]2OC(C)(C)O[C@@H]12

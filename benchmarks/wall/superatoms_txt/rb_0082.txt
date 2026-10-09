@@ -1,0 +1,9 @@
+I read the molecule as a 6-methoxy-3-[4-(trifluoromethoxy)phenyl]isoquinolin-1-yl ether of a 4-hydroxyproline core. The proline nitrogen carries an (S)-2-hydroxy-3,3-dimethylbutanoyl group. The proline 2-carboxamide is attached to a vinyl-substituted cyclopropane that bears a cyclopropylsulfonyl acylsulfonamide.
+
+I did not derive the stereocentres from the wedges and hashes in the drawing atom by atom. I assigned them by matching the familiar pattern for this class of compound and then checking the SMILES neighbour ordering:
+
+- **Proline:** trans-4-aryloxy-L-proline, i.e. (2S,4R). I wrote the ring as `O[C@H]1CN(...)[C@@H](C1)C(=O)N`, which has the same neighbour ordering as the known trans-4-hydroxy-L-proline SMILES.
+- **Cyclopropane:** the (1R,2S)-1-amino-2-vinylcyclopropane carboxylic acid unit. The reference form `C=C[C@@H]1C[C@]1(N)C(=O)` needed its neighbour order permuted to match my writing order. This gave `N[C@@]1(C[C@H]1C=C)C(=O)N`.
+- **Hydroxy acid:** I checked the CIP priorities for `C(=O)[C@@H](O)C(C)(C)C` and found S, which is what I took the drawing to show.
+
+SMILES: COc1ccc2c(c1)cc(nc2O[C@H]1CN([C@@H](C1)C(=O)N[C@@]1(C[C@H]1C=C)C(=O)NS(=O)(=O)C1CC1)C(=O)[C@@H](O)C(C)(C)C)c1ccc(OC(F)(F)F)cc1

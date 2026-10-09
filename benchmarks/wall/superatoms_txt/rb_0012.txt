@@ -1,0 +1,13 @@
+The drawing shows a central benzene ring substituted at the 1, 3 and 5 positions with three nitrogen atoms. Each of these nitrogens carries two 3-(diethylamino)phenyl groups, giving six aryl groups in total.
+
+Each outer aryl group is a benzene ring attached to the central nitrogen at one carbon and to N(CH2CH3)2 at the meta position. In SMILES this unit is c1cccc(c1)N(CC)CC, with the ring bonded to the central nitrogen through the first atom.
+
+Writing one amine unit as N(c1cccc(N(CC)CC)c1)c1cccc(N(CC)CC)c1, the central ring is c1(...)cc(...)cc(...)c1 with that unit at each of the three positions.
+
+The full SMILES is:
+
+CCN(CC)c1cccc(c1)N(c1cccc(c1)N(CC)CC)c1cc(cc(c1)N(c1cccc(c1)N(CC)CC)c1cccc(c1)N(CC)CC)N(c1cccc(c1)N(CC)CC)c1cccc(c1)N(CC)CC
+
+Checking the central ring: c1 (carrying N), then c (H), then c(N...) written as `cc(cc(c1)N...)N...`. The ring atoms are c1, c, c(…), c, c(c1)…, which makes six atoms: c1, c, c(, c, c(, c1), with the closing atom being the "c1" inside the parentheses. Counting them gives c1(a), c(b), c(c, bearing the last N), c(d), c(e, bearing the second N), c1(f). That is six atoms, but the substituents sit on a, e and c. The positions a, c and e are alternating, so they are 1, 3 and 5, as required.
+
+SMILES: CCN(CC)c1cccc(c1)N(c1cccc(c1)N(CC)CC)c1cc(cc(c1)N(c1cccc(c1)N(CC)CC)c1cccc(c1)N(CC)CC)N(c1cccc(c1)N(CC)CC)c1cccc(c1)N(CC)CC

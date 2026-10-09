@@ -1,0 +1,29 @@
+The drawing shows a central quaternary carbon bearing four groups: an ethyl group (CH2CH3), a phenyl ring, a 4-(diethylamino)phenyl ring, and a para-substituted phenyl ring. That para-substituted ring carries a nitrogen at its far end. The nitrogen is also bonded to a p-tolyl group and to a pyren-1-yl group.
+
+The central carbon has four different substituents, so it is a stereocentre by connectivity. The drawing uses plain bonds, so I give no stereo.
+
+Fragments:
+- Central carbon with ethyl: C(CC)(c1ccccc1)
+- Diethylaminophenyl: c1ccc(N(CC)CC)cc1
+- Linking phenyl: c1ccc(cc1)N(...)
+- Tolyl: c1ccc(C)cc1
+- Pyren-1-yl: c1ccc2ccc3cccc4ccc1c2c34
+
+For the pyrenyl SMILES, I numbered the ring atoms as follows:
+- Atom 1 is c1, the attachment carbon.
+- c(c=c2)... is built from pyrene's 16 carbons.
+- Pyrene SMILES: c1cc2ccc3cccc4ccc(c1)c2c34
+- Attaching at position 1 gives: c1(N...)ccc2ccc3cccc4ccc1c2c34
+
+Checking this SMILES: the attachment atom a1 opens ring 1, then c, c, then c2 (a4), c, c, c3 (a7), c, c, c, c4 (a11), c, c, c1 (a14, closing ring 1 with a1), c2 (a15, closing ring 2 with a4), c34 (a16, closing rings 3 and 4 with a7 and a11).
+
+- Ring 1 is a1, a2, a3, a4, a15, a14, which is six atoms.
+- Ring 2 is a4, a5, a6, a7, a16, a15, which is six atoms, since a15 is bonded to a16 and a16 closes ring 3 with a7.
+- Ring 3 is a7, a8, a9, a10, a11, a16, which is six atoms.
+- Ring 4 is a11, a12, a13, a14, a15, a16, which is six atoms.
+
+All four rings are six-membered, giving 16 carbons, so this is a valid pyrene.
+
+Full SMILES: CCC(c1ccccc1)(c1ccc(N(CC)CC)cc1)c1ccc(cc1)N(c1ccc(C)cc1)c1ccc2ccc3cccc4ccc1c2c34
+
+SMILES: CCC(c1ccccc1)(c1ccc(N(CC)CC)cc1)c1ccc(cc1)N(c1ccc(C)cc1)c1ccc2ccc3cccc4ccc1c2c34

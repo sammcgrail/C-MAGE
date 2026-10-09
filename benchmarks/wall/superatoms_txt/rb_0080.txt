@@ -1,0 +1,23 @@
+Reading the structure region by region:
+
+**Indazole core.** N1 carries a methyl group. N2 is the adjacent ring nitrogen, and C3 is attached to a CH2. The benzo ring carbon C6 carries the C(=O)NH group.
+
+**C3 substituent.** C3 bears CH2–NH–C2 of an imidazole. The imidazole N1 carries a trityl group (C(Ph)3), and the ring is N1–C2(NH)=N3–C4=C5.
+
+**Amino acid chain.** The amide NH is attached to CH2, then to the stereocentre CH(NH–SO2–Ar)C(=O)OCH3. The stereocentre is drawn with a wedge to the ester carbon.
+
+**Aryl sulfonamide.** The sulfonamide is NH–SO2–C6H4–C6H4–SO2NH–CH2CH2NH2, a biphenyl with para substitution on both rings.
+
+**Indazole SMILES.** Cn1nc(CNc2nccn2C(c2ccccc2)(c2ccccc2)c2ccccc2)c2ccc(C(=O)N...)cc12. In the drawing, N1 is bonded to C7a, which is bonded to C7 and then C6 (bearing the carbonyl). C3a is bonded to C4, then C5, then C6. So C6 is adjacent to C7, which is adjacent to C7a, which is bonded to N1. In the SMILES, c2ccc(C(=O)…)cc12 runs C3a, C4, C5, C6(C=O), C7, C7a, and this matches.
+
+**Stereochemistry.** The stereocentre is written N[C@@H](CNC(=O)...)C(=O)OC, and I assign the chirality from the drawing. The centre has the CH2 to the upper left, the ester carbon to the right (wedge, toward the viewer), the NH below, and an implicit H.
+
+Looking from the front with the H pointing away, the three substituents are the wedge substituent C(=O) (toward the viewer), CH2 (upper left) and N (down). Because the H is implicit, it points opposite to the wedge, i.e. away from the viewer. The priorities are N > C(=O)O (O,O,O) > CH2N (N,H,H) > H. In the 2D layout, N is at the bottom (about 270°), the ester carbon is at the right (about 0°, slightly up), and CH2 is at the upper left (about 150°). Going N (270°) → ester (0° or 360°) → CH2 (150°, or 510°) is increasing angle, so counterclockwise. With H pointing away, this gives S.
+
+For the SMILES `N(...)[C@@H](CNC(=O)Ar)C(=O)OC`, the neighbours in order are N (preceding atom), H, CH2, C(=O). Viewed from N, the sequence H → CH2 → C(=O) is clockwise for @@. To check this against S, I permute the order to put H first: the order (N, H, CH2, CO) becomes (H, N, CH2, CO) after one swap, which flips the symbol to @. Viewed from H, N → CH2 → CO is then counterclockwise. Viewed from the side opposite H, it is clockwise, so N → CH2 → CO is clockwise. The priority order N → CO → CH2 is the reverse of this, so it is counterclockwise, which is S. So @@ gives S, which matches the drawing.
+
+SMILES: COC(=O)[C@H](NS(=O)(=O)c1ccc(cc1)-c1ccc(cc1)S(=O)(=O)NCCN)CNC(=O)c1ccc2c(c1)n(C)nc2CNc1nccn1C(c1ccccc1)(c1ccccc1)c1ccccc1
+
+I wrote the final SMILES with the ester first, so the stereo symbol needs rechecking. The neighbour order is C(ester) (preceding), H, N, CH2. Starting from the form N, H, CH2, CO with @@, I permute to (CO, H, N, CH2). The mapping from (N, H, CH2, CO) to (CO, H, N, CH2) is a cyclic rotation of three elements (N → CH2 → CO), which is an even permutation, so the symbol stays @@.
+
+SMILES: COC(=O)[C@@H](NS(=O)(=O)c1ccc(cc1)-c1ccc(cc1)S(=O)(=O)NCCN)CNC(=O)c1ccc2c(c1)n(C)nc2CNc1nccn1C(c1ccccc1)(c1ccccc1)c1ccccc1

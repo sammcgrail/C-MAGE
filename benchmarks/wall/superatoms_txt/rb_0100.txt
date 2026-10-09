@@ -1,0 +1,18 @@
+I read the molecule as a ritonavir-type structure with an extra methyl on the carbon that bears the amide NH, and assigned each drawn stereocentre as follows.
+
+**Connectivity, left to right:**
+- A 2-isopropylthiazol-4-yl group, joined through CH2 to N(CH3).
+- That N(CH3) carries a urea C=O, which links to the NH of a valine unit.
+- The valine C=O forms an amide with an NH on a quaternary carbon that bears CH3 and CH2Ph.
+- That carbon is followed by CH2, then CH(OH), then CH(CH2Ph)–NH.
+- The terminal NH is a carbamate, NH–C(=O)–O–CH2, attached to thiazol-5-yl.
+
+**Stereocentres (from the wedges and hashes):**
+- Valine α-carbon: H hashed, isopropyl wedged. This gives S (L-valine), written `N[C@@H](C(C)C)C(=O)`.
+- Quaternary carbon: CH3 wedged, benzyl hashed. This gives S, written `N[C@@](C)(Cc2ccccc2)C`.
+- CH(OH): OH wedged. This gives S, written `C[C@H](O)`.
+- CH(NH) carbon: H wedged. This gives S, written `[C@H](Cc2ccccc2)N`.
+
+I assigned each centre by CIP priority and then converted to the @/@@ tags in the order the neighbours appear in the SMILES. I did not run the string through a parser, so validity rests on the manual check.
+
+SMILES: CC(C)c1nc(CN(C)C(=O)N[C@@H](C(C)C)C(=O)N[C@@](C)(Cc2ccccc2)C[C@H](O)[C@H](Cc2ccccc2)NC(=O)OCc2cncs2)cs1

@@ -1,0 +1,15 @@
+I read the structure in four regions and assembled the SMILES from them.
+
+1. **Left end:** a 1,4,5,6-tetrahydropyrimidin-2-yl guanidine-type group. It is joined through NH and a three-carbon propyl chain to N1 of an indazole.
+2. **Indazole and first amino acid:** the indazole C5 carries a C(=O)NH group. This leads to a CH2 and then a stereocentre bearing NH–SO2 and a methyl ester. The wedge to the ester gives the [C@H] centre; I worked out the @/@@ assignment from the wedge geometry.
+3. **Middle section:**
+   - The sulfonyl group sits on a 2,6-dimethylphenyl ring.
+   - The ring's para position carries O–CH2CH2CH2–C(=O)NH.
+   - That amide continues through an ethylene-diamine linker (NCCN) to a C(=O) on the α-carbon of a glutamic acid residue.
+   - This α-carbon has a wavy bond, so it gets no stereo label.
+   - Its side chain is CH2CH2C(=O)O-tBu.
+4. **Right end:** a second glutamate residue linked through its amide. The wedge on its CH2 side chain gives the [C@@H](N) centre, which matches the L-glutamate configuration. It has a free NH2 and a tert-butyl ester on the side chain.
+
+I checked that the ring closures and branches in the SMILES close properly and that every atom in the drawing is accounted for.
+
+SMILES: C1(=NCCCN1)NCCCn1ncc2cc(C(=O)NC[C@H](NS(=O)(=O)c3c(C)cc(OCCCC(=O)NCCNC(=O)C(CCC(=O)OC(C)(C)C)NC(=O)[C@@H](N)CCC(=O)OC(C)(C)C)cc3C)C(=O)OC)ccc21

@@ -1,0 +1,14 @@
+I read the structure in four parts and joined them into one SMILES.
+
+1. **Left end:** an indazole whose N1 carries a CH2CH2–NH chain ending in a 2-amino-3,4,5,6-tetrahydropyridine (cyclic amidine). Its C5 carries a carboxamide, C(=O)NH.
+2. **Diaminopropionic acid unit:** the amide NH is attached to CH2, then to the α-carbon, which bears the COOH and an NH–SO2 group.
+   - The wedge on the COOH bond fixes this centre. With the implicit H pointing away, COOH, CH2 and N run counterclockwise, which gives `[C@H]` in the SMILES order used below.
+3. **Sulfonyl aryl group:** a 2,6-dimethylphenyl ring with a para O–CH2CH2CH2–C(=O)NH–CH2CH2–NH chain. The drawing shows the second N as plain "N", and I read it as NH.
+4. **Right end:** that NH is acylated by a glutamic acid residue.
+   - Its α-nitrogen carries a Cbz group (C(=O)OCH2Ph).
+   - Its side chain is CH2CH2C(=O)O-tert-butyl.
+   - The wedge is on the CH2 bond. With H pointing away, C(=O), N and CH2 run clockwise, which gives `[C@@H]` in the SMILES order used below.
+
+The indazole ring SMILES was checked atom by atom against the drawing (C5 attached to the carbonyl, N1 bearing the side chain, N2=C3 on the opposite side).
+
+SMILES: OC(=O)[C@H](CNC(=O)c1ccc2n(CCNC3=NCCCC3)ncc2c1)NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)[C@@H](NC(=O)OCc2ccccc2)CCC(=O)OC(C)(C)C)cc1C

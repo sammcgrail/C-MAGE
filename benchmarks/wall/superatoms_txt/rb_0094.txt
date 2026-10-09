@@ -1,0 +1,24 @@
+The molecule is 9,9'-spirobifluorene carrying a 1,10-phenanthrolin-2-yl group at the 2 position of each fluorene unit.
+
+**Phenanthroline unit.** Phenanthroline is 1,10-phenanthroline, with N1 and N10 on the same side. The substituent sits at C2, which is adjacent to N1. As a SMILES fragment: c1ccc2ccc3ccc(-R)nc3c2n1.
+
+Checking the left unit against the drawing:
+- The upper ring contains N (top right) and is bonded to the lower ring through the C8a–C10a fusion.
+- The lower ring has N at the bottom, bonded to the carbon bearing the fluorene.
+- The two N atoms are on the same side, which matches 1,10-phenanthroline.
+
+**Spiro core.** The spiro carbon is C1(c2ccccc2-c2ccc(R)cc21) for one fluorene, and the second fluorene is attached in the same way.
+
+Fluorene numbering: the spiro carbon is C9, and C9a is bonded to C1. The substituent is on C2, which is para to C4a, the carbon bonded to the biaryl bond. In the drawing, the upper fluorene's substituted ring has the aryl carbon at the upper right. C9a is the ring carbon at the lower left, bonded to the spiro carbon. The substituted carbon is separated from C9a by one CH (C1), so it is C2. The substituent is therefore meta to C9a and para to C4a.
+
+**Writing the SMILES.** For the spiro center:
+C12(c3ccccc3-c3ccc(Ar)cc31)c1ccccc1-c1ccc(Ar)cc12
+
+In the first fluorene, the ring is c3ccc(Ar)cc31. It starts at the carbon bonded to the other benzo ring (C4a), then C4, C3, C2(Ar), C1, and finally C9a closing onto the spiro carbon. C2 is therefore para to C4a, which is correct.
+
+Ar is the phenanthrolin-2-yl group: c1ccc2ccc3cccnc3c2n1, written with the attachment at the first atom as c1ccc2ccc3cccnc3c2n1, where the attachment carbon is the one adjacent to n1.
+
+Full SMILES:
+C12(c3ccccc3-c3ccc(-c4ccc5ccc6cccnc6c5n4)cc31)c1ccccc1-c1ccc(-c3ccc4ccc5cccnc5c4n3)cc12
+
+SMILES: C12(c3ccccc3-c3ccc(-c4ccc5ccc6cccnc6c5n4)cc31)c1ccccc1-c1ccc(-c3ccc4ccc5cccnc5c4n3)cc12

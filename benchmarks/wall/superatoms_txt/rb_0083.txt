@@ -1,0 +1,11 @@
+I read the structure region by region and wrote it as SMILES. I did not run it through a parser, so validity rests on checking the ring closures by hand.
+
+- **Carbamate end:** an isopropyl ester, `CC(C)OC(=O)`, attached to an imine nitrogen, `N=C`.
+- **Guanidine carbon:** it carries `NH` and a piperazine nitrogen. The piperazine's other nitrogen bears a 2-pyridyl group, `N1CCN(c2ccccn2)CC1`.
+- **Chain from the NH:** `NC[C@@H](C)` leads to the pyrrole carbon of the fused ring. The methyl is on a hashed bond, so this is the only stereocentre drawn.
+- **Fused core:** a thieno[2,3-b]pyrrole. The pyrrole carbon next to the chain carries a 3,5-dimethylphenyl group, and the pyrrole NH sits next to the carbon bonded to sulfur. The thiophene carbon on the far side of sulfur carries the substituent below.
+- **Substituent on the thiophene:** `C(C)(C)C(=O)N`, a gem-dimethyl carbon followed by an amide. The amide nitrogen is the bridging nitrogen of a 7-azabicyclo[2.2.1]heptane, written `N3C4CCC3CC4`.
+
+**Stereochemistry:** at the chain stereocentre the neighbours are the CH2, the hashed methyl, the ring carbon and an implicit H. The hashed methyl points away from the viewer, so the H points toward the viewer. From that side, CH2 → CH3 → ring carbon runs counterclockwise. Written in the order CH2, H, CH3, ring carbon, this corresponds to `@@`.
+
+SMILES: CC(C)OC(=O)N=C(NC[C@@H](C)c1c(-c2cc(C)cc(C)c2)[nH]c2sc(C(C)(C)C(=O)N3C4CCC3CC4)cc12)N1CCN(c2ccccn2)CC1

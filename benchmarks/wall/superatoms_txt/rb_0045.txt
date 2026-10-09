@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Left end:** a 2-amino-3,4,5,6-tetrahydropyridine (cyclic amidine, ring N drawn as =N) is attached through NH–CH2CH2 to N1 of an indazole. The indazole carries a C(=O)NH amide at C5.
+- **First amino-acid unit:** the amide NH is attached to a CH2, which is attached to a CH bearing a methyl ester and an NH–SO2 group. The wedge on the ester bond makes this centre S, which is the L-2,3-diaminopropionic acid configuration. I checked this by CIP priorities (N > CO2Me > CH2N > H).
+- **Middle:** a biphenyl with a sulfonyl group at each para position. One sulfonamide N is the NH on the Dap alpha carbon. The other is NH–CH2CH2–NH.
+- **Right end:** that NH–CH2CH2–NH is acylated by a glutamic acid unit. Its alpha-NH carries a Cbz group (C(=O)OCH2Ph), and its side-chain acid is a tert-butyl ester. The wedge on the CH2 bond gives the S (L-Glu) configuration, again checked by CIP priorities (N > C(=O)N > CH2 > H).
+
+I then converted both centres to SMILES chirality tags, which came out as `[C@H]` for each.
+
+SMILES: C1(=NCCCC1)NCCn1ncc2cc(ccc21)C(=O)NC[C@H](NS(=O)(=O)c1ccc(cc1)-c1ccc(cc1)S(=O)(=O)NCCNC(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)OCc1ccccc1)C(=O)OC

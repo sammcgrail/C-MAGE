@@ -1,0 +1,8 @@
+I read the molecule as three parts joined in a row: a 2,2-diphenylbenzodioxole, an (E)-allylamine linker, and a 5'-deoxy-adenosine acetonide. The stereo assignment for the sugar rests on assuming natural D-ribose configuration.
+
+- **Benzodioxole part:** The benzene ring carries the two ring oxygens, which are bridged by a CPh2 carbon. The ring carbon next to an oxygen-bearing carbon bears the amide C(=O)NH. The cyclohexyl ketone sits on the ring carbon meta to the amide carbon.
+- **Linker:** The amide nitrogen connects to CH2 (7'), then CH=CH (6' and 5') with trans geometry, then to C4' of the sugar.
+- **Sugar:** The ribose ring (O, C1'–C4') carries adenin-9-yl on C1'. The C2' and C3' oxygens are bridged by a C(CH3)2 group, forming the acetonide. The bold C2'–C3' bond puts those oxygens on the same face of the ring, the cis arrangement of natural D-ribose.
+- **Stereochemistry:** I took the chirality tags from the adenosine SMILES `Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO)[C@@H](O)[C@H]1O`. I then re-derived the C3' and C2' tags for the acetonide ring-closure order, which gives `[C@H]2` for C3' and `[C@@H]12` for C2'. The C4' tag is unchanged, because its neighbour order is the same as in adenosine.
+
+SMILES: Nc1ncnc2c1ncn2[C@@H]1O[C@H](/C=C/CNC(=O)c3cc(C(=O)C4CCCCC4)cc4c3OC(c3ccccc3)(c3ccccc3)O4)[C@H]2OC(C)(C)O[C@@H]12

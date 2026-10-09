@@ -1,0 +1,14 @@
+I read the structure in four parts and wrote the SMILES from them.
+
+- **Quinoline:** a 7-methoxy-2-phenylquinolin-4-yl group, attached through an ether oxygen to C4 of the pyrrolidine.
+- **Pyrrolidine nitrogen:** acylated with a 2-hydroxy-2-phenylacetyl group. That carbon is drawn with plain bonds, so I gave it no stereo.
+- **Pyrrolidine C2:** carries the carboxamide, which is bonded to the cyclopropyl nitrogen.
+- **Cyclopropane:** a 1-amino-2-vinylcyclopropane-1-carbonyl unit, with the carbonyl linked to NH–SO2–cyclopropyl (an acylsulfonamide).
+
+For stereochemistry, the drawing puts the carboxamide wedge at C2 and the hashed O at C4 on opposite faces of the pyrrolidine. That is the trans arrangement, which I wrote as (2S,4R). I derived the C2 and C4 chirality tags from the known L-trans-4-hydroxyproline SMILES and checked them against the order I wrote the atoms in.
+
+I did not derive the cyclopropane tags from the wedges. I took them from the standard (1R,2S)-vinyl-cyclopropane pattern (vinyl-ACCA, 1-amino-2-vinylcyclopropanecarboxylic acid) used for this class of compounds, which I recalled from memory, so that part is the least certain.
+
+SMILES: C=C[C@@H]1C[C@]1(NC(=O)[C@@H]2C[C@@H](Oc3cc(-c4ccccc4)nc4cc(OC)ccc34)CN2C(=O)C(O)c2ccccc2)C(=O)NS(=O)(=O)C1CC1
+
+Note that the final string reuses ring-closure label 1, which is legal because the first cyclopropane ring is closed by then, so it stays valid.

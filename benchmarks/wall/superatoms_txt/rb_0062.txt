@@ -1,0 +1,16 @@
+I read the structure region by region and wrote it as the SMILES below.
+
+**Fragments**
+- **Heteroaryl ether:** a pyridine with the ring oxygen at C2, a 2-thienyl group at C4 and a phenyl group at C6.
+- **Pyrrolidine core:** the ring carries the aryloxy group at C4 (hashed bond) and the carboxamide at C2 (wedge bond to ring N).
+- **N-acyl group:** the proline nitrogen is acylated by a 2-hydroxy-3-methylbutanoyl unit. Its hydroxyl is a tert-butyl carbamate, written O–C(=O)–NH–C(CH3)3, so this link is an ester rather than an amide. The isopropyl group is on a hashed bond.
+- **Cyclopropane:** a 1-amino-2-vinylcyclopropane-1-carbonyl unit, closed off as the N-cyclopropylsulfonyl amide (C(=O)NHSO2-cyclopropyl).
+
+**Stereochemistry**
+- Pyrrolidine C2 is S and C4 is R, derived from the wedge and hash bonds.
+- The carbamate-bearing carbon is S, derived from the hashed isopropyl bond.
+- Cyclopropane C1 is R and C2 (vinyl-bearing) is S. I assumed this (1R,2S) pattern from the usual vinyl-cyclopropane amino acid in this compound class rather than deriving it from the drawn wedges.
+
+I checked each @/@@ tag against the CIP priorities by permutation parity.
+
+SMILES: CC(C)(C)NC(=O)O[C@@H](C(C)C)C(=O)N1C[C@H](Oc2cc(-c3cccs3)cc(-c3ccccc3)n2)C[C@H]1C(=O)N[C@@]1(C[C@H]1C=C)C(=O)NS(=O)(=O)C1CC1

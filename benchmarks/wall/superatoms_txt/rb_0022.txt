@@ -1,0 +1,12 @@
+I read the structure region by region and assembled it as follows.
+
+- **Indazole core:** N1 carries the side chain, C3 is a plain CH, and the carbonyl is on C5 of the benzo ring.
+- **N1 side chain:** a three-carbon chain (CH2CH2CH2) leads to NH and then to pyrimidin-2-yl.
+- **Amide and amino acid unit:** the C5 carbonyl forms an amide with NH–CH2, which attaches to the alpha carbon. That carbon bears a sulfonamide NH and a methyl ester, C(=O)OCH3.
+- **Stereocentre:** the ester bond is drawn as a wedge. With H pointing away, the priorities are N > CO2Me > CH2N, and N → CO2Me → CH2 runs counterclockwise, so the centre is S. In the SMILES written as `NC[C@H](N…)C(=O)OC`, this corresponds to `@`.
+- **Sulfonyl aryl group:** the sulfonyl sits on a benzene ring with methyl groups at both ortho positions. The para position carries an O–CH2CH2CH2–C(=O) chain, which I counted as three CH2 groups before the carbonyl.
+- **Chain terminus:** the carbonyl is bonded to NH–CH2CH2–NH–C(=O)–O–CH2–phenyl, a Cbz-protected amine.
+
+I checked that the SMILES parses and matches the drawing atom for atom.
+
+SMILES: O=C(NC[C@H](NS(=O)(=O)c1c(C)cc(OCCCC(=O)NCCNC(=O)OCc2ccccc2)cc1C)C(=O)OC)c1ccc2c(c1)cnn2CCCNc1ncccn1

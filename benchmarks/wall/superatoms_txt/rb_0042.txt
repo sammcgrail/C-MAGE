@@ -1,0 +1,11 @@
+I read the molecule region by region and wrote the SMILES from that reading.
+
+- **Left end:** a 7-azabicyclo[2.2.1]heptane nitrogen is acylated by C(=O)C(CH3)2, and that quaternary carbon is attached to the thiophene ring.
+- **Core:** a thieno[2,3-b]pyrrole. Thiophene C2 carries the dimethyl-acyl group, C3 is CH, and the fusion carbon next to S is bonded to the pyrrole NH. On the pyrrole ring, C5 bears a 3,5-dimethylphenyl group and C4 bears the side chain.
+- **Side chain:** C4 is bonded to a CH(CH3) carbon, then CH2, then NH. The methyl on this carbon is drawn with a hashed bond, so it is the only stereocentre.
+- **Guanidine:** the NH is bonded to a guanidine carbon that is double-bonded to N–C(=O)O-isopropyl and single-bonded to a piperazine nitrogen. The other piperazine nitrogen carries a pyridin-4-yl group.
+- **Stereochemistry:** the hashed methyl points away from the viewer, so the implicit H points toward the viewer. Working through the neighbour order in the SMILES gives `[C@H]`.
+
+I checked that ring-closure labels are reused only after they close and that the atom count matches the drawing.
+
+SMILES: CC(C)(C(=O)N1C2CCC1CC2)c1cc2c(s1)[nH]c(-c1cc(C)cc(C)c1)c2[C@H](C)CNC(=NC(=O)OC(C)C)N1CCN(CC1)c1ccncc1

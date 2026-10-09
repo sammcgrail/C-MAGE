@@ -1,0 +1,21 @@
+I read the structure in four regions and assembled the SMILES from them.
+
+**Left region.** A benzene ring is fused to a six-membered cyclic urea: NH, then C(=O), then N, then CH2, then back to the aromatic ring. This is a 3,4-dihydroquinazolin-2(1H)-one. Its N3 is bonded to the 4-position of a piperidine.
+
+SMILES fragment: O=C1Nc2ccccc2CN1C1CCN(CC1)...
+
+**Urea link.** The piperidine nitrogen carries a C(=O) group, which connects to an NH. That NH is bonded to a stereocentre drawn with plain bonds, so I give it no stereo label.
+
+**Central carbon.** It carries three substituents:
+- the NH of the urea
+- a C(=O) group that forms an amide with the nitrogen of a 4-(piperidin-1-yl)piperidine
+- a CH2 group attached to the nitrogen of a pyridone
+
+**Pyridone ring.** The ring nitrogen is bonded to CH2. Going around the ring from N: C(=O), then CH, then C(OBn), then CH, then CH, then back to N. The SMILES is n1(C...)c(=O)cc(OCc2ccccc2)cc1, which can also be written with explicit bond orders as N1C=CC(OCc2ccccc2)=CC1=O.
+
+**Assembled SMILES:**
+O=C1Nc2ccccc2CN1C1CCN(CC1)C(=O)NC(Cn1ccc(OCc2ccccc2)cc1=O)C(=O)N1CCC(CC1)N1CCCCC1
+
+I checked the pyridone fragment, n1ccc(OBn)cc1=O. The atoms run N1, C6H, C5H, C4(OBn), C3H, C2(=O), which matches the drawing.
+
+SMILES: O=C1Nc2ccccc2CN1C1CCN(CC1)C(=O)NC(Cn1ccc(OCc2ccccc2)cc1=O)C(=O)N1CCC(CC1)N1CCCCC1
