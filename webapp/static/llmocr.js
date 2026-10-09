@@ -151,12 +151,16 @@ function G(rows){ return '<div class="hbg">' + rows + '</div>'; }
 /* Headline cards at the top. Row 1: the images all four read (same numbers as "Exact, same
    images"). Row 2: every image each reader was run on, each on its own n. A view the tool arms
    have not read has no shared set, so it gets row 2 only. bigCards() lives in index.html. */
+function bindAll(){ var d = $("#loall"); if (d) d.addEventListener("toggle", function(){ S.allOpen = d.open; }); }
 function topCards(){
   var V = VW(), s = V.shared, each = V.each.filter(function(x){ return x.n; });
   var cards = function(xs){ return bigCards(xs.map(function(x){ var a = ARM[x.id];
     return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; })); };
   return (s.n ? '<div class="cmph"><b>Same images</b> · the ' + fmt(s.n) + ' all four read</div>' + cards(s.arms) : '')
-    + '<div class="cmph"><b>All available images</b></div>' + cards(each);
+    /* Collapsed by default when there is a shared row above it; it is the only row otherwise. */
+    + (s.n ? '<details class="cmpd" id="loall"' + (S.allOpen ? ' open' : '') + '><summary><b>All available images</b>'
+        + '<span class="hint">Show</span></summary>' + cards(each) + '</details>'
+           : '<div class="cmph"><b>All available images</b></div>' + cards(each));
 }
 
 function cardShared(){
@@ -403,6 +407,7 @@ function setView(v){
   S.view = v;
   [].forEach.call(document.querySelectorAll(".lo .srcsw .chip"), function(x){ x.setAttribute("aria-pressed", x.dataset.v === v); });
   $("#locards").innerHTML = topCards();
+  bindAll();
   $("#locharts").innerHTML = chartsHTML();
   liveControl();
   var box = $("#lofail .fchips"); if (box) box.replaceWith(chips());
@@ -426,6 +431,7 @@ function render(view, data){
     + '<div class="block" id="lofail"><h2 class="blockh">Failures and disagreements</h2></div>';
   view.appendChild(root);
   root.querySelector("#lofail").appendChild(chips());
+  bindAll();
   var wh = el("div", "ckey"); wh.id = "lowallh";
   wh.innerHTML = 'Cells: ' + D.arms.map(function(a){ return '<span><u>' + esc(a.tag) + '</u> = ' + esc(a.label.replace(" (OCR)", "")) + '</span>'; }).join("")
     + ' &nbsp; <span><i class="c-e"></i>exact</span><span><i class="c-s"></i>stereo only</span>'
