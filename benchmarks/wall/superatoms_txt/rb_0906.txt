@@ -1,0 +1,16 @@
+The drawing is a PROTAC-like molecule. I read it in four pieces and then joined them.
+
+**Naphthalene core.** C1 carries the NH–SO2–thiophene group. C2 is CH. C3 carries the S-triazole. C4 carries OH. The second ring is fused benzo.
+
+**Sulfonamide.** The group is NH–S(=O)(=O)–thiophen-2-yl, written `NS(=O)(=O)c1cccs1`.
+
+**Triazole.** The ring atoms are C3 (bearing S), N4, C5(H), N1 (bearing the chain) and N2. The drawing shows N at the top, then CH, then N1 bearing the chain, then N2 at the bottom, with C3 attached to S. As SMILES, `Sc1ncn(CC...)n1` matches: C3 is bonded to N4, N4 to C5, C5 to N1, N1 to N2, and N2 back to C3.
+
+**Linker and imide end.** From N1 the chain is CH2CH2–O–CH2CH2–O–CH2CH2–O–aryl. The aryl is the phthalimide benzene, with the O at the 5-position. The imide nitrogen carries the 2,6-dioxopiperidin-3-yl ring.
+
+**Assembly.**
+- Naphthalene: `c1ccc2c(c1)c(NS(=O)(=O)c1cccs1)cc(Sc1ncn(CCOCCOCCOc3ccc4c(c3)C(=O)N(C3CCC(=O)NC3=O)C4=O)n1)c2O`
+- Ring closure check: the atoms `c1ccc2c(c1)c(N...)cc(S...)c2O` close ring 2 at the C–OH carbon, which is bonded to the ring-fusion carbon. This is correct.
+- Phthalimide: `c3ccc4c(c3)C(=O)N(...)C4=O` places the O-bearing carbon c3, then cc, then the fusion carbon c4, then c(c3), which is the other fusion carbon bonded to the CH. The O-bearing carbon is therefore adjacent to that CH, which is adjacent to the fusion carbon bearing C(=O). This gives the 5-position, as drawn.
+
+SMILES: O=C1CCC(N2C(=O)c3ccc(OCCOCCOCCn4cnc(Sc5cc(NS(=O)(=O)c6cccs6)c6ccccc6c5O)n4)cc3C2=O)C(=O)N1

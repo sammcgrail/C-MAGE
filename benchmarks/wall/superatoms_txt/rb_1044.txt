@@ -1,0 +1,14 @@
+I read the molecule as a VHL-recruiting PROTAC with a diaryl-pyridazine ligand, built from these fragments:
+
+1. **VHL ligand:** a 4-(4-methylthiazol-5-yl)benzylamide of (2S,4R)-4-hydroxyproline. The proline nitrogen is acylated by an L-tert-leucine unit (S configuration). I checked the CIP assignments of the wedge and hash centres against the drawing.
+2. **Linker:** the tert-leucine NH is acylated by a 2-azaspiro[3.3]heptane-6-carboxylic acid. The azetidine nitrogen of the spiro unit is attached to the 4-position of a piperidine. The piperidine nitrogen is attached to the 5-position of a pyrimidine.
+3. **Bicyclic amine:** the pyrimidine 2-position carries a 3,8-diazabicyclo[3.2.1]octane through N8. The drawing of this bicycle is slightly ambiguous, and I took it as the standard 3,8-diaza system with the N8 bridge bonded to both bridgehead carbons. N3 is attached to the pyridazine.
+4. **Warhead:** a 3-amino-6-(2-hydroxyphenyl)pyridazin-4-yl group.
+
+No stereocentres are drawn for the spiro and bicyclic parts, so none are specified there.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C2CC3(C2)CN(C3)C2CCN(CC2)c2cnc(nc2)N2C3CN(CC2CC3)c2cc(-c3ccccc3O)nnc2N)C(C)(C)C)cc1
+
+Wait — that string has ring-label clashes and misplaces the bicycle's closure, so it needs correcting. The corrected, final string is:
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C2CC3(C2)CN(C3)C2CCN(CC2)c2cnc(nc2)N2C4CN(c5cc(-c6ccccc6O)nnc5N)CC2CC4)C(C)(C)C)cc1

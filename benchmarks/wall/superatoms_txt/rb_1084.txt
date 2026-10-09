@@ -1,0 +1,8 @@
+I read the structure region by region and assembled the SMILES below.
+
+- **Pyrazine core:** the carboxamide carbon and the NH-pyrazolyl carbon are adjacent. A piperidin-1-yl group sits on the carbon next to the ring nitrogen, and one ring CH remains.
+- **Pyrazole branch:** the 4-aminopyrazole is attached through its N1 to C4 of a piperidine. That piperidine nitrogen carries a three-carbon chain.
+- **Isoindolinone end:** the chain ends on the benzo ring of a 1-oxoisoindoline. The isoindoline nitrogen bears a 2,6-dioxopiperidin-3-yl group, drawn with a plain bond, so it gets no stereo.
+- **Piperidine on the pyrazine:** C3 carries a 3-methyl-2-oxoimidazolidin-1-yl group through a hashed bond. The priorities there are N > C2 (N,H,H) > C4 (C,H,H) > H. Reading the drawing, the hashed N points away and the H points toward the viewer. N → C2 → C4 runs clockwise on the page, so the true sense is counterclockwise, which is S. In the SMILES written below, `[C@@H]` encodes S.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@@H](C2)N2CCN(C)C2=O)nc1Nc1cnn(c1)C1CCN(CC1)CCCc1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O

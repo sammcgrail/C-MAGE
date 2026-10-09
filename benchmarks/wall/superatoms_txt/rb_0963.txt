@@ -1,0 +1,18 @@
+I read the structure in four parts and joined them.
+
+- **Pyrazine core:** a pyrazine carrying a carboxamide (C(N)=O), an anilino NH, and a piperidin-1-yl group on the carbon between the ring nitrogens. The remaining ring carbon is CH.
+- **Stereocentre:** the piperidine C3 carries a wedged bond to the N of a 3-methyl-2-oxoimidazolidine. Ranking the substituents N(imidazolidinone) > C2 > C4 > H, with H pointing away, gives clockwise, so the centre is R. In the SMILES this is written `[C@H]` with the neighbour order C2, H, N, C4.
+- **Linker:** the aniline's phenyl is attached to one nitrogen of a 3,9-diazaspiro[5.5]undecane. The other nitrogen is acylated by C(=O)CH2CH2–O–CH2CH2CH2–.
+- **Lenalidomide-type end:** the propyl chain ends on C4 of a 3-oxoisoindoline, the carbon next to the ring-fusion carbon that bears the CH2. The isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl group, drawn with plain bonds, so no stereo is assigned there.
+
+SMILES: NC(=O)c1nc(N2CCC[C@H](C2)N3CCN(C)C3=O)cnc1Nc4ccc(cc4)N5CCC6(CC5)CCN(CC6)C(=O)CCOCCCc7cccc8c7CN(C9CCC(=O)NC9=O)C8=O
+
+Checking against the drawing: the pyrazine closure is c1…c1, so ring atoms are C(carboxamide), C(NHAr), N, C(pip), CH, N. The piperidine fragment `N2CCC[C@H](C2)` is a six-membered ring.
+
+Let me correct the pyrazine ordering in the string: as written, `c1nc(N2…)cnc1N…` gives C(CONH2), N, C(pip), CH, N, C(NHAr). That puts the NHAr carbon adjacent to the carboxamide carbon and to a ring N, which matches the drawing.
+
+SMILES: NC(=O)c1nc(N2CCC[C@H](C2)N3CCN(C)C3=O)cnc1Nc4ccc(cc4)N5CCC6(CC5)CCN(CC6)C(=O)CCOCCCc7cccc8c7CN(C9CCC(=O)NC9=O)C8=O
+
+Wait: that string has the pyrazine as C(CONH2)–N–C(pip)–CH–N–C(NHAr), which puts a ring N between the carboxamide carbon and the piperidine-bearing carbon, but in the drawing the carboxamide carbon is flanked by one ring N and the NHAr carbon. Both readings give the same connectivity: the carboxamide carbon has one ring N neighbour and the NHAr carbon neighbour, and the piperidine-bearing carbon sits between the other N and CH. So the string is correct.
+
+SMILES: NC(=O)c1nc(N2CCC[C@H](C2)N3CCN(C)C3=O)cnc1Nc4ccc(cc4)N5CCC6(CC5)CCN(CC6)C(=O)CCOCCCc7cccc8c7CN(C9CCC(=O)NC9=O)C8=O

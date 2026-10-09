@@ -1,0 +1,11 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+1. **Pyrazine core.** The ring carries a carboxamide (C(N)=O) at the top-left carbon. The adjacent carbon on the right carries the NH–aryl group. The carbon at the bottom-left carries the piperidine nitrogen. The other two ring positions are one CH and two ring nitrogens.
+
+2. **Substituted piperidine.** The piperidine nitrogen is attached to the pyrazine. Its C3 carries the N of a 3-methyl-2-oxoimidazolidine through a wedge bond. Viewed with H pointing away, the substituents run N (lower left), then C2 (up), then C4 (lower right). That is clockwise, and the priorities are N > C2 > C4, so the centre is R. Written as `N1CCC[C@H](C1)N1...`, the chirality tag `@` gives R.
+
+3. **Linker.** The central phenylene is para-substituted. One side is the NH to the pyrazine. The other side is a piperidin-4-yl whose nitrogen carries a –CH2CH2CH2–NH– chain.
+
+4. **Right-hand end.** The chain NH is attached to the 4-position of a phthalimide. The phthalimide nitrogen is attached to C3 of a 2,6-dioxopiperidine. That carbon is drawn with plain bonds, so it gets no stereo label.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(cc1)C1CCN(CCCNc2cccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c23)CC1)N1CCC[C@H](C1)N1CCN(C)C1=O

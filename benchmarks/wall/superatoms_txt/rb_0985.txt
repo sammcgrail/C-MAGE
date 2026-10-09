@@ -1,0 +1,15 @@
+I read the structure in sections and joined them into one SMILES. It is a VHL-type degrader: a hydroxyproline–tert-leucine–thiazolylbenzylamide E3 ligand joined through a urea to a trans-looking cyclohexyl–pyrimidine–diazabicyclooctane–aminopyridazine–phenol unit.
+
+**Fragments, left to right**
+- **Phenol and pyridazine:** a 2-hydroxyphenyl sits on C6 of the pyridazine. C3 carries NH2 and C4 carries the bicyclic amine.
+- **Bicyclic amine:** it is a 3,8-diazabicyclo[3.2.1]octane. N3 attaches to the pyridazine, and the bridging N8 attaches to C2 of the pyrimidine.
+- **Pyrimidine and cyclohexane:** the pyrimidine is 2,5-disubstituted. Its C5 bonds to the cyclohexane, which carries the urea NH at the 1,4-position.
+- **Urea and tert-leucine:** the urea links the cyclohexyl NH to the NH of tert-leucine. The tert-butyl group is on the α-carbon.
+- **Hydroxyproline and tail:** the proline carries the 4-OH. Its amide goes to a 4-(4-methylthiazol-5-yl)benzyl group.
+
+**Stereochemistry**
+- **Cyclohexane:** both ring substituents are drawn with hashed bonds, so they are on the same face. I encoded this as cis (`@` and `@@`). The relative stereo depends on this reading of the hashes.
+- **tert-Leucine:** the hashed NH bond gives the L configuration (S), written `N[C@@H](C(C)(C)C)C(=O)`.
+- **Hydroxyproline:** I assumed the standard VHL ligand (2S,4R) rather than deriving each centre from the wedges. This is the standard SMILES pattern for that ligand.
+
+SMILES: Oc1ccccc1-c1cc(N2CC3CCC(C2)N3-c2ncc(cn2)[C@H]2CC[C@@H](CC2)NC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)c(N)nn1

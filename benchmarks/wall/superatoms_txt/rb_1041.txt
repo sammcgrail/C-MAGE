@@ -1,0 +1,19 @@
+Reading the structure from left to right:
+
+1. **Pyridin-3-yl** on the far left, attached to C2 of a thieno[2,3-b]pyridine.
+2. **Thieno[2,3-b]pyridine:** the thiophene ring has S, C2 (bearing the pyridyl) and C3 (CH). C3a joins the pyridine ring, then C4 and C5 (both CH), then C6 (attached to the next pyridine). N7 follows, and C7a is bonded to S.
+3. **Second pyridine:** attached through its 3-position to thienopyridine C6. Its 6-position carries the pyrrolidine nitrogen.
+4. **Pyrrolidine:** N-linked, with an O substituent at C3.
+5. **Linker:** O-CH2CH2-O-CH2CH2-O-CH2CH2-O-, ending on the aryl ring of the isoindoline-dione.
+6. **Thalidomide-type end:** an isoindoline-1,3-dione carrying the ether at C5, with N-(2,6-dioxopiperidin-3-yl).
+
+Thienopyridine SMILES: c1(-c2cccnc2)cc2ccc(nc2s1)-c1ccc(nc1)N...
+
+Full SMILES:
+c1cnccc1 is written with the attachment at position 3: c1ccncc1-c1cc2ccc(nc2s1)-c1ccc(nc1)N1CCC(C1)OCCOCCOCCOc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Checking the ring closures: the pyridyl ring is c1ccncc1, where the first atom bears the substituent and is position 3 relative to N (c1, c, c, n, c, c1 puts N at position 4 from the attachment atom going one way and 3 going the other way, so it is 3-pyridyl). Written explicitly as c1cccnc1 with the attachment on the first atom, N would be at position 5, which is equivalent to 3. Either form is fine.
+
+The aryl ring in the final fragment is c1ccc2C(=O)N(...)C(=O)c2c1. The O-bearing carbon is c1, followed by c, c, then c2 (bearing C=O), and the ring closes through c2 and c1. The ether carbon is therefore adjacent to the CH that is adjacent to the ring-fusion carbon, which gives the 5-position. This matches the drawing.
+
+SMILES: c1ccncc1-c1cc2ccc(nc2s1)-c1ccc(nc1)N1CCC(C1)OCCOCCOCCOc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

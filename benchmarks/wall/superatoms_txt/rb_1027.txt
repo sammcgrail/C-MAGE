@@ -1,0 +1,25 @@
+The structure is an ibrutinib-type BTK ligand joined through a PEG linker to a thalidomide-type cereblon ligand, which makes it a PROTAC. I read it in three parts.
+
+**Left fragment (BTK ligand):**
+- The core is a 4-amino-pyrazolo[3,4-d]pyrimidine.
+- The 3-position carries a 4-phenoxyphenyl group.
+- N1 is bonded to the 4-position of a piperidine ring.
+
+**Linker:**
+- The piperidine nitrogen leads into N-CH2CH2-O-CH2CH2-O-CH2CH2-NH.
+
+**Right fragment (cereblon ligand):**
+- The NH is attached to an isoindoline-1,3-dione at the 5-position of its benzene ring.
+- The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so no stereo is specified.
+
+**Pyrazolopyrimidine SMILES:**
+Nc1ncnc2n(C3CCN(CC3)...)nc(c12)-c1ccc(Oc2ccccc2)cc1
+
+**Full SMILES:**
+Nc1ncnc2c1c(-c1ccc(Oc3ccccc3)cc1)nn2C1CCN(CC1)CCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O
+
+**Checks:**
+- Ring closures are valid: the digit 1 is reused only after it has been closed, and 2 and 3 are likewise reopened only after closing.
+- Isoindoline fragment: c1ccc2c(c1)C(=O)N(...)C2=O. The NH-bearing carbon is c1, and the ring runs c1 c c c2 c(c1), so the ring-fusion carbons are c2 and c(c1). The NH carbon is adjacent to the CH that touches the fusion carbon bearing C(=O), which is consistent with the 5-position.
+
+SMILES: Nc1ncnc2c1c(-c1ccc(Oc3ccccc3)cc1)nn2C1CCN(CC1)CCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O

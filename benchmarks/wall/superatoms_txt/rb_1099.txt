@@ -1,0 +1,11 @@
+I read the molecule as five fragments and joined them in this order.
+
+1. **Naphthalene end:** the naphthalene carries OH, F and an ethynyl group, and is attached to the core at C1. The ethynyl group sits on the carbon next to the ring-fusion carbon (C8), with F on the next carbon (C7).
+2. **Core:** a pyrido[4,3-d]pyrimidine with F at C8, the naphthyl group at C7, the hydroxy-methylpiperidine at C4, and the O-linked cyclopropyl chain at C2.
+3. **3-Hydroxy-3-methylpiperidine:** the quaternary carbon is the only drawn stereocentre. The OH is hashed and the methyl is wedged. I assigned CIP priorities O > CH2N > CH2C > CH3. With the methyl toward the viewer, O → CH2N → CH2C runs counterclockwise, so the centre is R. In the SMILES, `N5C[C@](C)(O)CCC5` encodes R.
+4. **Linker:** the core's O–CH2 leads to a cyclopropane carbon, then CH2 to a piperidine N. The piperidine C4 carries a CH2 to a piperazine N, and the other piperazine N is attached to the phthalimide aryl ring.
+5. **Cereblon-binding end:** the isoindoline-1,3-dione N carries a 2,6-dioxopiperidin-3-yl group. Its C3 is drawn with plain bonds, so it gets no stereo label.
+
+I checked the ring-closure digits by hand, since several are reused.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(-c3ncc4c(N5C[C@](C)(O)CCC5)nc(OCC5(CC5)CN5CCC(CN6CCN(CC6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)CC5)nc4c3F)c12

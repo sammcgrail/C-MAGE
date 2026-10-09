@@ -1,0 +1,12 @@
+I read the structure in six pieces and joined them into one SMILES.
+
+1. **Left end:** a 2-hydroxyphenyl ketone, `C(=O)`, joined to a trans (E) vinyl group `/C=C/`. The vinyl carbon is bonded to a ring nitrogen, so the unit is an enaminone.
+2. **Bicyclic amine:** a 2,5-diazabicyclo[2.2.1]heptane. One nitrogen carries the enaminone and the other is bonded to the pyridine. The two bridgehead carbons are drawn with wedges. I assigned their @/@@ labels from the 2D geometry as `[C@H]2` and `[C@@H]1`.
+3. **Pyridine:** attached to the bicycle at C2, with an oxygen at C4.
+4. **Linker:** the pyridine oxygen carries eight CH2 groups and then `C(=O)NH`. This is followed by `CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2–C(=O)NH`.
+5. **tert-Leucine:** `NH–CH(tBu)–C(=O)`. The hashed N bond gives the S configuration, written `[C@@H]`.
+6. **Right end:** a 4-hydroxyproline with `[C@@H](O)` at C4 and `[C@H]` at C2. Its carboxamide is bonded to a 4-(4-methylthiazol-5-yl)benzyl amine. These labels match the natural VHL-ligand (2S,4R) pattern, which I took to be what the wedges show.
+
+I checked the chain count (eight CH2 before the amide carbonyl), the ring-closure digits and the branch parentheses, and they are consistent with the drawing.
+
+SMILES: O=C(/C=C/N1C[C@H]2C[C@@H]1CN2c1cc(OCCCCCCCCC(=O)NCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)ccn1)c1ccccc1O

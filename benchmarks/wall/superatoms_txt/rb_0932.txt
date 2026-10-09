@@ -1,0 +1,9 @@
+I read the molecule as a PROTAC-type degrader with three parts, and wrote the SMILES region by region.
+
+- **Left end:** a 2-hydroxyphenyl group sits on a 3-aminopyridazine. The pyridazine carbon next to the NH₂ carries a 3,8-diazabicyclo[3.2.1]octane through N3. N8 of the bicycle bonds to C2 of a pyrimidine.
+- **Linker:** the pyrimidine C5 is bonded to a cyclohexane, and C=O is on C4 of that ring. The wedge and hash on the two ring substituents make this a trans-1,4 pair. The carbonyl is an amide to a tert-leucine residue. I assigned that alpha carbon as S from the wedged N.
+- **Right end (VHL ligand):** the tert-leucine C=O acylates a 4-hydroxyproline. I took this as the usual (2S,4R) form, which is consistent with the drawn wedge and hash. The proline carboxamide is on a benzylamine. The benzene ring carries CF₃ ortho to the CH₂ and a 4-methylthiazol-5-yl group para to the CH₂.
+
+I checked the SMILES for valid ring closures. The trans cyclohexane and the stereocentres were assigned by working out the chirality by hand from the drawing.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ncc(cn1)[C@H]1CC[C@@H](CC1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1C(F)(F)F)-c1scnc1C

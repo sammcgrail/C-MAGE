@@ -1,0 +1,23 @@
+The drawing is a PROTAC-like molecule: a ribociclib-type pyrrolo[2,3-d]pyrimidine linked through a benzamide and a propyl chain to a lenalidomide-type isoindolinone. I read it region by region.
+
+**Left fragment (pyrrolopyrimidine).**
+- The core is a pyrrolo[2,3-d]pyrimidine.
+- The pyrrole nitrogen N7 carries a cyclopentyl group.
+- C6 carries C(=O)N(CH3)2.
+- C2 of the pyrimidine carries an NH that links to the aryl ring.
+- SMILES for this part: CN(C)C(=O)c1cc2cnc(Nc3ccc(cc3)...)nc2n1C1CCCC1
+
+**Middle fragment.**
+- The NH-aryl is a para-substituted benzene bearing C(=O)NH.
+- The amide nitrogen connects to a CH2CH2CH2 chain.
+- The chain ends on the isoindolinone benzene ring.
+
+**Right fragment (isoindolinone).**
+- The aromatic carbon bearing the propyl chain is adjacent to the ring-fusion carbon that bears the CH2.
+- That CH2 connects to N, which carries the 2,6-dioxopiperidin-3-yl group.
+- The carbonyl sits on the other ring-fusion carbon.
+- SMILES for this part: c1cccc2c1CN(C3CCC(=O)NC3=O)C2=O, with the propyl chain on the first aromatic carbon, next to the CH2-bearing fusion carbon.
+
+**Assembled SMILES.** The aromatic atoms run c1(chain)cccc2c1CN(...)C2=O. The chain-bearing carbon is bonded to the fusion carbon c1 that carries the CH2, and the other fusion carbon carries C=O. The piperidinedione stereocentre is drawn with plain bonds, so no stereo is assigned.
+
+SMILES: CN(C)C(=O)c1cc2cnc(Nc3ccc(cc3)C(=O)NCCCc3cccc4c3CN(C3CCC(=O)NC3=O)C4=O)nc2n1C1CCCC1

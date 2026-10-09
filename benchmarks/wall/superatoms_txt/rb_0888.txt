@@ -1,0 +1,9 @@
+I read the structure as a PROTAC-type molecule with three parts, then wrote the SMILES piece by piece.
+
+1. **Left end:** a 3-amino-pyridazine bearing a 2-hydroxyphenyl group at C6. Its C4 carries a pyrazol-4-yl group whose N1 is linked through a CH2 to C4 of a piperidine.
+2. **Linker:** the piperidine nitrogen carries CH2–C(=O)–NH, which joins the tert-leucine unit.
+3. **Right end:** a VHL-type ligand. The tert-leucine C(=O) is attached to the pyrrolidine nitrogen. The pyrrolidine has a 4-hydroxy group (wedged bond) and a 2-carboxamide (hashed bond). The amide nitrogen carries a 4-(4-methylthiazol-5-yl)benzyl group.
+
+For stereochemistry, I took the standard VHL ligand configuration, which matches the wedges and hashes: tert-leucine S, pyrrolidine C2 S and C4 R. I then wrote the chirality tags in this atom order, checking each against the known reference SMILES by permutation parity.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(CC2CCN(CC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(-c4scnc4C)cc3)CC2)c1

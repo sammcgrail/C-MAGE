@@ -1,0 +1,11 @@
+I read the structure region by region and assembled the SMILES below. I did not run it through a parser. The pieces are:
+
+- **Pyrazine core:** a carboxamide on one carbon, an NH–aryl group on the adjacent carbon, and a piperidin-1-yl group on the carbon across the ring.
+- **Piperidine on the pyrazine:** its C3 carries a 3-methyl-2-oxoimidazolidin-1-yl group through a wedge bond, which makes it the only stereocentre shown.
+- **Aryl linker:** a para-substituted phenyl bearing a 4-methylpiperidin-4-yl group, with the piperidine nitrogen acylated.
+- **Acyl chain and tail:** the acyl group is C(=O)CH2 attached to a piperazine. The other piperazine nitrogen carries a three-carbon propyl chain to C4 of an isoindolin-1-one.
+- **Isoindolinone end:** its nitrogen is bonded to a 2,6-dioxopiperidin-3-yl group. That carbon is drawn with plain bonds, so it gets no stereo label.
+
+For the wedge: with the hydrogen pointing away from the viewer, the substituents run N (lower left), then the ring CH2 next to the piperidine N (up), then the ring CH2 at C4 (lower right). That path is clockwise, so the centre is R, which corresponds to `[C@H]` in the SMILES as I wrote it.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(cc1)C1(C)CCN(CC1)C(=O)CN1CCN(CCCc2cccc3C(=O)N(Cc23)C2CCC(=O)NC2=O)CC1)N1CCC[C@H](C1)N1CCN(C)C1=O

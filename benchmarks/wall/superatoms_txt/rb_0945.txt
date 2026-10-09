@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Left end:** a pyrazine-2-carboxamide. Its 3-position carries an NH linked to a 1-methylpyrazol-4-yl group. Its 5-position is bonded to the nitrogen of a piperidine.
+- **Piperidine C3:** this carbon is bonded by a hashed bond to N7 of a 5-oxa-2,7-diazaspiro[3.4]octan-6-one. Taking the hashed nitrogen as pointing away and the implicit H as pointing toward the viewer, I assign R. In the SMILES this is `[C@H]`.
+- **Spiro unit:** the azetidine N2 is bonded to C4 of a second piperidine. That piperidine's nitrogen is attached to the isoindoline-1,3-dione benzene ring.
+- **Right end:** the isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl group. The wedged bond to its C3 puts the H away from the viewer, and the order N > C(=O) > CH2 runs counterclockwise, so I assign S. In the SMILES this is `[C@H]`.
+
+I checked each `@` against the drawing by reordering the neighbours so the H comes first. Both centres come out as `@`, matching R for the piperidine and S for the glutarimide.
+
+SMILES: NC(=O)c1ncc(nc1Nc1cnn(C)c1)N1CCC[C@H](C1)N1CC2(CN(C2)C2CCN(CC2)c2ccc3c(c2)C(=O)N([C@H]2CCC(=O)NC2=O)C3=O)OC1=O

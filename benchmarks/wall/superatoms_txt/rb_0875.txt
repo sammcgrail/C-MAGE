@@ -1,0 +1,11 @@
+I read the structure in sections and wrote it as the SMILES below. I worked out the stereo marks by hand from the drawn wedges and hashes and did not run the SMILES through a validator.
+
+**Left to right:**
+- **Pyrazine core:** a pyrazine-2-carboxamide with an anilino NH on the carbon next to the amide-bearing carbon. The carbon across the ring from the amide carries a piperidin-1-yl group.
+- **Piperidine substituent:** the piperidine has a 3-(3-methyl-2-oxoimidazolidin-1-yl) group on a wedged bond. I assigned this centre as `[C@H]`.
+- **Anilino ring:** a para-substituted benzene whose other end is attached to C4 of a second piperidine.
+- **Second piperidine:** its nitrogen is linked through a CH2 to a cyclohexane.
+- **Cyclohexane:** a 1,4-disubstituted ring with a hashed CH2 bond on one carbon and a wedged NH bond on the other, which makes it trans. I assigned these as `[C@@H]` (CH2 end) and `[C@H]` (NH end).
+- **Phthalimide end:** the NH is attached at position 4 of an isoindoline-1,3-dione. Its ring nitrogen carries a 2,6-dioxopiperidin-3-yl group, which has plain bonds in the drawing and so gets no stereo mark.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@H](C2)N2CCN(C)C2=O)nc1Nc1ccc(cc1)C1CCN(CC1)C[C@@H]1CC[C@H](CC1)Nc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

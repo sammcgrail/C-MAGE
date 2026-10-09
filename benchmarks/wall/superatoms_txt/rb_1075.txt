@@ -1,0 +1,16 @@
+I read the structure region by region, from left to right.
+
+**Left ring (tetrahydropyrimidinone).** N1 carries a methyl and is bonded to CH=C. The C=C runs from the CH to the carbon attached to the aryl group, and that carbon is also bonded to CH2. The CH2 leads to N3, which carries a methyl, and N3 connects to C2(=O), which closes back to N1. SMILES: CN1C=C(C2...)CN(C)C1=O.
+
+**Central aryl ring.** The ring carbon bearing the tetrahydropyrimidinone has two meta positions that each carry a methoxy group. Between them is the carbon bearing the CH2 linker. Going around the ring: C(attached to the pyrimidinone), CH, C(OMe), C(CH2N), C(OMe), CH.
+
+**Linker.** The benzyl CH2 connects to a piperazine nitrogen. The other piperazine nitrogen carries CH2CH2, which connects to the 4-position of a piperidine. The piperidine nitrogen is bonded to the aryl ring of the isoindolinone.
+
+**Isoindolinone.** The aryl ring is fused to a five-membered ring containing CH2, N and C(=O). The piperidine nitrogen sits on the aryl carbon at position 5. In the drawing, the carbon bearing the piperidine is adjacent to the CH carbon next to the ring-fusion carbon that bears CH2, so the substituent is meta to the CH2-bearing fusion carbon. The lactam N is bonded to the 2,6-dioxopiperidin-3-yl group. The stereocentre there is drawn with plain bonds, so no stereo is given.
+
+**Assembled SMILES.**
+CN1C=C(CN(C)C1=O)c1cc(OC)c(CN2CCN(CCC3CCN(CC3)c3ccc4C(=O)N(CC4c3)...
+
+The isoindolinone ring needs care. The lactam carbonyl carbon is attached to a fusion carbon, and the CH2 is attached to the other fusion carbon. The aryl carbon bearing the piperidine is adjacent to the CH that is next to the CH2-bearing fusion carbon, so I write the isoindolinone as c3ccc4c(c3)CN(C5CCC(=O)NC5=O)C4=O. Here c3 carries the piperidine N, followed by cc to c4, which is the fusion carbon bonded to C4=O. Then c(c3) is the fusion carbon bearing the CH2, and it is bonded to the CH that closes ring 3. This matches the drawing.
+
+SMILES: CN1C=C(CN(C)C1=O)c1cc(OC)c(CN2CCN(CCC3CCN(CC3)c3ccc4c(c3)CN(C5CCC(=O)NC5=O)C4=O)CC2)c(OC)c1

@@ -1,0 +1,10 @@
+I read the structure region by region and assembled the SMILES below. The stereochemistry is partly assigned from the drawing and partly assumed:
+
+- **Left end:** a phenothiazine (S and NH bridging two benzo rings) with a nitro group on one ring and an ether oxygen on the other.
+- **Cyclobutane:** a 1,3-disubstituted ring. One oxygen is on a wedge and the other on a hash, so the two are trans. I wrote this as `[C@@H]4C[C@H](C4)`, which encodes trans.
+- **Linker and piperazine:** the second cyclobutane oxygen carries a three-carbon chain (O–CH2CH2CH2) to a piperazine nitrogen. The other piperazine nitrogen is attached to C3 of an isoxazole.
+- **Isoxazole side chain:** C5 of the isoxazole carries a CH bearing an isopropyl group (hashed) and a C(=O). From the wedge/hash and the CIP priorities, I assigned this centre S, which gives `[C@H]` in the SMILES.
+- **Hydroxyproline:** the carbonyl acylates the proline nitrogen. The 4-OH is hashed and the 2-carboxamide is wedged, and I took this to be the usual (2S,4R) VHL-ligand pattern. This is an assumption from the standard ligand rather than a full CIP derivation from the drawing.
+- **Amide side:** the proline C(=O) is bonded to NH, then to a CH(CH3) with a wedged methyl, then to a para-phenylene carrying a 4-methylthiazol-5-yl group. I assigned this CH as S from the drawing, giving `N[C@@H](C)`.
+
+SMILES: O=[N+]([O-])c1ccc2Nc3ccc(O[C@@H]4C[C@H](C4)OCCCN4CCN(CC4)c4cc(on4)[C@H](C(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)N[C@@H](C)c4ccc(cc4)-c4scnc4C)cc3Sc2c1

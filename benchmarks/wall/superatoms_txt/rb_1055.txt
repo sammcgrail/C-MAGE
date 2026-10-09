@@ -1,0 +1,19 @@
+I read the molecule as a PROTAC-style conjugate with a VHL-type ligand at one end and an aminopyridazine-phenol group at the other. I worked through it region by region.
+
+**VHL end**
+- The left-hand ring is a 4-hydroxypyrrolidine-2-carboxamide. I took the ring stereochemistry as the usual VHL (2S,4R) arrangement, `N1C[C@H](O)C[C@H]1C(=O)...`, rather than re-deriving it from the wedge and hash bonds.
+- The amide NH is linked through a CH2 to a phenyl ring that carries a 4-methylthiazol-5-yl group.
+- The ring nitrogen is acylated by a CH(isopropyl) carbon.
+- That carbon carries an isoxazol-5-yl group and has a hashed bond to the isopropyl. I worked out its chirality from the drawing (H toward the viewer, then C=O → iPr → isoxazole clockwise), which gives `[C@H]` when written after the carbonyl carbon.
+
+**Linker**
+- The isoxazole is attached at its 3-position to the nitrogen of a piperidine.
+- That piperidine's 4-carbon is bonded to the nitrogen of a second piperidine.
+- The second piperidine's 4-carbon is bonded to C5 of a pyrimidine.
+
+**Target-binding end**
+- The pyrimidine C2 is bonded to N8 of a 3,8-diazabicyclo[3.2.1]octane.
+- N3 of the bicycle carries a pyridazine. This pyridazine has an NH2 next to the bicycle attachment and a 2-hydroxyphenyl group on the opposite side.
+- The bicycle has no stereo marks in the drawing, so I left it unspecified.
+
+SMILES: O=C(N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C)[C@H](C(C)C)c1cc(no1)N1CCC(CC1)N1CCC(CC1)c1cnc(nc1)N1C2CCC1CN(C2)c1cc(nnc1N)-c1ccccc1O

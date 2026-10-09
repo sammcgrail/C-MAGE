@@ -1,0 +1,11 @@
+I read the structure in four parts and joined them into one SMILES.
+
+1. **Pyrazine core:** a pyrazine ring carries a primary carboxamide (C(N)=O) on one carbon and an NH link to the pyridine on the adjacent carbon. The carbon across the ring from the carboxamide carries the piperidine nitrogen.
+
+2. **Piperidine side:** the piperidine C3 bears a 3-methyl-2-oxoimidazolidin-1-yl group on a hashed bond. Ranking the substituents N(imidazolidinone) > C2 > C4 > H, the hash puts H toward the viewer. The N → C2 → C4 sequence appears clockwise, so reversing it for the front-facing H gives S. In the SMILES order I wrote, `[C@@H]` encodes this S centre.
+
+3. **Pyridine and piperazine:** the NH is on pyridine C3, and the piperazine is attached at pyridine C6. The other piperazine nitrogen carries a straight chain of four CH2 groups, counted from the vertices in the drawing.
+
+4. **Isoindolinone end:** the chain ends on the benzo ring of the isoindolin-1-one, at the position next to the CH2. The isoindolinone nitrogen carries a 2,6-dioxopiperidin-3-yl group. That carbon has plain bonds, so I gave it no stereo.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(nc1)N1CCN(CC1)CCCCc1cccc2c1CN(C2=O)C1CCC(=O)NC1=O)N1CCC[C@@H](C1)N1CCN(C)C1=O

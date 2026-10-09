@@ -1,0 +1,9 @@
+I read the molecule as a VHL-ligand PROTAC and wrote the SMILES region by region.
+
+- **Oxindole end:** the oxindole has an N-benzyl group and a C3 exocyclic C=C–C=C–(4-nitrophenyl) chain. The first double bond has the chain on the same side as the C2 carbonyl, which is the ring C3a-trans arrangement and is written `c2ccccc2/C1=C/C=C/`. The second double bond is trans.
+- **Linker:** the benzyl ring carries a para O–CH2CH2–O–CH2CH2–O–CH2CH2–O chain that ends on C3 of an isoxazole.
+- **Isoxazole to amide:** C5 of the isoxazole bears a CH(iPr)–C(=O) unit. From the hashed isopropyl bond, I assigned this carbon S, which is `[C@H]` in the order written.
+- **Hydroxyproline:** the pyrrolidine carries a 4-OH and a 2-carboxamide, and I took it as (2S,4R), the usual VHL-ligand configuration (`[C@H](O)` and `[C@H]4` in the order written).
+- **Amine end:** the amide nitrogen carries a (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group.
+
+SMILES: O=C1N(Cc2ccc(OCCOCCOCCOc3cc([C@H](C(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)N[C@H](C)c4ccc(-c5scnc5C)cc4)on3)cc2)c2ccccc2/C1=C/C=C/c1ccc([N+](=O)[O-])cc1

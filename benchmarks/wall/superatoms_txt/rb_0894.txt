@@ -1,0 +1,15 @@
+I read the structure region by region and wrote it as the SMILES below.
+
+**Structure as read**
+- **Left end:** a phenothiazine (10H) carrying a nitro group on one benzo ring and an ether oxygen on the other, at the symmetric position on the opposite ring.
+- **Cyclobutane:** a 1,3-disubstituted ring. One carbon bears the aryl ether oxygen on a wedge, and the diagonal carbon bears the propyl ether oxygen on a hash, so the two substituents are trans.
+- **Linker:** O–CH2CH2CH2 to a piperazine nitrogen. The other piperazine nitrogen is bonded to C3 of an isoxazole.
+- **Isoxazole side chain:** C5 of the isoxazole carries a CH, drawn with a wedge to an isopropyl group, that continues to a C(=O) bonded to the pyrrolidine nitrogen.
+- **Pyrrolidine:** a 4-hydroxy ring with the OH on a hash. C2 carries a wedged C(=O)NH.
+- **Amide substituent:** NH–CH(CH3), with the methyl on a wedge, attached to a phenyl ring. That ring carries a 4-methylthiazol-5-yl group para to the CH.
+
+**Stereocentres:** I assigned each from its wedge or hash and neighbour order, giving `[C@H]` and `[C@@H]` on the cyclobutane, `[C@@H]` on the isoxazole CH, `[C@H]` on both pyrrolidine carbons, and `[C@@H]` on the benzylic CH.
+
+I checked the ring closures and atom counts against the drawing by hand, but did not run the SMILES through a parser.
+
+SMILES: [O-][N+](=O)c1ccc2Nc3ccc(O[C@H]4C[C@@H](C4)OCCCN4CCN(CC4)c4cc(on4)[C@@H](C(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)N[C@@H](C)c4ccc(cc4)c4scnc4C)cc3Sc2c1

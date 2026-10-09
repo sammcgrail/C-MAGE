@@ -1,0 +1,12 @@
+I read the drawing as a VHL-based PROTAC-type molecule and wrote it from left to right. I did not run it through a SMILES parser, so validity rests on checking the ring closures and atom counts by hand.
+
+- **Warhead end:** a 4-nitrophenyl group on a propenylidene chain (–CH=CH–CH=) attached at C3 of an oxindole. The wavy bond at the exocyclic C=C means that geometry is left unspecified. I took the plain C=C in the chain as trans.
+- **Oxindole N:** it carries a 4-substituted benzyl group. The para oxygen starts a PEG chain, O–CH2CH2–O–CH2CH2–O–CH2–C(=O), which ends in an amide.
+- **VHL ligand:**
+  - The amide nitrogen is attached to a tert-leucine unit (tert-butyl carbon, wedged bond to N).
+  - The tert-leucine is acylated onto a 4-hydroxyproline (hashed OH, wedged C2 amide).
+  - The proline amide nitrogen carries a (1-arylethyl) group, with the methyl on a wedge.
+  - The aryl is a 4-(4-methylthiazol-5-yl)phenyl.
+- **Stereochemistry:** I assigned the stereocentres by comparison with the standard VH032 amine pattern (S-tert-leucine, 2S,4R-hydroxyproline, S-methylbenzylamine). I re-derived the @/@@ marks for my atom ordering.
+
+SMILES: O=C1N(Cc2ccc(OCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc2)c2ccccc2C1=C/C=C/c1ccc([N+](=O)[O-])cc1

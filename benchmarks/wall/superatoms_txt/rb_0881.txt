@@ -1,0 +1,11 @@
+I read the molecule as a VHL-ligand-type conjugate and assembled the SMILES region by region, from left to right:
+
+- **Left aryl group:** a 2-hydroxyphenyl ring attached to a pyridazine. The pyridazine carries an NH2 and, at the adjacent carbon, the bicyclic amine.
+- **Bicycle:** a 3,8-diazabicyclo[3.2.1]octane. N3 bonds to the pyridazine, and the one-atom bridge N8 bonds to the pyrimidine.
+- **Pyrimidine and linker:** the pyrimidine is 2,5-disubstituted and links through a CH2 to a piperidine nitrogen.
+- **Amide link:** the piperidine C4 carries a carboxamide to the tert-leucine nitrogen.
+- **Right-hand end:** tert-leucine, then 4-hydroxyproline, then a benzylamide bearing a 4-methylthiazol-5-yl group.
+
+For stereochemistry I assumed the standard VHL-ligand configuration, tert-leucine (S) and hydroxyproline (2S,4R), since the drawing shows wedges at those three centres. I did not re-derive each wedge direction independently. The SMILES chirality tags were written by matching the known VH032 pattern, with one swap of neighbour order at the tert-leucine carbon. The bicycle has no wedges in the drawing, so I gave it no stereo.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ncc(CN2CCC(CC2)C(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)cn1

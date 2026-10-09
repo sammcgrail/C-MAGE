@@ -1,0 +1,12 @@
+I read this as a PROTAC-type molecule: a SMARCA2-binding aminopyridazine-phenol head group joined through a linker to a VHL ligand. I assembled the SMILES in these pieces, left to right:
+
+- **Head group:** a 3-amino-6-(2-hydroxyphenyl)pyridazine, attached at C4 to N3 of a 3,8-diazabicyclo[3.2.1]octane.
+- **Bicycle to pyrimidine:** the bridging N8 of the bicycle is bonded to C2 of a pyrimidine.
+- **Linker:** the pyrimidine C5 carries a piperidin-4-yl group. The piperidine N is joined by a propyl chain to an O on C3 of an isoxazole.
+- **VHL ligand:** the isoxazole C5 bears the carbon that carries the isopropyl group and the C=O. That C=O is bonded to the N of a 4-hydroxyproline, whose amide N is attached to a benzyl group carrying a 4-methylthiazol-5-yl substituent.
+
+For stereochemistry, I took the hydroxyproline as the standard VHL (2S,4R) configuration.
+
+For the side-chain carbon, the hashed bond to the isopropyl group makes it S by CIP priorities (C=O, then isoxazole C5, then isopropyl, then H). That corresponds to `[C@H]` in the SMILES order used.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ncc(cn1)C1CCN(CC1)CCCOc1cc(on1)[C@H](C(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

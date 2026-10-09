@@ -1,0 +1,9 @@
+I read the structure region by region and wrote it as the SMILES below. I have not run it through a parser.
+
+- **Pyrazine core:** a pyrazine-2-carboxamide with an anilino NH on the adjacent carbon. The other ring carbon carries the piperidine nitrogen.
+- **Left piperidine:** it carries a 3-(3-methyl-2-oxoimidazolidin-1-yl) group on a hashed bond. Working out the geometry from the drawing gives `[C@@H]` at that carbon.
+- **Central piece:** the para-phenylene is attached to C4 of a 4-methylpiperidine. That piperidine nitrogen is bonded to a cyclobutane at C1, and the NH sits on C3.
+- **Cyclobutane stereochemistry:** both substituents are drawn on hashed bonds, so the ring is cis-1,3. Both ring carbons come out as `[C@@H]`.
+- **Right side:** the NH is bonded to the 4-position of an isoindoline-1,3-dione, whose nitrogen is attached to a 2,6-dioxopiperidin-3-yl group. That piperidine carbon is drawn with plain bonds, so I left it without stereo.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(cc1)C1(C)CCN(CC1)[C@@H]1C[C@@H](C1)Nc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12)N1CCC[C@@H](C1)N1CCN(C)C1=O

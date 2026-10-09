@@ -1,0 +1,18 @@
+I read the structure region by region, from left to right.
+
+**Left ring (dihydropyrimidinone).** N1 carries a methyl and is attached to CH=C5. C5 bears the aryl group and is bonded to CH2, which leads to N3 (also methylated). N3 is bonded to C2(=O), which closes back to N1. As SMILES: CN1C=C(c2...)CN(C)C1=O.
+
+**Central benzene ring.** The ring carries the dihydropyrimidinone at one position, then OMe, then the CH2–N(piperidine) carbon, then OMe on the other side. The aryl carbon bonded to the pyrimidine is flanked by two CH atoms. Going around: C(attached to pyrimidine), CH, C(OMe), C(CH2N), C(OMe), CH. As SMILES: c2cc(OC)c(CN...)c(OC)c2.
+
+**Piperidine and linker.** The piperidine nitrogen is bonded to the benzylic CH2. The 4-position of the piperidine carries a CH2CH2 chain that ends on a piperazine nitrogen.
+
+**Piperazine and isoindolinone.** The other piperazine nitrogen is bonded to the isoindolinone aromatic ring at the 6-position. The lactam is C(=O)–N(glutarimide)–CH2, and the glutarimide is 2,6-dioxopiperidin-3-yl.
+
+For the isoindolinone, the carbonyl carbon C1 is attached to aromatic C7a. The piperazine sits on the aromatic carbon that is meta to C7a, which is the position para to the CH2-bearing ring carbon (C3a)... In the drawing, the piperazine carbon is adjacent to the CH that neighbours C7a. That makes it C6, so it is attached as c1cc2C(=O)N(...)Cc2cc1 with the piperazine on the first atom.
+
+**Full SMILES:**
+CN1C=C(CN(C)C1=O)c1cc(OC)c(CN2CCC(CCN3CCN(CC3)c3ccc4CN(C5CCC(=O)NC5=O)C(=O)c4c3)CC2)c(OC)c1
+
+Check of the isoindolinone fragment c3ccc4CN(...)C(=O)c4c3: the piperazine-bearing carbon c3 is followed by c, c, then c4 (bearing CH2), and the ring closes through c4 (bearing C=O) and a CH that connects back to c3. So the piperazine carbon is adjacent to the CH next to the C=O-bearing carbon, which matches the drawing.
+
+SMILES: CN1C=C(CN(C)C1=O)c1cc(OC)c(CN2CCC(CCN3CCN(CC3)c3ccc4CN(C5CCC(=O)NC5=O)C(=O)c4c3)CC2)c(OC)c1

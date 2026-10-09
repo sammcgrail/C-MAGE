@@ -1,0 +1,19 @@
+I read the structure region by region and assembled the SMILES from these pieces.
+
+**Left side.** The pyrimidine has N1, C2 (bearing NH-aryl), N3, C4 (bearing NH-indoline), C5 (Br) and C6 (H). The indoline carries a methylsulfonyl group on its nitrogen (N-SO2CH3) and is attached through its C7 to the NH on pyrimidine C4.
+
+**Central aryl ring.** Going around the ring:
+- C1 carries the NH to the pyrimidine.
+- C2 carries OMe.
+- C3 is CH.
+- C4 carries the piperidine nitrogen.
+- C5 carries the methyl.
+- C6 is CH.
+
+**Linker.** The piperidine N is attached to the aryl ring, and its 4-position bears a piperazine N. The other piperazine N carries CH2 linked to azetidine C3. The azetidine N is bonded to the isoindoline-1,3-dione ring at position 5, and the imide N carries the glutarimide (2,6-dioxopiperidin-3-yl). No stereochemistry is drawn, so none is included.
+
+**SMILES assembly.**
+- Pyrimidine: c1ncc(Br)c(n1)… written as Brc1cnc(Nc2cc… )nc1Nc1cccc2CCN(S(C)(=O)=O)c12
+- Aryl ring: c2c(OC)cc(C)... Reading it in order gives Nc2c(OC)cc(N3CCC(CC3)N4CCN(CC4)CC5CN(C5)c6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)c(C)c2. Here C3 (H) lies between C2 (OMe) and C4 (piperidine N), and C5 carries the methyl with C6 as CH, matching the drawing.
+
+SMILES: COc1cc(N2CCC(CC2)N2CCN(CC2)CC2CN(C2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(C)cc1Nc1ncc(Br)c(Nc2cccc3CCN(S(C)(=O)=O)c23)n1

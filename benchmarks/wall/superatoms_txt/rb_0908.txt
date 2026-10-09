@@ -1,0 +1,8 @@
+I read the structure region by region and assembled the SMILES from that.
+
+- **Pyrazine core:** the ring carries a primary carboxamide, an anilino NH, and a piperidin-1-yl group.
+- **Piperidine on the pyrazine:** its C3 bears a 3-methyl-2-oxoimidazolidin-1-yl group on a wedge bond. I worked out the stereocentre from the drawn geometry and got `[C@H]`.
+- **Central linker:** a para-substituted benzene is joined to the 4-position of piperidine A. The nitrogen of piperidine A is linked through a CH2 to the 4-position of piperidine B.
+- **Phthalimide end:** the nitrogen of piperidine B is attached to the 5-position of a phthalimide, and the imide nitrogen carries a 2,6-dioxopiperidin-3-yl group. That glutarimide carbon is drawn with plain bonds, so it has no stereo label.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@H](C2)N2CCN(C)C2=O)nc1Nc1ccc(cc1)C1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

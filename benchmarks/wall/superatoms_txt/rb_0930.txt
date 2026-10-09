@@ -1,0 +1,14 @@
+I read the molecule region by region as a VHL-ligand-based PROTAC, then wrote the SMILES in the same order.
+
+1. **VHL ligand:** a 4-methylthiazol-5-yl phenyl group is attached through a benzylamide to a 4-hydroxyproline. The proline nitrogen is acylated by tert-leucine.
+2. **Linker:** the tert-leucine NH is acylated by a spiro[3.3]heptane carboxamide. Its other end is bonded to a 2,6-diazaspiro[3.3]heptane, which is bonded to a pyrimidin-5-yl group.
+3. **Bicycle and warhead:** the pyrimidine C2 carries the bridging nitrogen (N8) of a 3,8-diazabicyclo[3.2.1]octane. N3 of that bicycle is bonded to the pyridazine. The pyridazine bears an NH2 and a 2-hydroxyphenyl group.
+
+**Stereochemistry:**
+- I kept the hydroxyproline and tert-leucine stereocentres as drawn, with each tag checked against the neighbour ordering of the usual VHL-ligand SMILES.
+- I left the spiro[3.3]heptane 2,6-positions unspecified. Both substituents are drawn on wedges, but this is axial (pseudo) stereochemistry that I could not encode reliably.
+- The bicyclic bridgeheads are drawn without wedges, so they carry no stereo tags.
+
+I checked the SMILES for valid ring closures by reading it back against the drawing.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C3CC4(C3)CC(C4)N3CC5(C3)CN(C5)c3cnc(nc3)N3C5CCC3CN(C5)c3cc(nnc3N)-c3ccccc3O)C(C)(C)C)cc1

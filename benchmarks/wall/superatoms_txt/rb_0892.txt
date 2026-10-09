@@ -1,0 +1,9 @@
+I read the molecule as a VHL-recruiting PROTAC and assembled the SMILES region by region, left to right.
+
+- **Left end:** a 3-amino-6-(2-hydroxyphenyl)pyridazine, attached through its C4 to N3 of a 3,8-diazabicyclo[3.2.1]octane.
+- **Link to pyrimidine:** the bridging N8 of the bicycle is bonded to C2 of a pyrimidine. The pyrimidine's C5 carries a piperidin-4-yl group.
+- **Cyclohexane:** the piperidine N is bonded to a 1,4-disubstituted cyclohexane. Both substituents are drawn with hashed bonds, so I encoded them as cis (`[C@H]` … `[C@@H]`), following the drawing literally. This is the least certain part, because this kind of linker is often trans in patent structures.
+- **Linker to VHL ligand:** the cyclohexane's other substituent is CH2–C(=O)–NH–CH(tert-butyl)–C(=O). The tert-leucine carbon has plain bonds, so it gets no stereo label.
+- **VHL ligand:** the C(=O) leads into a 4-hydroxypyrrolidine-2-carboxamide with the hashed amide bond and wedged OH as drawn. I took these to be the standard (2S,4R) VHL configuration and checked the chirality tags against the VH032 SMILES. The amide N then carries a 4-(4-methylthiazol-5-yl)benzyl group.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ncc(cn1)C1CCN(CC1)[C@H]1CC[C@@H](CC(=O)NC(C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)CC1

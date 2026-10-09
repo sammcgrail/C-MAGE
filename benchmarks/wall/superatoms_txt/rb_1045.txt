@@ -1,0 +1,20 @@
+Reading the structure region by region, left to right:
+
+- **Left end:** a 2-hydroxyphenyl ring is attached to a pyridazine. The pyridazine carries NH2 at C3, has N=N at the top left, and bears the pyrazole at C4.
+- **Pyridazine SMILES:** Nc1nnc(-c2ccccc2O)cc1-c1cnn(...)c1.
+- **Pyrazole:** it is linked at C4 to the pyridazine, and N1 bears a CH(CH3) group.
+- **Benzamide:** that CH(CH3) is attached to a para-substituted benzene ring carrying C(=O)NH.
+- **Linker:** NH-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-NH. Counting from the amide NH: CH2CH2, O, CH2CH2, O, CH2CH2, O, CH2CH2, then NH. That is three oxygens and four ethylene units.
+- **Right end:** an isoindoline-1,3-dione with the NH at position 4. Its N is attached to the 2,6-dioxopiperidin-3-yl ring.
+
+Assembled SMILES:
+
+CC(c1ccc(cc1)C(=O)NCCOCCOCCOCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12)n1cc(cn1)-c1cc(-c2ccccc2O)nnc1N
+
+Check on the isoindoline: c1cccc2C(=O)N(...)C(=O)c12. The NH-bearing carbon is c1, which is adjacent to the c12 ring-fusion atom that bonds to C(=O). That is consistent with the drawing, where the NH sits next to the fusion carbon bearing the lower carbonyl (the one with O on the left).
+
+Check on the pyridazine: c1cc(-Ar)nnc1N. The ring runs C4 (attached to the pyrazole), CH, C6 (attached to the aryl), N, N, and C3 (NH2). That is six atoms, correct.
+
+No wedges or hashes are drawn, so no stereochemistry is included.
+
+SMILES: CC(c1ccc(cc1)C(=O)NCCOCCOCCOCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12)n1cc(cn1)-c1cc(-c2ccccc2O)nnc1N

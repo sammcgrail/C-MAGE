@@ -1,0 +1,17 @@
+The structure is a PROTAC-type molecule. I read it in sections, left to right.
+
+**Left end.** An indoline carries an N-methylsulfonyl group (N-SO2CH3). Its C7 position bears an NH that connects to C4 of a pyrimidine. The pyrimidine has Cl at C5 and an NH at C2, and that NH links to a phenyl ring.
+
+**Phenyl ring.** The ring carries OMe ortho to the NH, and a piperidine nitrogen at the position para to the NH.
+
+**Linker.** The piperidine C4 is bonded to a piperazine N. The other piperazine N bears a CH2 that connects to azetidine C3. The azetidine nitrogen is attached to the aryl ring of the isoindoline-1,3-dione.
+
+**Right end.** The isoindoline-1,3-dione nitrogen is bonded to C3 of a 2,6-dioxopiperidine. The drawing shows no wedges or hashes, so I give no stereochemistry.
+
+**SMILES assembly.**
+- Indoline part: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(cc4OC)N4CCC(CC4)N4CCN(CC5CN(C5)c5ccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c6c5)CC4)ncc3Cl)c21
+- Pyrimidine: the C4 carbon attached to the indoline NH is also bonded to C5(Cl). So c3 is C4, with ring atoms c3(NH-indoline) c(Cl) c n c(NH-aryl) n. Written out: Nc3nc(N-aryl)ncc3Cl, where c3 is C4, then n (N3), c (C2) with the aryl NH, n (N1), c (C6), c3Cl (C5). This matches.
+- Phenyl: Nc4ccc(cc4OC)N4... gives the NH carbon, then c, c, then the carbon bearing the piperidine N, then c, then c4 bearing OMe. The OMe is therefore ortho to the NH and meta to the piperidine, which matches the drawing.
+- Isoindoline attachment: the azetidine N is on a ring carbon that is para to one carbonyl-bearing carbon and meta to the other. In c5ccc6C(=O)N(...)C(=O)c6c5, c5 (the attachment atom) is followed by c, c, c6, so the attachment is para to the c6 carbon bearing the first C(=O), where the first C(=O) is the ring-closing one. The attachment is then adjacent via c5 to the last c6 carbon, which makes it meta to that one. This matches the drawing, where the azetidine sits on a carbon adjacent to a CH that is next to the ring-fusion carbon.
+
+SMILES: CS(=O)(=O)N1CCc2cccc(Nc3nc(Nc4ccc(cc4OC)N4CCC(CC4)N4CCN(CC5CN(C5)c5ccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c6c5)CC4)ncc3Cl)c21

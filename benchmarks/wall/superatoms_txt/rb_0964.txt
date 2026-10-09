@@ -1,0 +1,10 @@
+I read the structure in four parts and joined them into one SMILES.
+
+1. **Left end:** a thalidomide unit, i.e. a 2,6-dioxopiperidin-3-yl group on the nitrogen of a phthalimide. The phthalimide carries an O–CH2– linker at the 4-position. The glutarimide stereocentre is drawn with plain bonds, so it has no stereo label.
+2. **Middle:** the O–CH2– group attaches to C4 of a 1,2,3-triazole. N1 of the triazole bears a CH2 that connects to the 2-position of a pyridine. The pyridine's 6-position carries the bicyclic amine.
+3. **Bicycle:** a 2,5-diazabicyclo[2.2.1]heptane. One nitrogen is bonded to the pyridine. The other nitrogen is bonded to a CH=CH group.
+4. **Right end:** that CH=CH is drawn trans and continues to a ketone C(=O) on a 2-hydroxyphenyl ring (an enaminone).
+
+The one-carbon bridge of the bicycle is drawn as a wedge, so both bridgeheads are stereocentres. I assigned CIP priorities at each bridgehead (N > the CH2 next to N > the bridge carbon > H) and found both to be S, giving a (1S,4S) bicycle. I then converted that to @/@@ in the SMILES atom order.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(OCc4cn(Cc5cccc(n5)N6C[C@@H]7C[C@H]6CN7/C=C/C(=O)c8ccccc8O)nn4)c3C2=O)C(=O)N1

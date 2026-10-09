@@ -1,0 +1,11 @@
+I read the molecule in four parts and joined them in one SMILES.
+
+- **Left end:** an oxindole N-substituted with a benzyl group. Its C3 carries an exocyclic C=C that continues as a second trans C=C to a 4-nitrophenyl group.
+- **First double bond (C3=CH):** the drawing shows the vinyl carbon on the same side as the lactam C=O (C2). In the SMILES this is written `c2ccccc2/C1=C/C=C/...`.
+- **Second double bond:** drawn trans (E).
+- **Middle linker:** the benzyl's phenyl ring is para-linked through O to a 1,3-disubstituted cyclobutane. One cyclobutane substituent is a bold wedge (the aryl-O) and the other is a hashed bond (the O-propyl). A wedge on one carbon and a hash on the other means the two substituents are trans, and I assigned the two `@` tags on that basis.
+- **Chain and right end:** the hashed-bond O leads to a three-carbon chain (O–CH2CH2CH2) on a piperazine nitrogen. The other piperazine nitrogen is attached to the 5-position of a phthalimide, whose N bears a 2,6-dioxopiperidin-3-yl group. That glutarimide carbon is drawn with plain bonds, so it has no stereo tag.
+
+I checked ring closures, and the ring-closure digits are reused only after the earlier ring is closed.
+
+SMILES: O=C1N(Cc2ccc(O[C@H]3C[C@H](OCCCN4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)C(=O)c5c4)C3)cc2)c2ccccc2/C1=C/C=C/c1ccc([N+](=O)[O-])cc1

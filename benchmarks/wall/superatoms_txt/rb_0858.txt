@@ -1,0 +1,9 @@
+I read the structure in five parts and wrote each as SMILES.
+
+- **Left end:** a 4-nitrophenyl group on a three-carbon diene chain (Ar–CH=CH–CH=) that ends at C3 of an oxindole. The first C=C is drawn trans, so I wrote it as E. The wavy bond and the exocyclic C=C to the oxindole carry no defined geometry, so I left them unspecified.
+- **Oxindole N-substituent:** the nitrogen carries a CH2 linked to a para-substituted phenyl, which bears an ether oxygen.
+- **Cyclobutane:** a 1,3-dioxy cyclobutane with a hashed bond to the aryl ether oxygen and a wedged bond to the piperidinyl ether oxygen. This is the trans arrangement, which I encoded as `O[C@@H]2C[C@H](C2)O` after working out the chirality tags from the drawn coordinates.
+- **Piperidine and linker:** a piperidin-4-yl ether whose nitrogen carries an unbranched five-carbon chain ending in an oxygen.
+- **Right end:** a phthalimide (isoindoline-1,3-dione) with that oxygen at the 5-position and the imide nitrogen bonded to C3 of a 2,6-dioxopiperidine. That ring carbon is a stereocentre by connectivity but is drawn with plain bonds, so it has no stereo label.
+
+SMILES: O=[N+]([O-])c1ccc(cc1)/C=C/C=C1C(=O)N(Cc2ccc(cc2)O[C@@H]2C[C@H](C2)OC2CCN(CC2)CCCCCOc2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c2ccccc12

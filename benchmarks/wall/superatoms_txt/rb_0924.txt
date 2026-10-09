@@ -1,0 +1,17 @@
+Reading the structure region by region:
+
+- **Left end:** a pyridine ring with CF3 at the 6-position and a carboxamide at the 2-position. The amide NH is attached to C5 of the indazole.
+- **Indazole:** the benzo ring carries the NH at C5 and OMe at C6. The N1 nitrogen is attached to the spiro system.
+- **Spiro system:** a cyclobutane carbon (attached to N1) sits across the ring from the spiro carbon. The spiro carbon is shared with a cyclohexane (spiro[3.5]nonane). The cyclohexane carbon opposite the spiro carbon bears a C(=O) group.
+- **Linker:** the carbonyl is bonded to a piperazine nitrogen. The other piperazine nitrogen is attached to C5 of the isoindoline-1,3-dione.
+- **Right end:** the isoindoline N is bonded to C3 of a 2,6-dioxopiperidine. The stereocentre there is drawn with a plain bond, so no stereo is given.
+
+SMILES construction:
+
+Pyridine: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cnn(c2cc1OC)C1CC2(C1)CCC(CC2)C(=O)N1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Atom check on the indazole: c1cc2cnn(c2cc1OC) puts the NH-bearing carbon c1 (C5), then cH (C4), then c2 (C3a), then cH=N (C3), N2, N1 bonded to C7a (c2), then cH (C7), then c(OC) (C6) closing to C5. This is consistent with the drawing.
+
+Isoindoline: c1ccc2C(=O)N(...)C(=O)c2c1 has the piperazine-bearing carbon c1, then cH, cH, then c2 carrying the C=O, and the ring closes through c2 and c1. The substituent ends up at position 5, which matches.
+
+SMILES: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2cnn(c2cc1OC)C1CC2(C1)CCC(CC2)C(=O)N1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

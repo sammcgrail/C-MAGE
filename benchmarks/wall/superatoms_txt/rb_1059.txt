@@ -1,0 +1,13 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Left side:** a 2-hydroxyphenyl sits on a pyridazine, with an NH2 on the carbon next to the ring nitrogen. The adjacent ring carbon carries a pyrazol-4-yl group.
+- **Linker:** the pyrazole N1 is bonded to a CH2 that leads to the 3-position of a piperidine, and the piperidine nitrogen carries a CH2C(=O)NH group.
+- **Middle:** that amide nitrogen is attached to a tert-leucine unit, which is acylated onto the nitrogen of a 4-hydroxyproline.
+- **Right side:** the proline carboxamide nitrogen is bonded to a 4-(4-methylthiazol-5-yl)benzyl group.
+
+Stereochemistry:
+- **Piperidine C3 (wedge to CH2):** working through the CIP priorities (the pyrazole branch outranks the ring CH2–N branch) gives R, written as `[C@@H]`.
+- **tert-Leucine α-carbon (hashed tBu):** this is S, written as `[C@@H]`.
+- **Hydroxyproline:** I took the natural (2S,4R) form, written `N2C[C@H](O)C[C@H]2C(=O)N`. I did not re-derive this one from the wedges; it matches the standard VHL ligand pattern.
+
+SMILES: Oc1ccccc1-c1cc(-c2cn(C[C@@H]3CCCN(C3)CC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(cc4)-c4scnc4C)nc2)c(N)nn1

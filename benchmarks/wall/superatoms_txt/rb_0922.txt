@@ -1,0 +1,9 @@
+I read the molecule region by region, working from left to right.
+
+- **Pyrazine core:** a carboxamide (NC(=O)) sits on one ring carbon. The adjacent carbon carries an NH link to a para-substituted phenyl ring. The ring carbon on the other side of that one carries a piperidine nitrogen.
+- **Piperidine:** it is attached through its nitrogen and has a 2-oxopyrrolidin-1-yl group on its 3-position. That carbon has a hashed bond. Assigning CIP priorities N > C2 > C4 > H, with H toward the viewer, gives the S configuration, which is written `[C@@H]` in the SMILES.
+- **Phenyl–azetidine:** the phenyl ring bears an azetidin-3-yl group, and the azetidine nitrogen carries a CH2 link. The azetidine C3 is not a drawn stereocentre, so it gets no stereo label.
+- **Pyrrolidine:** it is attached at its 3-position to the CH2, and that bond is a wedge. Viewed from the side opposite the hydrogen, the three carbon neighbours run clockwise, which gives `[C@@H]` in the SMILES.
+- **Isoindoline-1,3-dione:** the pyrrolidine nitrogen is bonded to the 5-position of the isoindoline-1,3-dione. Its imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, drawn with plain bonds and so with no stereo.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@@H](C2)N2CCCC2=O)nc1Nc1ccc(cc1)C1CN(C1)C[C@@H]1CCN(C1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

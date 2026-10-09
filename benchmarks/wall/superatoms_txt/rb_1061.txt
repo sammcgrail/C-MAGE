@@ -1,0 +1,11 @@
+I read the molecule as a VHL-recruiting PROTAC-type compound, working region by region from left to right.
+
+- **Left end:** a 2-hydroxyphenyl on a 3-aminopyridazine, with the pyridazine C4 bonded to N3 of a 3,8-diazabicyclo[3.2.1]octane.
+- **Bridge:** the bicycle's N8 bonds to C2 of a 4-methylpyrimidine, whose C5 carries a cyclohexane ring.
+- **Cyclohexane:** the pyrimidine bond is hashed and the carboxamide bond is wedged, so I treated the 1,4-substitution as trans. This gives `[C@H]` at the pyrimidine-bearing carbon and `[C@@H]` at the carboxamide-bearing carbon. The `@@` rather than `@` follows from the order in which the neighbours are written.
+- **Linker:** the carboxamide NH is bonded to the α-carbon of a tert-leucine residue (tert-butyl, wedged N), which I wrote as `N[C@@H](C(C)(C)C)C(=O)`.
+- **Right end:** this C(=O) acylates the N of a 4-hydroxyproline (hashed OH, wedged C2 carboxamide). I used the standard (2S,4R) VHL-ligand configuration, `N2C[C@H](O)C[C@H]2C(=O)N`. The prolinamide nitrogen carries a benzyl group whose para position bears a 4-methylthiazol-5-yl.
+
+I checked the stereo tags by hand against the neighbour order in the string, but I did not run the SMILES through a parser.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ncc([C@H]2CC[C@@H](CC2)C(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)c(C)n1

@@ -1,0 +1,20 @@
+I read the structure as a VHL-ligand-based degrader (PROTAC) and assembled the SMILES region by region.
+
+**VHL ligand end**
+- A 4-methylthiazol-5-yl group sits on a para-substituted benzyl, joined through NH–C(=O) to a 4-hydroxyproline.
+- The proline stereocentres come from the drawing: the carboxamide is on a hashed bond (C2) and the OH is on a wedge (C4). I assigned these as `[C@@H]` and `[C@@H](O)`.
+- The proline N is acylated by an isopropyl-bearing CH. Its isopropyl is on a hashed bond, which I assigned as `[C@H]`.
+
+**Linker region**
+- The CH carries a 3,5-disubstituted isoxazole, attached at C5. Isoxazole C3 bears a piperidine N.
+- That piperidine's C4 carries a CH2CH2 chain to the N of a second piperidine.
+- The second piperidine's C4 is attached to C5 of a pyrimidine.
+
+**Warhead end**
+- Pyrimidine C2 is bonded to N8 of a 3,8-diazabicyclo[3.2.1]octane.
+- N3 of the bicycle is bonded to C4 of a pyridazine.
+- The pyridazine has NH2 at C3 and a 2-hydroxyphenyl at C6.
+
+I checked ring closures and numbering by hand but did not run the SMILES through a parser.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@H](C(C)C)c2cc(no2)N2CCC(CCN3CCC(CC3)c3cnc(nc3)N3C4CCC3CN(C4)c3cc(-c4ccccc4O)nnc3N)CC2)cc1

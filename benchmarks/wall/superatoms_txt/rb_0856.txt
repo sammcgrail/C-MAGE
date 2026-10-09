@@ -1,0 +1,14 @@
+I read the molecule in four parts and joined them in this order.
+
+- **Pyrazine core:** a pyrazine carries the carboxamide on one carbon, the anilino NH on the adjacent carbon, and a piperidine nitrogen on the carbon across the ring.
+- **Piperidine substituent:** the piperidine has a 3-substituent, a 3-methyl-2-oxoimidazolidin-1-yl group, attached by a hashed bond.
+- **Linker:** the anilino phenyl is para-substituted with the nitrogen of a 2,7-diazaspiro[3.5]nonane. The spiro carbon joins the piperidine and the azetidine, and the azetidine nitrogen bears the aryl group.
+- **Phthalimide end:** the aryl group is a phthalimide ring attached at the 5-position. Its imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, drawn with plain bonds, so it gets no stereo label.
+
+Stereochemistry of the hashed piperidine carbon:
+1. The substituents are the hashed N (away from the viewer), the C2 ring carbon (up), the C4 ring carbon (lower right) and an implicit H (toward the viewer).
+2. The CIP priorities are N > C2 > C4 > H.
+3. With H toward the viewer, N → C2 → C4 reads clockwise, so the true sense is counterclockwise and the centre is S.
+4. In the SMILES written as `C2CCC[C@@H](C2)N...`, the neighbour order is C4, H, C2, N. The `@@` tag in this order gives S, which matches the drawing.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@@H](C2)N2CCN(C)C2=O)nc1Nc1ccc(cc1)N1CCC2(CC1)CN(C2)c1ccc2c(c1)C(=O)N(C2=O)C1CCC(=O)NC1=O

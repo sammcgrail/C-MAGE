@@ -1,0 +1,10 @@
+I read this as a VHL-ligand PROTAC and built the SMILES from the left-hand end to the right-hand end.
+
+- **VHL ligand:** a 4-(4-methylthiazol-5-yl)benzylamide of (2S,4R)-4-hydroxyproline, N-acylated with an (S)-tert-leucine unit. I took its stereocentres from the standard VHL ligand pattern and the drawn wedges.
+- **Linker:** the tert-leucine NH is acylated by a spiro[3.3]heptane-2,6-diyl unit. One ring carries the carbonyl and the other carries a piperazine nitrogen, both drawn on wedges. I assigned the two `@` tags from the 2D wedge geometry and did not check them against the 3D axial chirality of the spiro system, so these are the least certain stereo marks.
+- **Middle:** the piperazine is attached to pyrimidine C5. Pyrimidine C2 is bonded to the bridging nitrogen (N8) of a 3,8-diazabicyclo[3.2.1]octane.
+- **Right-hand end:** N3 of the bicycle is attached to a 3-amino-6-(2-hydroxyphenyl)pyridazine at the ring carbon next to the amino-bearing carbon.
+
+I checked the ring-closure digits and the bicycle connectivity by hand, but I did not run the string through a parser.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)[C@H]3CC4(C3)C[C@H](C4)N3CCN(CC3)c3cnc(nc3)N3C5CCC3CN(C5)c3cc(-c5ccccc5O)nnc3N)C(C)(C)C)cc1

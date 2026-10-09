@@ -1,0 +1,12 @@
+I read the structure region by region and wrote it as SMILES.
+
+**Fragments**
+- **Pyrazine core:** a pyrazine ring carries a carboxamide (C(N)=O) at the top-left carbon, an NH–aryl at the carbon next to the ring N on the right, and a piperidine nitrogen at the remaining substituted carbon.
+- **Piperidine and imidazolidinone:** the piperidine C3 carries a 3-methyl-2-oxoimidazolidin-1-yl group. That bond is hashed, and I assign it R. The remaining piperidine ring atoms are plain CH2.
+- **Aryl and spiro core:** the NH-phenyl is para-linked to a nitrogen of a 3,9-diazaspiro[5.5]undecane. The other spiro nitrogen carries a CH2 linker.
+- **Isoindolinone:** the CH2 linker attaches to the benzo ring of the isoindolin-1-one, meta to the ring carbon that bears the CH2–N. The lactam nitrogen is bonded to a 2,6-dioxopiperidin-3-yl (glutarimide) group.
+- **Glutarimide stereocentre:** the N–C bond to the glutarimide is hashed, and I assign it R.
+
+I worked out both @/@@ assignments from the CIP priorities and the hashed bonds, with the implicit H pointing toward the viewer in each case. I did not verify the final string with a parser.
+
+SMILES: NC(=O)c1ncc(N2C[C@H](N3CCN(C)C3=O)CCC2)nc1Nc1ccc(cc1)N1CCC2(CC1)CCN(CC2)Cc1ccc2c(c1)CN(C2=O)[C@H]1CCC(=O)NC1=O

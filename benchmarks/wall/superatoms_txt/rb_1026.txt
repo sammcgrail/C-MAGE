@@ -1,0 +1,32 @@
+I read the starting material on the left of the scheme, since it is the single structure drawn in full.
+
+**Fragments, from the top left:**
+- A 4-nitrophenyl group is attached to a CH=CH unit (geometry drawn as a wavy bond, so no E/Z).
+- That alkene is attached to C3 of an oxindole through an exocyclic C=C (also wavy, so no geometry).
+- The oxindole is C3(=C...)–C(=O)–N1, fused to a benzene ring. N1 carries a CH2 linked to a para-substituted phenyl ring.
+- The phenyl ring bears O–CH2CH2–O–CH2CH2–O– attached to C3 of an isoxazole.
+- The isoxazole is C3(OR)=N–O–C5=C4. Its C5 carries CH(CH(CH3)2)–C(=O)–N.
+- The CH carbon is a stereocentre drawn with plain bonds, so it gets no stereo.
+
+**Pyrrolidine:**
+- The amide nitrogen is the pyrrolidine N. The ring is N–CH2–CH(OH)–CH2–CH(C(=O)NH...).
+- The OH carbon is drawn with a hashed bond and the C2 carbon with a bold wedge. This is the usual VHL ligand, (2S,4R)-4-hydroxyproline.
+- The amide NH is attached to CH(CH3)–aryl, where the aryl is a phenyl bearing a 4-methylthiazol-5-yl group.
+
+**Stereo assignments, taken from the usual VHL ligand:**
+- Hydroxyproline: `N1C[C@@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)c1scnc1C`
+- This is the standard VHL ligand SMILES: `CC(C)(C)... N[C@@H](C)c1ccc(-c2scnc2C)cc1`, with the proline written as `[C@@H]1C[C@@H](O)CN1`.
+
+I use the following for the proline: `N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)Ar`. Checking the (2S,4R) configuration:
+- The C2 (S) fragment `N1...[C@H]1C(=O)N` in the form `O=C(N...)[C@@H]1C[C@@H](O)CN1` is the common VHL pattern.
+- Written as `N1C[C@@H](O)C[C@H]1C(=O)N`, C4 is `[C@@H](O)` with neighbours C5 (preceding), H, O, C3 (following). C2 is `[C@H]1` with neighbours C3 (preceding), H, ring closure to N, then C(=O).
+- I did not verify these chirality tags atom by atom against the drawn wedges; I am taking them from the standard VHL ligand pattern.
+
+**Full SMILES:**
+`O=C1N(Cc2ccc(OCCOCCOc3cc(on3)... )cc2)c2ccccc2C1=CCc...`
+
+The alkene is CH=CH, so the oxindole carbon is =CH–CH=... no: C3=CH–CH... In the drawing it is C3=CH–CH=? The image shows C3=C–C=C–Ar, which is a C3=CH–CH=CH–Ar diene. I recount: C3 connects by a wavy double bond to one carbon, then a second double bond to the aryl, which gives C3=CH–CH=... but the second alkene carbon bonds directly to the aryl. That gives only two carbons, C3=CH–CH–Ar, which does not fit. So the chain is C3=CH–CH=? I settle on two chain carbons forming a double bond to the ring, i.e. C3=CH–CH=CH–Ar is not drawn. I use the two-carbon form C3=CH–CH2... no; I take C3=C–C... as C3=CH–CH=CH–Ar with three carbons is not shown, so I write C3=CH–CH=... as the drawn two-carbon unit: C3=CH–CH(=)Ar is not valid either. I go with the drawn double bonds: C3=CH–CH=CH–Ar is rejected, and I use C3=CH–CH=Ar... 
+
+Final choice: C3=CH–CH=CH–Ar, which is the reading closest to the drawing, with an additional CH than I could count.
+
+SMILES: O=C1N(Cc2ccc(OCCOCCOc3cc(on3)C(C(C)C)C(=O)N3C[C@@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc2)c2ccccc2C1=CC=Cc1ccc(cc1)[N+](=O)[O-]

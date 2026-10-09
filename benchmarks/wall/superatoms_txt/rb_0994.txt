@@ -1,0 +1,18 @@
+Reading the structure region by region, from left to right:
+
+**Left ring.** This is a 1,3-dimethyl-3,4-dihydropyrimidin-2(1H)-one. N1 carries a methyl, C6 is =CH, C5 bears the aryl group, C4 is CH2, N3 carries a methyl, and C2 is C=O. The ring SMILES is CN1C=C(c...)CN(C)C1=O.
+
+**Aryl ring.** C1 bears the dihydropyrimidinone. C2 and C6 are CH. C3 bears OMe, C4 bears the CH2 linker, and C5 bears OMe. The two OMe groups are flanking the benzylic carbon, so the ring is 3,5-dimethoxy-4-(CH2N...)phenyl.
+
+**Linker.** The benzylic CH2 attaches to piperazine 1 (N-CH2CH2-N). The other N of piperazine 1 is joined through CH2CH2 to piperazine 2. The far N of piperazine 2 is attached to the isoindolinone aromatic ring.
+
+**Isoindolinone.** The aromatic carbon bearing the piperazine is the one in the position para to the carbonyl-bearing carbon. In the drawing, the ring carbon attached to the piperazine N sits at the top left of the benzene ring, next to the CH2-bearing carbon (C3a). The benzene ring runs: C3a (attached to CH2), then C4 (CH, top), then C5 (bearing the piperazine), then C6 (CH), C7 (CH), and C7a (attached to C=O). In the image, the piperazine is attached at about (910, 320). The CH2 carbon is at (1110, 300), and the ring carbon at (1000, 270) is C3a. The carbon at (940, 320) is attached to the piperazine, which makes it C5, adjacent to C4 at (1000, 270)... Checking the layout, C4 is the CH at the top (1000, 270) next to C3a at (1050, 300), which is consistent with this assignment. The piperazine is therefore at C5.
+
+**Glutarimide.** The isoindolinone N is attached to a piperidine-2,6-dione at C3. This carbon has plain bonds, so no stereochemistry is assigned.
+
+**Assembled SMILES.**
+CN1C=C(CN(C)C1=O)c1cc(OC)c(CN2CCN(CCN3CCN(CC3)c3ccc4C(=O)N(Cc4c3)C3CCC(=O)NC3=O)CC2)c(OC)c1
+
+In the isoindolinone fragment c3ccc4C(=O)N(Cc4c3)..., the piperazine-bearing carbon c3 is followed by c, c (the CH carbons), and then c4, which bears the C=O. After the CH2, the ring closes on c4 and then c3 is CH. So the piperazine carbon is adjacent to the CH that neighbours C3a, which is C5. This matches the drawing.
+
+SMILES: CN1C=C(CN(C)C1=O)c1cc(OC)c(CN2CCN(CCN3CCN(CC3)c3ccc4C(=O)N(Cc4c3)C3CCC(=O)NC3=O)CC2)c(OC)c1

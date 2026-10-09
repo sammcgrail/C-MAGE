@@ -1,0 +1,20 @@
+I read the structure in four parts and wrote each into the SMILES below.
+
+**Left end.** An oxindole whose N is benzylated. Its C3 carries an exocyclic =CH–CH=CH–C6H4–NO2 (para-nitrophenyl) chain.
+- The exocyclic C3=C bond is drawn with the lactam C=O carbon on the same side as the vinyl chain, so the aryl ring carbon is trans to the chain. I encoded this as `c2ccccc2/C1=C/...`.
+- The second C=C, next to the nitrophenyl group, is E.
+
+**Linker.** The benzyl ring is para-substituted with O–CH2CH2–O–CH2CH2–O–CH2CH2–O–, which ends on C3 of an isoxazole.
+
+**Middle.** The isoxazole C5 carries a CH(iPr)–C(=O) unit. The iPr is on a wedge, and I assigned that centre as `[C@@H]`.
+
+**VHL-type end.**
+- The C(=O) is the amide carbonyl of a 4-hydroxypyrrolidine.
+- C2 has a wedge to the carboxamide, giving `[C@H]`.
+- C4 has a hashed OH, giving `[C@H](O)`.
+- The carboxamide N is attached to CH(CH3) with a wedged methyl, giving `[C@@H]`.
+- That CH is bonded to a para-phenylene ring bearing a 4-methylthiazol-5-yl group.
+
+I derived each `@`/`@@` label from the drawn wedge geometry and neighbour order. I checked ring closures and atom counts against the drawing.
+
+SMILES: O=C1N(Cc2ccc(OCCOCCOCCOc3cc(on3)[C@@H](C(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc2)c2ccccc2/C1=C/C=C/c1ccc(cc1)[N+](=O)[O-]

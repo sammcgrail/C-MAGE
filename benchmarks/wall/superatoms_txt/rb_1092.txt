@@ -1,0 +1,8 @@
+This SMILES reads the image as a VHL-based PROTAC: a VHL ligand joined through a cyclohexyl–piperidine–pyrimidine–diazabicyclooctane linker to an aminopyridazine-phenol group.
+
+- **VHL end:** a 4-methylthiazol-5-yl benzylamide on a 4-hydroxyproline, acylated by a tert-leucine that carries a 1-fluorocyclopropanecarboxamide. I took the stereochemistry as the natural VHL-ligand configuration, (2S,4R) at the proline and S at the tert-leucine. I did not independently check it against the wedges and hashes.
+- **Linker:** the benzene ring carries an O-linked trans-1,4-cyclohexane, which connects through N to a piperidine. The piperidine C4 is bonded to pyrimidine C5. Pyrimidine C2 is bonded to the bridgehead N8 of a 3,8-diazabicyclo[3.2.1]octane.
+- **Cyclohexane geometry:** the drawing shows a wedge on the O side and a hash on the N side, so the ring is trans. I wrote `[C@H]…[C@H]` to encode trans in this atom ordering, after checking the ordering against trans-4-methylcyclohexanol.
+- **Other end:** N3 of the bicycle is bonded to C4 of a pyridazine. That pyridazine has an NH2 at C3 and a 2-hydroxyphenyl at C6.
+
+SMILES: CC(C)(C)[C@H](NC(=O)C1(F)CC1)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(-c2scnc2C)cc1O[C@H]1CC[C@H](CC1)N1CCC(CC1)c1cnc(nc1)N1C2CCC1CN(C2)c1cc(-c2ccccc2O)nnc1N

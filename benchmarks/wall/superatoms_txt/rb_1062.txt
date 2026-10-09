@@ -1,0 +1,10 @@
+I read the structure region by region and wrote the SMILES from that. Stereochemistry is given only at the pyrrolidine carbon, which is the one centre drawn with a hashed bond.
+
+- **Pyrazine core:** a carboxamide (CONH2) sits on one ring carbon. Going round the ring, the next positions are N, CH, then a carbon bearing the piperidin-1-yl group, then N, then a carbon bearing the NH-aryl group.
+- **Left piperidine:** it is attached to the pyrazine through its nitrogen. Its 3-position carries a 3-methyl-2-oxoimidazolidin-1-yl group.
+- **Central aryl–piperidine:** the NH leads to a para-substituted benzene. The benzene's other end bonds to the 4-position of a second piperidine, whose nitrogen carries a CH2 linker.
+- **Pyrrolidine:** the CH2 linker attaches to the pyrrolidine 3-position through the hashed bond. The pyrrolidine nitrogen is bonded to the isoindolinone aromatic ring.
+- **Isoindolinone end:** the isoindolinone has a lactam C=O and an N-substituent, 2,6-dioxopiperidin-3-yl. That glutarimide carbon is drawn with plain bonds, so it gets no stereo label.
+- **Stereo assignment:** I set the pyrrolidine centre by 3D geometry rather than CIP priorities. The CH2 substituent points back (hashed) and H points toward the viewer. Taking the neighbours in SMILES order (CH2, H, ring CH2 next to N, ring CH2 next to the other CH2), this works out to `@`.
+
+SMILES: NC(=O)c1ncc(N2CCCC(C2)N2CCN(C)C2=O)nc1Nc1ccc(cc1)C1CCN(CC1)C[C@H]1CCN(C1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1

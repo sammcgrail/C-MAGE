@@ -1,0 +1,14 @@
+I read the structure in three parts and wrote the SMILES in that order.
+
+**Left fragment.** A 3-aminopyridazine carries a 2-hydroxyphenyl at C6. At C4 it is joined to a pyrazole through the pyrazole's 4-position. The pyrazole N1 is attached to the 4-position of a piperidine.
+
+**Linker.** The piperidine nitrogen bears a CH2 that connects to a cyclohexane. The cyclohexane is 1,4-disubstituted, with a carboxamide at the opposite carbon. Both substituents on the ring are drawn with bold wedges on the same side, so the ring is cis. I encoded this as `[C@H]1CC[C@@H](CC1)`, after checking the atom order against the known trans-1,4 pattern.
+
+**VHL-type ligand.**
+- The amide nitrogen is attached to an L-tert-leucine, written `N[C@@H](C(C)(C)C)C(=O)`.
+- That is acylated onto a (2S,4R)-4-hydroxyproline, written `N1C[C@H](O)C[C@H]1`.
+- The proline carboxamide links through a benzylic NH to a 4-(4-methylthiazol-5-yl)phenyl group.
+
+I assigned the tert-leucine and hydroxyproline configurations from the standard VHL ligand pattern, which matches the wedges as drawn.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(c1)C1CCN(CC1)C[C@H]1CC[C@@H](CC1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

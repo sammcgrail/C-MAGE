@@ -1,0 +1,20 @@
+Reading the structure region by region:
+
+- **Left end:** a phenoxyphenyl group attached to C3 of a pyrazolo[3,4-d]pyrimidine. The pyrimidine carries NH2 at C4, and N1 of the pyrazole bears a piperidin-4-yl group.
+- **Piperidine nitrogen:** attached to CH2CH2–O–(CH2)5–O–.
+  - From N, the chain runs CH2, CH2, then O.
+  - After that O the drawing shows a zigzag of 5 CH2 groups (vertices at about 730, 790, 850, 910, 965 in x), then the second O at about 1020.
+  - So the full linker is N–CH2CH2–O–CH2CH2CH2CH2CH2–O–Ar.
+- **Right end:** the aryl O is attached to C5 of an isoindolin-1-one. The lactam N carries a 2,6-dioxopiperidin-3-yl group, and the stereocentre is drawn with plain bonds, so no stereo is given.
+
+SMILES assembly:
+
+- Pyrazolopyrimidine: Nc1ncnc2n(C3CCN(CC3)...)nc(c12)-c1ccc(Oc2ccccc2)cc1
+- Linker: CCOCCCCCOc...
+- Isoindolinone: c1ccc2c(c1)CN(C2=O)C1CCC(=O)NC1=O
+
+For the isoindolinone, the O-bearing carbon is C5, which is meta to the ring fusion carbon bearing the CH2 and para to the one bearing the C=O. In the image, the ring carbon attached to C=O is at upper right, and the carbon bearing the CH2 is at lower right. The O-bearing carbon sits at lower left, adjacent to the CH carbon next to the CH2-bearing carbon. That makes it para to the C=O-bearing carbon.
+
+Writing it as O-c1ccc2c(c1)CN(C2=O)...: the atom c1 bears O, then c, c, then c2 (which bears C=O, since the ring closure to C2=O comes at the end), then c(c1) bears CH2. This gives c2 as the C=O-bearing carbon, and the O carbon is separated from it by two atoms (c, c), which is para. This matches the drawing.
+
+SMILES: Nc1ncnc2n(C3CCN(CC3)CCOCCCCCOc3ccc4c(c3)CN(C3CCC(=O)NC3=O)C4=O)nc(-c3ccc(Oc5ccccc5)cc3)c12

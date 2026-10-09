@@ -1,0 +1,10 @@
+I read the molecule as a VHL-ligand PROTAC and wrote it in sections, left to right.
+
+- **VHL end:** a 4-hydroxyproline carrying an amide to a 4-(4-methylthiazol-5-yl)benzylamine. I assumed the natural (2S,4R) configuration and wrote the stereo to match, rather than deriving it from the drawn wedge and hash.
+- **Linker start:** the proline nitrogen is acylated by a CH(isopropyl) group, which is attached to C5 of an isoxazole. This CH is drawn with plain bonds, so it has no stereo label.
+- **Cyclohexane:** the isoxazole C3 is joined to a 1,4-disubstituted cyclohexane. The wedge on one side and hash on the other mean trans, so I used `[C@H]…[C@H]`.
+- **Piperidine and pyrimidine:** the cyclohexane carbon bears the piperidine nitrogen, and piperidine C4 is bonded to C5 of a pyrimidine.
+- **Bicycle:** pyrimidine C2 is bonded to N8 of an 8-azabicyclo[3.2.1]octane (the bridging nitrogen), and N3 of that bicycle is bonded to the pyridazine.
+- **Pyridazine end:** the pyridazine has NH2 next to the ring nitrogen and a 2-hydroxyphenyl group at the far carbon.
+
+SMILES: O=C(NCc1ccc(cc1)-c1scnc1C)[C@@H]1C[C@@H](O)CN1C(=O)C(C(C)C)c1cc(no1)[C@H]1CC[C@H](CC1)N1CCC(CC1)c1cnc(nc1)N1C2CCC1CN(C2)c1cc(nnc1N)-c1ccccc1O

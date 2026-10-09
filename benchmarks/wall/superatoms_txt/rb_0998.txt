@@ -1,0 +1,9 @@
+I read the structure in sections and wrote each one out as SMILES.
+
+- **Pyrazine core:** The ring carries a primary carboxamide, an NH link to a 1-methylpyrazol-4-yl group, and a piperidin-1-yl group on the other side.
+- **Piperidine linker:** The piperidine is attached to the pyrazine through its nitrogen. Its C3 carries the lactam nitrogen on a hashed bond.
+- **Spiro lactam:** The lactam is a 2,6-diazaspiro[3.4]octan-7-one. Its pyrrolidinone nitrogen bonds to the piperidine, and its azetidine nitrogen carries a CH2 linker.
+- **Right-hand side:** The CH2 goes to C4 of a second piperidine. That piperidine's nitrogen is bonded to C5 of a phthalimide, whose imide nitrogen bears a 2,6-dioxopiperidin-3-yl group.
+- **Stereochemistry:** The only drawn stereocentre is the piperidine C3 with the hashed bond to the lactam nitrogen. The CIP priorities are lactam N, then C2, then C4, then H. With H pointing toward the viewer, the sequence N → C2 → C4 runs counterclockwise in the drawing, so the centre is R. In the SMILES order written below, `[C@H]` encodes R. The glutarimide C3 is drawn with plain bonds, so it gets no stereo label.
+
+SMILES: NC(=O)c1ncc(nc1Nc1cnn(C)c1)N1CCC[C@H](C1)N1CCC2(CN(CC3CCN(CC3)c3ccc4c(c3)C(=O)N(C3CCC(=O)NC3=O)C4=O)C2)C1=O

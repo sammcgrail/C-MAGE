@@ -1,0 +1,10 @@
+I read the structure as a PROTAC-type molecule built from four parts, and wrote the SMILES in that order.
+
+- **Left end:** a 3-amino-6-(2-hydroxyphenyl)pyridazine carrying a pyrazol-4-yl group at C4. The pyrazole N1 is linked by a CH2 to C4 of a piperidine.
+- **Linker:** the piperidine nitrogen carries a benzyl group. The para position of that benzene ring bears a spiro[3.3]heptane, which carries a carboxamide at its far ring.
+- **Peptide section:** the carboxamide is attached to the nitrogen of tert-leucine. Its carbonyl is bonded to the nitrogen of 4-hydroxyproline.
+- **Right end:** the proline carboxamide is bonded to a 4-(4-methylthiazol-5-yl)benzylamine.
+
+For stereochemistry, I assigned the tert-leucine carbon and the two hydroxyproline carbons (CH–OH and CH–C(=O)), taking the chirality symbols from the standard VHL-ligand SMILES and re-deriving them for my atom ordering. I left the spiro[3.3]heptane stereochemistry out, because I could not resolve the wedge and hash geometry around the spiro centre reliably.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(CC2CCN(Cc3ccc(cc3)C3CC4(C3)CC(C4)C(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)CC2)c1

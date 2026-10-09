@@ -1,0 +1,10 @@
+I read the structure in sections and assembled the SMILES from them.
+
+- **Pyrazine core:** the ring carries a primary carboxamide, an anilino NH on the adjacent carbon, and a piperidin-1-yl group on the carbon beyond that.
+- **Piperidine on the pyrazine:** its 3-position bears a 3-methyl-2-oxoimidazolidin-1-yl group, drawn with a wedge bond.
+- **Aryl linker:** a para-phenylene joins the anilino NH to the 4-position of a second piperidine. That piperidine nitrogen is acylated as an amide: C(=O)CH2CH2–O–CH2CH2–NH.
+- **Terminal group:** the NH sits at the 4-position of an isoindoline-1,3-dione, whose nitrogen carries a 2,6-dioxopiperidin-3-yl ring (the stereocentre is drawn plain, so it gets no stereo label).
+
+**Stereocentre:** the only drawn stereocentre is C3 of the piperidine on the pyrazine. The wedged bond points to the imidazolidinone nitrogen, so the implicit H is at the back. The CIP priorities are N, then ring C2 (attached to N), then C4, then H. Going N → C2 → C4 on the drawing is clockwise, so the centre is R. In the SMILES written as `N2CCC[C@H](C2)N3...`, the neighbour order is C4, H, C2, N, and `@` corresponds to R by a permutation-parity check.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(cc1)C1CCN(CC1)C(=O)CCOCCNc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)N1CCC[C@H](C1)N1CCN(C)C1=O

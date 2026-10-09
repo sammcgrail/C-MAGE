@@ -1,0 +1,24 @@
+I read the structure region by region and assembled the SMILES from the pieces.
+
+**Top bicyclic part.** A pyrimidinone is fused to a morpholine. The ring atoms are N(Me)–C(=O)–N(ring fusion)–CH2CH2–O–CH2–CH(ring fusion)–C(aryl)=CH–N(Me).
+- The fusion N is bonded to C(=O), CH2 (towards CH2CH2O), and the fusion CH.
+- The fusion CH is bonded to N, CH2O and C(=C).
+- The SMILES for this part is CN1C=C(Ar)C2COCCN2C1=O.
+
+**Central aryl ring.** It carries the bicyclic group at the top, two OMe groups meta to it, and a CH2 at the bottom, para to the bicyclic group and flanked by the two OMe groups.
+- Aryl: c1(cc(OC)c(CN...)c(OC)c1).
+
+**Spiro amine.** CH2 is attached to N of a piperidine, and the piperidine's 4-position is the spiro carbon of a cyclobutane. This is 7-azaspiro[3.5]nonane: N1CCC2(CC1)CC(C2)Ar.
+- The cyclobutane CH carries the isoindoline aryl group.
+
+**Isoindoline-dione and glutarimide.** The aryl is a phthalimide with the spiro substituent at position 5, and the imide N bears 2,6-dioxopiperidin-3-yl.
+- Phthalimide: c1ccc2c(c1)C(=O)N(C3CCC(=O)NC3=O)C2=O.
+
+**Stereochemistry.** No wedges or hashes are drawn, so none is included.
+
+**Full SMILES.**
+CN1C=C(C2COCCN2C1=O)c1cc(OC)c(CN2CCC3(CC2)CC(C3)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(OC)c1
+
+The fusion carbon is written as C2COCCN2: it is bonded to C(=C), to CH2O, and to N2 as ring closure. N2 is bonded to CH2, then to C1=O, which closes ring 1 to N(Me). The ring order is N1(Me)–C=C(Ar)–C2–…–N2–C1(=O), which matches the drawing.
+
+SMILES: CN1C=C(C2COCCN2C1=O)c1cc(OC)c(CN2CCC3(CC2)CC(C3)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(OC)c1

@@ -1,0 +1,13 @@
+I read the structure region by region and wrote it as one SMILES string.
+
+**Fragments**
+- **Pyrazine core:** a pyrazine-2-carboxamide (C(N)=O). One ring carbon carries the NH–aryl link and another carries the piperidine nitrogen.
+- **Piperidine arm:** a piperidin-1-yl group with a 3-(3-methyl-2-oxoimidazolidin-1-yl) substituent.
+- **Linker:** NH to a para-phenylene, then a piperazine. The far piperazine nitrogen carries a CH2 that leads to a pyrrolidin-3-yl group.
+- **Pyrrolidine end:** the pyrrolidine nitrogen is bonded to C5 of an isoindoline-1,3-dione, whose imide nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide) ring. That glutarimide carbon is drawn with plain bonds, so it gets no stereo.
+
+**Stereochemistry**
+- **Piperidine C3:** the wedge goes to the imidazolidinone nitrogen. Taking the neighbours in CIP priority order (N, then the ring CH2 attached to N, then the other ring CH2, then H), the centre comes out as R. In the SMILES this is `[C@H]`, written as `CCC[C@H](C2)N…`.
+- **Pyrrolidine C3:** the wedge goes to the exocyclic CH2. From the drawn geometry, the neighbour order (exocyclic CH2, H, ring CH2–N, ring CH2) corresponds to `[C@H]` in `C[C@H]2CCN(C2)…`. I assigned this directly from the geometry rather than through CIP priorities, because the two CH2 groups tie at the first sphere.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@H](C2)N2CCN(C)C2=O)nc1Nc1ccc(cc1)N1CCN(C[C@H]2CCN(C2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)CC1

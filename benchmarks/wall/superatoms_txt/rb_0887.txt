@@ -1,0 +1,23 @@
+I read the structure region by region, from left to right.
+
+**Left aryl ring:** a benzene bearing CN at C1. The adjacent carbon carries OMe, the next carries F, and the next carries the N of the thiohydantoin.
+- Ring SMILES: c1(C#N)ccc(N...)c(F)c1OC
+
+**Thiohydantoin:** N(aryl)–C(=S)–N(pyridyl)–C(CH3)2–C(=O), closed back to N(aryl).
+- SMILES: N1(Ar)C(=S)N(Ar')C(C)(C)C1=O
+
+**Pyridine:** N1 is bonded to C2, which carries the aryl group. C3 carries F, C4 is CH, C5 carries the thiohydantoin N, and C6 is CH.
+- SMILES: c1(-Ar)ncc(N...)cc1F
+
+**Middle phenyl ring:** attached to pyridine C2. Going around the ring, one meta position carries F and the para position carries the O–CH2CH2–NH chain.
+- SMILES: c1ccc(OCCNC(=O)COAr)c(F)c1
+
+**Linker and right end:** the chain continues NH–C(=O)–CH2–O– to the isoindoline-1,3-dione, which is attached through its 5-position. The imide N bears a 2,6-dioxopiperidin-3-yl group.
+- Isoindoline ring: O–c1ccc2c(c1)C(=O)N(C3CCC(=O)NC3=O)C2=O
+
+**Full SMILES:**
+N#Cc1ccc(N2C(=S)N(C(C)(C)C2=O)c2cnc(c(F)c2)-c2ccc(OCCNC(=O)COc3ccc4c(c3)C(=O)N(C3CCC(=O)NC3=O)C4=O)c(F)c2)c(F)c1OC
+
+I checked the pyridine ring: c2cnc(c(F)c2) runs C5 (bearing N), C6 (H), N1, C2 (the substituted carbon, written c(...) with the aryl attached after it), C3 (F), C4 (H), then back to C5. Here c2 is C5, c is C6, n is N, c( is C2, c(F) is C3, and c2 is C4, so the ring is consistent. The aryl group attaches to C2 as "-c2ccc...", and in the SMILES it follows the parenthesis, so the connectivity is right.
+
+SMILES: N#Cc1ccc(N2C(=S)N(C(C)(C)C2=O)c2cnc(c(F)c2)-c2ccc(OCCNC(=O)COc3ccc4c(c3)C(=O)N(C3CCC(=O)NC3=O)C4=O)c(F)c2)c(F)c1OC

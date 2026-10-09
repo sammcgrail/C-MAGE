@@ -1,0 +1,21 @@
+Reading the structure region by region, from left to right:
+
+1. **Methoxybenzothiazole.** A methoxy group sits on the benzo ring at position 6 of the benzothiazole. The thiazole C2 carries the phenyl group.
+2. **Phenyl–azetidine.** The para-substituted phenyl ring is bonded to the azetidine nitrogen. The azetidine C3 carries an oxygen.
+3. **Ether to piperidine.** That oxygen links to C4 of a piperidine. The piperidine nitrogen bears an ethylene (CH2CH2) linker.
+4. **Piperazine.** The ethylene linker ends on one piperazine nitrogen. The other piperazine nitrogen is bonded to the aryl ring of the isoindoline-1,3-dione at position 5.
+5. **Glutarimide.** The isoindoline nitrogen is attached to C3 of a 2,6-dioxopiperidine. This carbon is drawn with a plain bond, so no stereochemistry is given.
+
+SMILES assembly:
+
+- Benzothiazole: COc1ccc2nc(sc2c1)-c1ccc(cc1)
+- Azetidine: N1CC(C1)O
+- Piperidine: C1CCN(CC1)
+- Linker and piperazine: CCN1CCN(CC1)
+- Phthalimide and glutarimide: c1ccc2C(=O)N(C(=O)c2c1)C1CCC(=O)NC1=O
+
+Methoxy position check: the benzo ring has S attached at C7a, and the carbon adjacent to it is C7. In the drawing the ring carbon bearing the methoxy is bonded to a CH that is bonded to the carbon carrying S, so the methoxy is at C6. In the SMILES "COc1ccc2nc(sc2c1)", the atom c1 (OMe) is followed by two CH atoms and then c2 bonded to N (C3a), while the ring-closing "c1" is bonded to c2 (C7a, bonded to S). The OMe carbon is therefore adjacent to C7, which is adjacent to C7a, giving position 6, which matches the drawing.
+
+Phthalimide substitution: the piperazine is on C5, and the SMILES for that ring is c1ccc2C(=O)N(...)C(=O)c2c1 with the substituent on the first atom. I wrote the substituent on the first c1, which is bonded to a CH, then another CH, then c2 (a ring-fusion carbon). The substituted carbon is separated from the fusion carbon by one CH via the closing c1, so it is position 5. This is consistent.
+
+SMILES: COc1ccc2nc(sc2c1)-c1ccc(cc1)N1CC(C1)OC1CCN(CC1)CCN1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

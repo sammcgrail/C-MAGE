@@ -1,0 +1,15 @@
+I read the structure in three parts and wrote the SMILES for each before joining them.
+
+**Left (VHL-type ligand):** a 4-(4-methylthiazol-5-yl)benzylamide of a 4-hydroxyproline. The proline nitrogen is acylated by a tert-leucine residue. I took the stereochemistry of this fragment from the standard VHL ligand pattern and checked it against the drawn wedges rather than deriving it independently.
+
+**Middle:** the tert-leucine NH is acylated by a spiro[3.5]nonane-2-carboxamide. This is a cyclobutane fused at the spiro carbon to a cyclohexane. The cyclobutane CH carries the carbonyl on a hashed bond, and the cyclohexane CH at position 7 carries the piperidine nitrogen on a hashed bond. I assigned both centres from the hashed bonds by working out the viewing direction for each (@@ at both).
+
+**Right:**
+- The piperidine nitrogen is on the cyclohexane, and its 4-position is attached to a pyrimidine at C5.
+- The pyrimidine C2 is bonded to the bridging N8 of a 3,8-diazabicyclo[3.2.1]octane.
+- N3 of that bicycle is bonded to C4 of a pyridazine.
+- The pyridazine carries NH2 at C3 and a 2-hydroxyphenyl group at C6.
+
+I checked ring closures and atom counts by hand against the drawing, but did not run the SMILES through a parser.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)[C@@H]2CC3(C2)CC[C@@H](CC3)N2CCC(CC2)c2cnc(nc2)N2C4CCC2CN(C4)c2cc(nnc2N)-c2ccccc2O)C(C)(C)C)cc1

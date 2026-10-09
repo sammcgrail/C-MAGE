@@ -1,0 +1,11 @@
+I read the molecule as a VHL-ligand PROTAC. It has a hydroxyproline–tert-leucine–(4-methylthiazolyl)benzylamide unit, a 2,6-disubstituted spiro[3.3]heptane linker, and a piperidine ether on a pyridine. The pyridine carries a 3,8-diazabicyclo[3.2.1]octane, which in turn bears an aminopyridazine with a 2-hydroxyphenyl group.
+
+- **VHL end:** I took the hydroxyproline and tert-leucine stereocentres from the wedges and hashes in the drawing. They match the standard (2S,4R) VHL ligand.
+- **Spiro[3.3]heptane:** the drawing shows a wedge on the carbonyl-bearing carbon and a hash on the piperidine-bearing carbon. I encoded both as `[C@H]` from the drawn geometry. This pair describes axial chirality rather than two independent stereocentres.
+- **Piperidine and pyridine:** the piperidine nitrogen is attached to the spiro carbon, and its 4-position is linked by an ether oxygen to C2 of the pyridine. The bicycle is on pyridine C5.
+- **Bicycle:** N3 of the bicycle is attached to the pyridazine. The bridging N8 is an unsubstituted NH. The pyridine sits on a carbon of the two-carbon bridge. No stereochemistry is drawn there, so I left it unspecified.
+- **Pyridazine:** the NH₂ is on the carbon next to the ring nitrogen, the bicycle nitrogen is on the adjacent carbon, and the 2-hydroxyphenyl is on the carbon on the far side of the ring.
+
+I checked the ring-closure numbers and the chirality tags by hand against the drawn geometry.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)[C@H]3CC4(C3)C[C@H](N5CCC(CC5)Oc5ccc(cn5)C6CC7CN(c8cc(-c9ccccc9O)nnc8N)CC6N7)C4)C(C)(C)C)cc1

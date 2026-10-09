@@ -1,0 +1,11 @@
+I read the molecule region by region and wrote it as the SMILES below.
+
+- **Pyrazine core:** a pyrazine carries a primary carboxamide (C(N)=O) on one carbon and an NH–aryl on the adjacent carbon. A piperidin-1-yl group sits on the third substituted carbon, and the ring contains one CH.
+- **Piperidine on the pyrazine:** its 3-position carries a 3-methyl-2-oxoimidazolidin-1-yl group on a wedged bond. I assigned this centre R, and `[C@H]` in the string below reproduces that.
+- **Central linker:** the aryl group is a para-phenylene, joined at its far end to the 4-position of a second piperidine. That piperidine's nitrogen carries a CH2 group.
+- **Pyrrolidine:** the CH2 is attached by a hashed bond to the 3-position of a pyrrolidine. I assigned that centre by tracing the geometry directly, and `[C@@H]` in the string below reproduces it. The pyrrolidine nitrogen is bonded to the aromatic ring of the isoindoline-1,3-dione.
+- **Glutarimide end:** the isoindoline-1,3-dione nitrogen carries a 2,6-dioxopiperidin-3-yl group. Its stereocentre is drawn with plain bonds, so it gets no stereo label.
+
+I traced the atom connectivity against the drawing and the SMILES is valid.
+
+SMILES: NC(=O)c1ncc(N2CCC[C@H](C2)N3CCN(C)C3=O)nc1Nc1ccc(cc1)C1CCN(C[C@@H]2CCN(C2)c2ccc3c(c2)C(=O)N(C3=O)C2CCC(=O)NC2=O)CC1
