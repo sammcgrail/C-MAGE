@@ -27,7 +27,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "benchmarks"))
 
 import build_wall  # noqa: E402
-from build_wall import WALL, render_pred, thumb, relate  # noqa: E402
+from build_wall import WALL, render_pred, thumb, relate, tool_read_keys  # noqa: E402
 import sonnet_batch as B  # noqa: E402
 from build_sonnet55 import run_record, transcript, contains, load_jsonl, num_conf  # noqa: E402
 from novel_set import OUT as SET, IMG  # noqa: E402
@@ -107,6 +107,10 @@ def build() -> int:
     rows = []
     corpus_rows = {r["k"]: r for r in json.load(open(WALL.parent / "corpus_rows.json"))["rows"]}   # private copy, with references
     fresh = {S[k]["of"]: lane[k] for k in S if S[k]["kind"] == "P" and k in lane}
+    # A parent drug's corpus reference is served only once a tool-using reader has read that parent's
+    # corpus drawing (a corpus lane, or this lane's fresh P read of the same drawing), the same rule
+    # as wall/images.json. Until then the page says it is withheld.
+    parent_read_keys = tool_read_keys() | {S[k]["parent_key"] for k in S if S[k]["kind"] == "P" and k in lane}
     for k in sorted(S):
         s = S[k]
         if k not in lane or s["kind"] == "P":
@@ -133,6 +137,9 @@ def build() -> int:
                        cx_auto=B.verdict(s.get("s"), s["parent_t"]) == "exact",
                        named_parent=s["parent"].lower() in (r.get("sonnet_name") or "").lower(),
                        parent_corpus=pc["sonnet_verdict"] if pc else None)
+            if s["parent_key"] not in parent_read_keys:
+                row.pop("parent_t", None)
+                row["parent_tw"] = 1
         else:
             row["fragments"] = s["fragments"]
         if s["kind"] == "C":

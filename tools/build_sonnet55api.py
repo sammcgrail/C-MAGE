@@ -22,7 +22,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "benchmarks"))
 
 import build_wall  # noqa: E402
-from build_wall import WALL, render_pred, thumb, relate  # noqa: E402
+from build_wall import WALL, render_pred, thumb, relate, tool_read_keys, gate_truth, WITHHELD_NOTE  # noqa: E402
 _TILE = build_wall.TILE
 import build_sonnet55 as B55  # noqa: E402
 build_wall.TILE = _TILE
@@ -216,6 +216,10 @@ def build() -> int:
          "sub": (f"{rescued} finished on retry, {rescued_ex} exact" if retried else "first attempts")},
     ]
     models = sorted({r.get("model") for r in led if r["status"] == "ok"})
+    # Same rule as wall/images.json: the reference (and what is computed from it) is served only
+    # for images a tool-using Sonnet reader has already read. Every figure above was computed
+    # before this, from the full rows; only the per-row payload loses the fields.
+    withheld = gate_truth(rows, tool_read_keys())
     out = {
         "arm": "Sonnet 5.5 API only", "dir": DIR, "reader": "Sonnet 5.5 API", "rows": rows,
         "cards": cards, "vs": vs, "breakdown": breakdown, "splits": splits,
@@ -223,6 +227,7 @@ def build() -> int:
         "noAlt": "The tool-using Sonnet 5.5 reader has not read this image.",
         "runNote": "Sonnet 5.5 API call, at list price",
         "stats": {"n": n, "exact": ex, "strict_pct": pct(ex, n)},
+        "withheld": {"n": withheld, "note": WITHHELD_NOTE},
         "threshold": 101,
         "prompt": PROMPT.read_text().strip(),
         "method": [
@@ -256,10 +261,14 @@ def build() -> int:
                       f"taken literally); the tags are stripped before scoring, which moves {wrapped_raw_ex} "
                       f"from unparseable to exact." if wrapped_n else "")
                    + (f" Failed calls: {', '.join(failed)}." if failed else "")
-                   + " Ground truth is PubChem."),
+                   + " Ground truth is PubChem."
+                   + (f" The reference SMILES is withheld on {withheld:,} images no tool-using Sonnet reader has "
+                      f"read yet (those readers have a network); verdicts are shown for all." if withheld else "")),
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
-    OUT.write_text(json.dumps(out, separators=(",", ":")))
+    tmp = OUT.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(out, separators=(",", ":")))
+    os.replace(tmp, OUT)
     print(f"wrote {OUT} ({OUT.stat().st_size / 1e3:.1f} KB): {n} rows, exact {ex}/{n}, ${cost:.4f}, "
           f"max_tokens {mt} (retried {len(retried)}, finished {rescued}, exact {rescued_ex}), failed {len(failed)}, unwrapped {wrapped_n} ({wrapped_raw_ex} of them exact)"
           + (f"; vs tools reader on {vs['n']}: API {vs['api']} reader {vs['reader']} "

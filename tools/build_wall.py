@@ -25,6 +25,56 @@ from PIL import Image
 TILE = 240
 ROOT = Path("/root/C-MAGE/benchmarks")
 WALL = ROOT / "wall"
+# The corpus WITH every reference SMILES. Not served (only benchmarks/wall/ is mounted at /wall);
+# the tools that need truth (sonnet_batch.corpus, novel_set, build_novel, control_set, the dual
+# cadence) read this, never a served payload.
+CORPUS_ROWS = ROOT / "corpus_rows.json"
+# The lanes whose readers run with tools (a shell, Python, network): the Sonnet 5 arm, the
+# hand-picked and corpus Sonnet 5.5 lanes, and the renderer-control lane. A reader with a network
+# could fetch a served payload, so a reference is SERVED only for an image one of these lanes has
+# already read. The API-only arm is not here: it has no tools and cannot fetch anything.
+TOOL_LANES = [Path("/root/cmage-work/sonnet/results.jsonl"),
+              Path("/root/cmage-work/sonnet-s55/results.jsonl"),
+              Path("/root/cmage-work/sonnet-s55c/results.jsonl"),
+              Path("/root/cmage-work/sonnet-ctl/results.jsonl")]
+# Row fields that carry the reference or something computed from it. "r" is relate(prediction,
+# reference): stereocentre and isotope counts against the reference. "ha" is the reference's heavy
+# atom count (API tab).
+TRUTH_FIELDS = ("t", "r", "ha")
+WITHHELD_NOTE = "Withheld until a tool-using Sonnet reader has read this image"
+
+
+def tool_read_keys() -> set[str]:
+    """Corpus keys that a tool-using lane has a published reading of. A results file another run
+    appends to can end in a half-written line; that line is skipped, and its key is then simply
+    still withheld until the next build."""
+    keys: set[str] = set()
+    for p in TOOL_LANES:
+        if not p.exists():
+            continue
+        for line in open(p):
+            if line.strip():
+                try:
+                    keys.add(json.loads(line)["k"])
+                except (ValueError, KeyError):
+                    pass
+    return keys
+
+
+def gate_truth(rows: list[dict], read: set[str]) -> int:
+    """Drop the reference (and everything derived from it) from every row whose key no tool-using
+    lane has read; mark the row `tw` so the detail sheet can say why. Verdicts stay: they are the
+    tab's content, and they reveal only what that row's own reading already shows. Returns the
+    number of rows withheld."""
+    n = 0
+    for r in rows:
+        if r["k"] in read:
+            continue
+        for f in TRUTH_FIELDS:
+            r.pop(f, None)
+        r["tw"] = 1
+        n += 1
+    return n
 
 
 def thumb(src: Path, dst: Path) -> int:
@@ -402,7 +452,9 @@ def build_pdfs() -> dict:
         if not mine:
             continue
         found = {r["n"] for r in mine if r["v"] in ("exact", "stereo")} & expected
-        docs.append({"name": g, "expected": len(expected), "found": len(found)})
+        found_exact = {r["n"] for r in mine if r["v"] == "exact"} & expected
+        docs.append({"name": g, "expected": len(expected), "found": len(found),
+                     "found_exact": len(found_exact)})
 
     # The 11 documents with no ground truth still RAN and their structures are on
     # the wall; without a row here they are the only tiles you cannot filter to.
@@ -440,7 +492,7 @@ def _check_rounded(d: dict, path: str = "") -> None:
             _check_rounded(v, f"{path}[{i}]")
 
 
-def write(name: str, d: dict) -> None:
+def write(name: str, d: dict, path: Path | None = None) -> None:
     # Do not clobber stats a caller already set. The PDF tab replaces the
     # accuracy denominator with a recall one on purpose, and an unconditional
     # assignment here silently undid it -- the page then showed 19.2% while the
@@ -451,8 +503,11 @@ def write(name: str, d: dict) -> None:
     from wall_arms import build as arms_build
     d["arms"], d["armsNote"] = arms_build(THRESHOLD)
     _check_rounded(d, name)
-    json.dump(d, open(WALL / f"{name}.json", "w"), separators=(",", ":"))
-    print(f"  payload {os.path.getsize(WALL / (name + '.json'))/1e6:.2f} MB  {json.dumps(d['stats'])}")
+    path = path or WALL / f"{name}.json"
+    tmp = path.with_suffix(".json.tmp")
+    json.dump(d, open(tmp, "w"), separators=(",", ":"))
+    os.replace(tmp, path)
+    print(f"  payload {path.name} {os.path.getsize(path)/1e6:.2f} MB  {json.dumps(d['stats'])}")
 
 
 if __name__ == "__main__":
@@ -465,8 +520,15 @@ if __name__ == "__main__":
         d["heroLabel"] = f"of {s['n']} structures exactly right"
         d["breakdown"] = verdict_breakdown(d["rows"])
         d["cx"] = cx_count(d["rows"])
+        # Name every grade the graded count admits, from the rows: it counted stereo-only rows
+        # (112 of 2,155) under a label that said only "a tautomer or salt".
+        gnames = {"stereo": "stereochemistry", "tautomer": "a tautomer", "charge": "a charge",
+                  "salt": "a salt form"}
+        present = [gnames[g] for g in gnames if any(r["g"] == g for r in d["rows"])]
+        glabel = ("Right if " + (", ".join(present[:-1]) + " or " + present[-1] if len(present) > 1
+                                 else present[0]) + " may differ") if present else "Right, graded"
         d["bars"] = [
-            {"label": "Right if a tautomer or salt may differ", "pct": s["graded_pct"],
+            {"label": glabel, "pct": s["graded_pct"],
              "text": f"{s['graded']} of {s['n']}"},
             {"label": "Right when the model said it was confident", "pct": s["high_pct"],
              "text": f"{s['high_exact']} of {s['high']}", "good": True},
@@ -475,6 +537,16 @@ if __name__ == "__main__":
         d["footer"] = ("Stage 3 only: one already-cropped depiction per image, no figure "
                        "extraction and no segmentation. Scored against PubChem structures "
                        "fetched in the same request batch as the images.")
+        # The private copy first, every row with its reference; then the served payload, with
+        # the reference only where a tool-using lane has already read the image.
+        import copy
+        write("corpus_rows", copy.deepcopy(d), CORPUS_ROWS)
+        read = tool_read_keys()
+        withheld = gate_truth(d["rows"], read)
+        d["withheld"] = {"n": withheld, "note": WITHHELD_NOTE}
+        d["footer"] += (f" Reference SMILES withheld for the {withheld:,} images no tool-using Sonnet reader "
+                        f"has read yet; verdicts shown for all.")
+        print(f"  reference served for {len(d['rows']) - withheld}, withheld for {withheld}")
         write("images", d)
     if which in ("pdfs", "all"):
         d = build_pdfs()
@@ -486,49 +558,66 @@ if __name__ == "__main__":
         scored_docs = [x for x in d["docs"] if not x.get("nogt")]
         exp = sum(x["expected"] for x in scored_docs)
         fnd = sum(x["found"] for x in scored_docs)
-        assert fnd <= exp, f"recall over 100%: {fnd} of {exp} — units mixed again"
-        drawn = len(d["rows"])
+        fex = sum(x["found_exact"] for x in scored_docs)
+        assert fex <= fnd <= exp, f"recall over 100%: {fnd} of {exp} — units mixed again"
         # RECALL is the headline here, not accuracy. These documents draw 6x more
         # structures than their ground truth catalogues, so a prediction counted
         # "wrong" is usually a real molecule off the page that nobody listed.
         # Quoting accuracy over all rows would report ~20% for a pipeline that
         # actually recovers half of what was asked for -- a number that is
         # arithmetically true and answers a question no caller asked.
-        # Only recall-shaped fields survive here. Carrying `graded_pct` and
-        # `high_pct` forward would put two different denominators under one
-        # heading -- 50.8% measured over 697 catalogued compounds beside 27.0%
-        # measured over 4,384 drawn structures -- which is precisely the mixing
-        # the old page needed a paragraph to apologise for.
-        d["stats"] = {"n": exp, "exact": fnd,
-                      "strict_pct": round(fnd / exp * 100, 1) if exp else 0}
-        d["heroLabel"] = f"of {exp} catalogued compounds recovered"
+        # EXACT ONLY in the hero, like every other tab. "Recovered" used to count a
+        # stereo-only match too, and the page never said so; that figure is the second bar.
+        d["stats"] = {"n": exp, "exact": fex,
+                      "strict_pct": round(fex / exp * 100, 1) if exp else 0}
+        d["heroLabel"] = f"of {exp} catalogued compounds found exactly"
         d["breakdown"] = verdict_breakdown(d["rows"])
         d["cx"] = cx_count(d["rows"])
         checked = sum(x["n"] for x in d["breakdown"]
                       if x["key"] in ("matched", "stereo", "misread"))
-        right = sum(x["n"] for x in d["breakdown"] if x["key"] in ("matched", "stereo"))
+        right = sum(x["n"] for x in d["breakdown"] if x["key"] == "matched")
+        right_st = sum(x["n"] for x in d["breakdown"] if x["key"] in ("matched", "stereo"))
+        pc = lambda a, b: round(a / b * 100, 1) if b else 0
         d["bars"] = [
-            {"label": "Of the compounds the ground truth lists, how many were found",
-             "pct": d["stats"]["strict_pct"], "text": f"{fnd} of {exp}", "good": True},
-            {"label": "Of the structures that COULD be checked, how many were right",
-             "pct": round(right / checked * 100, 1) if checked else 0,
-             "text": f"{right} of {checked}", "good": True},
-            # Rounded. An unrounded float printed as 13.4790175981434916% on the
-            # page, which reads as a machine leaking rather than a measurement.
-            # Framed as the share of what was read that anyone catalogued, because
-            # that is the number which justifies not quoting precision at all.
-
+            {"label": "Found, counting a stereo-only match as found",
+             "pct": pc(fnd, exp), "text": f"{fnd} of {exp}", "good": True},
+            {"label": "Of the structures that COULD be checked, how many were exactly right",
+             "pct": pc(right, checked),
+             "text": f"{right} of {checked} ({right_st} counting stereo-only)", "good": True},
         ]
         d["headline"] = (
             f"Whole documents, unedited. Most of what these documents draw was never "
             f"catalogued by anyone, so those structures have no reference to check "
             f"against — they are neither right nor wrong, and the grey band below is "
             f"them.")
-        d["footer"] = ("Stages 1+2+3 on all 149 committed PDFs, 1,900 pages, zero pipeline "
-                       "failures. Recall is per document against that document's own "
-                       "ground truth. Precision is NOT reportable on this corpus and is "
-                       "deliberately not quoted: the denominator would be every structure "
-                       "drawn, and only a sixth of those are catalogued.")
+        # The corpus as it stands, counted, never typed: the footer said "all 149 committed PDFs,
+        # 1,900 pages" for three weeks after 53 of them were removed.
+        pdfs = sorted((ROOT / "corpus").glob("*.pdf"))
+        pages = 0
+        import subprocess
+        for f in pdfs:
+            out = subprocess.run(["pdfinfo", str(f)], capture_output=True, text=True).stdout
+            pages += next((int(l.split()[1]) for l in out.splitlines() if l.startswith("Pages:")), 0)
+        with_rows = len({r["d"] for r in d["rows"] if r.get("d")})
+        d["footer"] = (f"Stages 1+2+3 on all {len(pdfs)} committed PDFs, {pages:,} pages; "
+                       f"{with_rows} of them produced structures. Recall is per document against that "
+                       f"document's own ground truth, over the {len(scored_docs)} documents that have one; "
+                       f"\"found\" in the headline means the exact structure; the first bar also counts a "
+                       f"stereo-only match. Precision over everything drawn is NOT reportable on this corpus "
+                       f"and is deliberately not quoted: only {checked:,} of the {len(d['rows']):,} distinct "
+                       f"structures read ({pc(checked, len(d['rows']))}%) have a reference to check against.")
+        # The 10 Sep cut, said on the tab: the corpus lost its zero-recall documents, which
+        # raised recall, and a reader of the page should know that before quoting it.
+        cut_p = ROOT / "pdf_corpus_cut.json"
+        if cut_p.exists():
+            cut = json.load(open(cut_p))
+            rm, b = cut["removed"], cut["before"]
+            z = sum(1 for x in rm if x["why"] == "zero recall")
+            d["heroNotes"] = [
+                f"{len(rm)} documents removed from the corpus ({z} with zero recall, {len(rm) - z} non-English; "
+                f"commit {cut['commit'][:8]}). With them: exact {b['found_exact']} of {b['expected']} "
+                f"({pc(b['found_exact'], b['expected'])}%), stereo-inclusive {b['found']} of {b['expected']} "
+                f"({pc(b['found'], b['expected'])}%)."]
         write("pdfs", d)
     if which in ("sonnet", "all"):
         # Sonnet's payload quotes the corpus size, so it MUST be rebuilt whenever
