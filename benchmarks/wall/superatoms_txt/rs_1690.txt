@@ -1,0 +1,10 @@
+I read the molecule as a 4-substituted benzoic acid joined through a CH2CH2 linker to the nitrogen of a 5-oxopyrrolidine (γ-lactam). The ring carbon next to nitrogen carries an E-alkenyl chain that ends in a secondary alcohol. That alcohol carbon is attached to a quaternary cyclobutyl carbon bearing a cyclopropylmethyl group.
+
+**Stereochemistry**
+- **Lactam C5 (wedge to the vinyl group):** the priorities are N > vinyl carbon > ring CH2 > H. With H pointing away, N → vinyl → CH2 runs clockwise, so this centre is R. In the SMILES below it is written `[C@@H]`.
+- **Carbinol carbon (hashed OH):** the priorities are OH > cyclobutyl carbon > vinyl carbon > H. The H points toward the viewer, and the drawn OH → cyclobutyl → vinyl sequence appears counterclockwise, so the true configuration is R. In the SMILES below it is also written `[C@@H]`.
+- **Alkene:** drawn trans, so E.
+
+I checked each `@@` assignment by reordering the neighbours to put H first and confirming that it gives R.
+
+SMILES: OC(=O)c1ccc(CCN2C(=O)CC[C@@H]2/C=C/[C@@H](O)C3(CC4CC4)CCC3)cc1

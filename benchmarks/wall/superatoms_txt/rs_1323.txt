@@ -1,0 +1,17 @@
+I read the structure region by region and assigned the stereo from the wedges and hashes.
+
+**Structure read from the drawing**
+- Top left is an N,N-diethylamide, Et2N–C(=O)–, on a para-substituted benzene ring.
+- That ring is attached to a central CH, which also carries a 3-hydroxyphenyl ring. The H is hashed (pointing away) and the bond to the piperazine N is wedged (pointing toward the viewer).
+- The CH is bonded to N1 of a piperazine ring. The ring carbon next to N1 on the right bears a wedged methyl. The ring carbon on the left, next to the other nitrogen, bears a hashed methyl.
+- The other piperazine nitrogen carries a CH2 linked to a para-substituted benzene ring ending in COOH.
+
+**Stereo assignment**
+I worked out each centre by viewing it with the implicit H and ranking the drawn neighbours, then converting to SMILES neighbour order.
+- Central CH: with H pointing away, the left aryl, right aryl and N run clockwise in the drawing. In SMILES order (left aryl, H, right aryl, N) this gives `@@`.
+- Piperazine carbon bearing the hashed methyl: `@@`.
+- Piperazine carbon bearing the wedged methyl: `@@`.
+
+I checked that the SMILES contains every atom in the drawing and that the ring closures are valid.
+
+SMILES: CCN(CC)C(=O)c1ccc(cc1)[C@@H](c1cccc(O)c1)N1C[C@@H](C)N(Cc2ccc(cc2)C(=O)O)C[C@@H]1C

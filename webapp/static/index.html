@@ -616,7 +616,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=ba11663ca4"></script>
+<script src="/static/llmocr.js?v=aab4b9e97c"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -635,7 +635,7 @@ function bigCards(xs){
   return '<div class="cmp topc' + (xs.length === 4 ? ' four' : '') + '">' + xs.map(function(x){
     return '<div class="side"><div class="who">' + esc(x.who) + '</div><div class="pc">' + (+x.pct).toFixed(1)
       + '%</div><div class="of">' + (+x.exact).toLocaleString("en-US") + ' of ' + (+x.n).toLocaleString("en-US")
-      + '</div><div class="track"><i style="width:' + Math.min(100, x.pct) + '%;background:' + x.color + '"></i></div></div>';
+      + '</div>' + (x.note ? '<div class="of">' + esc(x.note) + '</div>' : '') + '<div class="track"><i style="width:' + Math.min(100, x.pct) + '%;background:' + x.color + '"></i></div></div>';
   }).join("") + '</div>';
 }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){
@@ -731,7 +731,7 @@ function tileText(r){
     + '<small>' + esc(who) + '</small>' + esc(sm || "(none)") + '</span>'; }
   b.innerHTML = '<img decoding="async" data-src="/wall/' + DATA.dir + '/'
     + encodeURIComponent(r.k) + '.png" alt="">'
-    + '<span class="tl">' + line("Truth", r.tw ? "withheld" : r.t, null)
+    + '<span class="tl">' + line("Truth", r.t, null)
     + (r.tl || []).map(function(x){ return line(x[0], x[1], x[2]); }).join("") + '</span>';
   lazyImg(b.firstChild);
   b.onclick = function(){ openSheet(r); };
@@ -873,10 +873,6 @@ function openSheet(r){
         r.alt.conf != null && r.alt.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.alt.conf) + '</span>' : '')
       : DATA.noAlt ? '<div class="kv"><label>' + esc(DATA.altLabel || "Other reader") + '</label><code>' + esc(DATA.noAlt) + '</code></div>' : "")
     + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
-      /* Withheld, not missing: the verdict above was scored against it. The served payload
-         carries a reference only once a tool-using reader has read the image. */
-      : r.tw ? '<div class="kv"><label>Reference</label><p class="sub" style="margin:0">' + esc((DATA.withheld && DATA.withheld.note)
-        || "Withheld until a tool-using reader has read this image") + '</p></div>'
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
     + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">' + esc(DATA.runNote || ((DATA.reader || "Sonnet") + ' API, at list price')) + '</span></label>'
@@ -1505,7 +1501,7 @@ function render(){
     ["a", "b"].forEach(function(k){ tot[k].pct = tot[k].n ? 100 * tot[k].exact / tot[k].n : 0; });
     hero.innerHTML = '<h2 class="blockh">' + esc(DATA.title) + '</h2>'
       + bigCards([{who: c2.as || c2.a, pct: tot.a.pct, exact: tot.a.exact, n: tot.a.n, color: "#14652f"},
-                  {who: c2.bs || c2.b, pct: tot.b.pct, exact: tot.b.exact, n: tot.b.n, color: "#3987e5"}])
+                  {who: c2.bs || c2.b, pct: tot.b.pct, exact: tot.b.exact, n: tot.b.n, color: "#3987e5", note: tot.b_note}])
       + '<p class="sub">' + esc(DATA.headline) + '</p>'
       + (DATA.countLine ? '<p class="sub">' + esc(DATA.countLine) + '</p>' : '')
       + '<div class="c2"><div class="c2k"><span><i class="s"></i>' + esc(c2.a) + '</span><span><i class="c"></i>'

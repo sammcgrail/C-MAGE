@@ -1,0 +1,13 @@
+The drawing shows a biphenyl carboxylic acid joined through a hydrazone to an N-aryl oxindole.
+
+**Biphenyl part.** The top ring carries CO2H at the para position and is bonded to a second ring. On that second ring, the carbon next to the biaryl bond bears OH. The next carbon bears the NH of the hydrazone (HN–N=).
+
+**Hydrazone and oxindole.** The chain is Ar–NH–N=C3, where C3 is the oxindole carbon. The oxindole has C2(=O) and N1, with N1 bearing a 4-(trifluoromethyl)phenyl group.
+
+**Stereochemistry.** The drawing shows the C=N bond with a specific geometry. The NH sits at the lower left of N, and the N=C bond runs down and to the right. Going from the N, the NH substituent points to the left (up-left of the N–N bond). On the C3 end, the C2 carbonyl lies below-left and the aryl ring carbon C3a lies to the right. The NH is therefore on the same side as C2 (C=O), which is the usual Z arrangement stabilized by an N–H···O hydrogen bond.
+
+**SMILES construction.** I wrote the SMILES for the ring system first: OC(=O)c1ccc(cc1)-c1cccc(NN=C2C(=O)N(c3ccc(cc3)C(F)(F)F)c3ccccc23)c1O.
+
+For the double bond I wrote N/N=C2/... and checked it. In `c(N/N=C2\C(=O)N(...)c3ccccc23)`, the NH–N bond is written "/" before N, so the N atom has NH "below" it. For C2, the `\C(=O)` bond, written after C2, puts C(=O) "below" C2 as well. NH and C(=O) are therefore on the same side, which is Z.
+
+SMILES: OC(=O)c1ccc(cc1)-c1cccc(N/N=C2\C(=O)N(c3ccc(cc3)C(F)(F)F)c3ccccc23)c1O

@@ -1,0 +1,21 @@
+The drawing shows an azo dye with two aromatic rings joined by an N=N bond.
+
+**Left ring:** a benzene ring carrying a nitro group (O2N) para to the azo attachment, and a CN group on each carbon next to the azo-bearing carbon. This is 2,6-dicyano-4-nitrophenyl.
+
+**Right ring:** a benzene ring attached to the azo group at one carbon. Going around from there:
+- The next carbon (lower, toward the left) carries OCH3, drawn as H3CO.
+- The following carbon is CH.
+- The next carbon carries N(Et)2, para to the azo attachment.
+- The next carbon is CH.
+- The top carbon carries OCH3.
+- The last carbon is CH, which closes the ring.
+
+The two OCH3 groups sit at positions 2 and 5 relative to the azo carbon, and the diethylamino group is at position 4. The ring is therefore 4-(diethylamino)-2,5-dimethoxyphenyl.
+
+**SMILES check:** writing the right ring from the azo carbon gives c1(N=N...)c(OC)cc(N(CC)CC)c(OC)c1. Here the azo carbon is c1, then c(OC) is position 2, c is position 3 (CH), c(N(CC)CC) is position 4, c(OC) is position 5, and c1 is position 6 (CH). This matches the drawing.
+
+Full SMILES: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=Nc1cc(OC)c(N(CC)CC)cc1OC
+
+In this form the azo-bearing carbon is followed by cc(OC), so its first neighbor is CH and then C-OC. This is the same ring read in the opposite direction: the OMe at position 5 comes first, then the CH at 4's neighbor, then NEt2, and so on, which is still consistent with the drawing.
+
+SMILES: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=Nc1cc(OC)c(N(CC)CC)cc1OC

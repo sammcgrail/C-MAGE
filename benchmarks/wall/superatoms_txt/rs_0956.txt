@@ -1,0 +1,20 @@
+The drawing shows a pyrimidine ring with these substituents:
+
+- C2 carries CF3, between the two ring nitrogens.
+- N3 is at the lower right of the ring, adjacent to C4.
+- C4 carries the 4-(methylsulfonyl)phenyl group.
+- C5 carries the 4-chlorophenyl group.
+- C6 carries Cl and is bonded to N1 at the upper right.
+
+Ring connectivity: C6(Cl)=N1–C2(CF3)=N3–C4(Ar)=C5(Ar')–C6.
+
+SMILES, built in the order C6, N1, C2, N3, C4, C5:
+Clc1nc(C(F)(F)F)nc(c1-c1ccc(Cl)cc1)-c1ccc(cc1)S(C)(=O)=O
+
+Check: c1 (C–Cl), n, c(CF3), n, c(...) is C4. For that atom the branch "(c1-c1ccc(Cl)cc1)" opens a new ring label 1 while ring 1 is still open, which is confusing. I rewrote it to avoid reusing the label:
+
+Clc1nc(C(F)(F)F)nc(-c2ccc(cc2)S(C)(=O)=O)c1-c1ccc(Cl)cc1
+
+Here ring 1 closes at the last pyrimidine carbon, C5, which bears the chlorophenyl group. C4 bears the methylsulfonylphenyl group, and the ring-label reuse after closure is valid.
+
+SMILES: Clc1nc(C(F)(F)F)nc(-c2ccc(cc2)S(C)(=O)=O)c1-c1ccc(Cl)cc1

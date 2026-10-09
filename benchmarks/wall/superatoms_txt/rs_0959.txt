@@ -1,0 +1,19 @@
+The drawing shows an indole joined to an imidazo[4,5-b]pyridine, with Boc groups on three nitrogens plus an N(Boc)2 group.
+
+**Indole part.** The indole N1 carries a Boc group. C2 is bonded to the imidazopyridine. C5 carries CH2OH. The benzo ring runs C3a, C4, C5, C6, C7, C7a.
+
+**Imidazo[4,5-b]pyridine part.**
+- The pyridine ring has C7 (bonded to the indole), then C6 (CH), then C5 (bearing N(Boc)2), then N4, then C3a, then C7a.
+- The imidazole ring has C7a bonded to N1 (the "N" drawn at the lower left), then C2 (bearing methyl), then N3 (bearing Boc), then C3a.
+- N3 is attached to C3a, which is the carbon adjacent to the pyridine N, so the connectivity is consistent.
+
+**SMILES assembly.**
+- Indole: `OCc1ccc2c(c1)cc(n2C(=O)OC(C)(C)C)`
+- Imidazopyridine, starting from C7: `c3cc(N(C(=O)OC(C)(C)C)C(=O)OC(C)(C)C)nc4c3nc(C)n4C(=O)OC(C)(C)C`
+- Here `c3` is C7. Then `c` is C6 and `c(N(Boc)2)` is C5. Then `n` is N4 and `c4` is C3a. Next `c3` closes the ring as C7a, then `n` is N1, `c(C)` is C2, and `n4(Boc)` is N3, which closes onto C3a.
+
+Joined: `OCc1ccc2c(c1)cc(n2C(=O)OC(C)(C)C)-c1cc(N(C(=O)OC(C)(C)C)C(=O)OC(C)(C)C)nc2c1nc(C)n2C(=O)OC(C)(C)C`
+
+Ring-label check: the indole's `c2` closure is used and closed at `n2`, so label 2 is free for reuse. Label 1 closed at `c1)` in the benzo ring and is then reused for the pyridine ring, which is also fine.
+
+SMILES: OCc1ccc2c(c1)cc(n2C(=O)OC(C)(C)C)-c1cc(N(C(=O)OC(C)(C)C)C(=O)OC(C)(C)C)nc2c1nc(C)n2C(=O)OC(C)(C)C

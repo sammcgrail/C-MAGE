@@ -1,0 +1,20 @@
+The drawing shows a 2-oxindole core with a hydrazone at C3, so I built the SMILES in three parts: the indolinone, the hydrazone link, and the biphenyl.
+
+**Indolinone core:**
+- N1 carries a 4-ethylphenyl group.
+- C2 is a C=O.
+- C3 is C=N–NH–Ar.
+- The benzo ring carries CO2CH3 at C5. In the image the ester sits on the ring carbon para to the N-bearing carbon (C7a), which is the usual 5-position. The ring carbon attached to C3a is the top-left ring carbon, the next ring carbon is C4, and the ester is on the one after that, C5.
+
+**Biphenyl part:**
+- The central ring has the NH–N attached at one carbon, OH on the adjacent carbon, and the aryl group on the next carbon.
+- The other ring is a benzoic acid attached at its meta position (3-position).
+
+**SMILES assembly:**
+- Indolinone: O=C1N(c2ccc(CC)cc2)c2ccc(C(=O)OC)cc2C1=NNc1cccc(c1O)-c1cccc(C(=O)O)c1
+- Ring-fusion check: N–c2ccc(C(=O)OC)cc2–C3. The atom after N is C7a, then c (C7), c (C6), c(CO2Me) (C5), c (C4), and c2 (C3a), which closes to C7a and bonds to C3. This is correct.
+- Central ring check: c1cccc(c1O)-Ar. The NH-bearing carbon c1 is followed by c, c, c, then c(Ar), then c1(O) closing the ring. The OH carbon is therefore adjacent to both the NH-bearing carbon and the aryl-bearing carbon, as drawn.
+
+The drawing shows no wedges, hashes or cis/trans geometry, so I left out stereochemistry for the C=N bond.
+
+SMILES: CCc1ccc(cc1)N1C(=O)C(=NNc2cccc(c2O)-c2cccc(C(=O)O)c2)c2cc(C(=O)OC)ccc12

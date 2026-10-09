@@ -1,0 +1,13 @@
+I read the drawing as a nine-membered dilactone ring carrying an isobutyrate ester, a benzyl group, a methyl group and a triazine carboxamide.
+
+**Ring and substituents.** Going round the ring: C(=O), O, CH(CH3), CH(O-isobutyryl), CH(CH2Ph), C(=O), O, CH2, CH(NH–). That is nine ring atoms. The NH is acylated by a 3,5-dihydroxy-1,2,4-triazine-6-carbonyl group.
+
+**Stereocentres.** All four ring stereocentres have wedge or hash bonds, so each gets a chirality tag:
+- CH(N): hashed bond to the NH, so the substituent points away from the viewer. Tagged `@@` in the SMILES order below.
+- CH(CH3): wedged methyl. Tagged `@@`.
+- CH(O-isobutyryl): hashed bond to the ester oxygen. Tagged `@`.
+- CH(CH2Ph): wedged benzyl. Tagged `@@`.
+
+I assigned each tag by taking the drawn arrangement of the three in-plane neighbours around the carbon, with the implicit H opposite the wedge or hash, and converting to SMILES neighbour order. I have not checked the tags against a cheminformatics tool.
+
+SMILES: O=C1O[C@@H](C)[C@H](OC(=O)C(C)C)[C@@H](Cc2ccccc2)C(=O)OC[C@@H]1NC(=O)c1nnc(O)nc1O

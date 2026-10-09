@@ -1,0 +1,16 @@
+The drawing shows these parts:
+
+- **Thiomorpholine ring:** a six-membered ring with S and N, where the N is attached to a C(=NH) group (an amidine).
+- **First benzene ring:** para-substituted, carrying the amidine carbon on one side and a C(=O)NH group on the other.
+- **Central benzene ring:** carries the NH amide nitrogen, an OMe group, and a C(=O)NH-pyridyl group.
+- **Pyridine ring:** 5-bromopyridin-2-yl, attached through the amide NH.
+
+For the central ring, I numbered the carbon bearing the NH as C1. The adjacent carbon C2 bears the C(=O)NH(pyridyl) group, and C3 is the CH next to it. C4 bears OMe, and C5 and C6 are CH. Reading the drawing, OMe sits on the top carbon, which is meta to C2 (via C3) and para to C1. So the NH is on C1, the carbonyl on C2, and the OMe on C4, para to the NH.
+
+SMILES for the central ring: c1(NC(=O)...)ccc(OC)cc1C(=O)Nc1ccc(Br)cn1
+
+Full SMILES: N=C(N1CCSCC1)c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Br)cn1
+
+Checking the central ring: c1 (bearing NH), c, c, c(OC), c, c1 (bearing C=O). The OMe carbon is para to the NH carbon, since c1, c, c, then c(OC) is the 4th atom. The carbonyl-bearing carbon is the 6th atom, adjacent to c1 and meta to the OMe carbon. This matches the drawing.
+
+SMILES: N=C(N1CCSCC1)c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Br)cn1

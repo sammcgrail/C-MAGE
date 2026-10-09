@@ -1,0 +1,9 @@
+The drawing shows a benzene ring joined through a CH2 group to N1 of a pyrazole. The pyrazole is a five-membered ring with N1 (bearing the benzyl), N2 double-bonded to C3, then C4 carrying the nitrile (CN), and C5 bonded back to N1.
+
+Reading the ring atoms from the image: N1 (the labelled N bearing the benzyl) connects to N2 (the top N). N2 is double-bonded to C3 (the right-hand CH). C3 connects to C4, which carries the CN. C4 is double-bonded to C5, which connects back to N1.
+
+Written as SMILES: N#Cc1cnn(Cc2ccccc2)c1
+
+Check of the SMILES: c1 (C4, with the nitrile) – c (C5) – n (N1)... In the SMILES as written, C4 is followed by "cnn", which gives C4–C(H)–N–N(benzyl)–C–back to C4. That would place a CH between C4 and a bare N, with the benzyl-bearing N bonded to a second CH. This does not match the drawing, where C4 has one CH neighbour (C3) leading to N2 and another CH neighbour (C5) leading to N1(Bn). Both orderings describe the same ring, since going around the ring from C4 gives CH–N(unsubstituted)–N(Bn)–CH, which is what "cnn(Bn)c1" encodes. The SMILES is therefore correct.
+
+SMILES: N#Cc1cnn(Cc2ccccc2)c1

@@ -1,0 +1,28 @@
+The structure has a 3-hydroxy-4-methoxypyridine-2-carboxamide joined through the amide N to a bicyclic epoxide ring.
+
+**Pyridine part.** The ring N is at the bottom. C2 carries the C(=O)NH group, C3 carries OH, C4 carries OMe, and C5 and C6 are CH. SMILES: c1cnc(C(=O)N...)c(O)c1OC.
+
+**Seven-membered ring.** Going around from the amide-bearing carbon:
+- C1 bears the NH.
+- C2 is a CH2.
+- C3 is C(CH3)2, the gem-dimethyl carbon at the top.
+- C4 is an epoxide CH, bonded to C5.
+- C5 is the other epoxide CH, bonded to C6.
+- C6 is CH(CH3), drawn with a hashed methyl.
+- C7 is CH(CH3), bonded back to C1.
+
+That gives seven ring atoms: C1, CH2, CMe2, epoxide CH, epoxide CH, CHMe (hashed), CHMe. The epoxide O bridges the two adjacent CH carbons.
+
+**Stereochemistry.** Only the hashed methyl is drawn with stereo, so only that carbon is marked. The other centres are drawn with plain bonds and get no stereo labels.
+
+I wrote the ring as C1(NC(=O)...)CC(C)(C)C2OC2C(C)C1C, with the hashed carbon being "C(C)" next to the epoxide: N-C1 CC(C)(C)C2OC2[C@H](C)C1C.
+
+For the chirality at the hashed carbon, I'll write `[C@@H]` as a best estimate.
+
+Its neighbours in SMILES order are the preceding epoxide C, H, the methyl, and the next ring carbon C7. In the drawing, the hashed carbon sits at the lower right. The epoxide carbon is up, C7 is to the left, and the methyl points down, hashed (away from the viewer).
+
+Viewed from the front, the order is epoxide C (up), then methyl (down, behind), then C7 (left). Looking from the epoxide C, with the H implicit and toward the viewer, the sequence H, Me, C7 is hard to judge by eye, so I'm settling on `@` or `@@` by an approximate analysis. Taking the viewer's side as the H side, the order epoxide C (up), C7 (left), Me (down-right) runs counterclockwise from the front. From the side opposite H, this appears clockwise.
+
+SMILES order is: preceding atom (epoxide C), H, Me, C7. With the first neighbour as the viewpoint, the remaining three (H, Me, C7) need to appear anticlockwise for `@`. Swapping to put H first gives the order H, epoxide C, Me, C7, which is one swap from the original. Viewed from H (the viewer's side), epoxide C (up) → Me (down-right) → C7 (left) runs clockwise. That is `@@` for the order H, epC, Me, C7, and one swap converts it to `@` for the original order.
+
+SMILES: COc1ccnc(C(=O)NC2CC(C)(C)C3OC3[C@H](C)C2C)c1O

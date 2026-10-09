@@ -1,0 +1,15 @@
+Reading the drawing region by region:
+
+- **Left end:** an amidine group, C(=NH)N(CH3)2, attached to a para-substituted benzene ring.
+- **Benzamide link:** the ring carries a C(=O)NH group, and that NH is bonded to C5 of the pyrazole.
+- **Pyrazole:** N1 carries a methyl group and is bonded to C5. N2 is double-bonded to C3, which is a CH. C4 is attached to the carboxamide carbon.
+- **Carboxamide:** C(=O)NH leads to the pyridine ring.
+- **Pyridine:** the ring nitrogen is adjacent to C2, which bears the NH. Numbering around the ring, C3 and C4 are CH, C5 carries Cl, and C6 is CH next to the ring nitrogen. In the drawing Cl sits at the bottom right, on the carbon that is para to C2 across the ring, which is C5. The ring nitrogen is at the top and the Cl-bearing carbon is two atoms away from it, so Cl is at position 5.
+
+Pyrazole SMILES: Cn1nc cc1 written as n1(C)ncc(C(=O)N...)c1NC(=O)...
+
+Full SMILES: CN(C)C(=N)c1ccc(cc1)C(=O)Nc1c(cnn1C)C(=O)Nc1ccc(Cl)cn1
+
+Atom check: the pyrazole ring is c1 (C5), c (C4), c (C3H), n (N2), n1 (N1, with C). In the written string, c1c(cnn1C) gives C5, C4, C3, N2, N1 with its methyl, which is correct.
+
+SMILES: CN(C)C(=N)c1ccc(cc1)C(=O)Nc1c(cnn1C)C(=O)Nc1ccc(Cl)cn1

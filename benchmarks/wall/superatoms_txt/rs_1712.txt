@@ -1,0 +1,23 @@
+The drawing is a benzamide core carrying three substituents, read region by region below.
+
+**Left fragment.** A para-substituted benzene ring bears a C(=NH)N(CH3)2 amidine group on one side. On the other side it carries a C(=O)NH group that links to the central ring.
+
+**Central ring.** This benzene ring has the NH (the amide from the left fragment) at one carbon. The adjacent carbon bears a C(=O)NH-pyridyl group. The OMe sits para to the NH, which I checked by counting positions:
+- Take C1 as the carbon bonded to NH, at the lower left.
+- C2 is the carbon bearing the carboxamide, at the lower right.
+- C3 is the upper right carbon, a CH.
+- C4 is the top carbon, bearing OMe.
+- C5 and C6 are the upper left and left CH carbons.
+
+C4 is para to C1, so OMe is para to the NH and meta to the carboxamide carbon.
+
+**Right fragment.** The amide NH is attached to a 5-chloropyridin-2-yl ring. The ring N is adjacent to the carbon bearing the NH, and Cl is at position 5.
+
+**SMILES assembly.**
+- Amidine and left ring: CN(C)C(=N)c1ccc(cc1)
+- Amide to the central ring: C(=O)Nc1ccc(OC)cc1
+- Carboxamide and pyridine: C(=O)Nc1ccc(Cl)cn1
+
+Joined together, with the central ring written so that C2 closes the ring: c1(NC(=O)...)ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1.
+
+SMILES: CN(C)C(=N)c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1

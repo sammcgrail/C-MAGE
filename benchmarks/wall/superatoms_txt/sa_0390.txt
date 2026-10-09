@@ -1,0 +1,17 @@
+Reading the structure region by region:
+
+- **Left end:** Ts–NH–C(=O)–NH–CH2CH2–aryl. This is a tosyl urea, with Ts expanded as the p-toluenesulfonyl group, S(=O)(=O)c1ccc(C)cc1.
+- **Benzene ring:** para-substituted. One substituent is the CH2CH2 chain and the other is the imidazole N.
+- **Fused bicyclic core:** an imidazo[4,5-c]pyridine.
+  - Imidazole ring: N1 (bonded to the aryl), C2 (bearing Et), N3 (=C2), C3a and C7a.
+  - Pyridine ring: C3a is bonded to C4, which carries a methyl and is double-bonded to the ring N. That N is bonded to C6, which carries a methyl, and C6 is double-bonded to C7. C7 is bonded to C7a, which is bonded to N1.
+
+Writing the bicyclic core as SMILES:
+- N1 (aryl)–C(CC)=N–c2c1cc(C)nc2C
+- N1 is bonded to C7a, and C7a is bonded to C7 (the CH).
+- C3a is bonded to N3 and to C4 (the methyl-bearing carbon).
+- Core: n1(Ar)c(CC)nc2c(C)nc(C)cc12
+
+Full SMILES: CC1=CC=C(C=C1)S(=O)(=O)NC(=O)NCCc1ccc(cc1)-n1c(CC)nc2c(C)nc(C)cc12
+
+SMILES: CCc1nc2c(C)nc(C)cc2n1-c1ccc(CCNC(=O)NS(=O)(=O)c2ccc(C)cc2)cc1

@@ -1,0 +1,19 @@
+The drawing shows a dibenzofuran core with a 4-(trimethylsilyl)phenyl group attached at position 4, the carbon next to the oxygen-bearing carbon (C4a).
+
+Dibenzofuran numbering: O5 is bonded to C4a and C5a. C4 is adjacent to C4a, and C4 carries the aryl group. In the image, the lower ring's carbon bearing the phenyl lies next to the carbon bonded to O, so this is position 4.
+
+Building the SMILES:
+- Start with the substituted ring carbon: c1(-aryl)
+- Go to C4a: c2 (bonded to O), then O, then the other benzo ring, then back through C9b.
+- Written out: c1ccc2c(c1-c1ccc([Si](C)(C)C)cc1)oc1ccccc12
+
+Checking this string:
+- c1 opens the lower ring (C1), then c c (C2, C3).
+- c2 is C9b, the ring fusion carbon bonded to the other benzo ring.
+- c( is C4a, which sits next to C4 and carries the oxygen. However, this string places C4a bonded to C4 (the "c1" with the aryl), which closes ring 1 and gives the lower ring C1, C2, C3, C9b, C4a, C4 — six atoms.
+- The branch c(c1-Ar) is therefore C4a with C4 bearing the aryl. But the oxygen must also attach to C4a. In the string, "c(c1-Ar)o..." has C4a bonded to the branch atom C4, then to o. That works.
+- The oxygen then connects to c1ccccc12, a benzo ring whose last atom closes ring 2 to C9b.
+
+The ring-closure label 1 is reused after it has been closed, which is valid in SMILES.
+
+SMILES: C[Si](C)(C)c1ccc(cc1)-c1cccc2c1oc1ccccc12

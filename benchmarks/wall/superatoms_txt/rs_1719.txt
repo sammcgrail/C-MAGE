@@ -1,0 +1,22 @@
+Reading the drawing region by region:
+
+**Pyridine ring.** The ring nitrogen is at the bottom left. Going around the ring: N, then C2 bearing the carboxamide, C3 bearing OH, C4 bearing OMe, then C5 and C6 as plain CH.
+
+**Linker.** C2 carries a C(=O)NH group, and the NH is attached to a ring carbon (CH).
+
+**Macrocycle.** Starting at the CH bearing the NH:
+- CH is bonded to a C(=O) that connects to an ring O.
+- That O connects to CH2, then CH(CH3), then CH2, then a second ring O.
+- The second O connects to a C(=O), then CH2, which closes back to the CH.
+
+This ring contains CH, C(=O), O, CH2, CH(Me), CH2, O, C(=O), CH2, which is 9 atoms. Ring closure is therefore: C1(NC(=O)...)C(=O)OCC(C)COC(=O)C1.
+
+**Full SMILES.** COc1ccnc(C(=O)NC2CC(=O)OCC(C)COC2=O)c1O
+
+Checking the pyridine: c1 (OMe-bearing C4), c (C5), c (C6), n, c (C2, with the amide), c1O (C3, with OH). This is consistent with the drawing.
+
+Checking the macrocycle in this SMILES: C2 (CH), C (CH2), C(=O), O, C, C(C), C, O, C2=O. That gives CH, CH2, C=O, O, CH2, CHMe, CH2, O, C=O, which is 9 atoms and matches.
+
+No wedges or hashes are drawn, so no stereochemistry is included.
+
+SMILES: COc1ccnc(C(=O)NC2CC(=O)OCC(C)COC2=O)c1O

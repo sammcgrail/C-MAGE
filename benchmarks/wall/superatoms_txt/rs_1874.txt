@@ -1,0 +1,14 @@
+Reading the drawing region by region:
+
+- **Imidazole ring:** N, C2, NH, C5, C4. C2 carries a phenyl group, C5 carries a 4-(trifluoromethyl)phenyl group, and C4 carries the ethyl chain.
+- **Chain:** C4 is attached to CH2-CH2-NH, and the NH is bonded to the sulfonyl sulfur.
+- **Sulfonyl group:** S(=O)(=O), with the sulfur bonded to a piperazine nitrogen.
+- **Piperazine:** the ring nitrogen on the far side carries an n-butyl group (four carbons).
+
+In the drawing, the top-left imidazole N is the unprotonated "N" and is double-bonded to C2. The carbon bearing the ethyl chain is double-bonded to the carbon bearing the aryl group, and the NH sits between C2 and the aryl-bearing carbon.
+
+SMILES: CCCCN1CCN(CC1)S(=O)(=O)NCCc1nc([nH]c1c1ccc(cc1)C(F)(F)F)c1ccccc1
+
+Check: the ring `c1nc([nH]c1Ar)Ph` runs as follows. The first atom c1 bears the chain and is bonded to n, then to c(Ph), then to [nH], then to c1 bearing the aryl group, which closes the ring back to the first atom. So the chain-bearing carbon is adjacent to N, and the aryl-bearing carbon is adjacent to NH. This matches the drawing.
+
+SMILES: CCCCN1CCN(CC1)S(=O)(=O)NCCc1nc([nH]c1c1ccc(cc1)C(F)(F)F)c1ccccc1

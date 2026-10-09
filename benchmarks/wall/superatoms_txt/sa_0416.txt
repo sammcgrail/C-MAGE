@@ -1,0 +1,16 @@
+The drawing is podophyllotoxin: a trimethoxyphenyl group on a tetralin core fused to a methylenedioxy ring and a γ-lactone, with a secondary alcohol. I wrote the SMILES by tracing the connectivity and then assigning each of the four stereocentres from its wedge or hash.
+
+**Connectivity**
+- The lactone is a five-membered ring made of C=O, ring O, CH2 and two ring-fusion CH carbons.
+- The central six-membered ring contains the CHOH carbon, the two lactone-fusion CH carbons, the aryl-bearing CH and two fused aromatic carbons.
+- A benzene ring is fused to this ring and carries a methylenedioxy bridge (OCH2O).
+- The pendant aryl group is a 3,4,5-trimethoxyphenyl.
+
+**Stereochemistry**
+I read each centre from the drawing and converted it to SMILES chirality by counting neighbour-order swaps.
+- The CH next to CH2O has a hashed H, so it is `[C@H]2`.
+- The CH next to the carbonyl has a wedged H, so it is `[C@H]1`.
+- The aryl-bearing CH has a hashed aryl bond, so it is `[C@H]`.
+- The CHOH carbon has a hashed OH, so it is `[C@@H]`.
+
+SMILES: O=C1OC[C@H]2[C@H]1[C@H](c1cc(OC)c(OC)c(OC)c1)c1cc3OCOc3cc1[C@@H]2O

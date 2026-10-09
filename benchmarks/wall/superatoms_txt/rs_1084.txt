@@ -1,0 +1,25 @@
+The drawing shows compound (VIII), a thieno[2,3-d]pyrimidine. I read it region by region as follows.
+
+**Pyrimidine ring:** C4 carries the 3-nitrophenyl group. N3 sits next to C4. C2 carries the SMe group. N1 connects to C7a, which is bonded to S. C4a is the carbon shared between the two rings.
+
+**Thiophene ring:** C4a is bonded to C5, which carries NH2. C5 is bonded to C6, which carries the CO2Et group. C6 is bonded to S, and S is bonded to C7a.
+
+**SMILES construction:** The 3-nitrophenyl group is c1cccc(c1)[N+](=O)[O-], attached at C4 of the pyrimidine.
+
+Writing the fused core starting from the ester carbon:
+CCOC(=O)c1sc2nc(SC)nc(-c3cccc([N+](=O)[O-])c3)c2c1N
+
+Checking the connectivity:
+- c1 is C6 and bears the ester.
+- s is the thiophene sulfur.
+- c2 is C7a.
+- n is N1.
+- c(SC) is C2.
+- n is N3.
+- c(-Ar) is C4.
+- c2 is C4a, which closes the ring with C7a.
+- c1N is C5 bearing NH2, which closes the ring with C6.
+
+This matches the drawing.
+
+SMILES: CCOC(=O)c1sc2nc(SC)nc(-c3cccc([N+](=O)[O-])c3)c2c1N

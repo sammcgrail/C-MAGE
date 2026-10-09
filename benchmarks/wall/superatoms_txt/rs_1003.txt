@@ -1,0 +1,10 @@
+I read the molecule as an adenosine nucleoside with a modified 4′ substituent. The pieces are:
+
+- **Base:** adenine, attached through N9 to C1′ of the sugar.
+- **Sugar:** a ribofuranose ring with 2′-OH and 3′-OH. I took the stereocentres from the wedge/bold-bond drawing as the natural D-ribo configuration, as in adenosine.
+- **Side chain on C4′:** C5′=C6′ is drawn trans, so it is E. C7′ is a CH2 that links to an amide NH.
+- **Amide aryl group:** C(=O) is attached to a benzene ring bearing an OH at each of the two positions next to and one further from the carbonyl carbon (2,3-dihydroxy), and a nitrile at position 5 (5-cyano).
+
+I built the SMILES from the adenosine SMILES, replacing the 5′-CH2OH with the /C=C/CNC(=O)Ar chain. The neighbour order at C4′ is unchanged, so its chirality tag carries over.
+
+SMILES: Nc1ncnc2c1ncn2[C@@H]1O[C@H](/C=C/CNC(=O)c3cc(C#N)cc(O)c3O)[C@@H](O)[C@H]1O

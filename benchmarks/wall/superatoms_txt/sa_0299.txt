@@ -1,0 +1,23 @@
+I read this as benidipine: a 1,4-dihydropyridine carrying two methyl groups, a methyl ester and a 3-nitrophenyl group. The second ester is an N-benzylpyrrolidin-3-yl ester. I assigned the two stereocentres from the wedge and hash bonds using CIP priorities.
+
+**Dihydropyridine ring**
+- The ring is N1H, C2(CH3)=C3, C4(H)(aryl), C5=C6(CH3).
+- C3 carries the C(=O)O–pyrrolidinyl ester, and C5 carries CO2Me.
+- C4 carries the 3-nitrophenyl group (the NO2 sits meta to the attachment point).
+
+**Pyrrolidine ester**
+- The ester oxygen is attached at C3 of an N-benzylpyrrolidine, and Bn is expanded to CH2Ph.
+
+**Stereocentre at pyrrolidine C3** (bold wedge to O)
+- Priorities are O > C2 (attached to N) > C4 > H.
+- With H pointing away from the viewer, O → C2 → C4 runs counterclockwise, so the centre is S.
+- In my SMILES this is `O[C@H]2CCN(Cc3ccccc3)C2`.
+
+**Stereocentre at dihydropyridine C4** (hashed bond to the aryl group)
+- C3 and C5 both have (C,C,C) substituents, and so does the aryl carbon. Going deeper, the aryl carbon drops below both ring carbons.
+- C3 outranks C5 because, at the fifth sphere, the pyrrolidine carbon (C,C,H) beats the methyl carbon (H,H,H).
+- Priorities are therefore C3 > C5 > aryl > H.
+- H points toward the viewer. C3 → C5 → aryl runs clockwise on the page, which reverses to counterclockwise, so the centre is S.
+- In my SMILES this is `[C@H]1` for the atom written after C3.
+
+SMILES: COC(=O)C1=C(C)NC(C)=C(C(=O)O[C@H]2CCN(Cc3ccccc3)C2)[C@H]1c1cccc([N+](=O)[O-])c1

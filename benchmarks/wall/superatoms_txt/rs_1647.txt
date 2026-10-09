@@ -1,0 +1,16 @@
+The drawing shows these parts:
+
+- **Biphenyl unit:** a benzene ring carrying SO2NH2 is bonded at its ortho position to a para-substituted benzene ring. That second ring carries a C(=O) group.
+- **Central pyridine:** the carbonyl on the biphenyl forms an amide, C(=O)NH, to the C2 position of a pyridine ring. The ring nitrogen is adjacent to C2, and C3 carries a second carbonyl.
+- **Second amide:** the C3 carbonyl is C(=O)NH and is bonded to C2 of a pyridine ring. This pyridine has Br at C5, so it is 5-bromopyridin-2-yl.
+
+Writing the SMILES in order:
+
+- Sulfonamide ring: NS(=O)(=O)c1ccccc1
+- Biphenyl link and amide: -c1ccc(cc1)C(=O)Nc1ncccc1C(=O)Nc1ccc(Br)cn1
+
+In the central pyridine, the ring is c1ncccc1: C2 (bearing NH), then N, then three CH carbons, then C3 closing the ring. Written as Nc1ncccc1C(=O)..., the atom after the NH-bearing carbon is N, and the last ring atom is C3 carrying the carbonyl, which is correct.
+
+For the bromopyridine, Nc1ccc(Br)cn1 gives C2, C3, C4, C5(Br), C6, N. This matches the drawing, where Br sits on the carbon para to C2 relative to the ring.
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ncccc1C(=O)Nc1ccc(Br)cn1

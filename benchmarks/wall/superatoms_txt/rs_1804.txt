@@ -1,0 +1,15 @@
+Reading the drawing region by region:
+
+- **Pyridine ring:** a 3-hydroxy-4-methoxypyridine, with the carboxamide on C2 next to the ring nitrogen.
+- **Amide:** C(=O)NH links the pyridine C2 to C4 of a tetrahydropyran ring. C4 is drawn with plain bonds, so it gets no stereo label.
+- **Tetrahydropyran ring:** the atoms are O1, C2 (quaternary), C3 (CH2), C4 (CH–N), C5 (CH2) and C6 (CH).
+- **C2:** carries a hashed methyl and a wedged benzyl group.
+- **C6:** carries a wedged methyl.
+
+**Stereo assignment:** I placed approximate 3D coordinates on the wedges and hashes and applied the SMILES chirality rule.
+- C2 comes out as `@@` in the order ring-C3, methyl, benzyl, O.
+- C6 comes out as `@@` in the order O, H, methyl, ring-C5.
+
+I worked the chirality by hand and did not run the SMILES through a validator.
+
+SMILES: COc1ccnc(C(=O)NC2C[C@@](C)(Cc3ccccc3)O[C@@H](C)C2)c1O

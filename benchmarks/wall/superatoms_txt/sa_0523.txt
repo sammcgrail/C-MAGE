@@ -1,0 +1,14 @@
+The drawing shows a benzothiazole core with three substituents.
+
+- **Benzothiazole ring:** C2 is bonded to the thiazole N and S. C2 carries an S–CH2CH2–NH–Alloc chain.
+- **Alloc group:** Alloc is allyloxycarbonyl, C(=O)OCC=C. The label "Alloc" is attached directly to the NH, so I read it as NH–Alloc, giving the carbamate NC(=O)OCC=C.
+- **Benzene ring substituent:** an NH–C(=O) amide is attached at the position para to the ring carbon bonded to N. That amide carbonyl is bonded to a cyclopropane carbon bearing a nitrile. The label "CN" is drawn on the cyclopropane carbon, so it is C#N.
+
+Ring positions: the benzene carbon bonded to N (C3a) is at about (805, 670), and the carbon bonded to S (C7a) is at about (855, 775). Going around the ring from C3a: (870, 575), then (985, 583), then (1035, 688) which bears the NH, then (970, 783), then back to C7a. The NH-bearing carbon is therefore two bonds from C7a (C7a, then (970, 783), then (1035, 688)), which makes it meta to C7a and para to C3a. That is position 6 of the benzothiazole.
+
+SMILES, writing the benzene ring starting from C3a:
+C2 = c1(SCCNC(=O)OCC=C)nc3ccc(NC(=O)C4(C#N)CC4)cc3s1
+
+Checking the ring path: n–c3 (C3a), then c (870, 575), c (985, 583), c(NH) (1035, 688), c (970, 783), then c3 (C7a) closing to s. This matches the drawing.
+
+SMILES: C=CCOC(=O)NCCSc1nc2ccc(NC(=O)C3(C#N)CC3)cc2s1

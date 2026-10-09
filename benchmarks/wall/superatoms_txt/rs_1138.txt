@@ -1,0 +1,20 @@
+I read the structure region by region as follows.
+
+**Biphenyl part.** The top-left ring carries CO2H at the top. Going around that ring, the carbon bearing CO2H is adjacent to a CH, which leads to the carbon attached to the second ring (the biaryl bond). The next carbon carries F. The other two ring positions are CH.
+
+So the ring is C1(CO2H), C2(H), C3(aryl), C4(F), C5(H), C6(H). The F is ortho to the biaryl bond and para to the CO2H. In the drawing, F sits at the lower-left carbon and the biaryl carbon is at the right, so F is adjacent to the biaryl carbon.
+
+**Middle ring.** The biaryl carbon is attached to a ring carbon that is adjacent to the C-OH carbon. The next carbon carries the NH–N= group.
+
+**Isatin hydrazone part.** The hydrazone is NH–N=C3 of an oxindole. C2 is C=O, and N1 carries a 3,4-dimethylphenyl group. The CF3 is on the benzo ring at position 6, meta to the C3a ring fusion carbon.
+
+For the CF3 position: C3a is attached to C3, and C7a is attached to N. The ring runs C3a, C4, C5, C6, C7, C7a. In the drawing, the CF3 carbon is the lower right, which is para to C3a, so it is at C6 (adjacent to C7, which is adjacent to C7a).
+
+**SMILES assembly.**
+- Acid ring: OC(=O)c1ccc(F)c(c1)-c1cccc(NN=C2C(=O)N(c3ccc(C)c(C)c3)c3cc(C(F)(F)F)ccc23)c1O
+- Check of the benzo ring: c3 (C7a) c (C7) c(CF3) (C6) c (C5) c (C4) c23 (C3a). This is correct.
+- The 3,4-dimethylphenyl ring: c3ccc(C)c(C)c3, with the attachment carbon at c3, then c, c, c(C) at position 4, c(C) at position 3, and c3 closing. This is correct.
+
+The C=N geometry is not clearly specified, so I give no stereo.
+
+SMILES: OC(=O)c1ccc(F)c(c1)-c1cccc(NN=C2C(=O)N(c3ccc(C)c(C)c3)c3cc(C(F)(F)F)ccc23)c1O

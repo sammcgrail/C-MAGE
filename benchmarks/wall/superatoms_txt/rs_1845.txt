@@ -1,0 +1,20 @@
+The structure is a [1,2,4]triazolo[4,3-b]pyridazin-3-one core, read as follows.
+
+**Core ring atoms**
+- Triazole ring: N (top left, =N), N2 (bearing the CH2 substituent), C3 (=O), N4 (bridgehead), and C8a (bridgehead carbon). C8a is double-bonded to the top-left N.
+- Pyridazine ring: C8a, CH (C8), C7 (bearing 4-chlorophenyl), C6 (bearing 2,4-dichlorophenyl), N5 (=N), and N4 (bridgehead).
+
+**Bonds in the core**
+- C8a=N in the triazole ring.
+- C8=C7 in the pyridazine ring, drawn as a double bond at the left.
+- C6=N5.
+- The bridgehead N4 is attached to C3 (C=O), to N5, and to C8a.
+
+**SMILES for the core**
+O=C1N(Cc2ccc(C(F)(F)F)nc2)N=C2C=C(c3ccc(Cl)cc3)C(c3ccc(Cl)cc3Cl)=NN12
+
+**Substituents**
+- The CH2 group is attached to a pyridine at its 3-position. Going around that ring, the CH2-bearing carbon is next to a CH that is next to N, and the CF3 sits on the carbon on the other side of N. This gives c2ccc(C(F)(F)F)nc2, which is correct.
+- The 2,4-dichlorophenyl group is attached at C6, with Cl at the ortho position and Cl at the para position. In my SMILES, c3ccc(Cl)cc3Cl starts at the attachment carbon, then c, c, c(Cl) (para), c, c3Cl (ortho), which is correct.
+
+SMILES: O=C1N(Cc2ccc(C(F)(F)F)nc2)N=C2C=C(c3ccc(Cl)cc3)C(c3ccc(Cl)cc3Cl)=NN12

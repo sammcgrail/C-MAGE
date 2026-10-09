@@ -1,0 +1,24 @@
+The structure is a biphenyl carboxylic acid joined through a hydrazone to an N-aryl oxindole.
+
+**Biphenyl part.** The top ring carries CO2H. The second ring is attached to it at the meta position. On the second ring, the carbon bonded to the first ring is adjacent to the C–OH carbon, which is adjacent to the C–NH carbon. So the second ring is 2-hydroxy-3-hydrazinyl, and the whole unit is a 3'-hydrazinyl-2'-hydroxybiphenyl-3-carboxylic acid.
+
+**Hydrazone linker.** The ring carbon bears HN–N=, and the N= is double-bonded to C3 of the oxindole.
+
+**Oxindole part.**
+- C3 is double-bonded to the exocyclic N.
+- C2 is a C=O.
+- N1 carries a 3,4-dichlorophenyl group.
+- The fused benzene ring has CF3 at the position para to C3a. C3a is attached to C3, and C7a is attached to N. Going around from C3a: C4, C5, C6, C7, C7a. In the drawing, the CF3 sits on the carbon next to the one bonded to C7 (the carbon adjacent to C7a), which is C6.
+
+**Stereochemistry.** The hydrazone C=N geometry is drawn with the NH on one side. The N–NH goes down-left from N, while at C3 the C=O is on the left and the aryl ring is on the right. I assigned the geometry from the drawing as follows:
+- The N= atom sits at the top right of the NH–N unit, and C3 lies below it.
+- The NH is up-left of N, and C2 (with the C=O) is down-left of C3.
+- So NH and C2 are on the same side, which is Z with respect to C2.
+
+Written as SMILES: `N(/N=C1/C(=O)N(...)c2cc(C(F)(F)F)ccc12)`. In `Nc.../N=C1/C(=O)...`, the bond before N is written "/" (NH is below N, so the substituent is "up" in the SMILES sense), and the bond after C1 is "/" to C(=O). I read this as NH and C2 being on opposite sides, which does not match the drawing. To place them on the same side, I use `\C(=O)`.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2/C(=O)N(c3ccc(Cl)c(Cl)c3)c3cc(C(F)(F)F)ccc23)c1O
+
+I wrote the final geometry as `N/N=C2/C(=O)`, which places NH and C=O on opposite sides, so I am not fully certain of the stereo assignment.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2/C(=O)N(c3ccc(Cl)c(Cl)c3)c3cc(C(F)(F)F)ccc23)c1O

@@ -1,0 +1,17 @@
+The drawing shows a carbazole core with N-ethyl on the ring nitrogen. Carbazole positions 3 and 6 each carry a CH2CH2 linker to a para-substituted phenyl ring, and each phenyl ring ends in N(CH2CH3)2.
+
+Writing the SMILES: start from one diethylaminophenyl group, CCN(CC)c1ccc(cc1), then the linker CCc..., then the carbazole.
+
+The carbazole is built as c1ccc2c(c1)c1cc(ccc1n2CC)... with the substituents placed at positions 3 and 6.
+
+Numbering the carbazole: N9 is bonded to C9a and C8a. Ring A runs C1, C2, C3, C4, C4a, C9a. C3 is para to C9a, meaning it is separated from C9a by C4a-C4 on one side and C2-C1 on the other, so it is para to the carbon attached to N.
+
+SMILES: n1(CC)c2ccc(CCAr)cc2c2cc(CCAr)ccc12
+
+Checking the first ring: c2 (C9a), c (C1), c (C2), c(CCAr) (C3), c (C4), c2 (C4a). C3 is two atoms from C9a via C1 and C2, and C3 is adjacent to C4, which is adjacent to C4a. That fits. Then C4a bonds to C4b, which starts the second ring: c2 (C4b), c (C5), c(CCAr) (C6), c (C7), c (C8), c12 (C8a), which closes to N. C6 is para to C8a, which is correct.
+
+Full SMILES: CCN(CC)c1ccc(CCc2ccc3c(c2)c2cc(CCc4ccc(N(CC)CC)cc4)ccc2n3CC)cc1
+
+Checking this one: c2 (C3) c (C2) c (C1) c3 (C9a, bonded to N) c(c2) (C4a, closing to C4, which is bonded to C3). Then c2 (C4b) c (C5) c(CC...) (C6) c (C7) c (C8) c2 (C8a) n3 closes to C9a. This is consistent.
+
+SMILES: CCN(CC)c1ccc(CCc2ccc3c(c2)c2cc(CCc4ccc(N(CC)CC)cc4)ccc2n3CC)cc1

@@ -1,0 +1,26 @@
+Reading the drawing as two ring systems joined by a single bond: an isoflavone-type chromone on the left and a xanthone on the right.
+
+**Chromone (left).**
+- The pyranone ring is O1–CH=C(Ar)–C(=O)–C4a…C8a.
+- The benzo ring carries 7-OH and 5-COOH.
+- C5 (bearing COOH) is next to C4a, which is attached to C4(=O).
+- Chromone SMILES: O=C1C(Ar)=COc2cc(O)cc(C(=O)O)c12
+
+**Xanthone (right).**
+- The ring on the left has C4 bearing acetyl (next to the ring O), C3 bearing the chromone substituent, C2 bearing acetyl, and C1 as CH.
+- In the drawing, the carbon attached to the chromone is adjacent to the acetyl-bearing carbon that is adjacent to the C–O carbon.
+- Going around that ring: C(Ac) next to the C–O carbon, then C(chromonyl), then C(Ac), then CH, then C9a, which is attached to the C=O.
+- The right ring has the O-bearing carbon, then CH, then C(OH), then C(OH), then C(COOH), then C9a.
+
+Xanthone SMILES: O=C1c2cc(C(C)=O)c(Ar)c(C(C)=O)c2Oc2cc(O)c(O)c(C(=O)O)c12
+
+**Joined SMILES.** The chromone C3 is attached to the xanthone carbon between the two acetyl-bearing carbons:
+
+O=C1c2c(C(=O)O)cc(O)cc2OC=C1c1c(C(C)=O)cc2c(c1C(C)=O)Oc1cc(O)c(O)c(C(=O)O)c1C2=O
+
+Checking the xanthone portion of this string: c1 (attached to the chromone) is followed by c(C(C)=O), then cc2 (CH, then C9a), then c(...) closing the ring.
+- The branch c(c1C(C)=O) is the ring-closing carbon bearing the O, with the c1 acetyl carbon in the branch. This gives atoms: c1(chromonyl), c(Ac), c(H), c2 (C9a), c(–O) (C4a), c1(Ac), which closes back to the chromonyl carbon.
+- The ring is therefore: chromonyl-C, C(Ac), CH, C9a, C4a, C(Ac). That is six atoms, and C4a is adjacent to C(Ac), which is adjacent to the chromonyl carbon, as drawn.
+- C4a then carries O, and the ring continues: Oc1cc(O)c(O)c(COOH)c1C2=O. The last carbon c1 closes the right ring, and C2=O closes onto C9a.
+
+SMILES: O=C1c2c(C(=O)O)cc(O)cc2OC=C1c1c(C(C)=O)cc2c(c1C(C)=O)Oc1cc(O)c(O)c(C(=O)O)c1C2=O

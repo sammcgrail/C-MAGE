@@ -1,0 +1,16 @@
+I read the molecule as a 5-oxopyrrolidine (γ-lactam) with three substituents or linkages, then assigned stereochemistry from the wedge and hash bonds.
+
+**Structure**
+- The ring is a five-membered lactam with a C=O next to N.
+- N carries a CH2CH2 linker to a para-substituted benzene ring bearing CO2H.
+- The ring carbon next to N (C5) carries a trans CH=CH group.
+- That alkene leads to a CH(OH) carbon, then CH2CH2, then a cyclopentyl ring.
+
+**Stereochemistry**
+- **Ring C5 (wedge to the vinyl group):** the priorities are N > vinyl > ring CH2 > H. With H pointing away, N → vinyl → CH2 runs clockwise, so this centre is R. In the SMILES it is written `[C@H]`.
+- **Carbinol carbon (hashed OH):** the priorities are OH > vinyl > CH2 > H. H points toward the viewer, and OH → vinyl → CH2 appears clockwise, so the true configuration is S. In the SMILES it is written `[C@@H]`.
+- **Alkene:** drawn trans, written `/C=C/`.
+
+I checked the atom counts against the drawing. The chain, both rings and the substituents all match.
+
+SMILES: O=C1CC[C@H](/C=C/[C@@H](O)CCC2CCCC2)N1CCc1ccc(C(=O)O)cc1

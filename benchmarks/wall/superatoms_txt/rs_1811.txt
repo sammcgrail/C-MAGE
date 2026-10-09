@@ -1,0 +1,22 @@
+This is an olopatadine-type dibenz[b,e]oxepine. The oxepine has an ether O attached to one benzene ring and a CH2 attached to the other benzene ring. The central carbon bears an exocyclic double bond to C4 of a piperidine.
+
+**Left benzene ring.** The ring carries the O-bearing carbon, a CH next to it, and the carbon attached to the exocyclic alkene carbon. The 2-hydroxyethyl group (HOCH2CH2–) sits on the carbon para to the O-bearing carbon, going around the ring by position. In the drawing, the ring atoms are:
+- C_a (top right, attached to O)
+- C_b (top, CH)
+- C_c (upper left, bearing the CH2CH2OH)
+- C_d (lower left, CH)
+- C_e (bottom, attached to the alkene carbon)
+- C_f (right, shared with C_a and C_e)
+
+The ring closure runs C_a–C_f–C_e, so the CH2CH2OH carbon is para to C_f (ring-fusion carbon bearing the alkene side), not to the O-bearing carbon. Written as a SMILES fragment: c1(O...)ccc(CCO)cc1C(=...).
+
+**Piperidine and side chain.** The piperidine nitrogen carries CH2–C(CH3)2–COOH.
+
+**Full SMILES.**
+OCCc1ccc2OCc3ccccc3C(=C3CCN(CC(C)(C)C(=O)O)CC3)c2c1
+
+**Check of the left ring.** Atoms: c1 (bearing CCO), c, c, c2 (O-bearing), then the O–CH2–benzo ring, then c2 (the carbon bearing the alkene C), and finally c1 (CH). The CH2CH2OH carbon is adjacent to the CH that is adjacent to the alkene-bearing carbon, so it is meta to the alkene-bearing carbon and para to the O-bearing carbon.
+
+In the drawing, the CH2CH2OH carbon (upper left) neighbors the top CH (C_b), which neighbors the O-bearing carbon (C_a). That makes it meta to the O-bearing carbon. It also neighbors the lower-left CH (C_d), which neighbors C_e, so it is meta to C_e as well. The ring's six atoms are then C_a (O), C_b, C_c (CH2CH2OH), C_d, C_e (the carbon bearing the alkene C), and C_f (the carbon bearing O). The substituent is therefore para to C_f, and C_f is the carbon attached to O. Consequently the SMILES must place the substituent para to the O-bearing carbon, which matches the string above.
+
+SMILES: OCCc1ccc2OCc3ccccc3C(=C3CCN(CC(C)(C)C(=O)O)CC3)c2c1

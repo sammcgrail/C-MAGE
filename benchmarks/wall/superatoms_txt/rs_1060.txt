@@ -1,0 +1,15 @@
+Reading the drawing region by region:
+
+- **Ester end:** a benzyl group (BnO, i.e. OCH2Ph) is attached to a carbonyl carbon (C=O).
+- **Stereocentre:** the carbon next to the ester carbonyl carries a methyl group on a bold wedge, plus an implicit hydrogen.
+- **Chain:** from that carbon, a CH2 leads to a terminal aldehyde (CH=O).
+
+So the skeleton is BnO‑C(=O)‑CH(Me)‑CH2‑CHO.
+
+**Stereochemistry.** The CIP priorities at the stereocentre are ester carbon (O,O,O) > CH2 (C,H,H) > Me (H,H,H) > H.
+
+The methyl is on a wedge, so the hydrogen points away from the viewer. In the drawing the ester is at upper left, the CH2 at upper right and the methyl at the bottom. Going ester → CH2 → Me is clockwise, so the centre is R.
+
+Writing the SMILES from the aldehyde end, the neighbour order at the stereocentre is CH2, H, Me, ester. With `@` this order gives S, so `@@` is needed for R.
+
+SMILES: O=CC[C@@H](C)C(=O)OCc1ccccc1

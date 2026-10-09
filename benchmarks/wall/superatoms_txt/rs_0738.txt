@@ -1,0 +1,18 @@
+The molecule breaks into three parts.
+
+**Left fragment.** A benzimidazol-2-one: N1 carries the piperidin-4-yl group, N3 is NH, and C2 is C=O. The benzene ring has OMe at the position para to N1, i.e. the 5-position on the NH side. In the drawing, the ring carbon bonded to the NH-bearing carbon (C3a) is followed by a CH, then the C-OMe. The NH-attached carbon is at lower left, then the CH at the bottom left, then C-OMe. So the OMe is meta to the NH-bearing carbon and para to the N1-bearing carbon, which makes the ring 5-methoxy.
+
+**Middle linker.** The piperidine nitrogen is attached to CH2–CH(OH)–CH2, which connects to the pyrazole N1.
+
+**Right fragment.** A 4,5,6,7-tetrahydropyrazolo[4,3-c]pyridine:
+- N1 (bearing the linker) is bonded to C7a and to N2.
+- N2 is double-bonded to C3, which carries the 4-bromophenyl group.
+- C3 is bonded to C3a, and C3a=C7a is the ring-fusion double bond.
+- C3a is bonded to CH2 (C4), which is bonded to N5 (acetylated), then CH2 (C6), then CH2 (C7), then back to C7a.
+
+**SMILES assembly.**
+- Benzimidazolone: O=C1Nc2cc(OC)ccc2N1C3CCN(CC3)...
+- Check the benzene ring: c2 (attached to NH), then cc(OC) puts the CH and then C-OMe, then cc, then c2 attached to N1. The C-OMe is therefore meta to the NH-bearing carbon, and para to the N1-bearing carbon. This matches the drawing.
+- Linker and right fragment: CC(O)Cn1nc(-c2ccc(Br)cc2)c2CN(C(C)=O)CCc12
+
+SMILES: COc1ccc2c(c1)[nH]c(=O)n2C1CCN(CC1)CC(O)Cn1nc(-c2ccc(Br)cc2)c2CN(C(C)=O)CCc12

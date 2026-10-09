@@ -1,0 +1,22 @@
+I read the drawing as a nine-membered dilactone ring carrying a pyridine amide, and assigned each stereocentre from its wedge or hash.
+
+**Pyridine part.** The ring has N, then C2 bearing the carboxamide, C3 bearing OAc (acetoxy), C4 bearing OMe, and two CH carbons. The C2 carbonyl is joined through NH to the large ring.
+
+**Nine-membered ring.** Going around from the NH-bearing carbon:
+- CH(NH) is hashed to N.
+- C(=O) is the first lactone carbonyl.
+- Ring O leads to CH(CH3), which has a wedged methyl.
+- CH(OAc) has a hashed acetoxy.
+- CH(CH2Ph) has a wedged benzyl.
+- C(=O) is the second lactone carbonyl.
+- Ring O leads to CH2, which closes back to the CH(NH) carbon.
+
+**Stereochemistry.** I worked out each centre from the 2D positions of its neighbours, treating the implicit H as pointing opposite the wedge or hash. The results are:
+- CH(N): @
+- CH(Bn): @
+- CH(OAc): @@
+- CH(Me): @
+
+I did this by hand and did not run the SMILES through a parser.
+
+SMILES: CC(=O)Oc1c(OC)ccnc1C(=O)N[C@H]1COC(=O)[C@H](Cc2ccccc2)[C@@H](OC(C)=O)[C@H](C)OC1=O

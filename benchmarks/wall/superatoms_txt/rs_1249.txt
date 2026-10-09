@@ -1,0 +1,16 @@
+The drawing shows a pyridine ring with these substituents:
+- The ring nitrogen sits at the lower left.
+- C2 carries the carboxamide, C(=O)NH-aryl.
+- C3 carries OH.
+- C4 carries SMe.
+- C5 and C6 are plain CH.
+
+The amide nitrogen is attached to a para-substituted phenyl ring. That ring's other substituent is an oxygen bridging to a phenyl ring bearing CF3 at the meta position.
+
+Building the SMILES from the pyridine:
+- Ring: n1ccc(SC)c(O)c1C(=O)N...
+- Amide side: C(=O)Nc1ccc(Oc2cccc(C(F)(F)F)c2)cc1
+
+Check of the CF3 position: the right ring is attached to O at its upper-left vertex, and the CF3 is at the lower-right vertex. Going around the ring from the O carbon, the vertices are top, upper right, lower right, bottom, lower left. That puts CF3 three bonds away from the O carbon in one direction, which is meta.
+
+SMILES: CSc1ccnc(C(=O)Nc2ccc(Oc3cccc(C(F)(F)F)c3)cc2)c1O

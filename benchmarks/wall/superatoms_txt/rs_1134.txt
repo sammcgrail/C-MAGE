@@ -1,0 +1,12 @@
+I read the structure in three parts and wrote the SMILES by joining them.
+
+**Fragments**
+- **Left end:** an indazole attached through its 6-position to a carbonyl (C=O). That carbonyl acylates the ring nitrogen of a 1,2,3,4-tetrahydroisoquinoline.
+- **Isoquinoline core:** the benzo ring carries Cl at C5 and Cl at C7. C6, between the two chlorines, carries a carboxamide C(=O)NH.
+- **Right end:** the amide NH is bonded to the α-carbon of a 2,3-diaminopropionic acid unit, which bears CO2H. Its β-NH is part of a urea, C(=O)–N, whose nitrogen is the ring nitrogen of a 3,4-dihydroxypyrrolidine.
+
+**Stereochemistry**
+- **α-carbon:** the wedge is on the bond to the CH2. With the N > CO2H > CH2 > H priority order and H pointing away, N → CO2H → CH2 runs counterclockwise, so the centre is S. In the SMILES this is `N[C@@H](CN...)C(=O)O`.
+- **Pyrrolidine:** both OH groups are drawn with hashed bonds, so they are cis to each other (a meso-type 3,4-diol). Working through each centre from the drawn geometry gives `C[C@H](O)[C@H](O)C3`.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1CCc2c(Cl)c(C(=O)N[C@@H](CNC(=O)N3C[C@H](O)[C@H](O)C3)C(=O)O)c(Cl)cc2C1

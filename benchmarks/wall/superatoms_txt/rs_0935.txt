@@ -1,0 +1,12 @@
+The drawing shows a THC (tetrahydrocannabinol) skeleton in which the phenol oxygen is esterified as a carbamate with 3,5-dinitrophenyl isocyanate: O-C(=O)-NH-Ar.
+
+**THC core.** The cyclohexene ring carries a methyl on the alkene carbon. Its atoms are C(CH3)=CH–CH(C10a, attached to the aromatic ring)–CH(C6a, drawn with a dashed bond)–CH2–CH2. C6a is bonded to C(CH3)2, which is bonded to O, which is bonded to the aromatic ring. The aromatic ring carries the OC(=O)NHAr group and the pentyl chain (C5H11).
+
+**Stereochemistry.** Only one stereo bond is drawn, the dashed bond at C6a. C10a is drawn with a plain bond, so it gets no stereo marking. The dashed bond is on C6a toward the CMe2 carbon. I will mark C6a with a single stereo tag. Its absolute configuration is a guess based on natural THC, which is (6aR,10aR). Natural THC is written CCCCCc1cc(O)c2[C@@H]3C=C(C)CC[C@H]3C(C)(C)Oc2c1. Since C10a is unmarked in the drawing, I give only C6a a tag.
+
+**SMILES assembly.**
+- Start with the pentyl chain and the ring: CCCCCc1cc(OC(=O)Nc4cc([N+](=O)[O-])cc([N+](=O)[O-])c4)c2c(c1)OC(C)(C)[C@@H]1CCC(C)=CC21
+- Check the ring closures. Aromatic c2 is bonded to C10a, which is the last atom "C21". The c(c1)O branch bonds to the O of the pyran ring. The ring closure "1" is reused after c1 closes, which is allowed. C10a closes ring 1 to C6a and ring 2 to the aromatic carbon.
+- Atom order in the cyclohexene part: C6a, then CH2, CH2, C(CH3)=CH, then C10a. C6a [C@@H]1, C, C, C(C)=C, C21 gives a six-membered ring: C6a, CH2, CH2, C(Me), =CH, C10a. This is correct.
+
+SMILES: CCCCCc1cc(OC(=O)Nc4cc([N+](=O)[O-])cc([N+](=O)[O-])c4)c2c(c1)OC(C)(C)[C@@H]1CCC(C)=CC21

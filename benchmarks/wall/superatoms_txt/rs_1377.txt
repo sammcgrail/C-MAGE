@@ -1,0 +1,26 @@
+The drawing shows two identical chroman units joined by a CH2 bridge, so I read one unit and then mirror it.
+
+**Upper unit.** The benzene ring carries a methyl at the top (C8), a methyl at the upper left (C7), and OH at the lower left (C6). The bottom carbon (C5) is attached to the CH2 bridge. The ring oxygen is attached to C8a, the carbon next to C8. The pyran ring runs O, then C2, which carries both ethyl and methyl groups, then C3 (CH2), C4 (CH2), and back to C4a. C4a is the ring-fusion carbon adjacent to C5.
+
+**Lower unit.** This is the mirror image of the upper one, with the same substituents: C5 bears the CH2 bridge, C6 bears OH, C7 and C8 bear methyls, and C2 bears ethyl and methyl.
+
+**Writing the SMILES.** For one unit, starting at the bridge-bearing C5:
+- c1(C…)c(O)c(C)c(C)c2OC(C)(CC)CCc12
+
+Joining two units through the CH2 gives:
+
+Cc1c(C)c(O)c(Cc2c(O)c(C)c(C)c3OC(C)(CC)CCc23)c3CCC(C)(CC)Oc13
+
+**Checking the first unit.** Reading the string as written:
+- c1 is C8 (bearing the methyl), then c(C) is C7 and c(O) is C6.
+- c(CH2…) is C5, and the final c3 is C4a.
+- CCC(C)(CC)O runs C4, C3, C2, then the oxygen.
+- c13 closes onto C8a, which bonds to C8 (ring closure 1) and to C4a (ring closure 3).
+
+This is consistent.
+
+**Checking the second unit.** It begins at Cc2, which is C5, followed by c(O) as C6, c(C) as C7, c(C) as C8, and c3 as C8a. After that comes OC(C)(CC)CC, then c23 as C4a, which closes to C5 (ring closure 2) and to C8a (ring closure 3). The pattern is right.
+
+The C2 carbons are stereocentres by connectivity, but they are drawn with plain bonds, so no stereo is given.
+
+SMILES: Cc1c(C)c(O)c(Cc2c(O)c(C)c(C)c3OC(C)(CC)CCc23)c3CCC(C)(CC)Oc13

@@ -1,0 +1,12 @@
+The drawing shows a dibenz[b,e]oxepine core with a piperidin-4-ylidene substituent, and I read it as follows.
+
+- **Oxepine ring:** an oxygen is bonded to a CH2 and to the left benzene ring. The CH2 connects to the right benzene ring, which carries the CF3 group. The ring closes through the exocyclic double-bond carbon (C11), which joins the left benzene ring to the right benzene ring.
+- **Piperidine:** C11 is double-bonded to C4 of a piperidine ring. The ring nitrogen carries a CH2–C(CH3)2–CO2H chain.
+- **Right ring substitution:** the CH2 attaches at the ring carbon next to the CF3-bearing carbon's neighbour. The ring atoms run C(a, bonded to CH2), then CH (top), then C(CF3), then CH, CH, and C(b, bonded to C11). So the CF3 carbon is meta to C(a) and para to C(b)'s neighbour; the SMILES below encodes this connectivity directly.
+- **Stereochemistry:** the C11=C4 double bond has two identical piperidine arms on one end, so it has no E/Z isomerism. No stereo is needed.
+
+SMILES for the core: O1Cc2cc(C(F)(F)F)ccc2C(=C2CCN(CC(C)(C)C(=O)O)CC2)c2ccccc12
+
+Check on the right ring: c2 (a, attached to CH2), then c (CH), then c(CF3), then c, c, then c2 (b, attached to C11). That gives a six-membered ring with the CF3 carbon two atoms from C(a), consistent with the drawing.
+
+SMILES: O=C(O)C(C)(C)CN1CCC(=C2c3ccccc3OCc3cc(C(F)(F)F)ccc32)CC1

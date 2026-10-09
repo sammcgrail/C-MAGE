@@ -1,0 +1,14 @@
+The structure is a biphenyl carboxylic acid joined through a hydrazone to an N-aryl isatin.
+
+**Biphenyl part.** The top ring carries CO2H and is attached to the second ring at the meta position. On the second ring, the carbon bonded to the first ring is adjacent to the carbon bearing OH. The next carbon along bears the HN group. So the ring reads: C1 (aryl), C2 (OH), C3 (NH), then C4, C5, C6 as CH.
+
+**Hydrazone and isatin part.** The NH is bonded to N, which is double-bonded to C3 of the indolin-2-one. C2 is C=O, and N1 carries a 3-fluorophenyl group.
+
+**Assembling the SMILES.**
+- Acid ring: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3cccc(F)c3)c3ccccc23)c1O
+- Check on the second ring: c1 (attached to the acid ring), then c, c, c, then c(N...), then c1O closes the ring. The atom order is C1(aryl), CH, CH, CH, C(NH), C(OH), which puts OH between the aryl carbon and the NH carbon, as drawn.
+- Isatin: C2(=N)...C(=O)N(Ar)c3ccccc3 closing back to C2. Written as N=C2C(=O)N(Ar)c3ccccc23, the final c23 closes both the benzo ring and the C3 ring, which is correct.
+
+No stereochemistry is specified for the C=N bond in the drawing, so I left it out.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3cccc(F)c3)c3ccccc23)c1O

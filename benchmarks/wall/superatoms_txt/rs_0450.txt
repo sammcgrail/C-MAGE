@@ -1,0 +1,21 @@
+Reading the structure region by region:
+
+- **Right-hand fragment:** a 3,4-dihydroquinazolin-2(1H)-one. N1 is NH, C2 is C=O, N3 carries the piperidin-4-yl group, C4 is CH2, and C4 is attached to the benzene ring.
+- **Central link:** that piperidine's nitrogen is part of a urea, N-C(=O)-NH.
+- **Alpha carbon:** the urea NH is attached to a CH. That CH carries a C(=O) amide and a CH2 leading to the indole.
+- **Amide:** C(=O) is bonded to the nitrogen of a 4-(piperidin-1-yl)piperidine.
+- **Indole:** the CH2 is attached at C5. The ring is drawn with the benzene ring on top and the pyrrole below, NH at the bottom left, and C3 bearing CN.
+
+SMILES pieces:
+
+- Quinazolinone: O=C1Nc2ccccc2CN1
+- Piperidine at N3: C1CCN(CC1)C(=O)N...
+- Alpha carbon: NC(Cc1ccc2[nH]cc(C#N)c2c1)C(=O)N1CCC(CC1)N1CCCCC1
+
+Indole check: c1ccc2[nH]cc(C#N)c2c1 starts at C5 (attached to CH2), then C6, C7, C7a, N1, C2, C3 (CN), C3a, and C4 closes the ring. This is correct, because C5 is adjacent to C4, which is adjacent to C3a.
+
+No stereochemistry is drawn, so none is included.
+
+Full SMILES: O=C1Nc2ccccc2CN1C1CCN(CC1)C(=O)NC(Cc1ccc2[nH]cc(C#N)c2c1)C(=O)N1CCC(CC1)N1CCCCC1
+
+SMILES: O=C1Nc2ccccc2CN1C1CCN(CC1)C(=O)NC(Cc1ccc2[nH]cc(C#N)c2c1)C(=O)N1CCC(CC1)N1CCCCC1

@@ -1,0 +1,21 @@
+The drawing shows three parts joined by two amide linkages.
+
+**Left fragment.** A 4,5-dihydroimidazole (imidazoline) ring carries an N-methyl group on one nitrogen. Its C2 carbon is attached to a para-substituted benzene ring. The other ring nitrogen is a plain =N. In SMILES: CN1CCN=C1c1ccc(cc1)C(=O)N...
+
+**Central ring.** A benzene ring carries three substituents:
+- the NH of the first amide, at C1;
+- the C(=O)NH-pyridyl group, at the adjacent C2;
+- the OMe group.
+
+The OMe sits on the carbon that is para to the NH-bearing carbon. In the drawing, the ring carbon bearing NH is at the lower left. Moving around the ring, the carbon bearing C(=O) is at the lower right, then the upper right carbon, then the top carbon bearing OMe. The remaining ring positions are the upper left and the left-lower carbons. So the ring order is C1 (NH), C2 (C=O), C3 (H), C4 (OMe), C5 (H), C6 (H). OMe is therefore para to the NH carbon, with C3 as the intervening CH.
+
+SMILES for this ring: c1(NC(=O)...)c(C(=O)N...)cc(OC)cc1
+
+**Right fragment.** A 5-chloropyridin-2-yl group is attached through the amide NH. The ring nitrogen is adjacent to C2, and Cl is at C5, giving c1ccc(Cl)cn1.
+
+**Full SMILES.**
+CN1CCN=C1c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1
+
+Check of the central ring in this SMILES: c1(N...) is C1, then c, c, c(OC), c, c1(C(=O)...). Written as c1ccc(OC)cc1C(=O): the first atom is C1 (NH), followed by c (C6), c (C5), c(OC) (C4), c (C3), and c1 (C2) carrying the C=O. This matches the structure.
+
+SMILES: CN1CCN=C1c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1

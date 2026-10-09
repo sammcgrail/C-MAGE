@@ -1,0 +1,22 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+**Left fragment, benzimidazolone:**
+- An N-methyl benzimidazol-2-one: N(Me) is bonded to the C=O, and the other N carries the piperidin-4-yl group.
+- On the benzo ring, the carbon next to the piperidinyl-bearing ring carbon is CH. The next carbon carries NMe2, then two more CH carbons close the ring back to the N(Me) side.
+
+**Piperidine and linker:**
+- The piperidine nitrogen is bonded to CH2, then to CH(OH), then to CH2, then to N1 of the pyrazole.
+
+**Stereocentre (CH–OH):**
+- The OH is on a wedge, so this carbon has defined stereochemistry.
+- With H pointing away from the viewer, the left CH2 (towards the piperidine N), the right CH2 (towards the pyrazole) and the OH run clockwise.
+- Written as `C[C@H](O)C`, with the piperidine-side CH2 first, this gives `@`.
+
+**Right fragment, tetrahydropyrazolo[4,3-c]pyridine:**
+- N1 carries the chain, and C3 carries the 4-CF3-phenyl group.
+- C3a is bonded to a CH2 that leads to N5, which carries the methanesulfonyl group (SO2Me).
+- N5 is bonded to CH2–CH2, which closes back to C7a.
+
+I checked that the ring-closure digits are reused only after the earlier rings close, so the SMILES is valid.
+
+SMILES: CN1C(=O)N(C2CCN(CC2)C[C@H](O)Cn2nc(-c3ccc(C(F)(F)F)cc3)c3c2CCN(S(C)(=O)=O)C3)c2cc(N(C)C)ccc21

@@ -1,0 +1,17 @@
+The drawing shows a benzofuran core with a benzyl group at C2 and a biphenyl group at C3.
+
+- **Benzofuran:** the fused benzene ring is bonded to O. C2 carries the CH2Ph (benzyl) group, and C3 is bonded to the phenyl ring.
+- **Biphenyl:** the first phenyl ring is para-substituted, with the benzofuran at one end and the second phenyl ring at the other.
+- **Second phenyl ring:** the ring carbon attached to the first phenyl is position 1. The NH carbon sits para to it (position 4), and the NO2 carbon is adjacent to the NH carbon (position 3). This gives a 4-NH-3-nitro pattern.
+- **Side chain:** the NH is bonded to CH2COOH, so the amine is a glycine.
+
+SMILES, written by walking the structure:
+- Benzofuran: c1ccc2c(c1)c(c(Cc1ccccc1)o2)
+- C3 is attached to the para-phenylene: -c1ccc(cc1)
+- Then the nitro-aminophenyl: -c1ccc(NCC(=O)O)c([N+](=O)[O-])c1
+
+Full SMILES: OC(=O)CNc1ccc(cc1[N+](=O)[O-])-c1ccc(cc1)-c1c(Cc2ccccc2)oc2ccccc12
+
+Check on the benzofuran: c1c(Cc2ccccc2)oc2ccccc12 has C3 (c1), C2 (c with the benzyl group), o, then the fused benzene c2ccccc12. The last atom closes both ring 1 (to C3) and ring 2, so C3a is bonded to C3 and C7a is bonded to O. This is correct.
+
+SMILES: OC(=O)CNc1ccc(cc1[N+](=O)[O-])-c1ccc(cc1)-c1c(Cc2ccccc2)oc2ccccc12

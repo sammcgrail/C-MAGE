@@ -1,0 +1,22 @@
+The drawing shows three parts: a central benzene ring, a 4-substituted benzamide, and a 5-chloropyridin-2-yl amide.
+
+**Central benzene ring.** Reading the ring atoms in order:
+- C1 carries the NH of the benzamide.
+- C2 carries OH.
+- C3 is CH.
+- C4 carries Cl.
+- C5 is CH.
+- C6 carries the C(=O)NH amide group.
+
+**Substituents.**
+- The NH on C1 is acylated by a 4-(N-methylcarbamimidoyl)benzoyl group: C(=O)c1ccc(cc1)C(=N)NC.
+- The carbonyl on C6 forms an amide with 2-amino-5-chloropyridine: C(=O)Nc1ccc(Cl)cn1.
+
+**SMILES assembly.** Starting from C1:
+Oc1cc(Cl)cc(C(=O)Nc2ccc(Cl)cn2)c1NC(=O)c1ccc(cc1)C(=N)NC
+
+**Check of the central ring.** In this SMILES the ring atoms run as follows: c1 (OH carbon), c (CH), c(Cl), c (CH), c(C(=O)N…), c1 (NH carbon). The NH carbon sits between the OH carbon and the carboxamide carbon, which matches the drawing.
+
+**Pyridine check.** In c2ccc(Cl)cn2, the first atom is C2, bonded to the amide NH and to the ring N. The sequence then runs C3, C4, C5(Cl), C6, N1. The Cl sits on C5, which is para to C2 and matches the drawing.
+
+SMILES: Oc1cc(Cl)cc(C(=O)Nc2ccc(Cl)cn2)c1NC(=O)c1ccc(cc1)C(=N)NC

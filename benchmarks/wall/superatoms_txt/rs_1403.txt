@@ -1,0 +1,17 @@
+I read the structure region by region, starting from the left.
+
+**Left ring:** a benzene ring bearing an amidoxime group, C(N)=NO, at the para position relative to the carbonyl. The drawing shows C(=N–OH)NH2, with the C–NH2 bond drawn dashed. This dashed bond is a plain bond with no stereochemical meaning, and the C=N geometry is not specified. Fluorine sits ortho to the carbonyl-bearing carbon, meta to the amidoxime.
+
+**Linker:** the left ring carries C(=O)NH, which connects to the central ring.
+
+**Central ring:** the NH-bearing carbon is C1, and its neighbour C2 carries the C(=O)NH-pyridyl group. The OMe is on the carbon para to C1's neighbour... checking positions: the ring runs from C1 (NH) to C2 (the amide carbon), then C3 (CH), C4 (OMe, at the top), C5 (CH) and C6 (CH). So the OMe is para to the NH carbon and meta to the amide carbon.
+
+**Right ring:** a 5-chloropyridin-2-yl group attached through the amide N. The ring nitrogen is adjacent to C2, and the Cl is at C5, para to C2.
+
+**SMILES assembly:**
+- Left ring: c1(C(N)=NO)ccc(C(=O)N...)c(F)c1
+- Central ring: c2ccc(OC)cc2C(=O)Nc3ccc(Cl)cn3
+
+Formula check: the carbons are 7 (left ring plus amidoxime C) + 1 (C=O) + 6 + 1 (OMe) + 1 (C=O) + 5 (pyridine) = 21, which matches C21.
+
+SMILES: NC(=NO)c1ccc(C(=O)Nc2ccc(OC)cc2C(=O)Nc2ccc(Cl)cn2)c(F)c1

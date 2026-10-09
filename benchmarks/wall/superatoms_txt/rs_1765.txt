@@ -1,0 +1,22 @@
+The drawing shows a coumarin (2H-chromen-2-one) core, which I read as follows.
+
+**Pyranone ring:** O1 is bonded to C2 (C=O), which is bonded to C3. C3 carries the CH2CO2H group and is double-bonded to C4. C4 carries the 3-bromophenyl group and is bonded to C4a. C4a connects to C8a, which is bonded back to O1.
+
+**Benzo ring:**
+- C4a is bonded to C5, which is an aromatic CH.
+- C5 is bonded to C6, which carries the CH2Br group.
+- C6 is bonded to C7, which carries Cl.
+- C7 is bonded to C8, an aromatic CH, which is bonded to C8a.
+
+**Substituent on C4:** a phenyl ring bearing Br at the meta position. In the drawing the ring attaches at its top vertex, and Br sits at the lower right, which is meta to the attachment point.
+
+Writing the SMILES from these connections:
+
+OC(=O)CC1=C(c2cccc(Br)c2)c2cc(CBr)c(Cl)cc2OC1=O
+
+Atom check:
+- C3 is `C1` with the CH2CO2H branch, and C4 is `C(...)` carrying the aryl group.
+- `c2cc(CBr)c(Cl)cc2O` runs C4a, C5, C6 (CH2Br), C7 (Cl), C8, C8a, then O.
+- The final `C1=O` is C2, closing the ring back to C3.
+
+SMILES: OC(=O)CC1=C(c2cccc(Br)c2)c2cc(CBr)c(Cl)cc2OC1=O

@@ -1,0 +1,14 @@
+I read the molecule as a 3-hydroxy-4-methoxypyridine-2-carboxamide whose nitrogen is attached to C1 of a 2,3-O-isopropylidene ribofuranose.
+
+**Pyridine part:** The ring nitrogen sits next to the carbon bearing the C(=O)NH group (C2). The adjacent carbon (C3) carries OH, and the next carbon (C4) carries OMe. In SMILES this is `c3nccc(OC)c3O`, with the amide carbon attached at `c3`.
+
+**Sugar part:** The five-membered ring contains one oxygen and four carbons, labelled C1 to C4.
+- C1 carries the NH and is drawn with plain bonds, so it gets no stereo label.
+- C2 and C3 each carry an oxygen on a hashed bond. These two oxygens are bridged by a CMe₂ group, forming the dioxolane (isopropylidene) ring.
+- C4 carries a CH₂OH on a bold wedge.
+
+**Stereochemistry:** I assigned @/@@ from the wedge and hash geometry, treating the implicit hydrogen as pointing opposite to the drawn wedge or hash bond. For the SMILES atom order I wrote, this gives C2 as `[C@H]`, C3 as `[C@H]` and C4 as `[C@H]`.
+
+Putting these together:
+
+SMILES: CC1(C)O[C@H]2C(NC(=O)c3nccc(OC)c3O)O[C@H](CO)[C@H]2O1

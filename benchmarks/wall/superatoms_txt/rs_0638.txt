@@ -1,0 +1,21 @@
+The molecule is symmetric: a central CH2 links two identical chlorinated benzene rings, and each ring carries one tertiary diarylamine nitrogen.
+
+**Left half**
+- The central ring has Cl at the position ortho to the N. The CH2 is para to that N.
+- The N carries two aryl groups: a 3-(diethylamino)phenyl and a 2-(dimethylamino)phenyl.
+- In the 3-(diethylamino)phenyl ring, the N attaches at the ring carbon next to the one bearing NEt2, i.e. meta.
+- In the 2-(dimethylamino)phenyl ring, NMe2 sits on the carbon adjacent to the one bearing the central N, i.e. ortho.
+
+**Right half**
+- It is the same as the left: Cl ortho to N, CH2 para to N, with a 2-(dimethylamino)phenyl and a 3-(diethylamino)phenyl on the N.
+
+**SMILES for one half:** the central ring is c1(N(c2cccc(N(CC)CC)c2)c2ccccc2N(C)C)c(Cl)cc(C...)cc1, with the CH2 attached at the para position.
+
+**Full SMILES:**
+CCN(CC)c1cccc(c1)N(c1ccccc1N(C)C)c1ccc(Cc2ccc(N(c3ccccc3N(C)C)c3cccc(N(CC)CC)c3)c(Cl)c2)cc1Cl
+
+Check on the first central ring: c1ccc(C...)cc1Cl. The N-bearing carbon is c1, followed by c, c, then c(C), c, and c1Cl. The ring closure carbon bears Cl and is adjacent to c1. The CH2-bearing carbon is the fourth atom, which is para to c1. This is correct.
+
+Check on the second ring: c2ccc(N...)c(Cl)c2. The CH2-bearing carbon is c2, followed by c, c, then c(N), then c(Cl), then c2. The N carbon is para to the CH2 carbon and Cl is ortho to N. This is correct.
+
+SMILES: CCN(CC)c1cccc(c1)N(c1ccccc1N(C)C)c1ccc(Cc2ccc(N(c3ccccc3N(C)C)c3cccc(N(CC)CC)c3)c(Cl)c2)cc1Cl

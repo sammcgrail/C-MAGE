@@ -1,0 +1,18 @@
+The drawing shows a urea linking two parts.
+
+**Left part:** a 6,7-dimethoxy-1,2,3,4-tetrahydroisoquinoline.
+- The ring nitrogen carries a CH2CH2 chain that leads to the urea NH.
+- C1 of the ring carries a CH2CH2 chain to a 3,4-dimethoxyphenyl group.
+- C1 is drawn with plain bonds, so no stereochemistry is given.
+
+**Right part:** an aryl urea.
+- The urea nitrogen is attached to an aromatic carbon, C1.
+- Going around the ring from C1: C2 has a methyl, C3 has the piperidin-1-yl group, C4 has a methyl, C5 has H, and C6 has a methyl.
+- This matches the drawing. The carbon bearing the piperidine sits between the methyl at C2 (upper left) and the methyl at C4 (upper right). The ring CH is next to the C4 methyl. The lower methyl is on C6, which is adjacent to C1.
+
+**SMILES assembly:**
+- Tetrahydroisoquinoline: COc1cc2CCN(CCNC(=O)Nc3c(C)c(N4CCCCC4)c(C)cc3C)C(CCc3ccc(OC)c(OC)c3)c2cc1OC
+- Ring closure check: c1(OMe) c c2 (C4a) CCN ... C1 c2 (C8a) c c1OC. The aromatic ring is c1, c, c2, c2', c, c1, which is six atoms.
+- Methoxy positions: the top MeO is on the carbon adjacent to the CH that sits next to C4a, and the lower MeO is on the carbon adjacent to the CH next to C8a. In the SMILES, COc1cc2...c2cc1OC gives OMe on the first and last aromatic carbons, which are adjacent to each other. This is consistent.
+
+SMILES: COc1cc2CCN(CCNC(=O)Nc3c(C)c(N4CCCCC4)c(C)cc3C)C(CCc3ccc(OC)c(OC)c3)c2cc1OC

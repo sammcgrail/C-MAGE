@@ -1,0 +1,15 @@
+I read the structure region by region and assigned the two stereocentres from the hashed bonds using CIP priorities.
+
+**Structure read from the drawing**
+- **Pyrimidine core:** a ring with a phenyl group on C2 (between the two ring nitrogens). C4 carries the pyrrolidine nitrogen. C6 carries the C(=O)NH amide, and C5 is CH.
+- **Pyrrolidine:** an N-linked ring with an OMe on C3. The OMe bond is hashed.
+- **Amino-acid carbon:** it carries NH (to the pyrimidine amide), a hashed CH2–P(=O)(OH)2, and a C(=O) bonded to a piperazine nitrogen.
+- **Piperazine:** its other nitrogen is a carbamate, N–C(=O)O–nBu.
+
+**Stereochemistry**
+- **Alpha carbon:** the priorities are N > CH2P > C(=O)N > H. With CH2P hashed (back) and H toward the viewer, N→CH2P→C(=O) runs counterclockwise on screen. Reversing for the H in front gives R, which corresponds to `[C@H]` in the SMILES order used below.
+- **Pyrrolidine C3:** the priorities are O > C2 (the CH2 bonded to N) > C4 > H. With OMe hashed (back) and H in front, O→C2→C4 runs clockwise on screen, which reverses to S. This corresponds to `[C@H]` in the SMILES order used below.
+
+I checked the SMILES by hand for atom count and for the chirality tags; I did not run it through a parser.
+
+SMILES: CCCCOC(=O)N1CCN(CC1)C(=O)[C@H](CP(=O)(O)O)NC(=O)c1cc(N2CC[C@H](OC)C2)nc(-c2ccccc2)n1

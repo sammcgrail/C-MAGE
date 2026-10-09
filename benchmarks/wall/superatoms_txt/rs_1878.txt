@@ -1,0 +1,32 @@
+I read the structure as three parts joined by two azo (N=N) links, and wrote the SMILES from that reading.
+
+**Left ring.** A benzene ring carries a COO⁻NH4⁺ group (H4NOOC) and, meta to it, the azo link.
+
+**Central ring.** A benzene ring with these substituents:
+- an azo group to the left ring at the lower left
+- OC2H5 at the top
+- OC2H5 at the bottom
+- an azo group to the naphthalene at the right
+
+Numbering the central ring: C1 bears the azo to the naphthalene (right, lower), C2 is the CH at the bottom, C3 bears OEt (bottom), C4 bears the azo to the left ring, C5 is the CH at the top left, and C6 bears OEt (top). The two OEt groups are para to each other, and the two azo groups are para to each other.
+
+**Naphthalene.** The ring on the right has these substituents:
+- C1 carries OH
+- C2 carries the azo link
+- C3 carries SO3⁻NH4⁺
+- the other ring carries NH2 at C7
+
+**SMILES assembly.** The ammonium salts are written as separate ions. In the central ring, the carbon bearing the left azo is c1, then the CH, then c(OCC) at the top, then the carbon bearing the right azo, then the CH, then c(OCC) at the bottom.
+
+Left ring: c1ccc(cc1C(=O)[O-])... Written from the azo side, this is N=Nc1cccc(c1)C(=O)[O-].
+
+Central ring: c2cc(OCC)c(N=N...)cc2OCC, with the left azo on the first atom.
+
+Naphthalene: c3c(S(=O)(=O)[O-])cc4ccc(N)cc4c3O. The azo-bearing C2 is bonded to C1 (OH) and C3 (SO3). C1 is bonded to C8a, which connects to C8 (CH), then C7 (NH2), then C6, C5, C4a, and C4 (CH), then back to C3.
+
+Full SMILES:
+[NH4+].[NH4+].[O-]C(=O)c1cccc(c1)N=Nc1cc(OCC)c(N=Nc2c(O)c3cc(N)ccc3cc2S(=O)(=O)[O-])cc1OCC
+
+Check of the central ring: c1 (left azo), cc(OCC) puts the CH and then the OEt carbon, c(N=N...) is the right azo carbon, then cc1OCC gives the CH and the closing carbon with OEt. This puts the OEt groups at positions 3 and 6, which are para, and the azo groups at 1 and 4, which are para. This matches the drawing.
+
+SMILES: [NH4+].[NH4+].[O-]C(=O)c1cccc(c1)N=Nc1cc(OCC)c(N=Nc2c(O)c3cc(N)ccc3cc2S(=O)(=O)[O-])cc1OCC

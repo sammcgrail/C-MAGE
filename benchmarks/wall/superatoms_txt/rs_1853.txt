@@ -1,0 +1,17 @@
+Reading the drawing region by region:
+
+- **Right ring:** a piperidine with N at the bottom left. The carbon two bonds from N (C3) carries a hashed bond to Cl.
+- **Chain:** N is attached to a CH2–CH2 chain, which leads to a benzene ring.
+- **Left ring:** a para-disubstituted benzene bearing OMe (the methoxy group) opposite the chain.
+
+This is 3-chloro-1-[2-(4-methoxyphenyl)ethyl]piperidine, with stereochemistry only at C3.
+
+**Stereocentre assignment at C3:**
+- The Cl is hashed (pointing away from the viewer), so the implicit H points toward the viewer.
+- The CIP priorities are Cl > C2 (attached to N) > C4 > H.
+- In the 2D drawing, Cl (up) → C2 (lower left) → C4 (lower right) runs counterclockwise.
+- Because H faces the viewer, the true sense is reversed, so the centre is clockwise, which is R.
+
+**SMILES check:** In `COc1ccc(CCN2CCC[C@@H](Cl)C2)cc1`, the stereocentre's neighbour order is C4, H, Cl, C2. The `@@` symbol means that, viewed from C4, H → Cl → C2 runs clockwise. Moving H to the front takes one swap, giving `@`. Viewed from H, C4 → Cl → C2 is then counterclockwise, so viewed with H pointing away it is clockwise. That is the same as Cl → C2 → C4 clockwise, which is R, matching the drawing.
+
+SMILES: COc1ccc(CCN2CCC[C@@H](Cl)C2)cc1

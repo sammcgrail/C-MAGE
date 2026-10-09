@@ -1,0 +1,16 @@
+Reading the drawing region by region:
+
+- **Left end:** a benzene ring fused to a six-membered ring containing NH–C(=O)–N and a CH2. This is a 3,4-dihydroquinazolin-2(1H)-one, attached through N3 to the piperidine C4.
+- **Piperidine:** its nitrogen is acylated by a urea carbonyl, C(=O)–NH.
+- **Amino acid part:** the NH is bonded to a CH that carries the CO2Me group and a CH2. No wedges or hashes are drawn, so there is no stereochemistry.
+- **Right end:** the CH2 is bonded to the ring nitrogen of a 4,5,6,7-tetrahydro-pyrazolo[4,3-c]pyridine. Going around this ring from that nitrogen: N5, then CH2 (C6), then C7 (gem-dimethyl), then C7a (bonded to the pyrazole NH), then C3a, then CH2 (C4) back to N5. The pyrazole is C3a, C7a, N1H, N2, C3H.
+
+SMILES construction:
+
+- Quinazolinone: O=C1Nc2ccccc2CN1
+- Piperidine: C1CCN(CC1)
+- Full molecule: O=C1Nc2ccccc2CN1C1CCN(CC1)C(=O)NC(CN1CC(C)(C)c2[nH]ncc2C1)C(=O)OC
+
+Check of the right-hand ring: N1, CH2, C(C)(C), c2 (C7a), [nH], n, c (C3), c2 (C3a), then CH2 closing back to N1. C7a bears the NH and C3a bears the CH2, which matches the drawing, where the NH sits next to the carbon adjacent to CMe2 and the =N is at the bottom.
+
+SMILES: O=C1Nc2ccccc2CN1C1CCN(CC1)C(=O)NC(CN1CC(C)(C)c2[nH]ncc2C1)C(=O)OC

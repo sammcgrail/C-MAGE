@@ -1,0 +1,15 @@
+The drawing shows a biphenyl carboxylic acid joined through a hydrazone to an N-aryl oxindole.
+
+**Biphenyl part.** The top ring carries CO2H. The second ring is attached to it at the position meta to the CO2H. On that second ring, one neighbour of the biaryl carbon bears OH, and the carbon next to that bears the NH–N= group.
+
+**Oxindole part.** The oxindole is N-substituted with a 3,5-bis(trifluoromethyl)phenyl group. It has a C=O at C2 and a C3=N hydrazone. A CF3 sits on the benzo ring at C6, which is the carbon adjacent to C7a, the ring-fusion carbon bonded to N.
+
+**Stereochemistry.** The C=N bond is drawn with a defined geometry. At C3 the substituents are C2 (carbonyl) and C3a (aryl). Going down the image, the N is at the bottom of C3 and its NH substituent points left, so the NH is on the same side as the carbonyl. The picture shows NH going down-left from N and C3 up-right of N, which makes the NH cis to the C=O carbon (Z-like). I wrote this as C3(=N/NH...) with the geometry set accordingly.
+
+**SMILES construction.**
+- Hydrazone: O=C1N(Ar)c2cc(C(F)(F)F)ccc2/C1=N\Nc1cccc(c1O)-c1cccc(C(=O)O)c1
+- Check of the direction: N(\N...) is written after C1 as `C1=N\N`. The preceding atom to C1 inside the ring is c2 (the aryl carbon, written before `/C1`), and the `/` before C1 places that aryl carbon "below" C1. For `=N\N`, the NH is "below" the N, so the NH is on the same side as the aryl carbon, which is trans to the carbonyl. I need NH cis to the carbonyl instead, so I flip the bond to `/N`.
+
+Final SMILES: O=C1N(c3cc(C(F)(F)F)cc(C(F)(F)F)c3)c2cc(C(F)(F)F)ccc2/C1=N/Nc1cccc(c1O)-c1cccc(C(=O)O)c1
+
+SMILES: O=C1N(c3cc(C(F)(F)F)cc(C(F)(F)F)c3)c2cc(C(F)(F)F)ccc2/C1=N/Nc1cccc(c1O)-c1cccc(C(=O)O)c1

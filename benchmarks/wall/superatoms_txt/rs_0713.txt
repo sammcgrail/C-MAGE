@@ -1,0 +1,25 @@
+Reading the structure region by region:
+
+**Thiazolidinedione ring (top).** The ring is NH–C(=O)–C(=CH–Ar)–S–C(=O). The C5 carbon bears an exocyclic double bond to a CH that connects to the central benzene ring.
+
+**Central benzene ring.** The CH= substituent sits at C1. Going around the ring, C3 carries OH and C4 carries the NH–N= hydrazone group. This gives c1(C=...)ccc(NN=)c(O)c1.
+
+**Hydrazone and isatin core.** The hydrazone NH–N= is attached to C3 of the oxindole. The oxindole C2 is C=O and N1 carries a 3,4-dimethylphenyl group. The CF3 is on the benzo ring, at the carbon that is meta to the ring-fusion carbon attached to C3 and para to the carbon bonded to N. Tracing the benzo ring:
+- C3a is the fusion carbon attached to C3.
+- C4 is the top-left CH, C5 is the top-right CH, and C6 carries CF3.
+- C7 is the CH next to C7a, and C7a is attached to N.
+
+This places CF3 at position 6.
+
+**Stereochemistry.** The drawing shows cis/trans geometry for two double bonds.
+- Thiazolidinedione exocyclic C=C: S is on the ring carbon, and the aryl is drawn on the lower side, with the C=O on the other side. Using the drawing, the ring C5 has S to the lower left and C4(=O) above. The CH carries the aryl going down. The ring S is therefore on the same side as the aryl, which is the usual Z form. SMILES: O=C1NC(=O)/C(=C/Ar)S1 would need careful checking, so I write it as S1/C(=C\Ar)C(=O)NC1=O, with the S–C=C–Ar relationship cis, i.e. Z.
+- Hydrazone C=N: on C3 of the oxindole, the substituents are C2 (the carbonyl, upper left) and C3a (right). On N, the NH is up and to the left, toward the C2 carbonyl side. NH is therefore cis to C2.
+
+**Writing the SMILES.**
+O=C1NC(=O)S/C1=C\c1ccc(N/N=C2/C(=O)N(c3ccc(C)c(C)c3)c3cc(C(F)(F)F)ccc32)c(O)c1
+
+Checking the thiazolidinedione stereo: S/C1=C\c means S is "below" the C1 atom and the aryl is "below" the CH after the double bond. "/" before C1 and "\" after the double bond places S and aryl on the same side, so Z. This is consistent.
+
+Checking the hydrazone: N/N=C2/C(=O). The preceding aryl–N is written with "/" before the second N, and the C2 is followed by "/C(=O)". That makes the aryl N and the C(=O) on opposite sides, which would put NH trans to C2. I want NH cis to C2, so I change the bond after C2 to "\": N/N=C2\C(=O).
+
+SMILES: O=C1NC(=O)S/C1=C\c1ccc(N/N=C2\C(=O)N(c3ccc(C)c(C)c3)c3cc(C(F)(F)F)ccc32)c(O)c1

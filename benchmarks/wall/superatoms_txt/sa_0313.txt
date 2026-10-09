@@ -1,0 +1,11 @@
+I read this as a glecaprevir-like macrocycle. Each stereocentre was assigned from its wedge or hash bond.
+
+**Regions read**
+- **Quinoxaline:** a benzene ring carrying OMe, fused to a pyrazine. One pyrazine carbon bears the CF2 group, and the other bears the ring oxygen.
+- **Macrocycle chain:** from CF2, four CH2 groups lead to a cyclopropane. The cyclopropane carries two stereo-marked H atoms, one hashed and one wedged. Its second carbon bears O–C(=O)–NH, which leads to CH(tBu) (tBu hashed) and then C(=O)–N.
+- **Pyrrolidine:** a five-membered ring made of N, CH2, CH(O–Ar), CH(Et) and CH(C(=O)N). It carries a wedged H, a wedged Et and a wedged C(=O).
+- **Side chain:** the amide NH (hashed bond) is on a cyclopropane carbon. That carbon also bears C(=O)NH–SO2–(1-methylcyclopropyl), and the adjacent ring carbon carries a wedged CHF2.
+
+I assigned each @/@@ by checking the neighbour order against the drawn geometry. I did not run the string through a SMILES parser, so the ring closures and stereo marks are checked by hand only.
+
+SMILES: COc1ccc2nc(C(F)(F)CCCC[C@@H]3C[C@H]3OC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O5)[C@@H](CC)[C@H]4C(=O)N[C@@]6(C[C@H]6C(F)F)C(=O)NS(=O)(=O)C7(C)CC7)c5nc2c1

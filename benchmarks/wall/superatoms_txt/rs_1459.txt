@@ -1,0 +1,18 @@
+The drawing shows a biphenyl core carrying a carboxylic acid, a hydroxyl and a hydrazone-linked oxindole.
+
+**Biphenyl part.** The top ring bears CO2H and is attached to the second ring at the meta position, so it is a 3-carboxyphenyl group. On the second ring, the carbon bonded to the first ring (C1) is adjacent to the carbon bearing OH (C2). The next carbon (C3) carries the NH–N= group.
+
+**Oxindole part.** The hydrazone N= is double-bonded to C3 of the oxindole. C2 of the oxindole is C=O, and the ring nitrogen N1 carries a 4-fluorophenyl group. The oxindole benzo ring is fused to C3 and to N1.
+
+**Stereochemistry.** The C=N bond is drawn with a defined geometry. The NH sits at the upper left of the N=, and the oxindole C3 has the C=O side to the left (lower) and the benzo ring to the right. The hydrazone N is attached to C3, whose substituents are C2 (the carbonyl carbon, toward the lower left) and C3a (toward the right).
+
+I assign the geometry from the drawn coordinates. HN is at about (215, 380), N at (295, 400), C3 at (325, 460), C2 at (290, 510) and C3a at (400, 440).
+
+- At N, the HN substituent lies to the left of the N→C3 bond.
+- The C=N bond runs from (295, 400) down-right to (325, 460). The HN position relative to this line is to the left and up, which puts it on the upper-left side.
+- At C3, the C2 substituent at (290, 510) lies on the lower-left side of the line.
+- Both HN and C2 are therefore on the same (left) side, which makes them cis.
+
+Writing the SMILES with N(H) before the double bond: `Nc...` as `[NH]/N=C3/C(=O)...` would be trans, so for cis I write `N\N=C3/C(=O)N(...)c4ccccc34`. Here the pattern `X\N=C/Y` places X and Y on the same side, which is the cis arrangement I want.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N\N=C2/C(=O)N(c3ccc(F)cc3)c3ccccc23)c1O

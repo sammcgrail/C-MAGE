@@ -1,0 +1,14 @@
+The drawing shows an azo dye with two aromatic parts joined by an N=N bond.
+
+**Left ring (benzene):** The carbon bearing the azo group sits between two carbons that each carry a CN. The ring carbon para to the azo-bearing carbon carries NO2. This gives 2-azo-4-nitro-benzene-1,3-dicarbonitrile.
+
+**Right ring system (naphthalene):** The azo group is on position 1 of the naphthalene. The NH–(CH2)3–OCH3 group is on position 4, para to the azo group, on the same ring.
+
+**Assembling the SMILES:**
+- Left ring: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=N...
+- Naphthalene: c1ccc(NCCCOC)c2ccccc12, with the azo attached at c1.
+- Full SMILES: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=Nc1ccc(NCCCOC)c2ccccc12
+
+Checking the naphthalene ring closure: c1 (azo carbon), c, c, c(N...) form the first ring, then c2 (fused carbon), cccc, and c12 (the other fused carbon, bonded to c1). This is valid.
+
+SMILES: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=Nc1ccc(NCCCOC)c2ccccc12

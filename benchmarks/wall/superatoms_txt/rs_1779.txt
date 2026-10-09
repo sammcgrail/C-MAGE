@@ -1,0 +1,11 @@
+Reading the drawing region by region:
+
+- **Pyridazine ring:** a six-membered ring with two adjacent nitrogens. One carbon next to a nitrogen carries OMe. The carbon next to the other nitrogen carries the side chain.
+- **Linker:** a two-carbon chain (CH2CH2) joins the pyridazine to the nitrogen of the piperidine.
+- **Piperidine ring:** a six-membered ring with one nitrogen. The carbon at position 3 carries Cl on a hashed bond, so it is the only stereocentre.
+
+**Assigning the stereocentre (C3):** the Cl is hashed (pointing away from the viewer), so the implicit H points toward the viewer. The CIP priorities are Cl > C2 (attached to N) > C4 > H. Viewed from the front, Cl (up) → C2 (lower left) → C4 (lower right) runs counterclockwise. Because H faces the viewer, the true sense is reversed, so the centre is R.
+
+**Writing the SMILES:** in `N2CCC[C@@H](Cl)C2`, the neighbours of the stereocentre are listed as C4, H, Cl, C2. Working through the permutation, `@` gives S and `@@` gives R, so `@@` is used.
+
+SMILES: COc1ccc(CCN2CCC[C@@H](Cl)C2)nn1

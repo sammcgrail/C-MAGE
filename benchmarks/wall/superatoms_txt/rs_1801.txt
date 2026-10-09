@@ -1,0 +1,12 @@
+I read the structure in three parts and then assigned the two stereocentres from the wedges.
+
+**Fragments**
+- **Left:** a morpholine ring joined through its nitrogen to a urea carbonyl, giving morpholine-4-carbonyl, which is attached to an NH.
+- **Middle:** an alpha carbon bearing that NH, a hashed CH2–SO2–CH2–phenyl arm (benzylsulfonyl), and a C(=O)NH amide.
+- **Right:** an amide nitrogen on a CH carrying a wedged methyl and a CH2–NH–aryl arm. The aryl is a para-substituted benzene with OCF3.
+
+**Stereocentres**
+- **Alpha carbon (hashed CH2):** the CIP priorities are N, then CH2S, then C=O, then H. The CH2S bond is hashed, so H points toward the viewer. Traced from the front, N → CH2S → C=O runs counterclockwise, so with H toward the viewer the true sense is clockwise, giving R. In SMILES order (N, H, CH2, C=O) this is `[C@@H]`.
+- **Methyl-bearing carbon (wedged CH3):** the priorities are N, then CH2N, then CH3, then H. H points away from the viewer. Traced from the front, N → CH2N → CH3 runs counterclockwise, giving S. In SMILES order (N, H, CH3, CH2) this is also `[C@@H]`.
+
+SMILES: O=C(N1CCOCC1)N[C@@H](CS(=O)(=O)Cc1ccccc1)C(=O)N[C@@H](C)CNc1ccc(OC(F)(F)F)cc1

@@ -1,0 +1,16 @@
+I read the molecule as a 9-membered dilactone ring carrying a triazine amide, a benzyl group, an isobutyrate ester and a methyl group.
+
+**Fragments**
+- **Heteroaryl group:** a 1,2,4-triazine ring bearing SMe, OH and a carboxamide. Going round the ring: C(SMe), N, C(OH), C(C=O), N, N. This is `CSc1nnc(C(=O)N…)c(O)n1`.
+- **Ring:** the nine ring atoms are C(=O), O, CH(CH3), CH(O-isobutyryl), CH(CH2Ph), C(=O), O, CH2, and CH(NH).
+- **Substituents:** the isobutyrate is `OC(=O)C(C)C`, and the benzyl group is `Cc3ccccc3`.
+
+**Stereochemistry from the drawing**
+- The NH-bearing CH has a hashed bond to N, which gives `[C@H]`.
+- The CH(Me) has a wedged methyl, which gives `[C@H]`.
+- The CH(O-isobutyryl) has a hashed bond to O, which gives `[C@@H]`.
+- The CH(Bn) has a wedged benzyl, which gives `[C@H]`.
+
+I assigned each centre from the neighbour order in the SMILES string and the wedge or hash geometry in the drawing. I checked the string for valid ring closures but did not run it through a toolkit.
+
+SMILES: CSc1nnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c(O)n1

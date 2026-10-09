@@ -1,0 +1,14 @@
+I read the molecule as a 2-pyrrolidinone (5-membered lactam) with three substituents.
+
+- **Lactam nitrogen:** it carries a CH2CH2 chain leading to a benzene ring that has a para CO2H (a 4-substituted benzoic acid).
+- **Ring carbon next to N:** it bears a trans CH=CH group, drawn with a wedge bond.
+- **Side chain:** after the alkene comes CH(OH), drawn with a hashed bond, then CH2CH2–O–CH3.
+
+Stereochemistry, assigned by CIP priorities:
+- **Ring stereocentre (wedge to the vinyl carbon):** priorities are N, then vinyl carbon, then ring CH2, then H. With H pointing away, N → vinyl → CH2 runs clockwise, so this centre is R. In the SMILES order (ring CH2, H, N, vinyl) this is written `[C@@H]`.
+- **Carbinol centre (hashed OH):** priorities are OH, then vinyl carbon, then CH2. The H points toward the viewer, so the apparent clockwise sequence is reversed and the centre is S. In the SMILES order (vinyl, H, O, CH2) this is written `[C@@H]`.
+- **Alkene:** drawn trans (E), written `/C=C/`.
+
+I checked ring closures and atom counts against the drawing.
+
+SMILES: O=C1CC[C@@H](N1CCc1ccc(cc1)C(=O)O)/C=C/[C@@H](O)CCOC

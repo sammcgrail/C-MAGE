@@ -1,0 +1,26 @@
+I read the drawing in three parts and then assigned the stereocentres from the wedges and hashes.
+
+**Pyridine fragment.** The pyridine carries a 4-OMe group and, at C3, a 3-(trifluoromethyl)benzoate ester. At C2 it carries a carboxamide whose NH is attached to the ring carbon next to the lactone C=O.
+
+**Nine-membered dilactone ring.** The ring atoms, in order, are:
+- C(=O)
+- O
+- CH(CH3)
+- CH(O-isobutyrate)
+- CH(CH2Ph)
+- C(=O)
+- O
+- CH2
+- CH(NH)
+
+The ring closes from the CH(NH) back to the first C(=O).
+
+**Stereochemistry.** I assigned CIP descriptors from the wedges and hashes and converted them to SMILES tags:
+- CH(NH), hashed N: S
+- CH(CH3), wedged methyl: S
+- CH(O-isobutyrate), hashed O: R
+- CH(CH2Ph), wedged benzyl: R
+
+The resulting SMILES tags are `[C@H]` for CH(NH), `[C@H]` for CH(CH2Ph), `[C@@H]` for CH(O-isobutyrate) and `[C@H]` for CH(CH3). I checked the atom and ring-closure order in the written string against the drawing.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1OC(=O)c1cccc(C(F)(F)F)c1

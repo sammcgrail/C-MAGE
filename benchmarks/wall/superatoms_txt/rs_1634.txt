@@ -1,0 +1,26 @@
+I read the structure region by region and wrote the SMILES from that reading.
+
+**Pyridine fragment.** The ring has N, then C2 carrying the C(=O)NH amide, then C3 carrying the 2-ethylhexanoate ester (O–C(=O)–CH(Et)–Bu), then C4 carrying OMe, then C5 and C6 as CH.
+
+**Macrocycle.** It is a 9-membered dilactone. Going round the ring:
+- carbonyl C
+- ring O
+- CH(CH3)
+- CH(O-isobutyrate)
+- CH(CH2Ph)
+- carbonyl C
+- ring O
+- CH2
+- CH(NH–acyl)
+
+**Stereocentres.** I assigned each from the wedges and hashes in the drawing, using CIP priorities:
+- CH–N is hashed to N and is S.
+- CH–CH2Ph has a wedge to the benzyl group and is R.
+- CH–O(isobutyrate) has a hash to O and is R.
+- CH–CH3 has a wedge to the methyl and is S.
+
+The 2-ethylhexanoate CH is drawn with plain bonds, so it has no stereo label.
+
+I then chose the @/@@ marks so that each centre in the SMILES matches these assignments.
+
+SMILES: CCCCC(CC)C(=O)Oc1c(OC)ccnc1C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O

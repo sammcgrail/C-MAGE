@@ -110,7 +110,8 @@ def build() -> int:
     # A parent drug's corpus reference is served only once a tool-using reader has read that parent's
     # corpus drawing (a corpus lane, or this lane's fresh P read of the same drawing), the same rule
     # as wall/images.json. Until then the page says it is withheld.
-    parent_read_keys = tool_read_keys() | {S[k]["parent_key"] for k in S if S[k]["kind"] == "P" and k in lane}
+    # Retired 9 Oct (Sam): every parent reference is served; the transcript screen is the protection.
+    parent_read_keys = {S[k]["parent_key"] for k in S if S[k].get("parent_key")}
     for k in sorted(S):
         s = S[k]
         if k not in lane or s["kind"] == "P":

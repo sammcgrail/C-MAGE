@@ -1,0 +1,22 @@
+I read the molecule as a morpholine amide linked through a CH2–CH(CH2-cyclohexyl)–C(=O)NH chain to an N-(4-methoxyphenyl)ethylenediamine.
+
+**Fragments, left to right**
+- A morpholine ring (six-membered, with one O and one N) whose nitrogen is acylated: N–C(=O)–CH2.
+- A stereocentre carrying the CH2 from that acyl group, a hashed CH2–cyclohexyl group, the C(=O)NH amide carbon, and an implicit H.
+- The amide nitrogen continues as NH–CH2–CH2–NH–aryl.
+- The aryl group is a benzene ring with an OMe group para to the NH.
+
+**Stereochemistry**
+The CH2–cyclohexyl bond is hashed, so that group points away from the viewer and the implicit H points toward the viewer.
+
+CIP priorities at the stereocentre:
+1. The amide carbon, C(=O)N, has substituents (O,O,N).
+2. The CH2–C(=O)N carbon comes next: both CH2 carbons are (C,H,H), but the next atom out is C(=O)N with (O,O,N) on one side versus the cyclohexyl CH with (C,C,H) on the other.
+3. The CH2–cyclohexyl carbon is third.
+4. H is lowest.
+
+In the drawing the sequence amide carbon (upper right) → CH2C(=O) (upper left) → CH2Cy (down) runs counterclockwise. The H points toward the viewer, so the true sense is reversed, giving clockwise, which is R.
+
+In the SMILES `O=C(N1CCOCC1)C[C@@H](CC2CCCCC2)C(=O)NCCNc3ccc(OC)cc3`, the neighbour order at the stereocentre is CH2C(=O), H, CH2Cy, C(=O)N. Working through the permutation, `@` encodes S and `@@` encodes R, so `@@` is the correct choice.
+
+SMILES: O=C(N1CCOCC1)C[C@@H](CC2CCCCC2)C(=O)NCCNc3ccc(OC)cc3

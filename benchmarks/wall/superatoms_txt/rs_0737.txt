@@ -1,0 +1,14 @@
+Reading the drawing region by region:
+
+- **Pyridine ring:** the nitrogen sits at the lower left. The carbon next to it carries the amide C(=O)N, the next carbon carries OH, and the next carbon carries OMe. This is a 3-hydroxy-4-methoxypyridine-2-carboxamide.
+- **Amide:** C(=O)–NH is attached to a cyclohexane ring carbon by a bold wedge.
+- **Cyclohexane:** the adjacent ring carbon carries SMe on a hashed bond. A wedge on one carbon and a hash on its neighbour make the two substituents trans.
+
+I assigned the stereocentres from the drawn geometry with CIP priorities.
+
+- **Carbon bearing N (wedged):** N > C(S) > CH2 > H, and the sequence runs clockwise with H pointing back, so it is R.
+- **Carbon bearing SMe (hashed):** S > C(N) > CH2 > H. The sequence runs counterclockwise when viewed from the front, but H points toward the viewer, so the true sense is clockwise and the centre is R.
+
+Writing this in SMILES, I checked the chirality tags against the neighbour order at each centre. `[C@@H]` gives R at the N-bearing carbon and `[C@H]` gives R at the S-bearing carbon.
+
+SMILES: COc1ccnc(C(=O)N[C@@H]2CCCC[C@H]2SC)c1O

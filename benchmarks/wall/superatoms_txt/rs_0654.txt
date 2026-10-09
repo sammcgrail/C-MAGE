@@ -1,0 +1,32 @@
+The structure is a dibenzobarrelene-type (9,10-dihydro-9,10-ethanoanthracene) core carrying an amide, which I read as follows.
+
+**Bicyclic core.** Two benzene rings are bridged by a two-carbon unit. One bridgehead (lower left, CH) joins the left benzene ring and the right benzene ring. The other bridgehead (upper, CH) also joins both rings. The ethano bridge is CH2 followed by a quaternary C bearing a methyl group and the C(=O)NH group. In the picture, the quaternary C sits at the top, with CH2 below it leading to the bridgehead.
+
+**Atom connectivity.**
+- C11 is the quaternary carbon, bearing the methyl and the amide carbonyl.
+- C12 is the CH2.
+- C9 is the upper bridgehead, bonded to C12 and to both aromatic rings. In the drawing it is the carbon at about (200,190), joined to the CH2 and to the right ring at (255,225).
+- C10 is the lower bridgehead at about (160,262), joined to the left ring and to the right ring at (255,300).
+- C11 is bonded to the bridgehead at (200,190) through the CH2, so the quaternary carbon is attached to the CH2 and to the carbonyl, not directly to a bridgehead.
+
+The left benzene ring connects to the bridgehead at (200,190) through its carbon at (130,215) and to the lower bridgehead through (105,270). The right ring has a CN substituent on the carbon adjacent to the ring carbon bonded to the lower bridgehead.
+
+**SMILES for the core.** Writing C11 as C1(C)(C(=O)N...)CC2c3ccccc3C1c1c2cccc1C#N would place the quaternary carbon on a bridgehead, which does not match. The correct bridge is C11–C12 with C11 bonded to one bridgehead and C12 to the other:
+
+C11 bonded to bridgehead A, and C12 bonded to bridgehead B.
+
+In the drawing, C11 (200,110) is bonded to the CH2 (160,160) and to the bridgehead (200,190) below it. The CH2 is bonded to the other bridgehead (160,262). So the SMILES is:
+
+CC1(C(=O)N...)CC2c3ccccc3C1c1cccc(C#N)c12
+
+- Bridgehead A (ring closure 1) is bonded to C11, the left ring, and the right ring.
+- Bridgehead B (ring closure 2) is bonded to C12, the left ring, and the right ring.
+- The CN-bearing carbon is adjacent to the right-ring carbon attached to bridgehead B (the lower one, at 255,300), so CN sits on the ring carbon next to the one bonded to B.
+
+**Right ring.** In `C1c1cccc(C#N)c12`, the first atom after A is the ring carbon bonded to A. The ring then runs c-c-c-c(CN)-c, and the last carbon closes to B. That puts CN next to the B-attached carbon, as drawn.
+
+**Amide substituent.** The NH is attached to thiazole C2. The thiazole has S, C5(H), C4 bearing the naphthyl group, and N3. The naphthyl is 4-fluoronaphthalen-1-yl.
+
+Amide: C(=O)Nc1nc(cs1)-c1ccc(F)c2ccccc12
+
+SMILES: CC1(C(=O)Nc2nc(cs2)-c2ccc(F)c3ccccc23)CC2c3ccccc3C1c1cccc(C#N)c12

@@ -1,0 +1,13 @@
+I read the molecule in four parts, then worked out the two stereocentres from the wedges.
+
+**Fragments**
+- **Indazole:** a 1H-indazole attached through its C6 to a carbonyl. The carbonyl carbon is on the ring carbon adjacent to C7, which sits next to the NH-bearing C7a.
+- **Tetrahydroisoquinoline:** the carbonyl links to the ring nitrogen (N2). The benzo ring carries Cl at C5 and C7, and a carboxamide at C6.
+- **Amino acid chain:** the amide nitrogen is attached to the alpha carbon of a 2,3-diaminopropanoic acid (CO2H on the alpha carbon). The terminal NH on the beta carbon is bonded to a cyanoguanidine carbon, C(=N–C≡N), which is also bonded to the pyrrolidine nitrogen.
+- **Pyrrolidine:** a 3-hydroxypyrrolidine joined through its nitrogen.
+
+**Stereochemistry**
+- **Alpha carbon:** the wedge goes to the CH2 group, so H points away from the viewer. The priorities are N > CO2H > CH2N. Going N (lower left) → CO2H (lower right) → CH2 (top) runs counterclockwise, so the centre is S. In the SMILES order N, H, CH2, CO2H this corresponds to `[C@@H]`.
+- **Pyrrolidine C3:** the wedge goes to OH, so H points away. The priorities are OH > C2 (the CH2 next to N) > C4. Going OH (right) → C2 (lower left) → C4 (upper left) runs clockwise, so the centre is R. In the SMILES order C4, H, O, C2 this corresponds to `[C@@H]`.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1CCc2c(C1)cc(Cl)c(C(=O)N[C@@H](CNC(=NC#N)N3CC[C@@H](O)C3)C(=O)O)c2Cl

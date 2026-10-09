@@ -1,0 +1,18 @@
+I read the molecule as a morpholine amide on one side of a central stereocentre and a 4-(trifluoromethoxy)anilino-ethyl amide on the other.
+
+**Reading the drawing:**
+- On the left, a morpholine ring (N, two CH2, O, two CH2) is acylated through its nitrogen: N–C(=O)–CH2.
+- The CH2 leads to the stereocentre, which carries a wedged CH2–cyclohexyl group (a six-carbon ring).
+- The other substituent on the stereocentre is a C(=O)NH amide, followed by CH2CH2, then an NH on a para-substituted benzene ring bearing OCF3.
+
+**Stereochemistry:** The stereocentre has one wedge (the CH2–cyclohexyl group, towards the viewer), with the implicit H pointing away. The CIP priorities are:
+1. C(=O)NH
+2. CH2C(=O)N
+3. CH2Cy
+4. H
+
+The CH2C(=O)N branch outranks CH2Cy because its next carbon has (O,O,N) against (C,C,H). With H at the back, the sequence 1→2→3 runs right → left → top, which is clockwise, so the centre is R.
+
+Writing the SMILES as `O=C(N1CCOCC1)C[C@@H](CC1CCCCC1)C(=O)NCCNc1ccc(OC(F)(F)F)cc1`, the neighbour order at the stereocentre is CH2CO, H, CH2Cy, C(=O). Working through the permutation, `@` gives S and `@@` gives R, so `@@` is the correct symbol.
+
+SMILES: O=C(N1CCOCC1)C[C@@H](CC1CCCCC1)C(=O)NCCNc1ccc(OC(F)(F)F)cc1

@@ -1,0 +1,15 @@
+Reading the structure region by region:
+
+- **Furan ester:** a methyl ester (COOMe) sits on C2 of a furan. The furan C5 carries a CH2 group.
+- **Linker:** that CH2 is bonded to an N-methyl nitrogen, which is attached to the benzene ring.
+- **Central benzene ring:** N is at position 1, a methyl is ortho to N (position 2), and the ether oxygen is para to N (position 4). Tracing the ring, N is on the upper-left carbon, the methyl is on the lower carbon next to it, and the O is on the upper-right carbon. That puts the methyl at position 2 and the O at position 4, so the methyl is meta to the O.
+- **Ether side:** the O is bonded to a CH2, which is bonded to C4 of the isoxazole.
+- **Isoxazole:** C4 is bonded to C5, which carries the isopropyl group, and C5 is bonded to the ring O. The ring O is bonded to N, N is double-bonded to C3, and C3 bears the 2-(trifluoromethoxy)phenyl group.
+
+SMILES for the isoxazole: c1(C(C)C)onc(c1COAr)-c2ccccc2OC(F)(F)F.
+
+Full SMILES: COC(=O)c1ccc(CN(C)c2ccc(OCc3c(C(C)C)onc3-c3ccccc3OC(F)(F)F)cc2C)o1
+
+Checking the central ring: c2ccc(O...)cc2C has the N-bearing carbon first, then two CH, then the carbon with O, then CH, then the carbon with the methyl, which closes the ring back to the N-bearing carbon. The methyl is therefore ortho to N and meta to O, as drawn.
+
+SMILES: COC(=O)c1ccc(CN(C)c2ccc(OCc3c(C(C)C)onc3-c3ccccc3OC(F)(F)F)cc2C)o1

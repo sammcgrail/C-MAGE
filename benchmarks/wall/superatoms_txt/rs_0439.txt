@@ -1,0 +1,15 @@
+The drawing shows a cyclohexane ring with a methoxy group (MeO) at the left carbon and an NHCH3 group at the right carbon, which are para (1,4) to each other. Both substituent bonds are drawn as bold wedges, so the two groups are on the same face of the ring, which is the cis isomer.
+
+To write the stereo SMILES, I place the two stereocentres in the ring: C1 bears OMe and C4 bears NHMe.
+
+SMILES: CO[C@H]1CC[C@@H](NC)CC1 — I need to check whether this is cis or trans.
+
+For the first centre, C1 is written as [C@H] with neighbours in the order O, H, ring-closure 1 (which is the last ring atom, C6), and C2. Looking from O, the sequence H, C6, C2 runs counterclockwise.
+
+For the fourth centre, [C@@H] has neighbours in the order C3 (preceding), H, N, C5. Looking from C3, the sequence H, N, C5 runs clockwise.
+
+Determining cis or trans directly from these chirality tags is error-prone, so I use a known reference instead. Trans-1,4-dimethylcyclohexane is C[C@H]1CC[C@@H](C)CC1, and the pattern I wrote has the same form, so it is trans. The cis isomer therefore needs the same tag on both centres: CO[C@H]1CC[C@H](NC)CC1.
+
+Both bonds are wedged, which gives cis.
+
+SMILES: CO[C@H]1CC[C@H](NC)CC1

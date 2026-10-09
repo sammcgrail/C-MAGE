@@ -1,0 +1,18 @@
+I read the molecule as a nine-membered dilactone core carrying three substituents. I assigned the stereocentres from the wedges and hashes by hand and did not run the SMILES through a parser.
+
+**Pyridine fragment.** The ring has N, then C2 bearing the amide C(=O)NH, then C3 bearing OC(=O)N(CH3)2, then C4 bearing OMe, then C5 and C6 as CH.
+
+**Nine-membered dilactone ring.** Going around the ring from the NH-bearing carbon:
+- CH(NH–acyl), drawn with a hashed bond to N
+- C(=O)
+- O
+- CH(CH3), with a wedged methyl
+- CH(O–C(=O)CH(CH3)2), with a hashed bond to O
+- CH(CH2Ph), with a wedged bond to the benzyl CH2
+- C(=O)
+- O
+- CH2, which closes back to the CH(NH) carbon
+
+**Stereochemistry.** Each of the four stereocentres was assigned from its drawn wedge or hash, with the implicit H taken as the opposite face. The resulting tags are @@ for the CH(CH3) carbon, @ for the CH(O-isobutyrate) carbon, @ for the CH(CH2Ph) carbon, and @@ for the CH(NH) carbon.
+
+SMILES: C[C@@H]1OC(=O)[C@@H](NC(=O)c2nccc(OC)c2OC(=O)N(C)C)COC(=O)[C@H](Cc2ccccc2)[C@H]1OC(=O)C(C)C

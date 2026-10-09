@@ -1,0 +1,16 @@
+The drawing shows a central benzene ring substituted at the 1,3 (meta) positions. Each substituent is a CH2CH2 linker leading to a para-substituted phenyl ring. That phenyl ring carries an N-ethyl-N-benzylamino group on the carbon opposite the linker.
+
+Reading the SMILES from left to right:
+- Left benzyl: c1ccccc1CN(CC)
+- Left para-phenylene: c1ccc(cc1)
+- Linker: CCc
+- Central meta-phenylene: c1cccc(c1)
+- Linker: CC
+- Right para-phenylene: c1ccc(cc1)
+- Right amine: N(CC)Cc1ccccc1
+
+Combined SMILES: CCN(Cc1ccccc1)c1ccc(CCc2cccc(CCc3ccc(N(CC)Cc4ccccc4)cc3)c2)cc1
+
+The central ring is written c2cccc(...)c2 with the first substituent on the opening atom and the second on the fifth atom. These two positions are separated by the closing atom, so they are 1,3 (meta) as drawn.
+
+SMILES: CCN(Cc1ccccc1)c1ccc(CCc2cccc(CCc3ccc(N(CC)Cc4ccccc4)cc3)c2)cc1

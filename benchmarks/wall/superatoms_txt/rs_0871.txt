@@ -1,0 +1,10 @@
+Reading the drawing region by region:
+
+- **Aromatic ring:** a benzene ring with two adjacent nitro groups. The CH2 attachment is at C1, and the nitro groups sit at C3 and C4 (the two left-hand carbons), so this is a 3,4-dinitrophenyl group.
+- **Side chain:** Ar–CH2–CH, with the CH2 attached to the α-carbon.
+- **α-Carbon:** it carries a wedged H pointing up, CO2Me to the right, NHCbz below, and the CH2Ar to the left.
+- **Protecting groups:** NHCbz is NH–C(=O)–O–CH2–Ph, and the ester is CO2Me.
+
+**Stereochemistry:** the CIP priorities are N > CO2Me > CH2Ar > H. With H on the wedge (toward the viewer), the sequence N (down) → CO2Me (right) → CH2Ar (left) runs counterclockwise from the front. Because the lowest-priority H points toward the viewer, the true sense is reversed, so the centre is R. In the SMILES below, `[C@@H]` written after the ester carbon encodes R. I derived this by hand, not with a toolkit.
+
+SMILES: COC(=O)[C@@H](Cc1ccc([N+](=O)[O-])c([N+](=O)[O-])c1)NC(=O)OCc1ccccc1

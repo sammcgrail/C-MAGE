@@ -1,0 +1,16 @@
+The drawing shows a tertiary amide whose nitrogen carries two substituents, with an acrylamide chain running to a cyanophenyl ring.
+
+- **Benzylpiperidine:** a benzyl group sits on the piperidine nitrogen, and the piperidine C4 is bonded to the amide nitrogen.
+- **Acetylindoline:** the amide nitrogen is also bonded to C6 of a 1-acetylindoline. The indoline nitrogen carries the acetyl group, and the ring runs N1, C2, C3, C3a, then the benzene ring, with C7a next to N1. The attachment carbon is meta to C3a, so it is C6, one carbon away from C7, which is adjacent to C7a.
+- **Acyl chain:** the amide carbonyl is joined to a trans C=C, which leads to a benzene ring bearing a CN group meta to the vinyl attachment.
+
+The double bond is drawn with trans geometry, so I write it as /C=C/.
+
+SMILES assembly:
+- Start with the benzylpiperidine: `C1(CCN(Cc2ccccc2)CC1)`
+- Attach it to the amide nitrogen: `N(C(=O)/C=C/c1cccc(C#N)c1)`
+- Then the indoline: `c1ccc2CCN(C(C)=O)c2c1`
+
+The indoline is written to place the attachment at C6. In `c1ccc2CCN(C(C)=O)c2c1`, the first atom `c1` is the attachment point (C6), followed by `c` (C5), `c` (C4), `c2` (C3a), then CH2 (C3), CH2 (C2), N1, `c2` (C7a), and `c1` (C7), which closes the ring back to C6. C7 is adjacent to both C6 and C7a, which is correct.
+
+SMILES: N#Cc1cccc(/C=C/C(=O)N(C2CCN(Cc3ccccc3)CC2)c2ccc3CCN(C(C)=O)c3c2)c1

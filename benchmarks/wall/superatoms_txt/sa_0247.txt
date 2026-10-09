@@ -1,0 +1,31 @@
+The drawing shows three parts joined in a row: a substituted benzene ring, an OCH2 linker, and a pyridine bearing an N-isopropylpyrazole.
+
+**Benzene ring.** Going around the ring, the vertices are:
+- C1, bearing the ether O (at about 627,768)
+- C2, bearing CHO (at 463,847)
+- C3, bearing OH (at 313,745)
+- C4 (327,565)
+- C5 (490,485)
+- C6 (640,587)
+
+So the ring has an OH at C3, a CHO at C2 between the OH and the ether oxygen, and the OCH2 at C1.
+
+**Linker.** The ether oxygen connects to a CH2 (at 940,792), which attaches to the pyridine at C3 (1092,894).
+
+**Pyridine ring.** Its atoms are:
+- C3 (1092,894), carrying the CH2
+- C2 (1255,816), carrying the pyrazole
+- N (1405,918)
+- C6 (1392,1099)
+- C5 (1228,1177)
+- C4 (1078,1075)
+
+**Pyrazole ring.** The attachment carbon (1268,633) is bonded to N1, which carries the isopropyl group. N1 is bonded to N2 (=N), which connects to CH (1380,361), then CH (1422,538), and back to the attachment carbon. This is a 1-isopropylpyrazol-5-yl group.
+
+**SMILES assembly:**
+- Benzene ring: `Oc1cccc(OCc2cccnc2-c2ccnn2C(C)C)c1C=O`
+- Check of the benzene substitution: c1(O) is C3, then c, c, c are C4, C5, C6, then c(OCH2…) is C1, then c1(C=O) is C2, which closes the ring to C3. This matches the drawing.
+- Pyridine: `c2cccnc2` starts at C3 with the CH2, runs through C4, C5, C6 and N, and ends at C2 bearing the pyrazole. This matches.
+- Pyrazole: `-c2ccnn2C(C)C` reads C5, C4, C3, N2, N1 with the isopropyl on N1. This matches.
+
+SMILES: Oc1cccc(OCc2cccnc2-c2ccnn2C(C)C)c1C=O

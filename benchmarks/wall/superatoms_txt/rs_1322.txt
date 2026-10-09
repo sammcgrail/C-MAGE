@@ -1,0 +1,11 @@
+Reading the drawing from left to right:
+
+- The left ring is a para-disubstituted benzene carrying a mesylate ester, MeSO2–O–Ar (shown as MeO2SO–).
+- Next comes a CH2CH2 chain joined to an ether oxygen, which links to a second para-disubstituted benzene ring.
+- That ring carries a CH2 attached to a stereocentre bearing OC2H5 (on a hashed bond) and a COOH group.
+
+For the stereocentre, the CIP priorities are OEt > COOH > CH2Ar > H. The OEt group is on a hashed bond (pointing away), so the implicit H points toward the viewer. Viewed from the front, OEt (up) → COOH (lower right) → CH2 (lower left) runs clockwise. Because H faces the viewer, the true sense is reversed, which gives the S configuration.
+
+In the SMILES `CCO[C@@H](Cc1...)C(=O)O`, the neighbour order at the stereocentre is O, H, CH2, COOH. Working through the permutation, `@@` corresponds to S, so `@@` is the correct tag.
+
+SMILES: CCO[C@@H](Cc1ccc(OCCc2ccc(OS(C)(=O)=O)cc2)cc1)C(=O)O

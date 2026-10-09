@@ -1,0 +1,20 @@
+Reading the structure region by region:
+
+**Left fragment (benzimidazolone):** The ring is a 2-oxo-benzimidazole. One nitrogen carries a methyl (N-Me) and the other is attached to the piperidin-4-yl group. The benzene ring carries a methyl at the position para to the N-Me nitrogen's attachment carbon (the lower right of the ring). The ring atoms are C(=O), N(Me), C3a, C4 (CH), C5 (CH), C6 (C-Me), C7 (CH) and C7a.
+
+- Seen from the drawing, the N attached to the piperidine is the upper right N. Its fused carbon connects down to a CH, and that CH connects to the C-Me.
+- SMILES for this part: O=C1N(C)c2ccc(C)cc2N1C3CCN(CC3)...
+
+**Linker:** The piperidine N connects to CH2-CH(OH)-CH2, which attaches to N1 of the pyrazole.
+
+**Right fragment (tetrahydropyrazolo[4,3-c]pyridine):**
+- N1 carries the linker and is bonded to N2.
+- N2 is double-bonded to C3, which carries the 4-CF3-phenyl group.
+- C3 is bonded to C3a, which is bonded to C4 (CH2), then N5 (SO2Me), then C6 (CH2), C7 (CH2) and C7a. C7a is bonded back to N1 and double-bonded to C3a.
+- SMILES for this part: n1(CC(O)...)nc(c2ccc(C(F)(F)F)cc2)c3CN(S(C)(=O)=O)CCc13
+
+**Full SMILES:** Cn1c2ccc(C)cc2n(C2CCN(CC(O)Cn3nc(-c4ccc(C(F)(F)F)cc4)c4CN(S(C)(=O)=O)CCc34)CC2)c1=O
+
+Check on the benzimidazolone: N(Me) is attached to c2, then ccc(C)cc2 runs from that carbon through CH, CH, C(Me), CH to the carbon bearing the piperidine-N. This places the methyl on the carbon adjacent to the CH next to the N-piperidinyl-bearing carbon, which matches the drawing (the methyl-bearing carbon is bonded to the CH that sits next to the C attached to the piperidine N).
+
+SMILES: Cn1c2ccc(C)cc2n(C2CCN(CC(O)Cn3nc(-c4ccc(C(F)(F)F)cc4)c4CN(S(C)(=O)=O)CCc34)CC2)c1=O

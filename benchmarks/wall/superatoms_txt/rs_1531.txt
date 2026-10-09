@@ -1,0 +1,24 @@
+The drawing shows a [1,2,4]triazolo[4,3-b]pyridazin-3-one core with three substituents.
+
+**Core ring system**
+- Triazole ring: C3a(=N–N2(CH2Ar)–C3(=O)–N4), where N4 is the bridgehead nitrogen.
+- The bridgehead nitrogen N4 is bonded to the carbonyl carbon, to N5 of the pyridazine ring, and to the fusion carbon.
+- Pyridazine ring: N4–N5=C6(2-fluorophenyl)–C7(4-chlorophenyl)=C8–C8a. C8a is the fusion carbon and is double-bonded to the triazole N1.
+
+**Substituents**
+- The triazole N2 carries a CH2 linked to a pyridine ring at its 3-position.
+- That pyridine has CF3 at the 6-position (the carbon adjacent to the ring N). In the drawing, the CH2 attaches at the carbon adjacent to the CH next to N, and CF3 sits on the carbon beside N, so the pattern is 3,6-disubstitution.
+- C6 carries a 2-fluorophenyl group.
+- C7 carries a 4-chlorophenyl group.
+
+**SMILES construction**
+Start from the carbonyl carbon: O=C1N(Cc2ccc(nc2)C(F)(F)F)N=C3C=C(c4ccc(Cl)cc4)C(c5ccccc5F)=NN13
+
+Checking the ring closures:
+- C1 is the carbonyl carbon, bonded to N(CH2Ar).
+- That N is bonded to N= (N1), which double-bonds to C3 (C8a).
+- C3–C=C(ClPh)–C(FPh)=N–N13 closes both rings: the last N bonds to C1 (carbonyl) and C3 (fusion carbon).
+
+The pyridine written as Cc2ccc(nc2)C(F)(F)F places CH2 on c2, then c, c, c(CF3), n, c back to c2. The CF3 carbon is adjacent to n, and c2 is separated from n by one CH, so this matches the drawing.
+
+SMILES: O=C1N(Cc2ccc(nc2)C(F)(F)F)N=C3C=C(c4ccc(Cl)cc4)C(c5ccccc5F)=NN13

@@ -1,0 +1,24 @@
+The drawing shows three parts: a 4-(trifluoromethyl)phenyl ring, an NH linker, and a pyrimidine carrying a quinolin-5-yl group.
+
+**Pyrimidine ring.** Its atoms run as follows:
+- C4 bears the NH.
+- C5 is the CH at the top.
+- C6 carries the quinolinyl group.
+- N1 is at the bottom right.
+- C2 is the CH at the bottom.
+- N3 is at the bottom left.
+
+**Quinoline attachment.** The quinoline's pyridine ring is at the top, with N at the top right. The ring-fusion carbons are C4a and C8a. C8a is bonded to N1, and C4a is bonded to C4 and to C5. The bond to the pyrimidine comes from the carbon just below the fusion carbon on the left side of the benzo ring, which is the carbon next to C4a. That makes the attachment point C5 of the quinoline.
+
+**SMILES assembly.** Writing the quinolin-5-yl group from the attachment atom gives c1cccc2ncccc12, where the first atom is C5. Its neighbours are C6 (the next atom in the string) and C4a (the last atom, which closes ring 1).
+
+Check of the quinoline string c1(...)cccc2ncccc12:
+- The attachment atom is C5.
+- Then C6, C7 and C8 follow.
+- Then C8a, which opens ring 2 and is bonded to N1.
+- Then N1, C2, C3 and C4.
+- Then C4a, which closes ring 1 (to C5) and ring 2 (to C8a).
+
+The full molecule is FC(F)(F)c1ccc(Nc2cc(-c3cccc4ncccc34)ncn2)cc1.
+
+SMILES: FC(F)(F)c1ccc(Nc2cc(-c3cccc4ncccc34)ncn2)cc1

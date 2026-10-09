@@ -1,0 +1,17 @@
+The drawing shows a [1,2,4]triazolo[4,3-b]pyridazin-3-one core. I read it in three parts: the fused bicycle, its substituents, and the two pendant rings.
+
+**Core atoms.** The triazole ring has N (top left, drawn as "N=" to the ring carbon), N2 (bearing the CH2 substituent), C3 (the C=O), N4 (the bridgehead nitrogen), and C8a (the bridgehead carbon). The pyridazine ring runs from C8a to CH, then C(4-chlorophenyl), then C(2-fluoropyridin-3-yl), then N, then N4.
+
+**Substituents.**
+- N2 carries CH2 linked to a pyridin-3-yl ring. That ring has its nitrogen at the top, and the CF3 sits on the carbon adjacent to the nitrogen (position 6). This is a 6-(trifluoromethyl)pyridin-3-yl group.
+- The pyridazine carbon next to the ring N carries a 2-fluoropyridin-3-yl group. The ring nitrogen is at the bottom right, and the F-bearing carbon lies between the attachment carbon and that nitrogen.
+- The adjacent pyridazine carbon carries a 4-chlorophenyl group.
+
+**SMILES assembly.**
+O=C1N(Cc2ccc(nc2)C(F)(F)F)N=C3C=C(c4ccc(Cl)cc4)C(c5cccnc5F)=NN13
+
+**Check of the pyridazine ring:** C3 (the bridgehead C8a, "=N" to the triazole N) is bonded to CH=, then C(Ar)... The ring closes as C8a–CH=C(Ar)–C(Ar')=N–N4. In the SMILES, N=C3 makes C8a double-bonded to the triazole N, then C=C gives CH=C(Ar), then C(Ar')=N, then N13 closes to both C3 (the carbonyl, ring 1) and C8a (ring 3). This is consistent with the drawing.
+
+**Check of the CF3-pyridine:** c2ccc(nc2)C(F)(F)F starts at C3 and goes through C4, C5, C6 (bearing CF3), then N1 and C2, closing back to C3. The CF3 is therefore on C6, next to the nitrogen, as drawn.
+
+SMILES: O=C1N(Cc2ccc(nc2)C(F)(F)F)N=C3C=C(c4ccc(Cl)cc4)C(c5cccnc5F)=NN13

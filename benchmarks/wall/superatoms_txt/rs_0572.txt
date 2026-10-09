@@ -1,0 +1,21 @@
+The structure is a biphenyl carboxylic acid joined through a hydrazone to an N-thienyl isatin.
+
+**Biphenyl part.** The top ring carries CO2H at the meta position relative to the biaryl bond. The second ring has the biaryl bond at one carbon, OH on the adjacent carbon, and the NH–N= group on the next carbon after that. So the second ring is 2-hydroxy-3-hydrazinyl, attached to the first ring at position 1.
+
+**Hydrazone and isatin part.** The NH–N= group ends in a C3=N double bond on an oxindole. C2 is a C=O, and N1 bears a thiophen-3-yl group. In the drawing, the C=N sits at the top of the five-membered ring, with the N-substituent at the lower left and the thiophene attached through its 3-position.
+
+**Stereochemistry.** The hydrazone C=N geometry is drawn. HN is on the left of the N=, and the lower-left carbon of the ring is C2 (C=O). Taking the NH–N=C unit: the NH is up-left of the N, and the C3 is below-right of the N. At C3, the carbonyl C2 is on the left and the aromatic carbon C3a is on the right.
+
+For the C=N bond, the N= atom is at (410, 340) with NH at (340, 310) to its upper left. C3 is at (410, 400) directly below. On C3, C2 is at the lower left (340, 430) and C3a is at the lower right (480, 430). The NH is on the left of the bond and C2 is also on the left, so they are on the same side (cis, Z-like).
+
+Writing the SMILES with N/N=C3/ and checking the directions: `Oc1c(c2cccc(C(=O)O)c2)cccc1N/N=C1/C(=O)N(c2ccsc2)c2ccccc12`.
+
+Reading the bond marks: `N/N=C1/C(=O)...` puts the NH below the first bond and C(=O) above the second, which makes them trans. For cis (NH and C2 on the same side), I need `N/N=C1\C(=O)`.
+
+SMILES: OC1=C(C2=CC(C(=O)O)=CC=C2)C=CC=C1N/N=C1/C(=O)N(C2=CSC=C2)C2=CC=CC=C12
+
+The SMILES above does not match the geometry I derived, so I rewrote it in the cis form:
+
+In `N/N=C1\C(=O)N(...)c2ccccc12`, NH sits before the N= with "/" and C2 after C3 with "\", which gives the same side (Z-like). That is the form I use.
+
+SMILES: Oc1c(-c2cccc(C(=O)O)c2)cccc1N/N=C1\C(=O)N(c2ccsc2)c2ccccc12

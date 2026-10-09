@@ -1,0 +1,15 @@
+Reading the structure region by region:
+
+- **Left ring:** a benzoic acid with COOH at one position and a C(=O)N(CH3)Ar group at the meta position (positions 1,3).
+- **Amide:** the carbonyl is bonded to N, which carries a methyl group and the central aryl ring.
+- **Central ring:** the N-bearing carbon is C1. Cl sits on the adjacent carbon (C2). The ether oxygen is on C4, para to N. In the drawing, the N carbon is at the left of the ring, Cl is on the carbon below it, and the O-bearing carbon is at the upper right, which is para to the N carbon.
+- **Ether linker:** O–CH2 connects to the isoxazole C4.
+- **Isoxazole:** the ring atoms are O1, N2, C3, C4, C5. C5 bears isopropyl and is bonded to O. C3 bears the 2-(trifluoromethoxy)phenyl group, and C4 bears the CH2.
+
+SMILES for the isoxazole fragment: c1(C(C)C)onc(c1COAr)-c2ccccc2OC(F)(F)F.
+
+Full SMILES: OC(=O)c1cccc(c1)C(=O)N(C)c1ccc(OCc2c(C(C)C)onc2-c2ccccc2OC(F)(F)F)cc1Cl
+
+Checking the central ring: c1 (N-bearing), then c, c, c(O), c, c1Cl. The N carbon is followed by ccc(O), which puts O at position 4. Then c is position 5 and c1Cl is position 6, which is adjacent to C1. Cl is therefore ortho to N and meta to O, which matches the drawing.
+
+SMILES: OC(=O)c1cccc(c1)C(=O)N(C)c1ccc(OCc2c(C(C)C)onc2-c2ccccc2OC(F)(F)F)cc1Cl

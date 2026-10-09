@@ -1,0 +1,15 @@
+The drawing shows a pyridine ring with N at the bottom left. C2 carries the carboxamide, C3 carries OH, and C4 carries OMe. The remaining ring positions, C5 and C6, are CH.
+
+The amide NH connects to a para-substituted phenyl ring. The other para position of that ring carries C(=N-OMe), which is attached to a 4-CF3-phenyl ring.
+
+Stereochemistry of the oxime: the oxime C is drawn at the bottom of the central phenyl ring, with the 4-CF3-phenyl to its right. The C=N goes straight down, and N then bonds down-right to OMe. On the carbon, the aniline-bearing phenyl is up-left and the CF3-phenyl is up-right. On the N, the OMe is to the right (lower right) of the C=N axis. So OMe is on the same side as the CF3-phenyl, and the aminophenyl ring is on the opposite side.
+
+Writing the SMILES as c1(ring A)/C(c2ccc(CF3)cc2)=N/OC:
+- With A/C(B)=N/OC, A and OMe are on opposite sides (trans), so B and OMe are cis.
+- That matches the drawing, where OMe is cis to the CF3-phenyl.
+
+I write it as: COc1ccnc(C(=O)Nc2ccc(cc2)/C(=N/OC)c2ccc(cc2)C(F)(F)F)c1O
+
+Checking the geometry in this form: the fragment is c2ccc(cc2)/C(=N/OC)c2... The aryl A precedes C with a "/" bond, so A is "below" C. Then =N/OC puts OC "above" N. Thus A and OMe are on opposite sides (trans), which matches the drawing.
+
+SMILES: COc1ccnc(C(=O)Nc2ccc(cc2)/C(=N/OC)c2ccc(cc2)C(F)(F)F)c1O

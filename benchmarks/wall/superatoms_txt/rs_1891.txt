@@ -1,0 +1,19 @@
+The drawing shows a carbazole core with an N-ethyl group on the ring nitrogen. Positions 3 and 6 each carry a nitrogen substituent.
+
+- **Left substituent (position 3 or 6):** N(Ph)2, a diphenylamino group.
+- **Right substituent:** N(Ph)(2-(diethylamino)phenyl). This nitrogen carries a phenyl and an ortho-substituted phenyl ring bearing N(CH2CH3)2.
+
+SMILES, built piece by piece:
+
+- N-ethyl carbazole: CCn1c2ccc(cc2c2cc(ccc12)...)...
+- Left ring: the carbon bearing N(Ph)2 sits on the left benzo ring. The right ring carbon bears N(Ph)(Ar).
+- Full string: CCn1c2ccc(N(c3ccccc3)c3ccccc3)cc2c2cc(N(c3ccccc3)c3ccccc3N(CC)CC)ccc12
+
+Ring-closure check:
+
+- n1 opens ring 1.
+- c2 opens ring 2, then ccc(N...)cc2 closes ring 2. That ring has c2, c, c, c(N), c, c2, which is 6 atoms, so it is fine.
+- The next c2 opens a new ring 2, then cc(N...)ccc12 gives c2, c, c(N), c, c, c12, which is 6 atoms. The final atom closes ring 1 (to n) and ring 2.
+- Five-membered ring: n1, c2(first), c2(closing the first ring), c2(new), c12. The first benzo ring's closing atom, "c2" in "cc2", bonds to the next "c2" atom, which is the biaryl bond. The last atom c12 bonds to n1. This is correct.
+
+SMILES: CCn1c2ccc(N(c3ccccc3)c3ccccc3)cc2c2cc(N(c3ccccc3)c3ccccc3N(CC)CC)ccc12

@@ -1,0 +1,18 @@
+I read the molecule as a nine-membered dilactone (an antimycin-type core built on serine) with three groups on it. The pyridine amide carries a menthyl carbonate, one ring carbon carries an isobutyrate ester, and the neighbouring carbon carries a benzyl group.
+
+**Ring and substituents**
+- **Dilactone ring:** C(=O)–O–CH(CH3)–CH(O-isobutyryl)–CH(CH2Ph)–C(=O)–O–CH2–CH(NH–), closing back to the first carbonyl.
+- **Pyridine:** C2 carries the amide C(=O)NH, C3 carries the carbonate oxygen, C4 carries OMe, and N is adjacent to C2.
+- **Menthyl:** a cyclohexane with the carbonate oxygen on C1, isopropyl on C2 and methyl on C5. Its wedges and hashes give the (1R,2S,5R)-menthol pattern, which matches the known SMILES of natural (–)-menthol.
+
+**Stereocentres**
+I assigned each centre from its wedge or hash and then converted to @/@@ in the order the atoms appear in the SMILES.
+- Menthyl C1, C2 and C5.
+- The NH-bearing ring carbon, drawn with a hashed N.
+- CH(CH3), drawn with a wedged methyl.
+- CH(O-isobutyryl), drawn with a hashed O.
+- CH(CH2Ph), drawn with a wedged benzyl CH2.
+
+I checked the SMILES for valid ring closures and atom counts against the drawing, but I did not run it through a parser.
+
+SMILES: O=C1O[C@@H](C)[C@H](OC(=O)C(C)C)[C@@H](Cc2ccccc2)C(=O)OC[C@@H]1NC(=O)c1nccc(OC)c1OC(=O)O[C@@H]1C[C@H](C)CC[C@H]1C(C)C

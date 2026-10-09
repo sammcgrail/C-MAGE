@@ -1,0 +1,17 @@
+The drawing shows a quinoline core with three substituents.
+
+- **Position 4:** an NH group linked to a pyridin-4-yl ring. The pyridine nitrogen sits at the top right, para to the carbon bearing NH.
+- **Position 3:** a fluorine atom.
+- **Position 2:** a 2-methoxyphenyl group, with the OCH3 ortho to the bond to the quinoline.
+- **Quinoline nitrogen:** at the bottom of the core, adjacent to C2.
+
+I wrote the SMILES by starting at the NH-pyridine fragment, then the quinoline carbons, then the aryl group:
+
+- Pyridin-4-yl-NH: c1cnccc1N, joined to the quinoline C4.
+- Quinoline: c2c(F)c(-c3ccccc3OC)nc4ccccc24.
+
+Combined: Fc1c(Nc2ccncc2)c2ccccc2nc1-c1ccccc1OC
+
+Atom check: the quinoline ring is C4 (bearing N), C3 (bearing F), C2 (bearing aryl), N1, then the fused benzo carbons C8a, C4a. In the SMILES, c1(F) is C3, c(Nc2ccncc2) is C4, c2ccccc2 is the benzo ring with C4a first and C8a last, then n, then c1 for C2 closing the ring with C3. The SMILES is valid.
+
+SMILES: Fc1c(Nc2ccncc2)c2ccccc2nc1-c1ccccc1OC

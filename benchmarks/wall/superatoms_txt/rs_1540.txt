@@ -1,0 +1,9 @@
+I read the molecule as a 6,7-dihydro-5H-pyrrolo[1,2-a]imidazole core with these substituents:
+
+- **Imidazole carbon next to the ring N:** a 4-fluorophenyl group.
+- **Next imidazole carbon:** a pyrimidin-4-yl group carrying an NH-cyclobutyl at its 2-position.
+- **Saturated ring carbon next to the bridgehead N (the only stereocentre):** a CH2–S–CH2 chain ending in a 4-methoxyphenyl ring (the S-linked 4-methoxybenzyl group).
+
+For the stereocentre, the wedge bond points to the CH2S group, so the implicit H sits at the back. The CIP priorities are N > CH2S > ring CH2. In the drawing, N is at upper left, CH2S at lower left and the ring CH2 at right, so N → CH2S → ring CH2 runs counterclockwise. With H pointing away, that gives S. Written as `CC[C@@H](CSC...)n2`, the SMILES encodes S, so I used `@@`.
+
+SMILES: Fc1ccc(cc1)-c1nc2CC[C@@H](CSCc3ccc(OC)cc3)n2c1-c1ccnc(NC2CCC2)n1

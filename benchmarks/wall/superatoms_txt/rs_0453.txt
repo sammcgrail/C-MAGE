@@ -1,0 +1,17 @@
+The drawing shows a biphenyl carboxylic acid joined through a hydrazone to an N-benzyl isatin.
+
+**Biphenyl part.** The top ring carries CO2H. Its neighbouring ring carbon (meta position) is bonded to the second ring. On the second ring, the carbon next to the biaryl bond bears OH, and the carbon next to that bears the NH–N= group.
+
+**Hydrazone and isatin part.** The NH is bonded to N=, which double-bonds to C3 of the indolin-2-one. C2 is the C=O and N1 carries a benzyl group.
+
+**Geometry.** The drawing shows a double bond with HN on one side and the ring on the other. The C=N is drawn with NH going down-left from N, and the ring C3 is lower-right of N. At the N= atom, the NH substituent is to the left. At C3, the C2 (carbonyl) is down-left and C3a is to the right. The N is at upper-left of C3, so the NH on N points left/down, on the same side as C2 (carbonyl), which is the usual Z form with an intramolecular H-bond to C=O. I'll encode that.
+
+Writing the SMILES as `N/N=C1/C(=O)N(...)c2ccccc12` with stereo: N(H) on one side and C2 on the same side gives Z.
+
+Ar–N/N=C1\C(=O)... Here the bond from Ar-N to N is "/", so the NH-aryl lies below N (written before it). After `=C1`, the next atom C(=O) is written with "\", meaning it lies below the C. Both substituents are on the same side, which is Z.
+
+Full SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2/C(=O)N(Cc3ccccc3)c3ccccc23)c1O
+
+In this ring-closure form, the stereo marks on `C2/C(=O)` are relative to the written order. `N/N=C2/C(=O)` places N above and C(=O) below the double bond, which is E, so I need `N/N=C2\C(=O)` to get Z.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(N/N=C2\C(=O)N(Cc3ccccc3)c3ccccc23)c1O

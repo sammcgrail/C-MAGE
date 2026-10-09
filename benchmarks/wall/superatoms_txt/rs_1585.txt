@@ -1,0 +1,16 @@
+The drawing is read region by region as follows.
+
+- **Top-left ring:** a benzene ring carrying SO2NH2 on the carbon next to the biaryl bond (ortho).
+- **Biaryl link:** that ring is bonded to a second benzene ring that is para-substituted. At the far end of this ring is a C(=O)NH amide group.
+- **Amide nitrogen:** NH is attached to a third benzene ring.
+- **Third ring:** the carbon bearing NH has the aryl ether O on the adjacent carbon (ortho). CF3 sits on the carbon para to the ether oxygen.
+  - Ring positions, numbered from the NH carbon as C1: C1 (NH), C2 (O, bottom left), C3 (bottom, CH), C4 (right lower, CH), C5 (CF3, upper right), C6 (top, CH).
+  - So the NH carbon is at the left upper position, the O carbon is directly below it, and CF3 is on the upper right carbon.
+  - CF3 is therefore para to the O carbon: C2 (O) to C5 is three bonds across the ring, which is para. The CF3 is meta to the NH carbon.
+- **Ether side:** O links to a fourth benzene ring bearing an amidine, C(=N)N, meta to the oxygen.
+
+SMILES for the third ring: c1(NC(=O)...)cc(C(F)(F)F)ccc1Oc..., where the ring atoms run c1 (N), c (CH), c(CF3), c, c, c1(O). Here the NH carbon C1 is adjacent to the CH, then C(CF3), and so CF3 is meta to N and para to O. This matches the drawing.
+
+Full SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1cc(C(F)(F)F)ccc1Oc1cccc(c1)C(N)=N
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1cc(C(F)(F)F)ccc1Oc1cccc(c1)C(N)=N

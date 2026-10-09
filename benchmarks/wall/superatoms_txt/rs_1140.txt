@@ -1,0 +1,28 @@
+The image shows a copolymer made of two repeat units: a norbornane unit (32) and a methyl 2-(trifluoromethyl)acrylate-derived unit (68).
+
+**Norbornane unit.** The bicyclic ring is drawn with a bridge. The ring bonds at the top left and top right are open, and these are the points that connect into the polymer chain. The ring is a norbornane (bicyclo[2.2.1]heptane) with two adjacent carbons, C5 and C6, in the chain. The bottom right carbon carries both CF3 and CO2C(CH3)3.
+
+Labelling the atoms from the drawing:
+- The top left carbon, C1, is a bridgehead. The top right carbon, C4, is also a bridgehead.
+- The drawn hexagon has vertices at top left, top right, right, bottom right (the substituted carbon), bottom left (a CH2), and left.
+- The one-carbon bridge (C7) runs between the two bridgeheads, drawn as the line across the middle.
+
+In the picture, the bridgeheads are the left vertex and the right vertex. The top two vertices are the carbons that bear the polymer bonds, and they are joined to each other.
+
+This gives the connectivity: top-left carbon (chain) – top-right carbon (chain) – right bridgehead – substituted C(CF3)(CO2tBu) – CH2 – left bridgehead – back to top-left. The C7 bridge joins the left and right bridgeheads.
+
+SMILES for the unit: [*]C1C([*])C2CC1C... must be rewritten with the correct connectivity, giving C1(*)C(*)C2C(C(F)(F)F)(C(=O)OC(C)(C)C)CC1C2. Checking the ring: C1 (top left) – C(top right) – C2 (right bridgehead) – C(CF3)(CO2tBu) – CH2 – C1' (left bridgehead). The left bridgehead must bond to the top-left carbon. The top-left carbon closes the ring to the left bridgehead, and C7 links the two bridgeheads.
+
+**Acrylate unit.** This is –CH2–C(CF3)(CO2CH3)–.
+
+**Combined SMILES.** The two units are written as one repeat with the end groups left open: 
+
+*C1C(*)... is awkward, so I write the norbornane unit as a branch and connect the two units in sequence:
+
+*C1C2CC(C1... 
+
+The cleanest form is: `*C1C(CC(C(F)(F)F)(C(=O)OC)*)...` which does not fit the drawing. I therefore use the two-unit form with explicit connection points:
+
+`*C1C2CC(C1C... ` is also incorrect. The final answer uses the written form below.
+
+SMILES: *C1C2CC(C1*)C(C(F)(F)F)(C(=O)OC(C)(C)C)C2.*CC(*)(C(F)(F)F)C(=O)OC

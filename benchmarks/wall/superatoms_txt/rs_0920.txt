@@ -1,0 +1,26 @@
+The drawing is a copolymer of two norbornane repeat units, written with subscripts 42 and 58. In each unit the ring is attached to the chain at two adjacent carbons (the two bonds leaving the top of the ring). The substituent sits on a carbon of the lower part of the ring.
+
+**Ring skeleton.** Each unit is a norbornane drawn as a bicyclo[2.2.1]heptane. Its top two carbons, C2 and C3, are the polymer-chain carbons. C1 and C4 are the bridgeheads, joined by the one-carbon bridge C7. C5 and C6 form the lower two-carbon bridge, and the substituent is on C5.
+
+**Unit 1 (42).** The substituent is CH2–C(CF3)2OH, where C(CF3)2OH is the carbon bearing two CF3 groups and the hydroxyl.
+
+**Unit 2 (58).** The substituent is CH2–C(CF3)2–O–CH2–O–C2H5, an ethoxymethyl ether.
+
+**SMILES for each unit.** Treat the polymer as a chain with the two chain carbons as connection points, `*C1C2CC(C1*)C(C2)...`. Here the chain carbons are C2 and C3, attached to bridgeheads C1 and C4 respectively.
+
+- Unit 1: `*C1C2CC(C1*)C(CC(O)(C(F)(F)F)C(F)(F)F)C2`
+- Unit 2: `*C1C2CC(C1*)C(CC(OCOCC)(C(F)(F)F)C(F)(F)F)C2`
+
+Check on the ring closures, using `*C1C2CC(C1*)C(R)C2`:
+- C(a) is the chain carbon, with ring label 1.
+- C2 is a bridgeheads carbon, with ring label 2.
+- C is the bridge carbon C7.
+- C(...) is the other bridgehead; its branch `(C1*)` is the second chain carbon, which closes ring 1 with the first chain carbon.
+- C(R) is C5, carrying the substituent.
+- The final C2 is C6, which closes to the first bridgehead.
+
+This gives a bicycle in which the bridgeheads are connected by C7 and by the C5–C6 bridge, and by the C2–C3 bridge. The ring is valid.
+
+I write the copolymer with the two units in sequence, using the subscripts as repeat counts.
+
+SMILES: *C1C2CC(C1*)C(CC(O)(C(F)(F)F)C(F)(F)F)C2.*C1C2CC(C1*)C(CC(OCOCC)(C(F)(F)F)C(F)(F)F)C2

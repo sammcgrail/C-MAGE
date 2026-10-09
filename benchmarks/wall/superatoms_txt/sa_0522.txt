@@ -1,0 +1,23 @@
+I read this as a salvinorin A-type neo-clerodane skeleton. It has a C1 ketone, a C2 methoxymethyl ether (OMOM) in place of the usual acetate, a C4 methyl ester, a lactone, and a 3-furyl group.
+
+**Ring system**
+- The left cyclohexane carries the OMOM-bearing CH, the ketone C=O, the ring-fusion CH (wedged H), the quaternary C–CH3 (hashed methyl), the CH bearing CO2Me (hashed) and a CH2.
+- The right ring is a lactone: the C=O, the ring O, the CH bearing the hashed 3-furyl, a CH2, the quaternary C–CH3 (hashed methyl), and the ring-fusion CH (wedged H).
+- The two carbocyclic rings are fused through the CH(H) and the C–CH3 carbons, and a further CH2–CH2 bridge links the quaternary C–CH3 to the lactone-side CH.
+
+**Stereochemistry**
+I assigned each centre from its wedge or hash and the neighbour order in the SMILES:
+
+| Centre | Drawn feature | Tag |
+|---|---|---|
+| CH–CO2Me | hashed ester | `[C@@H]` |
+| CH–OMOM | hashed OMOM | `[C@H]` |
+| ring-fusion CH next to the ketone | wedged H | `[C@H]` |
+| quaternary C–CH3 on the left ring | hashed methyl | `[C@@]` |
+| ring-fusion CH next to the lactone C=O | wedged H | `[C@H]` |
+| CH–furyl | hashed furyl | `[C@@H]` |
+| quaternary C–CH3 on the lactone ring | hashed methyl | `[C@]` |
+
+I checked the SMILES against the drawing atom by atom, including the ring closures and the 3-furyl attachment.
+
+SMILES: COC(=O)[C@@H]1C[C@H](OCOC)C(=O)[C@H]2[C@@]1(C)CC[C@H]3C(=O)O[C@@H](c4ccoc4)C[C@]23C

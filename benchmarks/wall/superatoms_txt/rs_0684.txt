@@ -1,0 +1,21 @@
+I read the structure in four parts.
+
+- **Amide end:** a morpholine ring is attached through its nitrogen to a C(=O) group, which is followed by a CH2.
+- **First stereocentre:** the next carbon carries a wedged CH2–cyclohexyl group and a C(=O)NH group.
+- **Second stereocentre:** the amide NH is attached to a carbon bearing a hashed methyl group, which is followed by CH2–NH–aryl.
+- **Aryl group:** a para-substituted benzene ring carrying OCF3.
+
+**Stereocentre 1 (wedged CH2-cyclohexyl):**
+- Priorities are C(=O)N > CH2C(=O) > CH2-cyclohexyl > H.
+- With H pointing away, the sequence runs clockwise, so this centre is R.
+- In the SMILES this corresponds to `[C@@H]`.
+
+**Stereocentre 2 (hashed methyl):**
+- Priorities are N > CH2N > CH3 > H.
+- The drawing shows N → CH2 → CH3 going clockwise, but H points toward the viewer because the methyl is hashed.
+- Reversing for that gives S.
+- In the SMILES this corresponds to `[C@@H]`.
+
+I checked the written SMILES against the drawing atom for atom. The chirality tags were assigned by reading neighbour order in the SMILES, not by software, so they are the part most worth re-checking.
+
+SMILES: O=C(C[C@@H](CC1CCCCC1)C(=O)N[C@@H](C)CNc1ccc(OC(F)(F)F)cc1)N1CCOCC1

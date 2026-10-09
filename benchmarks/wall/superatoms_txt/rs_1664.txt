@@ -1,0 +1,8 @@
+I read the structure as 3-[4-(dibenzylamino)phenyl]-2-ethoxypropanoic acid, with one stereocentre at C2 of the acid.
+
+- **Left side:** a nitrogen carries two benzyl groups (each CH2 attached to a phenyl ring). The nitrogen is also bonded to the para position of a central benzene ring.
+- **Central ring to chain:** the para carbon opposite the nitrogen bears a CH2 attached to the stereocentre CH. That CH carries a COOH group and an OC2H5 group.
+- **Stereochemistry:** the OC2H5 bond is hashed, so it points away from the viewer and the implicit H points toward the viewer. The CIP priorities are O > COOH > CH2Ar > H. Viewed from the front, O → COOH → CH2 runs counterclockwise. Because H faces the viewer, the true sense is reversed, giving clockwise, which is R.
+- **SMILES check:** in `OC(=O)[C@H](OCC)Cc1...`, the neighbour order at the stereocentre is COOH, H, O, CH2. Placing H first takes one swap, so `@` becomes `@@`. Viewed from H, COOH → O → CH2 is then clockwise. Viewed with H pointing away, the same sequence is counterclockwise, so O → COOH → CH2 is clockwise, which is R. This matches the drawing.
+
+SMILES: OC(=O)[C@H](OCC)Cc1ccc(N(Cc2ccccc2)Cc2ccccc2)cc1

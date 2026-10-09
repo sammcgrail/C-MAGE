@@ -1,0 +1,16 @@
+I read the central ring as a 9-membered dilactone, wrote the SMILES for it, and then assigned each stereocentre from the wedge and hash bonds.
+
+**Ring and substituents**
+- Ring atoms in order: C(=O), ring O, CH(CH3), CH(O-isobutyrate), CH(CH2Ph), C(=O), ring O, CH2, CH(NH–).
+- The CH(CH3) carbon carries a methyl on a wedge.
+- The next carbon carries an isobutyryl ester, OC(=O)CH(CH3)2, on a hashed bond.
+- The next carbon carries a benzyl group, CH2Ph, on a wedge.
+- The ring CH bearing nitrogen has a hashed bond to the amide NH.
+- The amide is NH–C(=O) attached to the 2-position of a pyridine. The pyridine 3-position carries an acetate, OC(C)=O.
+
+**Stereochemistry**
+For each of the four stereocentres, I worked out the chirality tag in the order the neighbours appear in the SMILES. I used the wedge or hash to place the substituent in front of or behind the plane, and the implicit H opposite it.
+
+The tags are `[C@@H]` for the CH(CH3), `[C@H]` for the CH–O-isobutyrate, `[C@@H]` for the CH–benzyl, and `[C@@H]` for the CH–N.
+
+SMILES: O=C1O[C@@H](C)[C@H](OC(=O)C(C)C)[C@@H](Cc2ccccc2)C(=O)OC[C@@H]1NC(=O)c1ncccc1OC(C)=O

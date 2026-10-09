@@ -1,0 +1,18 @@
+The structure is a biphenyl carboxylic acid joined through a hydrazone to an isatin-type core.
+
+**Biphenyl part:** a 4-carboxyphenyl ring (HO2C–C6H4) is bonded to a second benzene ring. On that second ring, the carbon next to the biaryl bond carries OH, and the carbon next to that carries the NH–N= group.
+
+**Hydrazone and indolinone:** the NH–N= unit connects to C3 of a 2-oxindole. C2 is the C=O and N1 carries a 4-propylphenyl group.
+
+**Propyl chain:** the chain drawn from the para position of the N-phenyl ring has three carbons: CH2, CH2, CH3.
+
+**Stereochemistry:** the C=N double bond is drawn with the NH on one side. The hydrazone N lies at the lower left of C3, and the C3 substituents are C2 (carbonyl, lower left) and C3a (right). The NH therefore points toward the left, on the same side as the C=O, which is the Z configuration.
+
+For the SMILES, I write C3 as `C(=N/Nc...)`. Writing the fragment as `O=C1N(Ar)c2ccccc2/C1=N\Nc...`:
+- The ring-closure atom C1 follows `c2ccccc2`, which is C3a.
+- The bond from C3a to C3 is written `/`, so C3a is "below" C3.
+- `=N\N` places the NH above N, which is opposite to C3a and therefore on the same side as C2.
+
+This matches the drawing, with the NH syn to the carbonyl.
+
+SMILES: CCCc1ccc(cc1)N1C(=O)/C(=N\Nc2cccc(c2O)-c2ccc(cc2)C(=O)O)c2ccccc12

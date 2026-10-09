@@ -1,0 +1,20 @@
+Reading the structure region by region:
+
+1. **Top left ring:** a benzene ring carrying SO2NH2 at one carbon. Its neighbouring carbon is bonded to a second phenyl ring, so this is an ortho-substituted biphenyl.
+2. **Middle ring:** a para-substituted phenyl ring, with the biphenyl bond on one side and C(=O)NH on the other.
+3. **Central ring:** the amide NH is attached to a benzene ring. Going around that ring:
+   - C1 bears the NH of the biphenylcarboxamide.
+   - C2 is the CH next to C1.
+   - C3 bears NH2 (upper right).
+   - C4 and C5 are CH.
+   - C6 bears the C(=O)NH-pyridyl group (lower left).
+   - The NH2 carbon is therefore meta to the NH amide and para to the C(=O) carbon. C1 and C6 are adjacent, and NH2 sits on the carbon two positions from C1 and para to C6.
+4. **Pyridine:** attached through NH at pyridine C2. The ring N is adjacent to C2, and Br sits at C5, para to C2.
+
+SMILES for the central ring: c1(NC(=O)...)cc(N)ccc1C(=O)Nc1ccc(Br)cn1
+
+Full SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1cc(N)ccc1C(=O)Nc1ccc(Br)cn1
+
+Check on the pyridine: Nc1ccc(Br)cn1 gives C2 (attached to NH), C3, C4, C5 (Br), C6, then N. Br is at C5, matching the drawing.
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1cc(N)ccc1C(=O)Nc1ccc(Br)cn1

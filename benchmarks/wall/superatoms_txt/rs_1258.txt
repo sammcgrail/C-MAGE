@@ -1,0 +1,18 @@
+This SMILES was read from the drawing region by region and checked atom for atom.
+
+**Left to right:**
+- **Imidazole end:** a 2-aminoimidazole (ring `c1cnc[nH]1`) whose exocyclic NH leads into a three-carbon chain, `NCCC`.
+- **Indazole:** the chain is attached to N1 of the indazole. N2=C3 sits at the top of the five-membered ring, and the benzene ring carries the carbonyl at C5.
+- **Amide and amino acid:** the C5 carbonyl is an amide, `C(=O)NC`, joined to a 2,3-diaminopropionic acid unit. Its α-carbon carries the wedged NH–SO2 group and the free CO2H.
+- **Aryl sulfonamide:** the sulfonyl group is on a 2,6-dimethylphenyl ring. The para position bears an O–CH2CH2CH2–C(=O)NH ether-amide chain.
+- **Linker and cap:** the chain continues through –NHCH2CH2NH– into the C(=O) of a cysteic acid residue (CH2SO3H side chain), whose NH carries Boc, `NC(=O)OC(C)(C)C`.
+
+**Stereochemistry:**
+- **Diaminopropionic α-carbon (wedged N):** the priorities are N > COOH > CH2N. Viewed from the front with H at the back, N → COOH → CH2 runs counterclockwise, so this centre is S. That corresponds to `[C@H]` with neighbour order CH2, H, N, COOH.
+- **Cysteic acid α-carbon (hashed CH2):** the priorities are N > CH2SO3H > C(=O). With H toward the viewer, the apparent counterclockwise sequence reverses to clockwise, so this centre is R (the L configuration). That corresponds to `[C@H]` with neighbour order C(=O), H, CH2, N.
+
+SMILES: CC(C)(C)OC(=O)N[C@H](CS(=O)(=O)O)C(=O)NCCNC(=O)CCCOc1cc(C)c(c(C)c1)S(=O)(=O)N[C@@H](CNC(=O)c1ccc2c(c1)cnn2CCCNc1ncc[nH]1)C(=O)O
+
+Rechecking, I wrote the last stereocentre as `[C@@H]` in that line, but my derivation gave `[C@H]` for S with the neighbour order CH2, H, N, COOH. In this line the order is N (preceding), H, CH2, COOH, which is an odd permutation of (CH2, H, N, COOH) (a swap of N and CH2), so `[C@@H]` is the correct form here. The line is consistent.
+
+SMILES: CC(C)(C)OC(=O)N[C@H](CS(=O)(=O)O)C(=O)NCCNC(=O)CCCOc1cc(C)c(c(C)c1)S(=O)(=O)N[C@@H](CNC(=O)c1ccc2c(c1)cnn2CCCNc1ncc[nH]1)C(=O)O

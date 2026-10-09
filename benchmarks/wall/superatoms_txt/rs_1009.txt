@@ -1,0 +1,18 @@
+The structure breaks into four parts:
+
+- **Benzimidazole:** a benzene ring fused to an imidazole, attached at C2 to the piperidine C4. In SMILES this is c1ccc2[nH]c(nc2c1)...
+- **Piperidine:** the ring nitrogen carries a CH2–CH(OH)–CH2 chain.
+- **Tetrahydropyrazolopyridine core:** the chain ends on the pyrazole N1. N2 is double-bonded to C3, which bears the 4-(trifluoromethyl)phenyl group. C3a is joined to C4 (CH2), which leads to N5 carrying the acetyl group, then C6 (CH2), C7 (CH2) and C7a, which bonds back to N1.
+- **Pyrazole ring:** N1, N2, C3, C3a, C7a.
+
+SMILES for the core: n1(CC(O)CN2CCC(CC2)c2nc3ccccc3[nH]2)nc(-c2ccc(C(F)(F)F)cc2)c2CN(C(C)=O)CCc21
+
+Ring closure check: n1 opens ring 1. C3a is written "c2" (a new ring label 2 for the fused ring), then CN(C(C)=O)CC, then "c21" closes ring 2 to C3a and ring 1 to N1. This works, but ring label 2 is reused after the earlier uses were closed, so the labels are free at that point.
+
+Full SMILES: CC(=O)N1CCc2c(C1)c(nn2CC(O)CN2CCC(CC2)c2nc3ccccc3[nH]2)-c1ccc(cc1)C(F)(F)F
+
+Here the label 2 in "c2c(C1)" stays open while the branch is written. Inside the branch, "N2CCC(CC2)" reuses label 2 while it is still open, which is a conflict. I therefore renumber the labels:
+
+CC(=O)N1CCc2c(C1)c(nn2CC(O)CN3CCC(CC3)c4nc5ccccc5[nH]4)-c6ccc(cc6)C(F)(F)F
+
+SMILES: CC(=O)N1CCc2c(C1)c(nn2CC(O)CN3CCC(CC3)c4nc5ccccc5[nH]4)-c6ccc(cc6)C(F)(F)F

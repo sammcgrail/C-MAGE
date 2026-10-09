@@ -1,0 +1,14 @@
+I read the molecule as 4-[2-[(2R)-2-[(E,3R)-3,7-dihydroxyoct-1-enyl]-5-oxopyrrolidin-1-yl]ethyl]benzoic acid, with (R) at C7 of the chain as well. The pieces are:
+
+- **Aromatic end:** a para-substituted benzene bearing CO2H, joined through a CH2CH2 linker to the ring nitrogen.
+- **Lactam ring:** a five-membered pyrrolidin-2-one (N, C=O, two CH2, and a substituted CH next to N).
+- **Side chain:** from the ring CH, a trans CH=CH, then CH(OH), three CH2, and CH(OH)CH3.
+
+For the stereocentres, I assigned CIP priorities from the wedges and wrote each centre in SMILES order:
+
+- **Ring CH (wedge to the vinyl group):** the priorities are N > vinyl > ring CH2, and with H pointing away the sequence runs clockwise, so it is R.
+- **C3 carbinol (wedged OH):** the priorities are OH > vinyl > CH2, and the sequence is clockwise with H away, so it is R.
+- **C7 carbinol (wedged OH):** the priorities are OH > chain CH2 > CH3, and the sequence is clockwise with H away, so it is R.
+- **Alkene:** it is drawn trans, so it is E.
+
+SMILES: OC(=O)c1ccc(CCN2C(=O)CC[C@@H]2/C=C/[C@H](O)CCC[C@@H](C)O)cc1

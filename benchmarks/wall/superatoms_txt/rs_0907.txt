@@ -1,0 +1,20 @@
+The drawing shows a pyridine ring, an amide linker, and a spiro-fused macrocyclic diester.
+
+**Pyridine ring.** The nitrogen is at the bottom left. The carbon attached to the carboxamide (C2) is next to it, then C3 bearing OH, then C4 bearing OMe. The remaining two ring carbons are C5 and C6, and C6 is bonded to N.
+
+**Amide.** C2 carries C(=O)NH, and the NH is bonded to the CH of the large ring.
+
+**Large ring.** Going around from the CH:
+- CH, then CH2, then O, then C(=O), then CH2, then the spiro carbon.
+- From the spiro carbon: CH2, then C(=O), then O, then CH2, and back to the CH.
+- This gives 10 ring atoms: CH, CH2, O, C(=O), CH2, C(spiro), CH2, C(=O), O, CH2.
+- The spiro carbon is also part of a cyclohexane ring.
+
+**SMILES assembly.**
+- Pyridine part: COc1ccnc(C(=O)NC2COC(=O)CC3(CCCCC3)CC(=O)OC2)c1O
+- Ring closure check: c1 (C4, OMe), c (C5), c (C6), n, c (C2, with the amide), c1O (C3, OH). The ring closes correctly.
+- Macrocycle part: C2 (CH) – C – O – C(=O) – C – C3(CCCCC3) – C – C(=O) – O – C – back to C2. This is correct.
+
+No stereo is drawn, so none is included.
+
+SMILES: COc1ccnc(C(=O)NC2COC(=O)CC3(CCCCC3)CC(=O)OC2)c1O

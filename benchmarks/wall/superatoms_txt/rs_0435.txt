@@ -1,0 +1,23 @@
+Reading the drawing region by region:
+
+**Left ring:** a benzene ring with an azo group at C1, a CN at each ortho position (C2 and C6), and NO2 at C4 (para to the azo).
+
+**Azo link:** N=N joins the left ring to the right ring.
+
+**Right ring:** the carbon bearing the azo group has the NHAc group on one neighbour. Going around the ring from the azo carbon:
+- C1 carries the azo group.
+- C2 carries NHC(=O)CH3.
+- C3 is CH.
+- C4 carries N(CH2CH2OH)CH2CH2COOH.
+- C5 carries OCH3.
+- C6 is CH, which returns to C1.
+
+**Side chain on C4:** the nitrogen bears CH2CH2OH and CH2CH2C(=O)OH.
+
+**SMILES assembly:**
+- Left ring: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=N...
+- Right ring: c2cc(OC)c(N(CCO)CCC(=O)O)cc2NC(C)=O
+
+Checking the right ring in order: the azo-bearing carbon c2, then cc(OC) for C6 (CH) and C5 (OMe), then c(N...) for C4, then c for C3 (CH), then c2NC(C)=O for C2. This matches the drawing.
+
+SMILES: N#Cc1cc([N+](=O)[O-])cc(C#N)c1N=Nc1cc(OC)c(N(CCO)CCC(=O)O)cc1NC(C)=O

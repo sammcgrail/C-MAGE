@@ -1,0 +1,51 @@
+Reading the structure region by region:
+
+**Core.** This is a pyrazolo[1,5-b][1,2,4]triazole drawn in its quinone-imine (dye) form.
+- The five-membered ring contains C7 (bearing COO–), C6 (bearing CN), C5 (=N exocyclic), N4 (the bridgehead N), and C3a.
+- The triazole ring contains the bridgehead N, N, C(aryl)=N, and C3a.
+- C7 is double-bonded to C6, and C5 is double-bonded to the exocyclic N.
+
+**Core SMILES.** Starting from the ester carbon:
+- C7: C(=O)(O-R)C1=C(C#N)C(=Nc...)n2nc(Ar)nc12
+- Ring closure: C7 is C1, C6 is C(C#N), C5 is C(=N...), the bridgehead is n2, then n, c(Ar), n, and c12 is C3a, bonded to both C7 and the bridgehead N.
+- Ring 1 is the five-membered ring: C7, C6, C5, N, C3a. Ring 2 is the triazole.
+- The triazole drawing has N–N from the bridgehead N to N, then C(aryl)=N, then C3a=N. The aromatic form n2nc(Ar)nc12 captures this.
+
+**Aryl on the triazole.** 4-tert-butylphenyl: c1ccc(cc1)C(C)(C)C.
+
+**Imine aryl.** The imine N is attached to a benzene ring. Its ortho position carries CH3. Para to the imine N is N(Et)CH2CH2NHSO2CH3, drawn as "H3CO2SHNH2CH2C", which is the CH3SO2NH–CH2CH2 group.
+- Ring SMILES: N=C... c1ccc(N(CC)CCNS(C)(=O)=O)cc1C
+
+**Ester group.** The cyclohexyl ring is attached through the O at C1. Both ortho positions (C2 and C6) carry tert-butyl groups. C4 carries a methyl group.
+- Ring SMILES: C1(OC=O)C(C(C)(C)C)CC(C)CC1C(C)(C)C
+
+**Assembly.**
+CC(C)(C)c1ccc(cc1)-c1nc2c(C(=O)OC3C(C(C)(C)C)CC(C)CC3C(C)(C)C)c(C#N)c(=Nc3ccc(N(CC)CCNS(C)(=O)=O)cc3C)n2n1
+
+For the aromatic form I need the pattern c(=N...) with an exocyclic double bond. A Kekulé-style version is safer:
+
+CC(C)(C)c1ccc(cc1)C1=NN2C(=C(C#N)C(C(=O)OC3C(C(C)(C)C)CC(C)CC3C(C)(C)C)=C2... 
+
+This has to be written carefully. Atoms:
+- C3a: C2(=N1...) is part of the triazole.
+- Triazole: C1(Ar)=NC2=C(C(=O)OR)C(C#N)=... 
+
+The drawing has C3a=N in the triazole, C7=C6, and C5=N exocyclic, so:
+
+C1(Ar)=NC2=NC... 
+
+Writing it out: Ar-C1=NC2=C(C(=O)OR)C(C#N)C(=NAr')N2N1 would not work, because C3a would have two double bonds.
+
+Instead, following the drawing: C3a is double-bonded to N (the triazole N next to C-aryl is the one at the top right). The bonds are then:
+- N(bridgehead)–N=C(Ar)–N=C3a, so the ring is N1(bridgehead)–N=C(Ar)–N=C3a–N1.
+- C3a is bonded to C7, and C7=C6.
+
+SMILES: CC(C)(C)c1ccc(cc1)C1=NC2=C(C(=O)OR)... 
+
+C3a has a double bond to N and a single bond to C7. Therefore:
+C1(Ar)=NC2=NN... does not fit. The correct form is:
+Ar-C1=NN2C(=Nc3...)C(C#N)=C(C(=O)OR)C2=N1
+
+Check: C1(Ar)=N–N2 (bridgehead), then C5(=NAr'), C6(C#N)=C7(COOR), C3a (C2) =N1 closing the ring. This matches the drawing.
+
+SMILES: CCN(CCNS(C)(=O)=O)c1ccc(N=C2C(C#N)=C(C(=O)OC3C(C(C)(C)C)CC(C)CC3C(C)(C)C)C3=NC(c4ccc(C(C)(C)C)cc4)=NN23)c(C)c1

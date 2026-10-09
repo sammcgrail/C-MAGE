@@ -1,0 +1,14 @@
+Reading the drawing region by region:
+
+- **Top-left:** a benzene ring carries SO2Me on one carbon, and the adjacent carbon is bonded to a para-substituted benzene ring. This gives a 2'-methylsulfonyl biphenyl.
+- **Linker to the middle ring:** the para-substituted benzene bears a C(=O)NH group, which connects to a second benzene ring.
+- **Middle ring:** an ortho-disubstituted benzene. One substituent is the NH from the amide above. The other is C(=O)NH, which leads to the pyridine.
+- **Pyridine (bottom right):** the NH is attached to C2, which is next to the ring N. C3 carries CO2Me. C4 is CH. C5 carries Cl. C6 is CH, adjacent to N.
+
+SMILES, written in order: methyl sulfone, biphenyl, amide, anthranilamide ring, then the pyridine.
+
+CS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccccc1C(=O)Nc1ncc(Cl)cc1C(=O)OC
+
+Checking the pyridine ring closure: c1ncc(Cl)cc1C(=O)OC has atoms C2, N, C6 (H), C5 (Cl), C4 (H), C3 (bearing the ester). That is six atoms, and the ring closes correctly.
+
+SMILES: CS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccccc1C(=O)Nc1ncc(Cl)cc1C(=O)OC

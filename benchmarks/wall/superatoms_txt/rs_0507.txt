@@ -1,0 +1,12 @@
+I read the structure as a triphenylene core carrying six identical arms at the 2,3,6,7,10,11 positions.
+
+**Core.** The central unit is triphenylene. Each of the three outer benzene rings has its two β positions substituted, giving six O-substituents in total.
+
+**Each arm.** Every core oxygen is part of an ester, O–C(=O)–CH=CH–CH2–O–, where the double bond is drawn trans (E). The CH2–O is attached to a benzene ring. On that ring:
+- The ether oxygen sits at C1.
+- A methoxy group is ortho to the ether oxygen.
+- A carboxylate ester, C(=O)O–CH2CH2–O–C(=O)CH=CH2 (an acrylate), is para to the ether oxygen.
+
+**SMILES construction.** I wrote the triphenylene skeleton as `c1(R)c(R)cc2c(c1)c1cc(R)c(R)cc1c1cc(R)c(R)cc21`. I checked that each outer ring has six atoms and that the central ring closes correctly. I then substituted R with the arm `OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC`, using a separate ring-closure label (9) so it does not clash with the core labels.
+
+SMILES: c1(OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC)c(OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC)cc2c(c1)c1cc(OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC)c(OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC)cc1c1cc(OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC)c(OC(=O)/C=C/COc9ccc(C(=O)OCCOC(=O)C=C)cc9OC)cc21

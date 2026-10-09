@@ -1,0 +1,18 @@
+The drawing shows a biphenyl carboxylic acid joined through a hydrazone to an N-aryl isatin.
+
+**Biphenyl part.** The top ring carries CO2H and is attached at the meta position to the second ring. On the second ring, the carbon bonded to the first ring is adjacent to the carbon bearing OH. The next carbon over carries the NH–N= group, so the substituents run biaryl, OH, NH in order around the ring.
+
+**Hydrazone and isatin part.** The N= nitrogen is double-bonded to C3 of the indolin-2-one. C2 is the C=O and N1 carries the aryl group. That aryl group is 3-fluoro-4-methoxyphenyl.
+
+**Stereochemistry.** The C=N bond has no explicit cis/trans geometry that I can read reliably, so I leave it unspecified.
+
+**SMILES assembly.**
+- Acid ring: OC(=O)c1cccc(c1)
+- Second ring: c2cccc(NN=C3...)c2O
+- Isatin: C3=C... written as N=C3C(=O)N(Ar)c4ccccc34
+
+Full SMILES: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3ccc(OC)c(F)c3)c3ccccc23)c1O
+
+I checked the second ring: c1 (biaryl carbon), then c, c, c, c(N...) and c1O. The ring is c1cccc(N...)c1O, which has six atoms: c1, c, c, c, c(N), c1(O). The biaryl carbon is adjacent to the C–OH carbon through ring closure, and the C–OH carbon is adjacent to the C–N carbon. This matches the drawing.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3ccc(OC)c(F)c3)c3ccccc23)c1O

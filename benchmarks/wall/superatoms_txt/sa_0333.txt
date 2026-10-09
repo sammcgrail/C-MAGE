@@ -1,0 +1,19 @@
+This is rhodamine B hydrochloride, a xanthene dye. The drawing shows:
+
+- A central xanthene core with an oxygen bridge.
+- A diethyliminium group (=N⁺Et₂) on the left ring.
+- A diethylamino group (NEt₂) on the right ring.
+- A 2-carboxyphenyl group on the central carbon, drawn as HO₂C on the phenyl ring.
+- A chloride counterion.
+
+I wrote the SMILES by placing the iminium nitrogen on the left ring, following the drawn bond pattern.
+
+Left ring: C1 (=N⁺) is bonded to CH=CH, which leads to C(a). C(a) is the ring-fusion carbon attached to the central carbon C9 (=C). The ring continues through the other fusion carbon, which bears O, and then CH back to C1.
+
+Right ring: the central carbon C9 attaches to a fusion carbon, which carries a C=C bond to the other fusion carbon (the one bonded to O). The ring then continues through CH, C(NEt₂), and CH=CH back to the fusion carbon.
+
+SMILES: CCN(CC)c1ccc2c(c1)oc1cc(=[N+](CC)CC)ccc1=c2-c1ccccc1C(=O)O.[Cl-]
+
+Here the xanthene is written with the central carbon as C(=c2...), where the right ring is aromatic and the left ring is quinoid, which is valid. Checking the atom order: `c1ccc2c(c1)oc1cc(=[N+](CC)CC)ccc1=c2-Ar`. The first ring is c1 (NEt₂), c, c, c2 (fusion carbon attached to C9), c(c1) (fusion carbon attached to O), then o, then c1 (left-ring fusion carbon attached to O), c, c(=N⁺), c, c, c1 (fusion carbon) =c2 (C9, closing ring 2). C9 is double-bonded to the left-ring fusion carbon and single-bonded to the right-ring fusion carbon, which matches the drawing.
+
+SMILES: CCN(CC)c1ccc2c(c1)oc1cc(=[N+](CC)CC)ccc1=c2-c1ccccc1C(=O)O.[Cl-]

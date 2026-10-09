@@ -1,0 +1,19 @@
+I read this as a nogalamycin-type anthracyclinone carrying a nogalose-type sugar. I built the SMILES region by region and assigned each @/@@ from the wedge and hash bonds.
+
+**Aglycone**
+- The cyclohexane ring has an O-glycoside at C7 (hashed), a CH₂ at C8, and C9 bearing OH and a hashed CH₃. C10 carries a wedged CO₂Me.
+- The aromatic ring next to it carries one phenolic OH.
+- The central quinone ring has two C=O groups.
+- The last aromatic ring carries a phenolic OH, a ring CH, and an aryl–O link.
+- A bicyclic bridge runs across the right-hand side. It contains a quaternary C with a wedged CH₃ and a ring O, then C(OH), C(NMe₂) with a wedged N, and C(OH). It ends at an acetal CH (wedged H) that is bonded to the aryl O and to the bridging O.
+
+**Sugar**
+- It is a pyranose with an anomeric C attached to the aglycone O (hashed).
+- C2' carries OMe (wedge).
+- C3' is quaternary with CH₃ and a wedged OMe.
+- C4' carries OMe (hash).
+- C5' carries a wedged CH₃.
+
+I checked ring closures and the neighbour order at each stereocentre against the drawing. I did not run the string through a SMILES parser.
+
+SMILES: COC(=O)[C@@H]1c2cc3c(c(O)c2[C@@H](O[C@@H]2O[C@@H](C)[C@H](OC)[C@@](C)(OC)[C@H]2OC)C[C@]1(C)O)C(=O)c1c(O)cc4c(c1C3=O)O[C@@H]5O[C@@]4(C)[C@H](O)[C@@H](N(C)C)[C@@H]5O

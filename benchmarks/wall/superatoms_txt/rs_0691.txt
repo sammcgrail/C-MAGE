@@ -1,0 +1,12 @@
+Reading the drawing region by region:
+
+- **Left ring system:** an indane (2,3-dihydro-1H-indene) with a carboxylic acid on C2 of the five-membered ring. The sulfonyl group sits on the aromatic carbon next to the ring fusion, which is position 4.
+- **Linker:** an SO2 group joins the indane to a piperazine nitrogen.
+- **Piperazine:** the two carbons flanking the sulfonylated nitrogen each carry a methyl, both drawn with wedge bonds, so the methyls are cis. The opposite nitrogen carries a 3-carbon chain.
+- **Right side:** the chain ends in a benzene ring bearing OCF3 at the para position.
+
+For the stereochemistry, I assigned CIP priorities at each methyl-bearing carbon as N > ring CH2 > CH3 > H. With H pointing back, the top carbon reads counterclockwise (S) and the bottom carbon reads clockwise (R). This gives the cis (2S,6R) arrangement. Translating to SMILES, `[C@@H]` is the S centre and `[C@H]` is the R centre in the order written below.
+
+The C2 of the indane carries no wedge, so I left it without stereo.
+
+SMILES: OC(=O)C1Cc2cccc(c2C1)S(=O)(=O)N1[C@@H](C)CN(CCCc2ccc(OC(F)(F)F)cc2)C[C@H]1C

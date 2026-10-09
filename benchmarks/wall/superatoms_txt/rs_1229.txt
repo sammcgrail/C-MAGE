@@ -1,0 +1,40 @@
+The drawing shows a pyrene core with an N-ethyl-N-(4-methylbenzyl)amino group attached at position 1.
+
+**Substituent.** The nitrogen carries an ethyl group (CH2CH3) and a CH2 linked to a benzene ring. That ring has a methyl group para to the CH2, so it is a 4-methylbenzyl group.
+
+**Pyrene core.** Pyrene is C16H10 with four fused rings. I numbered the atoms in the 1-substituted pyrene as follows:
+- C1 (bearing N) is bonded to C2 and to C10a.
+- C2 and C3 are CH, and C3 connects to C3a.
+- C3a connects to C4 (CH), which connects to C5 (CH), which connects to C5a.
+- C5a connects to C6, C7 and C8, then to C8a.
+- C8a connects to C9, which connects to C10 and then to C10a.
+- The inner carbons are C10b and C10c.
+
+A SMILES for the 1-substituted pyrene is c1cc2ccc3cccc4ccc(c1c2c34)N(...). Checking it atom by atom:
+- c1 is C2 (CH), and the next c is C3 (CH).
+- c2 is C3a.
+- cc are C4 and C5.
+- c3 is C5a.
+- ccc are C6, C7 and C8.
+- c4 is C8a.
+- cc are C9 and C10.
+- c(...) is C10a in the written string, but the substituent position needs care.
+
+Writing it out in full: c1cc2ccc3cccc4ccc(c1c2c34)N(CC)Cc1ccc(C)cc1. The atom before the branch is the substituted carbon, so the ring closures need checking.
+- Atoms: a1 c1 (C2), a2 c (C3), a3 c2 (C3a), a4 c (C4), a5 c (C5), a6 c3 (C5a), a7 c, a8 c, a9 c (C6, C7, C8), a10 c4 (C8a), a11 c (C9), a12 c (C10), a13 c( (C10a, bearing the branch).
+- The branch (c1c2c34) then supplies the closing atoms: c1 closes the ring to a1, and c2 closes to a3.
+- That makes a13 bonded to a14, which is C1 and closes to a1. So the substituted carbon is a14, not a13.
+- To avoid this, I rewrote the SMILES with the substituent on the atom that closes ring 1: c1(N(CC)Cc5ccc(C)cc5)ccc2ccc3cccc4ccc1c2c34.
+
+Checking this version:
+- C1 carries N and is bonded to C2 and, via the ring closure, to C10a.
+- Then c c are C2 and C3, and c2 is C3a.
+- cc are C4 and C5, and c3 is C5a.
+- ccc are C6, C7 and C8, and c4 is C8a.
+- cc are C9 and C10, and c1 is C10a, which closes to C1.
+- c2 is C10b, bonded to C10a and closing to C3a.
+- c34 is C10c, bonded to C10b and closing to C5a and C8a.
+
+All 16 carbons are accounted for and the connectivity matches pyrene.
+
+SMILES: CCN(Cc5ccc(C)cc5)c1ccc2ccc3cccc4ccc1c2c34

@@ -1,0 +1,22 @@
+I read the molecule as a nine-membered dilactone ring carrying an amide-linked pyridine, and wrote the SMILES from that reading.
+
+**Pyridine fragment.** The ring has N, then C2 bearing the carboxamide C(=O)NH, C3 bearing OC(=O)OCH2C(CH3)3 (a neopentyl carbonate), C4 bearing OMe, then C5 and C6 as plain CH.
+
+**Nine-membered ring.** Going around, the atoms are:
+1. C(=O)
+2. ring O
+3. CH(CH3), with the methyl on a wedge
+4. CH–OC(=O)CH(CH3)2 (isobutyrate ester), with the O on a hash
+5. CH–CH2Ph, with the benzyl on a wedge
+6. C(=O)
+7. ring O
+8. CH2
+9. CH–NH, with the N on a hash, which closes back to atom 1
+
+**Stereochemistry.** I assigned each centre from the wedges and hashes using CIP priorities, then converted to SMILES order:
+- The N-bearing carbon is S.
+- The benzyl carbon is R.
+- The isobutyrate-bearing carbon is R.
+- The methyl-bearing carbon is S.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1OC(=O)OCC(C)(C)C

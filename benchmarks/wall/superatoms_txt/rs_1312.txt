@@ -1,0 +1,14 @@
+I read the structure in three parts and assembled the SMILES from them.
+
+**Left fragment.** A benzimidazol-2-one with an N-methyl on one nitrogen. The other nitrogen carries a piperidin-4-yl group. The chlorine sits on the benzene carbon next to the CH that is adjacent to the carbon bearing the piperidinyl-substituted nitrogen.
+
+**Linker.** The piperidine nitrogen is joined to a CH2–CH(OH)–CH2 chain. The OH is on a bold wedge, with the hydrogen implied at the back. The CH2 on the far end is bonded to N1 of the pyrazole.
+
+**Right fragment.** A 4,5,6,7-tetrahydropyrazolo[4,3-c]pyridine. N1 carries the linker and C3 carries a 4-(trifluoromethyl)phenyl group. The ring nitrogen at position 5 carries a methanesulfonyl group, S(=O)(=O)CH3.
+
+**Stereocentre.** The CH(OH) carbon is the only one with a wedge.
+- The CIP priorities are OH, then CH2 toward the pyrazole nitrogen, then CH2 toward the piperidine nitrogen, then H. The pyrazole-side CH2 outranks the piperidine-side one because its nitrogen carries (N, C) substituents rather than (C, C).
+- With H pointing away, the sequence OH (down), pyrazole CH2 (upper right), piperidine CH2 (upper left) runs counterclockwise, so the centre is S.
+- Writing the centre as `C[C@H](O)Cn…` with the piperidine CH2 first gives S.
+
+SMILES: O=C1N(C)c2ccc(Cl)cc2N1C1CCN(C[C@H](O)Cn2nc(-c3ccc(C(F)(F)F)cc3)c3c2CCN(S(C)(=O)=O)C3)CC1

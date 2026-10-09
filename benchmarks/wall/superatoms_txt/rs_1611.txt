@@ -1,0 +1,15 @@
+The drawing shows a phenyl ring bonded to N2 of a tetrazole. The tetrazole's C5 carries a CH2 group, which is attached to a C(=O) bonded to a para-substituted benzene ring bearing COOH.
+
+Tetrazole ring atoms as drawn:
+- N1 is bonded to the phenyl (top left).
+- N at the top right is bonded to the ring carbon.
+- The carbon is at the right, with the CH2 attached.
+- Two N atoms sit at the bottom, "N=N".
+
+Going around the ring: N(Ph) – N= C – N= N – back to N(Ph). The atoms are N(Ph), N (top), C, N (bottom right), N (bottom left). The N(Ph) at the left is bonded to the top N and to the bottom-left N. The top N is double-bonded to C (drawn as N=C), and the bottom two N atoms are joined by a double bond (N=N). This makes it a 2-phenyl-2H-tetrazole with the phenyl on N2 and the carbon at C5.
+
+SMILES: OC(=O)c1ccc(cc1)C(=O)Cc1nnn(n1)-c1ccccc1
+
+Checking the ring closure: c1nnn(n1) gives C, N, N, N(Ph), N back to C. The N attached to the carbon at each end is N1 and N3, and the phenyl-bearing N sits between two other N atoms, which makes it N2. That matches the drawing, where the phenyl N is bonded to the top N and the bottom-left N, and each of those bonds to a further N or C. The drawing has N(Ph) bonded to N(top), which bonds to C, and N(Ph) bonded to N(bottom-left), which bonds to N(bottom-right), which bonds to C. So the ring is C–N(top)–N(Ph)–N–N–C. The phenyl N is therefore adjacent to the top N, which is adjacent to C, so the phenyl N is N2 and the ring is c1nn(Ph)nn1. My SMILES above, c1nnn(n1), places the phenyl N differently, so I correct it:
+
+SMILES: OC(=O)c1ccc(cc1)C(=O)Cc1nn(nn1)-c1ccccc1

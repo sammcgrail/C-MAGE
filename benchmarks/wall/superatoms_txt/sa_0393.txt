@@ -1,0 +1,14 @@
+I read the drawing as a cyclohexene ring with these substituents:
+
+- The ring is C1=C2–C3–C4–C5–C6, with the double bond between the top-left carbons.
+- C6, next to the alkene, carries NMe2 on a wedge (toward the viewer).
+- C5, the quaternary carbon, carries a phenyl on a plain bond and CO2Et on a hash (away from the viewer).
+
+I worked out the CIP priorities and assigned both centres from the drawing's coordinates:
+
+- **C5:** the priorities are CO2Et > C6 (bearing N) > Ph > C4. The hashed CO2Et points away and C4 lies in the plane, which gives S.
+- **C6:** the priorities are N > C5 > C1 > H. The hydrogen points away, and N → C5 → C1 runs clockwise, which gives R.
+
+Mapping these onto the SMILES atom order gives [C@] for C5 and [C@H] for C6. I checked that the string is valid and has the right atom count: ethyl ester, phenyl, dimethylamino and the six ring carbons.
+
+SMILES: CCOC(=O)[C@]1(c2ccccc2)CCC=C[C@H]1N(C)C

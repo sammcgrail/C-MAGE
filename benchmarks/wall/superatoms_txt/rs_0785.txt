@@ -1,0 +1,10 @@
+I read the drawing as a pyridin-3-yl ring joined through a two-carbon chain (CH2CH2) to the nitrogen of a pyrrolidine. The pyrrolidine carbon at position 3 carries an OMs group (mesylate, OS(=O)(=O)CH3) on a wedge bond.
+
+**Stereocentre:** only that C3 carbon is drawn with a wedge, so it is the only stereocentre given a configuration.
+- The O is on the wedge, toward the viewer, so the implicit H points away.
+- CIP priorities are O > C2 (the ring CH2 next to N) > C4 (the ring CH2 next to CH2) > H.
+- On the page, O is at the top, C2 at lower left and C4 at lower right. O → C2 → C4 runs counterclockwise with H at the back, so the centre is S.
+
+**SMILES check:** in `CS(=O)(=O)O[C@H]1CCN(C1)CCc1cccnc1` the neighbour order at the stereocentre is O, H, ring-closure carbon (C2), then C4. Working through the permutation, `@` gives S for this order, which matches the drawing.
+
+SMILES: CS(=O)(=O)O[C@H]1CCN(C1)CCc1cccnc1

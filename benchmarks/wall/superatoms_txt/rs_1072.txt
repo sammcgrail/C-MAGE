@@ -1,0 +1,11 @@
+I read the molecule as a pyrazin-2-one core carrying three substituents, then worked out the stereocentre from the hashed H.
+
+- **Pyrazinone ring:** N1, C2(=O), C3, N4, C5(Cl), C6(H). N1 bears the side chain, C3 bears the tetrahydroquinoline nitrogen, and C5 bears Cl.
+- **Side chain on N1:** a CH stereocentre carrying an ethyl group, a CH2–O–CH3 group, and a hashed H.
+- **Tetrahydroquinoline:** its nitrogen is bonded to C3 of the pyrazinone. The saturated ring is N–CH2–CH2–CH2–Ar. On the benzene ring, Br sits on the carbon adjacent to the ring-fusion carbon bonded to N, and OMe sits meta to Br.
+
+**Stereocentre:** CIP priorities are N > CH2OMe > ethyl > H. The H is hashed, so it points away from the viewer. In the drawing, N is at the bottom, CH2OMe at upper right, and ethyl at upper left. Going N → CH2OMe → ethyl runs counterclockwise, so the centre is S.
+
+For the SMILES `CC[C@@H](COC)n1...`, the neighbour order at the stereocentre is ethyl, H, CH2OMe, N. Working through the permutation, `@@` in this order gives S, so I use `@@`.
+
+SMILES: CC[C@@H](COC)n1cc(Cl)nc(N2CCCc3cc(OC)cc(Br)c32)c1=O

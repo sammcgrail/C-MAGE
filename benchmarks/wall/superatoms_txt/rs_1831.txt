@@ -1,0 +1,19 @@
+I read the molecule as a 2,4,6-trisubstituted tetrahydropyran carrying a (Z)-3-methylhept-2-enoate ester and an N-PMB thiazolidin-2-one.
+
+**Fragments**
+- **Pyran ring:** O, C2 (hashed pentyl), C3 (CH2), C4 (wedged ester oxygen), C5 (CH2), C6 (wedged OMe).
+- **Pentyl chain:** five carbons, drawn as Me plus four CH2.
+- **Ester acid:** C(=O)–CH=C(Me)–CH2CH2CH2CH3, a 3-methylhept-2-enoate. The butyl group sits on the same side of the double bond as the carbonyl, so the methyl is trans to the carbonyl.
+- **Thiazolidinone:** attached at C4′ to the anomeric carbon C6. It has N–PMB, a C=O at C2′ and S at position 1. The H on C4′ is drawn on a wedge.
+- **PMB:** the 4-methoxybenzyl group, CH2–C6H4–OMe.
+
+**Stereocentres**
+I assigned each from the wedges and hashes and encoded it in SMILES neighbour order.
+- C2 (pentyl, hashed) is R, written `[C@@H]1`.
+- C4 (ester, wedged) is R, written `[C@@H]`.
+- C6 (OMe, wedged) is written `[C@@]`.
+- C4′ (H, wedged) is written `[C@@H]`.
+
+The double bond is written `/C=C(/C)` so the methyl is trans to the carbonyl.
+
+SMILES: CCCCC[C@@H]1C[C@@H](OC(=O)/C=C(/C)CCCC)C[C@@](OC)(O1)[C@@H]1CSC(=O)N1Cc1ccc(OC)cc1

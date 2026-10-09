@@ -1,0 +1,24 @@
+I read the structure as two ring systems joined by a single bond: a chromone on the left and a xanthone on the right.
+
+**Chromone (left):**
+- The pyranone ring contains O1, C2 (attached to the xanthone), C3 (=CH), and C4 (=O).
+- C4a and C8a are the ring-fusion carbons.
+- In the benzo ring, C5 carries COOH, C6 carries OH, C7 carries OH, and C8 is CH.
+- SMILES for this unit: O=C1C=C(O2)c...; the benzo part is c3c1c(C(=O)O)c(O)c(O)c3 with the ring O attached at C8a.
+- Full unit: c1(-X)cc(=O)c2c(C(=O)O)c(O)c(O)cc2o1, where X is the xanthone.
+
+**Xanthone (right):**
+- The left ring carries four substituents plus the ring fusion. Starting from the carbon bonded to the ring oxygen, the sequence is C(acetyl), then C(Me), then C(chromone), then CH, then the carbon bonded to C=O.
+- The right ring, going from the C=O-bearing fusion carbon, has C(COOH), C(OH), C(OH), CH, and then the carbon bonded to the ring oxygen.
+
+Writing the xanthone with the chromone attached:
+c1(-chromone)cc2c(=O)c3c(C(=O)O)c(O)c(O)cc3oc2c(C(C)=O)c1C
+
+Checking the left ring: c1 (chromone-bearing), c (CH), c2 (fusion, bonded to C=O), then c2 closing at the fusion carbon bonded to O, then c(acetyl), then c1 with Me. This agrees with the drawing, where acetyl sits next to the O-bearing carbon, Me sits next to the acetyl carbon, and the chromone sits next to the Me carbon.
+
+**Combined SMILES:**
+O=C1C=C(Oc2cc(O)c(O)c(C(=O)O)c12)c1cc2c(=O)c3c(C(=O)O)c(O)c(O)cc3oc2c(C(C)=O)c1C
+
+In the chromone part, C4 (=O) is bonded to C4a, which is bonded to C5 (COOH). I wrote "Oc2cc(O)c(O)c(C(=O)O)c12", so c2 is C8a, followed by C8 (H), C7 (OH), C6 (OH), C5 (COOH), and C4a closing both rings. This is correct.
+
+SMILES: O=C1C=C(Oc2cc(O)c(O)c(C(=O)O)c12)c1cc2c(=O)c3c(C(=O)O)c(O)c(O)cc3oc2c(C(C)=O)c1C

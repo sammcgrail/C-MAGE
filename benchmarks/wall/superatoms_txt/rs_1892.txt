@@ -1,0 +1,21 @@
+The image shows two separate structures, each a benzene ring with open bonds (attachment points) and alkyl substituents. They are separated by a comma.
+
+Structure 1: the ring has a CH3 at the upper right, an open bond at the left (para position), and an open bond at the right. Numbering the ring vertices:
+- C1: left vertex (open bond)
+- C2: upper left
+- C3: upper right (CH3)
+- C4: right (open bond)
+- C5: lower right
+- C6: lower left
+
+The left vertex (C1) is at about (70,125), and the upper-right vertex (CH3, about (165,65)) is attached to the carbon next to the right vertex at (200,125). The open bond on the right sits at that vertex (200,125), which is adjacent to the CH3 carbon. The left open bond is on the vertex opposite the right one. So the ring carries open bonds at positions 1 and 4, with CH3 at position 3, adjacent to the right open bond.
+
+SMILES for the fragment, with * for attachment points: *c1ccc(*)c(C)c1. Checking: c1 (attachment) is bonded to c, c, then c(*), then c(C), then c1 back to the start. The CH3 carbon is adjacent to the second attachment carbon, and the ring closes through one more CH. The ring atoms are C1(*), C2, C3, C4(*), C5(CH3), C6, which puts the CH3 ortho to C4 and meta to C1. This matches the drawing.
+
+Structure 2: the ring has C2H5 at the upper right, an open bond at the right vertex, CH3 at the lower right, and an open bond at the left vertex. The right open bond carbon is flanked by the C2H5 carbon and the CH3 carbon, and the left open bond is para to it.
+
+SMILES: *c1cc(CC)c(*)c(C)c1
+
+Combined as a dot-separated pair: *c1ccc(*)c(C)c1.*c1cc(CC)c(*)c(C)c1
+
+SMILES: *c1ccc(*)c(C)c1.*c1cc(CC)c(*)c(C)c1

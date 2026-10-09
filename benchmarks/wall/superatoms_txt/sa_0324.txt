@@ -1,0 +1,17 @@
+This looks like the selexipag structure.
+
+**Pyrazine ring.** The vertices are N, C(Ph), C(Ph), N, CH and C(N). The ring atoms are:
+- C(Ph) at the top, bonded to Ph and double-bonded to the top N.
+- The top N, bonded to the C that carries the amino substituent.
+- That C, double-bonded to the CH.
+- The CH, bonded to the lower N.
+- The lower N, double-bonded to the C(Ph) at the left.
+- The left C(Ph), bonded to the top C(Ph).
+
+**Side chain.** The ring carbon bears N(iPr), which connects to a chain of four CH2 groups. The chain ends at O, then CH2, then C(=O), then NH, then S(=O)(=O)CH3. Counting the chain vertices from N: CH2 at 577,785, CH2 at 672,826, CH2 at 758,767 and CH2 at 853,808, then O. That is four carbons.
+
+**SMILES.**
+- Ring: c1(N(C(C)C)CCCCOCC(=O)NS(C)(=O)=O)cnc(-c2ccccc2)c(-c2ccccc2)n1
+- Ring check: the ring carbon with the amino group is bonded to the CH and to the top N. The CH is bonded to the lower N, which is bonded to C(Ph), then C(Ph), then the top N, which closes back to the amino-bearing C.
+
+SMILES: CC(C)N(CCCCOCC(=O)NS(C)(=O)=O)c1cnc(-c2ccccc2)c(-c2ccccc2)n1

@@ -1,0 +1,26 @@
+I read the drawing as a nine-membered dilactone ring carrying four substituents, and assigned each stereocentre from its wedge or hash.
+
+**Pyridine part:** The aromatic ring is a pyridine with OMe at C4, OH at C3, and the carboxamide carbon at C2, next to the ring N. The SMILES fragment is `COc1ccnc(C(=O)N...)c1O`.
+
+**Ring:** Going around the nine-membered ring, the atoms are:
+- C(=O)
+- O
+- CH(CH3)
+- CH(O-isobutyryl)
+- CH(CH2-cyclopentyl)
+- C(=O)
+- O
+- CH2
+- CH(NH-amide)
+
+The isobutyrate is `OC(=O)C(C)C`, and the cyclopentylmethyl group is `CC3CCCC3`.
+
+**Stereochemistry** (assigned centre by centre from the wedges and hashes, with the implicit H opposite the drawn wedge or hash):
+- The CH bearing the amide N has the N on a hashed bond, giving `[C@H]`.
+- The CH bearing the cyclopentylmethyl group has that group on a bold wedge, giving `[C@H]`.
+- The CH bearing the isobutyrate O has the O on a hashed bond, giving `[C@@H]`.
+- The CH bearing the methyl has the methyl on a bold wedge, giving `[C@H]`.
+
+I checked the SMILES against the drawing atom by atom and it is valid.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](CC3CCCC3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1O

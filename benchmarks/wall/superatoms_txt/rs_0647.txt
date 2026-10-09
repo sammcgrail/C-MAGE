@@ -1,0 +1,21 @@
+The drawing shows a pyridine-2-carboxylic acid (HO2C on C2, ring N at the bottom) with a substituent at C6.
+
+**Substituent at C6:** a vinyl carbon bearing a p-tolyl group (a para-methylphenyl, with the methyl drawn at the top right) and double-bonded to CH. That CH connects to CH2, which connects to the pyrrolidine nitrogen.
+
+**Fragment SMILES:** the chain is C(=CCN1CCCC1)(c1ccc(C)cc1) attached to the pyridine.
+
+**Stereochemistry:** the double bond is drawn with a defined geometry. The pyridine is at upper left on one alkene carbon and the tolyl at upper right on the same carbon. On the other alkene carbon, the CH2 goes down-right and the H is implied. The alkene runs vertically from the upper carbon at about (298,127) to the lower carbon at about (298,200), and the lower carbon's CH2 goes to the right, at about (353,235).
+
+- Pyridine is on the left of the upper carbon and CH2 is on the right of the lower carbon, so pyridine and CH2 are trans.
+- Tolyl is on the right of the upper carbon, on the same side as CH2, so tolyl and CH2 are cis.
+
+**Writing the SMILES:** I write it as pyridyl/C(=C/CN...)c-tolyl, so the pyridyl is "before" the alkene carbon.
+
+- `c1(...)` is the pyridyl, then `/C(=C/CN2CCCC2)` with the tolyl as the second substituent on that carbon.
+- In `A/C(=C/B)C`, A and B are on opposite sides, which means the pyridyl and CH2 are trans. This matches the drawing.
+
+**Full SMILES:** OC(=O)c1cccc(n1)/C(=C/CN1CCCC1)c1ccc(C)cc1
+
+The pyridine ring atoms are c1 (C2, bearing COOH), c, c, c (C3 to C5), then c(n1), which is C6 attached to N. That gives a valid six-membered ring.
+
+SMILES: OC(=O)c1cccc(n1)/C(=C/CN1CCCC1)c1ccc(C)cc1

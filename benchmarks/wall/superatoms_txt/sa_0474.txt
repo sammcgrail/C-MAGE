@@ -1,0 +1,11 @@
+Reading the drawing:
+
+- The central nitrogen carries three substituents: a methyl (drawn as a plain bond going up), a benzyl group (Bn, to the left), and a stereogenic carbon (below).
+- That stereogenic carbon bears a hashed methyl, a CH2 that leads to Ph (phenyl), the nitrogen, and an implicit H.
+- HCl is shown separately, so the compound is the hydrochloride salt.
+
+Stereochemistry: the priorities at the stereocentre are N > CH2Ph > CH3 > H. The methyl is hashed (pointing away), so the implicit H points toward the viewer. In the drawing, N (upper left) → CH2 (right) → CH3 (lower left) runs clockwise. Because H faces the viewer, this reverses to counterclockwise, which gives the S configuration.
+
+For the SMILES `C[C@@H](Cc1ccccc1)N(C)Cc1ccccc1`, the neighbour order at the stereocentre is CH3, H, CH2, N. I worked out that `@` would encode R and `@@` encodes S, so I used `@@`.
+
+SMILES: C[C@@H](Cc1ccccc1)N(C)Cc1ccccc1.Cl

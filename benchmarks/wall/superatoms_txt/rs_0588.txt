@@ -1,0 +1,21 @@
+I read the structure as a nine-membered dilactone ring carrying a substituted pyridine amide, and wrote the SMILES from that reading.
+
+**Pyridine part.** The ring runs N, C2, C3, C4, C5, C6.
+- C2 carries the carboxamide C(=O)NH.
+- C3 carries the 2-bromopropanoate ester, OC(=O)CH(Br)CH3.
+- C4 carries OMe.
+
+**Nine-membered ring.** Going around the ring from the amide-bearing carbon:
+- The NH-bearing CH is bonded to a ring C(=O).
+- That C(=O) is bonded to a ring O, then to CH(CH3).
+- Next is CH(OC(=O)CH(CH3)2), then CH(CH2Ph), then a second C(=O).
+- This is bonded to a ring O, then to CH2, which closes back to the NH-bearing CH.
+
+**Stereochemistry.** There are four stereocentres, each read from the wedges and hashes.
+- The NH-bearing carbon has a hashed N, giving `[C@H]`.
+- The benzyl-bearing carbon has a wedged CH2Ph, giving `[C@H]`.
+- The isobutyrate-bearing carbon has a hashed O, giving `[C@@H]`.
+- The methyl-bearing carbon has a wedged CH3, giving `[C@H]`.
+- The bromo-bearing carbon in the side chain has only plain bonds, so it has no stereo label.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1OC(=O)C(C)Br

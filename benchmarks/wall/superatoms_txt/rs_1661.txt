@@ -1,0 +1,20 @@
+I read the drawing as a 4-hydroxy-1,2,5-thiadiazole-3-carboxamide whose amide nitrogen is attached to a nine-membered dilactone ring.
+
+**Thiadiazole part.** The ring is S–N=C(OH)–C(=N) with the carboxamide on the carbon opposite the OH-bearing carbon. In SMILES this is `Oc1nsnc1C(=O)N...`.
+
+**Nine-membered ring.** Going around the ring from the NH-bearing carbon:
+1. CH bearing the NH, with a hashed bond to N.
+2. Lactone C=O (top left).
+3. Ring O.
+4. CH(CH3), with a bold wedge to the methyl.
+5. CH bearing the isobutyrate ester O–C(=O)CH(CH3)2, with a hashed bond to O.
+6. CH bearing the benzyl group (CH2Ph), with a bold wedge.
+7. Second lactone C=O (bottom).
+8. Ring O.
+9. CH2, which closes back to the NH-bearing carbon.
+
+**Stereochemistry.** There are four stereocentres, each with one wedge or hash. I assigned each by looking at the neighbours in the drawing, with the implied H opposite the wedge or hash, and converted that to the SMILES neighbour order. The result is `@` at the NH carbon, `@` at the methyl carbon, `@@` at the ester carbon and `@` at the benzyl carbon.
+
+This SMILES matches the drawing atom for atom.
+
+SMILES: Oc1nsnc1C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O

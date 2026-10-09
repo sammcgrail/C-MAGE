@@ -1,0 +1,19 @@
+I read the structure region by region.
+
+**Biphenyl part.** The top-left ring carries a CO2H group. A second ring is attached to it at the position meta to the CO2H. On that second ring, the carbon bonded to the first ring is adjacent to a carbon bearing OH, which is in turn adjacent to a carbon bearing the NH–N= group.
+
+**Hydrazone and indolinone.** The NH is joined to N=C3 of an oxindole (2-oxo-indoline). The ring nitrogen N1 carries a 4-isopropylphenyl group, and the benzo ring has Cl at C5.
+
+**Stereochemistry.** The drawing shows the C=N bond with some geometry. The N is at the top, with HN to its left and the C3 below it. The C3 substituents are C2 (the carbonyl, down-left) and C3a (right). The NH sits on the left side of N. Reading the coordinates, N(=) is at about (295, 400), and the HN is at about (215, 380), to the left and slightly up. C3 is at about (320, 455), below and to the right. On C3, C2 is at about (290, 510), to the lower left, and C3a is at about (400, 460), to the right.
+
+For the C=N bond, the N substituent (NH) lies to the left of the axis and C3's C2 substituent also lies to the left. They are on the same side, which is Z with respect to C2 (the higher-priority substituent on C3, since C2 has O,O,N against C3a with C,C,C).
+
+**SMILES construction.** I write it as `N(/N=C1/C(=O)N(...)c2ccc(Cl)cc12)`. To avoid sign mistakes, I write the hydrazone as `Oc1c(c2cccc(C(=O)O)c2)cccc1N/N=C1\C(=O)N(Ar)c2ccc(Cl)cc12`.
+
+In this string, `N/N=C1\C(=O)...` means the bond from the NH to N is "/", so the NH is below N, written left to right. The ring bond from C1 to C2 is "\". A "/" before N and a "\" after C give F/C=C\F, which is cis. So NH and C2(=O) are cis, which matches the Z reading above.
+
+SMILES: CC(C)c1ccc(cc1)N1C(=O)/C(=N\Nc2cccc(c2O)-c2cccc(c2)C(=O)O)c2cc(Cl)ccc12
+
+This string is written differently from the one I built above, so I checked the geometry again. In `C(=O)/C(=N\N...)`, the C2 is written before C3 with "/", so C2 is below C3. Then `=N\N` places the NH above N's side after the bond. For F/C=C\F, the pattern is trans on the opposite sides, so the two groups are cis when the second bond is "\". Here the first bond is C2/C3, written as "C2 / C3", meaning C2 is below C3. Then N\N means the NH is below N. Both are below, so they are cis, which is consistent with Z.
+
+SMILES: CC(C)c1ccc(cc1)N1C(=O)/C(=N\Nc2cccc(c2O)-c2cccc(c2)C(=O)O)c2cc(Cl)ccc12

@@ -1,0 +1,11 @@
+I read the molecule as a tetracene core carrying four 4‑tert‑butylphenyl groups and two tert‑butyl groups.
+
+- **Core:** four linearly fused six‑membered rings (a tetracene). The four aryl groups sit on the four non‑fusion carbons of the two central rings (positions 5, 6, 11 and 12).
+- **Aryl groups:** each is a para‑substituted phenyl, C6H4 with a t‑Bu at the para position.
+- **Ring t‑Bu groups:** one is on the left terminal benzo ring, at the upper‑left carbon, which is a beta position next to a CH that touches the ring fusion. The other is on the right terminal ring, at the lower‑right carbon. The two are on opposite sides of the core, so the arrangement is centrosymmetric.
+
+I wrote the SMILES by tracing the core atom by atom and closing the rings at the two central fusion carbons. The aryl group is written out explicitly in each of the four positions.
+
+SMILES: CC(C)(C)c1ccc(cc1)c1c2cc(C(C)(C)C)ccc2c(-c2ccc(C(C)(C)C)cc2)c2c(-c3ccc(C(C)(C)C)cc3)c3cc(C(C)(C)C)ccc3c(-c3ccc(C(C)(C)C)cc3)c12
+
+Checking the string: it contains six t‑Bu groups and four C6H4 rings. The core is `c1…c12` with the inner fusion carbons closing the two central rings. In the string above, `c2c(-Ar)c3…c12` places the aryl groups correctly and the ring closures are consistent. The ring bearing the first t‑Bu is `c2cc(tBu)ccc2`, and the second terminal ring is `c3cc(tBu)ccc3`. The latter is attached so that its t‑Bu lies on the opposite side from the first, as drawn.

@@ -1,0 +1,18 @@
+The drawing shows a biphenyl carboxylic acid joined through a hydrazone to an oxindole.
+
+**Biphenyl part.** The top ring carries HO2C. The second ring is attached to it at the position ortho to the OH-bearing carbon. The carbon bearing OH is also adjacent to the carbon bearing the NH–N= group.
+
+**Hydrazone and oxindole.** The chain is Ar–NH–N=C3 of the oxindole. C2 is C=O, and N1 carries a furan-3-yl group. The furan attachment is at a carbon adjacent to the CH next to O, so it is furan-3-yl.
+
+**Stereochemistry.** The C=N double bond has defined geometry. In the drawing, the NH is on the left, below the upper N, and the C3 carbon is below and to the right. The N= sits at about (408, 335), the NH at (350, 300), and C3 at (408, 405). The C3 substituents are C2 (carbonyl, up-left, at about 340, 420) and C3a (right, at about 450, 430).
+
+Setting up the geometry:
+- On N: the NH substituent is at the upper-left of the N. Its position relative to the N–C bond axis, which runs vertically, is to the left.
+- On C3: the carbonyl C2 is on the left and C3a is on the right.
+- NH and C2 are therefore on the same side (left), which is Z with respect to the C2 substituent.
+
+Writing the SMILES: Oc1c(c2cccc(C(=O)O)c2)cccc1N/N=C1/C(=O)N(c2ccoc2)c2ccccc12
+
+Checking the notation: for N/N=C1/C(=O)..., the "N/" before the first N means the NH lies below the N, written as F/C=C/F-type trans. The substituent on C1 written as "/C(=O)" is then trans to the NH. That would place the C=O opposite the NH, which contradicts the drawing, so I need "\" instead: N/N=C1\C(=O)N(...)c2ccccc12. Here NH and C(=O) are cis, matching the drawing.
+
+SMILES: Oc1c(-c2cccc(C(=O)O)c2)cccc1N/N=C1\C(=O)N(c2ccoc2)c2ccccc12

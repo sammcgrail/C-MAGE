@@ -1,0 +1,16 @@
+The drawing, read region by region:
+
+- **Benzoxazinone:** a 2H-benzo[b][1,4]oxazin-3(4H)-one. The ring runs O–CH2–C(=O)–N, with the N and O attached to adjacent carbons of the fused benzene.
+- **Piperidine:** the benzoxazinone N is bonded to C4 of a piperidine, and the piperidine N is attached to the chain.
+- **Chain:** piperidine N–CH2–CH(OH)–CH2–N1 of the pyrazole.
+- **Pyrazole:** N1 is bonded to N2, which is bonded to C3. C3 carries the 4-CF3-phenyl group. C4 carries a pyrazin-2-yl group. C5 is a CH bonded back to N1.
+- **Pyrazin-2-yl:** the ring attaches at C2, and the second N sits para to the first (positions 1 and 4).
+- **Stereochemistry:** the CH(OH) carbon is drawn with plain bonds, so no stereo is given.
+
+SMILES assembly:
+- Benzoxazinone and piperidine: O=C1COc2ccccc2N1C1CCN(CC1)...
+- Chain and pyrazole: ...CC(O)Cn1cc(c(n1)-c1ccc(cc1)C(F)(F)F)-c1cnccn1
+
+Pyrazine check: c1cnccn1 starts at C2 (attached), then C3, N4, C5, C6, N1. That places the N atoms at positions 1 and 4, which is correct. In the image the attachment carbon sits next to a CH that is next to N, and the other N is adjacent to the attachment carbon, which matches.
+
+SMILES: O=C1COc2ccccc2N1C1CCN(CC1)CC(O)Cn1cc(-c2cnccn2)c(n1)-c1ccc(cc1)C(F)(F)F

@@ -1,0 +1,15 @@
+The central nitrogen carries three aryl groups: a biphenyl-4-yl group (the lower branch) and two para-phenylene groups (left and right).
+
+Each para-phenylene group connects through a CH2CH2 bridge to a second para-phenylene ring. That ring bears an N(ethyl)(4-methylbenzyl) group.
+
+Reading the SMILES in pieces:
+- Left arm: Cc1ccc(CN(CC)c2ccc(CCc3ccc(cc3)...)cc2)cc1
+- Central nitrogen: N(c3ccc(cc3)-c4ccccc4) with the other aryl group on the right.
+- Right arm: the mirror of the left, ending in N(CC)Cc1ccc(C)cc1.
+
+Full SMILES:
+CCN(Cc1ccc(C)cc1)c1ccc(CCc2ccc(cc2)N(c2ccc(cc2)-c2ccccc2)c2ccc(CCc3ccc(cc3)N(CC)Cc3ccc(C)cc3)cc2)cc1
+
+Ring closure labels are reused only after each ring has closed, so the string is valid. It matches the drawing atom for atom.
+
+SMILES: CCN(Cc1ccc(C)cc1)c1ccc(CCc2ccc(cc2)N(c2ccc(cc2)-c2ccccc2)c2ccc(CCc3ccc(cc3)N(CC)Cc3ccc(C)cc3)cc2)cc1

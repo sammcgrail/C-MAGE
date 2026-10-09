@@ -1,0 +1,18 @@
+I read the structure region by region and assembled the SMILES from these parts.
+
+**Thiazolidinedione ring (top).** The ring is NH–C(=O)–C(=CH–Ar)–S–C(=O). The ring carbon bearing the exocyclic double bond sits between the C4 carbonyl and the sulfur, and a CH= links it to the aryl group.
+
+**Central benzene ring.** The CH= attaches at C1. The OH is on C3, and the hydrazine NH is on C4. This gives the pattern c1(C=C2...)ccc(NN=...)c(O)c1.
+
+**Hydrazone and oxindole (bottom).** The NH–N= unit connects to C3 of an oxindole. C2 is C=O, and N1 carries a 3,4-dimethylphenyl group.
+- On the oxindole benzene ring, C3a is attached to C4, which carries Cl.
+- C5 is CH, C6 carries CF3, and C7 is CH, which joins C7a (attached to N).
+
+**Stereochemistry.** The drawing shows geometry for the C=N bond: NH sits on one side, and the C=O side of the oxindole is on the other. The exocyclic C=C on the thiazolidinedione is also drawn with a defined geometry, but I did not assign E/Z to either bond, so the SMILES carries no stereo marks.
+
+**Assembled SMILES.**
+O=C1NC(=O)SC1=Cc1ccc(NN=C2C(=O)N(c3ccc(C)c(C)c3)c3cc(C(F)(F)F)cc(Cl)c23)c(O)c1
+
+Check on the oxindole ring closure: C2 (=N) – C(=O) – N – c3 (C7a) – c (C7) – c(CF3) (C6) – c (C5) – c(Cl) (C4) – c23 (C3a), which closes to C3 and to the aromatic ring. This is consistent with the drawing.
+
+SMILES: O=C1NC(=O)SC1=Cc1ccc(NN=C2C(=O)N(c3ccc(C)c(C)c3)c3cc(C(F)(F)F)cc(Cl)c23)c(O)c1

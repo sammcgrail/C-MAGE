@@ -1,0 +1,20 @@
+The molecule breaks into three parts: a biphenyl sulfonamide, a urea linker, and a fluorobenzamide with a bromopyridine.
+
+**Biphenyl part.** The top-left ring carries SO2NH2 and is bonded to a para-substituted phenyl ring. That phenyl ring bears the urea NH at its para position.
+
+**Urea.** The linker is NH–C(=O)–NH. One NH is attached to the biphenyl, and the other to the central benzene ring.
+
+**Central benzene ring.** The urea NH sits on one carbon. The adjacent carbon carries the C(=O)NH amide. Fluorine is on the ring carbon that is para to the urea-bearing carbon, which I checked as follows:
+- Number the ring with C1 as the urea-bearing carbon (top left, at about 510,290) and C2 as the carbon with the amide (about 490,355).
+- Moving around the ring: C3 is at about 540,400, C4 at about 600,385 (this carries F), C5 at about 625,320, and C6 at about 570,270.
+- C4 is para to C1, so the fluorine is para to the urea nitrogen and meta to the amide.
+
+**Amide and pyridine.** The amide nitrogen is bonded to C2 of a pyridine ring. The ring nitrogen is adjacent to that carbon, and bromine sits at C5 of the pyridine (para to the carbon bearing the amide NH... more precisely, the 5-bromopyridin-2-yl pattern).
+
+**SMILES assembly:**
+- Sulfonamide ring: NS(=O)(=O)c1ccccc1
+- Linked phenyl: -c1ccc(cc1)
+- Urea: NC(=O)N
+- Central ring: c1ccc(F)cc1C(=O)Nc1ccc(Br)cn1
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(NC(=O)Nc2ccc(F)cc2C(=O)Nc2ccc(Br)cn2)cc1

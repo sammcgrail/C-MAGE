@@ -1,0 +1,17 @@
+The drawing breaks down into three aromatic rings joined through an amide and an ether.
+
+**Biphenyl part:** The top-left ring carries SO2NH2 at the ortho position. It is bonded to a para-substituted phenyl ring, which bears a C(=O)NH group.
+
+**Central ring:** The amide N is attached to a ring carbon. On the adjacent carbon is the ether oxygen. The SO2Me group is meta to the NH carbon and para to the O carbon.
+
+To place SO2Me, number the central ring with C1 bearing NH, at the upper left of the ring. Going around the ring, C2 is the top carbon, C3 the upper right carbon bearing SO2Me, C4 the lower right, C5 the bottom, and C6 the lower left bearing O. The ring is drawn with vertices at the NH carbon (upper left, ~465,235), the top (~520,200), the SO2Me carbon (~580,235), then (~580,310), (~520,345), and the O carbon (~465,310). So the NH carbon is C1, the next vertex is C2 (H), SO2Me sits on C3, then C4 (H), C5 (H), and C6 bears O. SO2Me is therefore meta to the NH carbon and para to the O carbon.
+
+**Lower ring:** The O-bearing phenyl has a meta amidine, C(=N)N.
+
+**SMILES assembly:**
+- Biphenyl amide: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)N
+- Central ring: c2cc(S(C)(=O)=O)ccc2Oc3cccc(c3)C(=N)N
+
+Here the NH carbon is c2, followed by cc(SO2Me), then cc, then c2 bearing O. That is: N-c2 (C1), c (C2), c(SO2Me) (C3), c (C4), c (C5), c2(O) (C6). This matches the drawing.
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1cc(S(C)(=O)=O)ccc1Oc1cccc(c1)C(=N)N

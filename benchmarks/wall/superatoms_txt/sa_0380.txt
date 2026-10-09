@@ -1,0 +1,23 @@
+The drawing shows a benzene ring with four substituents.
+
+Ring atoms, with approximate coordinates:
+- C1 at (622, 652) carries the amide carbon, C(=O)NH2.
+- C2 at (731, 916) carries the methyl group.
+- C3 at (1014, 955) carries a NO2.
+- C4 at (1189, 729) is CH.
+- C5 at (1080, 464) carries the second NO2.
+- C6 at (797, 425) is CH.
+
+Going around the ring, the substituents sit at C1 (carboxamide), C2 (methyl), C3 (nitro) and C5 (nitro). Numbered from the amide carbon, this is 2-methyl-3,5-dinitrobenzamide.
+
+The double bonds are C1=C2, C3=C4 and C5=C6, which is a valid Kekulé structure.
+
+SMILES: NC(=O)c1cc([N+](=O)[O-])c([N+](=O)[O-])c(C)c1
+
+That string is wrong, because it puts the nitro groups at positions that do not match the drawing. Rewriting from the ring order C1 (amide), C2 (methyl), C3 (nitro), C4 (H), C5 (nitro), C6 (H):
+
+NC(=O)c1cc([N+](=O)[O-])cc([N+](=O)[O-])c1C
+
+This has the amide carbon on C1, then C6 (H), C5 (nitro), C4 (H), C3 (nitro), and C2 (methyl) closing the ring back to C1. It matches the drawing.
+
+SMILES: NC(=O)c1cc([N+](=O)[O-])cc([N+](=O)[O-])c1C

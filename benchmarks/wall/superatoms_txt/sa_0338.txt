@@ -1,0 +1,17 @@
+The drawing is nitrazepam, a 1,4-benzodiazepin-2-one with a nitro group on the benzo ring and a phenyl group at C5.
+
+**Atoms and connectivity read from the image:**
+- Lactam: O=C bonded to NH, with the carbonyl carbon also bonded to a CH2.
+- The CH2 is bonded to N, which is double-bonded to the C bearing the "Ph" label.
+- That C is also bonded to the aromatic ring carbon.
+- The NH is bonded to the other aromatic ring fusion carbon.
+- Benzene ring: starting at the fusion carbon next to NH, the ring runs to a CH, then a CH, then the C bearing NO2, then a CH, then the fusion carbon next to the C=N carbon.
+
+**Writing the SMILES:**
+O=C1CN=C(c2ccccc2)c2cc([N+](=O)[O-])ccc2N1
+
+Checking the ring order: c2 (the fusion carbon on the C=N side), then cH, then C(NO2), then cH, then cH, then the fusion carbon bearing NH. This matches the drawing, where the C=N-side fusion carbon (730,742) connects to a CH (940,790), which connects to the C-NO2 (1087,633). From there the ring continues through two CH carbons to the fusion carbon next to NH.
+
+The "Ph" label is expanded to a phenyl group (c2ccccc2), and the nitro group is written in its charged form.
+
+SMILES: O=C1CN=C(c2ccccc2)c2cc([N+](=O)[O-])ccc2N1

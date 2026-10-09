@@ -1,0 +1,15 @@
+The drawing shows a pyrrolo[2,3-d]pyrimidine core with four substituents, which I read as follows.
+
+**Core.** The five-membered ring contains N7, bearing SEM, then C6 (CH), C5 (bearing CO2Et), C4a and C7a. The six-membered ring is C7a, N, CH, N, C4 and C4a. C4 carries the aryl group and the CH sits between the two ring nitrogens.
+
+**SEM.** This is 2-(trimethylsilyl)ethoxymethyl, written N–CH2–O–CH2CH2–Si(CH3)3.
+
+**Aryl group.** The benzene ring is attached to C4 at one carbon (call it a1). The next carbon, a2, bears F, and then come a3 (CH) and a4 (CH). The carbon after that, a5, bears NH2, and a6 is a CH that links back to a1. So F is ortho to the attachment point and NH2 is meta to it, para to F.
+
+**SMILES.** Starting from the SEM nitrogen and going around the core:
+
+n1(COCC[Si](C)(C)C)cc(C(=O)OCC)c2c(-c3cc(N)ccc3F)ncnc12
+
+Checking the aryl ring: c3 (a1), c (a6, CH), c(N) (a5), c (a4), c (a3), c3F (a2). This gives a1–a6–a5(N)–a4–a3–a2(F)–a1, which matches the drawing.
+
+SMILES: CCOC(=O)c1cn(COCC[Si](C)(C)C)c2ncnc(-c3cc(N)ccc3F)c12

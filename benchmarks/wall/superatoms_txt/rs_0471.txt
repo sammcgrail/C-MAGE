@@ -1,0 +1,19 @@
+Reading the structure region by region:
+
+**Pyrazine ring.** The ring carries Cl, two NH2 groups and the carbonyl. Ring atoms in order: C(C=O), N, C(Cl), C(NH2), N, C(NH2). In SMILES: c1(C(=O)...)nc(Cl)c(N)nc1N.
+
+**Acylguanidine.** The carbonyl is bonded to NH, which bonds to C(=NH), which bonds to NH. That NH leads into the butyl chain: C(=O)NC(=N)N.
+
+**Butyl linker.** The chain between the guanidine NH and the piperazine N is drawn as four carbons: the zigzag runs from NH through CH2, CH2, CH2, CH2 to N. So the fragment is NCCCCN1CCN(CC1)...
+
+**Piperazine and propyl chain.** The second piperazine N carries a propyl chain (CH2CH2CH2) leading to NH. That NH bonds to C(=NBoc)NHBoc.
+
+**Boc groups.** Each Boc is C(=O)OC(C)(C)C.
+
+Assembled SMILES:
+
+NC1=NC(C(=O)NC(=N)NCCCCN2CCN(CCCNC(=NC(=O)OC(C)(C)C)NC(=O)OC(C)(C)C)CC2)=C(N)N=C1Cl
+
+Check of the pyrazine: C1(N)=N–C(C(=O)…)=C(N)–N=C1Cl. Ring atoms: C(NH2), N, C(CO), C(NH2), N, C(Cl), which closes back to the first carbon. In the drawing, the C bearing the carbonyl is adjacent to N and to the C–NH2; the C–Cl is adjacent to N and to the other C–NH2. The ring order is C(CO)–N–C(Cl)–C(NH2)–N–C(NH2), and my SMILES gives C(NH2)–N–C(CO)–C(NH2)–N–C(Cl)–back to C(NH2). Here C(CO) sits between N and C(NH2), and C(Cl) sits between N and C(NH2), which matches the drawing.
+
+SMILES: NC1=NC(C(=O)NC(=N)NCCCCN2CCN(CCCNC(=NC(=O)OC(C)(C)C)NC(=O)OC(C)(C)C)CC2)=C(N)N=C1Cl

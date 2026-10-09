@@ -1,0 +1,17 @@
+The drawing shows a pyrimidine core with two substituents, which I read as follows.
+
+- **Pyrimidine ring:** C4 carries the NH, N3 and N1 are the two ring nitrogens, C2 is the CH between them, and C6 carries the aryl group. C5 is a CH.
+- **Amine side:** the NH links C4 to a para-substituted phenyl ring bearing CF3.
+- **Aryl side:** C6 is bonded to a 2,3-dihydrobenzofuran at its 5-position.
+
+**Dihydrobenzofuran numbering:** O1, C2 (CH2), C3 (CH2), C3a, C4, C5, C6, C7, C7a. In the drawing, the oxygen sits at the top right, attached to the benzene ring carbon C7a. The CH2CH2 runs down to C3, which is attached to C3a.
+
+The attachment carbon is on the lower left of the benzene ring. Going around the ring from the top: C7a (bonded to O, top right), then C7 (top left), C6 (left), C5 (lower left, attached to the pyrimidine), C4 (bottom), and C3a (bottom right, bonded to C3). C5 is therefore para to C7a, which matches the 5-position.
+
+SMILES for the aryl group: c1cc2OCCc2cc1, attached at the position para to the O-bearing carbon.
+
+Full SMILES: FC(F)(F)c1ccc(Nc2cc(-c3ccc4OCCc4c3)ncn2)cc1
+
+Checking the aryl group c3ccc4OCCc4c3: the attachment atom c3 is followed by c, c, then c4 (bearing O), then OCC, then c4 (C3a), then c3 closing the ring. Counting from the attachment atom, the O-bearing carbon is the fourth atom around the ring, so it is para to the attachment. The closing atom is C4, between C3a and the attachment atom. This is consistent.
+
+SMILES: FC(F)(F)c1ccc(Nc2cc(-c3ccc4OCCc4c3)ncn2)cc1

@@ -1,0 +1,17 @@
+I read the structure in four pieces and wrote the SMILES from them.
+
+**Pieces of the molecule**
+- **Indazole:** a 1H-indazol-6-yl group, joined through a carbonyl to the ring nitrogen of the tetrahydroisoquinoline.
+- **Tetrahydroisoquinoline:** it carries chlorines at C5 and C7 and a carboxamide at C6.
+- **Side chain:** the amide NH leads to an alpha carbon bearing CO2H and a CH2–NH–C(=O) group. That carbonyl is the urea carbon bonded to the piperidine nitrogen.
+- **Piperidine:** it has OH groups at C3 and C5.
+
+**Stereocentres**
+- **Alpha carbon:** the wedge runs to the CH2, so the hydrogen points away from the viewer. The priorities are N, then CO2H, then CH2. Going N → CO2H → CH2 on the page is counterclockwise, so this centre is S. In my SMILES ordering that is written `@@`.
+- **Piperidine C3:** the OH is hashed (pointing back). By the same priority analysis this centre is R, written `@` in my ordering.
+- **Piperidine C5:** the OH is wedged (pointing forward). This centre is also R, written `@@` in my ordering.
+- **Relative configuration:** one OH is hashed and the other wedged, so the two hydroxyls are trans, which matches (R,R).
+
+I checked the SMILES by hand against the drawing, atom by atom. I did not run it through a parser.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1CCc2c(C1)cc(Cl)c(C(=O)N[C@@H](CNC(=O)N3C[C@H](O)C[C@@H](O)C3)C(=O)O)c2Cl

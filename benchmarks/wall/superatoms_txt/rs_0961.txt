@@ -1,0 +1,23 @@
+The molecule has three parts: a benzoic acid, a central tolyl ring, and an isoxazole bearing an aryl group.
+
+**Benzoic acid part.** The ring carries COOH at one position and S at the meta position (3-substituted). This gives OC(=O)c1cccc(c1)S.
+
+**Linker and central ring.** The sulfur is bonded to a CH2, which attaches to the central benzene ring. On that ring:
+- The CH2 sits at position 1.
+- A methyl is ortho to it, at position 2.
+- The ether oxygen is para to the CH2, at position 4.
+
+So the central ring is c1(C)cc(O...)ccc1CS.
+
+**Isoxazole.** The ring atoms are O1, N2, C3, C4 and C5.
+- C3 carries the 2-(trifluoromethoxy)phenyl group.
+- C4 carries the CH2–O link to the central ring.
+- C5 carries the isopropyl group.
+
+The isoxazole SMILES is c1(C(C)C)onc(c1COAr)-c2ccccc2OC(F)(F)F.
+
+**Full SMILES.** OC(=O)c1cccc(c1)SCc1ccc(OCc2c(C(C)C)onc2-c2ccccc2OC(F)(F)F)cc1C
+
+Checking the central ring: c1 (bearing CH2S), then c, c, c(O...), c, c1C. The atoms are c1 (CH2S), c, c, c(O), c, c1(C). The methyl-bearing carbon is adjacent to c1 (ring closure) and to the CH that sits next to the c(O) carbon. This matches the drawing, with the methyl meta to the oxygen.
+
+SMILES: OC(=O)c1cccc(c1)SCc1ccc(OCc2c(C(C)C)onc2-c2ccccc2OC(F)(F)F)cc1C

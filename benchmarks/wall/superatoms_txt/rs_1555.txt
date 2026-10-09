@@ -1,0 +1,25 @@
+I read the structure as two ring systems joined by a single bond: a chromone on the left and a xanthone on the right.
+
+**Chromone (left):**
+- The pyranone ring has O1, C2 (attached to the xanthone), C3 (bearing CH2OMe), C4 (C=O), C4a and C8a.
+- On the benzo ring, C5 carries COOH, C6 carries OH, C7 carries OH, and C8 is H.
+- SMILES for this part: c1(C(=O)O)c(O)c(O)cc2oc(Ar)c(COC)c(=O)c12
+
+**Xanthone (right):**
+- The central ring has O10, C9 (C=O), C9a, C4a and C8a, and the ring-closing carbon C10a.
+- The left aromatic ring is C1 (H), C2 (attached to the chromone), C3 (Me) and C4 (acetyl). C4 is bonded to C4a, which bears the ring oxygen. C1 is bonded to C9a.
+- The right aromatic ring carries OH at the two positions shown (the drawing's C6 and C7), with C5 and C8 as H.
+- Ring atoms in order: C4a(O)–C5H–C6(OH)–C7(OH)–C8H–C8a(–C9=O)–C10a(–O).
+
+**Xanthone SMILES:** c1(chromone)c(C)c(C(C)=O)c2oc3cc(O)c(O)cc3c(=O)c2c1
+
+Check: c1 is C2, then c(C) is C3, c(C(C)=O) is C4, and c2 is C4a. Then o is the ring oxygen, c3 is C10a, c is C5, c(O) is C6, c(O) is C7, c is C8, and c3 is C8a. Then c(=O) is C9, c2 is C9a, and c1 is C1, which closes the ring to C2.
+
+**Full SMILES:**
+COCc1c(-c2cc3c(=O)c4cc(O)c(O)cc4oc3c(C(C)=O)c2C)oc2cc(O)c(O)c(C(=O)O)c2c1=O
+
+Check on the chromone part: c1 is C3 with CH2OMe, c(-Ar) is C2, o is O1, c2 is C8a, c is C8, c(O) is C7, c(O) is C6, c(C(=O)O) is C5, c2 is C4a, and c1=O is C4, which closes to C3.
+
+Check on the xanthone part as written in the full SMILES: c2 (C2), c (C1), c3 (C9a), c(=O) (C9), c4 (C8a), c (C8), c(O) (C7), c(O) (C6), c (C5), c4 (C10a, closing the ring), o, c3 (C4a), c(C(C)=O) (C4), c2C (C3, closing to C2). Ring closures are consistent.
+
+SMILES: COCc1c(-c2cc3c(=O)c4cc(O)c(O)cc4oc3c(C(C)=O)c2C)oc2cc(O)c(O)c(C(=O)O)c2c1=O

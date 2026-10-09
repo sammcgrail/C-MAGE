@@ -227,7 +227,7 @@ def build() -> int:
         "noAlt": "The tool-using Sonnet 5.5 reader has not read this image.",
         "runNote": "Sonnet 5.5 API call, at list price",
         "stats": {"n": n, "exact": ex, "strict_pct": pct(ex, n)},
-        "withheld": {"n": withheld, "note": WITHHELD_NOTE},
+        **({"withheld": {"n": withheld, "note": WITHHELD_NOTE}} if withheld else {}),
         "threshold": 101,
         "prompt": PROMPT.read_text().strip(),
         "method": [

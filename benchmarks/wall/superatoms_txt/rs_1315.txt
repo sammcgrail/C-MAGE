@@ -1,0 +1,21 @@
+The drawing shows a benzene ring with four substituents, which I read as follows.
+
+- Top vertex: OH.
+- Upper right vertex: OCH3.
+- Bottom vertex: OH.
+- Upper left vertex: H.
+- Lower left vertex: the prenyl chain CH2-CH=C(CH3)2.
+- Lower right vertex: H.
+
+Numbering the ring from the top, C1 carries OH, C2 carries OCH3, C3 is CH, C4 is CH, C5 carries OH, and C6 carries the prenyl group.
+
+Checking against the picture: the ring has vertices at top (OH), upper right (OCH3), lower right (CH), bottom (OH), lower left (prenyl) and upper left (CH). So the bottom OH carbon sits next to the prenyl carbon. The top OH carbon sits next to the upper left CH and the OCH3 carbon.
+
+The ring order is therefore: C(OH)top, C(OMe), CH, C(OH)bottom, C(prenyl), CH, and back to the top.
+
+SMILES: Oc1cc(OC)... would be wrong, so writing it in ring order:
+c1(O)c(OC)cc(O)c(CC=C(C)C)c1
+
+This gives top C(OH), then C(OMe), then CH, then C(OH) at the bottom, then C(prenyl), then CH closing the ring. This matches the drawing.
+
+SMILES: COc1cc(O)c(CC=C(C)C)cc1O

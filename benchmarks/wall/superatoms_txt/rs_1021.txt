@@ -1,0 +1,14 @@
+Reading the drawing region by region:
+
+- **Indazole:** N=CH at the top left, with the N–H (N1) bonded to C7a. C7 carries the methyl group. C5 carries the CH2 side chain. The pyrazole ring is N2=C3–C3a, then C7a–N1H.
+- **Side chain:** The CH2 joins the alpha carbon, which bears the NH and the CO2Me group. The alpha carbon is drawn with plain bonds, so no stereo is assigned.
+- **Urea:** The NH is bonded to C(=O), which is bonded to the piperidine N.
+- **Spiro piperidine–quinolinone:** The spiro carbon sits in the piperidine ring. It is bonded to CH2, which is bonded to C(=O), then NH, then the aryl ring, which closes back to the spiro carbon. This is a 3,4-dihydroquinolin-2-one spiro-fused at C4.
+
+SMILES for the indazole: Cc1cc(CC(NC(=O)N2CCC3(CC2)CC(=O)Nc2ccccc23)C(=O)OC)cc2cn[nH]c12
+
+Check on the indazole: c1(C) is C7, then cH (C6), then c(CC...) (C5), then cH (C4), then c2 (C3a), cH (C3), n (N2), [nH] (N1), c12 (C7a). Ring closure 1 joins C7a to C7, and ring closure 2 joins C7a to C3a. This is consistent.
+
+Check on the spiro system: C3 is the spiro atom, opened with ring label 3. Its branch (CC2) closes the piperidine. Then CC(=O)Nc2ccccc23 runs through CH2, C=O, NH and the aromatic ring, and the last aromatic carbon closes back to the spiro atom. The label 2 is reused after the piperidine ring has already closed, which is valid.
+
+SMILES: Cc1cc(CC(NC(=O)N2CCC3(CC2)CC(=O)Nc2ccccc23)C(=O)OC)cc2cn[nH]c12

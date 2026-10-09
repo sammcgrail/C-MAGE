@@ -1,0 +1,15 @@
+The drawing shows a benzimidazole with a 2-amino substituent, drawn as the HCl salt.
+
+**Benzimidazole core.** The benzene ring carries Cl at the position adjacent to the ring-fusion carbon bonded to N3 (the top N, drawn as "N" with a double bond to C2). The CF3 group sits on the carbon next to the fusion carbon that bears the NH side. Numbering the NH nitrogen as N1, the substituents are 4-Cl and 6-CF3.
+
+**Amine link.** C2 of the benzimidazole carries an NH that connects to the thiophene.
+
+**Thiophene.** The thiophene attachment carbon (C3) is bonded to C2, which bears Cl and sits next to S. The other neighbour of C3 is C4, which bears a methyl group. C5 is a CH bonded to S.
+
+**SMILES assembly.**
+- Benzimidazole: c1(Cl)cc(C(F)(F)F)cc2[nH]c(Nc3c(Cl)scc3C)nc12
+- Check of the ring closure: the benzene ring runs c1(Cl), c, c(CF3), c, c2 (the fusion carbon bonded to NH), then the c12 fusion carbon bonded to N and to the C-Cl carbon. This is consistent with the drawing.
+- Thiophene: c3c(Cl)scc3C. C3 is bonded to C2(Cl), then S, then C5H, then C4(CH3), which closes back to C3. This is correct.
+- Salt: add .Cl for the HCl.
+
+SMILES: Clc1cc(C(F)(F)F)cc2[nH]c(Nc3c(Cl)scc3C)nc12.Cl

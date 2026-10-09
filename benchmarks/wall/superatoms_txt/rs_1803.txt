@@ -1,0 +1,10 @@
+I read the structure in four parts and joined them in SMILES.
+
+1. **Macrocycle:** a 12-membered ring with four nitrogens (cyclen). Three nitrogens carry CH2COOH arms. The fourth carries CH2C(=O)NH–.
+2. **Linker:** the amide NH leads into a chain of five CH2 groups ending in a C=O, i.e. a 6-aminohexanoyl unit. I counted the chain from the zigzag spacing, so this is the least certain count. That C=O is bonded to an NH on the stereocentre.
+3. **Diaminopropionic acid core:** the stereocentre bears the NH, a COOH, and a CH2–NH–C(=O)– group. The CH2 bond is a wedge. I assigned the centre as S, the L-configuration, and encoded it as `N[C@@H](CN…)C(=O)O`. The priorities are N > COOH > CH2N, the same order as in L-alanine.
+4. **Indazole end:** the amide carbonyl is attached at C5 of a 1H-indazole. N1 carries a three-carbon chain (CH2CH2CH2) that ends in an NH bonded to C2 of a 1H-imidazole.
+
+I checked that the ring closures and atom counts in the final SMILES match this reading.
+
+SMILES: OC(=O)CN1CCN(CC(=O)NCCCCCC(=O)N[C@@H](CNC(=O)c2ccc3c(c2)cnn3CCCNc2ncc[nH]2)C(=O)O)CCN(CC(=O)O)CCN(CC(=O)O)CC1

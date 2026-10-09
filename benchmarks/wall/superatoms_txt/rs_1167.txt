@@ -1,0 +1,13 @@
+I read the structure in three parts and assembled the SMILES from them.
+
+**Core:** A tetrahydroisoquinoline whose ring nitrogen carries an indazole-6-carbonyl group. On the benzo ring, C5 and C7 each carry Cl. C6, between them, carries the carboxamide.
+
+**Amino acid chain:** The carboxamide NH is bonded to an α-carbon bearing CO2H and a CH2NH group. That NH is part of a urea whose other nitrogen is the ring nitrogen of a 3-hydroxypyrrolidine.
+
+**Stereochemistry:**
+- **α-carbon:** The wedge points to the CH2, so H is at the back. The priorities are N > CO2H > CH2N. Going N → CO2H → CH2 runs counterclockwise, which gives S. In the SMILES this is `[C@H]` when written as `C(=O)O` first, then H, then CH2, then N.
+- **Hydroxypyrrolidine carbon:** The OH is on a hashed bond, so H is toward the viewer. The priorities are OH > C2 (attached to N) > C4. Going OH → C2 → C4 looks clockwise from the front, which reverses to S with H facing the viewer. In the SMILES this is `[C@H]` in `N1CC[C@H](O)C1`.
+
+I checked that the atom counts and ring closures in the SMILES match the drawing.
+
+SMILES: O=C(O)[C@H](CNC(=O)N1CC[C@H](O)C1)NC(=O)c1c(Cl)cc2CN(C(=O)c3ccc4cn[nH]c4c3)CCc2c1Cl

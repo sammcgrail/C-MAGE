@@ -1,0 +1,18 @@
+The drawing shows dibenzofuran with a 4-(trimethylsilyl)phenyl group attached at position 4, the carbon next to the carbon bonded to oxygen.
+
+**Dibenzofuran core.** The top benzene ring is fused to the furan ring. The furan oxygen bonds to a carbon of the top ring and to a carbon of the lower ring (C4a). The lower ring's carbon adjacent to C4a carries the aryl substituent, which is C4. The remaining lower-ring carbons are CH.
+
+**Substituent.** A para-disubstituted phenyl ring links C4 to TMS, which expands to Si(C)(C)C.
+
+**SMILES construction.**
+- Start with the top ring: c1ccc2c(c1)
+- Close the furan through the lower ring: c1cccc(c1O2) with the aryl group on the carbon next to the O-bearing carbon.
+- Written out: c1ccc2c(c1)c1cccc(-c3ccc([Si](C)(C)C)cc3)c1o2
+
+**Atom check.**
+- c1ccc2c(c1): the top ring has atoms a1, a2, a3, a4 (this one opens ring 2), and a5 (which closes ring 1 through the c1 branch). The ring atoms are c1, c, c, c2, c(, c1), six in total. The c2 atom is bonded to O at the end, and the c( atom is bonded to the lower ring.
+- c1cccc(Ar)c1o2: the lower ring has c1 (bonded to the top ring), then three CH, then c(Ar), then c1o2. The last atom is bonded to O and closes ring 1.
+
+This places the aryl group on the carbon adjacent to the O-bearing carbon, which matches the drawing.
+
+SMILES: C[Si](C)(C)c1ccc(cc1)-c1cccc2c1oc1ccccc12

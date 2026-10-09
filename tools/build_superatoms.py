@@ -9,8 +9,7 @@
 
 Two kinds of drawing, never pooled:
   built  RDKit-condensed drawings (tools/superatoms/): truth = the original full molecule, exact by
-         construction. A reference is served only once both tool-using lanes have read the drawing,
-         or when it is a corpus molecule a tool lane has read (truth_visible).
+         construction. Every reference is served (the reader transcript screen is the protection).
   real   published drawings from the MolScribe real-image benchmarks (USPTO, CLEF-2012, UOB, ACS)
          that show text superatoms; truth = the benchmark's SMILES. UOB and ACS are licence-restricted:
          neither shown nor counted.
@@ -76,7 +75,12 @@ CX = RUN / "cxmolscribe"
 OUT = WALL / "superatoms.json"
 DIR = "superatoms"
 SON, CXM = "Sonnet 5.5 (API)", "CXMolScribe"
-SECTION = {"synth": "Built drawings"}
+SECTION = {"synth": "Built drawings", "big": "Real, big (≥50 atoms)"}
+# MolScribe TRAINING-set images (src "USPTO-train", the big set's PROTACs and peptides): CXMolScribe has
+# probably seen them, so its numbers on them are reported only inside their own section, flagged, and
+# never pooled into a CXMolScribe total (agreed with Sam, 9 Oct).
+TRAIN_SRC = {"USPTO-train"}
+TRAIN_NOTE = "CXMolScribe was trained on these images"
 # Read, but not scored: a drawing whose label is ambiguous by convention, so no answer could be held to it.
 EXCLUDE = {"synth": {"sa_0034": "RDKit's default 'NC' abbreviation is an isocyanide; the same two letters are the "
                                  "standard way to write a nitrile pointing left, so the drawing does not determine "
@@ -220,7 +224,8 @@ def scored_rows():
             u = r.get("usage") or {}
             think = (u.get("output_tokens_details") or {}).get("thinking_tokens")
             rows.append({
-                "k": k, "sec": sec, "built": sec == "synth", "src": "Built" if sec == "synth" else m["src"],
+                "k": k, "sec": sec, "built": sec == "synth", "big": sec == "big",
+                "trained": m.get("src") in TRAIN_SRC, "src": "Built" if sec == "synth" else m["src"],
                 "labs": m.get("labels") or [], "truth": m["truth"], "png": m["png"], "show": m.get("show", True),
                 "name": m["name"] if sec == "synth" else f"{m['src']} {m['orig_id']}", "pk": m.get("plain_key"),
                 "s": s, "v": verdict(s, m["truth"]), "text": r.get("text") or "",
@@ -235,12 +240,24 @@ def scored_rows():
 
 
 def truth_visible(row: dict, reads: dict, corpus_read: set) -> bool:
+    """Retired 9 Oct (Sam): every reference is served; the reader transcript screen
+    (scan_reader_transcript.ANSWER_PATH) is the protection. Always True."""
+    return True
     """A superatom drawing's reference is served once BOTH tool lanes have read that image, or when it is
     a corpus molecule a tool lane has already read (its reference is public on the corpus tabs)."""
     return (row["k"] in reads["s5"] and row["k"] in reads["s55"]) or bool(row.get("pk") and row["pk"] in corpus_read)
 
 
 def build() -> int:
+    """Serialised with the other wall builders (build_superatoms / build_llmocr): the cadence and the
+    superatom step can both rebuild, and two runs would race on the same .json.tmp."""
+    import fcntl
+    with open("/tmp/cmage-wall-build.lock", "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        return _build()
+
+
+def _build() -> int:
     img, pred, txt, ocr = WALL / DIR, WALL / f"{DIR}_pred", WALL / f"{DIR}_txt", WALL / f"{DIR}_ocr"
     for p in (img, pred, txt, ocr):
         p.mkdir(parents=True, exist_ok=True)
@@ -260,7 +277,9 @@ def build() -> int:
                "ocr": x["cx_raw_smiles"] or "(no answer)", "ocrv": x["cxv"], "ocrc": x["cxc"],
                "tl": [["Sonnet 5.5", s, x["v"]], [CXM, x["cx"], x["cxv"]]]}
         row["n"] = f"{k} · {x['name']}"
-        row["d"] = SECTION["synth"] if x["built"] else f"Real: {x['src']}"
+        row["d"] = SECTION["synth"] if x["built"] else SECTION["big"] if x["big"] else f"Real: {x['src']}"
+        if x["trained"]:
+            row["trained"] = 1
         row["rnote"] = (f"superatoms drawn: {', '.join(labs)} · one API call, no tools · max_tokens "
                         f"{(x['mt'] or 0):,} · stop_reason {x['stop0']} · "
                         f"{x['itok']:,} in / {x['otok']:,} out tokens · "
@@ -287,15 +306,26 @@ def build() -> int:
     gated = [r for r in rows if r.get("tw")]
 
     syn = [r for r in rows if r["sec"] == "synth"]
-    real = [r for r in rows if r["sec"] != "synth"]
+    real = [r for r in rows if r["sec"] not in ("synth", "big")]
+    big = [r for r in rows if r["sec"] == "big"]
+    big_held = [r for r in big if not r.get("trained")]
+    big_train = [r for r in big if r.get("trained")]
     S, C = (lambda r: r["v"]), (lambda r: r["cxv"])
     nl = lambda r: len(r["labs"])
     real_names = " + ".join(sorted({r["src"] for r in real}))
     groups = [("Built drawings", syn), (f"Real drawings ({real_names})", real),
               ("Real, 1 superatom label", [r for r in real if nl(r) == 1]),
               ("Real, 2 superatom labels", [r for r in real if nl(r) == 2]),
-              ("Real, 3 or more labels", [r for r in real if nl(r) >= 3])]
-    c2rows = [{"label": lab, "note": f"n={len(rs)}", "a": side(rs, S), "b": side(rs, C)} for lab, rs in groups if rs]
+              ("Real, 3 or more labels", [r for r in real if nl(r) >= 3]),
+              (SECTION["big"] + ", held-out USPTO", big_held),
+              (SECTION["big"] + ", USPTO training set", big_train)]
+    c2rows = [{"label": lab, "note": f"n={len(rs)}" + (f" · {TRAIN_NOTE}" if rs is big_train else ""),
+               "a": side(rs, S), "b": side(rs, C)} for lab, rs in groups if rs]
+    # Headline totals: every shown image for the API arm; for CXMolScribe, every image except the ones
+    # it was trained on.
+    cx_rows = [r for r in rows if not r.get("trained")]
+    c2_total = {"a": side(rows, S), "b": side(cx_rows, C), "b_note": (f"excludes {len(big_train)} images it was trained on"
+                                                                    if big_train else None)}
 
     fmt = lambda x: f"{x['pct']}% ({x['exact']}/{x['n']})"
     tests = []
@@ -314,28 +344,28 @@ def build() -> int:
         {"h": f"{CXM} with only its own abbreviation table (labels it lacks, e.g. CO2Me, NHMe, OTBS, stay unexpanded)",
          "rows": own}] + ([{"h": "Read but not shown or counted", "rows": not_counted}] if not_counted else [])}
     docs = []
-    for name in [SECTION["synth"]] + sorted({r["d"] for r in rows if r["sec"] != "synth"}):
+    for name in [SECTION["synth"]] + sorted({r["d"] for r in rows if r["sec"] != "synth"}, key=lambda n: (n == SECTION["big"], n)):
         x = [r for r in rows if r["d"] == name]
         if x:
             docs.append({"name": name, "found": sum(r["v"] == "exact" for r in x), "expected": len(x)})
     cnt = lambda key: sum(1 for r in rows if r["v"] == key)
     real_src = sorted(collections.Counter(r["src"] for r in real).items())
     count_line = (f"{len(rows)} images: {len(syn)} built + {len(real)} real ("
-                  + ", ".join(f"{s_} {n}" for s_, n in real_src) + ").")
-    assert len(rows) == len(syn) + len(real) == sum(x["a"]["n"] for x in c2rows[:2])
+                  + ", ".join(f"{s_} {n}" for s_, n in real_src) + ")"
+                  + (f" + {len(big)} big, ≥50 atoms ({len(big_held)} held-out, {len(big_train)} from the training set)" if big else "")
+                  + ".")
+    assert len(rows) == len(syn) + len(real) + len(big) == sum(x["a"]["n"] for x in c2rows[:2]) + len(big)
     out = {
         "arm": "Superatoms", "countLine": count_line, "dir": DIR, "reader": SON, "rows": rows, "tileText": 1,
         "title": f"Superatoms: {CXM} vs {SON}",
         "headline": (f"Same images for both. {SON}: one API call per image, no tools. Exact = the reference molecule "
                      "after RDKit canonicalisation, stereo included. Tiles: ✓ exact, ≈ stereo only, ✗ wrong, – no answer."),
-        "c2": {"a": SON, "b": CXM, "as": "5.5 API", "bs": "CXMolScribe", "rows": c2rows}, "more": more,
+        "c2": {"a": SON, "b": CXM, "as": "5.5 API", "bs": "CXMolScribe", "rows": c2rows, "total": c2_total}, "more": more,
         "breakdown": [{"key": "matched", "label": f"{SON} exact", "n": cnt("exact")},
                       {"key": "stereo", "label": "Stereo only", "n": cnt("stereo")},
                       {"key": "misread", "label": "Wrong", "n": cnt("wrong")},
                       {"key": "unreadable", "label": "None", "n": cnt("invalid")}],
         "docs": docs, "docsLabel": "section",
-        "withheld": {"n": len(gated), "note": "Withheld until the tool-using readers (being backfilled) have read this "
-                                              "image, or, for a built drawing, its corpus molecule"},
         "runNote": f"{SON}, one call, at list price",
         "stats": {"n": len(rows), "built": side(syn, S), "built_cx": side(syn, C), "real": side(real, S),
                   "real_cx": side(real, C), "shown": len(rows)},
@@ -345,8 +375,7 @@ def build() -> int:
             "Both readers scored with the same function: RDKit canonical SMILES against the full molecule.",
             f"{CXM} writes superatoms as CXSMILES labels; each label is expanded before scoring, with its own "
             "abbreviation table plus the labels these drawings use. A label in neither stays unexpanded and scores wrong."]}],
-        "footer": count_line + (f" Reference withheld on {len(gated)} images until the tool-using readers, which are "
-                                "being backfilled, have read them (a built drawing: or its corpus molecule)." if gated else ""),
+        "footer": count_line,
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     OUT.write_text(json.dumps(out, separators=(",", ":")))

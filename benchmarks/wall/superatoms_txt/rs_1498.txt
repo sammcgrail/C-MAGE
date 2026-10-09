@@ -1,0 +1,13 @@
+I read the molecule as an indazole-6-carbonyl group on the nitrogen of a 5,7-dichloro-tetrahydroisoquinoline. The tetrahydroisoquinoline carries a 6-carboxamide whose nitrogen is bonded to the alpha carbon of a 3-aminopropanoic acid. The terminal NH of that chain forms a urea with the nitrogen of a 3,4-dihydroxypyrrolidine.
+
+**Fragments**
+- **Indazole:** the pyrazole ring (C3=N2, N1–H) is fused to a benzene ring, and the carbonyl sits at C6. This gives `c1ccc2cn[nH]c2c1`.
+- **Tetrahydroisoquinoline:** the ring nitrogen is acylated. Cl is at C5 and C7, and the carboxamide is at C6, between them.
+- **Alpha carbon:** it carries the amide N, the CO2H, and a CH2NH group on a wedge bond. Ranking N > CO2H > CH2 with H pointing back gives S.
+- **Pyrrolidine diol:** one OH is wedged and the other hashed, so the diol is trans. Working through the CIP priorities at each carbon gives (3R,4R).
+
+**Writing the stereo in SMILES**
+- For `N[C@@H](CN…)C(=O)O`, the `@@` gives the S configuration at the alpha carbon.
+- For `N3C[C@@H](O)[C@H](O)C3`, this tag pair gives R at both hydroxyl-bearing carbons.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1CCc2c(C1)cc(Cl)c(C(=O)N[C@@H](CNC(=O)N3C[C@@H](O)[C@H](O)C3)C(=O)O)c2Cl

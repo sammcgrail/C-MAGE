@@ -1,0 +1,15 @@
+This SMILES was read from the drawing region by region, and I have not run it through a validator.
+
+**Macrocycle.** The ring is a 12-membered DOTA-type ring with four nitrogens. Three nitrogens carry CH2COOH arms. The fourth carries CH2C(=O)NH–, which links to the glutamic-acid core.
+
+**Core.** The core is a glutamic acid whose α-NH is acylated by that DOTA arm. Both the α-carboxyl and the γ-carboxyl are amidated. No wedge is drawn at this carbon, so I gave it no stereo.
+
+**Two identical arms.** Each arm is built as follows:
+- It starts with NH–(CH2)5–C(=O), which is 6-aminohexanoyl. I counted five CH2 groups between the NH and the C=O.
+- That is amide-linked to a 2,3-diaminopropionic acid unit, NH–CH(COOH)–CH2–NH.
+- The terminal NH is acylated by indazole-5-carbonyl.
+- Indazole N1 carries a (CH2)3–NH– chain ending in a 2-aminoimidazole.
+
+**Stereochemistry.** In the top arm, the wedge on the diaminopropionic α-carbon points to the CH2. Using priorities N > COOH > CH2 > H, I assigned R, which gives `[C@@H]` in the SMILES as written. The bottom arm has the same wedge pattern but mirrored, which gives S and `[C@H]`.
+
+SMILES: OC(=O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)NC(CCC(=O)NCCCCCC(=O)N[C@@H](C(=O)O)CNC(=O)c2ccc3c(c2)cnn3CCCNc2ncc[nH]2)C(=O)NCCCCCC(=O)N[C@H](C(=O)O)CNC(=O)c2ccc3c(c2)cnn3CCCNc2ncc[nH]2)CC1

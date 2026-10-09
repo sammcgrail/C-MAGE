@@ -1,0 +1,25 @@
+The drawing is a dimer: two identical chroman units joined through a CH2 bridge.
+
+**Top unit.** The benzene ring carries OCH3 at the top, which sits next to the carbon bonded to the ring oxygen (C8a). Going around the ring from the OCH3 carbon:
+- C8 bears OCH3.
+- C7 bears CH3.
+- C6 bears OH.
+- C5 bears the CH2 bridge.
+- C4a is bonded to C4, which is a CH2.
+- C8a is bonded to O1.
+
+The pyran ring runs O1–C2(CH3)2–C3H2–C4H2–C4a.
+
+**Bottom unit.** It is the mirror image of the top unit, with the same substitution pattern. C5 bears the CH2 bridge, C6 bears OH, C7 bears CH3, C8 bears OCH3, and C8a is bonded to O.
+
+**SMILES for one unit**, written from the bridge-bearing carbon: c1(C)c(O)c(CC...)c2CCC(C)(C)Oc2c1OC.
+
+Writing the full molecule:
+
+Cc1c(O)c(Cc2c(O)c(C)c(OC)c3OC(C)(C)CCc23)c2CCC(C)(C)Oc2c1OC
+
+Checking the first unit: Cc1 (C7 with CH3), c(O) (C6), c(CH2...) (C5), c2CCC(C)(C)Oc2 (C4a, C4, C3, C2, O, C8a), then c1OC (C8 with OCH3), which closes the ring back to C7. This is correct.
+
+Checking the second unit, written from the CH2: c2 (C5) c(O) (C6) c(C) (C7) c(OC) (C8) c3 (C8a) O C(C)(C) C C c23 (C4a, closing to C5 and C8a). This is also correct.
+
+SMILES: Cc1c(O)c(Cc2c(O)c(C)c(OC)c3OC(C)(C)CCc23)c2CCC(C)(C)Oc2c1OC

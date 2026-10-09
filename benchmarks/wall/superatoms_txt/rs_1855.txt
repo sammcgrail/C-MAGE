@@ -1,0 +1,40 @@
+The drawing shows N,N'-diphenylquinacridone (L8). It has a central benzene ring fused to two acridone-type rings, which gives a linear pentacyclic skeleton.
+
+**Reading the structure**
+- Top left: a benzene ring fused to a ring containing a C=O at the top. This carbonyl carbon bonds to the central ring's upper-left carbon.
+- Top right: N-Ph, bonded to the central ring's upper-right carbon.
+- Bottom left: N-Ph, bonded to the central ring's lower-left carbon.
+- Bottom right: C=O, bonded to the central ring's lower-right carbon.
+- Each N also bonds to its own outer benzene ring.
+
+**Central ring atoms**
+- c1 is bonded to the C=O at the top left (C=O attached at the upper-left position).
+- c2 is the top CH.
+- c3 is bonded to the top-right N.
+- c4 is bonded to the C=O at the lower right.
+- c5 is the bottom CH.
+- c6 is bonded to the bottom-left N.
+
+The upper-left carbonyl is therefore on c1, and c6 is directly below c1 and carries the bottom-left N. The left ring is c1, C(=O), the benzo carbon, the benzo carbon, N, c6, and so it is a six-membered ring.
+
+**Writing the SMILES**
+Start at the top-left carbonyl:
+
+O=C1c2ccccc2N(c2ccccc2)c2cc3c(cc12)C(=O)c1ccccc1N3c1ccccc1
+
+Checking the ring closures:
+- C1(=O) is bonded to the benzo ring c2ccccc2, which ends at the carbon bonded to N(Ph).
+- That N is followed by c2, which is c6, then c (the bottom CH), then c3, which is c4 and carries the lower-right C=O.
+- Then c(cc12): this c is c3 (the top-right carbon, to be bonded to N), and the following c is the top CH, c2. After that comes c12, which is c1 and closes ring 1 to the carbonyl and ring 2 to c6.
+
+This does not match the drawing, because c4 is bonded to the C=O and the c3 that follows should be bonded to N. I rewrite it with the central ring explicitly in order c6, c5, c4, c3, c2, c1:
+
+c6 = c2 (open ring label 2), c5 = c, c4 = c3 (open label 3), c3 = c(...), c2 = c, c1 = c12.
+
+The fragment from c4 onward is: c3 C(=O) c1ccccc1 N(Ph) c3'. Ring closure 3 then needs to go to c3 (the carbon bearing N). Written this way:
+
+O=C1c2ccccc2N(c2ccccc2)c2cc3C(=O)c4ccccc4N(c4ccccc4)c3cc12
+
+Tracing this: c2 (c6), c (c5), c3 (c4) with C(=O) attached, then the benzo ring and N(Ph), then c3 closing the ring (this is c3 of the central ring, bonded to N), then c (c2), then c12 (c1). This is consistent with the drawing.
+
+SMILES: O=C1c2ccccc2N(c2ccccc2)c2cc3C(=O)c4ccccc4N(c4ccccc4)c3cc12

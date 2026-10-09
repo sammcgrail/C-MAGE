@@ -1,0 +1,23 @@
+Reading the structure region by region:
+
+**Left bicyclic core (imidazo[4,5-b]pyridin-2-one).**
+- The five-membered ring contains C(=O), an NH, and an N bearing the piperidin-4-yl group.
+- The N-substituted nitrogen is attached to the carbon adjacent to the pyridine N, and the NH is attached to the other fusion carbon.
+- The pyridine ring is: fusion carbon C3a (bearing NH), fusion carbon C7a (bearing N-piperidinyl), pyridine N, then C(NMe2), then CH, then CH, closing back to C3a.
+- SMILES for this part: O=C1Nc2ccc(N(C)C)nc2N1C3CCN(CC3)...
+
+**Linker.** The piperidine N is attached to CH2–CH(OH)–CH2, which is attached to N1 of the pyrazole.
+
+**Right bicyclic core (tetrahydropyrazolo[4,3-c]pyridine).**
+- The pyrazole is N1(–CH2 linker), N2, C3 (bearing the aryl group), C3a, C7a.
+- C3a is attached to CH2 (C4), then N5 (bearing SO2Me), then CH2 (C6), then CH2 (C7), then C7a, which is attached to N1.
+- The aryl group on C3 is a 4-CF3-phenyl.
+
+**Assembled SMILES.**
+O=C1Nc2ccc(N(C)C)nc2N1C1CCN(CC1)CC(O)Cn1nc(-c2ccc(C(F)(F)F)cc2)c2CN(S(C)(=O)=O)CCc12
+
+Checking the pyrazole ring closure: n1 (N1), n (N2), c(Ar) (C3), c2 (C3a), then CN(Ms)CC, then c12 (C7a), which closes to n1 and to c2. This is correct.
+
+The CH(OH) carbon is drawn with plain bonds, so no stereochemistry is assigned.
+
+SMILES: O=C1Nc2ccc(N(C)C)nc2N1C1CCN(CC1)CC(O)Cn1nc(-c2ccc(C(F)(F)F)cc2)c2CN(S(C)(=O)=O)CCc12

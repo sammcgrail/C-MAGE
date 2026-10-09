@@ -1,0 +1,27 @@
+The drawing shows a tricyclic core: a benzene ring fused to a lactone ring, which is fused to a tetrahydropyridine ring.
+
+**Benzene ring.** Its atoms, going around the ring, are:
+- C1, bearing CO2Me
+- C2, bearing the ring oxygen (the lactone O)
+- C3, the ring-fusion carbon that bonds to the alkene carbon
+- C4 (CH)
+- C5 (CH)
+- C6, bearing OH
+
+**Lactone ring.** The atoms are the ring O, C(=O), an alkene carbon Ca, a second alkene carbon Cb, benzene C3 and benzene C2. Ca is bonded to the C=O carbon and to the CH2 that leads to N. Cb is bonded to the benzene carbon and to the CH2CH2 chain.
+
+**Tetrahydropyridine ring.** The atoms are Ca, CH2, N, CH2, CH2 and Cb.
+
+**N-substituent.** Alloc is C(=O)OCC=C.
+
+SMILES, written as a single path:
+COC(=O)c1c(O)ccc2c1oc(=O)c1CN(C(=O)OCC=C)CCc12
+
+Check of the ring closures:
+- c1 (benzene C1, bearing the ester), then c(O) (C6), c (C5), c (C4), then c2 (C3, the fusion carbon).
+- Next is c1 in "c1oc(=O)...", which is C2 and closes ring 1 to C1 as intended. The label 1 is reused later, which is fine because it was closed here.
+- Then o, then c(=O), then c1 (Ca, opening a new ring 1), then CN(Alloc)CC, then c12 (Cb), which closes ring 1 to Ca and ring 2 to C3.
+
+This matches the drawing: Cb is bonded to Ca, to the CH2 and to the benzene C3.
+
+SMILES: COC(=O)c1c(O)ccc2c1oc(=O)c1CN(C(=O)OCC=C)CCc12

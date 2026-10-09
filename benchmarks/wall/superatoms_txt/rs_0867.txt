@@ -1,0 +1,10 @@
+I read the molecule as an adenosine nucleoside whose 5′-CH2OH has been replaced by a trans C5′=C6′ alkene. The alkene continues to C7′, which carries an NH amide to an aryl ring.
+
+- **Purine:** a 6-aminopurine (adenine) joined through N9 to C1′ of the ribose.
+- **Sugar:** a furanose with O in the ring, C1′ bearing the base, and 2′-OH and 3′-OH on the bold bonds at the bottom. This matches the natural D-ribo configuration of adenosine, so I reused the stereo pattern of adenosine itself.
+- **Side chain:** C4′ carries a trans CH=CH (C5′=C6′), then CH2 (C7′), then NH–C(=O).
+- **Aryl ring:** a benzamide with 2-OH and 3-OH next to the amide, and a trifluoroacetyl group (C(=O)CF3) at position 5.
+
+I checked that the SMILES parses and matches the drawing atom for atom. It keeps the same neighbour order around C1′ and C4′ as the standard adenosine SMILES, so the chirality tags carry over.
+
+SMILES: Nc1ncnc2c1ncn2[C@@H]1O[C@H](/C=C/CNC(=O)c3cc(C(=O)C(F)(F)F)cc(O)c3O)[C@@H](O)[C@H]1O

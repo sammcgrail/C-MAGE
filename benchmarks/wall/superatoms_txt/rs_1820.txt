@@ -1,0 +1,13 @@
+Reading the drawing region by region:
+
+- **Left ring:** a benzene ring carrying N(Et)2 at one carbon, a methyl on the adjacent carbon, and a bond to the central ring at the carbon meta to the NEt2 (position 3 of the biphenyl).
+  - Ring atoms: C1 is attached to the central phenyl, C2 is the CH between C1 and the NEt2 carbon, C3 carries NEt2, C4 carries CH3, C5 and C6 are CH.
+  - In the picture, the ring's upper-left carbon bears N and the lower-left carbon bears CH3. The upper-right carbon is CH, and the right carbon is attached to the central ring. So the NEt2 carbon is adjacent to the CH that is adjacent to the biaryl carbon, which is consistent with the above.
+- **Central ring:** a para-substituted benzene joining the left ring to the triarylamine nitrogen.
+- **Nitrogen:** bonded to the central ring and to two 3,4-dimethylphenyl groups.
+
+SMILES for the left ring: c1(N(CC)CC)c(C)ccc(c1)-c2ccc(cc2)N(c3ccc(C)c(C)c3)c4ccc(C)c(C)c4
+
+Check of the left ring: the atom c1 bears N; the next atom c(C) bears the methyl; then c and c are CH; then c(...) is the biaryl carbon, followed by c1, the CH that closes the ring. This gives six atoms: C(N), C(Me), CH, CH, C(Ar), CH. That matches the drawing.
+
+SMILES: CCN(CC)c1cc(ccc1C)-c1ccc(cc1)N(c1ccc(C)c(C)c1)c1ccc(C)c(C)c1

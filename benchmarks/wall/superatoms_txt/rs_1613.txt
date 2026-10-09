@@ -1,0 +1,13 @@
+I read the molecule as a pyrrolidin-2-one with two substituents: an N-(4-carboxyphenethyl) group, and at C5 a (3-hydroxy-6-methylhept-1-enyl) chain.
+
+**Ring and N-substituent.** The lactam ring has a C=O at the top left, then two CH2 groups, then the ring CH, then N. N carries CH2CH2 attached to a para-disubstituted benzene bearing CO2H.
+
+**C5 stereocentre.** The ring CH has a wedged bond to the vinyl carbon, so the implicit H points away from the viewer. The priorities are N > vinyl > ring CH2. Viewed from the front, N (top) → vinyl (lower right) → ring CH2 (left) runs clockwise, and since H is at the back this is R. In the SMILES this is `[C@@H]` when written as `C[C@@H](N…)/C=C/…`.
+
+**Alkene.** The double bond is drawn trans (E), written `/C=C/`.
+
+**Carbinol stereocentre.** The OH is on a hashed bond, so it points back and the implicit H points toward the viewer. The priorities are OH > vinyl > CH2. Viewed from the front, OH (lower left) → vinyl (upper left) → CH2 (right) runs clockwise. Because H faces the viewer, the true sense is reversed, giving S. In the SMILES, `/C=C/[C@@H](O)CCC(C)C` encodes S.
+
+**Tail.** The chain continues CH2CH2CH(CH3)2, an isopropyl end.
+
+SMILES: O=C1CC[C@@H](N1CCc1ccc(C(=O)O)cc1)/C=C/[C@@H](O)CCC(C)C

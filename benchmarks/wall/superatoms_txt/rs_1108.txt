@@ -1,0 +1,10 @@
+I read the structure in four parts and combined them into one SMILES.
+
+- **Ester end:** a methyl ester (CO2Me) on the stereocentre. A CH2 leads to N(ethyl)(phenyl), a tertiary N-ethylaniline.
+- **Linker:** the stereocentre also carries an NH, which connects through a CH2 to C5 of the indole.
+- **Indole:** its C2 is bonded to C7 of the heterocycle on the right.
+- **Heterocycle:** a 5-amino-2-methyl-imidazo[4,5-b]pyridine. The pyridine ring runs C7, CH, C(NH2), N, C3a. The fused imidazole has an NH and an N= and carries a methyl on its C2.
+
+**Stereochemistry:** the wedge bond goes from the stereocentre to the CH2 (toward N-ethylaniline), so the hydrogen points away from the viewer. The CIP priorities are NH > CO2Me > CH2N > H. Viewed from the front, NH (lower right) → CO2Me (top) → CH2 (lower left) runs counterclockwise, so the centre is S. Written as `COC(=O)[C@H](CN...)N...`, the `@` tag corresponds to S, so I used `[C@H]`.
+
+SMILES: COC(=O)[C@H](CN(CC)c1ccccc1)NCc1ccc2[nH]c(cc2c1)-c1cc(N)nc2[nH]c(C)nc12

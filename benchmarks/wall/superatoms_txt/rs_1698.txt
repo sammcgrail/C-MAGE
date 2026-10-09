@@ -1,0 +1,16 @@
+The structure breaks down into these parts:
+
+- **Cyclopentyl–ethyl–piperidine:** a cyclopentyl ring joined to CH2CH2, which attaches to the piperidine nitrogen. The piperidine C4 carries the amide nitrogen.
+- **Amide:** the nitrogen is bonded to the piperidine C4, the indoline C6, and the acyl carbon C(=O).
+- **Acyl group:** C(=O)–CH=CH–Ar, with the alkene drawn trans. The aryl group is 3-cyanophenyl.
+- **Indoline:** N1 carries an acetyl group. Ring atoms run N1, C2 (CH2), C3 (CH2), C3a, C4, C5, C6, C7, C7a. The amide nitrogen sits on C6, which is meta to C3a and para to C3. In the drawing, C7 is the CH between C6 and C7a, and C7a is bonded to N1.
+
+Writing the indoline as N1(C(C)=O)CCc2ccc(N...)cc12: c2 is C3a, followed by c (C4), c (C5), c(N) (C6), c (C7), and c12 (C7a). This matches the drawing.
+
+Alkene geometry: the SMILES `C(=O)/C=C/c1cccc(C#N)c1` gives trans.
+
+Full SMILES: O=C(/C=C/c1cccc(C#N)c1)N(C1CCN(CCC2CCCC2)CC1)c1ccc2CCN(C(C)=O)c2c1
+
+Checking the indoline ring closures: c1ccc2CCN(C(C)=O)c2c1 starts with c1 (C6, attached to N), then c (C5), c (C4), c2 (C3a), CC (C3, C2), N, c2 (C7a), and c1 (C7), which closes back to C6. This is correct.
+
+SMILES: O=C(/C=C/c1cccc(C#N)c1)N(C1CCN(CCC2CCCC2)CC1)c1ccc2CCN(C(C)=O)c2c1

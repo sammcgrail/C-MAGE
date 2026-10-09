@@ -1,0 +1,16 @@
+Reading the structure region by region:
+
+- **Top-left ring:** a benzene bearing SO2NH2 at the ortho position, bonded to a para-substituted phenyl ring. Together these form a 2'-sulfamoylbiphenyl-4-carbonyl group.
+- **Linker:** that carbonyl is attached to an NH, which is bonded to the central benzene ring.
+- **Central ring:** the carbon bearing the NH is C1. The adjacent carbon C2 carries a C(=O)NH-(5-bromopyridin-2-yl) group. The carbon para to C1 carries the NHAc (acetamido) group, and C4 is the carbon that attaches it.
+- **Ring positions:** the ring goes C1 (NH amide), C2 (carboxamide), C3 (CH), C4 (NHAc), C5 (CH), C6 (CH). In the drawing, C1 is at the upper left of the ring, C2 is at the lower left, and the NHAc carbon is at the lower right. The upper right and the top carbons are CH. So NHAc is on the carbon meta to C2 and para to C1.
+- **Pyridine:** the N is adjacent to the carbon attached to the NH (C2). Br sits on C5, para to C2.
+
+SMILES for the pyridine: c1(NC(=O)...)ccc(Br)cn1.
+
+Full SMILES:
+NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccc(NC(C)=O)cc1C(=O)Nc1ccc(Br)cn1
+
+Check of the central ring: c1ccc(NC(C)=O)cc1C(=O)N... starts at C1 (NH), then c (C6), c (C5), c(NHAc) (C4), c (C3), c1 (C2, bearing the carboxamide). This matches the drawing.
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccc(NC(C)=O)cc1C(=O)Nc1ccc(Br)cn1

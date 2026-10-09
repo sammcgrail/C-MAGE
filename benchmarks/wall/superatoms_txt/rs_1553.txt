@@ -1,0 +1,21 @@
+I read the structure in three parts and wrote the SMILES from that reading.
+
+**Pyridine fragment.** The ring has OMe at C4. Position 3 carries an ester, OC(=O)CH2OPh. Position 2 carries C(=O)NH– attached to the ring system on the right.
+
+**Nine-membered dilactone ring.** Going around the ring, the atoms are:
+- the NH-bearing CH (the α-carbon);
+- a C(=O) that is bonded through O to the next carbon;
+- CH(CH3);
+- CH bearing the isobutyrate, OC(=O)CH(CH3)2;
+- CH bearing the benzyl group;
+- a C(=O) bonded through O to a CH2, which closes back to the α-carbon.
+
+**Stereochemistry.** I assigned each centre from the wedges and hashes and checked the CIP labels by hand:
+- α-carbon, N on a hash: S.
+- CH(CH3), methyl on a wedge: S.
+- CH(O-isobutyrate), O on a hash: R.
+- CH(CH2Ph), benzyl on a wedge: R.
+
+I then converted each label to @/@@ for the SMILES atom order. I did not run the string through a parser.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1OC(=O)COc1ccccc1

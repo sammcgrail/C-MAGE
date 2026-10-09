@@ -1,0 +1,17 @@
+I read the drawing as four connected pieces:
+
+1. **Indane acid:** a 2,3-dihydro-1H-indene ring carrying a carboxylic acid on C2. The sulfonyl group sits on the aromatic carbon next to the ring-fusion carbon, which is position 4.
+2. **Sulfonamide link:** an S(=O)(=O) group joins that aromatic carbon to a piperazine nitrogen.
+3. **Piperazine:** the sulfonylated nitrogen is flanked by two methyl-bearing carbons, and the far nitrogen is acylated.
+4. **Acyl group:** the far nitrogen carries C(=O)CH2 attached to a para-substituted phenyl ring bearing OCF3.
+
+**Stereochemistry:** both piperazine methyls are drawn with bold wedges, so those are the only stereocentres I specified. The indane C2 is drawn with plain bonds and gets no stereo label.
+
+For each methyl-bearing carbon I took the implicit hydrogen as pointing away from the viewer and read the three drawn neighbours around the centre:
+
+- **Upper carbon:** N → CH3 → CH2 runs clockwise, which gives `[C@@H]` when written after the sulfonyl-bearing nitrogen.
+- **Lower carbon:** the same reading, converted to SMILES neighbour order with the ring closure back to that nitrogen, gives `[C@H]`.
+
+The two wedged methyls are cis, and the descriptors come out as an R,S (meso-type) pair, as expected.
+
+SMILES: OC(=O)C1Cc2cccc(c2C1)S(=O)(=O)N1[C@@H](C)CN(C(=O)Cc2ccc(OC(F)(F)F)cc2)C[C@H]1C

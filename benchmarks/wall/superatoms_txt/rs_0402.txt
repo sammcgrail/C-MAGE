@@ -1,0 +1,12 @@
+Reading the drawing from left to right:
+
+- A methanesulfonate ester (Me–SO2–O–) is attached to a para-substituted benzene ring.
+- That ring carries a CH2CH2 chain ending in an NH.
+- The NH is bonded to a second para-substituted benzene ring.
+- The second ring carries a CH2 group attached to a stereocentre bearing OEt and COOEt.
+
+The OEt on the stereocentre is drawn with a solid wedge, so it points toward the viewer and the implicit H points away. The CIP priorities are OEt > COOEt > CH2Ar > H. With H at the back, OEt (bottom) → COOEt (upper right) → CH2 (upper left) runs counterclockwise, so the centre is S.
+
+In the SMILES `CCOC(=O)[C@@H](OCC)Cc1ccc(...)cc1`, the neighbour order at the stereocentre is C(=O), H, O, CH2. Moving H to the front takes one swap, and viewing from the side opposite H then gives S. So `@@` encodes the S configuration drawn.
+
+SMILES: CCOC(=O)[C@@H](OCC)Cc1ccc(NCCc2ccc(OS(C)(=O)=O)cc2)cc1

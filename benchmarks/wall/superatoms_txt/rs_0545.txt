@@ -1,0 +1,26 @@
+Here is how I read the structure and built the SMILES.
+
+**Pyrazine fragment (left).** The ring runs C(OMe), N, C(OH), C(carboxamide), N, C(Cl). The carboxamide C(=O)NH leaves the ring carbon that sits between the C(OH) and the second N.
+
+**Nine-membered dilactone ring.** Going around the ring from the NH-bearing carbon:
+- CH(NH-acyl)
+- C1(=O)
+- O
+- CH(CH3)
+- CH(O-isobutyryl)
+- CH(CH2Ph)
+- C(=O)
+- O
+- CH2, which closes back to the CH(NH-acyl)
+
+The ester on the ring is isobutyrate, OC(=O)CH(CH3)2. The substituent on the ring carbon next to the lactone carbonyl is a benzyl group.
+
+**Stereochemistry.** I assigned each centre from the wedges and hashes, ranking substituents by CIP priority and taking the implicit H as opposite the wedge or hash:
+- The NH-bearing carbon has a hashed N and is S.
+- The CH(CH2Ph) carbon has a wedged benzyl and is R.
+- The CH(O-isobutyryl) carbon has a hashed O and is R.
+- The CH(CH3) carbon has a wedged methyl and is S.
+
+I then converted these to @/@@ according to the neighbour order in the SMILES string.
+
+SMILES: COc1nc(O)c(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)nc1Cl

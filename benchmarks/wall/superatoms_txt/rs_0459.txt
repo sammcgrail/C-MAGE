@@ -1,0 +1,17 @@
+Reading the structure region by region:
+
+- **Biphenyl acid:** the top-left ring carries CO2H and is joined to a second ring. This is a biphenyl-3-carboxylic acid.
+- **Middle ring:** the carbon bonded to the first ring (C3') is adjacent to the C–OH carbon (C2'), which is adjacent to the C–NH carbon (C1'). So the ring has aryl, OH and NH on three consecutive carbons.
+- **Hydrazone linker:** the ring NH is bonded to N, which is double-bonded to C3 of the indolinone.
+- **Indolinone core:** C3 is the hydrazone carbon, C2 is the C=O, and N1 is attached to the 3,4-dimethylphenyl ring. The benzo ring carries CN at C5. In the drawing, C3a is at the junction, C4 is the CH next to it, and C5 carries the CN.
+- **N-aryl ring:** the attachment carbon is C1, the methyl at C3 is the one on the right, and the methyl at C4 is the lower one, giving 3,4-dimethylphenyl.
+
+Stereochemistry: the C=N bond is drawn with a geometry, but I could not assign it with confidence, so I leave it unspecified.
+
+SMILES assembly:
+
+- Acid ring: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3ccc(C)c(C)c3)c3ccc(C#N)cc23)c1O
+- Check on the middle ring: c1 (attached to the acid ring) ... c(N...) ... c1O. The ring atoms are c1(aryl), c, c, c, c(NH), c(O), which closes back to c1. The OH carbon is adjacent to both the aryl carbon and the NH carbon, as drawn.
+- Check on the indolinone: C2 (=N) is bonded to C(=O), then N, then the benzo ring c3ccc(C#N)cc23. N attaches to c3 (C7a), then c (C7), c (C6), c(CN) (C5), c (C4), c23 (C3a), which closes to C3. This places CN at C5 as drawn.
+
+SMILES: OC(=O)c1cccc(c1)-c1cccc(NN=C2C(=O)N(c3ccc(C)c(C)c3)c3ccc(C#N)cc23)c1O

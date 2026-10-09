@@ -1,0 +1,19 @@
+The drawing shows an acrylamide whose nitrogen carries two substituents.
+
+**Substituents on the amide nitrogen**
+- A 1-benzylpiperidin-4-yl group: a piperidine whose ring nitrogen bears a CH2–phenyl group, attached to the amide N through its 4-position carbon.
+- A 1-acetylindolin-6-yl group: an indoline whose ring nitrogen carries an acetyl group, attached to the amide N through the benzo ring.
+
+**Locating the indoline attachment point**
+The indoline N1 sits at the lower right, and C7a is the benzo carbon bonded to N1. Going around the benzo ring from C7a, the next carbon is C7 (the CH), then C6, which bears the amide N. The other fusion carbon, C3a, is bonded to C3, the CH2 next to the CH2 that is attached to N. This places the amide N on C6, consistent with the name.
+
+**Acyl chain**
+The carbonyl is joined to a trans CH=CH, which leads to a phenyl ring. The drawing shows the double bond as trans (E). On this ring, the S(=O)CF3 group sits meta to the vinyl attachment, so it is a trifluoromethylsulfinyl group.
+
+**Assembling the SMILES**
+- Indoline part: N1(C(C)=O)CCc2ccc(cc12), where the amide N attaches at the ring carbon c(...) that is para to C3a and adjacent to the CH next to C7a.
+- Full molecule: CC(=O)N1CCc2ccc(cc12)N(C3CCN(Cc4ccccc4)CC3)C(=O)/C=C/c5cccc(c5)S(=O)C(F)(F)F
+
+Checking the benzo ring: c2 (C3a), c (C4), c (C5), c(N…) (C6), c (C7), c12 (C7a). Ring closure 1 joins C7a to N1, and closure 2 joins C7a to C3a. This is correct.
+
+SMILES: CC(=O)N1CCc2ccc(cc12)N(C3CCN(Cc4ccccc4)CC3)C(=O)/C=C/c5cccc(c5)S(=O)C(F)(F)F

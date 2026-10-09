@@ -1,0 +1,15 @@
+The drawing shows a central benzene ring that is 1,3-disubstituted (meta). Each substituent is an N atom that carries a m-tolyl group and a second meta-substituted phenyl ring.
+
+Each second phenyl ring is meta-substituted and carries N(Et)(CH2Ph). The left side matches the right side.
+
+Reading the left side: the N(Et)(Bn) group sits on a phenyl ring, and the ring's other meta position bears the central N. That N also carries the m-tolyl group, and it connects to the central benzene.
+
+SMILES for the full molecule:
+
+CCN(Cc1ccccc1)c1cccc(c1)N(c1cccc(C)c1)c1cccc(c1)N(c1cccc(C)c1)c1cccc(c1)N(CC)Cc1ccccc1
+
+Check of the central ring: c1cccc(c1)N...N means the ring atoms are c1, c, c, c, c(...), c1. The first attachment point is c1 (the N is attached at the "c(c1)" position), and the next is at the "c(" atom. Taking the central ring as "c1cccc(c1)N(...)..." with the preceding N attached to the first atom, the first atom and the fifth atom are separated by the closing atom c1, which gives a meta relationship (positions 1 and 5 are 1,3 through atom 6). This is correct.
+
+The same pattern holds for the outer rings: the N(Et)Bn is on atom 1 and the other N on atom 5, which is meta.
+
+SMILES: CCN(Cc1ccccc1)c1cccc(c1)N(c1cccc(C)c1)c1cccc(c1)N(c1cccc(C)c1)c1cccc(c1)N(CC)Cc1ccccc1

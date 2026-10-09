@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+- **Left fragment:** a morpholine ring whose nitrogen is bonded to a carbon bearing =NH (an amidine), and that carbon is attached to a para-substituted benzene ring.
+- **Linker:** the benzene ring carries a C(=O)NH group on the opposite side. This amide nitrogen is attached to the central benzene ring.
+- **Central ring:** the carbon bearing NH has an ortho neighbour carrying C(=O)NH-pyridyl. The OMe sits on the carbon para to the NH. Going around the ring: C1 bears NH, C2 bears the carboxamide, C3 is CH, C4 bears OMe, C5 is CH, C6 is CH. So OMe is para to the NH carbon, which fits the drawing, where OMe is at the top and NH at the bottom-left.
+- **Right fragment:** a 5-chloropyridin-2-yl group on the amide nitrogen. The pyridine C2 is attached to NH, and Cl is at C5, para to C2.
+
+SMILES, written in pieces:
+
+- Amidine and morpholine: N=C(N1CCOCC1)
+- Benzoyl ring: c1ccc(cc1)C(=O)N
+- Central ring: c1ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1
+
+Combined: N=C(N1CCOCC1)c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1
+
+Check on the central ring: c1ccc(OC)cc1C(=O)... starts at the NH-bearing carbon (c1), then c, c, c(OC), c, c1 (bearing the carboxamide). The OMe carbon is the 4th atom from c1, so it is para to the NH carbon, and the carboxamide carbon closes the ring next to c1, so it is ortho. This matches.
+
+SMILES: N=C(N1CCOCC1)c1ccc(cc1)C(=O)Nc1ccc(OC)cc1C(=O)Nc1ccc(Cl)cn1

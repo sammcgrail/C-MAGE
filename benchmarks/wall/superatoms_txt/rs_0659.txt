@@ -1,0 +1,21 @@
+I read the drawing region by region and assigned each stereocentre from its wedge or hash.
+
+**Skeleton**
+- The central ring is a tetrahydropyran: O, an anomeric carbon bearing OMe, CH2, CH–O(ester), CH2, and a CH carrying the side chain.
+- The anomeric carbon is also bonded to C4 of an N-PMB thiazolidin-2-one (ring N–C(=O)–S–CH2–CH).
+- The ester is a (Z)-3-methylhepta-2,6-dienoate: C(=O)–CH=C(CH3)–CH2CH2–CH=CH2.
+- The side chain on the ring is CH2CH2–CH(CH3)–CH=CH2.
+
+**Alkene geometry**
+- In the drawing the carbonyl carbon and the chain CH2 lie on the same side of the C=C, so they are cis. That is Z.
+
+**Stereocentres** (read from the wedges and hashes, then converted to @/@@)
+- The side-chain CH(Me) has its methyl on a bold wedge, giving `[C@@H]`.
+- The ring carbon bearing the side chain has a hashed bond to the chain, giving `[C@@H]`.
+- The ester-bearing ring carbon has a bold wedge to O, giving `[C@@H]`.
+- The anomeric carbon has a bold wedge to OMe, giving `[C@@]`.
+- The thiazolidinone C4 has a bold wedge to H, giving `[C@@H]`.
+
+I did not re-parse the final string with a toolkit; the chirality tags come from my own neighbour-order analysis.
+
+SMILES: C=C[C@@H](C)CC[C@@H]1C[C@@H](OC(=O)/C=C(/C)CCC=C)C[C@@](OC)(O1)[C@@H]1CSC(=O)N1Cc1ccc(OC)cc1

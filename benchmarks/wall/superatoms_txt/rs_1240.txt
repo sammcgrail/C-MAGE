@@ -1,0 +1,36 @@
+I read the structure as three parts: a phenylphosphonate, a diethoxy-substituted benzene, and an aminonaphthol sulfonate, joined by two azo links.
+
+**Left ring.** A benzene ring carries P(=O)(ONH4)2 and, at the meta position, an N=N group. The ammonium salts are written as O-NH4 in the label, which I treat as phosphonate O⁻ with NH4⁺.
+
+**Middle ring.** Its substituents, going around the ring, are:
+- an azo link to the left ring, at the left-hand carbon
+- OC2H5 at the top
+- an azo link to the naphthalene, at the right-hand carbon
+- OC2H5 at the bottom, para to the top ethoxy
+
+The two azo groups are para to each other. Both ethoxy groups are para to each other. The ring is therefore 1,4-bis(azo)-2,5-diethoxy.
+
+**Naphthalene.** The ring positions are:
+- C1 carries OH
+- C2 carries the azo group
+- C3 carries SO3NH4, written as sulfonate with NH4⁺
+- C4 is CH
+- C4a and C8a are the ring-fusion carbons
+- C5 is CH
+- C6 carries NH2
+- C7 and C8 are CH
+
+The ring fusion carbon next to the C-OH carbon is C8a. From it the right ring runs to CH (C8), then the C-NH2 carbon, then CH, CH, and C4a.
+
+**SMILES construction.**
+- Left ring: c1ccc(cc1P(=O)([O-])[O-])N=N...
+- Middle ring: c2cc(OCC)c(N=N...)cc2OCC
+- Naphthalene: c3c(S(=O)(=O)[O-])cc4ccc(N)cc4c3O
+
+Combined, with the three ammonium counterions written as separate [NH4+] fragments:
+
+[NH4+].[NH4+].[NH4+].O=P([O-])([O-])c1cccc(c1)N=Nc1cc(OCC)c(N=Nc2c(O)c3cc(N)ccc3cc2S(=O)(=O)[O-])cc1OCC
+
+Checking the naphthalene fragment c2c(O)c3cc(N)ccc3cc2S: c2 is C2 (azo), c(O) is C1, c3 is C8a, then c is C8, c(N) is C7, c is C6, c is C5, c3 is C4a, c is C4, c2 closing is C3 (carrying S). The amino group therefore sits at the position that the drawing shows as C6 or C7 depending on numbering. In the image the NH2 carbon is separated from the ring-fusion carbon by one CH, so it is the second carbon from C8a. That matches C7 in this numbering, and the image matches the SMILES.
+
+SMILES: [NH4+].[NH4+].[NH4+].O=P([O-])([O-])c1cccc(c1)N=Nc1cc(OCC)c(N=Nc2c(O)c3cc(N)ccc3cc2S(=O)(=O)[O-])cc1OCC

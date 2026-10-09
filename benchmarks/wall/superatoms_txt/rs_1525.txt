@@ -1,0 +1,20 @@
+The drawing shows three parts: a pyridine carboxamide, a chromanone core, and a furan substituent.
+
+**Pyridine part.** The ring nitrogen sits at the bottom left. C2 carries the carboxamide, C3 carries OH, and C4 carries OMe. C5 and C6 are CH. This gives a 3-hydroxy-4-methoxypyridine-2-carboxamide.
+
+**Chromanone part.** The ring atoms are C4 (C=O), C3 (bearing the NH), C2 (bearing the methyl), O1, and the fused benzene ring. The furan is attached at C7 of the benzo ring. C7 is the carbon meta to the ring-fusion carbon C4a (it is not adjacent to C8a, which carries O1). The attachment carbon sits one carbon away from the one bonded to O.
+
+**Furan part.** The furan is attached through its 2-position.
+
+**Assembling the SMILES.**
+- Pyridine: COc1ccnc(C(=O)N...)c1O
+- Chromanone: C3 is C(NC(=O)...)C(=O)c2ccc(cc2OC3C)-c4ccco4
+- The benzo ring runs C4a, C5, C6, C7 (furyl), C8, C8a (bonded to O).
+
+Full SMILES: COc1ccnc(C(=O)NC2C(C)Oc3cc(-c4ccco4)ccc3C2=O)c1O
+
+Check of the chromanone ring: C2 is the NH-bearing carbon, then C(C) bearing the methyl, then O, then c3 (C8a), then cc(furyl) giving C8 and C7, then cc for C6 and C5, then c3 (C4a), then C2=O closing the ring. This matches the drawing.
+
+No wedges or hashes are drawn, so no stereochemistry is included.
+
+SMILES: COc1ccnc(C(=O)NC2C(C)Oc3cc(-c4ccco4)ccc3C2=O)c1O

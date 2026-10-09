@@ -1,0 +1,17 @@
+I read the molecule as follows, using the drawing's wedges and hashes for stereochemistry.
+
+**Fragments**
+- **Pyridine:** a 3-hydroxy-4-methoxypyridine ring. The N is at the bottom left, and C2 carries the carbonyl.
+- **Amide:** the C2 carbonyl is joined through NH to the α-carbon of an O-benzyl serine. This serine carbon has a hashed bond to N.
+- **Ester chain:** the serine carboxyl forms an ester with a CH(CH3) carbon. That carbon is drawn with plain bonds, so it gets no stereo tag.
+- **Isobutyrate:** the next carbon bears an isobutyrate ester (OC(=O)CH(CH3)2) through a hashed O bond.
+- **Last stereocentre:** the final carbon carries COOCH2Ph and a hashed CH2Ph.
+
+**Stereo assignment (CIP from the drawn wedges and hashes)**
+- The serine α-carbon is S, which is the L-serine configuration.
+- The carbon bearing the isobutyrate O is R.
+- The carbon bearing CH2Ph and COOBn is R.
+
+Checking the SMILES atom by atom against these fragments, it matches the drawing.
+
+SMILES: COc1ccnc(c1O)C(=O)N[C@@H](COCc1ccccc1)C(=O)OC(C)[C@H](OC(=O)C(C)C)[C@@H](Cc1ccccc1)C(=O)OCc1ccccc1

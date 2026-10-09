@@ -12,8 +12,8 @@ Arms, each read from its own ledger and re-scored here with sonnet_batch.verdict
 
 Every chart is computed here, never in the page. The renderer-control chart is filled from
 wall/control.json whenever that file exists, so it appears with no change to this script or the page.
-The reference SMILES goes into the detail file only for images a tool-using reader has read
-(build_wall.tool_read_keys), the same gate as every other payload.
+Every reference SMILES is served. Tool readers are screened instead: a transcript that touches the
+site, a /wall/ path or a payload name is refused (scan_reader_transcript.ANSWER_PATH).
 """
 from __future__ import annotations
 
@@ -181,6 +181,15 @@ def removed_s5() -> list[dict]:
 
 
 def build() -> int:
+    """Serialised with the other wall builders (build_superatoms / build_llmocr): the cadence and the
+    superatom step can both rebuild, and two runs would race on the same .json.tmp."""
+    import fcntl
+    with open("/tmp/cmage-wall-build.lock", "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        return _build()
+
+
+def _build() -> int:
     corpus = {r["k"]: r for r in json.load(open(CORPUS))["rows"]}
     truth = {k: r["t"] for k, r in corpus.items()}
     name = {k: r["n"] for k, r in corpus.items()}
@@ -251,6 +260,7 @@ def build() -> int:
     # (BS.sa_tool_reads), so a new reading shows up on the next build with no change here.
     src = {k: "c" for k in corpus}
     sa_rows, _, _, _, _ = BS.scored_rows()
+    cx_trained: dict[str, dict] = {}
     sa_rows = [x for x in sa_rows if x["show"]]
     sa_reads = BS.sa_tool_reads()
     sa_cost = {}
@@ -260,15 +270,20 @@ def build() -> int:
             sa_cost[k] = (run.get("cost_usd") or 0) / n_, (run.get("duration_s") or 0) / n_, n_
     for x in sa_rows:
         k = x["k"]
-        src[k], truth[k], name[k] = ("b" if x["built"] else "r"), x["truth"], f"{k} · {x['name']}"
+        src[k], truth[k], name[k] = ("b" if x["built"] else "g" if x["big"] else "r"), x["truth"], f"{k} · {x['name']}"
         thumb(Path(x["png"]), WALL / "superatoms" / f"{k}.png")
         ans["api"][k] = {"s": x["s"], "v": x["v"], "c": None}
         cost["api"][k] = x["rc"]
         facts["api"][k] = [money(x["rc"]), secs(x["rt"]),
                            f"{kfmt(x['otok'] or 0)} output tokens" + (f" ({kfmt(x['ttok'])} thinking)" if x["ttok"] else ""),
                            f"{kfmt(x['itok'] or 0)} input", f"stop: {x['stop']}" + (", retried" if x["retried"] else "")]
-        ans["cx"][k] = {"s": x["cx"], "v": x["cxv"], "c": x["cxc"]}
-        facts["cx"][k] = ["local CPU, no API cost", "superatom labels expanded before scoring"]
+        if x["trained"]:
+            # CXMolScribe was trained on this image: shown in the sheet, counted nowhere (agreed with Sam).
+            cx_trained[k] = {"s": x["cx"], "v": x["cxv"], "c": x["cxc"]}
+        else:
+            ans["cx"][k] = {"s": x["cx"], "v": x["cxv"], "c": x["cxc"]}
+        facts["cx"][k] = ["local CPU, no API cost", "superatom labels expanded before scoring"] + (
+            [BS.TRAIN_NOTE + ": not counted"] if x["trained"] else [])
         for arm in ("s5", "s55"):
             r = sa_reads[arm].get(k)
             if r:
@@ -344,7 +359,8 @@ def build() -> int:
                          for a in IDS]}
 
     order = sorted(src)
-    VIEWS = [("all", "All images"), ("c", "Corpus"), ("b", "Superatoms, built"), ("r", "Superatoms, real")]
+    VIEWS = [("all", "All images"), ("c", "Corpus"), ("b", "Superatoms, built"), ("r", "Superatoms, real"),
+             ("g", "Superatoms, real big (≥50 atoms)")]
     views = {v: dict(charts([k for k in order if v == "all" or src[k] == v]), label=lab) for v, lab in VIEWS}
     views = {v: x for v, x in views.items() if x["n"]}
     corpus_view = views["c"]
@@ -463,8 +479,7 @@ def build() -> int:
     if any(v in views for v in ("b", "r")):
         method.append("Superatom drawings (built from corpus molecules, and real published drawings from USPTO and "
                       "CLEF) are read by the API arm and CXMolScribe; the tool arms read them as a backfill, and an "
-                      "image counts in a chart only for the arms that have read it. A reference is shown once both "
-                      "tool arms have read the drawing, or, for a built drawing, once a tool arm has read its corpus molecule.")
+                      "image counts in a chart only for the arms that have read it.")
     method.append("The tool arms run as agents at effort max; the API arm runs at the API default, so the tools-vs-API "
                   "gap mixes tools with effort.")
     method.append(f"The shared set (n = {n_sh:,}) is the images all four arms read: Sonnet 5's coverage, which is "
@@ -487,12 +502,14 @@ def build() -> int:
     sa_by = {x["k"]: x for x in sa_rows}
     rows, detail = [], {}
     for k in order:
-        code = "".join(CODE[ans[a][k]["v"]] if has(a, k) else "x" if a == "s5" and k in s5_out else "-" for a in IDS)
+        code = "".join(CODE[ans[a][k]["v"]] if has(a, k) else "x" if (a == "s5" and k in s5_out) or (a == "cx" and k in cx_trained)
+                       else "-" for a in IDS)
         rows.append([k, name[k], code, src[k]])
         d = {a: [ans[a][k]["s"], ans[a][k]["c"], facts[a].get(k) or [], draw(ans[a][k]["s"])]
              for a in IDS if has(a, k)}
-        if (k in read) if src[k] == "c" else BS.truth_visible(sa_by[k], sa_reads, read):
-            d["t"] = truth[k]
+        if k in cx_trained:
+            d["cx"] = [cx_trained[k]["s"], cx_trained[k]["c"], facts["cx"][k], draw(cx_trained[k]["s"]), cx_trained[k]["v"]]
+        d["t"] = truth[k]      # every reference is served (Sam, 9 Oct); the transcript screen protects it
         detail[k] = d
     missing = {a["id"]: sum(1 for k in ans[a["id"]] if ans[a["id"]][k]["s"] and not drawn.get(ans[a["id"]][k]["s"]))
                for a in ARMS}
@@ -502,9 +519,6 @@ def build() -> int:
         "arms": [{**a, "read": len(ans[a["id"]])} for a in ARMS],
         "views": views, "hand": hand,
         "control": control, "caveats": caveats, "method": method, "prompts": prompts(s55_runs, led),
-        "withheld": {"n": sum(1 for k in detail if "t" not in detail[k]),
-                     "note": "Withheld until the tool-using readers have read this image (for a built superatom "
-                             "drawing: or its corpus molecule)"},
         "rows": rows,
     }
     for p, obj in ((OUT, out), (DETAIL, detail)):
@@ -522,7 +536,7 @@ def build() -> int:
                   f"(only {p_['a_only']} / {p_['b_only']}, p={p_['p']})")
         print(f"    cost: " + ", ".join(f"{c['id']} {c['usd']} (n {c['n']})" for c in V["cost"]))
     print(f"  CXMolScribe verdicts that differ from corpus_rows.json: {cx_drift}; undrawable answers: {missing}")
-    print(f"  withheld references: {out['withheld']['n']}; caveats: {len(caveats)}; control: {bool(control)}")
+    print(f"  rows without a reference: {sum(1 for k in detail if 't' not in detail[k])}; caveats: {len(caveats)}; control: {bool(control)}")
     return 0
 
 

@@ -1,0 +1,21 @@
+The drawing has three parts: a cyclohexene ring, a pyrimidine ring, and a 2-aminobenzothiazole joined to the pyrimidine through an ether oxygen.
+
+**Cyclohexene ring.** The CF3 sits on a CH. Going around the ring from the left, the vertices are C(CF3), a CH2 at the top, a CH2 at the upper right, the alkene carbon C1 attached to the pyrimidine, the alkene CH, and a CH2 at the lower left, which closes back to C(CF3). The double bond runs from C1 to the CH at the bottom. In the image, C1 is at the right (205,125) and the alkene CH is at (150,170). The CF3 carbon is at (92,70), the top CH2 at (150,38), the upper-right CH2 at (205,70), and the lower-left CH2 at (92,125). So the ring is C1(=CCC(CF3)... wait, tracing from C1 through the alkene CH, then the CH2 at (92,125), then C(CF3), then the top CH2, then the upper-right CH2, which closes at C1.
+
+SMILES for this ring: C1(=CCC(C(F)(F)F)CC1)
+
+Because C(CF3) is a stereocentre by connectivity but is drawn with plain bonds, I give it no stereo.
+
+**Pyrimidine ring.** The ring carbon bearing the cyclohexene is C4, which sits next to N3. Below it is C2 (the CH between the two nitrogens), then N1, then C6 bearing the O, and C5 (CH) at the top between C4 and C6.
+
+SMILES for this ring: c1(C2=CCC(C(F)(F)F)CC2)cc(O...)ncn1
+
+**Benzothiazole.** The oxygen is attached to the benzene carbon adjacent to the ring-fusion carbon that bears N. This is position 4 of the benzothiazole. The thiazole carbon C2 carries NH2.
+
+SMILES for this part: c1ccc2sc(N)nc2c1, with the O on the carbon next to c2n.
+
+**Full SMILES:** Nc1nc2c(Oc3cc(C4=CCC(C(F)(F)F)CC4)ncn3)cccc2s1
+
+Checking the cyclohexene closure in this string: C4=CCC(CF3)CC4 gives C4, =C, C, C(CF3), C, C4, which is six atoms. This matches the drawing.
+
+SMILES: Nc1nc2c(Oc3cc(C4=CCC(C(F)(F)F)CC4)ncn3)cccc2s1

@@ -1,0 +1,15 @@
+The drawing is regorafenib, built from three parts joined in a row.
+
+**Pyridine part.** The ring nitrogen sits at the lower left. The carbon next to it carries a C(=O)NHMe amide. The carbon at the 4-position carries the ether oxygen.
+
+**Central benzene.** The ether oxygen attaches at one ring carbon. The carbon bearing the urea NH is para to it. The fluorine sits on the carbon next to the urea carbon, so it is ortho to the NH and meta to the oxygen.
+
+Reading the central ring: the O-bearing carbon is at (566, 627), then (559, 733), then (645, 792) bearing F, then (740, 746) bearing NH, then (748, 640), then (660, 582). The F carbon and the NH carbon are adjacent, so F is ortho to the NH. The O carbon is separated from the F carbon by one carbon, so F is meta to the oxygen.
+
+**Right-hand aryl ring.** The ring carbon attached to the urea NH is followed by a CH, then the carbon bearing CF3, then the carbon bearing Cl. The Cl is para to the NH and CF3 is meta to it.
+
+**SMILES.** Starting from the amide: CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(C(F)(F)F)c3)c(F)c2)ccn1
+
+Check of the central ring in this SMILES: c2 (O-bearing), c, c, c(N) (para), c(F), c2. The F carbon is adjacent to the NH carbon and meta to the O carbon, which matches the drawing.
+
+SMILES: CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(C(F)(F)F)c3)c(F)c2)ccn1

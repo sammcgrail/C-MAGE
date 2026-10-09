@@ -1,0 +1,22 @@
+The drawing shows an indole: a benzene ring fused to a pyrrole ring that carries an NH.
+
+- The nitrile (CN) is on C3 of the pyrrole ring, the carbon next to the ring-fusion carbon.
+- The bromine is on the benzene ring at the position para to the NH-bearing ring-fusion carbon, which is C5 of the indole.
+
+To check the position of Br, I numbered the benzene ring from the drawing. The ring-fusion carbons are C3a (upper right, bonded to C3) and C7a (lower right, bonded to N). Going around the benzene ring from C3a gives C4 (top), C5 (upper left, bearing Br), C6 (lower left), C7 (bottom), and then C7a. This confirms Br is at C5.
+
+Writing the SMILES with the nitrile on C3: N#Cc1c[nH]c2ccc(Br)cc12
+
+Checking the atoms in that string:
+- c1 is C3, bearing the nitrile.
+- c is C2.
+- [nH] is N1.
+- c2 is C7a.
+- cc are C7 and C6.
+- c(Br) is C5.
+- c is C4.
+- c12 is C3a, which closes both rings.
+
+This matches the drawing.
+
+SMILES: N#Cc1c[nH]c2ccc(Br)cc12

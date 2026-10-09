@@ -1,0 +1,25 @@
+I read the molecule as an antimycin-type nine-membered dilactone carrying a substituted picolinamide.
+
+**Picolinamide part.** The pyridine carries a carboxamide at C2, a cyclobutanecarbonyloxy group at C3 and a methoxy group at C4. The amide nitrogen is attached to the macrocycle.
+
+**Nine-membered ring.** Going around the ring from the nitrogen-bearing carbon:
+- CH(NH–), drawn with a hashed N bond
+- C(=O)
+- ring O
+- CH(CH3), methyl on a wedge
+- CH(O–C(=O)CH(CH3)2), isobutyrate on a hash
+- CH(CH2Ph), benzyl on a wedge
+- C(=O)
+- ring O
+- CH2, which closes back to the nitrogen-bearing carbon
+
+**Stereochemistry.** I assigned CIP descriptors from the wedges and hashes, then matched each to the SMILES chirality tag:
+
+| Centre | Descriptor | SMILES tag |
+|---|---|---|
+| CH(N) | S | `[C@H]` |
+| CH(CH3) | S | `[C@H]` |
+| CH(O-isobutyrate) | S | `[C@@H]` |
+| CH(CH2Ph) | R | `[C@H]` |
+
+SMILES: COc1ccnc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c1OC(=O)C1CCC1

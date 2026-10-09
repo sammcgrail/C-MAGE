@@ -62,10 +62,11 @@ def tool_read_keys() -> set[str]:
 
 
 def gate_truth(rows: list[dict], read: set[str]) -> int:
-    """Drop the reference (and everything derived from it) from every row whose key no tool-using
-    lane has read; mark the row `tw` so the detail sheet can say why. Verdicts stay: they are the
-    tab's content, and they reveal only what that row's own reading already shows. Returns the
-    number of rows withheld."""
+    """RETIRED 9 Oct (Sam): references are served on every row. The protection is the reader
+    transcript screen instead (scan_reader_transcript.ANSWER_PATH flags the site, any /wall/ path and
+    every payload name), and the jail limits a reader's network to the model API. Kept as a no-op so
+    callers need no change; returns 0."""
+    return 0
     n = 0
     for r in rows:
         if r["k"] in read:
@@ -543,9 +544,11 @@ if __name__ == "__main__":
         write("corpus_rows", copy.deepcopy(d), CORPUS_ROWS)
         read = tool_read_keys()
         withheld = gate_truth(d["rows"], read)
-        d["withheld"] = {"n": withheld, "note": WITHHELD_NOTE}
-        d["footer"] += (f" Reference SMILES withheld for the {withheld:,} images no tool-using Sonnet reader "
-                        f"has read yet; verdicts shown for all.")
+        if withheld:
+            d["withheld"] = {"n": withheld, "note": WITHHELD_NOTE}
+        if withheld:
+            d["footer"] += (f" Reference SMILES withheld for the {withheld:,} images no tool-using Sonnet reader "
+                            f"has read yet; verdicts shown for all.")
         print(f"  reference served for {len(d['rows']) - withheld}, withheld for {withheld}")
         write("images", d)
     if which in ("pdfs", "all"):

@@ -1,0 +1,16 @@
+I read the structure region by region and wrote it as SMILES.
+
+**Structure:**
+- **Left side chain:** Et2N–S(=O)(=O)–NH–, a diethylsulfamide attached to the ring through its NH.
+- **Saturated ring:** a six-membered piperidine ring containing N-propyl. Going around it: N(nPr), CH2, C bearing the NH (hashed bond), CH2, ring-fusion CH (H hashed), and ring-fusion CH (H wedged) bonded to N.
+- **Middle ring:** the two ring-fusion carbons are each joined through a CH2 to adjacent aromatic carbons, forming a second six-membered ring.
+- **Aromatic ring:** a benzene ring fused to the middle ring, with an OH on the aromatic carbon next to the one that carries the lower CH2.
+
+**Stereochemistry:** there are three stereocentres, each drawn with a wedge or hash.
+- The carbon bearing NH has the N behind the plane, which gives `@@`.
+- The ring-fusion CH next to N has its H wedged toward the viewer, which gives `@@`.
+- The other ring-fusion CH has its H hashed, which gives `@`.
+
+I worked out each chirality symbol by writing the neighbours in SMILES order and checking the sense of rotation from the drawn 2D coordinates. I did not run the SMILES through a parser.
+
+SMILES: CCN(CC)S(=O)(=O)N[C@@H]1CN(CCC)[C@@H]2Cc3cccc(O)c3C[C@H]2C1

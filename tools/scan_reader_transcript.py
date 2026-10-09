@@ -197,8 +197,14 @@ NEVER_WAIVE = ("png-metadata", "name-to-structure", "nested-model", "obfuscated-
 # inside the repo, so the venv is carved out. The rest of the repo is not. Earlier readers'
 # transcripts and task outputs hold the PubChem responses they fetched, so reading one is
 # reading the key second-hand.
-ANSWER_PATH = re.compile(r"/root/cmage-work|/root/C-MAGE(?!/\.venv)|(?:localhost|127\.0\.0\.1):20079"
-                         r"|sebland\.com|\b(?:images|sonnet|pdfs)\.json\b|\bresults\.jsonl\b"
+# Since 9 Oct every served payload carries its reference SMILES (Sam: check the transcript instead of
+# withholding), so the site and its payload names are answer paths wherever they appear: the host,
+# the port, any /wall/ path and every payload file name.
+ANSWER_PATH = re.compile(r"/root/cmage-work|/root/C-MAGE(?!/\.venv)|(?:localhost|127\.0\.0\.1|0\.0\.0\.0):(?:20079|8080)"
+                         r"|sebland\.com|(?<![\w.])/wall/|\bcorpus_rows\.json\b"
+                         r"|\b(?:images|sonnet|sonnet55|sonnet55api|sonnet_compare|sonnet_report|sonnet_novel|pdfs|llmocr|llmocr_detail"
+                         r"|superatoms|control|technique|novel_set|control_set)\.json\b"
+                         r"|\bresults\.jsonl\b"
                          r"|\bexcluded\.jsonl\b|\bpending_\w*\.json\b"
                          r"|/root/\.claude\b|(?:~|\$HOME|\$\{HOME\})/\.claude\b|/tmp/claude-\d")
 CONTENT_SEARCH = re.compile(r"\b(?:grep|rg|ag)\b[^|;&\n]*\s-\w*[rR]")
@@ -594,6 +600,11 @@ def selftest() -> int:
         ("Bash", {"command": "python3 -c \"import pubchempy as p; print(p.get_compounds(n, 'name'))\""},
          "network-code", None),
         ("Read", {"file_path": "/root/C-MAGE/benchmarks/wall/images.json"}, "answer-path", None),
+        # The served payloads carry every reference: the site, a /wall/ path or a payload name is a hit.
+        ("Bash", {"command": "curl -s https://cmage.sebland.com/wall/llmocr_detail.json | head -c 300"}, "answer-path", None),
+        ("WebFetch", {"url": "https://cmage.sebland.com/?tab=superatoms", "prompt": "x"}, "answer-path", None),
+        ("Bash", {"command": "python3 -c \"import json; d=json.load(open('superatoms.json'))\""}, "answer-path", None),
+        ("Bash", {"command": "wget -qO- http://127.0.0.1:20079/wall/control.json"}, "answer-path", None),
         ("Read", {"file_path": "/root/.claude/projects/p/s/subagents/agent-a1d6b4e506749af12.jsonl"},
          "answer-path", None),
         ("Bash", {"command": "tail -c 4000 /tmp/claude-0/p/s/tasks/a1d6b4e506749af12.output"}, "answer-path", None),

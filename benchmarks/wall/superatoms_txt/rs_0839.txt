@@ -1,0 +1,29 @@
+The structure is a methyl 2-(benzyloxycarbonylamino)-3-aryl acrylate (a dehydroamino acid ester). The aryl group is a benzene ring carrying two adjacent nitro groups and a methyl.
+
+**Aromatic ring.** The ring carbon attached to the vinyl group is C1. Going around the ring:
+- C2 is an unsubstituted CH at the upper left.
+- C3 carries the upper NO2.
+- C4 carries the lower NO2.
+- C5 carries the methyl.
+- C6 is an unsubstituted CH.
+
+This is a 3,4-dinitro-5-methylphenyl group.
+
+**Chain.** The ring is attached to CH=C(NHCbz)C(=O)OCH3. The Cbz group is NH–C(=O)–O–CH2–Ph.
+
+**Double bond geometry.** The aryl group sits at the upper left of the double bond. At the other alkene carbon, the ester points to the upper right and the NH points down. The aryl-bearing carbon is at about (215,115) and the other alkene carbon at about (325,130).
+- The aryl ring carbon lies to the left of the aryl-bearing carbon, at about (215,135), which is below-left of it.
+- At the other end, the ester carbon is at the upper right (390,100) and the N is below (325,200).
+- So the aryl group (lower left on the left carbon) and the NH (down on the right carbon) are on the same side, which makes them cis (Z).
+
+Writing the SMILES with the aryl on the left carbon, `c1(...)/C=C(/N...)C(=O)OC`, the aryl–C/ /C=C(/N) form means aryl and N are on the same side only if the slashes are placed correctly. Using `Ar/C=C(\N)C(=O)OC` would put aryl and N on opposite sides, so for cis I write `Ar/C=C(/NC(=O)OCc1ccccc1)C(=O)OC`. In `F/C=C(/F)`, the two F atoms are on the same side (cis), so the same pattern applies here and the arrangement is Z for N versus aryl.
+
+SMILES: COC(=O)/C(NC(=O)OCc1ccccc1)=C/c1cc(C)c([N+](=O)[O-])c([N+](=O)[O-])c1
+
+Checking this string: in `C(NC...)=C/c1...` the ester carbon is written before the double bond, so the `/` after `=C` applies to the aryl. The ester carbon precedes `C` with no bond marker, so I need explicit markers. I rewrite it as:
+
+SMILES: COC(=O)/C(NC(=O)OCc1ccccc1)=C/c1cc(C)c([N+](=O)[O-])c([N+](=O)[O-])c1
+
+Here the ester is "/ before C", meaning the ester is below-left of C, and the aryl "/ after =C" is above-right, so the ester and aryl are trans. That puts N and aryl cis, which matches the drawing.
+
+SMILES: COC(=O)/C(NC(=O)OCc1ccccc1)=C/c1cc(C)c([N+](=O)[O-])c([N+](=O)[O-])c1

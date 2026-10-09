@@ -1,0 +1,10 @@
+I read the structure in four parts and joined them.
+
+1. **Indazole amide:** a 1H-indazole attached through its C6 to a carbonyl, which acylates the ring nitrogen of the tetrahydroisoquinoline.
+2. **Tetrahydroisoquinoline:** the aromatic ring carries Cl at C5 and C7, and the C6 carboxamide links to the amino acid nitrogen.
+3. **Amino acid unit:** the alpha carbon has NH, CO2H and a CH2 drawn on a bold wedge. This CH2 carries an NH that connects to the cyanoguanidine, C(=N–C≡N), whose second nitrogen is the pyrrolidine nitrogen. Working through the CIP priorities (N > CO2H > CH2 > H) gives S, written as `N[C@@H](CN...)C(=O)O`, the same pattern as L-alanine.
+4. **Pyrrolidine diol:** both OH groups are drawn on hashed bonds, so they are cis (meso-type, 3R,4S). In SMILES I worked out that the cis arrangement is `[C@H](O)[C@H](O)`.
+
+The result is a valid SMILES that covers each region atom for atom.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1CCc2c(Cl)c(C(=O)N[C@@H](CNC(=NC#N)N3C[C@H](O)[C@H](O)C3)C(=O)O)c(Cl)cc2C1

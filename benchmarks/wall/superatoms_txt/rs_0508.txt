@@ -1,0 +1,16 @@
+I read the structure in two parts and worked out the ring stereochemistry from the wedges and hashes.
+
+**Pyridine part:** the ring nitrogen sits next to C2, which carries the amide C(=O)NH. C3 bears OH and C4 bears OMe. The remaining two ring carbons are plain CH.
+
+**Sugar part:** this is a six-membered ring with one oxygen, a tetrahydropyran, so five carbons plus the ring O. Numbering from the carbon bonded to the amide N:
+- C1 carries the NH, drawn with a bold wedge.
+- C2 carries OAc on a hashed bond.
+- C3 carries OAc on a bold wedge.
+- C4 carries OAc on a bold wedge.
+- C5 is a plain CH2 bonded to the ring O.
+
+**Stereo assignment:** I took each centre's implicit H to point opposite its wedged or hashed substituent and read the neighbour order on the page. That gives C1 `@`, C2 `@`, C3 `@@`, C4 `@@` in the SMILES order used below.
+
+I checked the SMILES atom by atom against the drawing: the pyridine pattern, the amide link, the six ring atoms of the sugar, and the three acetates.
+
+SMILES: COc1ccnc(C(=O)N[C@H]2[C@H](OC(C)=O)[C@@H](OC(C)=O)[C@@H](OC(C)=O)CO2)c1O

@@ -1,0 +1,18 @@
+I read the structure in five parts and assigned stereochemistry from the wedges, hashes and double-bond geometry.
+
+**Fragments**
+- **Ring:** a tetrahydropyran (O, C2 to C6). C2 carries OMe and the thiazolidinone, C4 carries the ester oxygen, and C6 carries a phenethyl group.
+- **Ester:** an O-acyl group, C(=O)–CH=C(CH3)–CH2CH2–CH=CH2. The ester carbonyl and the chain CH2 sit on the same side of the C=C, so the methyl is trans to the carbonyl. In SMILES this is `C(=O)/C=C(/C)CCC=C`.
+- **Thiazolidinone:** a 2-oxo-thiazolidine whose nitrogen carries a PMB group (4-methoxybenzyl). Its C4 attaches to the pyran C2 and has an H drawn on a wedge.
+- **Phenethyl:** CH2CH2Ph on C6.
+- **PMB:** CH2–C6H4–OMe (para).
+
+**Stereocentres (CIP assignments from the drawing)**
+- Pyran C6, with the hashed phenethyl bond: R.
+- Pyran C4, with the wedged ester oxygen: R.
+- Pyran C2, with the wedged OMe: R.
+- Thiazolidinone C4, with the wedged H: R.
+
+I converted these four R assignments into @/@@ tags by comparing the SMILES neighbour order against CIP priorities at each centre.
+
+SMILES: CO[C@@]1(C[C@H](OC(=O)/C=C(/C)CCC=C)C[C@@H](CCc2ccccc2)O1)[C@@H]1CSC(=O)N1Cc1ccc(OC)cc1

@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+**Indazole.** The pyrazole ring has N (top, drawn as "N–" with a double bond to C3), NH, and C3 carrying a methyl group. The benzene ring carries an ethyl group at C7 and the CH2 side chain at C5.
+- SMILES for this part: Cc1n[nH]c2c(CC)cc(C...)cc12
+
+**Side chain.** The ring carbon is attached to CH2, then CH(NH–C(=O)–N…)(C(=O)OMe). The stereocentre has plain bonds, so no stereo is written.
+
+**Urea and piperidine.** The urea carbonyl links the NH to the piperidine nitrogen. The piperidine C4 carries N3 of the quinazolinone.
+
+**Quinazolinone.** The ring is N3–C(=O)–NH–C8a (aromatic, bearing F on the adjacent carbon C8), then the aromatic ring, then C4 (CH2) back to N3.
+- SMILES for this part: N1(C2CCN(CC2)...)C(=O)Nc2c(F)cccc2C1
+
+**Assembly:**
+COC(=O)C(Cc1cc(CC)c2[nH]nc(C)c2c1)NC(=O)N1CCC(CC1)N1Cc2cccc(F)c2NC1=O
+
+Checking the indazole fusion: c1 (C5) is bonded to CH2, then cc(CC), where c(CC) is C7. Next is c2 (C7a) with [nH], then n, then c(C) (C3), then c2 (C3a), then c1 (C4) closing back to C5. In the drawing, C4 is the CH between C3a and C5, and C6 is the CH between C5 and C7. In my SMILES, c1 is C5, then "c" is C6, then c(CC) is C7, then C7a, N1H, N2, C3, C3a, and finally "c1" is C4 closing to C5. This is consistent.
+
+SMILES: COC(=O)C(Cc1cc(CC)c2[nH]nc(C)c2c1)NC(=O)N1CCC(CC1)N1Cc2cccc(F)c2NC1=O

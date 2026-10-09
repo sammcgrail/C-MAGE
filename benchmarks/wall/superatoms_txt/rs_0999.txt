@@ -1,0 +1,28 @@
+The image shows a copolymer with two repeat units: a norbornane unit (30) and a tert-butyl 2-(trifluoromethyl)acrylate-derived unit (70).
+
+**Norbornane unit.** The ring is a bicyclo[2.2.1]heptane. The two top vertices are connected to the polymer chain, so these are C2 and C3 of the ring. The substituent is on one of the lower carbons. Its CH2 group leads to C(CF3)2OH, which is a hexafluoro-2-hydroxypropyl group.
+
+The ring atoms are labelled as follows:
+- C1 is the bridgehead on the left and C4 is the bridgehead on the right.
+- The top-left vertex is Ca, attached to C1.
+- The top-right vertex is Cb, attached to C4.
+- The bottom-left carbon is attached to C1.
+- The bottom-right carbon is attached to C4 and carries the CH2C(CF3)2OH substituent.
+- A one-carbon bridge (C7) joins C1 and C4.
+
+The drawing is a hexagon with a bridge. The top vertices are the chain-attached carbons. The left bridgehead lies below the top-left vertex, and the right bridgehead lies below the top-right vertex. The lower-left vertex then connects to the bottom-right vertex, which bears the substituent. The bridge runs between the two bridgeheads. This gives a 7-carbon bicycle: Ca, Cb, C4, C5 (bottom, with substituent), C6 (bottom-left), C1 and C7. In the picture the substituent carbon sits at the bottom, attached to the right bridgehead.
+
+**Writing the SMILES.**
+- Norbornane unit: [C]1(top-left) is C1(C2...) written as `*C1C2CC(C1... )`, which needs care.
+- The ring bonds are Ca–Cb, Ca–C1, Cb–C4, C1–C6, C6–C5, C5–C4, and C7 bridging C1 and C4.
+- Repeat unit 1: `C1C2CC(CC(C(F)(F)F)(C(F)(F)F)O)C(C1... )` is awkward, so I wrote it out explicitly as `*C1C2CC(C1*)... ` and then rearranged. The final form is `*C1C(*)C2CC1C(CC(O)(C(F)(F)F)C(F)(F)F)C2`.
+
+Checking this: Ca (C1 in the SMILES) is bonded to Cb, which is C(*). Cb is bonded to C2, a bridgehead. The bridgehead continues to C (the bridge), then C1 closes the ring back to Ca. This closure is wrong, since the bridgehead attached to Ca should be reached via the ring closure. I wrote the ring-closure atoms as `C2CC1`, in which the second bridgehead closes ring 1 with Ca and the bridge. Then `C(substituent)` followed by `C2` closes the bicycle.
+
+Atom check: the ring has Ca, Cb, bridgehead A, bridge C, bridgehead B, C5 and C6, which is 7 carbons, as required for norbornane.
+
+**Acrylate unit.** `*CC(*)(C(F)(F)F)C(=O)OC(C)(C)C`
+
+**Combined.** The polymer is written with the two repeat units in brackets, ignoring the repeat counts.
+
+SMILES: *C1C(*)C2CC1C(CC(O)(C(F)(F)F)C(F)(F)F)C2.*CC(*)(C(F)(F)F)C(=O)OC(C)(C)C

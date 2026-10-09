@@ -1,0 +1,20 @@
+The drawing shows a pyrimidine ring with these substituents:
+
+- **C4 (top right):** Cl, attached to the ring carbon next to the upper N.
+- **N3:** the upper-right ring nitrogen.
+- **C2 (right):** CF3, between the two ring nitrogens.
+- **N1:** the lower ring nitrogen.
+- **C6 (bottom left):** a 4-(methylsulfonyl)phenyl group.
+- **C5 (top left):** a phenyl group.
+
+Ring connectivity: C(Cl)=N–C(CF3)=N–C(Ar)=C(Ph)–back to C(Cl). This gives the SMILES Clc1nc(C(F)(F)F)nc(c2ccc(cc2)S(C)(=O)=O)c1c1ccccc1.
+
+Check of the SMILES:
+- `Clc1` is the C–Cl carbon and opens ring 1.
+- `n` is the first ring nitrogen.
+- `c(C(F)(F)F)` is the carbon bearing CF3.
+- `n` is the second ring nitrogen.
+- `c(c2ccc(cc2)S(C)(=O)=O)` is the carbon bearing the methylsulfonylphenyl group.
+- `c1c1ccccc1` closes the pyrimidine ring at the phenyl-bearing carbon. The ring-closure digit 1 is reused for the phenyl ring only after the pyrimidine ring has closed, so the SMILES is valid.
+
+SMILES: Clc1nc(C(F)(F)F)nc(-c2ccc(cc2)S(C)(=O)=O)c1-c1ccccc1

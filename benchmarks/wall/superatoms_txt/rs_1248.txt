@@ -1,0 +1,30 @@
+The image shows a copolymer with two repeat units, a norbornane unit (subscript 51) and a methacrylonitrile-type unit (subscript 49).
+
+**Norbornane unit.** The bicyclo[2.2.1]heptane is drawn with its backbone bonds leaving at the two top vertices, which are adjacent carbons (C5 and C6 of the norbornane). The bridgehead carbons are at the left and right. The left bridgehead is joined to the lower-left CH2, and the right bridgehead is joined to the quaternary carbon bearing CF3 and CO2tBu. The one-carbon bridge is the short line across the middle. The ring bonds are:
+
+- C(a) top-left, linked to the left bridgehead C1 and to C(b) top-right.
+- C(b) top-right, linked to the right bridgehead C4.
+- C1 to C7 (bridge) and C1 to C2 (the CH2 at lower left).
+- C2 to C3, the quaternary carbon bearing CF3 and CO2tBu.
+- C3 to C4.
+- C4 to C7.
+
+Reading the drawing: the left bridgehead is at (100,138) and the right bridgehead at (235,138). The top vertices at (133,78) and (205,78) are the chain-attached carbons. The lower-left CH2 at (135,198) joins the quaternary carbon at (198,198), which joins the right bridgehead at (235,138). So the ring is: top-left carbon, top-right carbon, right bridgehead, quaternary C, CH2, left bridgehead, back to top-left, with the bridge CH2 linking the two bridgeheads. This gives a 7-carbon bicycle.
+
+SMILES for the unit, with open ends marked by the first and last ring atoms: C1(C2CC(C1)C(C(F)(F)F)(C(=O)OC(C)(C)C)C2)... I need the correct connectivity here, so I write it explicitly. Let the top-left carbon be Ca and the top-right carbon be Cb. Ca is bonded to the left bridgehead C1, and Cb is bonded to the right bridgehead C4. C1 is bonded to the CH2 (C2) and to the bridge C7. C2 is bonded to C3, which is bonded to C4. This gives:
+
+[*]C1C2CC(C1[*])... 
+
+Written out as a ring: C1(Ca) – C2 … Ca–Cb, Cb–C4, C4–C3, C3–C2, C2–C1, C1–Ca, C1–C7, C7–C4. In SMILES: C1(*)C2CC(C1... this is the ring Ca, C1, C7, C4, Cb which is a five-membered ring, so I write it as
+
+`*C1C2CC(C1*)C(C(F)(F)F)(C(=O)OC(C)(C)C)C2`
+
+Here Ca is C1 (ring label 1), then C2 as the left bridgehead (ring label 2), then the bridge CH2, then the right bridgehead C(...), which closes to Cb via C1*. Then the quaternary carbon, and finally the CH2 that closes ring 2 to the left bridgehead. This matches the connectivity above.
+
+**Second unit.** The unit is CH2–C(CH3)(CN), written as `CC(C)(C#N)` with ends at CH2 and the quaternary carbon.
+
+**Combining.** I write the copolymer as the two units in sequence with the repeat counts shown:
+
+`[*]C1C2CC(C1[*])C(C(F)(F)F)(C(=O)OC(C)(C)C)C2` is not a clean linear chain, so I write the two units in brackets with the counts:
+
+SMILES: *C1C(*)C2CC1C(C(F)(F)F)(C(=O)OC(C)(C)C)C2.*CC(C)(C#N)*

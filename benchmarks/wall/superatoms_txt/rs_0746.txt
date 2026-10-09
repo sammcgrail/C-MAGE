@@ -1,0 +1,24 @@
+I read the molecule as a 9-membered dilactone ring carrying an amide-linked pyrimidine, an isobutyrate ester, a benzyl group and a methyl group.
+
+**Pyrimidine part:** a 2-methyl-4-hydroxypyrimidine with a carboxamide at C5, written `Cc1ncc(C(=O)N…)c(O)n1`.
+
+**Ring (9 atoms, in order):**
+1. C(=O)
+2. ring O
+3. CH(CH3)
+4. CH(O-isobutyryl)
+5. CH(CH2Ph)
+6. C(=O)
+7. ring O
+8. CH2
+9. CH bearing the NH
+
+**Stereocentres (from the wedges and hashes):**
+- The amide-bearing CH has a hashed NH bond, which gives `[C@H]` in my SMILES atom order.
+- The CH(CH3) has a bold wedge to the methyl, which gives `[C@H]`.
+- The CH(O-isobutyryl) has a hashed bond to the ester oxygen, which gives `[C@@H]`.
+- The CH(CH2Ph) has a bold wedge to the benzyl CH2, which gives `[C@H]`.
+
+I assigned each @/@@ by working out the clockwise or counterclockwise order of the neighbours from the 2D drawing, with the implicit hydrogen on the side opposite the wedge or hash.
+
+SMILES: Cc1ncc(C(=O)N[C@H]2COC(=O)[C@H](Cc3ccccc3)[C@@H](OC(=O)C(C)C)[C@H](C)OC2=O)c(O)n1

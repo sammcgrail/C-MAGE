@@ -1,0 +1,19 @@
+Reading the structure region by region:
+
+**Indazole.** The ring system is N=CH–C3a (fused)…C7a–NH, with the pyrazole written as N–NH. The 7-methyl group is on the carbon next to C7a, and the CH2 side chain is on C5.
+- SMILES for this part: c1(C)cc(CC...)cc2cn[nH]c12, where the methyl-bearing carbon is C7, bonded to C7a, which carries the NH.
+
+**Side chain.** The indazole C5 carries CH2–CH(NH–C(=O)–N-piperidine)–C(=O)OMe. The stereocentre is drawn with plain bonds, so no stereo is given.
+
+**Piperidine and quinazolinone.** The piperidine N is acylated by the urea carbonyl. Its C4 bears N3 of the quinazolinone.
+- Quinazolinone ring: N3–C2(=O)–N1H–C8a, then C4a, then C4H2 back to N3.
+- Fluorine is on C8, the carbon adjacent to C8a, which is bonded to N1H.
+
+**Full SMILES:**
+COC(=O)C(Cc1cc(C)c2[nH]ncc2c1)NC(=O)N1CCC(CC1)N1Cc2cccc(F)c2NC1=O
+
+Checks:
+- Indazole: c1cc(C)c2[nH]ncc2c1 gives C5 (attached to CH2), C6 (H), C7 (Me), C7a, N1H, N2, C3, C3a, C4. The first atom c1 is C5, then c is C6, c(C) is C7, c2 is C7a, [nH], n, c is C3, c2 is C3a, c1 is C4 closing to C5. This is correct.
+- Quinazolinone: N1 (the ring-opening N) then C4H2, c2 (C4a), ccc (C5, C6, C7), c(F) (C8), c2 (C8a), NH, C1=O. This is correct.
+
+SMILES: COC(=O)C(Cc1cc(C)c2[nH]ncc2c1)NC(=O)N1CCC(CC1)N1Cc2cccc(F)c2NC1=O

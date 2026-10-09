@@ -1,0 +1,16 @@
+The drawing shows 4,4'-(hexafluoroisopropylidene)diphthalic anhydride (6FDA).
+
+Reading the structure region by region:
+- Each end is a phthalic anhydride unit: a benzene ring fused to a five-membered anhydride ring, C(=O)OC(=O), with two carbonyl oxygens drawn.
+- The two units are joined at the centre by a quaternary carbon carrying two CF3 groups.
+- Each benzene ring is attached to the central carbon at the position para to one of the anhydride-bearing ring carbons, which matches the 5-position of the isobenzofuran-1,3-dione.
+
+For the left unit, I wrote the SMILES as O=C1OC(=O)c2cc(ccc12)C(...)... Ring atoms: c2 (fused carbon, attached to the carbonyl C3), then cc(...) gives CH followed by the substituted carbon, then cc gives two CH, and c12 closes back onto the other fused carbon. The substituent sits on the carbon one atom away from the fused carbon, which is the 5-position. This matches the drawing.
+
+The full SMILES is:
+
+O=C1OC(=O)c2cc(ccc12)C(C(F)(F)F)(C(F)(F)F)c1ccc2C(=O)OC(=O)c2c1
+
+Check on the right unit: c1ccc2C(=O)OC(=O)c2c1. The attachment carbon c1 is followed by c and c (two CH), then c2 (fused), the anhydride, then c2 (fused) and c1 (CH) closing the ring. The attachment carbon is therefore adjacent to a CH that is adjacent to a fused carbon, so it is again the 5-position. This is consistent with the drawing.
+
+SMILES: O=C1OC(=O)c2cc(ccc12)C(C(F)(F)F)(C(F)(F)F)c1ccc2C(=O)OC(=O)c2c1

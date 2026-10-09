@@ -1,0 +1,28 @@
+The drawing shows a quinazoline core with three substituents.
+
+**Quinazoline core.** The pyrimidine ring has N1 at the top, C2 on the right bearing the NH, N3 at the bottom right, and C4 at the bottom bearing the phenyl group. The fused benzo ring carries Br at C6. Going around the benzo ring from the ring fusion, C4a is bonded to C4, then C5 (CH), then C6 (Br), then C7, C8 and C8a. C8a is bonded to N1.
+
+**Substituents.**
+- C2 carries an NH linked to a para-substituted benzene ring, which ends in SO2NH2.
+- C4 carries a phenyl group.
+- C6 carries the bromine.
+
+**SMILES construction.** I start from the sulfonamide and work through the aniline ring into the quinazoline:
+
+NS(=O)(=O)c1ccc(Nc2nc(-c3ccccc3)c3cc(Br)ccc3n2)cc1
+
+Checking the quinazoline atoms in this string:
+- c2 is C2.
+- n is N3.
+- c(-c3ccccc3) is C4 with the phenyl.
+- c3 is C4a.
+- c is C5.
+- c(Br) is C6.
+- c is C7.
+- c is C8.
+- c3 is C8a, which closes the benzo ring.
+- n2 is N1, which closes back to C2.
+
+This matches the drawing.
+
+SMILES: NS(=O)(=O)c1ccc(Nc2nc(-c3ccccc3)c3cc(Br)ccc3n2)cc1

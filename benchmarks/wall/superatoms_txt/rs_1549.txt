@@ -1,0 +1,11 @@
+I read the molecule as a pyrazin-2-one core carrying three substituents.
+
+- **Pyrazinone ring:** N1–C(=O)–C(indolinyl)=N–C(Cl)=C1, so the carbon next to the ring nitrogen on the left carries Cl and the carbon next to C=O carries the indoline.
+- **N1 substituent:** a CH bearing an ethyl group, a cyclopropyl group and an explicitly hashed H.
+- **Indoline at C3:** attached through its nitrogen. The fused benzene ring has Cl at C7 (next to the ring fusion), F at C6 and OMe at C5.
+
+**Stereocentre at the N1 substituent.** The H is on a hashed bond, so it points away from the viewer. The CIP priorities are N > cyclopropyl (C,C,H) > ethyl (C,H,H) > H. In the drawing, N is at the bottom, cyclopropyl at upper right and ethyl at upper left. Going N → cyclopropyl → ethyl is counterclockwise with H at the back, so the centre is S.
+
+Writing the SMILES as CC[C@@H](C1CC1)N…, the neighbour order is ethyl, H, cyclopropyl, N. Working through the permutation, `@@` here gives S, which matches the drawing.
+
+SMILES: CC[C@@H](C1CC1)N1C=C(Cl)N=C(N2CCc3cc(OC)c(F)c(Cl)c32)C1=O

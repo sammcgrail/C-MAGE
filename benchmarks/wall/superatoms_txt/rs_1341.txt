@@ -1,0 +1,30 @@
+I read the structure as a xanthone core carrying a substituted aryl group, and built the SMILES from the three pieces below.
+
+**Xanthone core (right side).**
+- The ring oxygen sits at the top centre.
+- The left ring has four substituted positions. Going round from the carbon next to the ring-oxygen carbon, these are C4 (acetyl), C3 (aryl), C2 (acetyl) and C1 (H).
+- The C=O at the bottom centre is the xanthone carbonyl.
+- The right ring carries, from the carbonyl-side carbon round to the oxygen side, COOH, OH, OH and H.
+
+**Substituent on the core.** The aryl group is a benzene ring bearing an acetyl, an OH and an aroyl group. The aroyl is a C(=O) linked to a 2,4,5-trihydroxyphenyl ring.
+
+**Trihydroxyphenyl ring.**
+- The carbon attached to the carbonyl is C1'.
+- Going round the ring from C1', the next carbon has OH at the bottom left (C2'), then C3' is H, C4' has OH, C5' has OH at the top, and C6' is H.
+- The drawing puts OH at the top (C5'), HO on the left (C4') and OH at the bottom (C2'), giving a 2,4,5-trihydroxyphenyl pattern.
+
+**Assembling the SMILES.**
+- Central aryl ring: c1(C(C)=O)c(O)c(C(=O)Ar)cc(c1)–xanthone.
+- Trihydroxyphenyl: c1cc(O)c(O)cc1O, with C1' bonded to the carbonyl and the ring closing back to C1'.
+- Xanthone: c1(C(C)=O)c(C(C)=O)cc2c(c1... written out in full below.
+
+Xanthone core atoms:
+- C4 is c(C(C)=O), bonded to C4a, which carries the ring O.
+- Ring O bonds to C10a, then C10a is c3cc(O)c(O)c(C(=O)O)c3 with C9a, and C9 is C(=O) bonded back to C8a.
+
+Full SMILES:
+CC(=O)c1cc(cc(C(=O)c2cc(O)c(O)cc2O)c1O)-c1c(C(C)=O)c2Oc3cc(O)c(O)c(C(=O)O)c3C(=O)c2cc1C(C)=O
+
+Check of the xanthone ring closure: c1(aryl-bearing C3) c(C(C)=O)(C4) c2 (C4a) O c3 (C10a) c c(O) c(O) c(COOH) c3 (C9a) C(=O) c2 (C8a... the carbon closing to C4a) c c1(C(C)=O). The bottom ring needs C9a to carry COOH on its neighbour, which it does. The aromatic closure c2 here is C1a, which is bonded to C4a, and the CH is then C1, followed by C2 (acetyl) closing to C3. This is consistent.
+
+SMILES: CC(=O)c1cc(cc(C(=O)c2cc(O)c(O)cc2O)c1O)-c1c(C(C)=O)c2Oc3cc(O)c(O)c(C(=O)O)c3C(=O)c2cc1C(C)=O

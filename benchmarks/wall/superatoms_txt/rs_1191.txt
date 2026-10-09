@@ -1,0 +1,21 @@
+The drawing shows compound (IX), which is the reactant on the left of the arrow; (VIII) is only a label for the product, so I wrote the structure for (IX).
+
+**Pyrimidine ring.** Going around the ring:
+- C4 carries the 3-nitrophenyl group.
+- C5 carries CN.
+- C6 carries the S–CH2–C(=O)OEt group.
+- N1 sits between C6 and C2.
+- C2 carries SMe.
+- N3 sits between C2 and C4.
+
+**Substituents.**
+- The aryl group is a benzene ring with NO2 at the meta position relative to the ring bond to the pyrimidine.
+- The side chain is S–CH2–C(=O)–O–CH2CH3.
+
+**SMILES.** Starting from the ester: CCOC(=O)CSc1nc(SC)nc(-c2cccc([N+](=O)[O-])c2)c1C#N
+
+Atom-by-atom check against the drawing:
+- Ring atoms: c1 (C6, bearing S), n, c(SC) (C2), n, c(-aryl) (C4), c1 (C5, bearing C#N). This is six atoms, as drawn.
+- Aryl ring: c2cccc(NO2)c2. The attachment carbon is c2, followed by c, c, c, then c(NO2), then c2 closing the ring. The nitro carbon is the fifth atom counting from the attachment carbon, and the closing atom is adjacent to the attachment carbon. Going the other way round, the nitro carbon is therefore two atoms from the attachment carbon, which is meta.
+
+SMILES: CCOC(=O)CSc1nc(SC)nc(-c2cccc([N+](=O)[O-])c2)c1C#N

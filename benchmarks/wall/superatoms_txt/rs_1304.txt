@@ -1,0 +1,15 @@
+Reading the structure region by region:
+
+- **Biphenyl part:** one phenyl ring carries SO2NH2 at the ortho position and is bonded to a para-substituted phenyl ring. That second ring bears the C(=O)NH group.
+- **Anilide ring:** the amide N is attached to an aromatic carbon (C1). The adjacent carbon (C2) bears the O-aryl group, and the OMe is on the carbon that is para to C1 in the drawing.
+  - In the drawing, the ring top-left carbon is C1, bonded to N. Going clockwise: C1 (N), top-right carbon, right carbon (OMe), bottom-right carbon, bottom carbon (O), and back to C1 via the left side.
+  - Following the bonds: C1 (N), C2 (the O-bearing carbon at lower left), C3 (bottom), C4 (OMe, lower right), C5 (upper right), C6 (top). The OMe is therefore at C4, para to C1 and meta to the O-aryl carbon C2.
+- **Amidine ring:** the phenoxy ring carries a C(=N)N amidine group meta to the oxygen.
+
+SMILES: write the anilide ring as c1(NC(=O)...)c(Oc2cccc(c2)C(=N)N)cc(OC)cc1.
+
+Full SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccc(OC)cc1Oc1cccc(c1)C(N)=N
+
+Checking the anilide ring in this SMILES: c1 (N) is C1, then c c(OC) c c1 gives C6, C5 (OMe), and so on. Written as Nc1ccc(OC)cc1O..., the atoms are C1(N), C6, C5, C4(OMe), C3, C2(O). The OMe carbon is para to C1, which matches the drawing.
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(cc1)C(=O)Nc1ccc(OC)cc1Oc1cccc(c1)C(N)=N

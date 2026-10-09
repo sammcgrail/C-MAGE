@@ -1,0 +1,16 @@
+I read the structure region by region.
+
+**Pyrazine core.** The ring carries Cl, two NH2 groups and the acyl substituent. Going around the ring: C(Cl), N, C(C=O), C(NH2), N, C(NH2). The ring atoms are N=C(Cl)... with N at the top and N at the bottom. This is the amiloride-type core, 3,5-diamino-6-chloropyrazine-2-carbonyl.
+
+**Acylguanidine.** The carbonyl is bonded to NH, then to C(=NH), then to NH. This NH leads into the chain.
+
+**Chain to the piperidine.** From the guanidine NH there are 4 CH2 groups. I counted the zigzag vertices: N, then 4 vertices, then the piperidine C4. The bonds from NH go up to a vertex, down, up, down, then to the ring carbon, which gives 4 CH2.
+
+**Piperidine and side chain.** The piperidine nitrogen carries a propyl chain (3 CH2) ending in NHBoc.
+
+SMILES, written in order:
+- Pyrazine: Clc1nc(C(=O)NC(=N)NCCCCC2CCN(CCCNC(=O)OC(C)(C)C)CC2)c(N)nc1N
+- Ring check: c1(Cl) n c(C(=O)...) c(N) n c1N. The ring atoms are c1(Cl), n, c(acyl), c(N), n, c(N) back to c1, which is six atoms.
+- Substituent check: the C(Cl) is adjacent to the C(NH2), which is adjacent to N. In the drawing, Cl–C is bonded to N at the top and to C(NH2) at the bottom. The C(NH2) at the lower left bonds to N at the bottom, which bonds to C(NH2) at the lower right, which bonds to C(acyl), which bonds to N at the top. So the ring order is C(Cl), N, C(acyl), C(NH2), N, C(NH2). This matches the SMILES.
+
+SMILES: Clc1nc(C(=O)NC(=N)NCCCCC2CCN(CCCNC(=O)OC(C)(C)C)CC2)c(N)nc1N

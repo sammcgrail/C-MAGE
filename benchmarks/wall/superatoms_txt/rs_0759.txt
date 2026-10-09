@@ -1,0 +1,13 @@
+I read the molecule as follows. Working from left to right:
+
+- **Indazole:** a 1H-indazole attached through C6 to a carbonyl.
+- **Tetrahydroisoquinoline:** that carbonyl acylates the ring nitrogen N2. The ring carries chlorines at C5 and C7, and a carboxamide at C6.
+- **Amino-acid chain:** the amide nitrogen is attached to an α-carbon bearing CO2H and a CH2–NH group.
+- **Cyanoguanidine:** the CH2–NH leads to a carbon with =N–C≡N, which is bonded to the nitrogen of a piperidine ring.
+- **Piperidine:** the ring carries an OH at C3, drawn with a wedge.
+
+**Stereochemistry:**
+- **α-carbon:** the wedge goes to the CH2 group. With priorities N > CO2H > CH2 > H and H pointing away, N, CO2H, CH2 run counterclockwise, so the centre is S. In the SMILES this is `N[C@@H](CN...)C(=O)O`.
+- **Piperidine C3:** the wedge goes to OH. With priorities OH > C2 > C4 > H and H pointing away, OH, C2, C4 run clockwise, so the centre is R. In the SMILES, written as `N3CCC[C@@H](O)C3`, this needs `@@`.
+
+SMILES: O=C(c1ccc2cn[nH]c2c1)N1Cc2cc(Cl)c(C(=O)N[C@@H](CNC(=NC#N)N3CCC[C@@H](O)C3)C(=O)O)c(Cl)c2CC1

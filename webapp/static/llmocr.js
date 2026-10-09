@@ -103,11 +103,11 @@ var CSS = [
 var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
 
 var V = {e:"exact", s:"stereo", w:"wrong", i:"invalid", "-":"not read", x:"invalid"};
-var VL = {e:"exact", s:"stereo only", w:"wrong", i:"unparseable", "-":"not read", x:"excluded (lookup)"};
+var VL = {e:"exact", s:"stereo only", w:"wrong", i:"unparseable", "-":"not read", x:"excluded, not counted"};
 var S = {filter:"all", q:"", shown:150, step:150, detail:null, pending:null, view:"all"};
 /* Where an image came from: the corpus, or the superatom set (built, real). Rows carry it as r[3]. */
-var IMGDIR = {c: "img", b: "superatoms", r: "superatoms"};
-var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt"};
+var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms"};
+var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt", g: "superatoms_txt"};
 function VW(){ return D.views[S.view] || D.views.all; }
 var D = null, ARM = {}, IDX = {};
 var fmt = function(n){ return n == null ? "–" : (+n).toLocaleString("en-US"); };
@@ -343,7 +343,7 @@ function openSheet(r){
     var x = d[k] || {};
     var ref = $("#loref"), det = $("#lodet"); if (!ref || !det) return;
     ref.innerHTML = x.t ? '<div class="kv"><label>Reference (PubChem)</label><code>' + esc(x.t) + '</code></div>'
-             : '<div class="kv"><label>Reference</label><p>' + esc((D.withheld && D.withheld.note) || "Withheld") + '</p></div>';
+             : '';
     det.innerHTML = D.arms.map(function(a, i){
       var v = c[i], y = x[a.id];
       var h = '<div class="lo-arm"><div class="ah"><i style="background:' + a.color + '"></i>' + esc(a.short) + '</div>';
@@ -397,7 +397,7 @@ function chartsHTML(){
 }
 
 function viewSwitch(){
-  var order = ["all", "c", "b", "r"].filter(function(v){ return D.views[v]; });
+  var order = ["all", "c", "b", "r", "g"].filter(function(v){ return D.views[v]; });
   if (order.length < 2) return '';
   return '<div class="srcsw" role="group" aria-label="Image source">' + order.map(function(v){
     return '<button class="chip" data-v="' + v + '" aria-pressed="' + (S.view === v) + '">' + esc(D.views[v].label)
@@ -441,7 +441,7 @@ function render(view, data){
   pinnedBar(root);
   var w = el("div", "wall"); w.id = "lowall"; root.appendChild(w);
   var f = el("footer"); f.textContent = "Built " + D.built.replace("T", " ").replace("Z", " UTC") + "."
-    + (D.withheld && D.withheld.n ? " Reference withheld on " + fmt(D.withheld.n) + " images until the tool-using readers have read them." : "");
+    + "";
   root.appendChild(f);
   root.querySelector("#lojump").onclick = function(){ $("#lofail").scrollIntoView({behavior: "smooth", block: "start"}); };
   window.GRID_END = function(cb, follow){ if (WALL) WALL.end(cb, follow); else if (cb) cb(); };

@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+- **Left fragment:** a benzimidazol-2-one. The N-H is drawn at the lower left, the C=O at the top, and the other nitrogen carries the piperidin-4-yl group.
+- **Piperidine:** the ring nitrogen is attached to a CH2–CH(OH)–CH2 chain.
+- **Chain end:** the last CH2 is bonded to N1 of the pyrazole.
+- **Pyrazole ring:** N1–N2=C3(aryl)–C3a=C7a. C3 bears the 4-(trifluoromethyl)phenyl group.
+- **Fused tetrahydropyridine ring:** C3a–CH2–N(SO2Me)–CH2–CH2–C7a.
+
+The SMILES, written in pieces:
+
+- Benzimidazolone with the piperidine: O=C1Nc2ccccc2N1C1CCN(CC1)...
+- Chain: CC(O)Cn1nc(c2c1CCN(C2)S(C)(=O)=O)-c1ccc(cc1)C(F)(F)F
+
+Check of the fused ring: n1 (N1), n (N2), c(...) is C3, c2 is C3a, c1 is C7a closing the pyrazole ring. After C7a, CCN(C2)... gives C7, C6, N5, then C4 closing to C3a. This matches the drawing.
+
+The CH(OH) carbon is drawn with plain bonds, so no stereochemistry is assigned.
+
+SMILES: O=C1Nc2ccccc2N1C1CCN(CC1)CC(O)Cn1nc(-c3ccc(cc3)C(F)(F)F)c2c1CCN(C2)S(C)(=O)=O

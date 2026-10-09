@@ -1,0 +1,19 @@
+The drawing shows a pyridine ring bearing 4-OMe and 3-OH, with a 2-carboxamide. The amide N is attached to the alpha carbon of a serine unit. That carbon carries an isopropyl ester (CO2iPr) and a CH2-O-C(=O)-CH(CH3)-CH2Ph side chain.
+
+**Pyridine ring.** The N is at the bottom, with C2 bearing the C(=O)NH group. C3 carries OH and C4 carries OMe. Written as a SMILES fragment: c1(C(=O)N...)nccc(OC)c1O.
+
+**Stereochemistry.** The alpha carbon has a bold wedge to the NH, so it is a defined stereocentre. The 2-methyl carbon in the side chain is drawn with plain bonds, so it gets no stereo label.
+
+To assign the alpha carbon, I place it at the centre with these neighbours:
+- NH to the left, on a wedge (toward the viewer)
+- C(=O)O above
+- CH2 below
+- H implied, pointing away
+
+CIP priorities are N > C(=O)O (O,O,O) > CH2O (O,H,H) > H. With H pointing away, I read N (left) → COOR (up) → CH2 (down). Going from left to up to down is clockwise, which gives R. L-serine is S in its usual form, so this is the D-serine configuration, which is fine.
+
+Now the SMILES. Writing the centre as N[C@H](C(=O)OC(C)C)COC(=O)..., the neighbour order is N, H, C(=O), CH2. Viewed from N, the sequence H → C(=O) → CH2 is counterclockwise for @. I need R, so I check this ordering.
+
+With H as the second neighbour, the order N, H, COOR, CH2 is an even permutation of H, N, COOR, CH2, so the two have the same chirality sense. Looking from H, @ means N → COOR → CH2 appears counterclockwise. Looking from the opposite side (H pointing away), the same sequence appears clockwise, and that is R. So @ gives R.
+
+SMILES: COc1ccnc(C(=O)N[C@H](C(=O)OC(C)C)COC(=O)C(C)Cc2ccccc2)c1O

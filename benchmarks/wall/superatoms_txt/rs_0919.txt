@@ -1,0 +1,16 @@
+I read the structure in three parts.
+
+**Pyridine ring (left).** It has N at the bottom left. The carbon next to N bears the C(=O)NH group. The next carbon carries OH, and the one after that carries OMe. The remaining two carbons are CH.
+
+**Linker.** The amide NH is followed by a chain of CH2 groups. Counting vertices from N: N–CH2 (1), CH2 (2), CH2 (3), CH2 (4), then C(=O) (5). The drawing shows the NH at about x=245, then bends at about 290, 345, 405, 465, and the C=O carbon at about 520. The vertices are:
+- 290 (low), 345 (high), 405 (low), 465 (high), 520 (low, the C=O carbon)
+- so the chain is N–C(290)–C(345)–C(405)–C(465)–C(520, C=O)
+- this gives 4 CH2 groups plus the carbonyl carbon, i.e. a pentanoate
+
+**Ester and aryl group.** The carbonyl carbon is bonded to O, which is bonded to a phenyl ring. That ring carries an NHAc group at the meta position.
+
+Assembled SMILES: COc1ccnc(C(=O)NCCCCC(=O)Oc2cccc(NC(C)=O)c2)c1O
+
+Checking the pyridine ring: c1(OMe) c c n c(C(=O)...) c1(O). The ring atoms are C4(OMe), C5, C6, N1, C2 (carboxamide) and C3 (OH), which matches the drawing.
+
+SMILES: COc1ccnc(C(=O)NCCCCC(=O)Oc2cccc(NC(C)=O)c2)c1O

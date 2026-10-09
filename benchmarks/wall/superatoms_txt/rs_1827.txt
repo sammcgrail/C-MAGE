@@ -1,0 +1,13 @@
+Reading the drawing region by region:
+
+- **Lactam ring:** a five-membered pyrrolidin-2-one with C=O at the upper left and the ring nitrogen at the lower right.
+- **N-substituent:** a CH2CH2 chain from N to a para-substituted benzene ring, which carries CO2H at the far end (a 4-substituted benzoic acid).
+- **Ring C5 side chain:** the ring carbon next to N carries a trans CH=CH, then CH(OH), then four CH2 groups ending in Cl.
+- **Stereocentres:** only two are drawn with wedges or hashes.
+  - Ring C5 has a wedged bond to the vinyl group. With N > vinyl > ring CH2 > H, I assign it as R.
+  - The carbinol carbon has a hashed OH. With OH > vinyl > CH2 > H, I assign it as S.
+- **Alkene:** drawn trans (E).
+
+I converted these assignments to SMILES chirality tags by neighbour ordering. I did not run the string through a parser, so validity rests on that manual check.
+
+SMILES: O=C1CC[C@H](/C=C/[C@@H](O)CCCCCl)N1CCc1ccc(C(=O)O)cc1

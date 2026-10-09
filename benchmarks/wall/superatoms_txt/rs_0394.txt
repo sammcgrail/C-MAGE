@@ -1,0 +1,19 @@
+Reading the drawing region by region:
+
+- **Ester:** a methyl ester, COC(=O)–, attached to the alpha carbon.
+- **Alpha carbon:** bears an NH and a CH2 that leads to the indole. All bonds are plain, so no stereochemistry is assigned.
+- **Urea:** NH–C(=O)–N, where the N is the piperidine nitrogen.
+- **Piperidine:** the 4-position carries N3 of the 3,4-dihydroquinazolin-2(1H)-one.
+- **Dihydroquinazolinone:** N3–C(=O)–N1H–aryl, with the aryl ring fused and a CH2 joining N3 to the aromatic carbon.
+- **Indole:** 3-cyano, with the CH2 attached at C5. The ring runs N1H, C2, C3(CN), C3a, C4, C5 (bearing the CH2), C6, C7, C7a.
+
+In the drawing, the benzene ring's upper-left carbon (the one bonded to NH) is C7a, and the CH2 attaches to the ring carbon at the lower left of the fused system.
+
+SMILES for the indole part: c1(CC...)ccc2[nH]cc(C#N)c2c1, where the first atom is C5, followed by C6, C7, C7a, N1, C2, C3(CN), C3a, and C4 closing the ring.
+
+Full SMILES:
+COC(=O)C(NC(=O)N1CCC(CC1)N1Cc2ccccc2NC1=O)Cc1ccc2[nH]cc(C#N)c2c1
+
+Checking the quinazolinone: N1 (the ring N attached to the piperidine C4) is followed by CH2, then c2ccccc2 (aromatic), then NH, then C1=O closing back to N3. This gives the correct ring: N3, CH2, aryl C, aryl C, NH, C=O.
+
+SMILES: COC(=O)C(NC(=O)N1CCC(CC1)N1Cc2ccccc2NC1=O)Cc1ccc2[nH]cc(C#N)c2c1

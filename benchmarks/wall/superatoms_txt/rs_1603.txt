@@ -1,0 +1,10 @@
+I read the molecule as four connected pieces and wrote the SMILES piece by piece.
+
+1. **Indazole acyl group:** a 1H-indazole (N=CH at the top, N–H at the bottom) joined through its benzene carbon C6 to a C=O. That carbonyl is bonded to the tetrahydroisoquinoline nitrogen.
+2. **Tetrahydroisoquinoline core:** the N-acylated nitrogen has two ring CH2 neighbours, one CH2–CH2 pair on one side and one benzylic CH2 on the other. On the benzene ring there are chlorines at C5 and C7, a carboxamide at C6, and a hydrogen at C8.
+3. **Amino acid side chain:** the C6 amide nitrogen is attached to a CH bearing CO2H and a CH2. That CH2 carries an NH, which leads to a cyanoguanidine, NH–C(=N–C≡N)–NH–(4-fluorophenyl).
+4. **Stereochemistry:** the only stereocentre is the α-carbon, drawn with a wedge to the CH2. Its H is implicit and points away from the viewer. Looking from the front, CH2 → CO2H → N runs clockwise. This corresponds to `[C@H]` when the SMILES is written with the CH2 as the preceding atom.
+
+I checked the ring closures and the atom order around the stereocentre against the drawing.
+
+SMILES: N#CN=C(Nc1ccc(F)cc1)NC[C@H](NC(=O)c1c(Cl)c2c(cc1Cl)CN(CC2)C(=O)c1ccc2cn[nH]c2c1)C(=O)O

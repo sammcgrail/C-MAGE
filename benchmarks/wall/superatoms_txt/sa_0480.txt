@@ -1,0 +1,18 @@
+I read the drawing as tri-O-TIPS-D-glucal: a dihydropyran ring (the glycal) carrying three triisopropylsilyl ethers. The SMILES comes from the ring atoms, then the stereocentres, then the TIPS expansion.
+
+**Ring and substituents**
+- The ring has an oxygen and five carbons: O–CH=CH–CH(OTIPS)–CH(OTIPS)–CH(CH2OTIPS)–back to O.
+- The double bond is between the two carbons next to the ring oxygen side, C1=C2.
+- The three silyl ethers are on C3 (hashed bond), C4 (wedged bond) and the exocyclic CH2 on C5 (hashed bond to the CH2).
+- Each TIPS group is expanded to Si(CH(CH3)2)3.
+
+**Stereocentres**
+
+I assigned CIP descriptors from the wedges and hashes, ranking by substituent priority and viewing against the implicit hydrogen.
+- C5 is R. O > C4 > CH2 appears counterclockwise from the front, and H points toward the viewer, so the true sense is clockwise.
+- C4 is S. O > C5 > C3 appears counterclockwise with H at the back.
+- C3 is R. O > C4 > C2 appears counterclockwise from the front, and H points toward the viewer, so the true sense is clockwise.
+
+This matches the D-glucal pattern (3R,4S,5R), which has the known SMILES OC[C@H]1OC=C[C@@H](O)[C@@H]1O. Replacing each OH with OTIPS in that template keeps the neighbour order, so the @/@@ marks stay the same.
+
+SMILES: CC(C)[Si](C(C)C)(C(C)C)OC[C@H]1OC=C[C@@H](O[Si](C(C)C)(C(C)C)C(C)C)[C@@H]1O[Si](C(C)C)(C(C)C)C(C)C

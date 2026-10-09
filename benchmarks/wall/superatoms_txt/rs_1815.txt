@@ -1,0 +1,17 @@
+I read the molecule region by region and assigned stereochemistry only where the drawing shows wedges or hashes.
+
+**Fragments**
+- **Indazole:** a 1H-indazole attached through its 6-position to a carbonyl.
+- **Tetrahydroisoquinoline:** that carbonyl acylates the ring nitrogen. The aromatic ring carries Cl at C5 and C7, with the carboxamide at C6 between them.
+- **Amino acid chain:** the amide NH is on an α-carbon that bears CO2H and a CH2 (wedged bond) leading to a guanidine NH.
+- **Cyanoguanidine:** the central carbon carries =N–C≡N and the pyrrolidine nitrogen.
+- **Pyrrolidine:** a 3-amino-4-hydroxy ring, with both the NH2 and the OH drawn on hashed bonds.
+
+**Stereocentres**
+- **α-Carbon:** the wedged CH2 puts the H at the back. Priorities are N > CO2H > CH2N, and the N → CO2H → CH2 sense is counterclockwise, so the centre is S.
+- **Pyrrolidine C3 (NH2, hashed):** the H points toward the viewer. Priorities are N > C4 > C2, and the apparent clockwise sense reverses, so the centre is S.
+- **Pyrrolidine C4 (OH, hashed):** the H points toward the viewer. Priorities are O > C3 > C5, and the apparent counterclockwise sense reverses, so the centre is R.
+
+I then wrote each chirality tag to match these assignments (@ at all three centres in the SMILES order used).
+
+SMILES: N#CN=C(NC[C@H](NC(=O)c1c(Cl)cc2CN(C(=O)c3ccc4cn[nH]c4c3)CCc2c1Cl)C(=O)O)N1C[C@H](N)[C@H](O)C1

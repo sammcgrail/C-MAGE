@@ -1,0 +1,25 @@
+I read the structure as an isoflavone (6,7-dihydroxy-4-oxo-chromen-3-yl) attached to a xanthone core.
+
+**Isoflavone part.** The pyranone ring has O1, then C2 (=CH), then C3, which carries the substituent. C4 is the C=O, and C4a and C8a are the ring-fusion carbons. The benzo ring carries OH at C6 and C7.
+
+SMILES for this fragment: c1(O)c(O)cc2occ(-*)c(=O)c2c1, where the benzo ring is C5(H), C6(OH), C7(OH), C8(H), C8a, C4a.
+
+**Xanthone part.** The ring on the left has these substituents:
+- C4 (next to the ring O) carries the acetyl group.
+- C3 carries the isoflavone.
+- C2 carries the second acetyl group.
+- C1 is the CH next to C9a (the carbon bearing the C=O).
+
+The ring on the right has the carboxylic acid at C8 (peri to the C=O), CH at C7, OH at C6, and CH at C5 next to the ring O.
+
+**Xanthone SMILES.** Starting at the acetyl-bearing carbon C4:
+CC(=O)c1c(-isoflavone)c(C(C)=O)cc2c1oc3cc(O)cc(C(=O)O)c3c2=O
+
+Checking the ring closures: c1 is C4; c(-Ar) is C3; c(Ac) is C2; c is C1 (CH); c2 is C9a; the c1 closure is C4a, bonded to C4. Then o is the ring oxygen; c3 is C10a, followed by cc(O)cc(COOH) and c3 (C8a), then c2=O (C9) closing to C9a.
+
+**Isoflavone attachment.** The isoflavone substituent is c4coc5cc(O)c(O)cc5c4=O, which gives C3, C2, O, C8a, C8, C7(OH), C6(OH), C5, C4a, C4(=O).
+
+**Full SMILES:**
+CC(=O)c1c(-c4coc5cc(O)c(O)cc5c4=O)c(C(C)=O)cc2c1oc3cc(O)cc(C(=O)O)c3c2=O
+
+SMILES: CC(=O)c1c(-c4coc5cc(O)c(O)cc5c4=O)c(C(C)=O)cc2c1oc3cc(O)cc(C(=O)O)c3c2=O

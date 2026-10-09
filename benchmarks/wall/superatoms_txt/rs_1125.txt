@@ -1,0 +1,14 @@
+Reading the drawing region by region:
+
+- **Pyridine ring:** N is at the bottom left. The carbon next to N (C2) carries the C(=O)NH group. C3 carries OH and C4 carries OMe. C5 and C6 are unsubstituted CH.
+- **Linker:** C2 is bonded to a C(=O) group, which connects through NH to the central benzene ring.
+- **Central benzene ring:** The NH is on one carbon. The two meta carbons each carry a methyl. The carbon between those two, para to the NH, carries the ester oxygen.
+- **Ester:** The oxygen links to C(=O), which attaches to a benzene ring bearing CF3 at the para position.
+
+SMILES for the pyridine part: COc1ccnc(C(=O)N...)c1O
+
+Full SMILES: COc1ccnc(C(=O)Nc2cc(C)c(OC(=O)c3ccc(C(F)(F)F)cc3)c(C)c2)c1O
+
+Atom check: the pyridine ring is c1 (OMe), c, c, n, c(amide), c1(O), which gives six atoms. The central ring is c2, c, c(C), c(O...), c(C), c2, which gives six atoms. The ring bonds are consistent.
+
+SMILES: COc1ccnc(C(=O)Nc2cc(C)c(OC(=O)c3ccc(C(F)(F)F)cc3)c(C)c2)c1O

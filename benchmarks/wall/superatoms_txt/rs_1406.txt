@@ -1,0 +1,29 @@
+The image shows a copolymer of two norbornane repeat units, with subscripts 45 and 55. Each unit is a bicyclo[2.2.1]heptane that is attached to the polymer chain through its C2 and C3 positions (the top two bonds).
+
+**Unit 1 (45):** The norbornane carries a quaternary carbon bearing CF3 and CO2C(CH3)3. The ring is drawn with the top two carbons as chain-connection points, a bridge CH2 at the middle, and bridgeheads on the left and right. The substituted carbon sits at the lower right, next to the lower-left CH2, which in turn connects to the left bridgehead.
+
+Numbering the ring: C1 is a bridgehead (left), C2 is the top-left carbon, C3 is the top-right carbon, C4 is the right bridgehead, C5 is the lower-right carbon bearing CF3 and the ester, C6 is the lower-left CH2, and C7 is the bridge.
+
+Written as a repeat unit with open chain ends: [C]1(top-left) and [C] (top-right) are each CH with an open bond.
+
+SMILES for unit 1: `*C1C(*)C2CC1C(C(F)(F)F)(C(=O)OC(C)(C)C)C2`
+
+Checking the connectivity: C1(*) is the top-left carbon, bonded to C(*) the top-right carbon, then to bridgehead C2, then CH2 (the bridge), then back to the ring closure at the left bridgehead. The left bridgehead continues to the substituted carbon, which closes to bridgehead C2 through the ring-closure CH2. This SMILES is a bit tangled, so I rewrite it more cleanly.
+
+Atoms: a = top-left CH(*), b = top-right CH(*), c = right bridgehead, d = bridge CH2, e = left bridgehead, f = CH2 (lower left), g = substituted carbon (lower right).
+
+In the drawing, the substituted carbon is bonded to the right bridgehead and to the lower-left CH2, which is bonded to the left bridgehead. So g is bonded to c and f, f is bonded to e, e is bonded to a, and a is bonded to b, which is bonded to c. The bridge d connects c and e.
+
+SMILES: `*C1C(*)C2CC1CC2(...)` does not fit this connectivity, so I write it as `*C1C(*)C2CC1CC2(C(F)(F)F)C(=O)OC(C)(C)C`. Here the ring closure 2 opens at c and closes at g. That gives a bonded to b, b to c, c to d, d to e, e to a (closure 1), e to f, f to g, and g to c (closure 2). This matches the connectivity.
+
+**Unit 2 (55):** The substituent is CH2C(CF3)2OH on the lower-right carbon, which is bonded to the right bridgehead and to the lower-left CH2.
+
+SMILES for unit 2: `*C1C(*)C2CC1CC2CC(O)(C(F)(F)F)C(F)(F)F`
+
+**Combined:** I join the two units as a polymer fragment with the repeat counts, keeping the open bonds as `*` and the ring connectivity as above.
+
+SMILES: `*C1C(C2CC1CC2(C(F)(F)F)C(=O)OC(C)(C)C)C1C(*)C2CC1CC2CC(O)(C(F)(F)F)C(F)(F)F`
+
+This is only a sketch of the combined polymer. As a cleaner two-unit representation I give the repeat units joined end to end:
+
+SMILES: `*C1C2CC(C1*)C(C2)(C(F)(F)F)C(=O)OC(C)(C)C.*C1C2CC(C1*)C(C2)CC(O)(C(F)(F)F)C(F)(F)F`

@@ -1,0 +1,11 @@
+I read the molecule as 3-phenylbutanal, Ph–CH(CH3)–CH2–CHO. The only stereocentre is C3, where the methyl group is drawn on a hashed bond (pointing away from the viewer).
+
+**Configuration at C3:**
+- The CIP priorities are phenyl > CH2CHO > CH3 > H.
+- The methyl is hashed, so the implicit hydrogen points toward the viewer.
+- In the drawing, phenyl (upper left), then CH2 (upper right), then methyl (bottom) runs clockwise.
+- Because the hydrogen faces the viewer, the true sense is reversed, so the centre is counterclockwise, which is S.
+
+**SMILES check:** In `O=CC[C@H](C)c1ccccc1` the neighbours of the stereocentre are listed as CH2, H, CH3, Ph. The `@` symbol means that, viewed from the CH2, the H→CH3→Ph sequence runs counterclockwise. Reordering to put H first and viewing from the side opposite H gives CH2→CH3→Ph counterclockwise, which is S. This matches the drawing.
+
+SMILES: O=CC[C@H](C)c1ccccc1

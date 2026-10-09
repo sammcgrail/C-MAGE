@@ -1,0 +1,13 @@
+Reading the structure region by region:
+
+- **Benzoic acid:** a benzene ring carries COOH, with the S substituent at the meta position (position 3).
+- **Linker:** the sulfur connects through CH2 to a second benzene ring. Taking the ring carbon bearing CH2 as position 1, Cl sits at position 2 (ortho) and the ether O at position 4 (para to CH2).
+- **Ether and isoxazole:** the O–CH2 group attaches to the isoxazole at C4. C5 carries isopropyl and is bonded to the ring O. C3 carries the 2-(trifluoromethoxy)phenyl group, and the ring N lies between C3 and the ring O.
+
+Isoxazole SMILES: c1(COAr)c(C(C)C)onc1-Ar', where Ar' = c1ccccc1OC(F)(F)F.
+
+Full SMILES: OC(=O)c1cccc(c1)SCc1ccc(OCc2c(C(C)C)onc2-c2ccccc2OC(F)(F)F)cc1Cl
+
+Checking the chlorinated ring: c1 (bears CH2), then c, c, c(O), c, c1Cl. Writing "c1ccc(OR)cc1Cl" gives the ring atoms C1 (CH2), C2 (H), C3 (H), C4 (OR), C5 (H), C6 (Cl), with Cl on the carbon adjacent to C1. The O is para to C1, which is correct. In the image Cl is on the carbon between the CH2-bearing carbon and the carbon next to the O-bearing carbon, which matches this arrangement.
+
+SMILES: OC(=O)c1cccc(c1)SCc1ccc(OCc2c(C(C)C)onc2-c2ccccc2OC(F)(F)F)cc1Cl

@@ -1,0 +1,9 @@
+I read the molecule as an N-sulfonylated proline amide, built from three parts.
+
+- **Aryl sulfonyl group:** a benzene ring carrying OH, two Cl and the sulfonyl group. Numbering from the sulfonyl carbon, the OH is at C2 and the Cl atoms are at C3 and C5. The sulfonyl group is attached to the pyrrolidine nitrogen.
+- **Pyrrolidine ring:** a five-membered ring whose C2 carries the amide carbonyl through a hashed bond.
+- **Amide:** a C(=O)N group whose nitrogen carries a benzyl group (the Ph label) and a CH2CH2N(CH3)2 chain.
+
+For the stereocentre at pyrrolidine C2, the hashed bond puts the carbonyl carbon behind the plane, so the implicit H points toward the viewer. The CIP priorities are N > C(=O) > ring CH2 > H. Seen from the front, N → C(=O) → ring CH2 runs clockwise, but the H faces the viewer, so the true sense is counterclockwise. That gives S, the L-proline configuration. The fragment `[C@@H]1CCCN1` with the carbonyl written first is the standard L-proline pattern, so the stereo tag in the SMILES below is correct.
+
+SMILES: O=C(N(Cc1ccccc1)CCN(C)C)[C@@H]1CCCN1S(=O)(=O)c1cc(Cl)cc(Cl)c1O

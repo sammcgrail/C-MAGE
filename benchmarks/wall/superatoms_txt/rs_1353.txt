@@ -1,0 +1,12 @@
+Reading the drawing region by region:
+
+- **Ring system:** a benzotriazole (benzene fused to a 1,2,3-triazole bearing an N–H). The side chain is on the benzene carbon one position away from a ring-fusion carbon, which is the 5-position.
+- **Side chain:** CH2 attached to a CH carrying NH2 and CO2Me (a methyl ester), so this is an α-amino acid methyl ester.
+- **Stereochemistry:** the α-carbon has a bold wedge to H. Its other three substituents sit at NH2 (down), CO2Me (upper right) and CH2 (upper left). The CIP priorities are N > CO2Me > CH2 > H.
+  - Viewed from the front, N → CO2Me → CH2 runs counterclockwise.
+  - H points toward the viewer, so the true sense is reversed, which gives clockwise, i.e. R.
+  - The SMILES `N[C@H](CAr)C(=O)OC` encodes R, since L-alanine is `N[C@@H](C)C(=O)O` (S).
+
+Atom-for-atom check of the SMILES: N, then the stereocentre, then CH2, then the aryl ring written as c1ccc2[nH]nnc2c1 (attachment carbon, two CH, fused carbon, [nH], N, N, fused carbon, CH back to the attachment carbon), then C(=O)OC for the ester.
+
+SMILES: N[C@H](Cc1ccc2[nH]nnc2c1)C(=O)OC

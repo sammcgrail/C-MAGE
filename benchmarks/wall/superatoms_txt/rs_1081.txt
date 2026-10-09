@@ -1,0 +1,17 @@
+Reading the drawing region by region:
+
+- **Top-left:** a benzene ring bearing SO2NH2 and joined to a second benzene ring, giving a biphenyl with the sulfonamide ortho to the biaryl bond.
+- **Biphenyl link:** the second (para-substituted) ring carries an NH that connects to a C(=O).
+- **Central ring:** the benzamide ring has the carbonyl at C1. The ortho position (C2) carries the O-aryl ether. The NHSO2CH3 group is on the carbon para to the ether oxygen, which is C5 relative to the carbonyl at C1.
+- **Ether aryl group:** a benzene ring bearing an amidine, C(=N)N, meta to the oxygen.
+
+Fragments as SMILES:
+- Sulfonamide ring: NS(=O)(=O)c1ccccc1
+- Biphenyl: c1ccccc1-c1ccc(NC(=O)...)cc1
+- Central ring: C(=O)c1cc(NS(C)(=O)=O)ccc1Oc1cccc(C(N)=N)c1
+
+Checking the central ring positions: C1 carries the carbonyl, C2 carries the oxygen, and C5 carries the sulfonamide. Going around the ring from the carbonyl carbon c1, the next atom is cH (C6), then c(NHSO2Me) (C5), then cH (C4), cH (C3), and c(O) (C2). This matches the SMILES c1cc(NS(C)(=O)=O)ccc1O.
+
+The drawing shows no stereochemistry.
+
+SMILES: NS(=O)(=O)c1ccccc1-c1ccc(NC(=O)c2cc(NS(C)(=O)=O)ccc2Oc2cccc(C(N)=N)c2)cc1

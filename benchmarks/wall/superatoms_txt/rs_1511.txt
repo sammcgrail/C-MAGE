@@ -1,0 +1,18 @@
+The drawing shows a benzothiazole core with an acetamido group at C2 and an aryloxy substituent at C4, where the aryl group is a 6-iodopyrimidin-4-yl ring.
+
+**Benzothiazole.** The thiazole ring has C2 bearing NHAc, a double bond from C2 to N3, and S1 bonded to C2. N3 attaches to C3a, which is adjacent to C4 on the benzene ring. The oxygen sits on C4, next to the ring-fusion carbon that carries N. The sulfur-bearing fusion carbon is C7a.
+
+**Pyrimidine.** Going around the ring: C4 carries the O, then N3, C2 (the CH at the bottom), N1, C6 carrying the I, and C5 (the CH at the top). This gives a 4-oxy-6-iodopyrimidine.
+
+**SMILES assembly.** Writing the acetamide first: CC(=O)NC1=Nc2c(Oc3cc(I)ncn3)cccc2S1.
+
+Checking the atoms in this string:
+- C1 is the thiazole C2, double-bonded to N, which connects to c2 (C3a).
+- The next atom, c(O…), is C4 and carries the pyrimidinyloxy group.
+- The three cccc atoms that follow are C5, C6 and C7, and the last of them closes onto c2 (C7a), which bonds to S1.
+
+The ring closures work out as follows. In "c2c(Oc3cc(I)ncn3)cccc2S1", c2 is C3a, then c(O…) is C4, then c, c, c are C5, C6, C7, and the final c2 is C7a, which closes to C3a. That uses 6 aromatic carbons: C3a, C4, C5, C6, C7, C7a. Correct.
+
+The pyrimidine string "c3cc(I)ncn3" reads c3 (C4), c (C5), c(I) (C6), n (N1), c (C2), n3 (N3), which matches the drawing.
+
+SMILES: CC(=O)NC1=Nc2c(Oc3cc(I)ncn3)cccc2S1

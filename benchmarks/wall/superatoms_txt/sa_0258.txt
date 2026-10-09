@@ -1,0 +1,15 @@
+This reads as torcetrapib: a 3,4-dihydro-2H-quinoline with the following substituents.
+
+- **N1:** an ethyl carbamate (EtO2C–N).
+- **C2:** an ethyl group on a hashed bond.
+- **C4:** a nitrogen on a hashed bond, carrying a methyl carbamate (CO2Me) and a 3,5-bis(trifluoromethyl)benzyl group.
+- **C6:** a CF3 on the fused benzene ring.
+
+I assigned the stereocentres from the hashed bonds, treating each hash as pointing away from the viewer, so the implicit H sits toward the viewer.
+
+- **C2:** the CIP priorities are N > C3 > Et > H. Reading N → C3 → Et on the page runs counterclockwise. With H toward the viewer this reverses, so the centre is R.
+- **C4:** the priorities are N > C4a > C3 > H. Reading N → C4a → C3 runs clockwise. With H toward the viewer this reverses, so the centre is S.
+
+That gives (2R,4S). I then chose the @/@@ marks in the SMILES so that the written order yields R at C2 and S at C4.
+
+SMILES: CCOC(=O)N1[C@H](CC)C[C@H](N(Cc2cc(cc(c2)C(F)(F)F)C(F)(F)F)C(=O)OC)c2cc(ccc12)C(F)(F)F
