@@ -1,10 +1,16 @@
-I read the structure as a 2,5-diketopiperazine core with four substituents:
+I read the molecule as a diketopiperazine (piperazine-2,5-dione) core with four substituents.
 
-- **Ring carbon next to the NH–C(=O):** a sec-butyl group, drawn with a wedge to its methyl.
-- **Ring carbon next to the NH:** an indan-2-yl group (a five-membered ring fused to a benzene ring), attached by a hashed bond.
-- **Ring nitrogen:** a CH carrying a 2,6-dimethylpyridin-3-yl group and a morpholine amide, C(=O)N1CCOCC1.
-- **Stereocentres:** the sec-butyl CH, the two ring CH carbons and the exocyclic CH are all defined by the wedges and hashes. The indane C2 has two identical arms, so it gets no stereo label.
+**Core ring.** Going round the six-membered ring: C3 bears a sec-butyl group, then a C=O, then NH, then a CH bearing an indan-2-yl group, then a second C=O, then a tertiary N.
 
-I assigned each @/@@ by working out the neighbour order in the SMILES against the drawn geometry, with the implicit H opposite the wedge or hash.
+**Substituents.**
+- The sec-butyl group is CH(CH3)CH2CH3, with a wedged methyl.
+- The indan-2-yl group is a benzene ring fused to a cyclopentane, attached at the cyclopentane carbon opposite the ring fusion. That carbon is not a stereocentre.
+- The ring N carries a CH that is bonded to a 2,6-dimethylpyridin-3-yl group and to a C(=O) joined to a morpholine nitrogen.
+
+**Stereochemistry.** I assigned CIP descriptors from the wedges and hashes, then matched each to @/@@ in the SMILES neighbour order:
+- The sec-butyl CH, with its wedged methyl, is S.
+- The ring carbon with the hashed bond to N, next to the sec-butyl group, is R.
+- The ring carbon bearing the indanyl group, with a hashed bond to the indane, is R.
+- The exocyclic CH, with a hashed bond to the ring N, is R.
 
 SMILES: CC[C@H](C)[C@@H]1C(=O)N[C@H](C2Cc3ccccc3C2)C(=O)N1[C@H](c1ccc(C)nc1C)C(=O)N1CCOCC1

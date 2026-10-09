@@ -1,24 +1,27 @@
-This is a xanthone core: two benzene rings joined by a ring oxygen and a ring carbonyl. It carries two methyl groups and a CH2COOH group.
+The drawing shows a xanthone core (a tricyclic system with a central pyranone ring) carrying two methyl groups and a carboxymethyl group.
 
-**Left ring.** Starting from the methyl-bearing carbons:
-- The carbon at (205,570) bears a methyl.
-- The carbon at (392,528) bears a methyl and is bonded to the carbon at (520,668).
-- (520,668) is bonded to the ring oxygen.
-- (463,853) is bonded to the carbonyl carbon at (593,994).
-- The remaining ring carbons are (277,893) and (148,752).
+**Left ring:**
+- The vertices are C(Me) at (392,528), C(Me) at (205,570), CH at (147,752), CH at (277,893), a fused carbon at (463,853), and a fused carbon at (521,669).
+- The fused carbon at (521,669) bonds to the ring oxygen.
+- The fused carbon at (463,853) bonds to the carbonyl carbon.
 
-**Right ring.**
-- (838,769) is bonded to the ring oxygen.
-- (1025,728) bears the CH2COOH group.
-- (1155,870) and (1098,1053) are the next two ring carbons.
-- (910,1095) is the ring carbon before (781,953), which is bonded to the carbonyl carbon.
+**Central ring:**
+- The ring contains O, the fused carbon at (521,669), the fused carbon at (463,853), the C=O carbon at (593,994), the fused carbon at (781,953), and the fused carbon at (838,770).
 
-**SMILES.** Writing the left ring first, with the ring oxygen and carbonyl closing the central ring:
+**Right ring:**
+- The vertices are the fused carbon at (838,770), the carbon bearing CH2COOH at (1025,729), CH at (1155,870), CH at (1098,1053), CH at (910,1095), and the fused carbon at (781,953).
 
-Cc1ccc2c(c1C)oc1c(CC(=O)O)cccc1c2=O
+**SMILES construction:**
+Start at the carboxylic acid and write OC(=O)Cc1cccc2c1oc1c(C)c(C)ccc1c2=O.
 
-Check on the left ring: c1(C) is (205,570); c is (148,752); c is (277,893); c2 is (463,853); c(...) is (520,668), which carries the oxygen; c1C is (392,528), which closes the ring and carries the second methyl. This is correct.
+Checking the atoms in order:
+- c1 is the carbon bearing the CH2 group.
+- "ccc" gives the three CH carbons, then c2 is the fused carbon at (781,953), which later closes to the C=O carbon.
+- The next atom, "c1" in "c1oc1...", needs care. After c2 comes c1, which closes the ring to the carbon bearing the CH2 group. This is the fused carbon at (838,770), and it bonds to O.
+- The oxygen then leads to c1, the fused carbon at (521,669).
+- That carbon continues to c(C), the methyl carbon at (392,528), then c(C) at (205,570), then cc for the two CH carbons, then c1 at (463,853), which closes the ring back to (521,669).
+- Finally, c2=O is the carbonyl carbon, which closes to the fused carbon at (781,953).
 
-Check on the central ring: o is bonded to c1 at (838,769), then c(CC(=O)O) is (1025,728), then ccc is (1155,870), (1098,1053), (910,1095), then c1 is (781,953), then c2=O is the carbonyl carbon closing to (463,853). This is correct.
+The ring-closure digits are reused, but each is closed before it is reopened, so the SMILES is valid.
 
-SMILES: Cc1ccc2c(c1C)oc1c(CC(=O)O)cccc1c2=O
+SMILES: OC(=O)Cc1cccc2c1oc1c(C)c(C)ccc1c2=O

@@ -1,9 +1,16 @@
-The drawing shows several separate components, which I wrote as dot-separated fragments.
+The image shows several separate components, so the SMILES is written as dot-separated fragments.
 
-1. Hexafluorophosphate anion: F[P-](F)(F)(F)(F)F
-2. Pyridine: c1ccncc1. The image draws it with alternating double bonds (Kekulé form), so it can be written C1=CC=NC=C1 or in aromatic form.
-3. Tricyclohexylphosphine: P(C1CCCCC1)(C1CCCCC1)C1CCCCC1. Each cyclohexyl ring has 6 vertices.
-4. 1,5-Cyclooctadiene: the ring has 8 vertices with double bonds at the top and bottom. Going around the ring, the top double bond is between the 2nd and 3rd carbons, and the bottom one is between the 6th and 7th. Written as C1CC=CCCC=C1, this has C1, C2, C3=C4, C5, C6, C7=C8, which places the double bonds 1,5 apart. This matches the drawing.
-5. Iridium: drawn as a radical atom, [Ir].
+1. **Hexafluorophosphate anion:** F[P-](F)(F)(F)(F)F
+2. **Pyridine:** c1ccncc1. The drawing uses Kekulé bonds, so it can also be written C1=CC=NC=C1.
+3. **Tricyclohexylphosphine:** P(C1CCCCC1)(C1CCCCC1)C1CCCCC1
+4. **1,5-Cyclooctadiene:** the double bonds sit at the top and bottom of the ring. Ring vertices, clockwise from the top-left: C(top, 1058,918), C(1178,967), C(1228,1088), C(1178,1208), C(1058,1257), C(938,1208), C(888,1088), C(938,967).
+   - The top double bond joins the vertex at 938,967 and the vertex at 1058,918.
+   - The bottom double bond joins the vertex at 1178,1208 and the vertex at 1058,1257.
+   - Numbering from 1058,918 as C1: C1=C2 (to 938,967), C3 (888,1088), C4 (938,1208), C5 (1058,1257), C6 (1178,1208), C7 (1228,1088), C8 (1178,967).
+   - The double bonds are C1=C2 and C5=C6. Going around the ring, the sequence is C1=C2, C3, C4, C5=C6, C7, C8, which is 1,5-cyclooctadiene.
+   - SMILES: C1=CCCC=CCC1
+5. **Iridium:** drawn as a radical, [Ir].
 
-SMILES: F[P-](F)(F)(F)(F)F.C1=CC=NC=C1.C1CCC(CC1)P(C1CCCCC1)C1CCCCC1.C1CC=CCCC=C1.[Ir]
+The cyclooctadiene is cis, but the drawing shows no explicit stereo, so I leave it unspecified. The pieces are combined without charges on the metal.
+
+SMILES: F[P-](F)(F)(F)(F)F.c1ccncc1.C1CCC(CC1)P(C1CCCCC1)C1CCCCC1.C1=CCCC=CCC1.[Ir]

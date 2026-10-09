@@ -1,21 +1,15 @@
-This is 1,10-phenanthroline: three fused six-membered rings, with a nitrogen in each outer ring.
+The drawing is 1,10-phenanthroline: a tricyclic fused system with two nitrogens, one in each outer ring, both next to the central ring fusion bond.
 
-Atoms, read from the drawing:
-- Left ring: N (at 480,440), C (210,418), C (75,652), C (210,886), C (480,886), C (615,652). That is 6 atoms.
-- Middle ring: C (615,652), C (885,652), C (1020,886), C (885,1120), C (615,1120), C (480,886). That is 6 atoms.
-- Right ring: N (1020,440), C (1290,418), C (1425,652), C (1290,886), C (1020,886), C (885,652). That is 6 atoms.
+Atom layout, read from the image:
+- Left ring: N (top), CH at the upper left, CH at the far left, CH at the lower left, then the fusion carbon at about (480, 885), and the fusion carbon at about (615, 652) bonded to N.
+- Middle ring: the two fusion carbons at (615, 652) and (885, 652) are joined directly. The lower carbons at (615, 1120) and (885, 1120) form a CH=CH unit. The remaining fusion carbons are at (480, 885) and (1020, 885).
+- Right ring: N, CH at the upper right, CH at the far right, CH at the lower right, then the fusion carbon at (1020, 885), and the fusion carbon at (885, 652) bonded to N.
 
-The two nitrogens each bond to one of the central carbons (615,652 and 885,652), which are joined to each other. The molecule is symmetric, with the two N atoms on the same side.
+Writing this as a Kekulé SMILES:
+- Start at the left N: N1=CC=CC2=C1C3=NC=CC=C3C=C2
+- Check the left ring: N1=C–C=C–C2=C1 closes with six atoms (N1, C, C, C, C2, C1).
+- The fusion carbon C1 then connects to C3, which is bonded to the right N (=N), then C=C–C=C3 closes the right ring.
+- The right ring has C3, N, C, C, C, C3', which is six atoms.
+- The middle ring is C2, C1, C3, C3', CH, CH, which is six atoms.
 
-I wrote the SMILES in aromatic form and checked the connectivity atom by atom:
-
-c1cnc2c(c1)ccc1cccnc12
-
-- c1 c n c2: the left ring starts at C, then C, then N, then the fusion carbon c2 (615,652).
-- c(c1): the next fusion carbon (480,886), with branch c1 closing the left ring. The left ring is c1, c, n, c2, c(fusion), c1, which is 6 atoms.
-- cc: the two middle-ring CH carbons.
-- c1ccc n c12: the right fusion carbon (1020,886) opens ring 1, then three CH carbons, then N, then the last fusion carbon (885,652), which closes ring 1 and ring 2. The right ring is c1, c, c, c, n, c12, which is 6 atoms.
-
-The middle ring is c2, c(fusion), c, c, c1(fusion), c12(fusion), which is 6 atoms. This matches the drawing.
-
-SMILES: c1cnc2c(c1)ccc1cccnc12
+SMILES: C1=CC2=C(N=C1)C1=NC=CC=C1C=C2

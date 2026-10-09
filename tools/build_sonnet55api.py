@@ -32,8 +32,8 @@ from api_reader import SMILES_RE, parse_smiles  # noqa: E402
 RUN = HERE.parent / "benchmarks" / "published_runs" / "sonnet55_api"
 LEDGER = RUN / "ledger.jsonl"
 RETRIES = RUN / "retries.jsonl"      # max_tokens follow-ups (tools/api_reader.py followups)
-PROMPTS = {"v1": RUN / "prompt.txt", "v2": RUN / "prompt_v2.txt"}   # row["prompt"] names one; absent = v1
-PROMPT_NOTE = {"v1": "answer line written as SMILES: <smiles>", "v2": "answer line shown as SMILES: CCO"}
+PROMPT = RUN / "prompt_v2.txt"      # the one prompt every row was read with
+ARCHIVE = RUN / "archive"           # superseded readings (re-read with PROMPT); their cost still counts
 BUCKETS = [(0, 15, "up to 15"), (16, 30, "16-30"), (31, 50, "31-50"), (51, 80, "51-80"), (81, 10 ** 6, "81 or more")]
 REG = Path("/root/cmage-work/sonnet-s55c/results.jsonl")   # the regular Sonnet 5.5 reader (tools)
 OUT = WALL / "sonnet55api.json"
@@ -112,7 +112,9 @@ def build() -> int:
                "mt": r0.get("max_tokens", 16000), "stop0": r0.get("stop_reason"),
                "stop": r.get("stop_reason"), "otok": u.get("output_tokens"), "ttok": think,
                "itok": u.get("input_tokens"), "wrapped": 1 if wrapped else 0,
-               "pv": r.get("prompt", "v1"), "ha": heavy(r["truth"])}
+               "ha": heavy(r["truth"])}
+        if r0.get("prompt") != "v2":
+            raise SystemExit(f"{k}: read with prompt {r0.get('prompt')!r}, not the published prompt")
         # The full reply goes in its own file, fetched when the sheet's fold is opened: inline it
         # would put megabytes into the tab payload at corpus scale.
         tf = txt / f"{k}.txt"
@@ -146,7 +148,9 @@ def build() -> int:
     n = len(rows)
     pct = lambda a, b: round(a / b * 100, 1) if b else 0.0
     ex = sum(1 for r in rows if r["v"] == "exact")
-    cost = sum(r.get("cost_usd") or 0 for r in led) + sum(x.get("cost_usd") or 0 for xs_ in rets.values() for x in xs_)
+    arch = [json.loads(l) for p in sorted(ARCHIVE.glob("*.jsonl")) for l in open(p) if l.strip()] if ARCHIVE.exists() else []
+    arch_cost, arch_n = sum(r.get("cost_usd") or 0 for r in arch), len(arch)
+    cost = arch_cost + sum(r.get("cost_usd") or 0 for r in led) + sum(x.get("cost_usd") or 0 for xs_ in rets.values() for x in xs_)
     lat = [r["rt"] for r in rows]
     mt = sum(1 for r in rows if r["stop0"] == "max_tokens")
     retried = [r for r in rows if r.get("rf")]
@@ -184,12 +188,6 @@ def build() -> int:
                       f"(exact McNemar p={vs['p']}).")
 
     cnt = lambda key: sum(1 for r in rows if r["v"] == key)
-    by_v = {}
-    for r in rows:
-        by_v.setdefault(r["pv"], []).append(r)
-    vsplit = [{"label": f"Prompt {v} ({PROMPT_NOTE.get(v, v)})", "n": len(rs),
-               "pct": pct(sum(x["v"] == "exact" for x in rs), len(rs)),
-               "text": f"{sum(x['v'] == 'exact' for x in rs)} of {len(rs)}"} for v, rs in sorted(by_v.items())]
     hsplit = []
     for lo, hi, lab in BUCKETS:
         rs = [r for r in rows if r["ha"] is not None and lo <= r["ha"] <= hi]
@@ -205,9 +203,6 @@ def build() -> int:
     splits = [{"h": "Exact by size (heavy atoms in the reference)", "rows": hsplit}]
     if len(bsplit) > 1:
         splits.insert(0, {"h": "Exact by output budget (first attempt)", "rows": bsplit})
-    if len(vsplit) > 1:
-        splits.insert(0, {"h": "Exact by prompt version", "rows": vsplit})
-    vline = "; ".join(f"{x['label']}: {x['n']} images, {x['pct']}% exact" for x in vsplit)
     breakdown = [{"key": "matched", "label": "Exact", "n": cnt("exact")},
                  {"key": "stereo", "label": "Stereo only", "n": cnt("stereo")},
                  {"key": "misread", "label": "Wrong", "n": cnt("wrong")},
@@ -229,16 +224,15 @@ def build() -> int:
         "runNote": "Sonnet 5.5 API call, at list price",
         "stats": {"n": n, "exact": ex, "strict_pct": pct(ex, n)},
         "threshold": 101,
-        "prompt": "\n\n".join(f"Prompt {v} ({PROMPT_NOTE[v]}), {len(by_v[v])} images:\n\n{PROMPTS[v].read_text().strip()}"
-                              for v in sorted(by_v)),
+        "prompt": PROMPT.read_text().strip(),
         "method": [
             {"h": "What this tab is", "points": [
                 f"Sonnet 5.5 ({', '.join(models)}) reading the first {n} corpus images in manifest order, one "
                 "Messages API call per image: the PNG as base64 and a fixed prompt (below). No tools, no "
                 "code, no second look, no shared context between images.",
                 "The answer is the last \"SMILES: ...\" line of the reply. Adaptive thinking at the API "
-                "default. Output budget: max_tokens 16,000 for the first rows, 64,000 (streamed) from the "
-                "switch on; each row records its own.",
+                f"default. Output budget: max_tokens 64,000, streamed, except {len(by_b.get(16000, []))} early rows read at 16,000; "
+                "each row records its own.",
                 "A reading that runs out of output is retried and scored on the retry, flagged on its tile "
                 "(↻) and in its sheet: a row read at 16,000 is re-read once at 64,000; one that runs out at "
                 "64,000 gets one retry with an added instruction to commit to an answer after one careful "
@@ -250,15 +244,14 @@ def build() -> int:
                 "The Sonnet 5.5 tab's reader is an agent: it crops, runs RDKit, re-renders its answer and "
                 "diffs it against the image. Compared here only on the images both have read."]},
         ],
-        "headline": ("One API call per image, no tools. Cost at Sonnet 5.5 list price ($2 / $10 per MTok)."
-                     + (f" {wrapped_n} prompt-v1 answers came wrapped in <smiles> tags and were unwrapped before scoring."
-                        if wrapped_n else "")),
-        "footer": (f"n={n}, the first {n} corpus images in manifest order. Prompt versions: {vline}. Output budget per first attempt: {bline}"
+        "headline": "One API call per image, no tools. Cost at Sonnet 5.5 list price ($2 / $10 per MTok).",
+        "footer": (f"n={n}, the first {n} corpus images in manifest order. Output budget per first attempt: {bline}"
                    + (f"; {len(retried)} max_tokens rows retried, {rescued} finished, {rescued_ex} exact" if retried else "")
                    + f". Exact {ex}/{n}; stereo only "
                    f"{cnt('stereo')}; wrong {cnt('wrong')}; unparseable or no SMILES line {cnt('invalid')}"
                    f" (no SMILES line: {no_line}). Stop reasons other than end_turn: max_tokens {mt}"
-                   + (f", {', '.join(other_stop)}" if other_stop else "") + f". ${cost:.2f} in total."
+                   + (f", {', '.join(other_stop)}" if other_stop else "") + f". ${cost:.2f} in total" + (f", including ${arch_cost:.2f} for {arch_n} superseded readings of the first "
+                                                     f"images, kept in archive/" if arch_n else "") + "."
                    + (f" {wrapped_n} replies wrote the answer as <smiles>...</smiles> (the prompt's placeholder "
                       f"taken literally); the tags are stripped before scoring, which moves {wrapped_raw_ex} "
                       f"from unparseable to exact." if wrapped_n else "")

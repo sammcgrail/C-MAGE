@@ -1,14 +1,15 @@
-The drawing shows an anthraquinone core: two benzene rings joined through a central ring that carries a C=O at the top and a C=O at the bottom.
+The drawing shows an anthraquinone core: two benzene rings fused to a central ring that carries two C=O groups, one at the top and one at the bottom.
 
-There is an OH on each benzene ring. Each one sits on the carbon next to the ring-fusion carbon that is bonded to the top carbonyl carbon. Both OH groups are therefore peri to the top C=O, which makes this 1,8-dihydroxyanthraquinone (danthron).
+Each OH sits on a ring carbon adjacent to the ring-fusion carbon that bonds to the top carbonyl. Both OH groups are therefore on the same side as the top C=O, which makes this 1,8-dihydroxyanthraquinone (danthron).
 
-Writing the SMILES: O=C1c2c(O)cccc2C(=O)c2cccc(O)c12
+Writing the SMILES from the top carbonyl:
+- Top carbonyl carbon: O=C1
+- Right ring-fusion carbon, then the right ring: c2c(O)cccc2
+- Bottom carbonyl: C(=O)
+- Left ring-fusion carbon, then the left ring: c2cccc(O)c12
 
-Atom-by-atom check:
-- C1 is the top carbonyl carbon, written O=C1.
-- c2 is the fusion carbon on the left ring. The next atom, c(O), is the carbon bearing the OH. The ring then continues ccc, then c2, which is the fusion carbon bonded to the bottom carbonyl.
-- C(=O) is the bottom carbonyl.
-- The right ring starts at its fusion carbon c2, runs through ccc, then c(O), and closes with c12, the fusion carbon bonded to C1.
-- The right-ring OH carbon is adjacent to the fusion carbon that closes to C1, which is the top carbonyl. Both OH groups are therefore on the top-carbonyl side, as drawn.
+Full SMILES: O=C1c2c(O)cccc2C(=O)c2cccc(O)c12
+
+Checking the connectivity: C1 (top carbonyl) bonds to the right ring-fusion carbon c2, which bonds to c(O), then ccc, then c2 (the other fusion carbon on that ring). That carbon bonds to the bottom C(=O), which bonds to the left ring-fusion carbon c2. The left ring then runs cccc(O), and c12 closes both the left ring and the bond back to the top carbonyl. The OH on the left ring is on the carbon adjacent to the fusion carbon that bonds to the top carbonyl, as in the drawing.
 
 SMILES: O=C1c2c(O)cccc2C(=O)c2cccc(O)c12

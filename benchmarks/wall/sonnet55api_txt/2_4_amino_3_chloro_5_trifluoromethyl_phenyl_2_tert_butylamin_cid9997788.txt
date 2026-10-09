@@ -1,14 +1,15 @@
-Reading the drawing region by region:
+The drawing shows a benzene ring with these substituents:
+- The ring carbon at the lower right (the para position) carries CH(NHC(CH3)3)CH2OH.
+- The adjacent ring carbon at the upper right is an unsubstituted CH.
+- The next ring carbon carries Cl.
+- The next carbon carries NH2.
+- The next carbon carries CF3.
+- The last ring carbon, which closes the ring back to the attachment point, is an unsubstituted CH.
 
-- **Ring:** a benzene ring carrying three substituents.
-  - Cl is on the upper carbon.
-  - NH2 is on the carbon below the Cl carbon.
-  - CF3 is on the carbon below the NH2 carbon.
-  - The ring carbon at the lower right bears the side chain.
-- **Side chain:** the ring carbon connects to a CH. That CH carries an NH-C(CH3)3 group and a CH2OH group.
-- **Salt:** HCl is drawn as a separate component.
-- **Stereochemistry:** the CH is drawn with plain bonds, so I add no stereo marks.
+The ring therefore reads, from the attachment point: C1 (side chain), CH, C(Cl), C(NH2), C(CF3), CH, back to C1.
 
-Ring SMILES: c1(C(NC(C)(C)C)CO)cc(Cl)c(N)c(C(F)(F)F)c1. Checking the order around the ring: the side-chain carbon, then CH, then C(Cl), then C(N), then C(CF3), then CH, which closes the ring. That matches the drawing.
+The side-chain carbon bonded to the ring is attached to NH-tBu and to CH2OH. It is drawn with plain bonds, so I give it no stereo. The HCl is shown as a separate component.
 
-SMILES: Cl.CC(C)(C)NC(CO)c1cc(Cl)c(N)c(C(F)(F)F)c1
+SMILES: CC(C)(C)NC(CO)c1cc(Cl)c(N)c(C(F)(F)F)c1.Cl
+
+SMILES: CC(C)(C)NC(CO)c1cc(Cl)c(N)c(C(F)(F)F)c1.Cl

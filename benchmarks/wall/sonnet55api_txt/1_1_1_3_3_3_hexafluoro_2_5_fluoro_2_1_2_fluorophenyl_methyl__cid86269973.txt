@@ -1,14 +1,17 @@
-I read the structure region by region.
+I read the structure region by region and assembled the SMILES from that.
 
-- **Isoxazole:** The ring is O–N=C(–)–C=C–O, with the carbon next to N attached to the pyrazole. The drawn atoms are O, N, C3 (bearing the substituent), C4 and C5, so it is an isoxazol-3-yl group. As SMILES: c1cc(no1) attached through the carbon next to n.
-- **Pyrazole:** N1 carries the 2-fluorobenzyl group. C5 (next to N1) carries the isoxazole. C4 is CH. C3 is attached to the pyrimidine, and N2 is the =N bonded to C3. As SMILES: n1(Cc2ccccc2F)c(-c2ccno2)cc(-c2...)n1.
-- **Pyrimidine:** The ring atoms are C2 (attached to the pyrazole), N3, C4 (bearing NH), C5 (bearing F), C6 (H) and N1. As SMILES: c1(nc(NC...)c(F)cn1).
-- **Side chain:** NH–CH2–C(OH)(CF3)2.
+**Isoxazole ring:** O1, then N, then C3 (attached to the pyrazole), then C4, then C5, closing back to O. The drawing shows O–N, N=C, C–C, C=C and C–O, so the ring is o1nccc1 with the attachment on the carbon next to N. This is an isoxazol-3-yl group: c1ccon1 with the attachment at c1.
 
-The full SMILES is:
+**Pyrazole ring:** N1 carries the 2-fluorobenzyl group. C5 is attached to the isoxazole. C4 is CH. C3 is attached to the pyrimidine. N2 is double-bonded to C3. As SMILES: n1(Cc2ccccc2F)c(-c2ccon2)cc(-c2...)n1.
 
-OC(CNc1nc(-c2cc(-c3ccon3)n(Cc3ccccc3F)n2)ncc1F)(C(F)(F)F)C(F)(F)F
+**Pyrimidine ring:** C2 is attached to the pyrazole and sits between N1 and N3. N3 is attached to C4, which bears the NH group. C5 carries F. C6 is CH and bonds to N1. As SMILES: c2ncc(F)c(NC...)n2.
 
-The isoxazole is written as c3ccon3: the attachment carbon is c3, followed by c, c, o, n3. This gives the ring c3–c–c–o–n3, in which the attachment carbon is bonded to n and to c. In the drawing, the attachment carbon is bonded to N and to CH, and that CH is bonded to the next CH, which is bonded to O, which is bonded to N. This matches.
+**Side chain:** NH–CH2–C(OH)(CF3)2, written NCC(O)(C(F)(F)F)C(F)(F)F.
+
+**Fluorophenyl:** the benzyl CH2 is attached to a ring carbon, and the adjacent ring carbon bears F, so it is 2-fluorophenyl.
+
+**Stereochemistry:** the C(OH)(CF3)2 carbon has two identical CF3 groups, so it is not a stereocentre. No stereo marks are needed.
+
+Full SMILES: OC(CNc1nc(-c2cc(-c3ccon3)n(Cc3ccccc3F)n2)ncc1F)(C(F)(F)F)C(F)(F)F
 
 SMILES: OC(CNc1nc(-c2cc(-c3ccon3)n(Cc3ccccc3F)n2)ncc1F)(C(F)(F)F)C(F)(F)F

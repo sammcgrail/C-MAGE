@@ -1,12 +1,21 @@
-The drawing shows limonene, with no wedges or hashes, so no stereochemistry is included.
+The drawing shows limonene, with no wedges or hashes, so the SMILES carries no stereochemistry.
 
-- **Ring:** a six-membered ring with vertices at (537,744), (686,487), (981,487), (1130,744), (981,1000) and (686,1000).
-- **Ring double bond:** drawn between (1130,744) and (981,1000).
-- **Methyl on the ring:** a plain bond from (1130,744) out to (1423,744).
-- **Isopropenyl group:** the ring carbon at (537,744) bonds to the carbon at (243,744). That carbon carries a methyl, drawn up to (95,487), and a double bond to a CH2, drawn down to (75,988).
+**Ring:** there are six vertices.
+- C1 at (537, 744) is the CH that carries the isopropenyl group.
+- C2 at (685, 487) is a CH2.
+- C3 at (982, 487) is a CH2.
+- C4 at (1130, 744) carries the methyl group and is double-bonded to C5.
+- C5 at (982, 1000) is a CH.
+- C6 at (685, 1000) is a CH2.
 
-Writing the SMILES starting from the methyl on the ring: CC1=CCC(CC1)C(C)=C. Here C1 is the methyl-bearing ring carbon and the double bond runs to the next ring carbon. Then comes one CH2, the isopropenyl-bearing CH, and two more CH2 groups closing the ring.
+The ring double bond is C4=C5, drawn as the inner line from C4 to C5.
 
-Checking against the drawing: the double-bond carbon at (981,1000) connects to the CH2 at (686,1000), which connects to the CH at (537,744). The CH then connects to the CH2 at (686,487), then the CH2 at (981,487), then back to the methyl-bearing carbon at (1130,744). This matches the SMILES.
+**Substituents:**
+- The methyl on C4 is the line running right to (1423, 744).
+- The isopropenyl group is a carbon at (243, 744) attached to C1. It bears a methyl at (95, 487) and a double bond to a terminal CH2 at (75, 988).
+
+**SMILES:** starting from the methyl on C4, then C4=C5, C6, C1 with its isopropenyl branch, C2 and C3 closing the ring, gives CC1=CCC(CC1)C(C)=C.
+
+The ring closes correctly: C4(=C5)–C6–C1–C2–C3–back to C4.
 
 SMILES: CC1=CCC(CC1)C(C)=C

@@ -1,9 +1,13 @@
-I read this as the N1-ribosyl derivative of allopurinol, a pyrazolo[3,4-d]pyrimidin-4-one carrying a ribose on the pyrazole nitrogen next to the ring-fusion carbon.
+I read the molecule as a ribonucleoside of a pyrazolo[3,4-d]pyrimidin-4-one base, which is allopurinol riboside (the pyrazole analogue of inosine).
 
-**Base:** There is a five-membered pyrazole ring fused to a six-membered pyrimidinone ring. The glycosidic nitrogen is bonded to the fusion carbon that sits next to the ring N= (the N=CH–NH side). That nitrogen is also bonded to the other pyrazole nitrogen (N=CH). The pyrimidinone ring has N=CH–NH–C(=O) around it. This fragment is written `n2ncc3c2nc[nH]c3=O`.
+**Base:** The pyrazole N1 carries the sugar. N1 is bonded to N2, and N2 is double-bonded to C3. C3 joins C3a, which is fused to C7a. The pyrimidinone ring then runs C3a–C4(=O)–NH–CH=N–C7a, and C7a closes back onto N1.
 
-**Sugar:** This is a furanose with a ring O, a CH2OH group on a wedge at C4′, and the base on a wedge at C1′. The OH groups at C2′ and C3′ are both on hashed bonds.
+**Sugar:** This is a furanose ring with a CH2OH on C4′ (wedge), OH groups on C3′ and C2′ (both hashed), and the base on C1′ (wedge).
 
-**Stereochemistry:** I worked out C4′ from the drawn wedge geometry, and it comes out as `[C@H]` in the SMILES order I wrote. For C1′, C2′ and C3′ I did not derive the tags independently. I took them from the standard β-D-ribonucleoside pattern, since the drawn wedge/hash arrangement looks like the usual one for inosine or adenosine.
+**Stereochemistry:** I worked out each centre from the drawn wedge and hash geometry, treating the implicit H as pointing opposite to the drawn wedge or hash. This gave the same pattern as β-D-ribose in inosine:
+- C4′ is `[C@H]`.
+- C1′ is `[C@@H]`.
+- C2′ is `[C@H]`.
+- C3′ is `[C@@H]`.
 
-SMILES: OC[C@H]1O[C@@H](n2ncc3c2nc[nH]c3=O)[C@H](O)[C@@H]1O
+SMILES: OC[C@H]1O[C@@H](n2ncc3c(=O)[nH]cnc23)[C@H](O)[C@@H]1O

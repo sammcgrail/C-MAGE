@@ -1,26 +1,26 @@
-I read the structure as two substituted benzene rings joined by a sulfur–propyl–oxygen linker, with a butanoic acid chain on the right ring.
+I read the structure as two substituted benzene rings joined by a thioether–propyl–ether linker.
 
-**Left ring** (going around from the carbon bearing the acetyl group):
+**Left ring.** Going around the ring:
 - C1 carries the acetyl group, CC(=O).
 - C2 carries OH.
-- C3 carries the propyl group.
+- C3 carries a propyl group.
 - C4 carries S.
-- C5 and C6 are CH.
+- The two remaining positions are CH.
 
-**Linker:** S–CH2CH2CH2–O, three carbons, with the O attached to the right ring.
+**Linker.** S–CH2CH2CH2–O, a three-carbon chain from the sulfur to the oxygen on the right ring.
 
-**Right ring:**
-- Ring carbon a carries the O of the linker.
-- Ring carbon b carries the propyl group.
-- Ring carbon c carries the O of the butanoic acid chain, O–CH2CH2CH2–COOH.
-- Ring carbon d carries the acetyl group.
-- The remaining two carbons are CH.
+**Right ring.** Going around the ring:
+- The ring carbon bonded to the linker O (call it Ca) is adjacent to the carbon bearing the propyl group (Cb).
+- Cb is adjacent to the carbon bearing the O–CH2CH2CH2–COOH chain (Cc).
+- Cc is adjacent to the carbon bearing the acetyl group (Cd).
+- Cd is adjacent to a CH, then another CH, which closes back to Ca.
 
-The ring order is: the carbon bearing the linker O (C-O), then the propyl carbon, then the carbon bearing O-butanoic acid, then the acetyl carbon, then two CH, and back to the start.
+**SMILES assembly.** Starting from the left acetyl:
 
-**SMILES assembly:**
-- Left ring: CC(=O)c1ccc(SCCCOc2ccc(C(C)=O)c(OCCCC(=O)O)c2CCC)c(CCC)c1O
-- Check on the left ring: c1 (acetyl), c, c, c(S), c(propyl), c1(O) closes the ring. The OH carbon is adjacent to the acetyl carbon, and the propyl carbon is adjacent to the OH carbon. This matches the drawing.
-- Check on the right ring: c2 (O-linker), c, c, c(acetyl), c(O-chain), c2(propyl). The propyl carbon sits between the linker-O carbon and the O-chain carbon, which matches the drawing.
+CC(=O)c1ccc(SCCCOc2ccc(C(C)=O)c(OCCCC(=O)O)c2CCC)c(CCC)c1O
+
+Checking the right ring against this string: c2 is Ca (bonded to the linker O), then c, c, then c(C(C)=O) is Cd, then c(OCCCC(=O)O) is Cc, then c2CCC is Cb, which closes the ring to Ca. This matches the drawing.
+
+Checking the left ring: c1 (acetyl) c c c(S…) c(CCC) c1O. The ring runs C1(acetyl), CH, CH, C(S), C(propyl), C(OH) back to C1, which is correct.
 
 SMILES: CC(=O)c1ccc(SCCCOc2ccc(C(C)=O)c(OCCCC(=O)O)c2CCC)c(CCC)c1O

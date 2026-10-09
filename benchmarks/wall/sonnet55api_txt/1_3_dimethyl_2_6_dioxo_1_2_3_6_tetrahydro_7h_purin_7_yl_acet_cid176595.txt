@@ -1,19 +1,21 @@
-The image shows two components, which look like ambroxol and theophylline-7-acetic acid (acefylline), drawn as a salt or co-crystal.
+The image shows two separate components, which I write as one dot-separated SMILES.
 
-**Top component (ambroxol):** a cyclohexane ring carries an OH at one position and an NH at the 1,4-position. The NH connects through a CH2 to an aromatic ring. That ring has an NH2 and two Br atoms. The ring bonds are drawn plainly, with no wedges or hashes, so no stereochemistry is assigned.
+**Top component (ambroxol).** A cyclohexane ring carries an OH on one carbon and an NH on the carbon opposite it. The NH connects through a CH2 to a benzene ring. That ring bears an NH2 and two Br atoms.
 
-Ring substituents, going around the aromatic ring from the CH2-bearing carbon:
-- C1 carries the CH2.
-- C2 carries the NH2.
-- C3 carries Br.
-- C4 is CH.
-- C5 carries Br.
-- C6 is CH.
+Reading the benzene ring from the CH2 attachment: C1 (CH2), C2 (NH2), C3 (Br), C4 (H), C5 (Br), C6 (H). This gives the ring SMILES c1(CN...)c(N)c(Br)cc(Br)c1.
 
-SMILES for this part: `OC1CCC(CC1)NCc1cc(Br)cc(Br)c1N`
+The cyclohexane is drawn with plain bonds, so I add no stereochemistry:
+OC1CCC(CC1)NCc1cc(Br)cc(Br)c1N
 
-**Bottom component (acefylline):** a theophylline core with CH2COOH on N7: `Cn1c(=O)c2c(ncn2CC(=O)O)n(C)c1=O`
+**Bottom component (theophylline-7-acetic acid).** The xanthine core has N1 and N3 methylated, with C=O groups at C2 and C6. N7 carries a CH2COOH group, and C8 is a CH.
 
-I checked the core against the drawing. The imidazole ring is C8(H)=N9–C4, with C4=C5 and N7 bearing the acetic acid group. N3 carries a methyl, C2 is C=O, N1 carries a methyl, and C6 is C=O attached to C5. That matches.
+Written from N7: OC(=O)Cn1cnc2c1c(=O)n(C)c(=O)n2C
 
-SMILES: OC1CCC(CC1)NCc1cc(Br)cc(Br)c1N.Cn1c(=O)c2c(ncn2CC(=O)O)n(C)c1=O
+Checking the ring connectivity:
+- n1 is N7, c is C8, n is N9, and c2 is C4.
+- c1 is C5, closing the five-membered ring with N7.
+- c(=O) is C6, n(C) is N1, c(=O) is C2, and n2C is N3, closing back to C4.
+
+In the image, the carbon bonded to N9 (the top N) is also bonded to the N bearing the methyl at the top right, so it is C4. The carbon bonded to N7 is C5, which connects to the C=O at the bottom. This matches the SMILES.
+
+SMILES: OC1CCC(CC1)NCc1cc(Br)cc(Br)c1N.OC(=O)Cn1cnc2c1c(=O)n(C)c(=O)n2C

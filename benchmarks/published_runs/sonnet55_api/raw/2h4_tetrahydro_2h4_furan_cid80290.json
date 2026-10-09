@@ -1,12 +1,12 @@
 {
  "model": "claude-sonnet-5-5",
- "id": "msg_011CfqS9trsb7hfbueG7Dejh",
+ "id": "msg_011CfqfkSS8YfrutebcaV4vM",
  "type": "message",
  "role": "assistant",
  "content": [
   {
    "type": "text",
-   "text": "The drawing shows a five-membered ring made of one oxygen and four carbons. This is a tetrahydrofuran ring.\n\nEach of the four ring carbons carries two \u00b2H (deuterium) labels, so there are 8 deuteriums in total. This is THF-d8.\n\nWritten with explicit deuterium atoms, the SMILES is [2H]C1([2H])OC([2H])([2H])C([2H])([2H])C1([2H])[2H].\n\nCheck: the ring carbons are C1 (bonded to O), then C (bonded to O), then two more carbons, and C1 closes the ring. That gives O, C, C, C, C, which is five ring atoms, and each carbon has two deuteriums.\n\nSMILES: [2H]C1([2H])OC([2H])([2H])C([2H])([2H])C1([2H])[2H]"
+   "text": "The drawing shows a five-membered ring made of one oxygen and four carbons, which is tetrahydrofuran. Each of the four carbons carries two \u00b2H (deuterium) labels, so all eight hydrogens are deuterium. This is THF-d8.\n\nSMILES: [2H]C1([2H])OC([2H])([2H])C([2H])([2H])C1([2H])[2H]"
   }
  ],
  "container": null,
@@ -14,19 +14,19 @@
  "stop_sequence": null,
  "stop_details": null,
  "usage": {
-  "input_tokens": 3262,
+  "input_tokens": 3293,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 278,
+  "output_tokens": 131,
+  "service_tier": "standard",
+  "inference_geo": "global",
   "output_tokens_details": {
    "thinking_tokens": 0
-  },
-  "service_tier": "standard",
-  "inference_geo": "global"
+  }
  },
  "diagnostics": null
 }

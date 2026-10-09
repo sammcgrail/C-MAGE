@@ -1,9 +1,10 @@
-Reading the drawing gives 10 boron atoms and 2 unlabelled vertices, which I take to be carbons.
+Reading the drawing atom by atom:
 
-- **Four-membered ring:** two carbons (at the right of the drawing) and two borons form a ring in the order C–B–C–B. Each carbon is bonded to both ring borons.
-- **Eight-boron chain:** a chain of eight borons links the two ring carbons. Starting from the upper carbon and going round the drawing, it runs through the borons at top right, top, upper left, left, lower left, bottom centre, bottom, and bottom right. The last boron bonds to the lower carbon.
-- **Hydrogens:** each carbon has three bonds drawn, so it carries one implicit hydrogen, giving CH.
-- **Radicals:** every boron has a single dot and two bonds, so each is written as a radical [B].
-- **Stereochemistry:** none is drawn, so none is assigned.
+- There are 10 boron atoms, and each carries one dot (a radical) and has two bonds.
+- The two unlabelled vertices on the right are carbons, each bonded to three boron atoms and so carrying one hydrogen.
+- These two carbons and the two boron atoms between them form a four-membered ring (C–B–C–B).
+- The remaining eight boron atoms form a chain that links the two carbons into a larger ring. Starting from the top boron, the path is: B(top), B, C, then through the four-membered ring to the second C, then B, B, B, B, B, B, and back to the top boron.
 
-SMILES: [CH]1%10[B][CH]([B]1)[B][B][B][B][B][B][B][B]%10
+The ring closures in the SMILES below reproduce this connectivity, with each radical boron written as `[B]` and each carbon as `[CH]`.
+
+SMILES: [B]1[B][CH]2[B][CH]([B]2)[B][B][B][B][B][B]1

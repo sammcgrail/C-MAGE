@@ -1,22 +1,25 @@
-The drawing shows a benzene ring with three kinds of substituents:
+The drawing shows a benzene ring with four substituents:
 
-- **Side chain:** a CH2–CH(NH2)–CH3 group, drawn with plain bonds, so no stereochemistry is assigned.
-- **Methoxy groups:** two OMe groups, one at the top and one at the bottom left.
-- **Iodine:** one I at the left.
+- A CH2–CH(NH2)–CH3 chain (an amphetamine-type side chain) on the ring carbon at the right.
+- A methoxy group on the ring carbon at the top right.
+- An iodine on the ring carbon at the left.
+- A second methoxy group on the ring carbon at the bottom left.
 
-The ring atoms, going around from the side-chain carbon (the right-hand vertex at about (826, 818)):
+Going around the ring, the substituents are:
 
-1. C1 (826, 818) carries the CH2 side chain.
-2. C2 (714, 600) carries the top OMe.
-3. C3 (471, 589) is CH.
-4. C4 (340, 794) carries I.
-5. C5 (451, 1011) carries the bottom OMe.
-6. C6 (694, 1023) is CH.
+- C1: the chain, at (826, 818).
+- C2: OMe, at (714, 600).
+- C3: an unsubstituted CH, at (471, 589).
+- C4: I, at (340, 794).
+- C5: OMe, at (451, 1011).
+- C6: an unsubstituted CH, at (694, 1023).
 
-This is a 2,5-dimethoxy-4-iodo substitution pattern, which is DOI (2,5-dimethoxy-4-iodoamphetamine).
+This gives a 2,5-dimethoxy-4-iodo pattern (DOI). No wedges or hashes are drawn, so the stereocentre carries no stereo marking.
 
-SMILES: CC(N)Cc1cc(OC)c(I)cc1OC
+SMILES: CC(N)Cc1cc(I)c(OC)cc1OC
 
-Checking against the drawing: C1 is bonded to C2 (OMe) and C6 (H). C6 is bonded to C5 (OMe), which is bonded to C4 (I). C4 is bonded to C3 (H), which is bonded to C2 (OMe). In the written SMILES, the ring runs c1 (C1), c (C6, H), c(OC) (C5), c(I) (C4), c (C3, H), c1OC (C2). This matches the drawing.
+Checking the ring order against this SMILES: c1 (chain), then cH, then c(I), then c(OC), then cH, then c1(OC). In the drawing, the ring carbon bearing the chain is adjacent to the OMe carbon (top) and to an unsubstituted CH (bottom). The top OMe carbon is next to a CH, which is next to C–I, which is next to C–OMe (bottom left), which is next to a CH, which returns to the chain carbon.
+
+Following the SMILES from the chain carbon through its CH neighbour reaches C–I, then C–OMe, then CH, then C–OMe, which closes on the chain carbon. In the drawing, the chain carbon's CH neighbour (bottom, 694,1023) is next to C–OMe (bottom left, 451,1011), not C–I, so the SMILES order is wrong. The correct order is the chain carbon, then CH, then C(OC), then c(I), then cH, then c1(OC).
 
 SMILES: CC(N)Cc1cc(OC)c(I)cc1OC
