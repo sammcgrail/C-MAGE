@@ -1,0 +1,1235 @@
+{
+ "renderer": "EPAM Indigo 1.46.0-00000000-aarch64-linux-gnu-10.5.0 (indigo.renderer), Indigo's own 2D layout",
+ "seed": 20261008,
+ "built": "2026-10-08T23:50:41+00:00",
+ "notes": "150 corpus keys drawn uniformly at random (random.Random(20261008).shuffle of the sorted eligible keys, taken in that order) from the 1792 corpus keys with BOTH an ok Sonnet 5.5 API-only reading (first 2510 lines of published_runs/sonnet55_api/ledger.jsonl) AND a Sonnet 5.5 jailed-lane (s55c) reading (first 1792 lines of its results.jsonl); no past verdict used. Render: loadMolecule(truth SMILES), dearomatize() (Kekule rings), layout(), PNG 1500x1500 white, render-bond-length 100, render-relative-thickness 1.5, render-stereo-style none (no Chiral/abs text; stereo by wedges, hashes and double-bond geometry only), otherwise Indigo defaults (implicit H labels, black atoms). Verified per image: RDKit 2025.03.3 canonical isomeric SMILES of Indigo's laid-out molfile (MolFromMolBlock: stereo from its wedges and 2D coordinates) == canonical(truth); no two atoms closer than 0.25 x the median bond length; pixel-only PNG (png_clean); pixel hash differs from the corpus RDKit image of the key and from an RDKit default render of the truth at the same size. 6 key(s) skipped, listed in 'skipped'.",
+ "eligible_n": 1792,
+ "skipped": [
+  {
+   "k": "dictyostatin_cid11353099",
+   "why": "stereo differs (drawing cannot show the truth's stereo): drawn C=C/C=C\\[C@H](C)[C@@H]1OC(=O)/C=C\\C=C/[C@@H](C)[C@@H](O)C[C@H](O)/C=C\\[C@H](C)[C@H](O)[C@@H](C)C[C@@H](C)CC[C@@H](O)[C@@H]1C vs truth C=C/C=C\\[C@H](C)[C@@H]1OC(=O)/C=C\\C=C\\[C@@H](C)[C@@H](O)C[C@H](O)/C=C\\[C@H](C)[C@H](O)[C@@H](C)C[C@@H](C)CC[C@@H](O)[C@@H]1C"
+  },
+  {
+   "k": "congo_red_cid11313",
+   "why": "stereo differs (drawing cannot show the truth's stereo): drawn Nc1c(/N=N/c2ccc(-c3ccc(/N=N/c4cc(S(=O)(=O)[O-])c5ccccc5c4N)cc3)cc2)cc(S(=O)(=O)[O-])c2ccccc12.[Na+].[Na+] vs truth Nc1c(N=Nc2ccc(-c3ccc(N=Nc4cc(S(=O)(=O)[O-])c5ccccc5c4N)cc3)cc2)cc(S(=O)(=O)[O-])c2ccccc12.[Na+].[Na+]"
+  },
+  {
+   "k": "cytisine_cid10235",
+   "why": "stereo differs (drawing cannot show the truth's stereo): drawn O=c1cccc2n1C[C@H]1CNC[C@H]2C1 vs truth O=c1cccc2n1C[C@@H]1CNC[C@H]2C1"
+  },
+  {
+   "k": "pacritinib_cid46216796",
+   "why": "stereo differs (drawing cannot show the truth's stereo): drawn C1=C\\COCc2cc(ccc2OCCN2CCCC2)Nc2nccc(n2)-c2cccc(c2)COC/1 vs truth C1=C/COCc2cc(ccc2OCCN2CCCC2)Nc2nccc(n2)-c2cccc(c2)COC/1"
+  },
+  {
+   "k": "amdinocillin_cid36273",
+   "why": "stereo differs (drawing cannot show the truth's stereo): drawn CC1(C)S[C@@H]2[C@H](/N=C/N3CCCCCC3)C(=O)N2[C@H]1C(=O)O vs truth CC1(C)S[C@@H]2[C@H](N=CN3CCCCCC3)C(=O)N2[C@H]1C(=O)O"
+  },
+  {
+   "k": "ascomycin_cid5282071",
+   "why": "stereo differs (drawing cannot show the truth's stereo): drawn CC[C@@H]1/C=C(/C)C[C@H](C)C[C@H](OC)[C@H]2O[C@@](O)(C(=O)C(=O)N3CCCC[C@H]3C(=O)O[C@H](/C(C)=C/[C@@H]3CC[C@@H](O)[C@H](OC)C3)[C@H](C)[C@@H](O)CC1=O)[C@H](C)C[C@@H]2OC vs truth CC[C@@H]1/C=C(\\C)C[C@H](C)C[C@H](OC)[C@H]2O[C@@](O)(C(=O)C(=O)N3CCCC[C@H]3C(=O)O[C@H](/C(C)=C/[C@@H]3CC[C@@H](O)[C@H](OC)C3)[C@H](C)[C@@H](O)CC1=O)[C@H](C)C[C@@H]2OC"
+  }
+ ],
+ "rows": [
+  {
+   "id": "ctl_001",
+   "k": "bivalirudin_cid16129704",
+   "n": "Bivalirudin",
+   "t": "CC[C@H](C)[C@@H](C(=O)N1CCC[C@H]1C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CC2=CC=C(C=C2)O)C(=O)N[C@@H](CC(C)C)C(=O)O)NC(=O)[C@H](CCC(=O)O)NC(=O)[C@H](CCC(=O)O)NC(=O)[C@H](CC3=CC=CC=C3)NC(=O)[C@H](CC(=O)O)NC(=O)CNC(=O)[C@H](CC(=O)N)NC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)[C@@H]4CCCN4C(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H]5CCCN5C(=O)[C@@H](CC6=CC=CC=C6)N",
+   "png": "/root/cmage-work/control/indigo/ctl_001.png",
+   "pixel_sha256": "6461e26edd77f7c4ef9cb113e6a2cdc4d1fb487186a2c509d102e6f4eb495d15"
+  },
+  {
+   "id": "ctl_002",
+   "k": "carisbamate_cid6918474",
+   "n": "Carisbamate",
+   "t": "C1=CC=C(C(=C1)[C@@H](COC(=O)N)O)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_002.png",
+   "pixel_sha256": "a7aa409b7574098ea1b097aa403a8a6a700205eb564579a73a6e89e1dc09bafd"
+  },
+  {
+   "id": "ctl_003",
+   "k": "ethaselen_cid10387485",
+   "n": "Ethaselen",
+   "t": "C1=CC=C2C(=C1)C(=O)N([Se]2)CCN3C(=O)C4=CC=CC=C4[Se]3",
+   "png": "/root/cmage-work/control/indigo/ctl_003.png",
+   "pixel_sha256": "6e811fb55aa4e93d976fb5f9f3d4b9ee049e5c296f5e7248caa68da1ca284a1b"
+  },
+  {
+   "id": "ctl_004",
+   "k": "gadopentetate_dimeglumine_cid55466",
+   "n": "Gadopentetate Dimeglumine",
+   "t": "CNC[C@@H]([C@H]([C@@H]([C@@H](CO)O)O)O)O.CNC[C@@H]([C@H]([C@@H]([C@@H](CO)O)O)O)O.C(CN(CC(=O)O)CC(=O)[O-])N(CCN(CC(=O)O)CC(=O)[O-])CC(=O)[O-].[Gd+3]",
+   "png": "/root/cmage-work/control/indigo/ctl_004.png",
+   "pixel_sha256": "4a99bfe9a5519a14b429e5d7e32c8b6d8e7d113c036f2c50307cad3123128bea"
+  },
+  {
+   "id": "ctl_005",
+   "k": "duocarmycin_sa_cid115369",
+   "n": "Duocarmycin Sa",
+   "t": "COC1=C(C(=C2C(=C1)C=C(N2)C(=O)N3C[C@H]4C[C@@]45C3=CC(=O)C6=C5C=C(N6)C(=O)OC)OC)OC",
+   "png": "/root/cmage-work/control/indigo/ctl_005.png",
+   "pixel_sha256": "4939bf3f6b91081ef0643ab1ac7282537f7b00ffb7863b5b90f224c8a4405e97"
+  },
+  {
+   "id": "ctl_006",
+   "k": "milademetan_cid73297272",
+   "n": "Milademetan",
+   "t": "CC1(CCC2(CC1)[C@@]3([C@H]([C@@H](N2)C(=O)N[C@@H]4CC[C@H](OC4)C(=O)N)C5=C(C(=NC=C5)Cl)F)C6=C(C=C(C=C6)Cl)NC3=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_006.png",
+   "pixel_sha256": "e1cdfd4b180e1bed86e5c37312c63e315eac02d07428fdf47c8497dc38b5c1be"
+  },
+  {
+   "id": "ctl_007",
+   "k": "fluralaner_cid25144319",
+   "n": "Fluralaner",
+   "t": "CC1=C(C=CC(=C1)C2=NOC(C2)(C3=CC(=CC(=C3)Cl)Cl)C(F)(F)F)C(=O)NCC(=O)NCC(F)(F)F",
+   "png": "/root/cmage-work/control/indigo/ctl_007.png",
+   "pixel_sha256": "87a44af1e814b411b7ecaaad855f5a012f170e17b6dc767452901fbf5f51a767"
+  },
+  {
+   "id": "ctl_008",
+   "k": "diethylpropion_hydrochloride_cid91442",
+   "n": "Diethylpropion Hydrochloride",
+   "t": "CCN(CC)C(C)C(=O)C1=CC=CC=C1.Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_008.png",
+   "pixel_sha256": "6a8b51e334a4e8e8a3c0601d835c652fadfa424a87d4a628c8040fe1d2022529"
+  },
+  {
+   "id": "ctl_009",
+   "k": "palmitic_acid_cid985",
+   "n": "Palmitic Acid",
+   "t": "CCCCCCCCCCCCCCCC(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_009.png",
+   "pixel_sha256": "e01286ef343ae6906f25dd916e90dd6fe86741a106904c6bfb6abad0cd9087d3"
+  },
+  {
+   "id": "ctl_010",
+   "k": "atorvastatin_cid60823",
+   "n": "Atorvastatin",
+   "t": "CC(C)C1=C(C(=C(N1CC[C@H](C[C@H](CC(=O)O)O)O)C2=CC=C(C=C2)F)C3=CC=CC=C3)C(=O)NC4=CC=CC=C4",
+   "png": "/root/cmage-work/control/indigo/ctl_010.png",
+   "pixel_sha256": "829c3f8add8f7ed27cd2d5b74aacc19c4a627816d82ca4119005fb6d5309642c"
+  },
+  {
+   "id": "ctl_011",
+   "k": "l_ornithine_cid6262",
+   "n": "L-(-)-Ornithine",
+   "t": "C(C[C@@H](C(=O)O)N)CN",
+   "png": "/root/cmage-work/control/indigo/ctl_011.png",
+   "pixel_sha256": "0e0e36bf4e5c618e3a791c74c4319f73f2985b5528848176e6d450468ad057c8"
+  },
+  {
+   "id": "ctl_012",
+   "k": "benzphetamine_hydrochloride_cid11558159",
+   "n": "Benzphetamine Hydrochloride",
+   "t": "C[C@@H](CC1=CC=CC=C1)N(C)CC2=CC=CC=C2.Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_012.png",
+   "pixel_sha256": "11a47d64a8d68c7709a5de35395988d06c2301cddf2676e511b854b3398caa65"
+  },
+  {
+   "id": "ctl_013",
+   "k": "n_21_ethyl_20_2_1_methoxyethyl_5_4_methylpiperazin_1_yl_3_py_cid164885345",
+   "n": "N-[21-ethyl-20-[2-(1-methoxyethyl)-5-(4-methylpiperazin-1-yl)-3-pyridinyl]-17,17-dimethyl-8,14-dioxo-15-oxa-4-thia-9,21,27,28-tetrazapentacyclo[17.5.2.12,5.19,13.022,26]octacosa-1(25),2,5(28),19,22(26),23-hexaen-7-yl]-2-methylcyclopropane-1-carboxamide",
+   "t": "CCN1C2=C3C=C(C=C2)C4=CSC(=N4)CC(C(=O)N5CCCC(N5)C(=O)OCC(CC3=C1C6=C(N=CC(=C6)N7CCN(CC7)C)C(C)OC)(C)C)NC(=O)C8CC8C",
+   "png": "/root/cmage-work/control/indigo/ctl_013.png",
+   "pixel_sha256": "d4004657f2d16f534893b0c773491b51d8631734661532a539bbac7cd961e10f"
+  },
+  {
+   "id": "ctl_014",
+   "k": "l_aspartic_acid_cid5960",
+   "n": "L-Aspartic Acid",
+   "t": "C([C@@H](C(=O)O)N)C(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_014.png",
+   "pixel_sha256": "cba1776e7a410e82f5312609f146a39efb2739b952ce7c25b996d30328378f75"
+  },
+  {
+   "id": "ctl_015",
+   "k": "4_dimethylamino_phenol_cid22174",
+   "n": "4-(Dimethylamino)phenol",
+   "t": "CN(C)C1=CC=C(C=C1)O",
+   "png": "/root/cmage-work/control/indigo/ctl_015.png",
+   "pixel_sha256": "ddde76731d7bfff6c1f237f629b2f36005ec3266b6a433360f506291fb30fdc3"
+  },
+  {
+   "id": "ctl_016",
+   "k": "mosnodenvir_cid133083036",
+   "n": "Mosnodenvir",
+   "t": "COC1=CC(=CC(=C1)N[C@@H](C2=C(C=C(C=C2)Cl)OC)C(=O)C3=CNC4=C3C=C(C=C4)OC(F)(F)F)S(=O)(=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_016.png",
+   "pixel_sha256": "f7e33017a72bca34a58478b6184df1b9f1092a1d0e3266d95aef162d27b3f243"
+  },
+  {
+   "id": "ctl_017",
+   "k": "indalpine_cid44668",
+   "n": "Indalpine",
+   "t": "C1CNCCC1CCC2=CNC3=CC=CC=C32",
+   "png": "/root/cmage-work/control/indigo/ctl_017.png",
+   "pixel_sha256": "6f341eec7c72b6186521004422a8245bd4f19e655c83f5790040a32c10c0656e"
+  },
+  {
+   "id": "ctl_018",
+   "k": "lansoprazole_cid3883",
+   "n": "Lansoprazole",
+   "t": "CC1=C(C=CN=C1CS(=O)C2=NC3=CC=CC=C3N2)OCC(F)(F)F",
+   "png": "/root/cmage-work/control/indigo/ctl_018.png",
+   "pixel_sha256": "87f17c1bace64e5bd8fa11c28b44fa07ffb4e2d5405d09c7a235a8a6d8922a5b"
+  },
+  {
+   "id": "ctl_019",
+   "k": "meclizine_cid4034",
+   "n": "Meclizine",
+   "t": "CC1=CC(=CC=C1)CN2CCN(CC2)C(C3=CC=CC=C3)C4=CC=C(C=C4)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_019.png",
+   "pixel_sha256": "ff55c311833279ce9e10a6e995bbb51b484c7a72b0881b9cb915665df468b503"
+  },
+  {
+   "id": "ctl_020",
+   "k": "dirithromycin_cid6473883",
+   "n": "Dirithromycin",
+   "t": "CC[C@@H]1[C@@]([C@H]2[C@H]([C@H]([C@@H](C[C@@]([C@@H]([C@H]([C@@H]([C@H](C(=O)O1)C)O[C@H]3C[C@@]([C@H]([C@@H](O3)C)O)(C)OC)C)O[C@H]4[C@@H]([C@H](C[C@H](O4)C)N(C)C)O)(C)O)C)N[C@H](O2)COCCOC)C)(C)O",
+   "png": "/root/cmage-work/control/indigo/ctl_020.png",
+   "pixel_sha256": "a90376e6f6d5102f56d51f0fd6e72fedebc6ec4c9698643b7d1a990c81cc08f4"
+  },
+  {
+   "id": "ctl_021",
+   "k": "camptothecin_cid24360",
+   "n": "Camptothecin",
+   "t": "CC[C@@]1(C2=C(COC1=O)C(=O)N3CC4=CC5=CC=CC=C5N=C4C3=C2)O",
+   "png": "/root/cmage-work/control/indigo/ctl_021.png",
+   "pixel_sha256": "2eb782b1281bfb126019d0459309f48b524fa1bbd39f1adc99b94292967761a1"
+  },
+  {
+   "id": "ctl_022",
+   "k": "7_ethyl_10_hydroxycamptothecin_cid104842",
+   "n": "7-Ethyl-10-Hydroxycamptothecin",
+   "t": "CCC1=C2CN3C(=CC4=C(C3=O)COC(=O)[C@@]4(CC)O)C2=NC5=C1C=C(C=C5)O",
+   "png": "/root/cmage-work/control/indigo/ctl_022.png",
+   "pixel_sha256": "d47c4d7369fc1be9f06a5620e739e07648b71ea8ce77b9ea3d2db6b7c390d3ea"
+  },
+  {
+   "id": "ctl_023",
+   "k": "paramethadione_cid8280",
+   "n": "Paramethadione",
+   "t": "CCC1(C(=O)N(C(=O)O1)C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_023.png",
+   "pixel_sha256": "4db08eaaa5209b03f2e84e154689d47412c62758ce22d0383d04e211bec25f59"
+  },
+  {
+   "id": "ctl_024",
+   "k": "l_homocysteine_cid91552",
+   "n": "L-Homocysteine",
+   "t": "C(CS)[C@@H](C(=O)O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_024.png",
+   "pixel_sha256": "6cd83dd7a03fcd60d9d735b5ebe3459722cec6c508867371d219d2d259cc1a5f"
+  },
+  {
+   "id": "ctl_025",
+   "k": "captopril_cid44093",
+   "n": "Captopril",
+   "t": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_025.png",
+   "pixel_sha256": "8000bfbde43da451539c4aa30f9fccfddd49df93c8662a4648e0054a258a8238"
+  },
+  {
+   "id": "ctl_026",
+   "k": "menadione_cid4055",
+   "n": "Menadione",
+   "t": "CC1=CC(=O)C2=CC=CC=C2C1=O",
+   "png": "/root/cmage-work/control/indigo/ctl_026.png",
+   "pixel_sha256": "884e47695c93adb49c0e9f749f2e6018401e5cbe3f1907770211c56f4a223e9f"
+  },
+  {
+   "id": "ctl_027",
+   "k": "2_naphthacenecarboxamide_4_dimethylamino_1_4_4a_5_5a_6_11_12_cid54704426",
+   "n": "2-Naphthacenecarboxamide, 4-(dimethylamino)-1,4,4a,5,5a,6,11,12a-octahydro-3,6,10,12,12a-pentahydroxy-6-methyl-1,11-dioxo-, hydrochloride (1:1), (4S,4aS,5aS,6S,12aS)-",
+   "t": "C[C@@]1([C@H]2C[C@H]3[C@@H](C(=O)C(=C([C@]3(C(=O)C2=C(C4=C1C=CC=C4O)O)O)O)C(=O)N)N(C)C)O.Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_027.png",
+   "pixel_sha256": "911d0bb7eef1808d4744f7e1730a2654133802e74c283e278480c30ea5d644d0"
+  },
+  {
+   "id": "ctl_028",
+   "k": "dimethylmercury_cid11645",
+   "n": "Dimethylmercury",
+   "t": "C[Hg]C",
+   "png": "/root/cmage-work/control/indigo/ctl_028.png",
+   "pixel_sha256": "bdc0bdc848c2375593981810e1b6c248ab3391a24a5513e01a9861bc613c5d94"
+  },
+  {
+   "id": "ctl_029",
+   "k": "creatine_cid586",
+   "n": "Creatine",
+   "t": "CN(CC(=O)O)C(=N)N",
+   "png": "/root/cmage-work/control/indigo/ctl_029.png",
+   "pixel_sha256": "b8c051a8ec673a38f194b08a8faa1b675f9d21813a35943b580ca22de513b5ee"
+  },
+  {
+   "id": "ctl_030",
+   "k": "lasalocid_a_cid5360807",
+   "n": "Lasalocid A",
+   "t": "CC[C@H]([C@@H]1[C@H](C[C@@](O1)(CC)[C@H]2CC[C@@]([C@@H](O2)C)(CC)O)C)C(=O)[C@@H](C)[C@H]([C@H](C)CCC3=C(C(=C(C=C3)C)O)C(=O)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_030.png",
+   "pixel_sha256": "a8ee56618f38945a84f639bfcc927c952bec085cec164999ce3ece805e5afa48"
+  },
+  {
+   "id": "ctl_031",
+   "k": "mersalyl_cid9806195",
+   "n": "Mersalyl",
+   "t": "COC(CNC(=O)C1=CC=CC=C1OCC(=O)[O-])C[Hg+].[OH-].[Na+]",
+   "png": "/root/cmage-work/control/indigo/ctl_031.png",
+   "pixel_sha256": "c730f03bacb3c182507a4f2a5a210471d13bee0dab1f3a45dc122d176f407f1d"
+  },
+  {
+   "id": "ctl_032",
+   "k": "betaine_cid247",
+   "n": "Betaine",
+   "t": "C[N+](C)(C)CC(=O)[O-]",
+   "png": "/root/cmage-work/control/indigo/ctl_032.png",
+   "pixel_sha256": "33c97ec97bf9dc4abfb5c3d7a0832d969b9206f09e9e424eb19396e7a1be0b06"
+  },
+  {
+   "id": "ctl_033",
+   "k": "mesterolone_cid15020",
+   "n": "Mesterolone",
+   "t": "C[C@H]1CC(=O)C[C@H]2[C@]1([C@H]3CC[C@]4([C@H]([C@@H]3CC2)CC[C@@H]4O)C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_033.png",
+   "pixel_sha256": "e27c52c3c0e4b3ad604df524c528c41ac1696ca211bdd219e1d078084580f69f"
+  },
+  {
+   "id": "ctl_034",
+   "k": "fluconazole_cid3365",
+   "n": "Fluconazole",
+   "t": "C1=CC(=C(C=C1F)F)C(CN2C=NC=N2)(CN3C=NC=N3)O",
+   "png": "/root/cmage-work/control/indigo/ctl_034.png",
+   "pixel_sha256": "4d85495bcb910b65c848ecb66d225ef7993ef35d1d1a25f0df1ad70a6faa6234"
+  },
+  {
+   "id": "ctl_035",
+   "k": "buserelin_cid50225",
+   "n": "Buserelin",
+   "t": "CCNC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCN=C(N)N)NC(=O)[C@H](CC(C)C)NC(=O)[C@@H](COC(C)(C)C)NC(=O)[C@H](CC2=CC=C(C=C2)O)NC(=O)[C@H](CO)NC(=O)[C@H](CC3=CNC4=CC=CC=C43)NC(=O)[C@H](CC5=CN=CN5)NC(=O)[C@@H]6CCC(=O)N6",
+   "png": "/root/cmage-work/control/indigo/ctl_035.png",
+   "pixel_sha256": "6d12b84c2f33c107a497c3480f717076c5d2b1cbe464a106e09ca422e7646529"
+  },
+  {
+   "id": "ctl_036",
+   "k": "eltanexor_cid86345880",
+   "n": "Eltanexor",
+   "t": "C1=C(C=C(C=C1C(F)(F)F)C(F)(F)F)C2=NN(C=N2)/C=C(\\C3=CN=CN=C3)/C(=O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_036.png",
+   "pixel_sha256": "55e55164ef26ec0c83ef8c73f6924d144d5b2339be39f845a704120fef1c9a68"
+  },
+  {
+   "id": "ctl_037",
+   "k": "midazolam_cid4192",
+   "n": "Midazolam",
+   "t": "CC1=NC=C2N1C3=C(C=C(C=C3)Cl)C(=NC2)C4=CC=CC=C4F",
+   "png": "/root/cmage-work/control/indigo/ctl_037.png",
+   "pixel_sha256": "801cd268ca572792805226fb8eb30d32955e8ff92b0fe96d268a3d82e651ad05"
+  },
+  {
+   "id": "ctl_038",
+   "k": "atogepant_cid72163100",
+   "n": "Atogepant",
+   "t": "C[C@@H]1[C@@H](C[C@@H](C(=O)N1CC(F)(F)F)NC(=O)C2=CC3=C(C[C@@]4(C3)C5=C(NC4=O)N=CC=C5)N=C2)C6=C(C=CC(=C6F)F)F",
+   "png": "/root/cmage-work/control/indigo/ctl_038.png",
+   "pixel_sha256": "58c94bd9cf7705e472b4f5dce547be1094227c381f1093eff46a257ebadb9082"
+  },
+  {
+   "id": "ctl_039",
+   "k": "deslorelin_cid25077495",
+   "n": "Deslorelin",
+   "t": "CCNC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCN=C(N)N)NC(=O)[C@H](CC(C)C)NC(=O)[C@@H](CC2=CNC3=CC=CC=C32)NC(=O)[C@H](CC4=CC=C(C=C4)O)NC(=O)[C@H](CO)NC(=O)[C@H](CC5=CNC6=CC=CC=C65)NC(=O)[C@H](CC7=CN=CN7)NC(=O)[C@@H]8CCC(=O)N8",
+   "png": "/root/cmage-work/control/indigo/ctl_039.png",
+   "pixel_sha256": "153c8057169882af778f0673626dda2b1d6dcbb720b0c138a4d75586db44acb0"
+  },
+  {
+   "id": "ctl_040",
+   "k": "micafungin_cid477468",
+   "n": "Micafungin",
+   "t": "CCCCCOC1=CC=C(C=C1)C2=CC(=NO2)C3=CC=C(C=C3)C(=O)N[C@H]4C[C@H]([C@H](NC(=O)[C@@H]5[C@H]([C@H](CN5C(=O)[C@@H](NC(=O)[C@@H](NC(=O)[C@@H]6C[C@H](CN6C(=O)[C@@H](NC4=O)[C@@H](C)O)O)[C@@H]([C@H](C7=CC(=C(C=C7)O)OS(=O)(=O)O)O)O)[C@@H](CC(=O)N)O)C)O)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_040.png",
+   "pixel_sha256": "ac5c7bf03cdaba0f1c7c025ca1536daeecdd6ae98a1c133ebf7d9be21b2a7fb3"
+  },
+  {
+   "id": "ctl_041",
+   "k": "ebselen_cid3194",
+   "n": "Ebselen",
+   "t": "C1=CC=C(C=C1)N2C(=O)C3=CC=CC=C3[Se]2",
+   "png": "/root/cmage-work/control/indigo/ctl_041.png",
+   "pixel_sha256": "2dd1533f77f93568a9474d85cf93efe7e16628d102bcce219b12eaf07dd1b658"
+  },
+  {
+   "id": "ctl_042",
+   "k": "chlorobutanol_cid5977",
+   "n": "Chlorobutanol",
+   "t": "CC(C)(C(Cl)(Cl)Cl)O",
+   "png": "/root/cmage-work/control/indigo/ctl_042.png",
+   "pixel_sha256": "bf6da884a611d022f3973123a1f6bf81274392ee2defed1583266c18ae1ac8e1"
+  },
+  {
+   "id": "ctl_043",
+   "k": "ciclopirox_olamine_cid38911",
+   "n": "Ciclopirox Olamine",
+   "t": "CC1=CC(=O)N(C(=C1)C2CCCCC2)O.C(CO)N",
+   "png": "/root/cmage-work/control/indigo/ctl_043.png",
+   "pixel_sha256": "ae1ceecce3077b5526f838394e33e15f064aa84e0a428f92cf1ee721a03062d5"
+  },
+  {
+   "id": "ctl_044",
+   "k": "benidipine_cid656668",
+   "n": "Benidipine",
+   "t": "CC1=C([C@H](C(=C(N1)C)C(=O)O[C@@H]2CCCN(C2)CC3=CC=CC=C3)C4=CC(=CC=C4)[N+](=O)[O-])C(=O)OC",
+   "png": "/root/cmage-work/control/indigo/ctl_044.png",
+   "pixel_sha256": "2943f8549d3c4072ea7d27c2062571f9a1bebdb3a57307f690235a57f8f25b61"
+  },
+  {
+   "id": "ctl_045",
+   "k": "ln_1_255_cid23672118",
+   "n": "LN-1-255",
+   "t": "C[C@@]1([C@@H](N2[C@H](S1(=O)=O)/C(=C\\C3=CC=CC=N3)/C2=O)C(=O)[O-])COC(=O)CC4=CC(=C(C=C4)O)O.[Na+]",
+   "png": "/root/cmage-work/control/indigo/ctl_045.png",
+   "pixel_sha256": "5262f931d8852894e6d0ddb41b5a363f9615568cf8e2909fd312cb4a0c17b894"
+  },
+  {
+   "id": "ctl_046",
+   "k": "beclomethasone_cid20469",
+   "n": "Beclomethasone",
+   "t": "C[C@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@@]4([C@]3([C@H](C[C@@]2([C@]1(C(=O)CO)O)C)O)Cl)C",
+   "png": "/root/cmage-work/control/indigo/ctl_046.png",
+   "pixel_sha256": "647530a72abbdad5dca9387507be1f760de681684f5016d667f9745a25f3187d"
+  },
+  {
+   "id": "ctl_047",
+   "k": "cenobamate_cid11962412",
+   "n": "Cenobamate",
+   "t": "C1=CC=C(C(=C1)[C@H](CN2N=CN=N2)OC(=O)N)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_047.png",
+   "pixel_sha256": "43aa6529c8dc5da0ce5c1ac60d2f141db54264b30dbc6952dd3333f4b5dde191"
+  },
+  {
+   "id": "ctl_048",
+   "k": "eberconazole_cid72051",
+   "n": "Eberconazole",
+   "t": "C1CC2=C(C(C3=CC=CC=C31)N4C=CN=C4)C(=CC(=C2)Cl)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_048.png",
+   "pixel_sha256": "b1dfefa8ade02ca9fefdb44ffcca0a1b61bfbcfe323dabe1575916f063fbadff"
+  },
+  {
+   "id": "ctl_049",
+   "k": "mirex_cid16945",
+   "n": "Mirex",
+   "t": "C12(C3(C4(C5(C3(C(C1(C5(C2(C4(Cl)Cl)Cl)Cl)Cl)(Cl)Cl)Cl)Cl)Cl)Cl)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_049.png",
+   "pixel_sha256": "8822609a8d2e8256edc9ae0e0d5b443249c5b7c8bd5fa52eca40a3ef03758b6d"
+  },
+  {
+   "id": "ctl_050",
+   "k": "pantoprazole_cid4679",
+   "n": "Pantoprazole",
+   "t": "COC1=C(C(=NC=C1)CS(=O)C2=NC3=C(N2)C=C(C=C3)OC(F)F)OC",
+   "png": "/root/cmage-work/control/indigo/ctl_050.png",
+   "pixel_sha256": "1c9322a391099999df9c4bd153dbf68f4e1a702a69c134e093f742052c49eecd"
+  },
+  {
+   "id": "ctl_051",
+   "k": "azaline_b_cid71587609",
+   "n": "azaline B",
+   "t": "C[C@H](C(=O)N)NC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCCNC(C)C)NC(=O)[C@H](CC(C)C)NC(=O)[C@@H](CC2=CC=C(C=C2)NC3=NN=C(N3)N)NC(=O)[C@H](CC4=CC=C(C=C4)NC5=NN=C(N5)N)NC(=O)[C@H](CO)NC(=O)[C@@H](CC6=CN=CC=C6)NC(=O)[C@@H](CC7=CC=C(C=C7)Cl)NC(=O)[C@@H](CC8=CC9=CC=CC=C9C=C8)NC(=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_051.png",
+   "pixel_sha256": "d6c6b12af7ab0beca96c8ecac8b4b8f38e64875219385328d5cbf5ac8f6e18eb"
+  },
+  {
+   "id": "ctl_052",
+   "k": "15_crown_5_cid36336",
+   "n": "15-Crown-5",
+   "t": "C1COCCOCCOCCOCCO1",
+   "png": "/root/cmage-work/control/indigo/ctl_052.png",
+   "pixel_sha256": "a1fedee65b856d4db344a28dc06f139db66685082da0190177ad5088f70be8bc"
+  },
+  {
+   "id": "ctl_053",
+   "k": "dibenzo_18_crown_6_cid26541",
+   "n": "Dibenzo-18-crown-6",
+   "t": "C1COC2=CC=CC=C2OCCOCCOC3=CC=CC=C3OCCO1",
+   "png": "/root/cmage-work/control/indigo/ctl_053.png",
+   "pixel_sha256": "de69c57edfe1378abc67bafd5bdeb1f840792311f89402c1a886822b9e7ca997"
+  },
+  {
+   "id": "ctl_054",
+   "k": "2_2_6_dimethyl_4_1e_3_4_methylthio_phenyl_3_oxo_1_propen_1_y_cid9864881",
+   "n": "2-(2,6-Dimethyl-4-((1E)-3-(4-(methylthio)phenyl)-3-oxo-1-propen-1-yl)phenoxy)-2-methylpropanoic acid",
+   "t": "CC1=CC(=CC(=C1OC(C)(C)C(=O)O)C)/C=C/C(=O)C2=CC=C(C=C2)SC",
+   "png": "/root/cmage-work/control/indigo/ctl_054.png",
+   "pixel_sha256": "79f7644dc88e6a6375576ef09d3bba3cb2a2ab64b869abee1d9d48743470cfee"
+  },
+  {
+   "id": "ctl_055",
+   "k": "luliconazole_cid3003141",
+   "n": "Luliconazole",
+   "t": "C1[C@H](S/C(=C(\\C#N)/N2C=CN=C2)/S1)C3=C(C=C(C=C3)Cl)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_055.png",
+   "pixel_sha256": "116b640963ab215886d4246306739b2bb38aea98c19f65ef244793f56632edd2"
+  },
+  {
+   "id": "ctl_056",
+   "k": "cythioate_cid8293",
+   "n": "Cythioate",
+   "t": "COP(=S)(OC)OC1=CC=C(C=C1)S(=O)(=O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_056.png",
+   "pixel_sha256": "600471e38217ca5ecbae9de4378f80f079d3c7b84c39037152e06fb38c4a739e"
+  },
+  {
+   "id": "ctl_057",
+   "k": "centanafadine_cid16095349",
+   "n": "Centanafadine",
+   "t": "C1[C@H]2[C@@]1(CNC2)C3=CC4=CC=CC=C4C=C3",
+   "png": "/root/cmage-work/control/indigo/ctl_057.png",
+   "pixel_sha256": "cb915fc10fdce2c047f12a1aab0a59874c1cac1594b07a53a30f088094294c8b"
+  },
+  {
+   "id": "ctl_058",
+   "k": "linifanib_cid11485656",
+   "n": "Linifanib",
+   "t": "CC1=CC(=C(C=C1)F)NC(=O)NC2=CC=C(C=C2)C3=C4C(=CC=C3)NN=C4N",
+   "png": "/root/cmage-work/control/indigo/ctl_058.png",
+   "pixel_sha256": "017263f8367f42b165776782eded71665aada2e149fff950d6b352bcbd469929"
+  },
+  {
+   "id": "ctl_059",
+   "k": "fluciclovine_cid10820564",
+   "n": "Fluciclovine",
+   "t": "C1C(CC1(C(=O)O)N)F",
+   "png": "/root/cmage-work/control/indigo/ctl_059.png",
+   "pixel_sha256": "1cce1c55732aa205f8f0b9c913ba9c87b0bcf16d713fa7db660d484ca3fe045d"
+  },
+  {
+   "id": "ctl_060",
+   "k": "l_alanine_cid5950",
+   "n": "L-Alanine",
+   "t": "C[C@@H](C(=O)O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_060.png",
+   "pixel_sha256": "44537c3f80523a5c31cc397945032f67338004f68ebf24f8cc9ce43ef56dd430"
+  },
+  {
+   "id": "ctl_061",
+   "k": "1_10_phenanthroline_cid1318",
+   "n": "1,10-Phenanthroline",
+   "t": "C1=CC2=C(C3=C(C=CC=N3)C=C2)N=C1",
+   "png": "/root/cmage-work/control/indigo/ctl_061.png",
+   "pixel_sha256": "eb53aecc42a3509271932b3ec77242021681e505f18eaded0615f3871cc5dca9"
+  },
+  {
+   "id": "ctl_062",
+   "k": "misoprostol_cid5282381",
+   "n": "Misoprostol",
+   "t": "CCCCC(C)(C/C=C/[C@H]1[C@@H](CC(=O)[C@@H]1CCCCCCC(=O)OC)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_062.png",
+   "pixel_sha256": "ab2c313cef17907cf8ac2844e94b246f2e0224f8bfdff4992e3e6e338d5c2f13"
+  },
+  {
+   "id": "ctl_063",
+   "k": "alpha_galactosylceramide_cid2826713",
+   "n": "Alpha-Galactosylceramide",
+   "t": "CCCCCCCCCCCCCCCCCCCCCCCCCC(=O)N[C@@H](CO[C@@H]1[C@@H]([C@H]([C@H]([C@H](O1)CO)O)O)O)[C@@H]([C@@H](CCCCCCCCCCCCCC)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_063.png",
+   "pixel_sha256": "11d5a8c7cca3576d7277d608c2d17e6ed63169cf9b48b3a0648ca7ab2765b2ea"
+  },
+  {
+   "id": "ctl_064",
+   "k": "colistin_a_cid24825758",
+   "n": "Colistin A",
+   "t": "CC[C@H](C)CCCCC(=O)N[C@@H](CCN)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CCN)C(=O)N[C@H]1CCNC(=O)[C@@H](NC(=O)[C@@H](NC(=O)[C@@H](NC(=O)[C@@H](NC(=O)[C@H](NC(=O)[C@@H](NC1=O)CCN)CC(C)C)CC(C)C)CCN)CCN)[C@@H](C)O",
+   "png": "/root/cmage-work/control/indigo/ctl_064.png",
+   "pixel_sha256": "7793050cd9a7065ed29b04f9ecd16623fea9134742bd1d40a972c7843c574ed4"
+  },
+  {
+   "id": "ctl_065",
+   "k": "gilteritinib_cid49803313",
+   "n": "Gilteritinib",
+   "t": "CCC1=C(N=C(C(=N1)C(=O)N)NC2=CC(=C(C=C2)N3CCC(CC3)N4CCN(CC4)C)OC)NC5CCOCC5",
+   "png": "/root/cmage-work/control/indigo/ctl_065.png",
+   "pixel_sha256": "120950b8cc6a822a857250cb21c19946d56b423be307958739a4ee04198b0d08"
+  },
+  {
+   "id": "ctl_066",
+   "k": "5_ctp_cid6176",
+   "n": "5'-Ctp",
+   "t": "C1=CN(C(=O)N=C1N)[C@H]2[C@@H]([C@@H]([C@H](O2)COP(=O)(O)OP(=O)(O)OP(=O)(O)O)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_066.png",
+   "pixel_sha256": "7a8c316cfd59b5e32cdc3ffd351ae86260e9a5ac9996d745834368001ac5977f"
+  },
+  {
+   "id": "ctl_067",
+   "k": "formaldehyde_cid712",
+   "n": "Formaldehyde",
+   "t": "C=O",
+   "png": "/root/cmage-work/control/indigo/ctl_067.png",
+   "pixel_sha256": "177036df7133cdc01a86dc53feef9f4b1d42365501dd120c32a840bd9f6c88b4"
+  },
+  {
+   "id": "ctl_068",
+   "k": "loxapine_cid3964",
+   "n": "Loxapine",
+   "t": "CN1CCN(CC1)C2=NC3=CC=CC=C3OC4=C2C=C(C=C4)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_068.png",
+   "pixel_sha256": "f4916fc937ee39f4bdee48c8db6e430879d03c0b6d44beff4e9af43f32e66740"
+  },
+  {
+   "id": "ctl_069",
+   "k": "alectinib_cid49806720",
+   "n": "Alectinib",
+   "t": "CCC1=CC2=C(C=C1N3CCC(CC3)N4CCOCC4)C(C5=C(C2=O)C6=C(N5)C=C(C=C6)C#N)(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_069.png",
+   "pixel_sha256": "48d7a56c3c31ae7eed8a1a27e95c138b82bc0f04319cb3aaa99aa0e978f9fc8b"
+  },
+  {
+   "id": "ctl_070",
+   "k": "esomeprazole_magnesium_cid9568613",
+   "n": "Esomeprazole Magnesium",
+   "t": "CC1=CN=C(C(=C1OC)C)C[S@](=O)C2=NC3=C([N-]2)C=CC(=C3)OC.CC1=CN=C(C(=C1OC)C)C[S@](=O)C2=NC3=C([N-]2)C=CC(=C3)OC.[Mg+2]",
+   "png": "/root/cmage-work/control/indigo/ctl_070.png",
+   "pixel_sha256": "45c1dcb3fad6599606167fb9914bffe95ec01f0c4c3177df16675b1f8f8da1ba"
+  },
+  {
+   "id": "ctl_071",
+   "k": "imunofan_cid15788399",
+   "n": "Imunofan",
+   "t": "CC(C)[C@@H](C(=O)N[C@@H](CC1=CC=C(C=C1)O)C(=O)N[C@@H](CCCN=C(N)N)C(=O)O)NC(=O)[C@H](CCCCN)NC(=O)[C@H](CC(=O)O)NC(=O)[C@H](CCCN=C(N)N)N",
+   "png": "/root/cmage-work/control/indigo/ctl_071.png",
+   "pixel_sha256": "933c96140dcc887ca1835056cf30d3543cad2d24dc5eb16552f4535122ea5c07"
+  },
+  {
+   "id": "ctl_072",
+   "k": "indocyanine_green_cid5282412",
+   "n": "Indocyanine Green",
+   "t": "CC1(C(=[N+](C2=C1C3=CC=CC=C3C=C2)CCCCS(=O)(=O)[O-])/C=C/C=C/C=C/C=C\\4/C(C5=C(N4CCCCS(=O)(=O)[O-])C=CC6=CC=CC=C65)(C)C)C.[Na+]",
+   "png": "/root/cmage-work/control/indigo/ctl_072.png",
+   "pixel_sha256": "3ca2bca4c3ef256cc94a0a3920380f4f7230e87aaa5195ba2fa2c5c402803c9b"
+  },
+  {
+   "id": "ctl_073",
+   "k": "benzocaine_cid2337",
+   "n": "Benzocaine",
+   "t": "CCOC(=O)C1=CC=C(C=C1)N",
+   "png": "/root/cmage-work/control/indigo/ctl_073.png",
+   "pixel_sha256": "da83d655d87f4b734333904ff7d1d55e7d825c34946f120d40af2893c8d413e1"
+  },
+  {
+   "id": "ctl_074",
+   "k": "fenebrutinib_cid86567195",
+   "n": "Fenebrutinib",
+   "t": "C[C@H]1CN(CCN1C2=CN=C(C=C2)NC3=CC(=CN(C3=O)C)C4=C(C(=NC=C4)N5CCN6C7=C(CC(C7)(C)C)C=C6C5=O)CO)C8COC8",
+   "png": "/root/cmage-work/control/indigo/ctl_074.png",
+   "pixel_sha256": "4c4e1f4b99faa2a360c593800a47cd26f2fe4b4f242a5ada845588c8885e5fbd"
+  },
+  {
+   "id": "ctl_075",
+   "k": "lisaftoclax_cid137355972",
+   "n": "Lisaftoclax",
+   "t": "C1CC2(C1)CCC(=C(C2)C3=CC=C(C=C3)Cl)CN4CCN(CC4)C5=CC(=C(C=C5)C(=O)NS(=O)(=O)C6=CC(=C(C=C6)NC[C@H]7COCCO7)[N+](=O)[O-])OC8=CN=C9C(=C8)C=CN9",
+   "png": "/root/cmage-work/control/indigo/ctl_075.png",
+   "pixel_sha256": "521655152e4cbe3de775236b1d8741489cdd63be7d5251c3360e1ab2d55a99d8"
+  },
+  {
+   "id": "ctl_076",
+   "k": "fosfomycin_cid446987",
+   "n": "Fosfomycin",
+   "t": "C[C@H]1[C@H](O1)P(=O)(O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_076.png",
+   "pixel_sha256": "041d4777dc6bf23302442ef4f913542af754671430158bb741f187c4ea8aab5f"
+  },
+  {
+   "id": "ctl_077",
+   "k": "mifepristone_cid55245",
+   "n": "Mifepristone",
+   "t": "CC#C[C@@]1(CC[C@@H]2[C@@]1(C[C@@H](C3=C4CCC(=O)C=C4CC[C@@H]23)C5=CC=C(C=C5)N(C)C)C)O",
+   "png": "/root/cmage-work/control/indigo/ctl_077.png",
+   "pixel_sha256": "2dde22321f6f1f38150be7faeee1bfdd92ae89e2fe22a3dfb9ea9c1458558c06"
+  },
+  {
+   "id": "ctl_078",
+   "k": "methyl_aminolevulinate_cid157922",
+   "n": "Methyl Aminolevulinate",
+   "t": "COC(=O)CCC(=O)CN",
+   "png": "/root/cmage-work/control/indigo/ctl_078.png",
+   "pixel_sha256": "9c0cd44cda07f55614aa5aaac1347496307e232c6b6c62bd0217f24107a7cb75"
+  },
+  {
+   "id": "ctl_079",
+   "k": "elacestrant_cid23642301",
+   "n": "Elacestrant",
+   "t": "CCNCCC1=CC=C(C=C1)CN(CC)C2=C(C=CC(=C2)OC)[C@@H]3CCC4=C(C3)C=CC(=C4)O",
+   "png": "/root/cmage-work/control/indigo/ctl_079.png",
+   "pixel_sha256": "9c7b8b75e798f9c32d9e0669cd1a446533e66b1058a56c1bb6806a2f529f98ff"
+  },
+  {
+   "id": "ctl_080",
+   "k": "amikacin_cid37768",
+   "n": "Amikacin",
+   "t": "C1[C@@H]([C@H]([C@@H]([C@H]([C@@H]1NC(=O)[C@H](CCN)O)O[C@@H]2[C@@H]([C@H]([C@@H]([C@H](O2)CO)O)N)O)O)O[C@@H]3[C@@H]([C@H]([C@@H]([C@H](O3)CN)O)O)O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_080.png",
+   "pixel_sha256": "bad8f15e099f1b602413b0384f8fb265f78473b76331ea3d7074086b24beeec8"
+  },
+  {
+   "id": "ctl_081",
+   "k": "nickel_tetracarbonyl_cid26039",
+   "n": "Nickel tetracarbonyl",
+   "t": "[C-]#[O+].[C-]#[O+].[C-]#[O+].[C-]#[O+].[Ni]",
+   "png": "/root/cmage-work/control/indigo/ctl_081.png",
+   "pixel_sha256": "086898ecba32271f89e5ac28198aadac425c48c9ce7fed3ab333180ef26c9fb7"
+  },
+  {
+   "id": "ctl_082",
+   "k": "alvimopan_cid5488548",
+   "n": "Alvimopan",
+   "t": "C[C@H]1CN(CC[C@@]1(C)C2=CC(=CC=C2)O)C[C@H](CC3=CC=CC=C3)C(=O)NCC(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_082.png",
+   "pixel_sha256": "7f7b4ffc325378662c2e642e3233d29d61a948938e57d3dba81ad3dff6b4c0d7"
+  },
+  {
+   "id": "ctl_083",
+   "k": "darobactin_cid154586077",
+   "n": "Darobactin",
+   "t": "C1[C@@H](C(=O)N[C@H](C(=O)NC2[C@@H](C3=CNC4=C3C=CC(=C4)[C@@H]([C@H](NC(=O)[C@@H](NC2=O)CO)C(=O)N[C@@H](CO)C(=O)N[C@@H](CC5=CC=CC=C5)C(=O)O)CCCN)OC6=CC=CC7=C6NC=C71)CC(=O)N)N",
+   "png": "/root/cmage-work/control/indigo/ctl_083.png",
+   "pixel_sha256": "4fdcddfab08e5cbfe04e07f981350ab4346b51ec18d951c656f48a8eccd03625"
+  },
+  {
+   "id": "ctl_084",
+   "k": "paltusotine_cid134168328",
+   "n": "Paltusotine",
+   "t": "C1CN(CCC1N)C2=C3C=C(C=CC3=NC=C2C4=CC(=CC(=C4)F)F)C5=CC=CC(=C5O)C#N",
+   "png": "/root/cmage-work/control/indigo/ctl_084.png",
+   "pixel_sha256": "0ec83c6d2d3e518b36467ba58ca6b8b07915ca367d0768be9fe4511c45b2a223"
+  },
+  {
+   "id": "ctl_085",
+   "k": "oxytocin_cid439302",
+   "n": "Oxytocin",
+   "t": "CC[C@H](C)[C@H]1C(=O)N[C@H](C(=O)N[C@H](C(=O)N[C@@H](CSSC[C@@H](C(=O)N[C@H](C(=O)N1)CC2=CC=C(C=C2)O)N)C(=O)N3CCC[C@H]3C(=O)N[C@@H](CC(C)C)C(=O)NCC(=O)N)CC(=O)N)CCC(=O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_085.png",
+   "pixel_sha256": "cd64457756664a454cd0f24e6580ef4178183d891bad805670f7e02ea1d2aabf"
+  },
+  {
+   "id": "ctl_086",
+   "k": "hydroquinone_cid785",
+   "n": "Hydroquinone",
+   "t": "C1=CC(=CC=C1O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_086.png",
+   "pixel_sha256": "f4eca19fb7cf72fe12f3023723adb26ff158d744314bc5d52f0cf49988e37185"
+  },
+  {
+   "id": "ctl_087",
+   "k": "echothiophate_cid10548",
+   "n": "Echothiophate",
+   "t": "CCOP(=O)(OCC)SCC[N+](C)(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_087.png",
+   "pixel_sha256": "6ab50068035b816d0c67bac96dbd73d848fb6f39207baa279914bf82bb3c05c2"
+  },
+  {
+   "id": "ctl_088",
+   "k": "planosporicin_cid139586698",
+   "n": "Planosporicin",
+   "t": "CC[C@H](C)[C@@H](C(=O)N/C(=C\\C)/C(=O)N[C@H]1CSC[C@H]2C(=O)N[C@H](C(=O)NCC(=O)NCC(=O)NCC(=O)N[C@H]3CSC[C@H]4C(=O)N[C@@H](CSC[C@@H](C(=O)N[C@H](C(=O)N4)CC5=CN=CN5)NC(=O)[C@H](CSC[C@@H](C(=O)N[C@H]6CCSC[C@@H](C(=O)N[C@H](C(=O)N2)[C@@H](C)O)NC6=O)NC(=O)[C@@H](NC(=O)C(=C)NC(=O)[C@@H](NC1=O)C(C)C)CC7=CNC8=CC=CC=C87)NC(=O)CNC3=O)C(=O)N9CCC[C@H]9C(=O)NCC(=O)O)CCC(=O)O)N",
+   "png": "/root/cmage-work/control/indigo/ctl_088.png",
+   "pixel_sha256": "a3d8ec24e4f180261d2d7839156c9cf4608f55aecce1d4ccafffba373d241f29"
+  },
+  {
+   "id": "ctl_089",
+   "k": "durlobactam_cid89851852",
+   "n": "Durlobactam",
+   "t": "CC1=C[C@@H]2CN([C@@H]1C(=O)N)C(=O)N2OS(=O)(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_089.png",
+   "pixel_sha256": "b95f74e3899b0c111720c692244b113111a75b14c86fd21aef2458b4b9248d11"
+  },
+  {
+   "id": "ctl_090",
+   "k": "lobenzarit_cid3946",
+   "n": "Lobenzarit",
+   "t": "C1=CC=C(C(=C1)C(=O)O)NC2=C(C=CC(=C2)Cl)C(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_090.png",
+   "pixel_sha256": "9141cacfbf26cdb21c611b1f23c8c65c7ec3d698f46ab2e25db5c370356954d3"
+  },
+  {
+   "id": "ctl_091",
+   "k": "histrelin_cid25077993",
+   "n": "Histrelin",
+   "t": "CCNC(=O)[C@@H]1CCCN1C(=O)[C@H](CCCN=C(N)N)NC(=O)[C@H](CC(C)C)NC(=O)[C@@H](CC2=CN(C=N2)CC3=CC=CC=C3)NC(=O)[C@H](CC4=CC=C(C=C4)O)NC(=O)[C@H](CO)NC(=O)[C@H](CC5=CNC6=CC=CC=C65)NC(=O)[C@H](CC7=CN=CN7)NC(=O)[C@@H]8CCC(=O)N8",
+   "png": "/root/cmage-work/control/indigo/ctl_091.png",
+   "pixel_sha256": "ea5ec78ad628c503963de9e2e619fe7987d43cab01d2bc7e3cb72e9d346f8dc8"
+  },
+  {
+   "id": "ctl_092",
+   "k": "esmolol_hydrochloride_cid104769",
+   "n": "Esmolol Hydrochloride",
+   "t": "CC(C)NCC(COC1=CC=C(C=C1)CCC(=O)OC)O.Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_092.png",
+   "pixel_sha256": "4ff3d728cdacd5cb6c92d0581d02409749577f0cda1f5594a67318a1f8a0728b"
+  },
+  {
+   "id": "ctl_093",
+   "k": "nitramine_cid10178",
+   "n": "Nitramine",
+   "t": "CN(C1=C(C=C(C=C1[N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+   "png": "/root/cmage-work/control/indigo/ctl_093.png",
+   "pixel_sha256": "f9980d6414f88474d66821b79b22bfcbc065f1293a373992a12e6102cc20ef74"
+  },
+  {
+   "id": "ctl_094",
+   "k": "mepivacaine_cid4062",
+   "n": "Mepivacaine",
+   "t": "CC1=C(C(=CC=C1)C)NC(=O)C2CCCCN2C",
+   "png": "/root/cmage-work/control/indigo/ctl_094.png",
+   "pixel_sha256": "452fb1c0c336a336a1a454fe45e4d1e2af58bcf95aa2724d909b8efc17a6f8d7"
+  },
+  {
+   "id": "ctl_095",
+   "k": "agomelatine_cid82148",
+   "n": "Agomelatine",
+   "t": "CC(=O)NCCC1=CC=CC2=C1C=C(C=C2)OC",
+   "png": "/root/cmage-work/control/indigo/ctl_095.png",
+   "pixel_sha256": "975b659e53078ebd74b5fbc679fa8f37927eb115c0a65e352c354b826e1cb7ff"
+  },
+  {
+   "id": "ctl_096",
+   "k": "estriol_cid5756",
+   "n": "Estriol",
+   "t": "C[C@]12CC[C@H]3[C@H]([C@@H]1C[C@H]([C@@H]2O)O)CCC4=C3C=CC(=C4)O",
+   "png": "/root/cmage-work/control/indigo/ctl_096.png",
+   "pixel_sha256": "ab94ebd01883982811b76672e0243d24b20b03acfaf03a8207048374c45d9bc4"
+  },
+  {
+   "id": "ctl_097",
+   "k": "cipepofol_cid86301664",
+   "n": "Cipepofol",
+   "t": "C[C@H](C1CC1)C2=CC=CC(=C2O)C(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_097.png",
+   "pixel_sha256": "87d7cec90e36c9d06cc8e3a90b25a0d1f9287f1a192d46683b73490222e51535"
+  },
+  {
+   "id": "ctl_098",
+   "k": "chromocene_cid79154",
+   "n": "Chromocene",
+   "t": "[CH-]1C=CC=C1.[CH-]1C=CC=C1.[Cr+2]",
+   "png": "/root/cmage-work/control/indigo/ctl_098.png",
+   "pixel_sha256": "f4461f3d65dc9bfe25a09f785f254293d39317a6905ef075e58d7aa079af8a55"
+  },
+  {
+   "id": "ctl_099",
+   "k": "5_6_dimethylxanthenone_4_acetic_acid_cid123964",
+   "n": "5,6-Dimethylxanthenone-4-Acetic Acid",
+   "t": "CC1=C(C2=C(C=C1)C(=O)C3=CC=CC(=C3O2)CC(=O)O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_099.png",
+   "pixel_sha256": "a9339be912a4d89ee7ec00ca721c555adbc999365070485575ed6861dcc60bf3"
+  },
+  {
+   "id": "ctl_100",
+   "k": "ospemifene_cid3036505",
+   "n": "Ospemifene",
+   "t": "C1=CC=C(C=C1)/C(=C(/C2=CC=CC=C2)\\C3=CC=C(C=C3)OCCO)/CCCl",
+   "png": "/root/cmage-work/control/indigo/ctl_100.png",
+   "pixel_sha256": "d7bddb766c0d932c3e204ed5a7235a54517da76030e1a5bc17ac8b370e5b46bb"
+  },
+  {
+   "id": "ctl_101",
+   "k": "fengycin_cid443591",
+   "n": "Fengycin",
+   "t": "CCCCCCCCCCCCCC(CC(=O)N[C@@H](CCC(=O)O)C(=O)N[C@H](CCCN)C(=O)N[C@@H]1CC2=CC=C(C=C2)OC(=O)[C@@H](NC(=O)[C@@H](NC(=O)[C@@H](NC(=O)[C@@H]3CCCN3C(=O)[C@H](NC(=O)[C@@H](NC(=O)[C@@H](NC1=O)[C@H](C)O)CCC(=O)O)C)CCC(=O)N)CC4=CC=C(C=C4)O)[C@H](C)CC)O",
+   "png": "/root/cmage-work/control/indigo/ctl_101.png",
+   "pixel_sha256": "9f93e2e3e99f54254a8a4499e6dfd4571ed3eae8469177f51de5f550d5187d29"
+  },
+  {
+   "id": "ctl_102",
+   "k": "3r_6r_3_2_3_dihydro_1h_inden_2_yl_1_1r_1_2_6_dimethyl_3_pyri_cid11634973",
+   "n": "(3R,6R)-3-(2,3-Dihydro-1H-inden-2-yl)-1-((1R)-1-(2,6-dimethyl-3-pyridinyl)-2-(4-morpholinyl)-2-oxoethyl)-6-((1S)-1-methylpropyl)-2,5-piperazinedione",
+   "t": "CC[C@H](C)[C@@H]1C(=O)N[C@@H](C(=O)N1[C@H](C2=C(N=C(C=C2)C)C)C(=O)N3CCOCC3)C4CC5=CC=CC=C5C4",
+   "png": "/root/cmage-work/control/indigo/ctl_102.png",
+   "pixel_sha256": "62b6083b763e55c4f7b4c8eb75f569e5c8815c26de6125c63349e5abff79ce9e"
+  },
+  {
+   "id": "ctl_103",
+   "k": "gedatolisib_cid44516953",
+   "n": "Gedatolisib",
+   "t": "CN(C)C1CCN(CC1)C(=O)C2=CC=C(C=C2)NC(=O)NC3=CC=C(C=C3)C4=NC(=NC(=N4)N5CCOCC5)N6CCOCC6",
+   "png": "/root/cmage-work/control/indigo/ctl_103.png",
+   "pixel_sha256": "24c8e7db9a5b02ff43366c1e6395bac4bdd472974a9c611e047f9c7e58217f15"
+  },
+  {
+   "id": "ctl_104",
+   "k": "methaqualone_cid6292",
+   "n": "Methaqualone",
+   "t": "CC1=CC=CC=C1N2C(=NC3=CC=CC=C3C2=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_104.png",
+   "pixel_sha256": "28b44b40558bc728b1698fec30ed0ffbf75802010a17e2dbfb285546553fa5cd"
+  },
+  {
+   "id": "ctl_105",
+   "k": "acridine_orange_base_cid62344",
+   "n": "Acridine Orange Base",
+   "t": "CN(C)C1=CC2=C(C=C1)C=C3C=CC(=CC3=N2)N(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_105.png",
+   "pixel_sha256": "d57dbcffb70e69770ca711cf98ba9bd1e6345ab2e840ac78c69c2f66df3750b6"
+  },
+  {
+   "id": "ctl_106",
+   "k": "troleandomycin_cid202225",
+   "n": "Troleandomycin",
+   "t": "C[C@@H]1C[C@@H]([C@H]([C@@H](O1)O[C@H]2[C@H](C[C@@]3(CO3)C(=O)[C@@H]([C@H]([C@H]([C@H](OC(=O)[C@@H]([C@H]([C@@H]2C)O[C@H]4C[C@@H]([C@H]([C@@H](O4)C)OC(=O)C)OC)C)C)C)OC(=O)C)C)C)OC(=O)C)N(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_106.png",
+   "pixel_sha256": "649d5cc0de620bd1ded7479cacba75c3ea82803570b14491315f923a7cd7e501"
+  },
+  {
+   "id": "ctl_107",
+   "k": "bisacodyl_cid2391",
+   "n": "Bisacodyl",
+   "t": "CC(=O)OC1=CC=C(C=C1)C(C2=CC=C(C=C2)OC(=O)C)C3=CC=CC=N3",
+   "png": "/root/cmage-work/control/indigo/ctl_107.png",
+   "pixel_sha256": "81a6f1d0ca07140273e4bd0b8c505f39ccf35c9f12eaefff6bdfe42244713bf0"
+  },
+  {
+   "id": "ctl_108",
+   "k": "hmpao_cid9552071",
+   "n": "Hmpao",
+   "t": "C[C@@H](NCC(CN[C@@H](/C(=N/O)/C)C)(C)C)/C(=N/O)/C",
+   "png": "/root/cmage-work/control/indigo/ctl_108.png",
+   "pixel_sha256": "ec7d497e46a3914182c2ed33f93df7ca44c168aeda06d0ec49a9b58b23bff9f2"
+  },
+  {
+   "id": "ctl_109",
+   "k": "difamilast_cid57855696",
+   "n": "Difamilast",
+   "t": "CCOC1=CC=CC=C1C(=O)NCC2=COC(=N2)C3=CC(=C(C=C3)OC(F)F)OC(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_109.png",
+   "pixel_sha256": "6cc074dc54e0fc5c50aa3657b34ee2972050caedd2830e5dda860bcd72ed2054"
+  },
+  {
+   "id": "ctl_110",
+   "k": "nalidixic_acid_cid4421",
+   "n": "Nalidixic Acid",
+   "t": "CCN1C=C(C(=O)C2=C1N=C(C=C2)C)C(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_110.png",
+   "pixel_sha256": "8cb42a1751d7527b0d27ff18ef2f4dd52b5b47b4f9289f60a3d1a808bd11a14f"
+  },
+  {
+   "id": "ctl_111",
+   "k": "melogliptin_cid11623906",
+   "n": "Melogliptin",
+   "t": "C1C[C@H](C[C@H]1CN2C=NC=N2)NCC(=O)N3C[C@H](C[C@H]3C#N)F",
+   "png": "/root/cmage-work/control/indigo/ctl_111.png",
+   "pixel_sha256": "a62be7d1a769cbe85b16d1879178611cea940ba4701ffd039015f4863181c4a5"
+  },
+  {
+   "id": "ctl_112",
+   "k": "gentamicin_cid3467",
+   "n": "Gentamicin",
+   "t": "CC(C1CCC(C(O1)OC2C(CC(C(C2O)OC3C(C(C(CO3)(C)O)NC)O)N)N)N)NC",
+   "png": "/root/cmage-work/control/indigo/ctl_112.png",
+   "pixel_sha256": "6fb71b370614cdffd339ef00294408e86dfedc121afff3c09cd8020b584fd88d"
+  },
+  {
+   "id": "ctl_113",
+   "k": "lapretolimod_ammonium_cid134687617",
+   "n": "Lapretolimod ammonium",
+   "t": "CCCCCCCCCCCCCC(=O)O[C@H](CCCCCCCCCCC)CC(=O)N[C@@H]1[C@H]([C@@H]([C@H](O[C@H]1OC[C@@H]2[C@H]([C@@H]([C@H]([C@H](O2)O)NC(=O)C[C@@H](CCCCCCCCCCC)O)OC(=O)C[C@@H](CCCCCCCCCCC)O)O)CO)OP(=O)(O)[O-])OC(=O)C[C@@H](CCCCCCCCCCC)OC(=O)CCCCCCCCCCCCC.[NH4+]",
+   "png": "/root/cmage-work/control/indigo/ctl_113.png",
+   "pixel_sha256": "37a7e50954c5c205d800c76499aea2d4783eb49fb789a3e6bf3df3ffacb42bfe"
+  },
+  {
+   "id": "ctl_114",
+   "k": "arsanilic_acid_cid7389",
+   "n": "Arsanilic Acid",
+   "t": "C1=CC(=CC=C1N)[As](=O)(O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_114.png",
+   "pixel_sha256": "97b42f07eff162863bc1cf209461da8d5d04de145540b82e3d90637f898c0211"
+  },
+  {
+   "id": "ctl_115",
+   "k": "balhimycin_cid139586033",
+   "n": "Balhimycin",
+   "t": "CC1C(=O)[C@@](CC(O1)OC2C3C(=O)NC(C4=C(C(=CC(=C4)O)O)C5=C(C=CC(=C5)C(C(=O)N3)NC(=O)C6C7=CC(=C(C(=C7)OC8=C(C=C2C=C8)Cl)OC9C([C@H](C([C@H](O9)CO)O)O)O)OC1=C(C=C(C=C1)C(C(C(=O)NC(C(=O)N6)CC(=O)N)NC(=O)C(CC(C)C)NC)O)Cl)O)C(=O)O)(C)N",
+   "png": "/root/cmage-work/control/indigo/ctl_115.png",
+   "pixel_sha256": "7dd1b9bd9eebbacc79271c2cb5c031b27a7feeda6dc270de16f0c6bbf990b2cd"
+  },
+  {
+   "id": "ctl_116",
+   "k": "fructose_1_6_bisphosphate_cid445555",
+   "n": "Fructose 1,6-bisphosphate",
+   "t": "C([C@@H]1[C@H]([C@@H]([C@@H](O1)COP(=O)(O)O)O)O)OP(=O)(O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_116.png",
+   "pixel_sha256": "84f41afe87819168d3d9822c7ad5122e1068ac3648797d3cc1f4668ce05b8b7f"
+  },
+  {
+   "id": "ctl_117",
+   "k": "ecabet_sodium_cid23663982",
+   "n": "Ecabet sodium",
+   "t": "CC(C)C1=C(C=C2C(=C1)CC[C@@H]3[C@@]2(CCC[C@@]3(C)C(=O)O)C)S(=O)(=O)[O-].[Na+]",
+   "png": "/root/cmage-work/control/indigo/ctl_117.png",
+   "pixel_sha256": "609a02e577ebcf21063b27473419df27c65c8a44e279fd5356326860928e3713"
+  },
+  {
+   "id": "ctl_118",
+   "k": "dibenzofuran_cid568",
+   "n": "Dibenzofuran",
+   "t": "C1=CC=C2C(=C1)C3=CC=CC=C3O2",
+   "png": "/root/cmage-work/control/indigo/ctl_118.png",
+   "pixel_sha256": "d86e1dbf4a870e0c9e8871c9b708ad34a8842111220ea9c856b8d16097bb73e6"
+  },
+  {
+   "id": "ctl_119",
+   "k": "ozone_cid24823",
+   "n": "Ozone",
+   "t": "[O-][O+]=O",
+   "png": "/root/cmage-work/control/indigo/ctl_119.png",
+   "pixel_sha256": "b989b536483260181fac433c78c7aadb7493c152ac99ff9e361a0d928b0f7ed4"
+  },
+  {
+   "id": "ctl_120",
+   "k": "flurandrenolide_cid15209",
+   "n": "Flurandrenolide",
+   "t": "C[C@]12CCC(=O)C=C1[C@H](C[C@@H]3[C@@H]2[C@H](C[C@]4([C@H]3C[C@@H]5[C@]4(OC(O5)(C)C)C(=O)CO)C)O)F",
+   "png": "/root/cmage-work/control/indigo/ctl_120.png",
+   "pixel_sha256": "f4ded6514be261d9b76a2f2618a9cc4c5d6dba28fcbc39c4285d5a1b0c5a94df"
+  },
+  {
+   "id": "ctl_121",
+   "k": "gemigliptin_cid11953153",
+   "n": "Gemigliptin",
+   "t": "C1CC(CN(C1=O)C[C@H](CC(=O)N2CCC3=C(C2)N=C(N=C3C(F)(F)F)C(F)(F)F)N)(F)F",
+   "png": "/root/cmage-work/control/indigo/ctl_121.png",
+   "pixel_sha256": "86ce5c15d3a4e06e4391e0b5072808c8a25d914c9571a28a156ddbc62cb63610"
+  },
+  {
+   "id": "ctl_122",
+   "k": "octreotide_acetate_cid155804637",
+   "n": "Octreotide Acetate",
+   "t": "C[C@H]([C@H]1C(=O)N[C@@H](CSSC[C@@H](C(=O)N[C@H](C(=O)N[C@@H](C(=O)N[C@H](C(=O)N1)CCCCN)CC2=CNC3=CC=CC=C32)CC4=CC=CC=C4)NC(=O)[C@@H](CC5=CC=CC=C5)N)C(=O)N[C@H](CO)[C@@H](C)O)O.CC(=O)O.CC(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_122.png",
+   "pixel_sha256": "d61a5d336f68663c55925547b7b4d3d0a8ea2ff7ff5dfcd7cd23e5f324ba2b52"
+  },
+  {
+   "id": "ctl_123",
+   "k": "azelnidipine_cid65948",
+   "n": "Azelnidipine",
+   "t": "CC1=C(C(C(=C(N1)N)C(=O)OC2CN(C2)C(C3=CC=CC=C3)C4=CC=CC=C4)C5=CC(=CC=C5)[N+](=O)[O-])C(=O)OC(C)C",
+   "png": "/root/cmage-work/control/indigo/ctl_123.png",
+   "pixel_sha256": "05c2a27087723874a4ec04b61d383c098459c3e1f166f6ddade14c9f200519ad"
+  },
+  {
+   "id": "ctl_124",
+   "k": "eletriptan_hydrobromide_cid656631",
+   "n": "Eletriptan Hydrobromide",
+   "t": "CN1CCC[C@@H]1CC2=CNC3=C2C=C(C=C3)CCS(=O)(=O)C4=CC=CC=C4.Br",
+   "png": "/root/cmage-work/control/indigo/ctl_124.png",
+   "pixel_sha256": "7c89715ac7a89f1f923e866fc12146f40b10774a115965396b168d3ada9e02ca"
+  },
+  {
+   "id": "ctl_125",
+   "k": "nafithromycin_cid117587595",
+   "n": "Nafithromycin",
+   "t": "CC[C@@H]1[C@@]2([C@@H]([C@H](C(=O)[C@@H](C[C@@]([C@@H]([C@H](C(=O)[C@H](C(=O)O1)C)C)O[C@H]3[C@@H]([C@H](C[C@H](O3)C)N(C)C)O)(C)OC)C)C)[C@@H](C(=O)O2)/C(=N/O[C@@H](C)C4=NN=C(S4)C5=CC=CC=N5)/N)C",
+   "png": "/root/cmage-work/control/indigo/ctl_125.png",
+   "pixel_sha256": "d77481b8a990a059e833bbc5f54f20f1fb91736e7f56dd9e8542a9901da79d11"
+  },
+  {
+   "id": "ctl_126",
+   "k": "chlorprothixene_cid667467",
+   "n": "Chlorprothixene",
+   "t": "CN(C)CC/C=C\\1/C2=CC=CC=C2SC3=C1C=C(C=C3)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_126.png",
+   "pixel_sha256": "13d4cc64000237f090e73f6d9dcd52cda780952560841c68c7f3effb9c549a27"
+  },
+  {
+   "id": "ctl_127",
+   "k": "diclazuril_cid456389",
+   "n": "Diclazuril",
+   "t": "C1=CC(=CC=C1C(C#N)C2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C=N3)Cl)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_127.png",
+   "pixel_sha256": "560308581b1c313023ce796b9217e0000ce7beaf2dd6d767f298f6a63aaf1488"
+  },
+  {
+   "id": "ctl_128",
+   "k": "acalabrutinib_cid71226662",
+   "n": "Acalabrutinib",
+   "t": "CC#CC(=O)N1CCC[C@H]1C2=NC(=C3N2C=CN=C3N)C4=CC=C(C=C4)C(=O)NC5=CC=CC=N5",
+   "png": "/root/cmage-work/control/indigo/ctl_128.png",
+   "pixel_sha256": "6c950e5ff6a51c0dde4f1a3206d26d5844be755deb83883032c15ef701827f43"
+  },
+  {
+   "id": "ctl_129",
+   "k": "osimertinib_cid71496458",
+   "n": "Osimertinib",
+   "t": "CN1C=C(C2=CC=CC=C21)C3=NC(=NC=C3)NC4=C(C=C(C(=C4)NC(=O)C=C)N(C)CCN(C)C)OC",
+   "png": "/root/cmage-work/control/indigo/ctl_129.png",
+   "pixel_sha256": "1c08f616bf43d16c0577058481a23e233bfbef5551cd43a752fff2915197e009"
+  },
+  {
+   "id": "ctl_130",
+   "k": "iopamidol_cid65492",
+   "n": "Iopamidol",
+   "t": "C[C@@H](C(=O)NC1=C(C(=C(C(=C1I)C(=O)NC(CO)CO)I)C(=O)NC(CO)CO)I)O",
+   "png": "/root/cmage-work/control/indigo/ctl_130.png",
+   "pixel_sha256": "bd6ec73fc1db604749d17db76dda7dd45497933d3b495e21a21ef2bb97f4e83e"
+  },
+  {
+   "id": "ctl_131",
+   "k": "beclamide_cid10391",
+   "n": "Beclamide",
+   "t": "C1=CC=C(C=C1)CNC(=O)CCCl",
+   "png": "/root/cmage-work/control/indigo/ctl_131.png",
+   "pixel_sha256": "a37d729f3cb5b0ab60125a0612a6878d6622544f541e576980f30afaa6841c7b"
+  },
+  {
+   "id": "ctl_132",
+   "k": "lenacapavir_cid133082658",
+   "n": "Lenacapavir",
+   "t": "CC(C)(C#CC1=NC(=C(C=C1)C2=C3C(=C(C=C2)Cl)C(=NN3CC(F)(F)F)NS(=O)(=O)C)[C@H](CC4=CC(=CC(=C4)F)F)NC(=O)CN5C6=C([C@H]7C[C@H]7C6(F)F)C(=N5)C(F)(F)F)S(=O)(=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_132.png",
+   "pixel_sha256": "fbdd90a02bf19e1e2ae20c7d5dd45f48d672ce2ca63d4743fc161c250304b57a"
+  },
+  {
+   "id": "ctl_133",
+   "k": "2_4_amino_3_chloro_5_trifluoromethyl_phenyl_2_tert_butylamin_cid9997788",
+   "n": "2-(4-Amino-3-chloro-5-trifluoromethyl-phenyl)-2-tert-butylaminoethanol hydrochloride",
+   "t": "CC(C)(C)NC(CO)C1=CC(=C(C(=C1)Cl)N)C(F)(F)F.Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_133.png",
+   "pixel_sha256": "7717d72008463e8e0b842ed7a78170b90dc6476e00d95f68900208b530956362"
+  },
+  {
+   "id": "ctl_134",
+   "k": "medetomidine_cid68602",
+   "n": "Medetomidine",
+   "t": "CC1=C(C(=CC=C1)C(C)C2=CN=CN2)C",
+   "png": "/root/cmage-work/control/indigo/ctl_134.png",
+   "pixel_sha256": "90292aec6bd125962fa874ad02706247c1311246d1973dd6d2edc64a6627efb4"
+  },
+  {
+   "id": "ctl_135",
+   "k": "avacopan_cid49841217",
+   "n": "Avacopan",
+   "t": "CC1=C(C(=CC=C1)F)C(=O)N2CCC[C@@H]([C@@H]2C3=CC=C(C=C3)NC4CCCC4)C(=O)NC5=CC(=C(C=C5)C)C(F)(F)F",
+   "png": "/root/cmage-work/control/indigo/ctl_135.png",
+   "pixel_sha256": "01bcba811bc7f79662cd04bab56524dc295b2c7238355ac3809e91560b00ff06"
+  },
+  {
+   "id": "ctl_136",
+   "k": "methylprednisolone_aceponate_cid63019",
+   "n": "Methylprednisolone Aceponate",
+   "t": "CCC(=O)O[C@@]1(CC[C@@H]2[C@@]1(C[C@@H]([C@H]3[C@H]2C[C@@H](C4=CC(=O)C=C[C@]34C)C)O)C)C(=O)COC(=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_136.png",
+   "pixel_sha256": "ea31c466f846502b8e066b223538c4fd2e79af88cebe3e33882dbc0db0f04338"
+  },
+  {
+   "id": "ctl_137",
+   "k": "delavirdine_cid5625",
+   "n": "Delavirdine",
+   "t": "CC(C)NC1=C(N=CC=C1)N2CCN(CC2)C(=O)C3=CC4=C(N3)C=CC(=C4)NS(=O)(=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_137.png",
+   "pixel_sha256": "3946f78239c852015208b5adf720d669b8f42b1752c5d8b067a2b3557413c028"
+  },
+  {
+   "id": "ctl_138",
+   "k": "oxamarin_cid27190",
+   "n": "Oxamarin",
+   "t": "CCN(CC)CCOC1=C(C=C2C(=C1)C(=CC(=O)O2)C)OCCN(CC)CC",
+   "png": "/root/cmage-work/control/indigo/ctl_138.png",
+   "pixel_sha256": "d97c418e1ca2d734bf63ae5b461aca7ef21a8ad3745c849b67f7bf7d7ae6b1c3"
+  },
+  {
+   "id": "ctl_139",
+   "k": "olorigliflozin_cid122660464",
+   "n": "Olorigliflozin",
+   "t": "CCOC1=CC=C(C=C1)CC2=C(C=CC(=C2)[C@@]34[C@@H]([C@H]([C@@H]([C@@](O3)(CO4)[C@@H](C)O)O)O)O)Cl",
+   "png": "/root/cmage-work/control/indigo/ctl_139.png",
+   "pixel_sha256": "1ae91b0aa6a7cd8b016c06df2a7de6e74ccc9039b1fa7bbd759a356400c54c35"
+  },
+  {
+   "id": "ctl_140",
+   "k": "arachidonic_acid_cid444899",
+   "n": "Arachidonic Acid",
+   "t": "CCCCC/C=C\\C/C=C\\C/C=C\\C/C=C\\CCCC(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_140.png",
+   "pixel_sha256": "d98bcc448ec62beaabe9437cf2efaa9ddc5331bc27cc865c0c56779ade271e31"
+  },
+  {
+   "id": "ctl_141",
+   "k": "cefepime_cid5479537",
+   "n": "Cefepime",
+   "t": "C[N+]1(CCCC1)CC2=C(N3[C@@H]([C@@H](C3=O)NC(=O)/C(=N\\OC)/C4=CSC(=N4)N)SC2)C(=O)[O-]",
+   "png": "/root/cmage-work/control/indigo/ctl_141.png",
+   "pixel_sha256": "098878014822eb375ad229b29e73afd9c097ba24c36bc7708df718147b57f908"
+  },
+  {
+   "id": "ctl_142",
+   "k": "benserazide_cid2327",
+   "n": "Benserazide",
+   "t": "C1=CC(=C(C(=C1CNNC(=O)C(CO)N)O)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_142.png",
+   "pixel_sha256": "e2efaf2801c88fc5cb0e22f7d573533fdcae7a9996e6e9208c9f788a54ce4c11"
+  },
+  {
+   "id": "ctl_143",
+   "k": "isavuconazonium_cid6918606",
+   "n": "Isavuconazonium",
+   "t": "C[C@@H](C1=NC(=CS1)C2=CC=C(C=C2)C#N)[C@](CN3C=[N+](C=N3)C(C)OC(=O)N(C)C4=C(C=CC=N4)COC(=O)CNC)(C5=C(C=CC(=C5)F)F)O",
+   "png": "/root/cmage-work/control/indigo/ctl_143.png",
+   "pixel_sha256": "0a86e3e58bdbb601301af89effa0ef3c20582ef1eea64b4a2647a3d0b4a98e88"
+  },
+  {
+   "id": "ctl_144",
+   "k": "5_aza_2_deoxycytidine_cid451668",
+   "n": "5-Aza-2'-deoxycytidine",
+   "t": "C1[C@@H]([C@H](O[C@H]1N2C=NC(=NC2=O)N)CO)O",
+   "png": "/root/cmage-work/control/indigo/ctl_144.png",
+   "pixel_sha256": "079d80f7a67d0881f452ec9e8fafaa86f7eaabfa447b323adff63315a6e12441"
+  },
+  {
+   "id": "ctl_145",
+   "k": "ethylenediaminetetraacetic_acid_cid6049",
+   "n": "Ethylenediaminetetraacetic Acid",
+   "t": "C(CN(CC(=O)O)CC(=O)O)N(CC(=O)O)CC(=O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_145.png",
+   "pixel_sha256": "3a1e2cce86381108b63a5e0fd19aa38d9f015161fa14fa9b37f956424fdbdf84"
+  },
+  {
+   "id": "ctl_146",
+   "k": "muramyl_dipeptide_cid451714",
+   "n": "Muramyl Dipeptide",
+   "t": "C[C@@H](C(=O)N[C@H](CCC(=O)O)C(=O)N)NC(=O)[C@@H](C)O[C@@H]1[C@H]([C@@H](O[C@@H]([C@H]1O)CO)O)NC(=O)C",
+   "png": "/root/cmage-work/control/indigo/ctl_146.png",
+   "pixel_sha256": "eebebd658ae6f13959c6e503c8e4a802d69753e2ae006115516ae549c015bcae"
+  },
+  {
+   "id": "ctl_147",
+   "k": "glufosfamide_cid123628",
+   "n": "Glufosfamide",
+   "t": "C(CCl)NP(=O)(NCCCl)O[C@H]1[C@@H]([C@H]([C@@H]([C@H](O1)CO)O)O)O",
+   "png": "/root/cmage-work/control/indigo/ctl_147.png",
+   "pixel_sha256": "2e2993319a44f79648e38590a1993aebc7803dd7e0f0cb7774062051ec8e0eea"
+  },
+  {
+   "id": "ctl_148",
+   "k": "merbromin_cid9853537",
+   "n": "Merbromin",
+   "t": "C1=CC=C(C(=C1)C2=C3C=C(C(=O)C=C3OC4=C(C(=C(C=C24)Br)[O-])[Hg+])Br)C(=O)[O-].[OH-].[Na+].[Na+]",
+   "png": "/root/cmage-work/control/indigo/ctl_148.png",
+   "pixel_sha256": "f7f622d5f1be19e3f9ccacfe898777c710f002bcf03782dafa302fe6608607fe"
+  },
+  {
+   "id": "ctl_149",
+   "k": "entospletinib_cid59473233",
+   "n": "Entospletinib",
+   "t": "C1COCCN1C2=CC=C(C=C2)NC3=NC(=CN4C3=NC=C4)C5=CC6=C(C=C5)C=NN6",
+   "png": "/root/cmage-work/control/indigo/ctl_149.png",
+   "pixel_sha256": "74e9a848981cac65a8b7b220bc866f8fb0496f02b93a085d186cf2c509b4bfda"
+  },
+  {
+   "id": "ctl_150",
+   "k": "iron_pentacarbonyl_cid26040",
+   "n": "Iron pentacarbonyl",
+   "t": "[C]=O.[C]=O.[C]=O.[C]=O.[C]=O.[Fe]",
+   "png": "/root/cmage-work/control/indigo/ctl_150.png",
+   "pixel_sha256": "85f389c2069de44e9c6050583daba48b7fe0d4154a558eb02c57552c62ff8c72"
+  }
+ ]
+}
