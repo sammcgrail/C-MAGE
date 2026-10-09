@@ -118,6 +118,9 @@ main{max-width:1400px;margin:0 auto;
 .cmp.cards{grid-template-columns:repeat(5,minmax(0,1fr))}
 .cmp.four{grid-template-columns:repeat(4,minmax(0,1fr))}
 .cmp.topc{margin:4px 0 16px;max-width:980px}
+.cmph{font-size:12.5px;color:var(--dim);margin:4px 0 7px;max-width:980px}
+.cmph b{color:var(--ink);font-weight:600}
+.cmph + .cmp.topc{margin-top:0}
 @media (max-width:640px){.cmp.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .cmp.cards .pc{font-size:26px}
 @media (max-width:640px){.cmp.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -288,7 +291,7 @@ input[type=search]{flex:0 0 220px;background:var(--panel);border:1px solid var(-
 .c2b .kn{text-align:right;font-variant-numeric:tabular-nums}
 .c2b .tr{height:12px;background:#1c2128;overflow:hidden;min-width:0;border-radius:0 3px 3px 0}
 .c2b .tr i{display:block;height:100%;border-radius:0 3px 3px 0}
-.c2 .s, .c2k .s{background:#1f7f3f} .c2 .c, .c2k .c{background:#3987e5}
+.c2 .s, .c2k .s{background:#14652f} .c2 .c, .c2k .c{background:#3987e5}
 .wall.tx{grid-template-columns:repeat(auto-fill,minmax(148px,1fr))}
 .t.tx{aspect-ratio:auto;contain-intrinsic-size:auto 260px;text-align:left;background:var(--panel)}
 .t.tx img{height:auto;aspect-ratio:1;background:#1c2128}
@@ -602,7 +605,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=af079c15c9"></script>
+<script src="/static/llmocr.js?v=875eaf021e"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -621,7 +624,7 @@ function bigCards(xs){
   return '<div class="cmp topc' + (xs.length === 4 ? ' four' : '') + '">' + xs.map(function(x){
     return '<div class="side"><div class="who">' + esc(x.who) + '</div><div class="pc">' + (+x.pct).toFixed(1)
       + '%</div><div class="of">' + (+x.exact).toLocaleString("en-US") + ' of ' + (+x.n).toLocaleString("en-US")
-      + ' exact</div><div class="track"><i style="width:' + Math.min(100, x.pct) + '%;background:' + x.color + '"></i></div></div>';
+      + '</div><div class="track"><i style="width:' + Math.min(100, x.pct) + '%;background:' + x.color + '"></i></div></div>';
   }).join("") + '</div>';
 }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){
@@ -1472,7 +1475,7 @@ function render(){
                            b: {exact: c2.rows[0].b.exact + c2.rows[1].b.exact, n: c2.rows[0].b.n + c2.rows[1].b.n}};
     ["a", "b"].forEach(function(k){ tot[k].pct = tot[k].n ? 100 * tot[k].exact / tot[k].n : 0; });
     hero.innerHTML = '<h2 class="blockh">' + esc(DATA.title) + '</h2>'
-      + bigCards([{who: c2.as || c2.a, pct: tot.a.pct, exact: tot.a.exact, n: tot.a.n, color: "#1f7f3f"},
+      + bigCards([{who: c2.as || c2.a, pct: tot.a.pct, exact: tot.a.exact, n: tot.a.n, color: "#14652f"},
                   {who: c2.bs || c2.b, pct: tot.b.pct, exact: tot.b.exact, n: tot.b.n, color: "#3987e5"}])
       + '<p class="sub">' + esc(DATA.headline) + '</p>'
       + (DATA.countLine ? '<p class="sub">' + esc(DATA.countLine) + '</p>' : '')

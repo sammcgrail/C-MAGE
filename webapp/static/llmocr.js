@@ -148,12 +148,15 @@ function legend(){
    the widest label and right-aligned against the bars, so every bar starts at the same x. */
 function G(rows){ return '<div class="hbg">' + rows + '</div>'; }
 
-/* Headline cards at the top: the same numbers as "Exact, same images" (or each arm's own n when
-   the tool arms have not read this view yet). bigCards() lives in index.html. */
+/* Headline cards at the top. Row 1: the images all four read (same numbers as "Exact, same
+   images"). Row 2: every image each reader was run on, each on its own n. A view the tool arms
+   have not read has no shared set, so it gets row 2 only. bigCards() lives in index.html. */
 function topCards(){
-  var V = VW(), s = V.shared, xs = s.n ? s.arms : V.each.filter(function(x){ return x.n; });
-  return bigCards(xs.map(function(x){ var a = ARM[x.id];
-    return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; }));
+  var V = VW(), s = V.shared, each = V.each.filter(function(x){ return x.n; });
+  var cards = function(xs){ return bigCards(xs.map(function(x){ var a = ARM[x.id];
+    return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; })); };
+  return (s.n ? '<div class="cmph"><b>Same images</b> · the ' + fmt(s.n) + ' all four read</div>' + cards(s.arms) : '')
+    + '<div class="cmph"><b>Everything each was run on</b>' + (s.n ? ' · own n' : '') + '</div>' + cards(each);
 }
 
 function cardShared(){

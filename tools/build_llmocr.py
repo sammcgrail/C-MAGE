@@ -65,7 +65,7 @@ ARMS = [
     {"id": "s55", "label": "Sonnet 5.5 · tools", "short": "5.5 tools", "tag": "5.5", "kind": "llm",
      "color": "#4ac26b"},
     {"id": "api", "label": "Sonnet 5.5 · API", "short": "5.5 API", "tag": "API", "kind": "llm",
-     "color": "#1f7f3f"},
+     "color": "#14652f"},
     {"id": "s5", "label": "Sonnet 5 · tools", "short": "Sonnet 5", "tag": "5", "kind": "llm",
      "color": "#e0823d"},
     {"id": "cx", "label": "CXMolScribe (OCR)", "short": "CXMolScribe", "tag": "OCR", "kind": "ocr",
