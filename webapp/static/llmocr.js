@@ -28,18 +28,6 @@ var CSS = [
 ".lo .grp:first-of-type{margin-top:0}",
 ".lo .hb.sm{margin:3px 0} .lo .hb.sm .tr{height:10px} .lo .hb.sm b{font-size:12.5px}",
 /* Head-to-head: discordant images only, centred, one side per arm. */
-".lo .pr{margin:0 0 14px}",
-".lo .pr .ph{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--ink);margin-bottom:4px}",
-".lo .pr .ph span{white-space:nowrap}",
-".lo .pr .dv{display:grid;grid-template-columns:46px minmax(0,1fr) 2px minmax(0,1fr) 46px;align-items:center;column-gap:0}",
-".lo .pr .dv .ax{background:var(--dim);height:20px}",
-".lo .pr .dv .sd{height:14px;display:flex;align-items:center;min-width:0}",
-".lo .pr .dv .sd.lf{justify-content:flex-end}",
-".lo .pr .dv .sd i{display:block;height:14px}",
-".lo .pr .dv .sd.lf i{border-radius:4px 0 0 4px} .lo .pr .dv .sd.rt i{border-radius:0 4px 4px 0}",
-".lo .pr .dv b{font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}",
-".lo .pr .dv b.ln{text-align:right;padding-right:8px} .lo .pr .dv b.rn{text-align:left;padding-left:8px}",
-".lo .pr .pf{font-size:12px;color:var(--dim);margin-top:3px;text-align:center}",
 ".lo .cav{margin:4px 0 0;padding:0;list-style:none}",
 ".lo details.lomethod{margin-top:6px}",
 ".lo .cav li{font-size:12.5px;color:var(--dim);line-height:1.5;padding:3px 0 3px 12px;position:relative}",
@@ -51,7 +39,7 @@ var CSS = [
 ".lo .t.lt img{height:auto;aspect-ratio:1;background:#1c2128}",
 ".lo .t.lt img.ok{background:#fff}",
 ".lo .t.lt .cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:4px 3px 0}",
-"#lofail,#lowallh{scroll-margin-top:68px}",
+"#lofail{scroll-margin-top:72px}",
 ".lo .t.lt .cells i{font-style:normal;font-size:10.5px;letter-spacing:-.2px;font-weight:700;text-align:center;line-height:16px;height:19px;color:#06090d;border-radius:4px;padding:0;box-shadow:inset 0 -3px 0 var(--arm);overflow:hidden}",
 ".lo .t.lt .nm{display:block;font-size:12px;padding:3px 5px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}",
 ".lo .c-e{background:var(--exact)} .lo .c-s{background:var(--stereo)}",
@@ -65,7 +53,6 @@ var CSS = [
 "@media(max-width:560px){.lo .hb{grid-template-columns:82px minmax(0,1fr) 50px 58px;column-gap:8px}",
 "  .lo .card{padding:12px 11px} .lo .wall{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}}",
 "#sheet.lo-wide{max-width:1080px}",
-"#sheet.lo-wide .sclose{border:1px solid var(--line);color:var(--ink);top:6px;right:6px;background:#0b0f14}",
 ".lo-top{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-bottom:12px}",
 "@media(min-width:700px){.lo-top{grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:start}}",
 ".lo-in{background:#fff;margin:0} .lo-in img{width:100%;max-height:30dvh;object-fit:contain;display:block}",
@@ -104,12 +91,6 @@ var CSS = [
 ".lo .srcsw .chip{color:var(--ink)}",
 "@media(max-width:560px){.lo .fchips{display:grid;grid-template-columns:1fr 1fr;gap:6px}",
 "  .lo .fchips .chip{white-space:normal;text-align:left;border-radius:10px;font-size:12.5px;padding:6px 10px;line-height:1.3}}",
-".lo .lobar{align-items:center;gap:10px;padding:10px 0;overflow:visible;flex-wrap:wrap}",
-".lo .lobar>.cur{flex:1 1 auto;min-width:0;font-size:13px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
-".lo .lobar>.chip{flex:0 0 auto}",
-".lo .lobar .cur b{color:var(--ink);font-weight:600}",
-"@media(max-width:560px){.lo .lobar>input[type=search]{flex:1 0 100%!important;width:100%}}",
-".lo .lobar>input[type=search]{flex:0 0 240px;min-width:0}"
 ].join("\n");
 var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
 
@@ -167,31 +148,6 @@ function cardShared(){
         return hbar(a.short, x.pct, a.color, p1(x.pct), fmt(x.exact), false,
           a.label + ": exact " + x.exact + ", stereo only " + x.stereo + ", wrong " + x.wrong + ", unparseable " + x.invalid);
       }).join("") + '</div>';
-}
-
-function cardPairs(){
-  var all = VW().pairs.map(function(p){ return {a:p.a, b:p.b, an:p.a_only, bn:p.b_only, n:p.n, both:p.both,
-      ap:p.a_pct, bp:p.b_pct, p:p.p}; });
-  var e = VW().either;
-  if (!all.length) return '';
-  var max = Math.max.apply(null, all.map(function(p){ return Math.max(p.an, p.bn); }).concat(e ? [e.llm_only, e.cx_only] : []));
-  function side(n, color, left){
-    return '<span class="sd ' + (left ? "lf" : "rt") + '"><i style="width:' + (n ? Math.max(1, n / max * 100) : 0)
-      + '%;background:' + color + '"></i></span>';
-  }
-  function row(la, lb, ca, cb, an, bn, foot, ap, bp){
-    return '<div class="pr"><div class="ph"><span>' + esc(la) + (ap != null ? ' ' + p1(ap) : '') + '</span><span>'
-      + (bp != null ? p1(bp) + ' ' : '') + esc(lb) + '</span></div><div class="dv"><b class="ln">' + fmt(an) + '</b>' + side(an, ca, true)
-      + '<span class="ax"></span>' + side(bn, cb, false) + '<b class="rn">' + fmt(bn) + '</b></div><div class="pf">' + foot + '</div></div>';
-  }
-  return '<div class="card"><h3>Who alone got it right <span>bars: images only one of the pair got exact; % on each pair\u2019s own n</span></h3>'
-    + all.map(function(p){ var A = ARM[p.a], B = ARM[p.b];
-        return row(A.short, B.short, A.color, B.color, p.an, p.bn,
-          "n " + fmt(p.n) + " · both right " + fmt(p.both) + " · " + pv(p.p), p.ap, p.bp); }).join("")
-    + (e && all.length > 1 ? row("Best of 3 Sonnet arms", "CXMolScribe", "#8b98a5", ARM.cx.color, e.llm_only, e.cx_only,
-        "n " + fmt(e.n) + (e.api_alone ? " (" + fmt(e.api_alone) + " read only by the API arm)" : "")
-        + " · either right " + fmt(e.any), e.llm / e.n * 100, e.cx / e.n * 100) : '')
-    + '</div>';
 }
 
 function cardSize(){
@@ -270,7 +226,7 @@ function tile(r){
 
 var io = new IntersectionObserver(function(es){
   if (es.some(function(e){ return e.isIntersecting; })){ S.shown += S.step; paint(); }
-}, {rootMargin: "1200px"});
+}, {rootMargin: "3000px"});
 
 function rowsNow(){
   var f = filters().filter(function(x){ return x[0] === S.filter; })[0] || filters()[0];
@@ -286,17 +242,25 @@ function paint(){
   w.appendChild(frag);
   if (rows.length > S.shown){ var m = el("div", "more", fmt(rows.length - S.shown) + " more below"); w.appendChild(m); io.observe(m); }
   else if (!rows.length) w.appendChild(el("div", "more", "Nothing matches."));
-  $("#locount").textContent = fmt(rows.length) + (rows.length === 1 ? " image" : " images");
+  if (GB) GB.setCount(rows.length);
+}
+
+function filterItems(){
+  var rd = VW().read, needs = {m55: ["s55"], mapi: ["api"], m5: ["s5"], mcx: ["cx"], ta: ["s55", "api"], at: ["s55", "api"]};
+  return filters().filter(function(f){
+    return !(needs[f[0]] || []).some(function(a){ return !rd[a]; });   // an arm with nothing read has no misses to show
+  }).map(function(f){
+    var arm = {m55: "s55", mapi: "api", m5: "s5", mcx: "cx"}[f[0]];
+    return {key: f[0], label: f[1], arm: arm, color: arm ? ARM[arm].color : "#8b98a5",
+            n: D.rows.filter(function(r){ return inView(r) && f[2](r[2]); }).length};
+  });
 }
 
 function chips(){
-  var box = el("div", "fchips");
-  var rd = VW().read, needs = {m55: ["s55"], mapi: ["api"], m5: ["s5"], mcx: ["cx"], ta: ["s55", "api"], at: ["s55", "api"]};
-  filters().forEach(function(f){
-    if ((needs[f[0]] || []).some(function(a){ return !rd[a]; })) return;    // an arm with nothing read has no misses to show
-    var n = D.rows.filter(function(r){ return inView(r) && f[2](r[2]); }).length;
+  var box = el("div", "fchips"), rd = VW().read;
+  filterItems().forEach(function(it){
+    var f = [it.key, it.label], n = it.n, arm = it.arm;
     var b = el("button", "chip");
-    var arm = {m55: "s55", mapi: "api", m5: "s5", mcx: "cx"}[f[0]];
     b.innerHTML = (f[0] === "all" ? "" : '<span class="dot" style="background:' + (arm ? ARM[arm].color : "#8b98a5") + '"></span>')
       + esc(f[1]) + '<i>' + fmt(n) + (arm ? '<small> / ' + fmt(rd[arm]) + '</small>' : '') + '</i>';
     b.dataset.f = f[0];
@@ -307,24 +271,23 @@ function chips(){
   return box;
 }
 
+/* jump: bring the grid's start under the header (a chip in the panel above, or the pinned bar's menu
+   while stuck), so the filtered tiles are what you see. */
 function setFilter(f, jump){
   S.filter = f; S.shown = S.step;
   [].forEach.call(document.querySelectorAll(".lo .fchips .chip"), function(x){ x.setAttribute("aria-pressed", x.dataset.f === f); });
-  var lab = filters().filter(function(x){ return x[0] === f; })[0];
-  $("#locur").textContent = lab ? lab[1] : "All";
+  if (GB) GB.setCurrent(f);
   paint();
-  if (jump) $("#lowallh").scrollIntoView({behavior: "smooth", block: "start"});
+  if (jump && GB) window.gridTop(GB.sent);
 }
 
-function stickyBar(){
-  var bar = el("div", "bar lobar");
-  bar.innerHTML = '<span class="cur">Showing <b id="locur">All</b> · <span id="locount"></span></span>'
-    + '<button class="chip" id="lofilt">Filters ↑</button>';
-  var s = el("input"); s.type = "search"; s.placeholder = "Search name"; s.value = S.q;
-  s.oninput = function(){ S.q = s.value.trim().toLowerCase(); S.shown = S.step; paint(); };
-  bar.appendChild(s);
-  bar.querySelector("#lofilt").onclick = function(){ $("#lofail").scrollIntoView({behavior: "smooth", block: "start"}); };
-  return bar;
+/* The pinned bar (index.html gridBar): active filter + count, every filter in its menu, and search. */
+var GB = null;
+function pinnedBar(root){
+  GB = window.gridBar({items: filterItems(), current: S.filter, query: S.q,
+    onPick: function(k){ var stuck = GB.bar.classList.contains("stuck"); setFilter(k, stuck); },
+    onSearch: function(q){ S.q = q; S.shown = S.step; paint(); }});
+  root.appendChild(GB.sent); root.appendChild(GB.bar);
 }
 
 function getDetail(){
@@ -402,7 +365,7 @@ function inView(r){ return S.view === "all" || r[3] === S.view; }
 function chartsHTML(){
   var V = VW(), corpusish = S.view === "all" || S.view === "c";
   return '<div class="sub n">' + fmt(V.n) + ' images · read by ' + D.arms.map(function(a){ return esc(a.short) + ' ' + fmt(V.read[a.id]); }).join(" · ") + '</div>'
-    + '<div class="grid">' + cardShared() + cardPairs() + cardSize() + cardCost()
+    + '<div class="grid">' + cardShared() + cardSize() + cardCost()
     + (corpusish ? cardControl() + cardHand() : '') + '</div>';
 }
 
@@ -420,6 +383,7 @@ function setView(v){
   $("#locharts").innerHTML = chartsHTML();
   liveControl();
   var box = $("#lofail .fchips"); if (box) box.replaceWith(chips());
+  if (GB){ var nb = GB.bar, ns = GB.sent; var tmp = el("div"); pinnedBar(tmp); ns.replaceWith(GB.sent); nb.replaceWith(GB.bar); }
   S.shown = S.step; setFilter(S.filter, false);
 }
 
@@ -443,12 +407,13 @@ function render(view, data){
     + ' &nbsp; <span><i class="c-e"></i>exact</span><span><i class="c-s"></i>stereo only</span>'
     + '<span><i class="c-w"></i>wrong</span><span><i class="c-i"></i>unparseable</span><span><i class="c-n"></i>not read</span>';
   root.appendChild(wh);
-  root.appendChild(stickyBar());
+  pinnedBar(root);
   var w = el("div", "wall"); w.id = "lowall"; root.appendChild(w);
   var f = el("footer"); f.textContent = "Built " + D.built.replace("T", " ").replace("Z", " UTC") + "."
     + (D.withheld && D.withheld.n ? " Reference withheld on " + fmt(D.withheld.n) + " images until the tool-using readers have read them." : "");
   root.appendChild(f);
   root.querySelector("#lojump").onclick = function(){ $("#lofail").scrollIntoView({behavior: "smooth", block: "start"}); };
+  window.GRID_END = function(){ var n = rowsNow().length; if (S.shown < n){ S.shown = n; paint(); } };
   root.querySelector("#loprompt").onclick = openPrompts;
   var sw = root.querySelector(".srcsw");
   if (sw) sw.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if (b) setView(b.dataset.v); });
