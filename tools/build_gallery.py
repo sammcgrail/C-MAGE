@@ -130,6 +130,7 @@ GROUPS = [("drug", "Drug class"), ("struct", "Structure"), ("size", "Size")]
 
 def classify(smiles: str, src: str) -> tuple[list[str], int | None]:
     """Types of one reference molecule, and its heavy-atom count (all fragments)."""
+    # "w" (attachment-point fragments, wavy bond) is not a text-superatom drawing: no "sa".
     t = ["sa"] if src in ("b", "r", "g") else []
     whole = Chem.MolFromSmiles(smiles or "")
     if whole is None:
@@ -182,7 +183,9 @@ def classify(smiles: str, src: str) -> tuple[list[str], int | None]:
     if any(len(r) >= 12 for r in rings):
         t.append("macrocycle")
     # Defined (assigned) tetrahedral centres only: an undrawn centre is not something a reader can miss.
-    if Chem.FindMolChiralCenters(m, includeUnassigned=False, useLegacyImplementation=False):
+    # The chiral tags as parsed (SMILES parsing already drops tags on non-stereocentres). Not
+    # FindMolChiralCenters(useLegacyImplementation=False): it never returned on a 70-atom spiro PROTAC (rb_0130).
+    if any(a.GetChiralTag() in (Chem.ChiralType.CHI_TETRAHEDRAL_CW, Chem.ChiralType.CHI_TETRAHEDRAL_CCW) for a in m.GetAtoms()):
         t.append("stereo")
     if h("pyranose") or h("pyranose2") or h("furanose"):
         t.append("sugar")
@@ -225,7 +228,8 @@ def _build() -> int:
     idx = {k: i for i, (k, _, _) in enumerate(keep)}
     # Ship each row's types as indices into the payload's type list (compact), dropped types removed.
     out_rows = [[k, name, code, src, ha, [idx[x] for x in types if x in kept]] for k, name, code, src, ha, types in rows]
-    srcs = [("c", "Corpus"), ("b", "Superatoms, built"), ("r", "Superatoms, real"), ("g", "Big (≥50 atoms)")]
+    srcs = [("c", "Corpus"), ("b", "Superatoms, built"), ("r", "Superatoms, real"), ("g", "Big (≥50 atoms)"),
+            ("w", "Wavy-bond fragments")]
     out = {
         "built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "from": lo["built"],

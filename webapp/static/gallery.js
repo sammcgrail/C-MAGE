@@ -71,7 +71,7 @@ var CSS = [
 ].join("\n");
 var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
 
-var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms"};
+var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms", w: "superatoms"};
 var MIN_N = 10;        // a reader needs this many images read in a set to be ranked "best" or to set a gap
 var D = null, NA = 0, LLM = [], CX = -1;
 var S = {type: -1, src: "all", q: "", same: false};
