@@ -63,13 +63,13 @@ DETAIL = WALL / "llmocr_detail.json"
 # Fixed display order and colour per arm (validated as an adjacent categorical set on the dark panel).
 ARMS = [
     {"id": "s55", "label": "Sonnet 5.5 · tools", "short": "5.5 tools", "tag": "5.5", "kind": "llm",
-     "color": "#3987e5"},
+     "color": "#4ac26b"},
     {"id": "api", "label": "Sonnet 5.5 · API", "short": "5.5 API", "tag": "API", "kind": "llm",
-     "color": "#d55181"},
+     "color": "#1f7f3f"},
     {"id": "s5", "label": "Sonnet 5 · tools", "short": "Sonnet 5", "tag": "5", "kind": "llm",
-     "color": "#9085e9"},
+     "color": "#e0823d"},
     {"id": "cx", "label": "CXMolScribe (OCR)", "short": "CXMolScribe", "tag": "OCR", "kind": "ocr",
-     "color": "#d95926"},
+     "color": "#3987e5"},
 ]
 IDS = [a["id"] for a in ARMS]
 CODE = {"exact": "e", "stereo": "s", "wrong": "w", "invalid": "i"}

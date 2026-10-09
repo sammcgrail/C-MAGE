@@ -48,7 +48,7 @@ var CSS = [
 ".lo .t.lt img.ok{background:#fff}",
 ".lo .t.lt .cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:4px 3px 0}",
 "#lofail{scroll-margin-top:72px}",
-".lo .t.lt .cells i{font-style:normal;font-size:10.5px;letter-spacing:-.2px;font-weight:700;text-align:center;line-height:16px;height:19px;color:#06090d;border-radius:4px;padding:0;box-shadow:inset 0 -3px 0 var(--arm);overflow:hidden}",
+".lo .t.lt .cells i{font-style:normal;font-size:10.5px;letter-spacing:-.2px;font-weight:700;text-align:center;line-height:19px;height:19px;color:#06090d;border-radius:4px;padding:0;overflow:hidden}",
 ".lo .t.lt .nm{display:block;font-size:12px;padding:3px 5px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}",
 ".lo .c-e{background:var(--exact)} .lo .c-s{background:var(--stereo)}",
 ".lo .c-w{background:var(--wrong);color:#fff!important} .lo .c-i{background:#4b535d;color:#fff!important}",
@@ -237,7 +237,7 @@ function tile(r){
   b.innerHTML = '<img decoding="async" data-src="/wall/' + IMGDIR[r[3]] + '/' + encodeURIComponent(r[0]) + '.png" alt="">'
     + '<span class="cells">' + D.arms.map(function(a, i){
         var v = c[i];
-        return '<i class="c-' + (v === "-" || v === "x" ? "n" : v) + '" style="--arm:' + a.color + '" title="' + esc(a.label + ": " + VL[v]) + '">' + esc(a.tag) + '</i>';
+        return '<i class="c-' + (v === "-" || v === "x" ? "n" : v) + '" title="' + esc(a.label + ": " + VL[v]) + '">' + esc(a.tag) + '</i>';
       }).join("") + '</span><span class="nm">' + esc(r[1]) + '</span>';
   if (window.lazyImg) window.lazyImg(b.firstChild); else b.firstChild.src = b.firstChild.dataset.src;
   b.onclick = function(){ openSheet(r); };
