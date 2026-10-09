@@ -80,8 +80,11 @@ if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
 # nov5 (9 Oct) is Sonnet 5 on the novel set, the counterpart of nov.
 ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5", "s55c": "claude-sonnet-5-5",
              "nov": "claude-sonnet-5-5", "ctl": "claude-sonnet-5-5",
-             "sa5": "claude-sonnet-5", "sa55": "claude-sonnet-5-5", "nov5": "claude-sonnet-5"}
-ROW_ARM = {"sa5": "s5", "sa55": "s55"}     # the arm label a lane's rows carry, where it is not the lane name
+             "sa5": "claude-sonnet-5", "sa55": "claude-sonnet-5-5", "nov5": "claude-sonnet-5",
+             "wv55": "claude-sonnet-5-5"}
+# wv55 (9 Oct): Sonnet 5.5 on the WAVY-attachment fragments (superatoms API run's wavy/set.json, show=true). Rows are
+# scored raw here; that set's builder re-scores with tools/superatoms/attach_norm.py on both sides.
+ROW_ARM = {"sa5": "s5", "sa55": "s55", "wv55": "s55"}     # the arm label a lane's rows carry, where it is not the lane name
 SA_RUN = Path("/root/C-MAGE/benchmarks/published_runs/sonnet55_api_superatoms")
 NOVEL_SET = Path("/root/C-MAGE/benchmarks/novel_set.json")
 NOVEL_IMAGES = "/root/cmage-work/novel/corpus_rdkit_1500"
@@ -124,9 +127,17 @@ def superatom_rows() -> list[dict]:
     return out
 
 
+def wavy_rows() -> list[dict]:
+    f = SA_RUN / "wavy" / "set.json"
+    return [{"k": x["id"], "t": x["truth"], "n": x["id"], "png": x["png"]} for x in json.load(open(f))
+            if x.get("show")] if f.exists() else []
+
+
 def corpus() -> list[dict]:
     if ARM in ("sa5", "sa55"):
         d = {"rows": superatom_rows()}
+    elif ARM == "wv55":
+        d = {"rows": wavy_rows()}
     else:
         d = json.load(open(NOVEL_SET if ARM in ("nov", "nov5") else CONTROL_SET if ARM == "ctl" else CORPUS_ROWS))
     rows = sorted(d["rows"], key=lambda r: r["k"])
@@ -148,6 +159,8 @@ def image_index() -> dict[str, str]:
         return {r["k"] + ".png": r["png"] for r in json.load(open(CONTROL_SET))["rows"]}
     if ARM in ("sa5", "sa55"):
         return {r["k"] + ".png": r["png"] for r in superatom_rows()}
+    if ARM == "wv55":
+        return {r["k"] + ".png": r["png"] for r in wavy_rows()}
     idx = {}
     for dd in ([NOVEL_IMAGES] if ARM in ("nov", "nov5") else sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500"))):
         for p in glob.glob(dd + "/*.png"):
