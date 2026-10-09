@@ -619,8 +619,13 @@ def tick():
         p5, p7, rs = u["5h"]["pct"], u["7d"]["pct"], u["5h"]["resets_at"]
     except Exception:
         log(f"tick: usage unreadable ({r.stderr[-200:]})"); return 0
-    block = (rs or "")[:16]                      # minute resolution: the server's seconds jitter
-    if block == s.get("last_block"):
+    block = (rs or "")[:16]
+    # the server's resets_at jitters by up to a minute (11:19 vs 11:20 seen), so a block is NEW only when it is
+    # more than 30 min from the last one recorded
+    def _t(x):
+        return dt.datetime.fromisoformat(x) if x else None
+    last = _t(s.get("last_block"))
+    if last is not None and abs((_t(block) - last).total_seconds()) < 1800:
         log(f"tick: same 5 h block ({block}); skip"); return 0
     if p5 >= CAP_5H or p7 >= CAP_7D:
         log(f"tick: 5 h {p5}% / week {p7}% at or over {CAP_5H:.0f}/{CAP_7D:.0f}; skip"); return 0
