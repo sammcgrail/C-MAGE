@@ -107,6 +107,9 @@ var VL = {e:"exact", s:"stereo only", w:"wrong", i:"unparseable", "-":"not read"
 var S = {filter:"all", q:"", shown:150, step:150, detail:null, pending:null, view:"all", cardSet:"same"};
 /* Where an image came from: the corpus, or the superatom set (built, real). Rows carry it as r[3]. */
 var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms", w: "superatoms"};
+/* Where each source's reference comes from (the sheet's label). */
+var REFLAB = {c: "Reference (PubChem)", b: "Reference (the molecule it was drawn from)",
+              r: "Reference (benchmark SMILES)", w: "Reference (the patent's MOL file)"};
 var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt", g: "superatoms_txt", w: "superatoms_txt"};
 function VW(){ return D.views[S.view] || D.views.all; }
 var D = null, ARM = {}, IDX = {};
@@ -365,7 +368,7 @@ function openSheet(r){
   getDetail().then(function(d){
     var x = d[k] || {};
     var ref = $("#loref"), det = $("#lodet"); if (!ref || !det) return;
-    ref.innerHTML = x.t ? '<div class="kv"><label>Reference (PubChem)</label><code>' + esc(x.t) + '</code></div>'
+    ref.innerHTML = x.t ? '<div class="kv"><label>' + (REFLAB[r[3]] || "Reference") + '</label><code>' + esc(x.t) + '</code></div>'
              : '';
     det.innerHTML = D.arms.map(function(a, i){
       var v = c[i], y = x[a.id];
