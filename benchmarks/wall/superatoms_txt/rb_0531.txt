@@ -1,0 +1,20 @@
+I read the drawing region by region and assembled the SMILES from the pieces below.
+
+**Macrocycle, going around the ring**
+- **Ornithine residue:** H2N–CH2CH2CH2 side chain (three CH2 groups) on the alpha carbon, which carries a wedge bond to the chain. Its ring NH is bonded to a CH2 on the pyridine, and its C=O is bonded to the lysine NH.
+- **Lysine residue:** a four-CH2 side chain ending in NH2, and an alpha carbon drawn with a wedge. Its C=O is bonded to the N-methyl nitrogen of the next residue.
+- **N-methyl tryptophan residue:** N(CH3), then an alpha carbon with a wedged CH2 to indol-3-yl (the indole NH is drawn). Its C=O is bonded to an NH, which is bonded to a CH2 on the central benzene ring.
+- **Central benzene ring:**
+  - one carbon carries the CH2–NH;
+  - the adjacent carbon carries the S bridge;
+  - the next carbon carries Cl;
+  - the fourth ring carbon is CH;
+  - the fifth ring carbon is CH;
+  - the sixth carbon, adjacent to the CH2-bearing carbon, carries the pyridyl group.
+- **S-linked pyridine:** a 2-pyridyl whose C3 carries the CH2–NH of the ornithine.
+- **Aryl substituent:** a pyridine bonded through its C5 and carrying COOH at C2 (a picolinic acid).
+
+**Stereochemistry**
+The CORN rule applied to the wedges shows all three alpha carbons have the L configuration. This gives @@ for the ornithine carbon as written in the SMILES, and @ for the lysine and tryptophan carbons.
+
+SMILES: NCCC[C@@H]1NCc2cccnc2Sc2c(CNC(=O)[C@H](Cc3c[nH]c4ccccc34)N(C)C(=O)[C@H](CCCCN)NC1=O)c(-c1ccc(C(=O)O)nc1)ccc2Cl

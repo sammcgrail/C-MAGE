@@ -1,0 +1,21 @@
+I read this as the cyclic peptide Ac‑Arg‑Glu‑His‑2Nal‑Arg‑Trp, closed through the Glu side chain. The Trp C‑terminal carbonyl is joined to an ethylenediamine linker (NH‑CH2CH2‑NH), and the linker's other nitrogen forms an amide with the Glu side‑chain carbonyl.
+
+**Stereochemistry.** I assigned each α‑carbon from its wedge or hash, with H taken as the implied substituent opposite the drawn wedge/hash:
+- Arg (N‑terminal, acetylated): D
+- Glu: L
+- His: L
+- 2‑Naphthylalanine: D
+- Arg (second): L
+- Trp: L
+
+**Side chains.**
+- Each Arg carries a guanidine, written C(N)=N.
+- His is the imidazole Cc1c[nH]cn1.
+- 2Nal is a CH2 attached to position 2 of a naphthalene.
+- Trp is the indol‑3‑yl‑methyl group.
+
+**Writing the SMILES.** I wrote the ring from the Glu α‑carbon toward the C‑terminus and closed it back to the Glu carbonyl. This changes the neighbour order at several stereocentres, so I recomputed each @/@@ for the order used in the string.
+
+Atom‑for‑atom check: the Ac‑Arg branch, the Glu side‑chain amide to the ethylenediamine linker, the Trp, Arg, 2Nal and His units, and the final ring closure to the Glu carbonyl all match the drawing.
+
+SMILES: CC(=O)N[C@H](CCCNC(N)=N)C(=O)N[C@H]1CCC(=O)NCCNC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@@H](Cc2ccc3ccccc3c2)NC(=O)[C@H](Cc2c[nH]cn2)NC1=O

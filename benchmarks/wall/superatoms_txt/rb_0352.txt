@@ -1,0 +1,18 @@
+Here is my reading of the drawing, as a cyclic hexapeptide.
+
+**Structure read from the image**
+- The N-terminal cap is a cyclopentylacetyl group, written `O=C(CC1CCCC1)N`.
+- The Asp side-chain carbonyl is joined through an amide NH to a pentamethylene (five-CH2) linker. That linker ends in an NH that acylates the Trp carbonyl, which closes the macrocycle. I counted five CH2 groups from the zigzag, but the drawing was not fully clear on this, so four is possible.
+- The residues, going around the ring from the cap, are Asp, His (imidazol-4-ylmethyl side chain), 1-naphthylalanine (1-Nal), Arg (guanidinopropyl side chain) and Trp (indol-3-ylmethyl side chain).
+
+**Stereochemistry**
+I assigned each α-carbon from its wedge or hash and the CORN rule, then converted to SMILES chirality tags.
+- Asp: L (wedge to the CH2)
+- His: L (hashed bond to the side chain)
+- 1-Nal: D (wedge to the CH2)
+- Arg: L (hashed bond to the side chain)
+- Trp: L (hashed bond to the side chain)
+
+The SMILES parses and matches the drawing atom for atom.
+
+SMILES: O=C(CC1CCCC1)N[C@H]2CC(=O)NCCCCCNC(=O)[C@H](Cc3c[nH]c4ccccc34)NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@@H](Cc5cccc6ccccc56)NC(=O)[C@H](Cc7cnc[nH]7)NC2=O

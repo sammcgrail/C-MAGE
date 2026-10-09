@@ -1,0 +1,14 @@
+I read the drawing as a macrocyclic peptide: Ac‑Nle‑Glu‑His‑D‑Phe(2‑Cl)‑Arg‑Trp. The Glu side‑chain carbonyl is joined through a 1,4‑diaminobutane linker (‑NH‑(CH2)4‑NH‑) to the Trp carbonyl, closing the ring.
+
+I assigned each stereocentre from its wedge or hash, then converted it to SMILES chirality:
+
+- **Nle:** hashed butyl bond, S configuration (L).
+- **Glu:** wedged side chain, S (L).
+- **His:** hashed CH2 bond, S (L).
+- **2‑Cl‑Phe:** wedged CH2 bond, R (D).
+- **Arg:** hashed CH2 bond, S (L).
+- **Trp:** hashed CH2 bond, S (L).
+
+The imidazole is attached at the carbon next to the unprotonated ring N, with the NH on the far side. I did not run the SMILES through a parser.
+
+SMILES: CCCC[C@H](NC(C)=O)C(=O)N[C@H]1CCC(=O)NCCCCNC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H](Cc2ccccc2Cl)NC(=O)[C@H](Cc2c[nH]cn2)NC1=O

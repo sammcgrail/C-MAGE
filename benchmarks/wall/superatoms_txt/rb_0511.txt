@@ -1,0 +1,16 @@
+I read the molecule as a macrocycle built from Dab, Lys, and N-methyl-Trp residues, closed through a pyridyl-thio-aryl linker.
+
+**Residues and linker**
+- **Dab:** H2N‑CH2CH2‑CH(α‑C) with the α‑NH linked through a CH2 to C3 of the pyridine. Its C=O is amide-bonded to the Lys NH.
+- **Lys:** The side chain is (CH2)4NH2. Its C=O is bonded to the N‑methyl nitrogen of Trp.
+- **N‑Me‑Trp:** The side chain is CH2‑indol‑3‑yl. Its C=O is bonded to an NH, which connects through a CH2 to the central benzene ring.
+- **Central benzene ring:** Going round the ring, the substituents are S (to pyridine C2), then CH2NH, then the aryl group, then two CH, then Cl. The Cl-bearing carbon sits next to the S-bearing carbon.
+- **Aryl group:** A 4-carboxy-3-hydroxyphenyl, i.e. the salicylic acid part.
+
+**Stereochemistry**
+The three α‑carbons carry wedges. Working out CIP priorities from the drawing, all three come out S, the L-configuration. I then converted this to SMILES `@`/`@@` using the neighbour order in the string.
+
+**Ring-closure digits**
+The Trp indole uses digits 4 and 5 so they do not clash with the benzene ring that is still open at that point.
+
+SMILES: NCC[C@@H]1NCc2cccnc2Sc2c(Cl)ccc(-c3ccc(C(=O)O)c(O)c3)c2CNC(=O)[C@H](Cc4c[nH]c5ccccc45)N(C)C(=O)[C@H](CCCCN)NC1=O

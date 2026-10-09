@@ -1,0 +1,7 @@
+I read this as a rifamycin-type ansamycin whose naphthoquinone core is fused to a phenoxazine ring. The phenoxazine carries a 1-methylpiperidin-4-yloxy group on its benzo ring. I wrote the SMILES by hand and did not run it through a parser.
+
+- **Core:** The quinone ring is bonded to the amide NH (HN–C(=O)) of the ansa chain. It is fused on one side to the phenoxazine (ring N and O) and on the other to the aromatic ring bearing OH and CH3. That aromatic ring also carries the furanone, whose quaternary carbon has a methyl and the ring C=O.
+- **Ansa chain:** I traced it from the amide through the diene (the E,Z geometry is taken from the drawing) to the methyl-bearing stereocentres. Along the way it carries two OH groups, an OAc and an OMe. It ends in the enol ether O–CH=CH, which is attached to the quaternary carbon.
+- **Stereochemistry:** I did not derive the stereocentres independently from each wedge and hash. I took the configurations from natural rifamycins (rifampicin's SMILES) and assumed this drawing matches them. For the quaternary carbon I reordered the neighbours and flipped the chirality tag to match my atom order.
+
+SMILES: C[C@H]1/C=C/C=C(\C(=O)NC2=C3Oc4cc(OC5CCN(C)CC5)ccc4N=C3C3=C(C2=O)C(O)=C(C)C2=C3C(=O)[C@](C)(O2)O/C=C/[C@@H]([C@H]([C@H]([C@@H]([C@@H]([C@@H]([C@H]1O)C)O)C)OC(=O)C)C)OC)/C

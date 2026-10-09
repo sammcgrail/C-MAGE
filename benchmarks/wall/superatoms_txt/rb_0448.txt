@@ -1,0 +1,10 @@
+I read the drawing as an N-acetylated cyclic hexapeptide. Its sequence is Ac-Nle-Glu-His-2Nal-Arg-Trp, and the ring is closed through a 1,3-diaminopropane linker. One amine of the linker forms an amide with the Glu side-chain carboxyl, and the other forms an amide with the Trp C-terminal carbonyl.
+
+Stereochemistry came from the wedges and hashes at each alpha carbon:
+- Nle (hashed side chain) and Arg (hashed side chain) work out as L.
+- Glu (wedged side chain) works out as L.
+- His, 2-naphthylalanine and Trp (wedged side chains) work out as D.
+
+I wrote the SMILES from the Nle end, with the ring closure at the Glu alpha carbon. I adjusted each `@`/`@@` tag for the order in which the alpha-carbon neighbours appear in the string. I did not run it through a parser.
+
+SMILES: CC(=O)N[C@@H](CCCC)C(=O)N[C@H]1CCC(=O)NCCCNC(=O)[C@@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H](Cc2ccc3ccccc3c2)NC(=O)[C@@H](Cc2c[nH]cn2)NC1=O

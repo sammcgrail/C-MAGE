@@ -1,0 +1,15 @@
+I read the molecule as a symmetric dimer of a bicyclic thiazepine-pyrrolidine SMAC-mimetic unit, each carrying an N-methylalanine amide. The two halves are joined through cis-2-alkoxy-1-aminoindane units linked by a meta-phenylene bis(propargyl ether) bridge.
+
+**Fragments read from the drawing**
+- **Alanine cap:** CH3NH–CH(CH3)–C(=O)–NH–, drawn with a hashed methyl, which I read as the S (N-methyl-L-alanine) centre.
+- **Bicyclic core:** S–CH2–CH2–CH(NH-acyl)–C(=O)–N, fused to a pyrrolidine. The pyrrolidine carries a gem-dimethyl carbon, a CH2, a ring-fusion CH(S)(N) with a hashed H, and a CH bearing the C(=O)NH carboxamide on a wedge.
+- **Indane unit:** 1-amino-2-alkoxy-indane, with both the C1–N and C2–O bonds hashed (cis).
+- **Linker:** O–CH2–C≡C–C6H4(meta)–C≡C–CH2–O, with the two alkynes at positions 1 and 3 of the benzene ring.
+
+**Stereochemistry (from the wedges and hashes, assigned CIP-style)**
+- Left half: S at the acylamino carbon, S at the ring-fusion carbon, S at the carboxamide-bearing carbon, S at indane C1 and R at indane C2.
+- The right half is the same drawing rotated 180°, so I gave it the same descriptors. I recomputed the @/@@ symbols separately because that half is written in the opposite atom order.
+
+I checked the ring-closure digits and the meta substitution pattern by hand but did not run the SMILES through a parser.
+
+SMILES: C[C@H](NC)C(=O)N[C@H]1CCS[C@H]2CC(C)(C)[C@@H](C(=O)N[C@H]3c4ccccc4C[C@H]3OCC#Cc3cccc(c3)C#CCO[C@@H]3Cc4ccccc4[C@@H]3NC(=O)[C@@H]5C(C)(C)C[C@@H]6SCC[C@H](NC(=O)[C@H](C)NC)C(=O)N56)N2C1=O

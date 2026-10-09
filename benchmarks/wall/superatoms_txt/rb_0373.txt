@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+**Imidazo[1,2-a]pyrazine core.** The six-membered ring contains N (top left), then C bearing cyclopropyl, then CH, then the bridgehead N, then the bridgehead C, then C-NH (C8). The five-membered ring contains the bridgehead N, a C bearing the pyrazol-4-yl group (C3), a CH (C2), and N1 attached to the bridgehead C.
+
+Core SMILES: c1(C2CC2)cn2c(-c3cn[nH]c3)cnc2c(N...)n1
+
+**Aryl group.** The NH is attached to a benzene ring with F ortho to the NH. The carbonyl is para to the NH, which puts it meta to F. The ring is c1(NH)c(F)cc(C(=O)N...)cc1.
+
+**Linker.** The carbonyl is bonded to a piperazine nitrogen. The other piperazine nitrogen carries CH2C(=O)NH-CH2CH2-O-CH2CH2-NH-, which is attached to the aromatic ring of the phthalimide.
+
+**Phthalimide.** The NH-bearing carbon is adjacent to the C=O-bearing ring carbon. The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so no stereo is assigned.
+
+**Full SMILES:**
+O=C(c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)N1CCN(CC(=O)NCCOCCNc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)CC1
+
+Checking the phthalimide: c2cccc3c2C(=O)N(...)C3=O. The aromatic carbon bearing NH is c2, and the ring closure at c2 after c3 places the first C(=O) adjacent to the NH-bearing carbon, which matches the drawing.
+
+SMILES: O=C(c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)N1CCN(CC(=O)NCCOCCNc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)CC1

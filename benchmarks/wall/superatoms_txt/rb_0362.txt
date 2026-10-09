@@ -1,0 +1,9 @@
+I read the molecule in five pieces and joined them with SMILES. I took the proline and tert-leucine stereocentres to be the standard VHL-ligand configuration rather than deriving them from the wedges, so those two are the least certain.
+
+- **Left heterocycle:** an imidazo[1,2-a]pyrazine carrying a cyclopropyl at C6, a 1H-pyrazol-4-yl at C3, and an NH at C8 that links to the aryl ring.
+- **Aryl ring:** a benzene with the NH on one carbon, a fluorine on the adjacent carbon, and the carbonyl para to the NH. The carbonyl forms an amide to a piperazine.
+- **Linker:** piperazine N–CH2–C(=O)NH–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–NH–C(=O)–CH2, ending at the benzylic stereocentre.
+- **Benzylic stereocentre:** the CH2 is hashed (pointing away), so H faces the viewer. The priorities are N > aryl > CH2 > H, and N → aryl → CH2 reads clockwise from the front. Reversing for H facing the viewer gives S, which is written as `[C@@H]` in the SMILES order N, H, CH2, aryl.
+- **Right side:** a 4-(4-methylthiazol-5-yl)phenyl group on that stereocentre, then NH–C(=O) to a 4-hydroxypyrrolidine. The pyrrolidine N is acylated by tert-leucine, whose NH carries a 1-fluorocyclopropanecarbonyl group.
+
+SMILES: CC(C)(C)[C@H](NC(=O)C1(F)CC1)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](CC(=O)NCCOCCOCCOCCNC(=O)CN1CCN(CC1)C(=O)c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)c1ccc(-c2scnc2C)cc1

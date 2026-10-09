@@ -1,0 +1,30 @@
+Reading the structure region by region:
+
+**Right-hand fragment (thieno[3,2-c]pyridinone core):**
+- The thiophene ring contains S, C2 (bearing the carboxamide), C3 (CH), C3a and C7a.
+- The pyridinone ring is fused to it: C3a–C4(=O)–N5(CH3)–C6H=C7(aryl)–C7a.
+- SMILES for this core: c1(C(=O)N...)cc2c(s1)c(Ar)cn(C)c2=O
+
+**Aryl group on C7:**
+- The ring carbon attached to the core is C1. Moving around the ring, C2 is CH, C3 bears OMe, C4 bears CH2N(CH3)2, C5 bears OMe, and C6 is CH.
+- SMILES: c1cc(OC)c(CN(C)C)c(OC)c1
+
+**Amide side chain:**
+- The amide N is attached to C4 of a piperidine (piperidine A).
+- Piperidine A's nitrogen is attached to C4 of a second piperidine (piperidine B).
+- In piperidine B, the carbon bearing F2 is C3, next to C4 (the attachment point). Its nitrogen is attached to the isoindolinone aryl ring.
+- SMILES: NC1CCN(CC1)C1CCN(CC1(F)F)Ar
+
+**Isoindolinone:**
+- The CH2 is attached to N, and the C=O is on the other side.
+- The ring N bears the 2,6-dioxopiperidin-3-yl group.
+- The piperidine B nitrogen is attached to the aromatic carbon that is para to the carbonyl-bearing carbon. From the drawing, the aryl carbon bearing N lies next to the CH carbon, which is adjacent to the C attached to CH2. That makes it position 5 of the isoindolinone.
+- Written from the CH2 side: C1(CH2)–c3a, then c4 (CH), then c5 (N-substituted), then c6, c7, and c7a (attached to C=O).
+- SMILES: N1(C2CCC(=O)NC2=O)Cc2cc(N...)ccc2C1=O
+
+**Full SMILES:**
+CN(C)Cc1c(OC)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1)C1CCN(CC1(F)F)c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1
+
+The isoindolinone ring closure is consistent with the drawing. In `c1ccc2C(=O)N(...)Cc2c1`, the attachment carbon c1 is followed by c, c, then c2, which carries C(=O). The ring closure then runs through CH2 to c2 and finally to c1 via the c1 closure. So the attachment carbon is adjacent to the CH that neighbours the CH2-bearing carbon, which matches the drawing.
+
+SMILES: CN(C)Cc1c(OC)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1)C1CCN(CC1(F)F)c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1

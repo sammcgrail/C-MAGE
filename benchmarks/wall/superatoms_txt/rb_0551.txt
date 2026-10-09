@@ -1,0 +1,11 @@
+I read the molecule as a PROTAC-style conjugate with three parts joined by a linker.
+
+**Left warhead.** The core is an imidazo[1,2-a]pyrazine with a cyclopropyl at C6 and a 1H-pyrazol-4-yl at C3. Its C8 carries an NH link to a phenyl ring that bears fluorine ortho to the NH and a carbonyl para to it.
+
+**Linker.** The aryl carbonyl forms an amide with a piperazine nitrogen. The other piperazine nitrogen carries CH2C(=O)NH, followed by six CH2 groups (counted vertex by vertex along the zigzag), then C(=O)NH.
+
+**Right side (VHL-type ligand).** The linker amide NH is attached to a tert-leucine residue, CH(tBu)C(=O). That carbonyl acylates the nitrogen of a 4-hydroxypyrrolidine-2-carboxamide. The carboxamide NH is attached to a CH(CH3) group on a para-phenylene ring, which carries a 4-methylthiazol-5-yl group.
+
+**Stereochemistry.** I assigned the stereocentres by matching the drawn wedges and hashes to the usual VHL-ligand configuration (S-tert-leucine, 2S,4R-hydroxyproline, S-1-arylethyl). I did not check each wedge independently against the SMILES chirality tags, so this is a best match rather than a verified read.
+
+SMILES: C[C@H](NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@@H](NC(=O)CCCCCCNC(=O)CN1CCN(CC1)C(=O)c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)C(C)(C)C)c1ccc(-c2scnc2C)cc1

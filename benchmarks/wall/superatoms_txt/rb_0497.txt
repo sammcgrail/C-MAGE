@@ -1,0 +1,40 @@
+This looks like a STING agonist: a macrocycle built from two benzimidazole units joined by a but-2-enyl linker on one side and a 2-(4,4-difluoropiperidin-1-yl)propane-1,3-diyl bis-ether on the other.
+
+**Building blocks**
+- Each half has a 1-ethyl-3-methylpyrazole-5-carbonyl group. Its SMILES is CCn1nc(C)cc1C(=O)N.
+- The amide NH is attached to C2 of a benzimidazole.
+- N1 of the benzimidazole carries the butenyl chain.
+- C7 carries the O-CH2 ether.
+- C5 carries the primary amide, C(N)=O.
+- The alkene is drawn as a trans (E) double bond. N-CH2-CH=CH-CH2-N is drawn with the two CH2 groups on opposite sides, so I wrote it as E.
+
+**Top benzimidazole**
+- N1 is bonded to the CH2 of the butenyl chain.
+- C2 is bonded to the NH-acyl group.
+- N3 is the "N" at the top.
+- C3a leads to C4(H), then C5 (bearing CONH2), then C6(H), then C7 (bearing O), then C7a, which bonds back to N1.
+
+SMILES for this half: n1(C/C=C/C...)c(NC(=O)c2cc(C)nn2CC)nc3cc(C(N)=O)cc(OC...)c13
+
+**Bottom benzimidazole**
+- It has the same pattern: N1 is attached to the CH2 of the butenyl chain, C7 carries O, and C5 carries CONH2.
+
+**Full SMILES, with the macrocycle closed through ring labels**
+
+NC(=O)c1cc2nc(NC(=O)c3cc(C)nn3CC)n(C/C=C/Cn3c(NC(=O)c4cc(C)nn4CC)nc4cc(C(N)=O)cc(OCC(N5CCC(F)(F)CC5)CO6)c43)c2c(c1)OCC(N7CCC(F)(F)CC7)CO6
+
+That draft has the piperidine twice and ring-label problems, so I rewrote it cleanly.
+
+Top unit: NC(=O)c1cc2nc(NC(=O)c3cc(C)nn3CC)n(C/C=C/C[n]4...)c2c(c1)OCC(N5CCC(F)(F)CC5)CO...
+
+Writing the ring closures out explicitly gives:
+
+NC(=O)c1cc2nc(NC(=O)c3cc(C)nn3CC)n(C/C=C/Cn3c(NC(=O)c4cc(C)nn4CC)nc4cc(C(N)=O)cc(c43)OC6)c2c(c1)OCC6N7CCC(F)(F)CC7
+
+Checking this version:
+- The bottom unit closes with `c43`, where `c4` is C3a and `c3` is C7a (attached to N1). The `c(c43)` is C7 with O, written as `cc(c43)OC6`, so the ring closure is on the CH2 of the ether.
+- The top unit has C7 bearing `OCC6N7...`.
+- Ring closure 6 joins the bottom OCH2 to the CH carrying the piperidine. The chain is O-CH2-CH(N)-CH2-O: the top O bonds to CH2, then to CH(N-piperidine), and ring closure 6 links to the CH2 attached to the bottom O.
+- In the written version, `OC6` is the bottom O-CH2 (labeled 6), and the top is `OCC6N7...`. This gives top O-CH2-CH(6)(N), with the CH bonded to the bottom CH2, which is bonded to the bottom O. That is correct.
+
+SMILES: NC(=O)c1cc2nc(NC(=O)c3cc(C)nn3CC)n(C/C=C/Cn3c(NC(=O)c4cc(C)nn4CC)nc4cc(C(N)=O)cc(c43)OC6)c2c(c1)OCC6N7CCC(F)(F)CC7

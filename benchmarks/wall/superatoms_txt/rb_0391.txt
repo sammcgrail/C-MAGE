@@ -1,0 +1,24 @@
+I read the structure in three parts and wrote the SMILES from them.
+
+**Azacrown ring.** Going around the macrocycle from the aryl-bearing nitrogen on the right:
+- N, then CH2CH2, O, CH2CH2, O, CH2CH2, then the 2-methoxyphenyl-bearing nitrogen.
+- From that nitrogen, CH2CH2, O, CH2CH2 closes back to the first nitrogen.
+
+This is a 15-membered 1,4,7-trioxa-10,13-diaza ring. One side between the nitrogens carries two oxygens and the other carries one.
+
+**Central benzoic acid ring.** Its six carbons, in order, are:
+1. the carbon bearing the xanthene
+2. an aromatic CH
+3. the carbon bearing OMe
+4. the carbon bearing the azacrown nitrogen
+5. an aromatic CH
+6. the carbon bearing COOH
+
+**Xanthene (fluorone) core.**
+- The C9 carbon links to the benzoic acid ring.
+- The top ring carries a 3-thienyl group and an OH.
+- The bottom ring carries a C=O and a 2-thienyl group.
+
+I checked ring closures and branch parentheses by hand but did not run the string through a parser. The drawing shows no wedges or hashes, so there is no stereochemistry.
+
+SMILES: OC(=O)c1cc(N2CCOCCOCCN(c3ccccc3OC)CCOCC2)c(OC)cc1-c1c2cc(-c3ccsc3)c(O)cc2oc2cc(=O)c(-c3cccs3)cc12

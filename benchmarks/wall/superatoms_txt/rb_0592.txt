@@ -1,0 +1,13 @@
+I read the molecule as a PROTAC-type structure with four parts: a kinase-inhibitor head group, a piperazine amide linker, a tert-leucine unit, and a hydroxyproline VHL-ligand end group.
+
+**Head group.** The core is an imidazo[1,2-a]pyrazine carrying a cyclopropyl at C6, a 1H-pyrazol-4-yl at C3, and an NH-aryl at C8. The aryl is a 2-fluorophenyl ring that bears the carbonyl at the para position relative to the NH.
+
+**Linker.** The aryl carbonyl joins a piperazine nitrogen. The other piperazine nitrogen carries CH2C(=O)NH, followed by four CH2 groups (counted from the drawing) and then C(=O)NH.
+
+**Tert-leucine.** The alpha carbon bears a tert-butyl group, with the wedge on the N bond. From the 3D arrangement this centre is S.
+
+**VHL end group.** The tert-leucine carbonyl acylates a hydroxyproline nitrogen. The wedge on the C2 carbonyl bond gives 2S, and the hashed OH at C4 gives 4R. The proline carboxamide is an NH-CH2 linked to a 4-(4-methylthiazol-5-yl)phenyl group.
+
+I checked the three stereocentres against the SMILES chirality tags by working out CIP priorities, and they match the drawing: S for tert-leucine, 4R for the hydroxyl carbon, and 2S for the proline alpha carbon.
+
+SMILES: C1(CC1)c1cn2c(-c3cn[nH]c3)cnc2c(Nc2ccc(cc2F)C(=O)N2CCN(CC2)CC(=O)NCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)n1

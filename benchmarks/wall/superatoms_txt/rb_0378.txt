@@ -1,0 +1,15 @@
+I read the structure in four parts: a cysteine unit, a benzene core, a thioether linker and a DOTA-type macrocycle.
+
+**Left side.** A cysteine (L configuration) is attached through its sulfur: H2N–CH(COOH)–CH2–S–CH2–Ar. The wedge on the amine bond marks the stereocentre.
+
+**Core.** The benzene ring is 1,3,5-trisubstituted. One substituent is CH2–S–CH2 (bearing the cysteine), another is CH2–S–CH2CH2–NH–C(=O)–CH2–(cyclen), and the third is a CH2 attached to the wavy-line attachment point. The attachment point is drawn as a CH2 bonded to a carbon that is cut by the wavy line, with a methyl-like line to the left. This is a truncated fragment, so I wrote it as CH2–C(CH3) with an open bond. To keep the SMILES valid, I closed it as CC at the wavy bond; the wavy line itself marks the connection point.
+
+**Macrocycle.** The ring is a 12-membered cyclen (4 N, 8 CH2). Three nitrogens carry CH2COOH groups and the fourth carries CH2C(=O)NH, as in DOTA-monoamide.
+
+**Cysteine stereochemistry.** The drawing shows N on a wedge at the alpha carbon, with the CH2S group below and COOH to the right. I wrote it as N[C@@H](CS...)C(=O)O, which is the L-cysteine pattern (R for cysteine). L-cysteine is N[C@@H](CS)C(=O)O, so this matches.
+
+**SMILES assembly.**
+- Cysteine part: N[C@@H](CSCc1cc(CSCCNC(=O)CN2CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)O)CC2)cc(C*)c1)C(=O)O
+- The wavy-line fragment is CH2–C with a methyl, so the open end is written as CC, giving c(CC)c1.
+
+SMILES: N[C@@H](CSCc1cc(CC)cc(CSCCNC(=O)CN2CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)O)CC2)c1)C(=O)O

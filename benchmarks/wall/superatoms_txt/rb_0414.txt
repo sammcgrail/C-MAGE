@@ -1,0 +1,19 @@
+This is a PROTAC-like molecule. I read it as four fragments: a thiazolopyridinone, a dimethoxybenzyl group, a diazaspiro linker, and a thalidomide-type isoindoline-dione with a glutarimide.
+
+**Thiazolo[4,5-c]pyridin-4-one fragment.** The thiazole sulfur is attached to C7a, which is bonded to C7 (the carbon bearing the aryl group). C7 connects to CH=, then N(CH3), then C(=O), then C3a, which bears the thiazole N. The thiazole ring is S–CH=N–C3a=C7a.
+
+SMILES for this fragment: c1(-Ar)cn(C)c(=O)c2ncsc12
+
+**Benzyl group.** The aryl ring carries a CH2 at the top, flanked by two OMe groups ortho to it. The thiazolopyridinone is attached para to the CH2.
+
+**Diazaspiro linker.** The piperidine N is attached to the benzyl CH2. The spiro carbon sits opposite that N in the piperidine and is shared with an azetidine. The azetidine N is attached to the isoindoline aryl ring. This is 2,7-diazaspiro[3.5]nonane, with the piperidine N at position 7 and the azetidine N at position 2.
+
+**Isoindoline-dione.** The aryl ring is attached to the azetidine N, and the imide N carries the 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so no stereo is given.
+
+Assembled SMILES:
+
+COc1cc(cc(OC)c1CN1CCC2(CC1)CN(C2)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)-c1cn(C)c(=O)c2ncsc12
+
+Checking the isoindoline ring: c1ccc2C(=O)N(...)C(=O)c2c1 starts at the attached carbon c1, then c, c, then c2 (ring fusion, bearing C=O), and closes through c2 (the other fusion carbon) and c1. That gives six aromatic atoms, which is correct.
+
+SMILES: COc1cc(cc(OC)c1CN1CCC2(CC1)CN(C2)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)-c1cn(C)c(=O)c2ncsc12

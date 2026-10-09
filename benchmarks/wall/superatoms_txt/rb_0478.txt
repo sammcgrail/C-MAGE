@@ -1,0 +1,29 @@
+I read the structure region by region and wrote each piece as a SMILES fragment, then joined them.
+
+**Core heterocycle (imidazo[1,2-a]pyrazine).**
+- The six-membered ring has atoms N, C(cyclopropyl), CH, N (bridgehead), C (fusion carbon) and C(NH-aryl).
+- The five-membered ring has the bridgehead N, a C bearing the pyrazol-4-yl group, a CH, an N, and the fusion carbon.
+- Ring SMILES: c1(C2CC2)cn2c(-c3cn[nH]c3)cnc2c(N...)n1.
+- Check of the six-membered ring: C6 (cyclopropyl) is bonded to N5 and to C7(H). C7 is bonded to N4, the bridgehead. N4 is bonded to C3 (pyrazolyl) and to C8a. C8a is bonded to C8 (NHAr), which is bonded to N1, which closes back to C6.
+- In SMILES: c1(C2CC2)cn2c(-c3cn[nH]c3)cnc2c(Nc...)n1.
+
+**Aryl group.**
+- The NH is attached to a benzene ring with F ortho to the NH.
+- The carbonyl is para to the NH. In the drawing, the ring carbon bearing NH is at the top, the F carbon is at the left, and the carbonyl carbon is at the bottom, so the carbonyl is para to the NH.
+- Aryl SMILES: Nc1ccc(C(=O)N...)cc1F.
+
+**Linker.**
+- The aryl carbonyl is attached to a piperazine, whose other nitrogen carries C(=O)CCO.
+- Then comes the PEG chain: O at 530, 700, 865, 1040 and 1210, which is five oxygens in total. The first O follows CH2CH2 from the carbonyl.
+- The chain is C(=O)CCOCCOCCOCCOCCOCCN, which gives five O atoms and six CH2CH2 units counting the first CCO.
+- Check of the chain: after the carbonyl there are C, C, O, then C, C, O, C, C, O, C, C, O, C, C, O, then C, C, N. That is five O atoms, with the last O followed by CH2CH2 and then NH.
+
+**Pomalidomide end.**
+- The NH is attached to the isoindoline-1,3-dione ring at position 4.
+- The imide N carries a 2,6-dioxopiperidin-3-yl group.
+- SMILES: Nc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12.
+
+**Full SMILES.**
+O=C(c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)N1CCN(CC1)C(=O)CCOCCOCCOCCOCCOCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12
+
+SMILES: O=C(c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)N1CCN(CC1)C(=O)CCOCCOCCOCCOCCOCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

@@ -1,0 +1,23 @@
+This looks like a STING agonist macrocycle: two benzimidazole units joined by a but-2-ene linker on N1 of each, with the 7-oxygens linked through a CH2-CH(N-piperidinyl)-CH2 bridge. The piperidine carries a 4-phosphate.
+
+**Upper benzimidazole:** N1 carries the butenyl chain, C2 carries NHC(=O)-pyrazole, and N3 is the unsubstituted ring nitrogen. The benzene ring has the carboxamide at C5 and the O-CH2 at C7. The pyrazole is 1-ethyl-3-methyl-pyrazol-5-yl: CCn1nc(C)cc1C(=O)N.
+
+**Butene linker:** N-CH2-CH=CH-CH2-N. The double bond is drawn as a plain zigzag, but it sits in a ring and the geometry looks like E. The upper CH2 goes down to the CH=, which then goes down-left to the next CH=, and then to CH2 and the lower N. I will assign E (trans), though the drawing is ambiguous.
+
+**SMILES construction:**
+
+Upper unit: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(OP(=O)(O)O)CC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(c34)C/C=C/C2...
+
+The ring closure is awkward to write this way, so I use explicit ring labels instead.
+
+Upper benzimidazole: n1(CC=CC...)c(NC(=O)pyrazole)nc2cc(C(N)=O)cc(O...)c12
+
+Full SMILES:
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CO3)N1CCC(OP(=O)(O)O)CC1
+
+Check of the closures:
+- The first benzimidazole has c2 (C3a), then cc(C(N)=O)c, then c3 (C7, which bears O3), then c2 (C7a) closing the ring, then n1 (N1) closing to C2. This is correct, and N1 bears the CH2.
+- The second benzimidazole starts at n1 (new label 1, reused after closure), then c(NC(=O)...) is C2, then n is N3, then c2 is C3a, then cc(C(N)=O)c is C4, C5, C6, then c(...) is C7 with the substituent OCC..., and c21 is C7a closing to both C3a and N1. The ring-closure digits work out.
+- The C7 of the second unit carries O-CH2-CH(N)-CH2-O3, which closes to the first unit's C7. This is correct.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CO3)N1CCC(OP(=O)(O)O)CC1

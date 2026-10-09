@@ -1,0 +1,33 @@
+This is a STING agonist-type dimer: two benzimidazoles joined by a butenyl linker on one side and by an ether chain bearing a 3-aminopyrrolidine on the other.
+
+**Top half**
+- Pyrazole: N1 carries an ethyl group and is bonded to N2, which is double-bonded to C3 (bearing a methyl). C4 is CH and C5 bears the carbonyl. SMILES fragment: CCn1nc(C)cc1C(=O)N.
+- The amide NH is attached to C2 of the benzimidazole.
+- Benzimidazole: N3 is the "N=" and N1 carries the butenyl chain. C7 bears the O-ether. C5 bears CONH2.
+- Ring atoms: C2(=N3)–N1, with C7a attached to N1, C7 (O), C6 (H), C5 (CONH2), C4 (H), and C3a attached to N3.
+
+**Linker**
+- The butenyl chain runs N1–CH2–CH=CH–CH2–N1'. The double bond appears to be trans, but it is drawn ambiguously, so I give it E.
+
+**Ether chain**
+- Top benzimidazole C7–O–CH2–CH(N-pyrrolidine)–CH2–O–C7' of the bottom benzimidazole.
+- The pyrrolidine is attached through N, with the 3-position bearing NH2.
+
+**SMILES for the top unit**
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(CO...)N3CCC(N)C3)c2n1C/C=C/C...
+
+**Bottom unit**
+- The linker CH2 attaches to N1' of the bottom benzimidazole, which has the same substituents (acylamino at C2, O at C7', CONH2 at C5').
+
+**Assembly with ring closures**
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(c34)C/C=C/C5)N3CCC(N)C3)c2n1C5
+
+The ring-closure digits clash, so I rewrite it with unique labels:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(c34)C/C=C/C6)N7CCC(N)C7)c2n1C6
+
+Checking this: the linker begins at the top N1, written "n1C6" at the end, and runs C6, then C=C, then C attached to the bottom N, so the ring closure 6 links the two ends. In the bottom part, "n(c34)C/C=C/C6" has the bottom N followed by CH2, CH=CH, and CH2 closing to the top N via ring label 6. The top N is written "n1C6" with the closure bond to the CH2, so the chain is N–CH2(6)…CH2–N, which is correct.
+
+The top ring closure "c2n1C6" is consistent: c2 is C7a, ring label 2 was opened at "nc2", and n1 closes to the C2 label 1. The bottom ring uses c3 (C7') with c34 as C7a', and ring 4 opens at c4 (C3a') and closes at c34, which is correct. Label 3 is opened at "Oc3" and closed at "c34", fine. Label 7 is used for the pyrrolidine.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(c34)C/C=C/C6)N7CCC(N)C7)c2n1C6

@@ -1,0 +1,19 @@
+I read this as a macrocyclic peptide with an N-terminal acetyl cap: Ac‑Nle‑Glu‑His‑Phe(2‑CF3)‑Arg‑Trp. The Glu side-chain carboxyl and the Trp C-terminal carbonyl are joined through a 1,4-diaminobutane linker, which closes the ring.
+
+**Residues**
+- The N-terminus is acetylated norleucine (n-butyl side chain).
+- The Glu side-chain amide forms the lower-right ring junction through –NH–(CH2)4–NH–.
+- His is the 4-substituted imidazole shown at the left.
+- The Phe carries an ortho-CF3 group on its ring.
+- Arg has the full guanidine side chain.
+- Trp has an indol-3-yl side chain.
+
+**Stereochemistry**
+- I assigned Nle and Trp from the hashed wedges by priority analysis, and both come out S, the L configuration.
+- The other α-carbons are drawn with wedges or hashes in the same sense, so I took them as L as well.
+- The Glu α-carbon is written as the ring-closure atom, which flips its tag to `@` relative to the usual N-terminal form.
+- Residues written C-to-N around the ring use `[C@H]` for L.
+
+I checked the ring closure and atom connectivity by hand but did not run the string through a parser.
+
+SMILES: CC(=O)N[C@@H](CCCC)C(=O)N[C@H]1CCC(=O)NCCCCNC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](Cc2ccccc2C(F)(F)F)NC(=O)[C@H](Cc2c[nH]cn2)NC1=O

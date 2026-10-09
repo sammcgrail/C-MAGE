@@ -1,0 +1,12 @@
+I read the molecule as a macrocycle built from two identical 2-acylamino-benzimidazole-5-carboxylic acid units. I traced it region by region.
+
+- **Pyrazole amides:** each benzimidazole C2 carries an NH–C(=O) group joined to the C5 of a 1-ethyl-3-methylpyrazole.
+- **Benzimidazole cores:** each has N1 attached to the butenyl linker, a COOH at C5, and an ether oxygen at C7 (next to the N1-bearing ring carbon).
+- **Linker:** N1(top)–CH2–CH=CH–CH2–N1(bottom). The two CH2 groups lie on opposite sides of the double bond in the drawing, so I assigned E geometry.
+- **Central bridge:** the two C7 oxygens are joined as O–CH2–CH(N-pyrrolidinyl)–CH2–O. The central CH has plain bonds, so it gets no stereo label.
+- **Pyrrolidine:** the C3 position carries OTBS, with the bond drawn as a wedge. I worked out the CIP assignment as S from the drawing, and `[C@H]` in the SMILES atom order (ring CH2, H, O, ring CH2 next to N) encodes that.
+- **TBS:** expanded to Si(CH3)2C(CH3)3.
+
+Ring-closure digit 9 closes the macrocycle through the two linker ends. I checked that the other ring digits are closed before they are reused.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(=O)O)cc(OCC(N3CC[C@H](O[Si](C)(C)C(C)(C)C)C3)COc3cc(C(=O)O)cc4nc(NC(=O)c5cc(C)nn5CC)n(c34)C/C=C/C9)c2n19

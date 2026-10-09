@@ -1,0 +1,18 @@
+The SMILES below was read region by region from the drawing. I did not run it through a parser, but I checked ring closures and atom counts by hand.
+
+**Macrocycle**
+- The left ring is a chlorobenzene. One ortho position carries CH2CH2–O. The other ortho position carries CH2–O–pyridine.
+- The ether O from the CH2CH2 chain connects through a CH2 to the central benzene ring.
+- The central benzene has three substituents: that CH2–O, the 2-pyridyl group, and the CH2 leading to the benzimidazole. The CH2–O and CH2–benzimidazole carbons are ortho to each other, and the pyridyl is para to the CH2–benzimidazole carbon.
+- The pyridine is 2,6-disubstituted, with the ring N between the aryl carbon and the O-bearing carbon, which closes the macrocycle.
+
+**Benzimidazole**
+- C2 carries the CH2 linking it to the central benzene.
+- N1 carries the oxetan-2-ylmethyl group.
+- On the benzo ring, the methyl ester sits on C6 and the OCH2CH2N(CH3)Boc chain on C4. The Boc group is the tert-butyl carbamate.
+
+**Stereochemistry**
+- The only drawn stereocentre is the oxetane C2, where the bond to CH2N is hashed. With priorities O > CH2N > ring CH2 > H, this gives S.
+- In the SMILES, `n1C[C@@H]1CCO1` encodes S for that carbon.
+
+SMILES: Clc1ccc2c(c1)CCOCc1cc(ccc1Cc1nc3c(n1C[C@@H]1CCO1)cc(cc3OCCN(C)C(=O)OC(C)(C)C)C(=O)OC)-c1cccc(n1)OC2

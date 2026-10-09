@@ -1,0 +1,9 @@
+I read the molecule as a PROTAC-type compound, built from three parts joined by an amide linker.
+
+- **Left part:** a pyridine with a 3-carboxamide and a 2-O-linked piperidine, and an imidazole at the 5-position. The piperidine bears a 3-fluoro, a 4-oxy and an N-acyl group, the acyl being 4-(trifluoromethoxy)phenylacetyl. From the wedge and hash bonds I assigned both piperidine stereocentres as R (the F and O are trans).
+- **Linker:** the imidazole N1 carries a butyl chain, then NH–C(=O)CH2CH2–O–CH2CH2–C(=O)–NH.
+- **Right part:** a VHL-type ligand, namely tert-leucine, then (2S,4R)-4-hydroxyproline, then an amide to 4-(4-methylthiazol-5-yl)benzylamine. I took its stereochemistry from the standard VHL ligand, which the drawing matches.
+
+I checked the stereo tags by working out the CIP priorities for the two piperidine centres. For the tert-leucine and hydroxyproline centres I converted the known VHL-ligand SMILES to the atom order used in my string.
+
+SMILES: NC(=O)c1cc(cnc1O[C@@H]1CCN(C(=O)Cc2ccc(OC(F)(F)F)cc2)C[C@H]1F)-c1cn(CCCCNC(=O)CCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)cn1

@@ -1,0 +1,13 @@
+I read this as a macrocyclic peptide: a 2-naphthylacetyl cap on the N-terminus of a Glu residue, followed by His, 4-fluoro-Phe, Arg and Trp. The Glu side-chain carbonyl and the Trp C-terminal carbonyl are joined through a 1,4-diaminobutane linker, which closes the ring.
+
+I worked out the stereochemistry from the wedges and hashes. Priorities are N > C(=O) > CH2, with the H atom pointing toward or away from the viewer depending on the drawn bond.
+
+- **Glu:** the side-chain wedge puts H at the back, and the N → C(=O) → CH2 sequence runs counterclockwise, so it is S (L).
+- **4-F-Phe:** the CH2 wedge puts H at the back, and the sequence runs clockwise, so it is R (D-Phe).
+- **Arg:** the CH2 is hashed (H toward the viewer), and the sequence runs clockwise as drawn, so the true sense is counterclockwise, S (L).
+- **Trp:** the CH2 is hashed, and the same reasoning gives S (L).
+- **His:** I read the CH2 bond as hashed, which gives S (L). This is the least certain of the five assignments.
+
+I then converted each centre into the matching @/@@ symbol for the order in which its neighbours appear in the SMILES string.
+
+SMILES: O=C(Cc1ccc2ccccc2c1)N[C@H]3CCC(=O)NCCCCNC(=O)[C@H](Cc4c[nH]c5ccccc45)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H](Cc6ccc(F)cc6)NC(=O)[C@H](Cc7c[nH]cn7)NC3=O

@@ -1,0 +1,26 @@
+This is a macrocyclic STING agonist-type dimer. It consists of two identical benzimidazole units joined by a but-2-ene linker and by a 2-(piperazin-1-yl)propane-1,3-diyl bis-ether.
+
+**Each half of the molecule:**
+- A benzimidazole with N1 bearing the butenyl chain.
+- C2 carrying an NH–C(=O)–pyrazole group, where the pyrazole is 1-ethyl-3-methyl-pyrazol-5-yl.
+- C5 carrying a CONH2 group.
+- C7 carrying the ether oxygen.
+
+**Linkers:**
+- The butene linker runs N1–CH2–CH=CH–CH2–N1'. The drawing shows it as a ring-closing alkene, and I read it as the trans (E) isomer.
+- The ether linker runs O–CH2–CH(N-piperazine)–CH2–O.
+
+**Building the SMILES, top half first:**
+- Benzimidazole: N1 is `n1`, C2 is `c(NC(=O)...)`, N3 is `n`, C3a is `c`, then C4 (H), C5 (CONH2), C6 (H), C7 (O) and C7a.
+- Top unit: `CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCNCC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(c34)C/C=C/C...)c2n1...`
+
+Writing this out with ring closures and the macrocycle closure:
+
+`CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(N1CCNCC1)CO3`
+
+**Checking the ring closures:**
+- The first benzimidazole is `c1nc2cc(C(N)=O)cc3c2n1...`. Atom c1 is C2, n is N3, c2 is C3a, then cH (C4), c(CONH2) (C5), cH (C6), c3 (C7, which closes to O3 at the end), and c2 (C7a, closing to C3a). Then n1 is N1, closing to C2, and it carries the chain.
+- The second benzimidazole starts at `n1c(NC(=O)...)nc2cc(C(N)=O)cc(c21)O...`. Here n1 is N1', c is C2', n is N3', c2 is C3a', then cH, c(CONH2), cH, and c(...) is C7'. Its branch `(c21)` is C7a', which closes to C3a' via ring 2 and to N1' via ring 1. The C7' atom then continues to `OCC(N1CCNCC1)CO3`, and the final O3 closes to C7 of the first unit.
+- The ring label 1 is reused after it closes. At `n1C/C=C/Cn1`, the first ring 1 was closed at `n1` (N1), so the new `n1` opens a fresh ring and is closed by `c21`. The piperazine reuses label 1 inside a branch, and that is also valid because ring 1 is closed by `c21` before that point.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(N1CCNCC1)CO3

@@ -1,0 +1,13 @@
+I read the structure in four parts and wrote each as SMILES. I then assigned stereochemistry from the wedges and hashes.
+
+**Left fragment.** An imidazo[1,2-a]pyrazine carries a 6-cyclopropyl group, a 3-(1H-pyrazol-4-yl) group and an 8-NH link. The NH connects to a benzene ring that has F ortho to the NH and the C(=O) para to it.
+
+**Linker.** The aryl C(=O) acylates a piperazine nitrogen. The other piperazine nitrogen carries CH2C(=O)NH–(CH2)3–NHC(=O)CH2.
+
+**Central stereocentre.** The CH2 is attached by a hashed bond to a CH. That CH also bears a 4-(4-methylthiazol-5-yl)phenyl group and an NH. I assigned it S.
+
+**Right fragment (VHL-type ligand).** The NH acylates a 4-hydroxyproline, with the proline alpha carbon assigned S and the C4 carbon bearing OH assigned R. Its ring nitrogen is acylated by tert-leucine (S). The tert-leucine NH carries a 1-fluorocyclopropanecarbonyl group.
+
+I derived the @/@@ symbols by assigning CIP priorities at each centre and permuting the SMILES neighbour order to match. I checked ring closures and branches by hand but did not run the string through a parser.
+
+SMILES: C1(CC1)c1cn2c(-c3cn[nH]c3)cnc2c(Nc2ccc(cc2F)C(=O)N2CCN(CC2)CC(=O)NCCCNC(=O)C[C@@H](c2ccc(cc2)-c2scnc2C)NC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C2(F)CC2)C(C)(C)C)n1

@@ -1,0 +1,24 @@
+I read the structure as a cyclic dinucleotide with two thiophosphate (P(=O)SH) linkages, and I assigned the stereochemistry from the wedges and hashes by analogy with a standard β-D-ribose.
+
+**Left nucleoside**
+- The base is an inosine-type purine (hypoxanthine) with a C=O at C6.
+- N1 carries CH2CH2NHC(=O)CH2OH.
+- The ribose has the purine on C1' (wedge), a 3'-OH, and a 2'-O linked to phosphorus (hashed).
+- The 5'-CH2-O is linked to the other phosphorus.
+
+**Right nucleoside**
+- The sugar is a 2'-deoxy-2'-fluoro ribose with F hashed, the base bond on C1' bold, and the 5'-CH2 bold.
+- The 3'-O carries the thiophosphate and is hashed.
+- The base is a 7-deazapurine (pyrrolo[2,3-d]pyrimidine). Its C4 bears an S–CH2CH2CH2 bridge that closes onto C5, forming a seven-membered ring.
+
+**Linkages**
+- The left 2'-O is joined through P(=O)(SH) to the right 5'-CH2-O.
+- The right 3'-O is joined through P(=O)(SH) to the left 5'-CH2-O, which closes the macrocycle.
+
+**Stereochemistry**
+- Both sugars use the adenosine-type pattern `n-[C@@H]1O[C@H](C...)[C@@H](O)[C@H]1O`.
+- The phosphorus atoms are left unspecified because the drawing marks no P stereochemistry. The two diastereomers are 50a and 50b.
+
+I wrote the macrocycle as two dot-separated fragments joined by ring-closure labels %11 and %12, so the sugar chirality could stay in the standard pattern. I checked ring-closure pairing, phosphorus valence and atom counts by hand and did not run the SMILES through a parser.
+
+SMILES: OCC(=O)NCCn1cnc2c(c1=O)ncn2[C@@H]1O[C@H](COP(=O)(S)%11)[C@@H](O)[C@H]1OP(=O)(S)%12.n5([C@@H]8O[C@H](CO%12)[C@@H](O%11)[C@H]8F)cc6CCCSc7ncnc5c67

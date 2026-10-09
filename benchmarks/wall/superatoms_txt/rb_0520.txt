@@ -1,0 +1,20 @@
+I read the structure region by region and wrote it as one macrocyclic SMILES.
+
+**Fragments read from the image**
+- **Pyridine:** it carries a (1-methoxyethyl) group at C2, an indole attachment at C3, and a 4-methylpiperazin-1-yl group at C5.
+- **Indole:** N1 is ethylated and C2 is bonded to the pyridine. C3 carries CH2–C(CH3)2–CH2–O–C(=O)–, and C5 is bonded to the thiazole.
+- **Thiazole:** C4 is bonded to the indole and C2 to a CH2.
+- **Side chain:** the thiazole CH2 leads to CH(NH–C(=O)–2-methylcyclopropyl)–C(=O)–N.
+- **Bicyclic core:** a 3,4-diazabicyclo[4.1.0]heptane. The acylated N and the NH are adjacent. The CH bearing the ester sits next to the ring-fusion CH. The cyclopropane carbons are CF2 and a quaternary C–CH3, and the ring closes through CH2 back to the acylated N.
+
+**Stereochemistry**
+I assigned stereo only at centres drawn with wedges or hashes:
+- the methoxyethyl CH (wedged methyl)
+- the CH bearing the amide NH (wedged N)
+- the ester-bearing CH (hashed C=O)
+- the quaternary C–CH3 of the cyclopropane (wedged methyl)
+- the CH–CH3 of the methylcyclopropyl group (wedged methyl)
+
+The ring-fusion CH and the other cyclopropyl CH are drawn with plain bonds, so I left them unspecified. I worked out each @/@@ from the wedge geometry by hand and did not run the SMILES through a parser.
+
+SMILES: CO[C@@H](C)c1ncc(N2CCN(C)CC2)cc1-c1n(CC)c2ccc(-c3csc(n3)C[C@H](NC(=O)C4C[C@@H]4C)C(=O)N5C[C@]6(C)C(C6(F)F)[C@H](N5)C(=O)OCC(C)(C)C8)cc2c18

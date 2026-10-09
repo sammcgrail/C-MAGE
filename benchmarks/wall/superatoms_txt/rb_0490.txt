@@ -1,0 +1,19 @@
+The drawing shows a diaza-18-crown-6 macrocycle (1,10-diaza-18-crown-6) carrying a substituted picolinate arm on each nitrogen.
+
+**Macrocycle.** Going around the ring from the left nitrogen: N, CH2CH2, O, CH2CH2, O, CH2CH2, N, CH2CH2, O, CH2CH2, O, CH2CH2, back to the first N. That gives 2 N and 4 O, with ethylene links between each heteroatom.
+
+**Left arm.** The left nitrogen bears a CH2 attached to a pyridine ring. Numbering the ring from the nitrogen, C2 carries the CH2 (to the macrocycle), C4 carries the O–CH2CH2–C6H4–NH2 group (para-aminophenethyl ether), and C6 carries the CO2Me ester.
+
+**Right arm.** The right nitrogen bears a CH2 attached to a pyridine C2, with a CO2Me group on C6 and no other substituents.
+
+**SMILES assembly.**
+- Macrocycle with left N: N1(CCOCCOCCN(CCOCCOCC1)...) — the right N carries the right arm.
+- Left arm: Cc1cc(OCCc2ccc(N)cc2)cc(C(=O)OC)n1, written as Cc1cc(...)cc(...)n1 starting from the CH2.
+- Right arm: Cc1cccc(C(=O)OC)n1.
+
+Full SMILES:
+COC(=O)c1cc(OCCc2ccc(N)cc2)cc(CN2CCOCCOCCN(Cc3cccc(C(=O)OC)n3)CCOCCOCC2)n1
+
+Ring closure check: N2 opens the ring, then CCOCCOCC leads to N(...), then CCOCCOCC closes back to N2. The first segment has CC, O, CC, O, CC (to N), and the second has CC, O, CC, O, CC (to N2), so each N–N path has two oxygens and the ring is the correct 18-membered one.
+
+SMILES: COC(=O)c1cc(OCCc2ccc(N)cc2)cc(CN2CCOCCOCCN(Cc3cccc(C(=O)OC)n3)CCOCCOCC2)n1

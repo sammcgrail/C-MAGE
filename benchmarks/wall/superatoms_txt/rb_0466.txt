@@ -1,0 +1,21 @@
+This looks like a macrocyclic STING agonist: two benzimidazole units joined through a but-2-ene linker and a 2-(4-aminopiperidin-1-yl)propane-1,3-diyl bis-ether.
+
+**Upper benzimidazole.** N1 carries the butenyl chain. C2 carries the NH–C(=O)–pyrazole group. C7 carries the ether O. C5 carries the carboxamide.
+
+**Pyrazole.** It is 1-ethyl-3-methylpyrazole-5-carbonyl: CCn1nc(C)cc1C(=O)N.
+
+**Linker.** From the upper N1: CH2–CH=CH–CH2 to the lower N1. The alkene is drawn as a trans (E) double bond, because the chain continues on opposite sides. Reading the drawing, the upper CH2 goes down-left to the CH=, which then goes down to the next CH, and the lower CH2 goes down-left to N. That is a zigzag, so E.
+
+**Ether bridge.** The upper C7–O–CH2–CH(N-piperidinyl)–CH2–O–C7' of the lower benzimidazole. The piperidine is 4-aminopiperidin-1-yl.
+
+**SMILES construction.**
+
+Upper benzimidazole: c1(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(OCC(N3CCC(N)CC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C...)c34)c2n1C/C=C/C...
+
+Ring closure uses labels. The upper N1 is written as n1 with a ring-bond digit, and the chain closes onto the lower N1:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(N)CC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C5)c34)c2n1C5
+
+Here ring label 5 is reused after closing the earlier pyrazole 5. The first pyrazole's 5 closes at "cc1" and the second at "nn5CC", so label 5 is free again when I open it at "C5" in the chain. The ring-closure partner is the last "C5" at the end, which is on the upper N1. The linker therefore reads: lower n–C/C=C/C(5), with the final C5 attached to the upper n1. Written out, the chain is n(C/C=C/C5) … n1C5. The upper n1 is bonded to C5, which is the CH2 closing to the chain's last CH2. This makes the chain N–CH2–CH=CH–CH2–N, which is correct.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(N)CC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C5)c34)c2n1C5

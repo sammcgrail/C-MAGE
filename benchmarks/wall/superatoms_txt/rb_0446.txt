@@ -1,0 +1,18 @@
+I read the structure in three parts and wrote the SMILES from them.
+
+**Macrocycle**
+- The left benzene ring carries a nitrile (C≡N). Its two ortho substituents are a CF2–CH2–O–CH2 arm and a CH2–O–pyridine arm.
+- The CF2–CH2–O–CH2 arm ends on a central benzene ring. That ring has the pyridin-2-yl carbon para to the carbon bearing the benzimidazolylmethyl group.
+- The pyridine is 2,6-disubstituted: one position bears the ring oxygen and the other is bonded to the central benzene.
+
+**Benzimidazole**
+- The ring carries a CH2 link to the central benzene at C2 and an oxetan-2-ylmethyl group on N1.
+- It also has a COOH at C6 and an OCH2CH2OCH3 at C4.
+
+**Stereochemistry**
+- The only drawn stereocentre is the oxetane C2, which has a hashed bond to the CH2N group.
+- The priorities are O > CH2N > ring CH2 > H. With the hashed CH2N pointing back, the H points toward the viewer, so the apparent sense is reversed.
+- O → CH2N → ring CH2 appears clockwise, so the true configuration is counterclockwise, which is S.
+- In the SMILES, the neighbour order at the stereocentre is CH2N, H, O, C3. Here `@@` gives S, so I used `[C@@H]`.
+
+SMILES: N#Cc1ccc2c(c1)C(F)(F)COCc1cc(ccc1Cc1nc3c(OCCOC)cc(C(=O)O)cc3n1C[C@@H]1CCO1)-c1cccc(n1)OC2

@@ -1,0 +1,13 @@
+I read the molecule as a macrocycle built from two ornithines, an N-methyl tryptophan and a fluorinated aryl thioether, with the stereocentres taken from the wedges.
+
+**Fragments**
+- **Left ornithine:** its α-carbon carries a wedged 3-aminopropyl chain. Its α-NH is bonded to a CH2 on pyridine C3, and its carbonyl is bonded to the NH of the second ornithine.
+- **Pyridine and thioether:** pyridine C2 is bonded to S, and S is bonded to a benzene carbon.
+- **Benzene ring:** going around the ring from the S-bearing carbon, the substituents are F, H, H, 4-carboxyphenyl, and a CH2NH group.
+- **Second ornithine:** its carbonyl is bonded to the N-methyl nitrogen of the tryptophan, and it also carries a wedged 3-aminopropyl chain.
+- **N-methyl tryptophan:** the α-carbon carries a wedged CH2 to indol-3-yl. Its carbonyl is bonded to the NH of the CH2NH group on the benzene ring, which closes the macrocycle.
+
+**Stereochemistry**
+All three α-carbons have the wedged side chain, the NH or N-methyl nitrogen, and the carbonyl in the same arrangement. Treating the implicit H as pointing away, each works out as the L (S) configuration. Converting that to SMILES tags for the atom order I wrote gives `@@` for the left ornithine and `@` for the other two.
+
+SMILES: NCCC[C@@H]1NCc2cccnc2Sc2c(F)ccc(-c3ccc(C(=O)O)cc3)c2CNC(=O)[C@H](Cc2c[nH]c3ccccc23)N(C)C(=O)[C@H](CCCN)NC1=O

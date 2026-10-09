@@ -1,0 +1,19 @@
+I read the structure in four pieces and joined them in SMILES order.
+
+**Left end.** An imidazo[1,2-a]pyrazine carries a cyclopropyl on the pyrazine carbon next to the ring nitrogen, a 1H-pyrazol-4-yl on the imidazole carbon, and an NH at C8. That NH is bonded to a 2-fluorophenyl ring, whose para position carries a C(=O) amide to a piperazine.
+
+**Linker.** The piperazine's other nitrogen bears CH2C(=O)NH, then a chain of five CH2 groups. I counted five zigzag vertices between the two NH labels. That chain ends in NH–C(=O)–CH2.
+
+**Benzylic stereocentre.** The CH2 is on a hashed bond, so it points back and the implicit H points toward the viewer. The priorities are N > aryl > CH2 > H, which gives S. The centre carries a 4-(4-methylthiazol-5-yl)phenyl group and an NH.
+
+**VHL-type end.**
+- The NH is acylated by a hydroxyproline.
+- The proline C2 (hashed carbonyl bond) is S.
+- The C4 OH is on a wedge and is taken as R, the natural 4-hydroxyproline configuration (not independently derived from the drawing).
+- The proline nitrogen is acylated by tert-leucine.
+- The tert-leucine alpha carbon (hashed NH) is S.
+- Its NH carries a 1-fluorocyclopropane-carbonyl group.
+
+I derived the @/@@ symbols from these assignments by checking neighbour order in the SMILES. I did not run the string through a parser.
+
+SMILES: C1(CC1)c1cn2c(-c3cn[nH]c3)cnc2c(Nc2ccc(cc2F)C(=O)N2CCN(CC2)CC(=O)NCCCCCNC(=O)C[C@@H](c2ccc(cc2)-c2scnc2C)NC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C2(F)CC2)C(C)(C)C)n1

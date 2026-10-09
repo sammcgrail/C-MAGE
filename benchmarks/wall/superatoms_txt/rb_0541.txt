@@ -1,0 +1,13 @@
+This is a symmetric dimer: two identical bicyclic thiazepine–pyrrolidine units, each carrying an N‑methylalanine amide, joined through a 2‑aminoindanyl ether to a hexa‑2,4‑diyne‑1,6‑diyl linker. I read one half and wrote it out, then wrote the other half with the same stereodescriptors.
+
+**One half, read from the drawing**
+- **Alanine unit:** CH3‑NH‑CH(CH3)‑C(=O)‑NH‑, with the methyl hashed. This is L‑Ala (S).
+- **Thiazepine ring:** seven‑membered, containing S, CH2, CH2, CH(NH‑acyl), C(=O), N and the ring‑fusion CH. The CH bearing NH is S (wedged CH2). The ring‑fusion CH, with hashed H next to S, is S.
+- **Pyrrolidine ring:** shares the N and the ring‑fusion CH, and also contains a CH2, a spiro carbon and the CH carrying the carboxamide (wedged), which is S.
+- **Spiro ring:** a cyclopent‑3‑ene. The spiro carbon is not a stereocentre because both ring paths are identical.
+- **Amide and indane:** the carboxamide NH is bonded to C1 of an indane. C1 (hashed N) is S and C2 (hashed O) is R, so the two substituents are trans.
+- **Linker:** the indane C2 oxygen continues as O‑CH2‑C≡C‑C≡C‑CH2‑O to the second, identical half.
+
+I assigned each @/@@ tag by working out the CIP descriptor from the drawn wedges and hashes. I did not run the SMILES through a parser, so the check is by hand: atom counts, ring closures and tags are consistent with the drawing.
+
+SMILES: CN[C@@H](C)C(=O)N[C@H]1CCS[C@H]2CC3(CC=CC3)[C@@H](C(=O)N[C@H]4c5ccccc5C[C@H]4OCC#CC#CCO[C@@H]4Cc5ccccc5[C@@H]4NC(=O)[C@H]4N5C(=O)[C@@H](NC(=O)[C@H](C)NC)CCS[C@H]5CC45CC=CC5)N2C1=O

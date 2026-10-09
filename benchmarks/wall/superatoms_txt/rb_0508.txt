@@ -1,0 +1,18 @@
+I read the drawing as a 15-membered macrocycle built from three amino-acid-derived units and a diaryl sulfide linker.
+
+**Fragments**
+- **Tryptophan unit:** the indole nitrogen carries a Boc group. The α-nitrogen is N-methylated and its carbonyl is bonded to an NH–CH2 group on the benzene ring.
+- **Benzene ring:** the ring carbon bearing CH2 is next to C–Br. Going round the ring, the next two carbons are CH, then CH, then C–Cl, and finally the carbon bearing S.
+- **Sulfur bridge:** S joins the benzene ring to C2 of a pyridine. The pyridine C3 carries CH2–NH, and that NH is bonded to the α-carbon of the first ornithine.
+- **First ornithine unit:** its side chain is (CH2)3–NH–Boc. Its carbonyl forms an amide with the NH of the second ornithine.
+- **Second ornithine unit:** its side chain is also (CH2)3–NH–Boc. Its carbonyl forms an amide with the N-methyl nitrogen of the tryptophan unit, closing the ring.
+
+**Stereochemistry (all three centres are wedged, and each works out as S)**
+- Tryptophan α-carbon: the CH2 wedge points to the viewer and the neighbours N, C=O, CH2 run counterclockwise, giving S.
+- Second ornithine α-carbon: the same assignment gives S.
+- First ornithine α-carbon: the same assignment gives S.
+- Written in SMILES, these are `[C@@H]` for the tryptophan and first-ornithine centres and `[C@H]` for the second-ornithine centre. The second one differs because its ring-closure digit changes the neighbour order.
+
+I checked the SMILES atom by atom against the drawing.
+
+SMILES: O=C1N(C)[C@@H](Cc2cn(C(=O)OC(C)(C)C)c3ccccc23)C(=O)NCc2c(Br)ccc(Cl)c2Sc2ncccc2CN[C@@H](CCCNC(=O)OC(C)(C)C)C(=O)N[C@H]1CCCNC(=O)OC(C)(C)C

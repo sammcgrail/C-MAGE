@@ -1,0 +1,23 @@
+I read the structure region by region and wrote each fragment as SMILES before joining them.
+
+**Left aryl group.** The benzene ring carries a CH2N(CH3)2 group between two OMe groups (positions 2 and 6 relative to the CH2), and is attached to the core at the position para to the CH2NMe2 group.
+- Aryl: c1(cc(OC)c(CN(C)C)c(OC)c1)
+
+**Thieno[3,2-c]pyridinone core.** Reading the drawing:
+- The thiophene S is bonded to C7a and to C2.
+- C2 carries the carboxamide.
+- C3 is bonded to C3a, which is bonded to C4 (C=O).
+- C4 is bonded to N5 (N-methyl), then C6H, then C7 (bearing the aryl group), then C7a.
+- SMILES: O=C1N(C)C=C(Ar)c2sc(C(=O)N...)cc12
+
+**Amide side chain.** The amide N is bonded to CH2, which is attached to a cyclopentane carbon of a bicyclic octahydrocyclopenta[c]pyrrole.
+- The cyclopentane ring has CH(CH2NH), CH2, CH (ring fusion), CH (ring fusion), CH2.
+- The pyrrolidine N is bonded to two CH2 groups, each attached to a ring-fusion carbon.
+- SMILES: C1C(CNC(=O)...)CC2CN(CC12)CCN3CCN(CC3)...
+
+**Right-hand end.** The piperazine is linked through an ethylene bridge from the pyrrolidine N, and its other N is bonded to the phthalimide aromatic ring. The imide N carries a 2,6-dioxopiperidin-3-yl group.
+- SMILES: c1ccc2c(c1)C(=O)N(C3CCC(=O)NC3=O)C2=O
+
+**Assembly.** No wedges or hashes are drawn, so I included no stereochemistry.
+
+SMILES: COc1cc(cc(OC)c1CN(C)C)C1=CN(C)C(=O)c2cc(sc12)C(=O)NCC1CC2CN(CCN3CCN(CC3)c3ccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c4c3)CC2C1

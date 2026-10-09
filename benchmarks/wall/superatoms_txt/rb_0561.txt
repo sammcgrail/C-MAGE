@@ -1,0 +1,18 @@
+The structure is a PROTAC-like molecule. I read it in four pieces.
+
+**Right-hand fragment.** A thieno[3,2-c]pyridin-4-one core carries an N-methyl group on the ring nitrogen and a C=O at position 4. Position 7 bears an aryl group, and the carboxamide sits at C2 of the thiophene.
+- Thiophene ring: S1, C2 (carboxamide), C3 (CH), C3a, C7a.
+- Pyridone ring: C3a is bonded to C4(=O), then N5(Me), C6(H)=C7(Ar), then C7a, which is bonded to S.
+- SMILES for the core: c1(C(=O)N...)cc2c(s1)c(Ar)cn(C)c2=O.
+
+**Aryl group.** A phenyl ring with a CH2N(CH3)2 group at the para position and an OMe at each of the two positions flanking it: c1c(OC)c(CN(C)C)c(OC)cc1.
+
+**Spiro linker.** The amide NH is attached to a cyclobutane carbon. The cyclobutane is spiro-fused to a piperidine, which makes a 7-azaspiro[3.5]nonane with the piperidine nitrogen as position 7. The amide-bearing carbon is C2, so the unit is NC1CC2(C1)CCN(CC2)Ar.
+
+**Left-hand fragment.** The piperidine nitrogen is bonded to an isoindolinone ring. The lactam C=O is adjacent to the aromatic carbon next to the one carrying the piperidine N, and the other lactam atom is N, which bears a 2,6-dioxopiperidin-3-yl group.
+- Isoindolinone: N1(C2CCC(=O)NC2=O)Cc2ccc(N...)cc2C1=O.
+
+**Assembled SMILES.**
+CN(C)Cc1c(OC)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CC2(C1)CCN(CC2)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1
+
+SMILES: CN(C)Cc1c(OC)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CC2(C1)CCN(CC2)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1

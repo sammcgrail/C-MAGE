@@ -1,0 +1,24 @@
+This looks like a STING agonist dimer built from two benzimidazole units joined through an N-CH2-CH=CH-CH2-N butene linker.
+
+**Each half.** The benzimidazole has N1 bearing the butenyl chain, C2 bearing NH-C(=O)-pyrazole, N3, and a carboxamide at C5. The C7 position carries an O-CH2 group. The pyrazole is 1-ethyl-3-methylpyrazole attached at C5 through the carbonyl.
+
+**Linker between the two O atoms.** The two O atoms connect through O-CH2-CH(CH2-piperidin-4-yl)-CH2-O, where the piperidine nitrogen carries a methyl group.
+
+**Alkene geometry.** The double bond is drawn as a plain E-looking zigzag. The upper chain runs N–CH2 up to the CH=, and the lower chain runs from the other CH= down to CH2–N. The substituents on the two alkene carbons point to opposite sides, so I assign trans (E).
+
+**Top half SMILES.** 
+NC(=O)c1cc2nc(NC(=O)c3cc(C)nn3CC)n(C/C=C/C...)c2c(OC...)c1
+
+**Full SMILES.** I write the chain as follows:
+- Top benzimidazole: n1(C/C=C/Cn2...)
+- Bottom benzimidazole: N2 attached to the chain.
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(CC3CCN(C)CC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C5)c34)c2n1C5 would close the macrocycle with ring labels, but I rewrite it with unambiguous ring closures.
+
+Macrocycle: the ring closure joins the top N1 to the chain. Using ring label 9 for the macrocycle:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CC1CCN(C)CC1)CO3
+
+Checking the top benzimidazole: c1 (C2), n, c2 (C3a), cc(C(N)=O)c (C4, C5, C6), c3 (C7, closing ring 3 with the O), c2 (C7a), n1 (N1, closing the imidazole ring). N1 then carries the chain C/C=C/C to n1 of the bottom unit. The bottom unit has c(NC(=O)...) as C2, n, c2 (C3a), c, c(C(N)=O), c(...) as C7 with the O, and c21 as C7a closing to N1. The C7 branch is "cc(c21)OCC(...)CO3", where the final O3 closes to the top C7. This is consistent.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CC1CCN(C)CC1)CO3

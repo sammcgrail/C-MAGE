@@ -1,0 +1,19 @@
+I read the structure region by region and assembled the SMILES from these pieces.
+
+**Thieno[3,2-c]pyridin-4-one (lower left):** The thiophene S is bonded to C7a, which is bonded to C7. C7 carries the aryl group and is bonded to C6H. C6 is bonded to N5, which carries the methyl. N5 is bonded to C4(=O), then C3a, which is fused to C7a. The thiophene ring is S–C2=C3–C3a=C7a.
+SMILES for this part: O=c1n(C)cc(-Ar)c2sccc12
+
+**Aryl ring:** It carries the thienopyridinone at the para position relative to the CH2N. Both ortho positions bear OMe. The ring is c1(OC)c(CN...)c(OC)cc(c1)-Ar.
+
+**Piperidine:** The N is attached to the benzyl CH2. The C4 of the piperidine carries a CH2 that leads to the N of the spiro system.
+
+**Azaspiro system:** This is 7-azaspiro[3.5]nonane. N7 is in a piperidine ring whose C4 is the spiro carbon, shared with a cyclobutane. The cyclobutane carbon opposite the spiro carbon bears the O-aryl group.
+SMILES: N1(CC2CCN(Cc3c(OC)cc(cc3OC)-c3cn(C)c(=O)c4ccsc34)CC2)CCC2(CC1)CC(C2)Oc1ccc2c(c1)CN(C2=O)C1CCC(=O)NC1=O
+
+**Isoindolinone:** The aryl ring bears the O substituent. The ring carbon bonded to O sits para to the C=O-bearing ring carbon, and it is adjacent to the CH2-bearing ring carbon through one CH. In the drawing, the O-bearing carbon is next to a CH that is bonded to the carbon carrying CH2. So the ring is c1(O)ccc2c(c1)CN(C2=O)…, which matches the SMILES above.
+
+**Glutarimide:** The ring is C1CCC(=O)NC1=O, attached to the isoindolinone N through C3.
+
+SMILES: O=C1NC(=O)CCC1N1Cc2cc(OC3CC4(C3)CCN(CC3CCN(Cc5c(OC)cc(cc5OC)-c5cn(C)c(=O)c6ccsc56)CC3)CC4)ccc2C1=O
+
+SMILES: O=C1NC(=O)CCC1N1Cc2cc(OC3CC4(C3)CCN(CC3CCN(Cc5c(OC)cc(cc5OC)-c5cn(C)c(=O)c6ccsc56)CC3)CC4)ccc2C1=O

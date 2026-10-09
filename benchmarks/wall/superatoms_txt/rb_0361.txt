@@ -1,0 +1,38 @@
+I read the structure as a macrocycle built from two benzimidazole units joined by a but-2-enyl linker on one side and a glycerol-type ether bridge on the other.
+
+**Upper benzimidazole**
+- N1 carries the butenyl chain.
+- C2 carries the NH–C(=O)–pyrazole amide.
+- The benzene ring bears a C(=O)NH2 group at position 5 and the O-linked ether at position 7.
+
+**Pyrazole amide (each side)**
+- It is a 1-ethyl-3-methylpyrazole-5-carboxamide.
+- SMILES for this unit: CCn1nc(C)cc1C(=O)N...
+
+**Linker between the two benzimidazoles**
+- The upper N1 is attached to CH2–CH=CH–CH2, which ends at the lower N1.
+- The drawing shows a double bond with no stereo marks. The chain forms part of a ring, but I am treating the geometry as unspecified, so no E/Z is given.
+
+**Ether bridge**
+- Upper ring C7–O–CH2–CH(N-pyrrolidine)–CH2–O–C7 of the lower ring.
+- The pyrrolidine is 3-cyanopyrrolidin-1-yl, attached through its nitrogen to the central CH.
+
+**Assembling the SMILES**
+- Upper benzimidazole: n1(c2c(OC...)cc(C(N)=O)cc2nc1NC(=O)Pz), where Pz is the pyrazole unit.
+- Ring closures: ring 1 is the macrocycle closure at the upper N1 (via the butenyl chain), and ring 2 is the closure at the upper O.
+
+Written out:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(C#N)C3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(CC=CC5)c34)c2n1CC=C5
+
+This string is wrong. The butenyl chain must link the two N1 atoms, so I rewrote it with explicit ring numbers.
+
+Upper unit: Pz-C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(C#N)C3)COc3cc(C(N)=O)cc4nc(NC(=O)Pz)n(C/C=C/C5...
+
+I simplified by using ring labels 8 and 9 for the macrocycle:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(C#N)C3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(CC=CC8)c34)c2n1C8
+
+Checking the closures: the upper N1 is written last as n1C8, so its chain CH2 closes to the CH2 labelled 8 on the lower N1. That gives lower N1–CH2–CH=CH–CH2(8) joined to the upper N1 through the closing CH2, which makes the chain N–CH2–CH=CH–CH2–N. The butenyl linker is therefore correct.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCC(C#N)C3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(CC=CC8)c34)c2n1C8

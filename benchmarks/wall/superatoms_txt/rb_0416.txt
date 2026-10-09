@@ -1,0 +1,12 @@
+This SMILES is my reading of the drawing, and I checked it for validity and atom count by hand rather than with software.
+
+**Fragments read from the image**
+- **Pyrazole amides:** two identical 1-ethyl-3-methylpyrazole-5-carboxamide groups, each attached through its amide NH to C2 of a benzimidazole.
+- **Benzimidazoles:** two identical units. Each has a primary carboxamide (C(N)=O) at C5 and an ether oxygen at C7. N1 carries the butenyl chain.
+- **Butenyl bridge:** N1–CH2–CH=CH–CH2–N1′ links the two benzimidazoles. The two CH2 groups leave the double bond on opposite sides, so I took it as trans (E).
+- **Other bridge:** the two C7 oxygens are joined through O–CH2–CH(N-pyrrolidinyl)–CH2–O. The CH is drawn with plain bonds, so it gets no stereo label.
+- **Pyrrolidine:** a 3-hydroxypyrrolidin-1-yl group with a wedged OH. Working through the CIP priorities (OH > C2 > C4 > H) gives S. In the SMILES, `N5CC[C@H](O)C5` encodes that S configuration.
+
+Ring-closure label 9 closes the macrocycle at the CH carrying the pyrrolidine nitrogen.
+
+SMILES: NC(=O)c1cc2nc(NC(=O)c3cc(C)nn3CC)n(C/C=C/Cn3c(NC(=O)c4cc(C)nn4CC)nc4cc(C(N)=O)cc(OCC9N5CC[C@H](O)C5)c34)c2c(OC9)c1

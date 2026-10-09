@@ -1,0 +1,24 @@
+This is a macrocyclic STING agonist-type dimer. It consists of two benzimidazoles joined through a butene linker and a 2-morpholinopropane-1,3-diyl bis-ether.
+
+**Top half.** The benzimidazole has N1 attached to the butene chain, C2 bearing NHC(=O)-pyrazole, and N3 as the imine nitrogen. C7 carries the O-linked chain and C5 carries the CONH2. The pyrazole is 1-ethyl-3-methylpyrazol-5-yl, written Cc1cc(C(=O)N...)n(CC)n1.
+
+**Linker.** From the top N1: N-CH2-CH=CH-CH2-N(bottom). The double bond is drawn without explicit cis/trans markers in the image, so I leave its geometry unspecified. The ether chain is O-CH2-CH(N-morpholine)-CH2-O.
+
+**Top benzimidazole:**
+n1(C/C=C/C...)c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(OCC(N3CCOCC3)COc...)c12
+
+**SMILES assembly.** I write the top unit and close the macrocycle with ring labels.
+
+Top unit: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCOCC3)CO%10)c2n1CC=CCn1...
+
+The bottom unit is a benzimidazole with N1 attached to the butene, C7 bearing the O that closes the ring, C5 bearing CONH2, and C2 bearing the amide NH.
+
+Bottom unit written starting from N1: n1(c(NC(=O)c3cc(C)nn3CC)nc2cc(C(N)=O)cc(O%10)c12)
+
+The full SMILES, with the ring closure %10 at the bottom ether oxygen, is:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCOCC3)CO%10)c2n1CC=CCn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc%10c21
+
+Checking the bottom ring: n1 ... c(NC...)n c2 cc(C(N)=O) cc%10 c21. The atoms after nc2 are c (C4), c(CONH2) (C5), c (C6), c%10 (C7, bearing O), and c21 (C7a, closing to N1). The ring closure %10 here connects C7 to the O opened earlier, but in my string the "O%10" sits in the top chain, so the label closes onto the carbon C7 and the O is bonded to it, which is correct.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCOCC3)CO%10)c2n1CC=CCn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc%10c21

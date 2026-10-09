@@ -1,0 +1,15 @@
+The structure is a PROTAC-like molecule. I read it in four parts.
+
+**Thieno[3,2-c]pyridinone core.** The pyridinone has C4 (=O), N5 (methyl), C6 (H) and C7 (bearing the aryl group). C7 is attached to C7a, which bonds to S1. S1 connects to C2, which carries CH2OMe. C2 is attached to C3 (H), which connects to C3a, and C3a joins back to C4. SMILES for this part: O=C1N(C)C=C(Ar)c2sc(COC)cc12.
+
+**Aryl group.** The phenyl ring carries the thienopyridinone at one position, with OMe at each meta position. The para position carries CH2 linked to the piperidine nitrogen. Ar = c1cc(OC)c(CN...)c(OC)c1.
+
+**Spiro linker.** The piperidine N is bonded to CH2CH2–C(spiro)–CH2CH2. The spiro carbon is shared with an azetidine: C(spiro)(CH2–N–CH2). This is 2,7-diazaspiro[3.5]nonane. The azetidine N is attached to the isoindolinone aromatic ring.
+
+**Isoindolinone and glutarimide.** The isoindolinone C=O carbon is attached to an aromatic carbon, and the ring N is attached to CH2. The azetidine N sits on the aromatic carbon para to the CH2-bearing carbon. In the image the aromatic carbon bearing the azetidine N is adjacent to the CH that is next to the C=O-bearing carbon, which makes it position 5 of the isoindolinone. The isoindolinone N is bonded to the 3-position of piperidine-2,6-dione, drawn with no stereochemistry.
+
+Isoindolinone SMILES: O=C1N(C2CCC(=O)NC2=O)Cc2ccc(N3CC4(C3)CCN(Cc3c(OC)cc(cc3OC)-c3cn(C)c(=O)c5cc(COC)sc35)CC4)cc12
+
+Check on the aromatic ring: c2 (attached to CH2), c, c, c(N), c, c12 (attached to C=O). Here c(N) is followed by c and then c12, the carbon bearing C=O. The N-bearing carbon is therefore meta to the C=O-bearing carbon, which matches the drawing.
+
+SMILES: O=C1N(C2CCC(=O)NC2=O)Cc2ccc(N3CC4(C3)CCN(Cc3c(OC)cc(cc3OC)-c3cn(C)c(=O)c5cc(COC)sc35)CC4)cc12

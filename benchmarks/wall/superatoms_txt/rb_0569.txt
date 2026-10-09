@@ -1,0 +1,24 @@
+This looks like a macrocyclic STING agonist dimer: two benzimidazoles joined through a butene linker and a 2-(4-methylpiperazinylmethyl)propane-1,3-diyl bis-ether.
+
+**Each half of the molecule**
+- A benzimidazole has N1 bearing the butenyl chain, C2 bearing NHC(=O)-pyrazole, and C7 bearing the ether O.
+- The carboxamide (C(N)=O) sits on C5.
+- The pyrazole is 1-ethyl-3-methyl-1H-pyrazol-5-yl: n1(CC)-c5 attached to the carbonyl, c4 as CH, c3 bearing the methyl, and n2.
+
+**Linker**
+- Between the two N1 atoms: N1–CH2–CH=CH–CH2–N1'. The double bond is drawn in the ring, and it looks like cis or trans. The chain goes from the top N down to the CH2, then the CH=CH, then the CH2, then the bottom N. Within the macrocycle the drawing appears E, so I'll write it as trans.
+- Between the two ether oxygens: O–CH2–CH(CH2-N-piperazine)–CH2–O.
+
+**Top benzimidazole SMILES**
+Ring atoms: n1(chain)c(NC(=O)pyrazole)nc2cc(C(N)=O)cc(O…)c12.
+
+**Full SMILES**
+Start with the top half: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(CN3CCN(C)CC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C5…)c34)c2n1C/C=C/C…
+
+Ring closure needs care, so I'll use explicit ring labels:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CN1CCN(C)CC1)CO3
+
+Check: the top benzimidazole is c1nc2cc(CONH2)cc3c2n1, where c3 carries the O that closes at the end (…CO3). The N1 chain goes C/C=C/C to the bottom N n1, which belongs to the bottom benzimidazole c(NC(=O)…)nc2cc(C(N)=O)cc(c21)O…, where c21 is C7a bonded to n1 and the O-bearing carbon. Here "cc(c21)OCC…" puts the O on the carbon before c21, which is correct. The OCC(CN…)CO3 closes back to the top ring's c3. The ring-label reuse of 1 is valid because ring 1 is closed before it is reopened.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CN1CCN(C)CC1)CO3

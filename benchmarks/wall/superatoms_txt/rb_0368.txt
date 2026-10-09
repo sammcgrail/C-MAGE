@@ -1,0 +1,24 @@
+Reading the structure region by region:
+
+**Right-hand aryl group.** The benzene ring carries a CH2N(CH3)2 group, with an F on one neighbouring carbon and an OMe on the other. The ring carbon attached to the thienopyridinone is meta to both of these substituents.
+
+**Thieno[3,2-c]pyridin-4-one core.**
+- The thiophene S is bonded to C2, which carries the carboxamide, and to C7a.
+- C7a is bonded to C7, which bears the aryl group, and C7 is bonded to C6 (=CH).
+- C6 is bonded to N5 (N-methyl), then C4 (=O), then C3a, then C3 (CH), then C2.
+- SMILES for the core: c1(C(=O)N...)cc2c(s1)c(Ar)cn(C)c2=O
+
+**Amide and piperidine.** The amide NH is attached to C4 of a piperidine. C3 of the piperidine carries the CF2 and is adjacent to C2, which is bonded to the ring N. Going around the ring: N1, C2 (CH2), C3 (CF2), C4 (CH–NH), C5, C6.
+
+**Isoindolinone.** The piperidine N is attached to an aromatic carbon of the isoindolinone. The C=O sits on the carbon next to the ring fusion carbon, and that fusion carbon is adjacent to the aromatic CH that lies next to the carbon bearing the piperidine N. The lactam N carries the 2,6-dioxopiperidin-3-yl group, and the CH2 is on the other fusion carbon.
+
+SMILES for the isoindolinone: N1(CC2=CC=C(C=C2C1=O)N...)
+
+Here the aromatic carbon bonded to the piperidine N is adjacent to the CH that neighbours the C=O-bearing fusion carbon, which matches the drawing.
+
+**Full SMILES:**
+CN(C)Cc1c(F)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1(F)F)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Checking the aryl ring: c1(CH2NMe2) is bonded to c(F), then cH, then c(Ar), then cH, then c(OMe), which closes back to c1. In the drawing, the CH2N carbon sits between F and OMe, so it is flanked by both. The aryl attachment carbon is flanked by two CH carbons, which is consistent.
+
+SMILES: CN(C)Cc1c(F)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1(F)F)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1

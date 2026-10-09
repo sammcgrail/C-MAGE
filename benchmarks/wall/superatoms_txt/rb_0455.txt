@@ -1,0 +1,33 @@
+This looks like a STING agonist dimer: two benzimidazole units joined through a but-2-ene linker on N1 of each and through a 2-(piperidin-1-yl)propane-1,3-diyl bis-ether at C7.
+
+**Each half of the molecule**
+- Benzimidazole core with N1 bearing the butenyl chain.
+- C2 carries an NH–C(=O)– link to a 1-ethyl-3-methylpyrazol-5-yl group.
+- C5 carries a primary carboxamide, C(N)=O.
+- C7 carries the ether oxygen.
+
+**Linkers**
+- The butene linker is N–CH2–CH=CH–CH2–N. The double bond is drawn with a defined geometry, and the chain goes down-right then down-left, which is consistent with trans (E). At the top, the CH2 attaches at about (453,330) and the alkene carbon at (400,395); at the bottom, the other alkene carbon is at about (405,465) and its CH2 at (355,525). The upper CH2 sits to the upper right and the lower CH2 to the lower left, which is the trans arrangement, so I wrote E.
+- The ether chain is O–CH2–CH(N-piperidinyl)–CH2–O.
+
+**Pyrazole**
+- Ring atoms: N1(Et)–N2=C3(Me)–C4H=C5(C=O).
+- SMILES fragment: CCn1nc(C)cc1C(=O)N...
+
+**Top half**
+Benzimidazole: n1c(NC(=O)pyrazole)n(CC=C...)c2c(OC...)cc(C(N)=O)cc12.
+
+Full SMILES:
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCCCC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C5)c34)c2n1C5
+
+I need to check the ring closure on this. The top benzimidazole N1 connects through the CH2 chain to the bottom N1, and the ring-closure digits must be distinct, so I rewrote it more carefully with the top unit as the start:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCCCC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C6)c34)c2n1 would leave the chain unclosed.
+
+The correct way is to close the linker with a ring-bond label:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCCCC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C%10)c34)c2n1%10
+
+Here the ring-bond label %10 opens at the CH2 and closes at the top N1. The final CH2 carries the label, so the closing bond joins it to the top N1. The top benzimidazole N1 is written "n1%10" at the end, and the earlier "n1" ring label was already closed on the pyrazole, so that reuse is valid.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc(OCC(N3CCCCC3)COc3cc(C(N)=O)cc4nc(NC(=O)c5cc(C)nn5CC)n(C/C=C/C%10)c34)c2n1%10

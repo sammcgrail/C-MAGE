@@ -1,0 +1,17 @@
+I read the structure region by region and assembled the SMILES below.
+
+**Thieno[3,2-c]pyridinone core.** The thiophene has S, C2 (bearing the carboxamide), C3 (CH), C3a and C7a. The pyridinone ring is C3a, C4(=O), N5(CH3), C6(H)=C7, C7a. C7 carries the aryl group, and C7a is bonded to S.
+
+**Aryl group.** The ring attaches at C1. Its neighbours are CH (up, toward the OMe at C3) and CH (left, toward the OMe at C5). C4 carries CH2N(CH3)2 and is flanked by the two OMe groups, so this is a 3,5-dimethoxy-4-(dimethylaminomethyl)phenyl group.
+
+**Amide and piperidine.** The C2 carboxamide is C(=O)NH attached to piperidin-4-yl. The piperidine nitrogen is bonded to the isoindolinone.
+
+**Isoindolinone.** The lactam is C(=O)–N–CH2 fused to a benzene ring. The piperidine N sits on the benzene carbon that is meta to the carbonyl-bearing carbon, which is position 5. The lactam N carries the 2,6-dioxopiperidin-3-yl group. The stereocentre there is drawn with plain bonds, so I give it no stereo.
+
+**SMILES assembly.**
+- Core with aryl: `O=C1N(C)C=C(c2cc(OC)c(CN(C)C)c(OC)c2)c2sc(C(=O)N...)cc12`
+- Amide to piperidine: `NC3CCN(CC3)c4ccc5CN(C6CCC(=O)NC6=O)C(=O)c5c4`
+
+On the isoindolinone benzene, C3a bears the C=O side (C7a, adjacent to C7) and C4 is next to it. The piperidine N-bearing carbon is C5, which is adjacent to C4. In the SMILES, `c4ccc5CN(...)C(=O)c5c4` starts at the N-bearing carbon, then runs two CH, then the carbon bearing CH2 (c5), then the carbon bearing C=O (c5), then the CH that closes the ring back to the N-bearing carbon. So the N-bearing carbon is adjacent to a CH that is adjacent to the C(=O)-bearing carbon, which makes it position 5, as drawn.
+
+SMILES: CN(C)Cc1c(OC)cc(cc1OC)C1=CN(C)C(=O)c2cc(sc12)C(=O)NC1CCN(CC1)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1

@@ -1,0 +1,10 @@
+I read the molecule in four parts and joined them into one SMILES.
+
+1. **Left aryl group:** a 3,5-dimethoxy-4-(dimethylaminomethyl)phenyl ring, attached at C7 of the thienopyridinone.
+2. **Thieno[3,2-c]pyridin-4-one core:** the pyridone nitrogen carries a methyl and the carbonyl is at C4. The thiophene C2 carries the amide NH.
+3. **Piperidine linker:** a piperidine-3-carboxamide, whose ring nitrogen is acylated by a 5-carbon chain (C(=O) followed by four CH2 groups) ending in an ether oxygen. The wedge on the carboxamide at C3 gives the (S) configuration, which I checked against the CIP priorities: the amide carbon, then ring C2 (the CH2 next to N), then ring C4. In the SMILES this is `[C@H]`.
+4. **Right-hand group:** the ether oxygen sits at the 4-position of a phthalimide whose nitrogen bears a 2,6-dioxopiperidin-3-yl (glutarimide) group. That glutarimide stereocentre is drawn with plain bonds, so it has no stereo label.
+
+The (Z)/(E) labels in the image sit on aromatic ring bonds, so I did not encode them as double-bond geometry.
+
+SMILES: CN(C)Cc1c(OC)cc(cc1OC)C1=CN(C)C(=O)c2cc(NC(=O)[C@H]3CCCN(C3)C(=O)CCCCOc3cccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c34)sc12

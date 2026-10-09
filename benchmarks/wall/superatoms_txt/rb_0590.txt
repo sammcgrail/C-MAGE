@@ -1,0 +1,13 @@
+I read the structure in four pieces and joined them with an eight-carbon diacyl linker.
+
+1. **Left heterocycle:** an imidazo[1,2-a]pyrazine bearing a cyclopropyl at C6, a 1H-pyrazol-4-yl at C3, and an NH-aryl at C8.
+2. **Aryl piperazine amide:** the NH-aryl is a 2-fluoro-4-carbonylphenyl. Its carbonyl forms an amide to a piperazine, whose other nitrogen is acylated by the linker.
+3. **Linker:** piperazine N–C(=O)–(CH2)6–C(=O)–NH. Counting the vertices in the drawing gives six CH2 groups between the two carbonyls.
+4. **VHL-type ligand:**
+   - The linker amide NH is attached to a tert-leucine α-carbon, which is a wedge-bond stereocentre.
+   - That carbon is acylated onto a 4-hydroxyproline, whose OH is a hashed bond.
+   - The proline carboxamide is bonded to a 4-(4-methylthiazol-5-yl)benzylamine.
+
+I set the stereo marks by comparing against the known VH032 SMILES and working out the permutations for my atom ordering. This gave `@@` for the tert-leucine α-carbon and `@` for both proline centres. I did not independently re-derive the wedge and hash directions from the image beyond assuming they match the standard VHL ligand.
+
+SMILES: C1CC1c1cn2c(-c3cn[nH]c3)cnc2c(Nc2ccc(cc2F)C(=O)N2CCN(CC2)C(=O)CCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)n1

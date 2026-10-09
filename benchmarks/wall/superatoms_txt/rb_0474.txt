@@ -1,0 +1,19 @@
+Reading the structure region by region:
+
+**Thieno[3,2-c]pyridinone core.** The thiophene has S, a methyl-bearing carbon (C2), C3-H, then C3a and C7a. The pyridinone ring is C3a–C4(=O)–N5(CH3)–C6H=C7–C7a, and the aryl group is on C7. As SMILES: Cc1cc2c(s1)c(-Ar)cn(C)c2=O.
+
+**Aryl group.** The phenyl ring carries the thienopyridinone at its para position. Both meta positions bear OMe, and the carbon between them carries CH2–N. That gives c1(OC)cc(...)cc(OC)c1CN.
+
+**Piperidine and linker.** The CH2 is attached to the piperidine nitrogen. The piperidine C4 bears a CH2, which goes to N of the 7-azaspiro[3.5]nonane.
+
+**Spiro system.** The azaspiro N sits in a six-membered ring: N, CH2, CH2, C(spiro), CH2, CH2. The spiro carbon is also part of a cyclobutane: spiro C, CH2, CH(O), CH2. Written out: N1CCC2(CC1)CC(C2)O-Ar.
+
+**Isoindoline-dione.** The O-aryl ring is a phthalimide. The O sits on the benzo ring, and the imide N bears the 2,6-dioxopiperidin-3-yl group.
+
+**Assembly.**
+- Left part: Cc1cc2c(s1)c(cn(C)c2=O)-c1cc(OC)c(CN3CCC(CC3)CN3CCC4(CC3)CC(C4)Oc3ccc5c(c3)C(=O)N(C3CCC(=O)NC3=O)C5=O)c(OC)c1
+- The ring-closure digits need to be consistent. The thieno ring uses 1 and 2. The aryl ring "c1" is opened after those have closed, so reusing 1 is fine. Inside the aryl branch, the first piperidine uses 3 and closes it before 3 is reused. The spiro piperidine opens 3 and 4, and closes 3 with CC3 inside the spiro ring; 4 closes at C4. Then "Oc3..." reuses 3 for the benzo ring, and 5 is the second ring of the phthalimide. Inside it, "N(C3CCC(=O)NC3=O)" reuses 3 after the benzo ring 3 has already closed at c3 in "c(c3)". That closure happens before the N branch, so this is valid.
+
+The stereocentre on the glutarimide is drawn with plain bonds, so no stereo is specified.
+
+SMILES: Cc1cc2c(s1)c(cn(C)c2=O)-c1cc(OC)c(CN3CCC(CC3)CN3CCC4(CC3)CC(C4)Oc3ccc5c(c3)C(=O)N(C3CCC(=O)NC3=O)C5=O)c(OC)c1

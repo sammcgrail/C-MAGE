@@ -1,0 +1,10 @@
+I read the structure as a macrocycle and assembled the SMILES in these pieces:
+
+- **Top aryl group:** a 4-(hydroxymethyl)phenyl ring is attached to a central benzene ring, ring A.
+- **Ring A:** it carries the biaryl bond, a CH2–O link to the pyridine, and a –CH2CH2CH2–O– chain to the lower benzene ring. The CH2O and propyl substituents are on adjacent (ortho) carbons.
+- **Pyridine:** it is 2,6-disubstituted, with the CH2O oxygen on one carbon next to N and the lower benzene ring on the other.
+- **Lower benzene ring, ring B:** the pyridyl carbon and the ether-oxygen carbon are meta to each other. The carbon next to the ether-oxygen carbon carries a CH2 that leads to the benzimidazole.
+- **Benzimidazole:** C2 bears that CH2. N1 bears a CH2–oxetan-2-yl group, and the CO2H sits at C6 of the benzo ring.
+- **Stereochemistry:** the oxetane carbon is drawn with a hashed bond. I could not read the hash direction reliably, so I assigned (S) by assumption, because this drawing matches the (S)-oxetan-2-ylmethyl group found in related compounds such as danuglipron. For the SMILES `N–C[C@@H]4CCO4`, I worked through the CIP priorities (O > CH2N > ring CH2 > H) and found that `@@` corresponds to (S).
+
+SMILES: OCc1ccc(cc1)-c1ccc2COc3cccc(n3)-c3ccc(Cc4nc5ccc(cc5n4C[C@@H]4CCO4)C(=O)O)c(c3)OCCCc2c1

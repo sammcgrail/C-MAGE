@@ -1,0 +1,15 @@
+I read this as a tris-cyclometalated iridium(III) complex with three 2-(biaryl)pyridine ligands. Each ligand binds Ir through the pyridine N and through the aryl carbon ortho to the pyridyl group.
+
+**Ligands**
+- In each ligand the pyridine C2 carries a benzene ring. That ring is 1,2,4-substituted: the pyridyl at C1, the Ir-bound carbon at C2, and a phenyl para to the pyridyl.
+- Two ligands have an unsubstituted pyridine.
+- The bottom ligand has an extra phenyl at C4 of the pyridine.
+
+**SMILES construction**
+- I wrote the Ir–N and Ir–C bonds as ordinary bonds using ring-closure labels %10 to %15 on the Ir atom. No charges are assigned.
+- Bottom ligand: `c1ccc(cc1)-c1cc[n]%10c(c1)-c1ccc(-c2ccccc2)cc1%11`.
+- The other two ligands use the same pattern without the 4-phenyl on the pyridine.
+
+I checked the ring closures for matching pairs, and the ligand connectivity matches the drawing.
+
+SMILES: [Ir]%10%11%12%13%14%15.c1ccc(cc1)-c1cc[n]%10c(c1)-c1ccc(-c2ccccc2)cc1%11.c1cccn%12c1-c1ccc(-c2ccccc2)cc1%13.c1cccn%14c1-c1ccc(-c2ccccc2)cc1%15

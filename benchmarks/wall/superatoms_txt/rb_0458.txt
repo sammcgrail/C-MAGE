@@ -1,0 +1,11 @@
+I read the drawing as a macrocyclic bis-benzimidazole. I wrote the SMILES from that reading but did not run it through a parser, so validity is checked by hand only.
+
+**Benzimidazole units.** Each has a 5-carboxamide, a 7-alkoxy group, and a 2-NH-C(=O)-(1-ethyl-3-methylpyrazol-5-yl) group. N1 of each unit is attached to the butenyl linker.
+
+**Butenyl linker.** It is N-CH2-CH=CH-CH2-N. The two CH2 groups sit on opposite sides of the double bond in the drawing, so I assigned it as E (trans).
+
+**Central linker.** Each 7-oxygen bonds to a CH2, and the two CH2 groups join at a CH. That CH carries the pyrrolidine nitrogen, so the unit is O-CH2-CH(N)-CH2-O. This CH has two identical CH2O arms, so it is not a stereocentre.
+
+**Pyrrolidine.** It carries a 3-OTBS group on a wedge bond. Priorities at that carbon are O > ring CH2 next to N > ring CH2 next to CH2 > H. With the wedged O toward the viewer and H behind, the sequence runs counterclockwise, which gives S. In the SMILES, `CC[C@H](O[Si]...)C1` encodes S for the neighbour order C4, H, O, C2.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CO3)N1CC[C@H](O[Si](C)(C)C(C)(C)C)C1

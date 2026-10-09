@@ -1,0 +1,25 @@
+This looks like a macrocyclic STING agonist: two benzimidazole units joined by a but-2-ene linker on the N1 atoms and by a bridging O-CH2-CH(CH2-azetidinyl)-CH2-O chain at the 7-positions.
+
+**Top half**
+- Pyrazole: N1 carries an ethyl group, C3 carries a methyl, and C5 carries the carbonyl. SMILES: CCn1nc(C)cc1C(=O)N...
+- The amide NH attaches to C2 of the benzimidazole.
+- The benzimidazole has N3 (=N), N1 (bearing the butenyl chain), a C7 oxygen, and a C5 carboxamide.
+
+**Linker and bridge**
+- Butenyl chain: N1–CH2–CH=CH–CH2–N1' (E geometry as drawn).
+- Bridge: O–CH2–CH(CH2–azetidin-3-yl)–CH2–O, where the azetidine nitrogen carries a methyl group.
+
+**Writing the SMILES**
+Top benzimidazole: n1(c(NC(=O)c2cc(C)nn2CC)nc3cc(C(N)=O)cc(O...)c13)
+
+Starting from the top unit, with the ring-closure labels chosen so the macrocycle closes correctly:
+
+CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CC1CN(C)C1)CO3
+
+**Ring-closure check**
+- Top benzimidazole: c1 (C2) n c2 (C3a) c c(CONH2) c c3 (C7, closing label 3 for the O) c2 (C7a, closing label 2 with C3a) n1 (N1, closing label 1 with C2). The N1 then continues to the CH2 of the butenyl chain.
+- Bottom benzimidazole: n1 (N1') c(NHCO...) (C2') n c2 (C3a') c c(CONH2) c c(...) (C7') c21 (C7a', closing label 2 with C3a' and label 1 with N1'). The C7' atom carries the branch `(c21)` followed by OCC(...)CO3, so I need to confirm the atom order.
+- Written as `cc(c21)OCC...`, the atom c( is C7', its branch c21 is C7a', and the O follows on C7'. This is correct.
+- The final O3 closes the ring to C7 of the top unit.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(N)=O)cc3c2n1C/C=C/Cn1c(NC(=O)c2cc(C)nn2CC)nc2cc(C(N)=O)cc(c21)OCC(CC1CN(C)C1)CO3

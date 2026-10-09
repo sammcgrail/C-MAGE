@@ -1,0 +1,17 @@
+I read the drawing as an N-acetyl-norleucine attached to a macrocyclic peptide, and I assigned the stereochemistry from the wedges and hashes.
+
+**Linear connectivity**
+- Ac-Nle: an acetyl group on the N-terminus of norleucine, which carries an n-butyl side chain. Its hashed butyl bond gives S, i.e. L.
+- Glu: its α-carbon bears the wedged side chain, which I read as S (L). The side-chain carboxyl is a ring amide, C(=O)NH.
+- Linker: four CH₂ groups (1,4-diaminobutane) join the Glu side-chain amide nitrogen to the Trp C-terminal amide nitrogen.
+- Trp: an indol-3-ylmethyl side chain.
+- Arg: a propyl chain ending in a guanidine, CH₂CH₂CH₂NHC(=NH)NH₂.
+- 2-Br-Phe: a 2-bromobenzyl side chain.
+- His: an imidazol-4-ylmethyl side chain.
+- The His C=O closes the ring onto the Glu α-nitrogen.
+
+**Stereochemistry:** I worked out Nle and Glu explicitly from the drawing. I assumed the Phe, Arg and Trp centres are also L, without checking each wedge or hash individually.
+
+**SMILES check:** For each stereocentre I checked the neighbour order against the standard L-amino-acid pattern. The Glu centre is written `[C@H]1` because the ring-closure digit changes its neighbour order, and the other residues are written `[C@H]` because the chain is read from the C-terminal side.
+
+SMILES: CC(=O)N[C@@H](CCCC)C(=O)N[C@H]1CCC(=O)NCCCCNC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](Cc2ccccc2Br)NC(=O)[C@H](Cc2cnc[nH]2)NC1=O

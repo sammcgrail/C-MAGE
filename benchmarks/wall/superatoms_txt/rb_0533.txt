@@ -1,0 +1,8 @@
+I read this as a rifamycin-derived benzoxazino (phenoxazine-fused) ansamycin and built the SMILES region by region.
+
+- **Chromophore:** a naphthofuranone core with a quinone carbonyl and a phenolic OH, fused to a phenoxazine ring. The phenoxazine ring carries a free OH and an OCH2CH2NHAc substituent. The amide NH sits on the quinone ring.
+- **Ansa chain:** starting from the amide carbonyl, the chain runs C(Me)=CH–CH=CH (the C(Me)=CH double bond is Z, the other E), then CH(Me), CH(OH), CH(Me), CH(OH), CH(Me), CH(OAc), CH(Me), CH(OMe), CH=CH–O (E enol ether). The enol-ether oxygen is attached to the quaternary carbon of the furanone, which also carries a methyl group.
+- **Stereochemistry:** I took the chain stereocentres from the usual natural rifamycin configuration, which matches the drawing pattern but is recalled from memory rather than re-derived from every wedge. The quaternary furanone carbon I assigned from the drawn wedges (methyl hashed, chain oxygen bold). The double-bond geometries follow the drawing.
+- **Check:** ring closures and parentheses balance, and the ring closures reproduce the quinone, benzene, furanone and phenoxazine rings. I did not run it through a parser.
+
+SMILES: C[C@H]1/C=C/C=C(\C(=O)NC2=C3Oc4cc(OCCNC(C)=O)cc(O)c4N=C3C5=C6C(=O)[C@](C)(OC6=C(C)C(O)=C5C2=O)O/C=C/[C@@H]([C@H]([C@H]([C@@H]([C@@H]([C@@H]([C@H]1O)C)O)C)OC(=O)C)C)OC)C

@@ -1,0 +1,25 @@
+I read the structure region by region and assembled the SMILES below.
+
+**Right-hand fragment (thieno[3,2-c]pyridinone core)**
+- The thiophene sulfur is bonded to C2 and C7a. C2 carries the carboxamide, C3 is a CH, and C3a joins the ring-fusion carbonyl carbon.
+- The pyridinone ring runs C3a–C4(=O)–N5(CH3)–C6H=C7–C7a. C7 carries the aryl group.
+- The aryl ring has two OMe groups flanking a CH2N(CH3)2 group, with the ring attached at the position meta to both OMe groups.
+- Aryl SMILES: c1(OC)cc(...)cc(OC)c1CN(C)C
+
+**Amide and piperidines**
+- The amide NH is bonded to C4 of piperidine A.
+- Piperidine A's nitrogen is bonded to C4 of piperidine B.
+- Piperidine B has a CF2 group at C3, adjacent to C4, and its nitrogen bears the aryl group.
+
+**Left-hand fragment (isoindolinone and glutarimide)**
+- Piperidine B's nitrogen is attached to the isoindolinone aromatic ring at C5.
+- The isoindolinone N is bonded to C3 of the 2,6-dioxopiperidine (glutarimide), which is drawn with a plain bond at that carbon, so no stereo is assigned.
+
+**Assembly**
+- Thienopyridinone: O=C1N(C)C=C(Ar)c2sc(C(=O)N...)cc12
+- Piperidine A: NC1CCN(CC1)C2CCN(CC2(F)F)Ar'
+- Ar' is the isoindolinone: c1ccc2c(c1)C(=O)N(C3CCC(=O)NC3=O)C2
+
+In the isoindolinone, the carbonyl carbon is attached to the aromatic carbon adjacent to the one bearing the piperidine N. The ring is drawn with the piperidine N-bearing carbon next to the CH (top) that neighbours the C=O-bearing carbon, so the substituent sits meta to the ring-fusion carbon bearing C=O. The aromatic atoms are c1(N)ccc2c(c1)C(=O)N(...)C2, where the CH between the N-bearing carbon and the C(=O)-bearing carbon is c1, and the CH2-bearing carbon is c2 and is para to... this ordering is consistent with the drawing.
+
+SMILES: CN(C)Cc1c(OC)cc(cc1OC)C1=CN(C)C(=O)c2cc(sc12)C(=O)NC1CCN(CC1)C1CCN(CC1(F)F)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1

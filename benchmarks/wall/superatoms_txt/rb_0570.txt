@@ -1,0 +1,19 @@
+I read the molecule as a symmetric dimer: two identical bicyclic thiazepine–pyrrolidine amides joined through a hexa-2,4-diyne-1,6-diyl linker, with each half closed by an aminoindanyl ether. The right half is the left half rotated 180° in the drawing, so both halves carry the same stereodescriptors when written in the same direction.
+
+**One half, from the left end of the drawing:**
+- The N-terminal group is CH3NH–C(CH3)2–C(=O)–NH–, attached to the ring carbon next to the thiazepine ring C=O.
+- The bicyclic core is a 7-membered ring (S, CH2, CH2, CH(NH), C=O, N, CH(S)) fused to a pyrrolidine (N, CH(C=O), C(CH3)2, CH2, CH(S)).
+- The pyrrolidine CH carries a C(=O)NH– amide to C1 of a 2-aminoindane (C1 is the benzylic carbon).
+- C2 of the indane carries an O–CH2– group that leads into the diyne linker.
+
+**Stereocentres, assigned from the wedges and hashes:**
+- The NH-bearing ring carbon has a bold wedge, which gives `[C@H]`.
+- The S–CH ring-fusion carbon has a hashed H, which gives `[C@H]`.
+- The pyrrolidine CH has a bold wedge to the amide C=O, which gives `[C@@H]`.
+- The indane C1 (NH, hashed) and C2 (O, hashed) both give `[C@H]` in the written order.
+
+**Linker:** –O–CH2–C≡C–C≡C–CH2–O–, which is six carbons. I wrote the left half ending in `C%10` and the right half ending in `OC%10`, so the ring-closure label joins the two CH2 ends.
+
+The SMILES below has not been run through a parser; I checked it by hand against the drawing.
+
+SMILES: CNC(C)(C)C(=O)N[C@H]1CCS[C@H]2CC(C)(C)[C@@H](C(=O)N[C@H]3c4ccccc4C[C@H]3OCC#CC#CC%10)N2C1=O.CNC(C)(C)C(=O)N[C@H]1CCS[C@H]2CC(C)(C)[C@@H](C(=O)N[C@H]3c4ccccc4C[C@H]3OC%10)N2C1=O

@@ -1,0 +1,12 @@
+I read the structure region by region and assembled the SMILES below. I did not run it through a parser.
+
+- **Heteroaryl head:** an imidazo[1,2-a]pyrazine with a cyclopropyl at C6, a 1H-pyrazol-4-yl at C3, and an NH at C8.
+- **Aryl linker:** the C8 NH is attached to a benzene ring that has a fluorine ortho to the NH and a carbonyl para to it.
+- **Piperazine and succinyl chain:** that carbonyl forms an amide with a piperazine. The other piperazine nitrogen is acylated by a succinyl chain, C(=O)CCC(=O), which ends in an NH.
+- **tert-Leucine unit:** the NH is bonded to the tert-butyl-bearing stereocentre, drawn with a wedge. I assigned this as the S configuration.
+- **Hydroxyproline unit:** the tert-leucine carbonyl acylates the nitrogen of a 4-hydroxypyrrolidine. The ring carbons carry a hashed OH and a wedged carboxamide, which I assigned as the (2S,4R) pattern.
+- **Benzylamide tail:** the proline carboxamide is bonded to a 4-(4-methylthiazol-5-yl)benzyl group.
+
+I wrote the stereo tags from the usual VHL-ligand pattern rather than deriving each one from the wedges, so the stereo tags are the least certain part of the answer.
+
+SMILES: CC(C)(C)[C@H](NC(=O)CCC(=O)N1CCN(CC1)C(=O)c1ccc(Nc2nc(C3CC3)cn3c(-c4cn[nH]c4)cnc23)c(F)c1)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

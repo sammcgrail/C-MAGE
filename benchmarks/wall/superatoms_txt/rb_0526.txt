@@ -1,0 +1,10 @@
+I read the structure in four parts and wrote each as SMILES.
+
+- **Left kinase-binding head:** a 6-cyclopropyl-imidazo[1,2-a]pyrazine carries a 1H-pyrazol-4-yl group at C3 and an NH link at C8. That NH goes to a 2-fluorophenyl ring, which carries a carbonyl para to the NH.
+- **Linker:** the carbonyl is an amide to a piperazine. The other piperazine nitrogen bears CH2C(=O)NH, followed by a three-ether PEG chain (CH2CH2O ×3 with CH2C(=O)) that ends in an amide to the tert-leucine nitrogen.
+- **VHL-ligand end:** a tert-leucine unit (tert-butyl on the alpha carbon) is acylated onto a 4-hydroxyproline nitrogen. The proline carboxamide is NH–CH2–C6H4 attached to a 4-methylthiazol-5-yl ring.
+- **Stereochemistry:** the three stereocentres are the ones drawn with wedges and hashes. I assigned them as the usual VHL-ligand configuration: L-tert-leucine (S), and (2S,4R) hydroxyproline. I wrote the tert-leucine centre as `@@` because the neighbour order in my SMILES puts the nitrogen first, which flips the tag compared with the common `CC(C)(C)[C@H](N...)` form.
+
+I did not run a validity check on the SMILES; I checked it by hand against the drawing.
+
+SMILES: C1(CC1)c1cn2c(-c3cn[nH]c3)cnc2c(Nc2ccc(cc2F)C(=O)N2CCN(CC2)CC(=O)NCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)n1

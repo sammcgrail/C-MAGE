@@ -1,0 +1,23 @@
+This is a PROTAC-type molecule. I read it region by region and then assembled the SMILES.
+
+**Upper right (aryl group):** a benzene ring carrying CH2N(CH3)2 at one carbon, with a methoxy group on each flanking carbon. The ring is attached to the core through the carbon para to the CH2NMe2 group.
+- Aryl: c1(OC)c(CN(C)C)c(OC)cc(c1)-
+
+**Core (thieno[3,2-c]pyridin-4-one):**
+- The thiophene S is bonded to C7a, and C7a is bonded to C7, which carries the aryl group.
+- C7 is bonded to C6H, which is bonded to N5 (bearing a methyl). N5 is bonded to C4 (=O), then C3a, then C3H, then C2 (bearing the carboxamide), then S.
+- SMILES: c1(Ar)cn(C)c(=O)c2cc(C(=O)N...)sc12
+
+**Amide and piperidine:** the amide N is bonded to piperidine C4. The adjacent C3 carries two F atoms. The ring then continues C2H2, then N1, then C6H2 and C5H2 back to C4.
+- NC1CCN(CC1(F)F)-
+
+**Spiro linker:** piperidine N1 is bonded to a cyclobutane carbon. The cyclobutane's opposite carbon is the spiro atom, which is shared with an azetidine. This is 2-azaspiro[3.3]heptane, with the azetidine N bonded to the isoindolinone aryl ring.
+- N-C1CC2(C1)CN(C2)-Ar
+
+**Isoindolinone:** the lactam N is bonded to the CH2 and to the C=O. The aryl carbon bearing the azetidine N is para to the carbon attached to C=O. Working around the ring, the C=O-bearing carbon is C7a, with C7 next to it. The ring carbon bonded to the azetidine N sits adjacent to the CH2-bearing carbon's neighbor. In the drawing, the substituted carbon is bonded to a CH carbon that is bonded to the carbon bearing CH2, so it is position 5.
+- Isoindolinone: O=C1N(C2CCC(=O)NC2=O)Cc2cc(N...)ccc12
+
+**Full SMILES:**
+COc1cc(cc(OC)c1CN(C)C)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1(F)F)C1CC2(C1)CN(C2)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O
+
+SMILES: COc1cc(cc(OC)c1CN(C)C)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1(F)F)C1CC2(C1)CN(C2)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O

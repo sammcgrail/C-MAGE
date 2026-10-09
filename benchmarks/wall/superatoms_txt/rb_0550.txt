@@ -1,0 +1,12 @@
+I read the molecule as a symmetric dimer. Each half has an N-methyl-alanine amide, a bicyclic pyrrolo-thiazepinone core with a gem-dimethyl group and a carboxamide, and a trans-2-alkoxy-1-aminoindane. The two halves are joined through the indane oxygens by a hexa-2,4-diyne-1,6-diyl linker (–OCH2–C≡C–C≡C–CH2O–).
+
+I assigned each stereocentre from the wedges and hashes using CIP priorities, then wrote the second half in reverse direction and re-derived its @/@@ marks for the new atom order. I did not run the string through a parser, so validity rests on my manual ring-closure and atom-by-atom check.
+
+Stereocentres as I read them in the left half, which the right half repeats by 180° rotation:
+- The alanine α-carbon is S, as in L-alanine.
+- The carbon bearing the amide NH on the seven-membered ring is S.
+- The S–CH ring-fusion carbon is S.
+- The carbon bearing the carboxamide on the five-membered ring is S.
+- Indane C1 (bearing N) is S, and indane C2 (bearing O) is R.
+
+SMILES: CN[C@@H](C)C(=O)N[C@H]1CCS[C@H]2CC(C)(C)[C@@H](C(=O)N[C@H]3c4ccccc4C[C@H]3OCC#CC#CCO[C@@H]5Cc6ccccc6[C@@H]5NC(=O)[C@@H]7C(C)(C)C[C@@H]8SCC[C@H](NC(=O)[C@H](C)NC)C(=O)N78)N2C1=O

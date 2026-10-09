@@ -1,0 +1,11 @@
+This is tacrolimus monohydrate (FK506·H2O): a 23-membered macrolide with a pipecolic acid ester, a tricarbonyl hemiketal pyran ring, an allyl group, and a 4-hydroxy-3-methoxycyclohexyl vinyl side chain.
+
+I wrote the SMILES largely from my recollection of the known tacrolimus structure and checked the following against the drawing:
+
+- The ring C=C is drawn so the methyl sits cis to the chain leading to the allyl-bearing carbon, which matches `C1/C=C(\C)C`.
+- The side-chain C=C has the cyclohexyl group trans to the ester-bearing CH, which matches `[C@H](...)/C(C)=C/[C@@H]1`.
+- The ·H2O in the image is added as a separate `.O`.
+
+I did not re-derive each stereocentre (@/@@) from the wedges and hashes, so those labels rest on recall rather than a full read of the drawing.
+
+SMILES: C=CC[C@@H]1/C=C(\C)C[C@H](C)C[C@H](OC)[C@H]2O[C@@](O)([C@@H](C)C[C@@H]2OC)C(=O)C(=O)N2CCCC[C@H]2C(=O)O[C@H]([C@H](C)[C@@H](O)CC1=O)/C(C)=C/[C@@H]1CC[C@@H](O)[C@@H](OC)C1.O
