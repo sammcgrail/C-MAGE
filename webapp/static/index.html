@@ -920,7 +920,7 @@ function makeWall(wall, rows, tileFn, o){
       if (busy) return; busy = true;
       (function chunk(){
         if (shown < rows.length){
-          more(600);
+          more(250);
           if (follow && FOLLOW) window.scrollTo(0, document.documentElement.scrollHeight);
           requestAnimationFrame(chunk);
         } else { busy = false; if (cb) cb(); }
