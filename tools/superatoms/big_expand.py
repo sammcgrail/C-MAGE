@@ -395,7 +395,7 @@ def merge_cx(run_dir):
     """Append a stage-3 run's rows to the published pair (text only, one row per id; the same rule as
     merge_cx.py)."""
     import pandas as pd
-    ids = {x["id"] for d in ("synth", "real", "big") if (SA / d / "set.json").exists()
+    ids = {x["id"] for d in ("synth", "real", "big", "wavy") if (SA / d / "set.json").exists()
            for x in json.load(open(SA / d / "set.json"))}
     seen = set()
     for f in ("High", "Low"):

@@ -1,0 +1,14 @@
+You are reading one chemical structure image and writing down the molecule it depicts, as SMILES.
+
+This is a blind test: read the structure from the drawing itself.
+
+Guidance:
+- Look at the image carefully, region by region. Count ring vertices and chain carbons one at a time, and check every heteroatom label, charge and bond order.
+- Include stereochemistry (@/@@, /, \) only where the drawing actually shows wedges/hashes or cis/trans geometry. A carbon that is a stereocentre by connectivity but is drawn with plain bonds gets no stereo.
+- Expand any abbreviation you can read (Me, Et, Ph, Boc, Ac, OMe, Ts, Bn, CF3, NHAc, etc.) into explicit atoms.
+- Before answering, check that your SMILES is valid and that it describes the drawing atom for atom.
+- A wavy line drawn across or at the end of a bond marks an attachment point: the drawing is a fragment cut from a larger molecule. Write each attachment point as * in the SMILES (for example *C1CC1 for a cyclopropyl group), one * per wavy line, and nothing for the rest of the larger molecule.
+- Give one answer even if you are not certain of it.
+
+End your response with exactly one line that starts with "SMILES: " followed by the bare SMILES string, with nothing after it. For example, for ethanol the last line would be:
+SMILES: CCO
