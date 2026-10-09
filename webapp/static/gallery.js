@@ -76,7 +76,8 @@ var MIN_N = 10;        // a reader needs this many images read in a set to be ra
 var D = null, NA = 0, LLM = [], CX = -1;
 var S = {type: -1, src: "all", q: "", same: false};
 var GB = null, WALL = null, CARDS = [];
-var fmt = function(n){ return (+n).toLocaleString("en-US"); };
+var NF = new Intl.NumberFormat("en-US");   // one formatter; toLocaleString builds one per call
+var fmt = function(n){ return NF.format(+n); };
 var pc = function(e, n){ return n ? e / n * 100 : null; };
 
 /* One pass over the rows for the current source / search / same-images choice: per type (and "all"),
@@ -233,9 +234,7 @@ function tile(r){
   b.title = r[1];
   b.setAttribute("aria-label", r[1]);
   b.innerHTML = '<img decoding="async" data-src="/wall/' + IMGDIR[r[3]] + '/' + encodeURIComponent(r[0]) + '.png" alt="">';
-  var im = b.firstChild;
-  if (!GRP || GRP.length >= 12){ GRP = []; im._g = GRP; IO.observe(im); }
-  GRP.push(im);
+  window.lazyImg(b.firstChild);
   b.onclick = function(){ window.LLMOCR.sheet([r[0], r[1], r[2], r[3]], D); };
   return b;
 }
@@ -245,9 +244,6 @@ function tile(r){
 function retire(old){
   old.removeAttribute("id");
   old.setAttribute("aria-hidden", "true");
-  /* makeWall's ResizeObserver stays on the old wall and re-measures its first tile when the size changes,
-     forcing a layout of the whole hidden subtree (~350 ms at 4x). A non-tile first child makes it skip. */
-  old.insertBefore(document.createElement("i"), old.firstChild);
   old.style.cssText = "position:absolute;left:-99999px;top:0;width:1px;height:1px;overflow:hidden;content-visibility:hidden";
   var idle = window.requestIdleCallback ? function(f){ requestIdleCallback(f, {timeout: 2000}); } : function(f){ setTimeout(f, 50); };
   (function step(){
@@ -256,33 +252,12 @@ function retire(old){
   })();
 }
 
-/* Tile images load two screens ahead, like index.html's lazyImg, with two differences measured at 4x CPU
-   throttle: the observer belongs to the current wall (a retired wall's unloaded images are dropped with it,
-   not intersection-tested every frame), and it watches one tile in 12, which loads its group of 12, so
-   5,000 tiles are 420 targets (intersection work per scrolled frame ~75 ms -> ~6 ms). */
-var IO = null, GRP = null;
-function newIO(){
-  if (IO) IO.disconnect();
-  GRP = null;
-  IO = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if (!e.isIntersecting) return;
-      IO.unobserve(e.target);
-      (e.target._g || [e.target]).forEach(function(i){
-        i.addEventListener("load", function(){ i.classList.add("ok"); }, {once: true});
-        i.src = i.dataset.src;
-      });
-    });
-  }, {rootMargin: "300% 0px"});
-}
-
 function paint(){
-  newIO();
   var old = $("#gawall"); if (!old) return;
   var rows = rowsNow();
   if (WALL) WALL.disconnect();
-  /* A fresh wall in place of the old one, and the old one retired in pieces: tearing down 5,000 drawn tiles
-     at once (makeWall's innerHTML = "", or a plain remove) is one ~80 ms task at 4x CPU throttle. */
+  /* A fresh wall in place of the old one, and the old one retired in pieces (makeWall keeps a wall to a
+     few hundred tiles now, so this is cheap either way). */
   var w = el("div", "wall"); w.id = "gawall";
   old.parentNode.insertBefore(w, old);
   retire(old);

@@ -279,9 +279,11 @@ input[type=search]{flex:0 0 220px;background:var(--panel);border:1px solid var(-
 /* the wall */
 .wall{min-height:calc(100dvh - 140px);align-content:start;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));
   padding-top:4px}
-.t{position:relative;background:#1c2128;overflow:hidden;cursor:pointer;contain-intrinsic-size:auto var(--th,var(--tile)) !important;
-  border:0;padding:0;display:block;aspect-ratio:1;
-  content-visibility:auto;contain-intrinsic-size:var(--tile)}
+/* No content-visibility:auto on tiles: makeWall only keeps ~2 screens of them, and c-v:auto's estimated
+   heights would fight the measured row pitch the wall's spacers are sized from. */
+.t{position:relative;background:#1c2128;overflow:hidden;cursor:pointer;
+  border:0;padding:0;display:block;aspect-ratio:1}
+.wsp{grid-column:1/-1}
 .t img{width:100%;height:100%;object-fit:contain;display:block;background:#1c2128}
 /* White only once the drawing has arrived; until then the tile is a dark placeholder. */
 .t img.ok{background:#fff}
@@ -621,7 +623,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
 </header>
 
 <main>
-  <div id="view"></div>
+  <div id="view"><div class="sub" style="padding:40px 0">Loading…</div></div>
 </main>
 
 <dialog id="sheet">
@@ -629,8 +631,8 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=92853cb146"></script>
-<script src="/static/gallery.js?v=ccab784b1b"></script>
+<script src="/static/llmocr.js?v=9de0959b6b"></script>
+<script src="/static/gallery.js?v=84f873b395"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -711,15 +713,12 @@ function prefetchPred(r){
     j.src = "/wall/" + DATA.dir + "_ocr/" + encodeURIComponent(r.k) + ".png"; }
 }
 
-/* Tile images load two screens ahead of the viewport (the browser's own loading=lazy waits until
-   a tile is nearly on screen, so a fast scroll showed blank tiles), and keep a dark placeholder
-   until the drawing arrives. */
-var IMGIO = new IntersectionObserver(function(es){
-  es.forEach(function(e){ if (!e.isIntersecting) return; var i = e.target; IMGIO.unobserve(i); i.src = i.dataset.src; });
-}, {rootMargin: "300% 0px"});
+/* Tile images. makeWall (below) only creates the tiles within about two screens of the viewport, so a
+   tile's drawing is requested the moment the tile exists, and it goes away with the tile; there is no
+   per-image observer. The tile keeps a dark placeholder until the drawing arrives. */
 function lazyImg(img, cb){
   img.addEventListener("load", function(){ img.classList.add("ok"); if (cb) cb(); }, {once: true});
-  IMGIO.observe(img);
+  img.src = img.dataset.src;
 }
 window.lazyImg = lazyImg;
 
@@ -912,70 +911,110 @@ function openSheet(r){
   $("#sheet").showModal();
 }
 
-/* ---- An incremental tile wall, shared by every tab (llmocr.js uses it too) ----
-   makeWall(el, rows, tileFn, opts) renders the first batch and APPENDS the next batch when a sentinel
-   3,000 px ahead comes into view; it never rebuilds tiles it already drew (the old paint() re-created
-   every tile on every batch). end() appends the rest in chunks, one frame each, then calls back, so
-   "to bottom" never blocks a frame for long. Tile heights are measured once and fed back as the
-   intrinsic size for content-visibility, so tiles that were never rendered have the right height and
-   scrolling back up does not drift. */
+/* ---- A windowed tile wall, shared by every tab (llmocr.js and gallery.js use it too) ----
+   makeWall(el, rows, tileFn, opts). Only the tiles within about two screens of the viewport exist; the
+   rows above and below them are two spacers sized from the measured row pitch, so the wall has its full
+   height from the start, scrolling never re-lays-out thousands of tiles, and "to bottom" is a plain jump.
+   Why (measured, Playwright 390 px): drawing every tile, as "to bottom" used to, put ~65k nodes and
+   ~800-2,600 loaded drawings in the page (WebKit process ~1 GB), which is what got the tab killed in the
+   background on iPhone and made the next tab switch one 0.4-0.8 s task. Every tile in a wall must have
+   the same height (true on every tab: a square drawing plus fixed lines). A tile that leaves the window
+   is dropped with its image. Do NOT go back to rendering every tile, eagerly or on idle. */
+var WALLS = [], WALL_SYNC = false;
+function wallsSync(){ WALL_SYNC = false; WALLS.forEach(function(w){ w.sync(); }); }
+function wallsKick(){ if (!WALL_SYNC){ WALL_SYNC = true; requestAnimationFrame(wallsSync); } }
+window.addEventListener("scroll", wallsKick, {passive: true});
+window.addEventListener("resize", wallsKick);
 function makeWall(wall, rows, tileFn, o){
   o = o || {};
-  var shown = 0, step = o.step || 300, sentinel = null, busy = false;
-  var obs = new IntersectionObserver(function(es){
-    if (es.some(function(e){ return e.isIntersecting; })) more(step);
-  }, {rootMargin: "3000px"});
-  function more(n){
-    if (sentinel){ obs.unobserve(sentinel); sentinel.remove(); sentinel = null; }
-    var frag = document.createDocumentFragment(), to = Math.min(rows.length, shown + n);
-    for (var i = shown; i < to; i++) frag.appendChild(tileFn(rows[i]));
-    wall.appendChild(frag); shown = to;
-    if (shown < rows.length){
-      sentinel = el("div", "more", (rows.length - shown).toLocaleString("en-US") + " more below");
-      wall.appendChild(sentinel); obs.observe(sentinel);
-    }
-    measure();
-  }
-  var measured = false;
-  function measure(){
-    if (measured || !wall.firstElementChild || !wall.firstElementChild.classList.contains("t")) return;
-    measured = true;
-    requestAnimationFrame(function(){
-      /* Measure a tile that is really laid out: an off-screen content-visibility:auto tile reports its
-         placeholder height, which would feed the estimate back into itself. The probe stays visible. */
-      var t = wall.firstElementChild; t.style.contentVisibility = "visible";
-      var h = t.offsetHeight;
-      if (h) wall.style.setProperty("--th", h + "px");
-    });
-  }
-  if (window.ResizeObserver) new ResizeObserver(function(){ measured = false; measure(); }).observe(wall);
+  var n = rows.length, cols = 0, pitch = 0, th = 0, pad = 0, a = 0, b = 0, dead = false, dirty = true, waiting = [];
+  var top = el("div", "wsp"), bot = el("div", "wsp"), live = {};
   wall.innerHTML = "";
-  if (!rows.length) wall.appendChild(el("div", "more", o.empty || "Nothing matches."));
-  else more(o.first || step);
-  /* Warm the image cache for the last screenful so "to bottom" lands on loaded drawings. Only the
-     images: pre-rendering every tile on idle put ~65k nodes in the DOM and made iOS Safari drop
-     taps and kill the tab in the background (Sam, 9 Oct). */
-  var dead = false;
-  if (o.src && rows.length > shown){
+  if (!n){ wall.appendChild(el("div", "more", o.empty || "Nothing matches."));
+    return {end: function(cb){ if (cb) cb(); }, disconnect: function(){}}; }
+  top.hidden = bot.hidden = true;
+  wall.appendChild(top); wall.appendChild(bot);
+  function add(i0, i1, where){
+    if (i0 >= i1) return;
+    var f = document.createDocumentFragment();
+    for (var i = i0; i < i1; i++) f.appendChild(live[i] = tileFn(rows[i]));
+    if (where === top) top.after(f); else bot.before(f);
+  }
+  /* Show tiles [i0, i1): drop the ones outside, keep the overlap, add the rest above and below it. */
+  function show(i0, i1){
+    for (var i = a; i < b; i++) if (i < i0 || i >= i1){ live[i].remove(); delete live[i]; }
+    var k0 = Math.max(a, i0), k1 = Math.min(b, i1);
+    if (k0 >= k1) add(i0, i1, bot);
+    else { add(i0, k0, top); add(k1, i1, bot); }
+    a = i0; b = i1;
+    if (cols){
+      var gap = pitch - th, above = a / cols, below = Math.ceil(n / cols) - Math.ceil(b / cols);
+      top.hidden = !above; top.style.height = Math.max(0, above * pitch - gap) + "px";
+      bot.hidden = !below; bot.style.height = Math.max(0, below * pitch - gap) + "px";
+    }
+  }
+  /* Columns and row pitch from one real tile and the grid's gaps (auto-fill columns are equal, so
+     cols = (width + gap) / (tile + gap)). Returns 2 for new columns, 1 for a new row pitch, else 0. */
+  function measure(){
+    dirty = false;
+    var t = live[a];
+    if (!t) return false;
+    var r = t.getBoundingClientRect();
+    if (!r.height || !r.width){ dirty = true; return false; }
+    var cs = getComputedStyle(wall), cg = parseFloat(cs.columnGap) || 0, rg = parseFloat(cs.rowGap) || 0;
+    var w = wall.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+    var c = Math.max(1, Math.round((w + cg) / (r.width + cg))), p = r.height + rg;
+    /* Sub-pixel jitter (1/64 px between rows) is not a new shape. */
+    var changed = c !== cols ? 2 : Math.abs(p - pitch) > 0.1 ? 1 : 0;
+    if (changed){ cols = c; pitch = p; th = r.height; wall.style.setProperty("--th", th + "px"); }
+    pad = parseFloat(cs.paddingTop) || 0;
+    return changed;
+  }
+  function sync(){
+    if (dead || !wall.isConnected) return;
+    var shaped = 0;
+    if (dirty){
+      var was = cols;
+      shaped = measure();
+      /* New column count: the window's rows no longer line up, start it again. A new pitch only resizes the spacers. */
+      if (shaped === 2 && was){ for (var k = a; k < b; k++){ live[k].remove(); delete live[k]; } a = b = 0; }
+    }
+    if (!cols) return;
+    var wr = wall.getBoundingClientRect(), H = window.innerHeight, R = Math.ceil(n / cols);
+    var y = -wr.top - pad, rv0 = Math.floor(y / pitch), rv1 = Math.ceil((y + H) / pitch);
+    var scr = Math.ceil(H / pitch), clamp = function(r){ return Math.max(0, Math.min(R, r)); };
+    /* Hysteresis: re-window only when less than one screen is ready on either side, then make it two. */
+    var need0 = clamp(rv0 - scr) * cols, need1 = Math.min(n, clamp(rv1 + scr) * cols);
+    if (!(b > a && a <= need0 && b >= need1)){
+      var v0 = clamp(rv0) * cols, v1 = Math.min(n, clamp(rv1) * cols), i0, i1;
+      if (v1 > v0 && !(a <= v0 && b >= v1)){
+        /* After a jump or a new filter nothing on screen exists yet: draw just the screen now, the margins
+           next frame, so the frame the user is waiting on stays small. */
+        i0 = v0; i1 = v1; wallsKick();
+      } else { i0 = clamp(rv0 - 2 * scr) * cols; i1 = Math.min(n, clamp(rv1 + 2 * scr) * cols); }
+      if (i1 <= i0){ i0 = 0; i1 = Math.min(n, cols); }     // keep one real row to measure from
+      show(i0, i1);
+    } else if (shaped) show(a, b);          // size the spacers
+    while (waiting.length) waiting.shift()();
+  }
+  /* First paint: one tile to measure; the window is filled in the next frame, before it paints. */
+  show(0, 1);
+  var ro = window.ResizeObserver ? new ResizeObserver(function(){ dirty = true; wallsKick(); }) : null;
+  if (ro) ro.observe(wall);
+  var api = {sync: sync,
+    /* "to bottom" / jump targets below the wall: the wall already has its full height once measured. */
+    end: function(cb){ if (cols){ if (cb) cb(); } else if (cb) waiting.push(cb); },
+    disconnect: function(){ dead = true; if (ro) ro.disconnect();
+      WALLS = WALLS.filter(function(w){ return w !== api; }); }};
+  WALLS.push(api);
+  wallsKick();
+  /* Warm the image cache for the last screenful so "to bottom" lands on loaded drawings (images only). */
+  if (o.src && n > 36){
     var warmEnd = function(){ if (dead) return;
       rows.slice(-36).forEach(function(r){ var im = new Image(); im.decoding = "async"; im.src = o.src(r); }); };
     if (window.requestIdleCallback) requestIdleCallback(warmEnd, {timeout: 4000}); else setTimeout(warmEnd, 2500);
   }
-  return {
-    /* follow: keep the view pinned to the growing end while chunks land, so "to bottom" moves at once
-       instead of sitting still until the last chunk. */
-    end: function(cb, follow){
-      if (busy) return; busy = true;
-      (function chunk(){
-        if (shown < rows.length){
-          more(250);
-          if (follow && FOLLOW) window.scrollTo(0, document.documentElement.scrollHeight);
-          requestAnimationFrame(chunk);
-        } else { busy = false; if (cb) cb(); }
-      })();
-    },
-    disconnect: function(){ dead = true; obs.disconnect(); }
-  };
+  return api;
 }
 window.makeWall = makeWall;
 
@@ -1813,11 +1852,33 @@ document.addEventListener("selectstart", function(e){
    sonnet / sonnet55 / sonnet55api tabs, lands on it. */
 /* The first data fetch waits for window load: iOS Safari's progress bar waits on
    every request begun before it. */
+/* Back where you were when iOS reloads a tab it dropped in the background (or after a reload / back):
+   the page is built after load, so the browser's own scroll restoration finds a short page and gives up.
+   Save the spot on hide, put it back after the first render, only when the page came back the same height
+   (same tab, same filters). */
+var SPOT = "benchem.spot";
+try { history.scrollRestoration = "manual"; } catch (e) {}
+function saveSpot(){ try {
+  var b = document.body, y = b.style.position === "fixed" ? -parseFloat(b.style.top) || 0 : window.scrollY;
+  sessionStorage.setItem(SPOT, JSON.stringify({u: location.search, y: Math.round(y), h: document.documentElement.scrollHeight}));
+} catch (e) {} }
+document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "hidden") saveSpot(); });
+window.addEventListener("pagehide", saveSpot);
+function restoreSpot(){
+  var s = null, nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  try { s = JSON.parse(sessionStorage.getItem(SPOT) || "null"); } catch (e) {}
+  if (!s || !s.y || s.u !== location.search || !nav || (nav.type !== "reload" && nav.type !== "back_forward")) return;
+  var go = function(){ requestAnimationFrame(function(){
+    var h = document.documentElement.scrollHeight;
+    if (Math.abs(h - s.h) <= Math.max(40, s.h * 0.01)) window.scrollTo(0, s.y);
+  }); };
+  if (window.GRID_END) window.GRID_END(go); else go();
+}
 function start(){ var t = new URLSearchParams(location.search).get("tab");
   var first = t === "images" || t === "pdfs" || t === "superatoms" || t === "gallery" ? t : "llmocr";
   load(first);
   var warm = function(){ ["llmocr","gallery","superatoms","images","pdfs"].forEach(function(x){
     if (x !== first) fetchTab(x).catch(function(){}); }); };
-  fetchTab(first).then(warm, warm); }
+  fetchTab(first).then(function(){ restoreSpot(); warm(); }, warm); }
 if (document.readyState === "complete") start(); else window.addEventListener("load", start, {once: true});
 </script>

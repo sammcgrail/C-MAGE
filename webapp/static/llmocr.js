@@ -110,7 +110,9 @@ var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms"};
 var TXTDIR = {c: "sonnet55api_txt", b: "superatoms_txt", r: "superatoms_txt", g: "superatoms_txt"};
 function VW(){ return D.views[S.view] || D.views.all; }
 var D = null, ARM = {}, IDX = {};
-var fmt = function(n){ return n == null ? "–" : (+n).toLocaleString("en-US"); };
+/* One formatter: Number.toLocaleString builds a new one per call (~12 ms of a tab switch at 4x throttle). */
+var NF = new Intl.NumberFormat("en-US");
+var fmt = function(n){ return n == null ? "–" : NF.format(+n); };
 var p1 = function(x){ return x == null ? "\u2013" : (+x).toFixed(1) + "%"; };
 var pv = function(p){ return p < 0.001 ? "p<0.001" : "p=" + (+p).toPrecision(2).replace(/\.?0+$/, ""); };
 
@@ -270,7 +272,7 @@ function rowsNow(){
   return D.rows.filter(function(r){ return inView(r) && f[2](r[2]) && (!S.q || r[1].toLowerCase().indexOf(S.q) >= 0); });
 }
 
-/* The wall is index.html's makeWall: appends batches, never rebuilds drawn tiles, end() in chunks. */
+/* The wall is index.html's makeWall: only the tiles near the viewport exist, so a filter change is cheap. */
 var WALL = null;
 function paint(){
   var w = $("#lowall"); if (!w) return;
@@ -281,7 +283,15 @@ function paint(){
   if (GB) GB.setCount(rows.length);
 }
 
+/* The chip counts depend only on the payload and the source view, not on the filter or the search, and
+   counting 10 filters over ~5,000 rows twice per render was ~60 ms of every tab switch at 4x CPU throttle. */
+var FI = null;
 function filterItems(){
+  if (FI && FI.d === D && FI.v === S.view) return FI.items;
+  FI = {d: D, v: S.view, items: countItems()};
+  return FI.items;
+}
+function countItems(){
   var rd = VW().read, needs = {m55: ["s55"], mapi: ["api"], m5: ["s5"], mcx: ["cx"], ta: ["s55", "api"], at: ["s55", "api"]};
   return filters().filter(function(f){
     return !(needs[f[0]] || []).some(function(a){ return !rd[a]; });   // an arm with nothing read has no misses to show
