@@ -304,7 +304,9 @@ def add_rows(n, source):
     known = known_keys()
     if source == "odp":     # stream more ODP weeks until enough unused PROTACs (or the week budget) are on disk
         for _ in range(MAX_WEEKS_PER_STEP):
-            have = [c for c in candidates_odp(known, used) if c["cls"] == "protac"]
+            # count PROTACs that survive the per-patent cap (a raw count overstated it: 250+ raw gave 82 picks)
+            have = pick([c for c in candidates_odp(known, used) if c["cls"] == "protac"], n,
+                        collections.Counter(x["patent"] for x in rows))
             if len(have) >= n:
                 break
             r = subprocess.run([PY, str(Path(__file__).parent / "big_odp.py"), "fetch", "--weeks", "1"],
