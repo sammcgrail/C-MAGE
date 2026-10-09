@@ -151,23 +151,13 @@ function G(rows){ return '<div class="hbg">' + rows + '</div>'; }
 /* Headline cards at the top. Row 1: the images all four read (same numbers as "Exact, same
    images"). Row 2: every image each reader was run on, each on its own n. A view the tool arms
    have not read has no shared set, so it gets row 2 only. bigCards() lives in index.html. */
-function bindAll(){
-  var d = $("#loall"); if (!d) return;
-  var b = d.querySelector(".cmpt");
-  b.addEventListener("click", function(){
-    S.allOpen = !d.classList.contains("open");
-    d.classList.toggle("open", S.allOpen); b.setAttribute("aria-expanded", S.allOpen);
-  });
-}
+function bindAll(){}
 function topCards(){
   var V = VW(), s = V.shared, each = V.each.filter(function(x){ return x.n; });
   var cards = function(xs){ return bigCards(xs.map(function(x){ var a = ARM[x.id];
     return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; })); };
   return (s.n ? '<div class="cmph"><b>Same images</b> · the ' + fmt(s.n) + ' all four read</div>' + cards(s.arms) : '')
-    /* Collapsed by default when there is a shared row above it; it is the only row otherwise. */
-    + (s.n ? '<div class="cmpd' + (S.allOpen ? ' open' : '') + '" id="loall"><button type="button" class="cmpt" aria-expanded="' + !!S.allOpen + '"><b>All available images</b>'
-        + '<span class="hint">Show</span></button>' + cards(each) + '</div>'
-           : '<div class="cmph"><b>All available images</b></div>' + cards(each));
+    + cards(each);
 }
 
 function cardShared(){
@@ -431,7 +421,8 @@ function render(view, data){
   root.innerHTML = '<div class="lead"><h2>LLM vs OCR</h2>'
     + '<span class="acts"><button class="chip" id="lojump">Failures ↓</button><button class="chip" id="loprompt">Prompts &amp; settings</button></span></div>'
     + '<div id="locards">' + topCards() + '</div>'
-    + '<div class="lede">' + D.caveats.map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>'
+    + '<div class="cmpd" id="lolede"><button type="button" class="cmpt" aria-expanded="false"><b>About this test</b>'
+    + '<span class="hint">Show</span></button><div class="lede">' + D.caveats.map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div></div>'
     + viewSwitch() + legend()
     + '<div id="locharts">' + chartsHTML() + '</div>'
     + (D.method && D.method.length ? '<details class="fold lomethod"><summary>Caveats &amp; method</summary><ul class="cav">'
@@ -439,6 +430,9 @@ function render(view, data){
     + '<div class="block" id="lofail"><h2 class="blockh">Failures and disagreements</h2></div>';
   view.appendChild(root);
   root.querySelector("#lofail").appendChild(chips());
+  var ld = root.querySelector("#lolede"), lb = ld.querySelector(".cmpt");
+  lb.addEventListener("click", function(){ var o = !ld.classList.contains("open");
+    ld.classList.toggle("open", o); lb.setAttribute("aria-expanded", o); });
   bindAll();
   var wh = el("div", "ckey"); wh.id = "lowallh";
   wh.innerHTML = 'Cells: ' + D.arms.map(function(a){ return '<span><u>' + esc(a.tag) + '</u> = ' + esc(a.label.replace(" (OCR)", "")) + '</span>'; }).join("")

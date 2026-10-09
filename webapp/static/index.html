@@ -134,6 +134,8 @@ main{max-width:1400px;margin:0 auto;
 .cmpd.open>.cmpt .hint{display:none}
 .cmpd>.cmp{display:none}
 .cmpd.open>.cmp{display:grid;animation:cmpin .22s ease-out}
+.cmpd>.lede{display:none}
+.cmpd.open>.lede{display:block;animation:cmpin .22s ease-out}
 @keyframes cmpin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.cmpd.open>.cmp{animation:none} .cmpd>.cmpt::before{transition:none}}
 @media (max-width:640px){.cmp.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -621,7 +623,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=0e7bae64de"></script>
+<script src="/static/llmocr.js?v=ab8657a2fd"></script>
 <script src="/static/gallery.js?v=ccab784b1b"></script>
 <script>
 "use strict";
@@ -944,23 +946,15 @@ function makeWall(wall, rows, tileFn, o){
   wall.innerHTML = "";
   if (!rows.length) wall.appendChild(el("div", "more", o.empty || "Nothing matches."));
   else more(o.first || step);
-  /* Preload the bottom so "to bottom" has nothing left to do: once the page is idle, warm the
-     image cache for the last screenful of tiles, then append the remaining tiles a small batch per
-     idle slot (content-visibility keeps undrawn tiles cheap). Stops when the wall is replaced. */
-  var dead = false, idle = window.requestIdleCallback
-    ? function(f){ requestIdleCallback(f, {timeout: 1500}); }
-    : function(f){ setTimeout(function(){ f({timeRemaining: function(){ return 8; }}); }, 120); };
+  /* Warm the image cache for the last screenful so "to bottom" lands on loaded drawings. Only the
+     images: pre-rendering every tile on idle put ~65k nodes in the DOM and made iOS Safari drop
+     taps and kill the tab in the background (Sam, 9 Oct). */
+  var dead = false;
   if (o.src && rows.length > shown){
-    idle(function(){ if (dead) return;
-      rows.slice(-48).forEach(function(r){ var im = new Image(); im.decoding = "async"; im.src = o.src(r); });
-    });
+    var warmEnd = function(){ if (dead) return;
+      rows.slice(-36).forEach(function(r){ var im = new Image(); im.decoding = "async"; im.src = o.src(r); }); };
+    if (window.requestIdleCallback) requestIdleCallback(warmEnd, {timeout: 4000}); else setTimeout(warmEnd, 2500);
   }
-  (function fill(d){
-    if (!wall.isConnected && shown) dead = true;
-    if (dead || shown >= rows.length) return;
-    if (d && !busy) while (shown < rows.length && d.timeRemaining() > 4) more(40);
-    if (shown < rows.length) idle(fill);
-  })();
   return {
     /* follow: keep the view pinned to the growing end while chunks land, so "to bottom" moves at once
        instead of sitting still until the last chunk. */
