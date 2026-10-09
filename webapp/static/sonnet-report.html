@@ -473,7 +473,9 @@ function corpus(D){
       + ' rows both arms read one-per-reader: 5.5 ' + P.paired_single.s55 + ', Sonnet 5 ' + P.paired_single.s5 + ', CXMolScribe ' + P.paired_single.cx + '; 5.5 ahead on ' + P.paired_single.ahead + ', behind on ' + P.paired_single.behind + '.</p></div>';
   }
   var details = det("Coverage, pairing and the row-level table", '<ul class="facts">'
-    + '<li><b>What it covers.</b> ' + (C.pairing ? esc(C.pairing.scope) + ' ' : n0(C.n) + ' paired images. ') + n0(C.corpus) + ' corpus images in all, read in sorted-key order (paired: ' + esc(C.first) + ' to ' + esc(C.last) + '). Nothing skipped, so unselected; but alphabetical and mostly named drugs, which a model may have seen.'
+    + '<li><b>What it covers.</b> ' + (C.pairing ? esc(C.pairing.scope) + ' ' : n0(C.n) + ' paired images. ') + n0(C.corpus) + ' corpus images in all, read in sorted-key order (paired: ' + esc(C.first) + ' to ' + esc(C.last) + '). '
+    + (C.pairing && C.pairing.deferred && C.pairing.deferred.text ? esc(C.pairing.deferred.text) + ' Otherwise nothing skipped, so unselected' : 'Nothing skipped, so unselected')
+    + '; but alphabetical and mostly named drugs, which a model may have seen.'
     + (C.pairing && C.pairing.only_text ? ' ' + esc(C.pairing.only_text) : C.unpaired ? ' ' + C.unpaired + ' Sonnet 5.5 rows have no Sonnet 5 reading and are left out.' : '') + '</li>'
     + (D.protocol ? '<li><b>Readers.</b> Ten images per reader to row ' + (D.protocol.s55c_from_row - 1) + ' (5.5) and ' + (D.protocol.s5_from_row - 1) + ' (Sonnet 5); one image per reader since ' + esc(D.protocol.at.slice(0, 10))
       + (D.protocol.s5_stopped_at ? '; until Sonnet 5 stopped (' + esc(D.protocol.s5_stopped_at.slice(0, 10)) + ') both arms read each new image at the same time, and since then Sonnet 5.5 reads alone. Why:'

@@ -698,6 +698,10 @@ function openSheet(r){
         r.alt.conf != null && r.alt.conf !== "" ? ' <span class="dim">rated itself ' + esc(r.alt.conf) + '</span>' : '')
       : DATA.noAlt ? '<div class="kv"><label>' + esc(DATA.altLabel || "Other reader") + '</label><code>' + esc(DATA.noAlt) + '</code></div>' : "")
     + (r.t ? smilesField("Reference — what the ground truth says", r.t, "")
+      /* Withheld, not missing: the verdict above was scored against it. The served payload
+         carries a reference only once a tool-using reader has read the image. */
+      : r.tw ? '<div class="kv"><label>Reference</label><code>' + esc((DATA.withheld && DATA.withheld.note)
+        || "Withheld until a tool-using reader has read this image") + '</code></div>'
       : '<div class="kv"><label>Reference</label><code>none — nobody catalogued this '
         + 'structure, so neither reading can be called right or wrong</code></div>')
     + (r.rc != null ? '<div class="kv"><label>This run <span class="dim">' + esc(DATA.runNote || ((DATA.reader || "Sonnet") + ' API, at list price')) + '</span></label>'
@@ -833,12 +837,14 @@ function docsStrip(){
   box.appendChild(all);
   DATA.docs.forEach(function(d){
     var b = el("button", "doc");
-    var pct = d.expected ? Math.round(d.found / d.expected * 100) : 0;
+    /* Exact-only where the payload carries it, like the PDF tab's hero. */
+    var fd = d.found_exact != null ? d.found_exact : d.found;
+    var pct = d.expected ? Math.round(fd / d.expected * 100) : 0;
     b.innerHTML = '<span class="nm">' + esc(d.name) + "</span>"
       + '<span class="rb"><i style="width:' + Math.min(100, pct) + '%"></i></span>'
       /* No ground truth: show what it READ, not a recall fraction. "8/0" would be
          nonsense and "0/0" would read as a failure rather than as nothing asked. */
-      + '<span class="n">' + (d.nogt ? (d.read || 0) + " read" : d.found + "/" + d.expected)
+      + '<span class="n">' + (d.nogt ? (d.read || 0) + " read" : fd + "/" + d.expected)
       + "</span>";
     b.setAttribute("aria-pressed", DOC === d.name);
     b.onclick = function(){ DOC = (DOC === d.name ? null : d.name); SHOWN = STEP; render(); };
@@ -864,8 +870,8 @@ function stackOf(parts, total){
     /* Name the three populations once, under the legend. Without this the reader
        has to infer that grey is not a failure. */
     + (parts.some(function(x){ return x.key === "noref"; })
-        ? '<p class="sub" style="margin:-4px 0 14px">Green and amber were checked '
-          + 'against a reference and were right. Red was checked and was wrong. '
+        ? '<p class="sub" style="margin:-4px 0 14px">Green matched its reference exactly; '
+          + 'amber matched it except for stereochemistry. Red was checked and was wrong. '
           + 'Slate had no reference to check against — neither right nor wrong. '
           + 'Dark produced nothing usable.</p>' : '');
 }
@@ -1120,6 +1126,12 @@ function tqSection(v){
   }).catch(function(e){ sec.innerHTML = '<h2 class="blockh">How the readers work</h2><p class="sub">Could not load the technique data (' + esc(e.message) + ').</p>'; });
 }
 
+/* Lines the builder wants under a tab's hero (a corpus cut, deferred images, a caveat), one
+   sentence each, built from live counts. */
+function heroNotes(){
+  return (DATA.heroNotes || []).map(function(t){ return '<div class="sub">' + esc(t) + '</div>'; }).join("");
+}
+
 function render(){
   var v = $("#view");
   v.innerHTML = "";
@@ -1153,7 +1165,7 @@ function render(){
               + '<div class="track"><i style="width:' + Math.min(100, x.pct) + '%"></i></div></div>';
           }).join("");
         }).join("")
-      + '<div class="sub">' + esc(DATA.headline) + '</div>';
+      + '<div class="sub">' + esc(DATA.headline) + '</div>' + heroNotes();
   } else if (c) {
     var best = Math.max.apply(null, c.sides.map(function(x){ return x.pct; }));
     hero.innerHTML =
@@ -1176,7 +1188,7 @@ function render(){
          both sentences built by the builder from live counts. */
       + (c.pairing ? '<div class="sub">' + esc(c.pairing.scope)
           + (c.pairing.only_text ? ' ' + esc(c.pairing.only_text) : '') + '</div>' : '')
-      + '<div class="sub">' + esc(DATA.headline) + '</div>'
+      + '<div class="sub">' + esc(DATA.headline) + '</div>' + heroNotes()
       /* Say which model a tab is, where the link to the comparison lives. The 5.5 payload
          carries its own; the Sonnet 5 payload predates the field. */
       + (DATA.xlink ? '<a class="xlink" href="' + esc(DATA.xlink.href) + '">' + esc(DATA.xlink.text)
@@ -1196,7 +1208,7 @@ function render(){
             + esc(x.text) + '</span></b></div>'
             + '<div class="track"><i style="width:' + Math.min(100, x.pct) + '%"></i></div></div>';
         }).join("")
-      + '<div class="sub">' + esc(DATA.headline) + '</div>';
+      + '<div class="sub">' + esc(DATA.headline) + '</div>' + heroNotes();
   }
   v.appendChild(hero);
   /* The Sonnet 5.5 tab has two views: the structures wall, and how the readers worked. A

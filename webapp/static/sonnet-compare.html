@@ -429,7 +429,7 @@ document.addEventListener("click", function(e){
 
 function intro(){
   return '<section class="intro"><h1>Sonnet 5.5 vs Sonnet 5</h1>'
-    + '<p class="lede">Three sets, kept apart: the <b>corpus, paired</b> image for image on the images both models read (nothing skipped); <b>novel structures</b> no model can have memorised; and <b>28 hand-picked</b> images chosen on Sonnet 5’s failures. '
+    + '<p class="lede">Three sets, kept apart: the <b>corpus, paired</b> image for image on the images both models read, in corpus order; <b>novel structures</b> no model can have memorised; and <b>28 hand-picked</b> images chosen on Sonnet 5’s failures. '
     + 'Same images, same blind pipeline, same RDKit scorer. The <a href="/sonnet-report#failures">findings report</a> classifies every miss and shows the missed drawings.</p>'
     + '<nav class="jump" aria-label="Sections"><a href="#corpus">Corpus, paired</a><a href="#novel">Novel structures</a><a href="#kindc">Hard edits</a><a href="#handpicked">Hand-picked</a><a href="/sonnet-report">Findings report</a></nav>'
     + '</section>';
@@ -486,6 +486,12 @@ function corpusSection(C){
     + '<div class="tally"><div class="' + (C.ahead ? 'up' : '') + '"><b>' + C.ahead + '</b><span>5.5 right, 5 wrong</span></div>'
     + '<div class="' + (C.behind ? 'down' : '') + '"><b>' + C.behind + '</b><span>5 right, 5.5 wrong</span></div>'
     + '<div><b>' + (C.n - nb) + '</b><span>same result</span></div></div>'
+    /* Built by build_sonnet55.py from live counts: the images the cost/time guard deferred (with the
+       worst case), the renderer caveat with the API-only figure beside it, and, once that set is read,
+       the renderer-control comparison (the same molecules drawn by another renderer). */
+    + (C.pairing && C.pairing.deferred && C.pairing.deferred.text ? '<p class="cmpnote">' + esc(C.pairing.deferred.text) + '</p>' : '')
+    + (C.renderer && C.renderer.text ? '<p class="cmpnote">' + esc(C.renderer.text) + '</p>' : '')
+    + (C.rendererControl && C.rendererControl.text ? '<p class="cmpnote">' + esc(C.rendererControl.text) + '</p>' : '')
     + '<p class="cmpnote"><a href="/sonnet-report#failures">Why they miss</a>: every miss classified, the molecules that drive misses, a gallery of missed drawings with the difference marked, and the fixes the data supports.</p>'
     + notes
     + '</div><div class="col">'
@@ -527,7 +533,7 @@ function novelCard(r){
     + '<div class="pair">' + arm("Sonnet 5.5", r.s55, "novel_pred", r.k) + arm("CXMolScribe", cxArm, "novel_cx", r.k) + '</div></div>'
     + '<details><summary>SMILES and what differs</summary>'
     + kv("Ground truth (the edited molecule)", r.t)
-    + (edited ? kv("Parent drug, " + r.parent, r.parent_t, r.auto ? "Sonnet 5.5's answer is this molecule: it drew the drug it knows, not the edit." : "") : "")
+    + (edited ? kv("Parent drug, " + r.parent, r.parent_t || (r.parent_tw ? "withheld until a tool-using reader has read the parent's corpus image" : ""), r.auto ? "Sonnet 5.5's answer is this molecule: it drew the drug it knows, not the edit." : "") : "")
     + (pr ? kv("Sonnet 5.5 on the unedited parent (" + pr.source + "), " + (VLABEL[pr.v] || pr.v), pr.s) : "")
     + kv("Sonnet 5.5" + (r.s55.name ? ", named it: " + r.s55.name : ""), r.s55.s, detail(r.s55))
     + kv("CXMolScribe (pipeline), " + (VLABEL[r.cx.v] || r.cx.v), r.cx.s)

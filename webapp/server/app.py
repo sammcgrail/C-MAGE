@@ -14,8 +14,8 @@
     GET  /api/jobs/{id}/img/{kind}/{name}    segment | render | figure images
     GET  /api/runs                           the gallery (PUBLISHED runs only)
     DELETE /api/runs/{id}                    remove a run (owner token or admin)
-    GET  /api/benchmark                      known-answer corpus results
-    GET  /api/benchmark/{run}/img/{kind}/{name}
+    GET  /api/benchmark                      410: retired 9 Oct 2026 (the benchmark is /)
+    GET  /api/benchmark/{run}/img/{kind}/{name}   410, likewise
 
 Run with exactly one worker process: the queue lives in memory.
 
@@ -39,7 +39,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 
-from . import benchmark, config, jobs, results, uploads
+from . import config, jobs, results, uploads
 
 app = FastAPI(title="C-MAGE", docs_url=None, redoc_url=None, openapi_url=None)
 store = jobs.JobStore()
@@ -361,21 +361,23 @@ def gallery_delete(job_id: str, request: Request) -> dict:
 
 
 # ---------------------------------------------------------------------------- benchmark
+# RETIRED (9 Oct 2026). /api/benchmark served a summary built on 10 Sep (headline.json plus every
+# manifest's expected molecules) that had gone stale against the corpus, and it shipped reference
+# SMILES of corpus images to anyone who asked. The live benchmark is the front page, built from
+# benchmarks/wall/*.json. Only the old /upload page called these; it now says the panels moved.
+_BENCH_RETIRED = {"retired": True, "since": "2026-10-09",
+                  "message": "The benchmark API is retired. The live benchmark is the front page.",
+                  "see": "/"}
+
+
 @app.get("/api/benchmark")
-def benchmark_view() -> dict:
-    data = dict(benchmark.build())
-    data.pop("_runs", None)
-    return data
+def benchmark_view() -> JSONResponse:
+    return JSONResponse(_BENCH_RETIRED, status_code=410)
 
 
 @app.get("/api/benchmark/{run_id}/img/{kind}/{name}")
-def benchmark_image(run_id: str, kind: str, name: str) -> FileResponse:
-    benchmark.build()
-    run_dir = benchmark.run_path(run_id) if re.fullmatch(r"[0-9a-f]{10}", run_id or "") else None
-    path = results.image_path(run_dir, kind, name) if run_dir else None
-    if path is None:
-        raise HTTPException(404, "No such image.")
-    return _image_response(path)
+def benchmark_image(run_id: str, kind: str, name: str) -> JSONResponse:
+    return JSONResponse(_BENCH_RETIRED, status_code=410)
 
 
 @app.get("/sonnet-compare", include_in_schema=False)
