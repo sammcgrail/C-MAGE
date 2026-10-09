@@ -148,6 +148,14 @@ function legend(){
    the widest label and right-aligned against the bars, so every bar starts at the same x. */
 function G(rows){ return '<div class="hbg">' + rows + '</div>'; }
 
+/* Headline cards at the top: the same numbers as "Exact, same images" (or each arm's own n when
+   the tool arms have not read this view yet). bigCards() lives in index.html. */
+function topCards(){
+  var V = VW(), s = V.shared, xs = s.n ? s.arms : V.each.filter(function(x){ return x.n; });
+  return bigCards(xs.map(function(x){ var a = ARM[x.id];
+    return {who: a.short, pct: x.pct, exact: x.exact, n: x.n, color: a.color}; }));
+}
+
 function cardShared(){
   var s = VW().shared;
   if (!s.n) return '<div class="card"><h3>Exact, images each arm has read <span>tool arms have not read these yet</span></h3>'
@@ -391,6 +399,7 @@ function viewSwitch(){
 function setView(v){
   S.view = v;
   [].forEach.call(document.querySelectorAll(".lo .srcsw .chip"), function(x){ x.setAttribute("aria-pressed", x.dataset.v === v); });
+  $("#locards").innerHTML = topCards();
   $("#locharts").innerHTML = chartsHTML();
   liveControl();
   var box = $("#lofail .fchips"); if (box) box.replaceWith(chips());
@@ -405,6 +414,7 @@ function render(view, data){
   var root = el("div", "lo");
   root.innerHTML = '<div class="lead"><h2>LLM vs OCR</h2>'
     + '<span class="acts"><button class="chip" id="lojump">Failures ↓</button><button class="chip" id="loprompt">Prompts &amp; settings</button></span></div>'
+    + '<div id="locards">' + topCards() + '</div>'
     + '<div class="lede">' + D.caveats.map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>'
     + viewSwitch() + legend()
     + '<div id="locharts">' + chartsHTML() + '</div>'

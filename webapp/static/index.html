@@ -116,6 +116,9 @@ main{max-width:1400px;margin:0 auto;
 .cmp .track i{display:block;height:100%;background:var(--acc)}
 .cmp .side.lead .track i{background:var(--exact)}
 .cmp.cards{grid-template-columns:repeat(5,minmax(0,1fr))}
+.cmp.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cmp.topc{margin:4px 0 16px;max-width:980px}
+@media (max-width:640px){.cmp.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .cmp.cards .pc{font-size:26px}
 @media (max-width:640px){.cmp.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cmp.cards .side:first-child{grid-column:1 / -1}}
@@ -599,7 +602,7 @@ footer{color:var(--dim);font-size:12px;padding:26px 0 0;border-top:1px solid var
   <div class="sheet" id="sheetBody" tabindex="-1" autofocus></div>
 </dialog>
 
-<script src="/static/llmocr.js?v=47cb2bd496"></script>
+<script src="/static/llmocr.js?v=3a829cc991"></script>
 <script>
 "use strict";
 var TAB = "pdfs", DATA = {}, FILTER = "all", DOC = null, SHOWN = 0, STEP = 300, Q = "";
@@ -612,6 +615,15 @@ var OUTCOMES = [["all","All"],["both","Both right"],["sonnet","Sonnet only"],
 var $ = function(s){ return document.querySelector(s); };
 function el(tag, cls, txt){ var n=document.createElement(tag); if(cls)n.className=cls;
   if(txt!=null)n.textContent=txt; return n; }
+/* Headline cards (LLM vs OCR, Superatoms): reader, big exact %, a thin bar in the reader's
+   colour, and "exact of n". xs: [{who, pct, exact, n, color}]. */
+function bigCards(xs){
+  return '<div class="cmp topc' + (xs.length === 4 ? ' four' : '') + '">' + xs.map(function(x){
+    return '<div class="side"><div class="who">' + esc(x.who) + '</div><div class="pc">' + (+x.pct).toFixed(1)
+      + '%</div><div class="of">' + (+x.exact).toLocaleString("en-US") + ' of ' + (+x.n).toLocaleString("en-US")
+      + ' exact</div><div class="track"><i style="width:' + Math.min(100, x.pct) + '%;background:' + x.color + '"></i></div></div>';
+  }).join("") + '</div>';
+}
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 
@@ -1455,7 +1467,13 @@ function render(){
     var c2 = DATA.c2, bar2 = function(x, k, who){ return '<div class="c2b"><span class="who">' + esc(who) + '</span>'
         + '<span class="tr"><i class="' + k + '" style="width:' + x.pct + '%"></i></span><b>'
         + (+x.pct).toFixed(1) + '%</b><span class="kn">' + x.exact + '/' + x.n + '</span></div>'; };
+    /* All images = built + real (rows 0 and 1 partition the set; build_superatoms.py asserts it). */
+    var tot = c2.total || {a: {exact: c2.rows[0].a.exact + c2.rows[1].a.exact, n: c2.rows[0].a.n + c2.rows[1].a.n},
+                           b: {exact: c2.rows[0].b.exact + c2.rows[1].b.exact, n: c2.rows[0].b.n + c2.rows[1].b.n}};
+    ["a", "b"].forEach(function(k){ tot[k].pct = tot[k].n ? 100 * tot[k].exact / tot[k].n : 0; });
     hero.innerHTML = '<h2 class="blockh">' + esc(DATA.title) + '</h2>'
+      + bigCards([{who: c2.as || c2.a, pct: tot.a.pct, exact: tot.a.exact, n: tot.a.n, color: "#d55181"},
+                  {who: c2.bs || c2.b, pct: tot.b.pct, exact: tot.b.exact, n: tot.b.n, color: "#d95926"}])
       + '<p class="sub">' + esc(DATA.headline) + '</p>'
       + (DATA.countLine ? '<p class="sub">' + esc(DATA.countLine) + '</p>' : '')
       + '<div class="c2"><div class="c2k"><span><i class="s"></i>' + esc(c2.a) + '</span><span><i class="c"></i>'
