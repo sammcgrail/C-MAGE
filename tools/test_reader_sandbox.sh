@@ -30,6 +30,28 @@ probe "host view via /proc/1/root"    "ls /proc/1/root/root/C-MAGE/benchmarks | 
 probe "python listdir of the repo"    "$PY -c \"import os; print([x for x in os.listdir('/root/C-MAGE') if x != '.venv-ms'] or '')\" | tr -d \"'\" | grep -v '^\$'"
 check "cannot unmount a mask"   "$(inside 'umount /root/C-MAGE 2>/dev/null && echo broke' | grep -q broke || echo 1)"
 check "docker socket dead"      "$(inside 'docker ps >/dev/null 2>&1 && echo broke' | grep -q broke || echo 1)"
+# NETWORK (8 Oct): only the model API, through the proxy. Each "jail refuses" is paired with a host
+# control that reaches the same URL, so a refusal cannot be an outage.
+code() { echo "$1" | tail -c 4 | grep -qE '^[1-5][0-9][0-9]$'; }
+net() {  # name, curl args: host must get an HTTP status, the jail must not
+  local h i; h=$(host "curl -s -o /dev/null -w %{http_code} --max-time 12 $2"); i=$(inside "curl -s -o /dev/null -w %{http_code} --max-time 12 $2")
+  check "control: host reaches $1 ($h)" "$(code "$h" && [ "$h" != 000 ] && echo 1)"
+  check "jail cannot reach $1 ($i)" "$([ "$i" = 000 ] && echo 1)"
+}
+net "PubChem"                 "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2244/property/IsomericSMILES/TXT"
+net "PubChem, proxy bypassed" "--noproxy '*' https://pubchem.ncbi.nlm.nih.gov/"
+net "pypi"                    "https://pypi.org/simple/py2opsin/"
+net "the public site"         "https://cmage.sebland.com/wall/images.json"
+net "GitHub raw"              "https://raw.githubusercontent.com/sammcgrail/C-MAGE/main/README.md"
+net "the local webapp"        "--noproxy '*' http://127.0.0.1:20079/api/health"
+api=$(inside "curl -s -o /dev/null -w %{http_code} --max-time 15 https://api.anthropic.com/v1/models")
+check "the model API IS reachable through the proxy ($api)" "$([ "$api" = 401 ] && echo 1)"
+check "denials are logged" "$(grep -q '"allowed": false' "$WD/jail_net.jsonl" 2>/dev/null && echo 1)"
+# name-to-structure tools hidden, with host controls
+check "control: host imports py2opsin" "$(host "$PY -c 'from py2opsin import py2opsin; print(1)'" | grep -qx 1 && echo 1)"
+check "jail cannot import py2opsin"    "$(inside "$PY -c 'from py2opsin import py2opsin; print(1)'" | grep -qx 1 || echo 1)"
+check "control: host imports Indigo"   "$(host "$PY -c 'from indigo import Indigo; print(1)'" | grep -qx 1 && echo 1)"
+check "jail cannot import Indigo"      "$(inside "$PY -c 'from indigo import Indigo; print(1)'" | grep -qx 1 || echo 1)"
 # the method's tools must still be there
 check "RDKit at the prompt's path" "$(inside "$PY -c \"from rdkit import Chem; print(Chem.MolToSmiles(Chem.MolFromSmiles('OCC')))\"" | grep -qx CCO && echo 1)"
 check "blind image readable"       "$(inside "test -s $T/blind/fig01.png && echo y" | grep -qx y && echo 1)"

@@ -23,8 +23,15 @@
 #   - its own PID namespace and /proc (so /proc/1/root cannot reach the host's view), a minimal
 #     /dev (no block devices), and --cap-drop ALL, so uid 0 inside cannot umount or remount the
 #     masks away.
-# Network stays: the CLI needs the API and the reader rule allows package installs; network
-# lookups are still the transcript scanner's job.
+#   - NO NETWORK but the model API (8 Oct): its own network namespace (--unshare-net, loopback only);
+#     inside, socat bridges 127.0.0.1:3128 to tools/jail_proxy.py on a unix socket in the launch dir,
+#     HTTPS_PROXY points the CLI at it, and the proxy tunnels only CONNECT <*.anthropic.com etc>:443.
+#     pip, PubChem, the public site, GitHub, localhost services: no route, or 403 from the proxy. Every
+#     request is logged to <launch-dir>/jail_net.jsonl. Over 807 jailed 5.5 readers (29 Sep - 8 Oct)
+#     not one used pip, curl or a URL, so nothing a reader legitimately did is lost. Until 8 Oct the
+#     network stayed open "for installs", and a Sonnet 5 reader had pip-installed py2opsin with it.
+#   - name-to-structure tools hidden: py2opsin (OPSIN, with its jar) and Indigo (nameToStructure; also
+#     the renderer of the renderer-control set) are masked inside .venv-ms.
 #
 # The answers file is written inside the private /tmp; after the command exits, every
 # /tmp/<name>.json the prompt names is copied out (cp -p, so its mtime is the reader's write).
@@ -36,10 +43,12 @@ shift 4
 command -v bwrap >/dev/null || { echo "reader_sandbox: bwrap missing (apt-get install bubblewrap)" >&2; exit 3; }
 
 VENV=/root/C-MAGE/.venv-ms
+HERE=$(cd "$(dirname "$0")" && pwd)
+command -v socat >/dev/null || { echo "reader_sandbox: socat missing (apt-get install socat)" >&2; exit 3; }
 PROJ=/root/.claude/projects/$(printf '%s' "$WD" | sed 's#[^A-Za-z0-9]#-#g')
 mkdir -p "$PROJ"
 
-BW=(bwrap --die-with-parent --unshare-pid --unshare-ipc --cap-drop ALL
+BW=(bwrap --die-with-parent --unshare-pid --unshare-ipc --unshare-net --cap-drop ALL
     --bind / / --dev /dev --proc /proc)
 
 # A symlink directly in /root could point anywhere; there are none today. Refuse rather than guess.
@@ -61,6 +70,10 @@ for p in /root/* /root/.[!.]*; do
 done
 # the repo: empty, except the method's interpreter, read-only, at the path the prompt names
 BW+=(--ro-bind "$VENV" "$VENV")
+# ...minus the name-to-structure tools in it (an empty dir imports as nothing)
+for d in "$VENV"/lib/python3*/site-packages/{py2opsin,py2opsin-*.dist-info,indigo,epam_indigo-*.dist-info}; do
+  [ -d "$d" ] && BW+=(--tmpfs "$d")
+done
 # ~/.claude: other sessions' transcripts, file backups and prompt history
 BW+=(--tmpfs /root/.claude/projects --bind "$PROJ" "$PROJ")
 for d in file-history paste-cache backups downloads debug; do
@@ -83,8 +96,22 @@ while read -r d; do
   [ -n "$d" ] && [ -d "$d" ] && BW+=(--ro-bind "$d" "$d")
 done < <(grep -oE '/tmp/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*/[A-Za-z0-9_.-]+\.png' "$PROMPT" | xargs -r -n1 dirname | sort -u)
 
-"${BW[@]}" -- "$@"
+# the only way out: the allowlisting proxy on a unix socket in the launch dir (bound into the jail)
+SOCK="$WD/.jail-proxy.sock"; NETLOG="$WD/jail_net.jsonl"
+python3 "$HERE/jail_proxy.py" "$SOCK" "$NETLOG" & PXY=$!
+trap 'kill $PXY 2>/dev/null' EXIT
+for _ in $(seq 50); do [ -S "$SOCK" ] && break; sleep 0.1; done
+[ -S "$SOCK" ] || { echo "reader_sandbox: proxy did not start" >&2; exit 3; }
+P=http://127.0.0.1:3128
+BW+=(--setenv HTTPS_PROXY "$P" --setenv https_proxy "$P" --setenv HTTP_PROXY "$P" --setenv http_proxy "$P"
+     --setenv ALL_PROXY "$P" --unsetenv NO_PROXY --unsetenv no_proxy
+     --setenv CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1)
+
+"${BW[@]}" -- bash -c 'socat TCP-LISTEN:3128,bind=127.0.0.1,reuseaddr,fork UNIX-CONNECT:"$0" 2>/dev/null &
+  for _ in $(seq 50); do (exec 3<>/dev/tcp/127.0.0.1/3128) 2>/dev/null && break; sleep 0.1; done
+  exec "$@"' "$SOCK" "$@"
 rc=$?
+kill $PXY 2>/dev/null; wait $PXY 2>/dev/null
 
 # copy the answers out of the private /tmp
 while read -r f; do

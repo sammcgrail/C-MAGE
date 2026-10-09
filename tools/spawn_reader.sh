@@ -63,6 +63,8 @@ EOF
 # the same interpreter with RDKit, the same system binaries (osra). On top, permission deny rules
 # (reader_settings.json) refuse Read/Glob/Grep on the answer paths and the obvious Bash listings,
 # so a reader that tries is told "denied" at once instead of seeing an empty directory.
+# Since 8 Oct the jail also has no network but the model API (tools/jail_proxy.py, allowlist) and no
+# name-to-structure tools; every request it made is in $WD/jail_net.jsonl, checked below.
 # Selftest: tools/test_reader_sandbox.sh.
 PRIV=$(mktemp -d /tmp/reader-tmp.XXXXXX) || exit 3
 cp "$HERE/reader_settings.json" "$WD/reader_settings.json" || exit 3
@@ -117,5 +119,16 @@ first = first if isinstance(first, str) else "".join(b.get("text", "") for b in 
 if first.strip() != open(prompt_path).read().strip():
     print(f"REFUSE: reader {real_aid} did not receive the prompt file verbatim", file=sys.stderr)
     sys.exit(4)
+# The jail's network log must exist (proof the reader ran behind the proxy, in its own network
+# namespace); denied requests are reported, not refused here: the gate's scan decides what they mean.
+import os
+netlog = f"{wd}/jail_net.jsonl"
+if not os.path.exists(netlog):
+    print(f"REFUSE: no {netlog}: the reader did not run behind the jail's network proxy", file=sys.stderr)
+    sys.exit(3)
+net = [json.loads(l) for l in open(netlog) if l.strip()]
+denied = sorted({n["target"] for n in net if not n.get("allowed")} - {"CONNECT mcp-proxy.anthropic.com:443 HTTP/1.1"})
+if denied:
+    print(f"NOTE: the jail refused {len(denied)} target(s): {denied[:5]}", file=sys.stderr)
 print(f"READER {real_aid} {model}")
 PYEOF
