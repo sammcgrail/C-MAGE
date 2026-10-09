@@ -20,7 +20,7 @@
   {
     "agent": "ab416f4ad4b96311b",
     "target": "https://pypi.org",
-    "resolution": "A package-index reachability check (curl -sI), made while deciding whether a recognition tool could be pip-installed. It requested no chemistry data.",
+    "resolution": "A package-index reachability check (curl -sI), made while deciding whether a recognition tool could be pip-installed. It requested no chemistry data. [8 Oct: this resolution was incomplete. The same reader then pip-installed py2opsin and used OPSIN name-to-structure, which no 14 Sep scanner rule covered; two rows were excluded on 8 Oct. See the name-to-structure entries below.]",
     "resolved": "2026-09-14"
   },
   {
@@ -94,5 +94,45 @@
     "target": "cd /root/C-MAGE/cxmolscribe-wd && /root/C-MAGE/.venv-ms/bin/python run_blind_b.py 2>&1 | tail -",
     "resolution": "Repository exploration and use of CXMolScribe, not answer-key access: the reader ran that script, i.e. used CXMolScribe (another recogniser, not the answer key) on its images. Checked against the transcript. This reader (20 Sep 19:37, slot b) read fusidic_acid..gadopentetate_dimeglumine; its batch was never scored and published nothing. The same ten were re-read on 2 Oct by a5e77db3d1d9cc262 (the dual-cadence pilot: jailed, gate PASS, no findings, every request claude-sonnet-5), to which the rows are credited; this reader holds three of their SMILES only because it read the same molecules. Resolved so an unscored, discarded reading stops failing a clean re-read (precedents: a53ca464d424caad2 17 Sep, a4e6352c5a018c5dd 2 Oct). Its own reading would have been discarded on its merits: a reader that runs CXMolScribe is not a Sonnet reading.",
     "resolved": "2026-10-02"
+  },
+  {
+    "agent": "ab416f4ad4b96311b",
+    "target": "null | grep -i osra\necho \"---checking pip install feasibility (no network assumption)---\"\ntimeout 5 curl -sI https://pypi.org 2>&1 | head -3",
+    "kind": "network-tool",
+    "line": 225,
+    "resolution": "A package-index reachability check (curl -sI https://pypi.org, headers only), the same call the 14 Sep entry resolved; re-targeted because the 8 Oct scanner reports curl as network-tool with the whole command. No chemistry data.",
+    "resolved": "2026-10-08"
+  },
+  {
+    "agent": "ab416f4ad4b96311b",
+    "target": "which opsin 2>&1; pip show py2opsin 2>&1 | head -3\n/tmp/blind_b_work/venv/bin/pip install --quiet py2opsin 2>&1 | tail -20\napt list --installed 2>/dev/null | grep -i java\nwhich java 2>&1",
+    "kind": "name-to-structure",
+    "line": 427,
+    "resolution": "pip-installed py2opsin (OPSIN, local name-to-structure) into its own venv. MISSED by the 14 Sep scan, which had no name-to-structure rule; found by the 8 Oct audit. It used OPSIN on names typed from memory for beclomethasone (L431-445) and the camptothecin core of belotecan (L585): both rows EXCLUDED 8 Oct (sonnet_excluded.jsonl), not re-read (arm frozen). No other row of this reader was built from OPSIN output.",
+    "resolved": "2026-10-08"
+  },
+  {
+    "agent": "ab416f4ad4b96311b",
+    "target": "cd /tmp/blind_b_work && /tmp/blind_b_work/venv/bin/python3 << 'EOF'\nfrom py2opsin import py2opsin\nfrom rdkit import Chem\nfrom rdkit.Chem import rdMolDescriptors\n\nnames = [\n \"9-chloro-11bet",
+    "kind": "name-to-structure",
+    "line": 439,
+    "resolution": "OPSIN on three beclomethasone names (11beta / 16alpha / 16beta). That row is excluded (8 Oct); see the L427 entry.",
+    "resolved": "2026-10-08"
+  },
+  {
+    "agent": "a22fa633b287dec27",
+    "target": "-i -E \"rdkit|osra|decimer|openbabel\"\necho \"=== network check (should we even try?) ===\" ; timeout 3 curl -sI https://pypi.org 2>&1 | head -3\n",
+    "kind": "network-tool",
+    "line": 22,
+    "resolution": "A package-index reachability check (curl -sI https://pypi.org, headers only) before deciding whether to install tools; no chemistry data. Surfaces only since the 8 Oct scanner reports curl regardless of URL.",
+    "resolved": "2026-10-08"
+  },
+  {
+    "agent": "a53ca464d424caad2",
+    "target": "which python3 pip3 2>&1; python3 -m pip --version 2>&1; echo \"---checking network to pypi---\"; timeout 5 python3 -c \"import urllib.request; print(urllib.request.urlopen('https://pypi.org', timeout=4).status)\" 2>&1",
+    "kind": "network-code",
+    "line": 24,
+    "resolution": "The 17 Sep pypi reachability check (urlopen('https://pypi.org').status) whose batch was excluded before scoring; re-targeted for the 8 Oct scanner's network-code target. No chemistry data.",
+    "resolved": "2026-10-08"
   }
 ]
