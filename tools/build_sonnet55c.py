@@ -339,5 +339,12 @@ if __name__ == "__main__":
                 build_llmocr.build()
             except (Exception, SystemExit) as e:  # noqa: BLE001
                 print(f"llmocr build skipped: {e!r}", file=sys.stderr)
+            # The Gallery tab (wall/gallery.json) is derived from the llmocr payloads (verdicts
+            # copied, never rescored), so it rebuilds right after them, also non-blocking.
+            try:
+                import build_gallery
+                build_gallery.build()
+            except (Exception, SystemExit) as e:  # noqa: BLE001
+                print(f"gallery build skipped: {e!r}", file=sys.stderr)
         sys.exit(rc)
     raise SystemExit(__doc__)
