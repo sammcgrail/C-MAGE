@@ -57,6 +57,9 @@ from pathlib import Path
 
 import requests
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import png_clean  # noqa: E402
+
 REPO = Path(__file__).resolve().parent.parent
 CORPUS = REPO / "corpus_images"
 URL = "https://api.anthropic.com/v1/messages"
@@ -139,8 +142,13 @@ def pick(n: int) -> list[dict]:
 
 
 def png_of(row: dict) -> bytes:
+    """The image bytes sent to the model: PIXELS ONLY (8 Oct). The corpus PNGs carried their reference
+    SMILES in RDKit zTXt chunks until they were stripped; the API sees pixels, not chunks, but nothing
+    that leaves this box for a reader may carry the answer, so it is stripped here as well and
+    body_for() refuses any PNG that still has a non-pixel chunk."""
     with LOCK:                       # ZipFile reads are not thread-safe on a shared handle
-        return row["zip"].read(f"cmage_corpus/{row['file']}")
+        data = row["zip"].read(f"cmage_corpus/{row['file']}")
+    return png_clean.pixel_only(data)
 
 
 def load(p: Path) -> list[dict]:
@@ -232,6 +240,7 @@ def stream_call(key: str, body: dict):
 
 def body_for(model: str, prompt: str, png: bytes, max_tokens: int, effort: str | None = None,
              summarized: bool = False) -> dict:
+    png_clean.assert_pixel_only(png, "the image for this request")   # every path, incl. api_reader_set
     b = {"model": model, "max_tokens": max_tokens, "messages": [{"role": "user", "content": [
         {"type": "image", "source": {"type": "base64", "media_type": "image/png",
                                      "data": base64.b64encode(png).decode()}},
@@ -485,6 +494,43 @@ def cmd_maxtok(a) -> int:
     return 0
 
 
+def cmd_selftest(a) -> int:
+    """No network, no key: the image that would leave this box is pixel-only, on every path."""
+    import io
+    from rdkit import Chem, RDLogger
+    from rdkit.Chem.Draw import rdMolDraw2D
+    RDLogger.DisableLog("rdApp.*")
+    fails = 0
+
+    def check(name, ok):
+        nonlocal fails
+        print(("  ok   " if ok else "  FAIL ") + name)
+        fails += 0 if ok else 1
+
+    d = rdMolDraw2D.MolDraw2DCairo(300, 300)
+    rdMolDraw2D.PrepareAndDrawMolecule(d, Chem.MolFromSmiles("CC(=O)Oc1ccccc1C(=O)O"))
+    d.FinishDrawing()
+    dirty = d.GetDrawingText()                       # RDKit default: the answer rides along in zTXt
+    check("control: the test image carries text chunks", bool(png_clean.text_chunks(dirty)))
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("cmage_corpus/x.png", dirty)
+    row = {"zip": zipfile.ZipFile(io.BytesIO(buf.getvalue())), "file": "x.png"}
+    clean = png_of(row)
+    check("png_of returns pixels only", not png_clean.foreign_chunks(clean))
+    check("png_of keeps the pixels", png_clean.pixel_hash(clean) == png_clean.pixel_hash(dirty))
+    try:
+        body_for("m", "p", dirty, 10)
+        check("body_for refuses a PNG with text chunks (any caller, incl. api_reader_set)", False)
+    except png_clean.PngMetadataError:
+        check("body_for refuses a PNG with text chunks (any caller, incl. api_reader_set)", True)
+    b = body_for("m", "p", clean, 10)
+    sent = base64.b64decode(b["messages"][0]["content"][0]["source"]["data"])
+    check("body_for sends exactly the clean bytes", sent == clean)
+    print("API_READER SELFTEST " + ("PASS" if not fails else f"FAIL ({fails})"))
+    return 1 if fails else 0
+
+
 if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -506,5 +552,6 @@ if __name__ == "__main__":
     for name in ("status", "maxtok"):
         s = sp.add_parser(name)
         s.add_argument("--out", required=True)
+    sp.add_parser("selftest")
     a = ap.parse_args()
-    sys.exit({"run": cmd_run, "status": cmd_status, "maxtok": cmd_maxtok}[a.cmd](a))
+    sys.exit({"run": cmd_run, "status": cmd_status, "maxtok": cmd_maxtok, "selftest": cmd_selftest}[a.cmd](a))

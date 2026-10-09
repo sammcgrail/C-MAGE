@@ -105,7 +105,7 @@ def build() -> int:
     for p in dirs.values():
         p.mkdir(parents=True, exist_ok=True)
     rows = []
-    corpus_rows = {r["k"]: r for r in json.load(open(WALL / "images.json"))["rows"]}
+    corpus_rows = {r["k"]: r for r in json.load(open(WALL.parent / "corpus_rows.json"))["rows"]}   # private copy, with references
     fresh = {S[k]["of"]: lane[k] for k in S if S[k]["kind"] == "P" and k in lane}
     for k in sorted(S):
         s = S[k]

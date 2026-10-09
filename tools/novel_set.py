@@ -15,7 +15,11 @@ drug, so an answer can be recall rather than reading. This set removes the recal
 RENDERING IS THE CORPUS'S, BYTE FOR BYTE. render_rdkit() is a verbatim copy of the corpus_rdkit_1500
 renderer (cmage-img*/build_corpus*.py): 1500 px, clearBackground, font size unclamped, scaled bond
 width 2. Checked 29 Sep: re-rendering four corpus compounds from their truth SMILES with this
-function gives byte-identical PNGs (same md5) under the .venv-ms RDKit (2025.03.3). A style
+function gives byte-identical PNGs (same md5) under the .venv-ms RDKit (2025.03.3). Re-checked 8 Oct,
+after includeMetadata = False went into both renderers and every stored image was stripped to pixels
+only (RDKit had written each image's SMILES and molblock into it as zTXt): all 44 novel images, and
+2451 of the 2510 corpus images, are byte-identical to a fresh render of their reference; the other 59
+are the 19 Sep coordgen re-renders, byte-identical to cmage-work/overlap-rerender/new. A style
 difference would confound the test, so the edited SMILES are written as small edits of the
 parent's corpus SMILES and drawn the same way.
 
@@ -40,7 +44,7 @@ RDLogger.DisableLog("rdApp.*")
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent / "benchmarks" / "novel_set.json"
 IMG = Path("/root/cmage-work/novel/corpus_rdkit_1500")
-IMAGES_JSON = HERE.parent / "benchmarks" / "wall" / "images.json"
+IMAGES_JSON = HERE.parent / "benchmarks" / "corpus_rows.json"   # private: wall/images.json gates the reference (8 Oct)
 PNG_MAGIC = b"\x89PNG"
 
 # kind A: (id, parent name, parent corpus key, edit, edited SMILES written from the parent's corpus SMILES)
@@ -177,6 +181,7 @@ def render_rdkit(smiles, S, out):
         o.minFontSize = -1
         o.scaleBondWidth = True
         o.bondLineWidth = 2
+        o.includeMetadata = False   # 8 Oct: RDKit otherwise writes the SMILES/molblock into the PNG
         rdMolDraw2D.PrepareAndDrawMolecule(d, m)
         d.FinishDrawing()
         data = d.GetDrawingText()
@@ -263,7 +268,7 @@ def build() -> int:
             row.update(s=old.get(k, {}).get("s"), v=old.get(k, {}).get("v"), c=old.get(k, {}).get("c"))
             rows.append(row)
     OUT.write_text(json.dumps({"built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                               "renderer": "corpus_rdkit_1500 (byte-identical check passed)",
+                               "renderer": "corpus_rdkit_1500, includeMetadata off (byte-identical check passed)",
                                "rows": rows}, indent=1) + "\n")
     print(f"wrote {OUT}: " + ", ".join(f"{sum(r['kind'] == x for r in rows)} kind {x}" for x in "ABCP") + "; "
           f"images in {IMG}")

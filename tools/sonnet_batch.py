@@ -69,10 +69,18 @@ if ARM and not re.fullmatch(r"[a-z0-9]+", ARM):
 # nov (29 Sep) is Sonnet 5.5 on the NOVEL STRUCTURES set (tools/novel_set.py): edited famous drugs and
 # de novo molecules it cannot have memorised, drawn with the corpus renderer. Its pool is
 # benchmarks/novel_set.json, NOT the corpus, so it can never claim, score or count a corpus image.
+# ctl (8 Oct) is Sonnet 5.5 on the RENDERER CONTROL SET (tools/control_set.py): ~150 corpus molecules
+# drawn by a different renderer (Indigo, its own layout) under neutral names. Its pool is
+# benchmarks/control_set.json; each row's png path is its image. Jailed readers have RDKit, the corpus
+# renderer, and pixel-match candidates against the image; on these drawings they cannot.
 ARM_MODEL = {"": "claude-sonnet-5", "s55": "claude-sonnet-5-5", "s55c": "claude-sonnet-5-5",
-             "nov": "claude-sonnet-5-5"}
+             "nov": "claude-sonnet-5-5", "ctl": "claude-sonnet-5-5"}
 NOVEL_SET = Path("/root/C-MAGE/benchmarks/novel_set.json")
 NOVEL_IMAGES = "/root/cmage-work/novel/corpus_rdkit_1500"
+CONTROL_SET = Path("/root/C-MAGE/benchmarks/control_set.json")
+# The corpus WITH its reference SMILES. Not wall/images.json: since 8 Oct the served payload carries
+# a reference only for images a tool-using lane has already read. tools/build_wall.py writes both.
+CORPUS_ROWS = Path("/root/C-MAGE/benchmarks/corpus_rows.json")
 if ARM and ARM not in ARM_MODEL:
     raise SystemExit(f"unknown SONNET_ARM {ARM!r}; known lanes: {sorted(ARM_MODEL)}")
 STEM = "fig" if ARM else "img"
@@ -97,8 +105,13 @@ WALL = Path("/root/C-MAGE/benchmarks/wall")
 
 
 def corpus() -> list[dict]:
-    d = json.load(open(NOVEL_SET if ARM == "nov" else WALL / "images.json"))
-    return sorted(d["rows"], key=lambda r: r["k"])
+    d = json.load(open(NOVEL_SET if ARM == "nov" else CONTROL_SET if ARM == "ctl" else CORPUS_ROWS))
+    rows = sorted(d["rows"], key=lambda r: r["k"])
+    missing = [r["k"] for r in rows if not r.get("t")]
+    if missing:
+        raise SystemExit(f"{len(missing)} pool rows carry no reference SMILES (e.g. {missing[:3]}); "
+                         f"the pool must come from the private rows file, not a served payload")
+    return rows
 
 
 def done_keys() -> set[str]:
@@ -108,6 +121,8 @@ def done_keys() -> set[str]:
 
 
 def image_index() -> dict[str, str]:
+    if ARM == "ctl":
+        return {r["k"] + ".png": r["png"] for r in json.load(open(CONTROL_SET))["rows"]}
     idx = {}
     for dd in ([NOVEL_IMAGES] if ARM == "nov" else sorted(glob.glob("/root/cmage-work/cmage-img*/corpus_rdkit_1500"))):
         for p in glob.glob(dd + "/*.png"):
@@ -152,10 +167,20 @@ def claimed_keys() -> set[str]:
     return out
 
 
+def refuse_open_slot(slot: str) -> None:
+    """A slot holds ONE claim. Claiming over an open one used to overwrite pending_<slot>.json, so the
+    first claim's images silently returned to the pool while its reader was still reading them, and its
+    answers would then be scored against the second claim (8 Oct audit). Release or score it first."""
+    if pending_path(slot).exists():
+        raise SystemExit(f"[{slot}] refusing: the slot already has an open claim ({pending_path(slot)}); "
+                         f"score or release it first")
+
+
 def cmd_claim(slot: str, keys: list[str]) -> int:
     """Claim NAMED images rather than the next in corpus order. For a re-read: an image
     whose drawing was replaced has to go back to a reader, and it sits wherever the
     alphabet put it, not at the head of the pool."""
+    refuse_open_slot(slot)
     rows = {r["k"]: r for r in corpus()}
     have, claimed, gone = done_keys(), claimed_keys(), removed()
     unknown = [k for k in keys if k not in rows]
@@ -168,6 +193,7 @@ def cmd_claim(slot: str, keys: list[str]) -> int:
 
 
 def cmd_next(n: int, slot: str = "a") -> int:
+    refuse_open_slot(slot)
     rows, have = corpus(), done_keys()
     claimed = claimed_keys()
     gone = removed()
@@ -201,6 +227,27 @@ def wipe_scratch(slot: str) -> list[str]:
     return wiped
 
 
+def write_blind(src: str, dst: Path) -> None:
+    """The blind copy carries PIXELS ONLY (8 Oct). RDKit wrote the reference SMILES, molblock and
+    pickled molecule into every corpus PNG as zTXt chunks, and this used to be a byte copy, so each
+    blind image held its own answer one Chem.MolFromPNGFile() away. A source that still carries a
+    text chunk is REFUSED (the corpus was stripped; a new image set must be stripped before it is
+    used), and the copy is re-written chunk by chunk with only the pixel-defining chunks, checked to
+    decode to the same pixels and to carry nothing else."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import png_clean
+    data = open(src, "rb").read()
+    bad = png_clean.foreign_chunks(data)
+    if any(t in ("tEXt", "zTXt", "iTXt") for t in bad):
+        raise SystemExit(f"REFUSING {src}: it carries text chunk(s) {png_clean.text_chunks(data)}. "
+                         f"Strip it first (tools/png_clean.py); a blind image must hold pixels only.")
+    out = png_clean.pixel_only(data)
+    png_clean.assert_pixel_only(out, str(dst))
+    if png_clean.pixel_hash(out) != png_clean.pixel_hash(data):
+        raise SystemExit(f"REFUSING {src}: the pixel-only copy does not decode to the same pixels")
+    dst.write_bytes(out)
+
+
 def _prepare(slot: str, todo: list[dict], have: set[str], claimed: set[str],
              gone: dict[str, dict], open_count: int) -> int:
     idx = image_index()
@@ -214,10 +261,10 @@ def _prepare(slot: str, todo: list[dict], have: set[str], claimed: set[str],
         if not src:
             continue
         dst = BLIND / f"{STEM}{i:02d}.png"
-        shutil.copy(src, dst)
+        write_blind(src, dst)
         batch.append({"slot": f"{STEM}{i:02d}", "k": r["k"], "truth": r.get("t"),
-                      "name": r["n"], "ocr_smiles": r["s"], "ocr_verdict": r["v"],
-                      "ocr_conf": r["c"]})
+                      "name": r["n"], "ocr_smiles": r.get("s"), "ocr_verdict": r.get("v"),
+                      "ocr_conf": r.get("c")})
     json.dump(batch, open(pending_path(slot), "w"), indent=1)
     leak = [b for b in batch if any(t in b["slot"].lower() for t in ("cid", "acid", "_"))]
     assert not leak, f"anonymisation failed: {leak}"
@@ -330,8 +377,28 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
     # imgNN, imgNN.png and /tmp/blind_x/imgNN.png are the same slot: readers are handed
     # paths and label their answers from them. gate_and_score.slot_id does the same, so a
     # batch that passes the gate cannot then fail to score on spelling alone.
-    ans = {re.sub(r"\.png$", "", str(a["img"]).rsplit("/", 1)[-1]): a
-           for a in json.load(open(answers_path))}
+    raw = json.load(open(answers_path))
+    if not isinstance(raw, list) or not all(isinstance(a, dict) and "img" in a for a in raw):
+        raise SystemExit(f"[{slot}] REFUSING: {answers_path} is not a list of answer objects with an \"img\"")
+    labels = [re.sub(r"\.png$", "", str(a["img"]).rsplit("/", 1)[-1]) for a in raw]
+    dup = sorted({x for x in labels if labels.count(x) > 1})
+    if dup:
+        raise SystemExit(f"[{slot}] REFUSING: more than one answer for {dup}; which one would count is "
+                         f"an accident of dict order")
+    ans = dict(zip(labels, raw))
+    # An answer is a SMILES string or nothing (null / "" = unreadable). A list, a number, or a string
+    # with whitespace ("A or B", "CCO CCN") is refused: RDKit reads only up to the first space, so
+    # "A or B" used to score as A.
+    bad = [f"{k}: {a.get('smiles')!r}" for k, a in ans.items()
+           if not (a.get("smiles") is None or (isinstance(a.get("smiles"), str)
+                                               and not re.search(r"\s", a.get("smiles"))))]
+    if bad:
+        raise SystemExit(f"[{slot}] REFUSING: answers that are not one whitespace-free SMILES string: {bad}")
+    already = sorted({b["k"] for b in batch} & done_keys())
+    keys = [b["k"] for b in batch]
+    if already or len(set(keys)) != len(keys):
+        raise SystemExit(f"[{slot}] REFUSING: duplicate keys; already scored {already}, "
+                         f"repeated in the claim {sorted({k for k in keys if keys.count(k) > 1})}")
 
     # The answers file lives at a FIXED path per slot and is overwritten each round.
     # Scoring a STALE one against a fresh claim is silent and total: every row gets a
@@ -356,7 +423,7 @@ def cmd_score(answers_path: str, slot: str = "a") -> int:
             pred, t = a.get("smiles"), b["truth"]
             v = verdict(pred, t)
             s_ex += v == "exact"
-            o_ex += b["ocr_verdict"] == "exact"
+            o_ex += b.get("ocr_verdict") == "exact"
             fh.write(json.dumps(dict(b, sonnet_smiles=pred, sonnet_verdict=v,
                                      sonnet_conf=a.get("confidence"),
                                      sonnet_name=a.get("name_if_recognised"),
