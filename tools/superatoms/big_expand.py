@@ -61,7 +61,7 @@ PER_PATENT_TRAIN = 20         # the training-set well: one patent can hold thous
 PER_PATENT_ODP = 40           # a PROTAC patent holds hundreds of PROTACs
 ODP_POOL = WORK / "odp_pool.jsonl"
 MAX_WEEKS_PER_STEP = 16       # ODP weeks streamed per step at most (~4 GB, ~2.5 min each); ~25 capped PROTACs a week
-TARGET_PROTAC = 3000          # Sam: ~3000 PROTACs (ODP)
+TARGET_PROTAC = 2000          # Sam 9 Oct: "2000 fine for now" (was ~3000), mixed batches kept
 BIG_CAP = 140.0               # Sam 2026-10-09 (was 70, then 100)
 
 
