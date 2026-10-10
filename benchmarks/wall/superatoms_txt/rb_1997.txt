@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+- **Indazole part:** the 1H-indazole is attached through its C3 to the amide NH. Its C5 carries a CH2 linked to a 3,5-difluorophenyl ring.
+- **Benzamide ring:** the carbonyl is at C1, a tetrahydropyran-4-ylamino group (NH-oxan-4-yl) is at C2, and a piperazine N is at C4.
+- **Linker:** the other piperazine N is bonded to C3 of an azetidine. The azetidine N is bonded to C5 of an isoindolinone.
+- **Isoindolinone:** the lactam N carries a 2,6-dioxopiperidin-3-yl group, and the ring CH2 sits next to the aromatic carbon.
+
+SMILES assembly:
+
+Indazole: c1(NC(=O)...)n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12
+
+Benzamide: C(=O)c1ccc(cc1NC1CCOCC1)N1CCN(CC1)C1CN(C1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O
+
+Isoindolinone ring check: the aromatic carbon bearing the azetidine N is c1, followed by ccc2 where c2 bears the C(=O) (lactam carbonyl, drawn at the bottom). Then N(Cc2c1) closes the CH2 onto the aromatic carbon adjacent to the one bearing the azetidine, which matches the drawing: the azetidine-bearing carbon is next to the CH carbon, which is attached to the CH2-bearing carbon.
+
+Full SMILES: O=C(Nc1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12)c1ccc(cc1NC1CCOCC1)N1CCN(CC1)C1CN(C1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O
+
+SMILES: O=C(Nc1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12)c1ccc(cc1NC1CCOCC1)N1CCN(CC1)C1CN(C1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O

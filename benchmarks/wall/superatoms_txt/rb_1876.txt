@@ -1,0 +1,17 @@
+I read this as the cyclic peptide named under the drawing, H‑Cpa‑cyclo[D‑Cys‑Tyr‑D‑Tyr(2‑(4‑morpholinyl)ethyl)‑Lys‑Thr‑Cys]‑D‑Tyr‑NH2, and wrote the SMILES residue by residue in sequence order.
+
+**Residues, N‑terminus to C‑terminus**
+1. 4‑Chlorophenylalanine (Cpa) carries the free NH2. Its NH2 is on a hashed bond, and by CIP priorities that centre is S, so it is the L‑configuration.
+2. D‑Cys.
+3. Tyr (L).
+4. D‑Tyr whose phenol oxygen is alkylated with a 2‑(morpholin‑4‑yl)ethyl group.
+5. Lys (L), with a free side‑chain NH2.
+6. Thr (L), with a free hydroxyl.
+7. Cys (L).
+8. D‑Tyr as the C‑terminal primary amide.
+
+**Ring:** a disulfide bond joins the side chains of Cys2 and Cys7. In the SMILES this is the ring closure `%10` between the two sulfur atoms.
+
+**Stereochemistry:** I took residues 2–8 from the residue names (D or L as given) and checked only the Cpa centre against the wedges in the drawing. For the amino acids written N‑first, L is `N[C@@H](R)C(=O)` and D is `N[C@H](R)C(=O)`. The Thr β‑carbon is `[C@@H](C)O`, which gives the L‑Thr (2S,3R) form.
+
+SMILES: N[C@@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](CS%10)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@H](Cc1ccc(OCCN2CCOCC2)cc1)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CS%10)C(=O)N[C@H](Cc1ccc(O)cc1)C(N)=O

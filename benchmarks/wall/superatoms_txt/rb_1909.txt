@@ -1,0 +1,13 @@
+I read the molecule as a cyclic, disulfide-bridged peptide and wrote it residue by residue, N-terminus to C-terminus:
+
+Ac-Pen – Asn – Thr – 7-Me-Trp – Lys(Ac) – Pen – Tyr(OCH2CH2NH2) – 2-Nal – (4-aminotetrahydropyran-4-carboxylic acid) – Glu – Asn – 3-Pal – Sar-NH2
+
+The two penicillamine (Pen) sulfurs are joined by the S–S bridge, written as ring closure `%10`. The C-terminus is N-methylglycine amide, `N(C)CC(N)=O`.
+
+I assigned each α-carbon from the wedge or hash on its bond:
+- Every residue except the pyridylalanine (3-Pal) comes out as an L-amino acid.
+- The threonine β-carbon (OH on a hashed bond) is also consistent with L-Thr.
+- The achiral 4-aminotetrahydropyran-4-carboxylic acid residue carries no stereo marks.
+- The 3-Pal α-carbon is the least certain assignment. I read its side-chain bond as a bold wedge, which gives the D configuration (`[C@H]`). If that bond is actually hashed, it would be `[C@@H]` (L).
+
+SMILES: CC(=O)N[C@@H](C(C)(C)S%10)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](Cc1c[nH]c2c(C)cccc12)C(=O)N[C@@H](CCCCNC(C)=O)C(=O)N[C@@H](C(C)(C)S%10)C(=O)N[C@@H](Cc1ccc(OCCN)cc1)C(=O)N[C@@H](Cc1ccc2ccccc2c1)C(=O)NC1(CCOCC1)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@H](Cc1cccnc1)C(=O)N(C)CC(N)=O

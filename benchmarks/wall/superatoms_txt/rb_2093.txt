@@ -1,0 +1,21 @@
+I read the structure as a PROTAC-type molecule and assembled the SMILES in fragments.
+
+**Fragments**
+- Indazole: the 3-amino-1H-indazole carries a 3,5-difluorobenzyl group at C5. Written from the amide N: N-c1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12.
+- Benzamide: C(=O) is attached to a ring carbon. The ortho position bears NH-tetrahydropyran-4-yl. The para position, relative to the carbonyl, bears the piperidine N.
+- Piperidine: the ring N is attached to the benzamide ring, and C4 carries an O linking to azetidine C3.
+- Azetidine: its N is attached to the isoindoline-1,3-dione at C5 (the aromatic ring position).
+- Isoindoline-1,3-dione: its N is attached to the 2,6-dioxopiperidin-3-yl group.
+
+**Benzamide ring substitution**
+The ring carbon bearing C(=O) is C1. The adjacent carbon C2 bears the NH-THP group, and C3 is the CH between C2 and C4. C4 bears the piperidine N, which is para to C1. This gives c1(C(=O)N...)ccc(N2CCC(CC2)O...)cc1NC1CCOCC1.
+
+**Isoindoline ring substitution**
+The azetidine N sits on the aromatic carbon next to the CH that is adjacent to the C(=O) bearing carbon. Writing the ring as c1ccc2C(=O)N(...)C(=O)c2c1 places the azetidine N on the carbon meta to the ring fusion carbon in the lower position, which matches the drawing.
+
+**Assembled SMILES**
+O=C(Nc1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12)c1ccc(N2CCC(CC2)OC2CN(C2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)cc1NC1CCOCC1
+
+No wedges or hashes are drawn, so I included no stereochemistry.
+
+SMILES: O=C(Nc1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12)c1ccc(N2CCC(CC2)OC2CN(C2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)cc1NC1CCOCC1

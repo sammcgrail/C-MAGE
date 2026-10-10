@@ -1,0 +1,11 @@
+I read the drawing as a cyclic peptide and wrote the SMILES residue by residue, from the Cys at top left around the ring to the C-terminal prolinamide.
+
+1. **Ring closure.** The Cys at top left has its NH acylated by the side-chain C(=O) at the top right. That carbonyl sits on a CH2 attached to the alpha carbon of the right-hand residue, which makes it Asp (alpha carbon, one CH2, then C=O), not Glu.
+2. **Backbone, left to right.**
+   - Cys(SH), then Lys with an N,N-dimethyl side-chain amine, then Trp (indol-3-ylmethyl side chain).
+   - Next is a second Cys(SH). Its carbonyl acylates the epsilon NH of a second Lys, so the link is through the Lys side chain.
+   - The Lys alpha carbon carries an NH acylated by a Pro whose own nitrogen is capped with a glycolyl group, C(=O)CH2OH.
+   - The Lys alpha carbonyl continues to the Asp alpha NH. The Asp carbonyl then runs to a C-terminal Pro, which ends in a primary amide.
+3. **Stereochemistry.** I assigned each wedged or hashed centre by CIP priorities (the two Pro centres I took as L by default). All come out as the natural L configuration (S for most residues, R for Cys). I then wrote each centre with the matching @/@@ tag.
+
+SMILES: N1[C@@H](CS)C(=O)N[C@@H](CCCCN(C)C)C(=O)N[C@@H](Cc2c[nH]c3ccccc23)C(=O)N[C@@H](CS)C(=O)NCCCC[C@H](NC(=O)[C@@H]3CCCN3C(=O)CO)C(=O)N[C@@H](CC1=O)C(=O)N4CCC[C@H]4C(N)=O

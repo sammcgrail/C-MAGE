@@ -1,0 +1,17 @@
+I read the structure left to right from the C-terminal leucine, then wrote it as SMILES.
+
+**Peptide chain (C-terminus to the Arg-containing linkage):**
+- Leu with a free COOH, then Pro, Ser (CH2OH side chain), cyclohexylalanine, Gly, 4-hydroxyproline and Pro.
+- The Pro is acylated by an arginine-type residue whose α-carbon carries an O (not an NH). This O forms an ester with the carbonyl of the next residue, so the linkage is a depsipeptide ester.
+- The arginine side chain is CH2CH2CH2NHC(=NH)NH2.
+
+**Linker and tail:**
+- The ester carbonyl belongs to a lysine residue with a free 4-aminobutyl side chain (CH2)4NH2.
+- Its α-NH is acylated by C(=O)CH2 attached to the nitrogen of a piperidine ring.
+- The piperidine 4-NH forms an amide with an azido-lysine-derived residue. That residue has a chain of four CH2 groups ending at N1 of a 1,2,3-triazole.
+- Triazole C4 carries CH2–N⁺(CH3)2–CH2–BF3⁻. The BF3 sits on a single carbon, so this is an ammoniomethyl trifluoroborate.
+- The α-NH of the azido-lysine residue is acylated by C(=O)CH2 on one nitrogen of a DOTA macrocycle (cyclen with three CH2COOH arms).
+
+**Stereochemistry:** I assigned each wedge or hash centre from the drawing by CIP priorities. Every stereocentre comes out as the L-type (S) configuration: Leu, both Pro residues, Ser, Cha, Hyp, the O-substituted Arg unit, Lys and the azido-Lys unit. The hydroxyl-bearing carbon of Hyp is drawn with plain bonds, so it carries no stereo label.
+
+SMILES: OC(=O)[C@H](CC(C)C)NC(=O)[C@@H]1CCCN1C(=O)[C@H](CO)NC(=O)[C@H](CC1CCCCC1)NC(=O)CNC(=O)[C@@H]1CC(O)CN1C(=O)[C@@H]1CCCN1C(=O)[C@H](CCCNC(N)=N)OC(=O)[C@H](CCCCN)NC(=O)CN1CCC(CC1)NC(=O)[C@H](CCCCn1cc(C[N+](C)(C)C[B-](F)(F)F)nn1)NC(=O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)O)CC1

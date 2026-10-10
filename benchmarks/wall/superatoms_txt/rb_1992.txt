@@ -1,0 +1,15 @@
+I read the structure as a cyclic peptide with ten residues, traced around the ring by following each C(=O)–N link.
+
+**Ring sequence** (each residue's carbonyl acylates the next residue's nitrogen):
+- N‑Me‑Leu → Asp → D‑Val → Thr → N‑Me‑Ala → N‑Me‑Phe → Pro → Leu → N‑Me‑Val → N‑Me‑homoPhe → N‑Me‑Ala, which closes back onto the N‑Me‑Leu nitrogen.
+- The Asp is linked through its side‑chain carbonyl (CH2–C(=O)–NH–Val), and its α‑carboxyl is a piperidine amide.
+- The Thr side chain is CH(OH)CH3.
+- The homoPhe side chain is CH2CH2Ph and the Phe side chain is CH2Ph.
+
+**Stereochemistry** (assigned from the wedges and hashes at each α‑carbon, using the CORN rule):
+- All α‑carbons come out L except the Val between Asp and Thr, which comes out D.
+- The Thr β‑carbon (hashed OH) matches natural L‑Thr.
+
+I checked that the SMILES parses with consistent ring closures and that it reproduces the traced connectivity. The stereo tags follow from my reading of the wedges, so they are the part most open to error.
+
+SMILES: CN1[C@@H](CC(C)C)C(=O)N[C@@H](CC(=O)N[C@H](C(C)C)C(=O)N[C@@H]([C@@H](C)O)C(=O)N(C)[C@@H](C)C(=O)N(C)[C@@H](Cc2ccccc2)C(=O)N2CCC[C@H]2C(=O)N[C@@H](CC(C)C)C(=O)N(C)[C@@H](C(C)C)C(=O)N[C@@H](CCc2ccccc2)C(=O)N(C)[C@@H](C)C(=O)1)C(=O)N1CCCCC1

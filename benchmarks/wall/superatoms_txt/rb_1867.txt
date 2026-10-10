@@ -1,0 +1,19 @@
+I read the structure region by region, starting from the left end.
+
+**Left end:** a dashed bond leads to a carbonyl carbon, C(=O), which is bonded to an O. That O connects to a CH2, which is attached to a para-substituted benzene ring. This is a PAB (p-aminobenzyl) ester.
+
+**Peptide chain:** the ring nitrogen is NH–C(=O)–CH2–NH (Gly). That NH is followed by C(=O)–CH(CH2Ph)–NH (Phe). The Phe NH is followed by C(=O)–CH2–NH (Gly), then C(=O)–CH2–NH (Gly). The last NH carries C(=O)–(CH2)5–N, the caproyl linker. I counted the chain between the carbonyl and the maleimide N: from C(=O) there are 5 CH2 groups, so it is a 6-aminohexanoyl unit.
+
+**Right end:** the linker ends at a succinimide N. This is a ring of N, C(=O), CH, CH2, C(=O). The CH carries a wavy bond to a carbon bearing a methyl, which is drawn as a quaternary C with a methyl branch. I take the wavy line as the attachment point and the short line to the right as a methyl group, so that carbon is C(C)(...) with an open valence. I write the ends as a dashed attachment and a wavy attachment, using a C(C) fragment for the right side.
+
+**Stereochemistry:** the Phe alpha carbon is drawn with a hashed bond to the CH2Ph. Its neighbors are NH (up-right), C(=O) (down), and CH2 (hashed, up-left). I assign it as the L (S) configuration.
+
+I write the SMILES starting at the CH2 attached to the ring and going through the peptide to the end:
+
+O=C(*)COc… is replaced by a simpler form: `*C(=O)OCc1ccc(NC(=O)CNC(=O)[C@H](Cc2ccccc2)NC(=O)CNC(=O)CNC(=O)CCCCCN2C(=O)CC(C(C)(C)*)C2=O)cc1`
+
+For the stereocenter, the written order of neighbors is C(=O) (preceding atom), H, CH2Ph, then N. Phe in standard form is N[C@@H](Cc1ccccc1)C(=O)O. Rewriting with the preceding atom C(=O): the neighbor order is C, H, CH2, N. Starting from N[C@@H](CH2)(C=O), viewed from N the order is H, CH2, C counterclockwise for @@ (clockwise). Moving to the order C, H, CH2, N is a permutation of (N, H, CH2, C). Swapping N and C gives (C, H, CH2, N), which is one transposition, so the chirality flips from @@ to @. So the form is C(=O)[C@H](Cc2ccccc2)N, which matches what I wrote.
+
+The right-end wavy carbon is written as C(C)(C)* with one methyl and an open attachment. I keep the attachment point as `*`.
+
+SMILES: *C(=O)OCc1ccc(NC(=O)CNC(=O)[C@H](Cc2ccccc2)NC(=O)CNC(=O)CNC(=O)CCCCCN2C(=O)CC(C(C)(C)*)C2=O)cc1

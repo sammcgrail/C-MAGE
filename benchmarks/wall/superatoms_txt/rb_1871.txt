@@ -1,0 +1,29 @@
+This SMILES was read from the drawing as a cyclic peptide, but the stereochemistry is partly assumed rather than read from the wedges. I traced the residues from the C-terminal glycinamide back towards the N-terminus.
+
+**Residues, in order from the C-terminus:**
+- Gly-NH2
+- Cys, whose side-chain sulfur carries CH2C(=O)– and closes onto the nitrogen of Tyr
+- Leu
+- N-methyl-norleucine
+- N-methyl-norleucine
+- Trp whose indole nitrogen carries CH2COOH
+- a diamino acid with a two-carbon side chain (α-carbon, CH2, CH2, NH), which I read as Dab
+- Trp
+- 4-hydroxyproline
+- Val
+- Dap (2,3-diaminopropionic acid)
+- Pro
+- Asn
+- N-methyl-Ala
+- Tyr
+
+**Side-chain bridge:** the Dab side-chain NH and the Dap side-chain NH are joined by –CH2–CH(OH)–CH2–O–CH2–CH(OH)–CH2–.
+
+**Stereochemistry:**
+- I assigned L-configuration to the standard residues by assumption.
+- The N-methyl-Ala and 4-hydroxyproline stereocentres, and the Cys configuration, were not resolved from the image. I guessed those, so they may be wrong.
+- The two carbinol carbons in the linker are drawn with plain bonds, so they carry no stereo.
+
+I checked the ring-closure labels by hand but did not run the SMILES through a parser.
+
+SMILES: NC(=O)CNC(=O)[C@H](CSCC%10=O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCCC)N(C)C(=O)[C@H](CCCC)N(C)C(=O)[C@H](Cc1cn(CC(=O)O)c2ccccc12)NC(=O)[C@H](CCNCC(O)COCC(O)CN%12)NC(=O)[C@H](Cc1c[nH]c2ccccc12)NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@H](C(C)C)NC(=O)[C@H](C%12)NC(=O)[C@@H]1CCCN1C(=O)[C@H](CC(N)=O)NC(=O)[C@@H](C)N(C)C(=O)[C@H](Cc1ccc(O)cc1)N%10

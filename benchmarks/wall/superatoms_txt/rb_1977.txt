@@ -1,0 +1,11 @@
+I read the structure in five parts and wrote the SMILES in that order.
+
+- **Fluoropyrrolidine:** the ring N is acylated. C2 carries a wedged carboxamide to the NH of a 6-bromopyridin-2-yl group. C4 carries a hashed fluorine.
+- **Linker to the indazole:** the ring N is acylated by C(=O)CH2, which is attached to N1 of the indazole.
+- **Indazole and pyrimidine:** the indazole has a 3-acetyl group and a pyrimidin-5-yl group at C5. The pyrimidine has an NH at C2.
+- **Chain:** NH–CH2–C(=O)–NH–CH2–C(=O)–NH–CH2–C(=O)–NH–CH2, which ends on the pyran.
+- **Tetrahydropyran:** the ring is O, CH2, CH(1-methylpyrazol-4-yl), CH(OH), CH(OH), CH(CH2NH). All four substituents on the ring carbons are wedged.
+
+I worked out each @/@@ tag from the wedge and hash directions, taking the implicit H as opposite the wedged or hashed substituent. I did not run the final string through a SMILES parser.
+
+SMILES: F[C@@H]1C[C@@H](C(=O)Nc2cccc(Br)n2)N(C1)C(=O)Cn1nc(C(C)=O)c2cc(-c3cnc(NCC(=O)NCC(=O)NCC(=O)NC[C@H]4OC[C@@H](c5cnn(C)c5)[C@@H](O)[C@H]4O)nc3)ccc21

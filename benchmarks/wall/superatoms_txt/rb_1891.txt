@@ -1,0 +1,18 @@
+I traced the macrocycle residue by residue around the ring, then assigned each stereocentre from its wedge or hash and checked it against CIP priorities. I could not run a SMILES parser here, so validity was checked by hand only.
+
+**Residue sequence, starting from the caprolactam:**
+1. A 7-membered lactam ring: N, C=O, an N-methylamino-bearing CH (wedge) and four CH2 groups. This carbon is S.
+2. N-Me-Gly.
+3. Isoleucine, with the alpha carbon S and the beta carbon S, as in L-Ile.
+4. N-Me-Leu (S, hashed isobutyl).
+5. An N-Me aspartic acid derivative whose side-chain carbonyl is a morpholine amide (S).
+6. N-Me-cyclopentylglycine (S).
+7. 1-Aminocyclopentane-1-carboxylic acid, which has no stereocentre.
+8. Proline (S).
+9. A homophenylalanine residue whose aryl group is 3-chloro-4-(trifluoromethyl)phenyl (S).
+10. N-Me-Gly.
+11. An N-acylated 4-fluorophenylalanine-type CH, where the nitrogen is the lactam N. Its hashed benzyl bond makes this carbon R.
+
+The ring closes from this last CH back to the lactam nitrogen.
+
+SMILES: O=C1N2CCCC[C@@H]1N(C)C(=O)CN(C)C(=O)[C@H]([C@@H](C)CC)NC(=O)[C@H](CC(C)C)N(C)C(=O)C[C@@H](C(=O)N3CCOCC3)N(C)C(=O)[C@H](C4CCCC4)N(C)C(=O)C5(CCCC5)NC(=O)[C@@H]6CCCN6C(=O)[C@H](CCc7ccc(C(F)(F)F)c(Cl)c7)NC(=O)CN(C)C(=O)[C@H]2Cc8ccc(F)cc8

@@ -1,0 +1,24 @@
+I read the macrocycle clockwise from the top carbonyl and wrote the SMILES in that order.
+
+**Ring sequence.** The top C(=O) is joined to a three-carbon CH2 chain that runs to a meta-substituted benzene. Going clockwise from that carbonyl, the residues are:
+1. Gly
+2. N-Me-Val
+3. N-Me-Leu
+4. Ala
+5. N-Me-Ile
+6. Phe
+7. N-Me-Phe
+8. Thr
+9. Pro
+10. Leu
+11. an aryl-glycine, whose carbonyl is a piperidine amide and whose aryl ring is the meta-substituted benzene bearing the CH2CH2CH2 chain.
+
+**Stereochemistry.** Every α-carbon is drawn with a hashed H except the aryl-glycine, which has a wedged H. I assigned each centre from the wedge direction and checked it against CIP priorities:
+- Val, Leu, Ala, Ile, Phe, N-Me-Phe, Thr and Pro α-carbons are all S, the L-configuration.
+- The Ile β-carbon is S (hashed methyl), the natural L-Ile.
+- The Thr β-carbon is R (wedged OH), the natural L-Thr.
+- The aryl-glycine α-carbon is S, which gives `[C@H]` in the order N, H, C(=O), aryl.
+
+I did not run a toolkit parse. I checked ring-closure numbering by hand, and the digits are reused only after each ring is closed.
+
+SMILES: C1(=O)NCC(=O)N(C)[C@@H](C(C)C)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](C)C(=O)N(C)[C@@H]([C@@H](C)CC)C(=O)N[C@@H](Cc2ccccc2)C(=O)N(C)[C@@H](Cc2ccccc2)C(=O)N[C@@H]([C@@H](C)O)C(=O)N2CCC[C@H]2C(=O)N[C@@H](CC(C)C)C(=O)N[C@H](C(=O)N2CCCCC2)c2cccc(c2)CCC1

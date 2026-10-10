@@ -1,0 +1,20 @@
+I read the structure as a cyclic peptide of 11 residues, and I assigned each stereocentre from the wedge or hash on its H.
+
+**Ring path.** Starting at the top-left Asp and going clockwise, the ring runs through:
+1. Asp, whose α-carbon carries a piperidine amide, with the ring continuing through its side-chain CH2–C(=O) to the next NH.
+2. Val, with an isopropyl side chain.
+3. N-Me-Ala.
+4. N-Me-Leu, with an isobutyl side chain.
+5. Glu, whose side chain is CH2CH2C(=O)NHMe.
+6. N-Me-Phe, with a benzyl side chain.
+7. Phe, with a benzyl side chain.
+8. N-Me-Leu.
+9. N-Me-Gly (sarcosine).
+10. N-Me-Ala.
+11. Thr, with a CH(OH)CH3 side chain, which closes back onto the Asp α-NH.
+
+**Stereochemistry.** I worked out each centre from its H wedge or hash and the clockwise or counterclockwise order of its other three substituents. The Thr β-carbon, with a wedged OH, comes out as `[C@@H](C)O`.
+
+I did not independently re-parse the final string with a toolkit, but I checked the atom count and ring closures against the drawing.
+
+SMILES: O=C(N2CCCCC2)[C@@H]1CC(=O)N[C@H](C(C)C)C(=O)N(C)[C@@H](C)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)NC)C(=O)N(C)[C@@H](Cc2ccccc2)C(=O)N[C@@H](Cc2ccccc2)C(=O)N(C)[C@@H](CC(C)C)C(=O)N(C)CC(=O)N(C)[C@@H](C)C(=O)N[C@@H]([C@@H](C)O)C(=O)N1

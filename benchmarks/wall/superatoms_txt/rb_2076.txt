@@ -1,0 +1,17 @@
+I read the structure as a macrocyclic peptide and wrote the SMILES by tracing the ring from the top-left residue clockwise. The residues in order are:
+
+1. A 4-(trifluoromethyl)phenylalanine whose nitrogen is part of an eight-membered ring.
+2. N-methylglycine.
+3. A homophenylalanine carrying a 3,5-difluoro-4-(trifluoromethyl)phenyl group.
+4. 4,4-Difluoroproline.
+5. 1-Aminocyclobutane-1-carboxylic acid.
+6. N-methyl cyclopentylglycine.
+7. An N-methyl aspartic acid residue whose side-chain acid is the dimethylamide.
+8. N-methyl 2-aminobutyric acid, drawn as a hashed ethyl.
+9. Isoleucine.
+10. N-methylglycine again.
+11. A cyclic N-methyl amino acid whose alpha carbon is linked through CH2–CH=CH–CH2–CH2 to the nitrogen of residue 1. This closes the eight-membered ring, and the alkene is cis.
+
+I assigned each stereocentre from the wedge or hash on its bond, with the implicit hydrogen on the opposite side. The isoleucine centres come out as the natural L-configuration. I did not re-run a validity check on the final string beyond counting ring atoms and ring-closure labels.
+
+SMILES: [C@H]8(Cc1ccc(cc1)C(F)(F)F)C(=O)N(C)CC(=O)N[C@@H](CCc2cc(F)c(c(F)c2)C(F)(F)F)C(=O)N3CC(F)(F)C[C@H]3C(=O)NC4(CCC4)C(=O)N(C)[C@@H](C5CCCC5)C(=O)N(C)[C@H](C(=O)N(C)C)CC(=O)N(C)[C@@H](CC)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N(C)CC(=O)N(C)[C@H]7C/C=C\CCN8C7=O

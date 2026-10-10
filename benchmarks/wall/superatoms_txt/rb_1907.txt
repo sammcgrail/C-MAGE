@@ -1,0 +1,21 @@
+Reading the structure region by region:
+
+**Left side:** a glutarimide ring (NH between two C=O, plus CH2CH2 and a CH) attached through the CH to the N of a phthalimide. The phthalimide has two C=O groups, and its benzene ring carries an O substituent at position 4.
+
+**Linker:** the aryl-O is followed by a chain O-CH2-CH2-CH2-CH2-CH2-C(=O)-NH. Counting the vertices between O and C=O from the drawing gives five CH2 groups: O, then vertices at about 425, 480, 535, 595 and 650, then the carbonyl carbon at about 710. Five CH2 groups is a reasonable count.
+
+The amide N is followed by CH2CH2, then S(=O)(=O), then the piperidine N.
+
+**Piperidine:** the ring N is attached to the sulfonyl, and C4 carries an NH that links to pyrimidine C2.
+
+**Pyrimidine:** C2 bears the NH-piperidine. C4 bears the NH-aryl. C5 bears Br, and C6 is CH.
+
+**Aryl ring:** the carbon attached to NH is adjacent to the carbon bearing C(=O)NH2, which is adjacent to the carbon bearing F.
+
+**SMILES assembly:**
+- Glutarimide and phthalimide: O=C1CCC(N2C(=O)c3c(OCCCCCC(=O)N...)cccc3C2=O)C(=O)N1
+- Linker and piperidine: NCCS(=O)(=O)N1CCC(CC1)Nc1ncc(Br)c(n1)Nc1cccc(F)c1C(N)=O
+
+The chain written as OCCCCCC(=O) has five CH2 groups followed by the carbonyl C, which matches the count above.
+
+SMILES: O=C1CCC(N2C(=O)c3c(OCCCCCC(=O)NCCS(=O)(=O)N4CCC(CC4)Nc4ncc(Br)c(n4)Nc4cccc(F)c4C(N)=O)cccc3C2=O)C(=O)N1

@@ -1,0 +1,20 @@
+I read the structure as a cyclic dodecapeptide that includes one β-amino acid. I traced the ring clockwise from the top-left and assigned each stereocentre from its wedge or hash bond.
+
+Residues in order, each written N→C:
+
+1. β-homoalanine: NH–CH(CH3)–CH2–C(=O), with a hashed H.
+2. N-Me-Ala, with a wedged H.
+3. N-Me-Ala, with a hashed H.
+4. Phe, with a hashed H.
+5. N-Me-Leu, with a hashed H.
+6. Val, with a hashed H.
+7. N-Me-Ile, with a hashed H on Cα and a wedged methyl on the side-chain CH.
+8. Gly (NH–CH2–C(=O)).
+9. N-Me-Phe, with a hashed H.
+10. Thr, with a hashed H on Cα and a wedged OH on the side-chain CH.
+11. N-Me-Ala, with a hashed H.
+12. Leu, with a hashed H, whose carbonyl closes the ring onto the β-amino acid nitrogen.
+
+For each centre I looked at the three non-H substituents from the front and noted whether they run clockwise or counterclockwise, then converted that to @ or @@ using the SMILES neighbour order. I have not checked the final string with a SMILES parser.
+
+SMILES: N1[C@@H](C)CC(=O)N(C)[C@H](C)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](Cc2ccccc2)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](C(C)C)C(=O)N(C)[C@@H]([C@@H](C)CC)C(=O)NCC(=O)N(C)[C@@H](Cc2ccccc2)C(=O)N[C@@H]([C@@H](C)O)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](CC(C)C)C1=O

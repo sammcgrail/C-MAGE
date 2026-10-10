@@ -1,0 +1,24 @@
+I read the structure as a cyclic peptide of 11 residues. The Asp side-chain carboxyl closes the ring onto the Val nitrogen, and the Asp α-carboxyl is a piperidine amide.
+
+**Ring sequence (N→C direction, starting at Val):**
+1. D-Val, with the H wedged toward the viewer.
+2. N-Me-Ala
+3. N-Me-Leu
+4. Leu (NH)
+5. N-Me-Phe
+6. 3-Fluoro-Tyr (NH), with a 4-OH and 3-F aryl ring.
+7. N-Me-Leu
+8. N-Me-Ala
+9. N-Me-Ala
+10. Thr (NH), with the OH wedged.
+11. Asp (NH), whose α-carboxyl is the piperidine amide and whose β-CH2–C(=O) closes the ring onto the Val NH.
+
+**Stereochemistry from the wedges and hashes:**
+- I assigned each centre by CIP priority from the drawn geometry.
+- Every residue comes out L (S), except Val, which comes out D (R).
+- Thr is (2S,3R), the usual L-Thr.
+- I checked the SMILES chirality tags against the standard L-Thr and L-Asp SMILES, and corrected the Asp tag to `[C@H]` after that check.
+
+I did not re-parse the final SMILES with a toolkit.
+
+SMILES: N1[C@H](C(C)C)C(=O)N(C)[C@@H](C)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](CC(C)C)C(=O)N(C)[C@@H](Cc2ccccc2)C(=O)N[C@@H](Cc2ccc(O)c(F)c2)C(=O)N(C)[C@@H](CC(C)C)C(=O)N(C)[C@@H](C)C(=O)N(C)[C@@H](C)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@H](C(=O)N2CCCCC2)CC1=O

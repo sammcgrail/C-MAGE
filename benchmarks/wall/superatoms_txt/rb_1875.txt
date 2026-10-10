@@ -1,0 +1,9 @@
+I read the structure as a PROTAC-type molecule built from four parts:
+
+- **Left end:** an imidazo[1,2-b]pyridazine carrying a pyrrolidine at C6. The pyrrolidine C2 bears a 3-fluorophenyl group on a wedge bond.
+- **Linker:** the imidazopyridazine C3 is attached to a pyridine at its 2-position. The pyridine's 6-position carries a piperazine, whose other nitrogen is joined through a CH2 to the 3-position of an azetidine.
+- **Right end:** the azetidine nitrogen is bonded to C5 of an isoindoline-1,3-dione. Its ring nitrogen is substituted with a 2,6-dioxopiperidin-3-yl group, with no stereo drawn.
+
+For the pyrrolidine stereocentre, the neighbours are N (up), the ring CH2 (left), the aryl group (lower right, wedge) and an implicit H pointing away. The priority order is N > aryl carbon > CH2 > H. With H in back, N → aryl → CH2 runs clockwise, so the centre is R. In the SMILES below, `[C@@H]` written after the ring CH2 gives R.
+
+SMILES: O=C1CCC(N2C(=O)c3ccc(cc3C2=O)N2CC(CN3CCN(CC3)c3cccc(n3)-c3cnc4ccc(nn34)N3CCC[C@@H]3c3cccc(F)c3)C2)C(=O)N1

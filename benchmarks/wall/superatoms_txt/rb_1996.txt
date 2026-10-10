@@ -1,0 +1,15 @@
+Reading the structure region by region, from left to right:
+
+**Left end:** a 4-cyano-3-chlorophenyl group, written N#Cc1ccc(cc1Cl)-N. The ring carbon bearing the nitrile sits next to the carbon bearing Cl, and the ring carbon attached to the indolinone nitrogen is para to the nitrile.
+
+**Indolinone:** N1 carries the aryl group and is bonded to C2(=O). C3 is C(C)(C) and joins the benzo ring at C3a. The aryl substituent is at C5, which is para to N across the benzo ring. The benzo ring is SMILES c3a, c4, c5(Ar), c6, c7, c7a(N).
+
+Written out: O=C1N(Ar)c2ccc(cc2C1(C)C)-c1ccc(cc1)N1CC(C1)CCN(CC)C1CCN(C1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+**Middle:** the phenyl ring is attached to the azetidine nitrogen. Azetidine C3 carries a CH2CH2 chain leading to N(Et). That nitrogen is bonded to pyrrolidine C3, and the pyrrolidine N1 is attached to the aryl ring of the phthalimide.
+
+**Phthalimide:** the pyrrolidine nitrogen sits on a ring carbon that is meta to one carbonyl-bearing carbon and para to the other. In the drawing, the ring carbon bearing N is adjacent to the CH that sits next to a ring-fusion carbon. In my SMILES, c1ccc2C(=O)N(...)C(=O)c2c1 has the substituted carbon c1 first, then c, c, then c2 (fusion, bearing C=O), then the other fusion carbon c2, then c1 closing. The atom c1 is therefore bonded to the last "c1", which is adjacent to the fusion carbon. This matches the drawing.
+
+**Glutarimide:** N-attached CH in a ring C3CCC(=O)NC3=O, which is correct.
+
+SMILES: O=C1N(c2ccc(C#N)c(Cl)c2)c2ccc(cc2C1(C)C)-c1ccc(cc1)N1CC(C1)CCN(CC)C1CCN(C1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

@@ -1,0 +1,18 @@
+I read the molecule as a cyclic peptide, built residue by residue from the N-terminus.
+
+**Sequence and ring**
+- N-terminus: hexanoyl–Arg, with a free guanidine side chain.
+- Ring: Pen–Asn–Thr–(7-methyl)Trp–Lys(Ac)–Pen, closed by an S–S bridge between two penicillamine residues (each carrying a C(CH3)2–S group).
+- Tail after the ring: Tyr with an O-CH2CH2NH2 ether, then 2-naphthylalanine, then 4-aminotetrahydropyran-4-carboxylic acid, then Glu (free acid), then Asn, then α-methyl-Phe as the C-terminal primary amide.
+
+**Stereochemistry**
+- I took the drawn wedges and hashes at each α-carbon and assigned them from the geometry.
+- Tyr, 2-Nal, Thr (2S,3R) and α-methyl-Phe come out as L (S).
+- Pen1 (next to the Arg) comes out as D, and Pen2 as L.
+- Arg, Asn, Trp, Lys, Glu and the second Asn are assumed L by default.
+- The Pen1 assignment depends on reading its wedge bond to NH correctly, so that is the least certain stereocentre.
+- The tetrahydropyran carbon is not a stereocentre.
+
+I wrote the SMILES by hand and checked the ring closures and stereo tags for each residue. I did not run it through a parser.
+
+SMILES: CCCCCC(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H]1C(C)(C)SSC(C)(C)[C@@H](C(=O)N[C@@H](Cc2ccc(OCCN)cc2)C(=O)N[C@@H](Cc2ccc3ccccc3c2)C(=O)NC2(CCOCC2)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@](C)(Cc2ccccc2)C(N)=O)NC(=O)[C@H](CCCCNC(C)=O)NC(=O)[C@H](Cc2c[nH]c3c(C)cccc23)NC(=O)[C@H]([C@@H](C)O)NC(=O)[C@H](CC(N)=O)NC1=O

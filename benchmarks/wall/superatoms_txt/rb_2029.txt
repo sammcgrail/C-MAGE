@@ -1,0 +1,16 @@
+This is my reading of the drawing, written as SMILES with no stereochemistry, since the image shows no wedges or hashes. I traced the structure in these pieces:
+
+- **Central ring:** a tetrahydropyridine with a quaternary carbon bearing an NH and a thiazole. The ring also has two CH2 groups, a C=N carbon, a ring N and a CH. The quaternary carbon is closed to the CH with ring label `%12`.
+- **Upper chain from the quaternary NH:** C(=O)–CH(CH3)–NH–C(=O)–C(=CH2)–NH–C(=O)–CH(CH3)–NH–C(=O)–CH(NH–R)–CH(CH3)CH2CH3.
+- **Dihydroquinoline:** R is a quinoline whose carbocyclic ring is partly saturated, with an OH on the carbon next to the ring fusion and the NH attached to the next carbon. The pyridine ring carries a CH(OH)CH3 group at C4. Its C2 carbonyl forms an ester through O to the CH(CH3) carbon next to the middle thiazole, closed with `%11`.
+- **Right side:** the C=N carbon carries a thiazole. That thiazole's carbonyl continues through two dehydroalanine units (–NH–C(=CH2)–C(=O)–) and ends in a primary amide.
+- **Macrocycle, traced from the ring CH:**
+  - The ring CH carries the middle thiazole, which connects through C(NH)–CH(CH3)–O (the ester carbon above).
+  - The NH of that carbon is acylated by the lower thiazole.
+  - The lower thiazole carries CH(NH)–C(CH3)(OH)–CH(OH)CH3.
+  - Next comes the dihydrothiazole (thiazoline), which has a C(=CHCH3)–NH substituent.
+  - Then a threonine unit, then the left thiazole, whose C2 closes back to the quaternary carbon with `%13`.
+
+I checked the ring closures against the drawing: the quaternary carbon has four neighbours, and the five-membered thiazole and thiazoline rings close correctly.
+
+SMILES: C%12%13(NC(=O)C(C)NC(=O)C(=C)NC(=O)C(C)NC(=O)C(NC2C=CC3=C(C(C)O)C=C(C(=O)O%11)N=C3C2O)C(C)CC)(CCC(c4nc(cs4)C(=O)NC(=C)C(=O)NC(=C)C(N)=O)=NC%12c5csc(n5)C(C%11C)NC(=O)c6csc(n6)C(C(C)(O)C(C)O)NC(=O)C7CSC(=N7)C(=CC)NC(=O)C(C(C)O)NC(=O)c8csc%13n8

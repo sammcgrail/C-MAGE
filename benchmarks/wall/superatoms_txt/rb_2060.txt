@@ -1,0 +1,10 @@
+I read the structure in four parts and then assembled the SMILES by hand. I did not run it through a parser.
+
+- **Thalidomide ends:** each end is a 4-oxyacetamido thalidomide. Both glutarimide stereocentres are drawn with a hashed bond to the ring nitrogen. From the geometry I read the left one as R and the right one as S.
+- **Left linker:** the amide NH leads through CH2CH2‑O‑CH2CH2‑O‑(CH2)5 to N1 of the triazole.
+- **Right linker:** the amide NH leads through CH2CH2‑O‑CH2CH2‑O‑CH2CH2‑O‑CH2CH2 to N1 of the second triazole.
+- **Triazole-fused dibenzoazocine cores:** in both, the triazole carbon next to the N‑alkylated N1 sits on the benzene that carries the CH2. The other triazole carbon sits on the benzene that carries the ring nitrogen. Each ring nitrogen is acylated with a succinamide (C(=O)CCC(=O)NH).
+- **Central core:** the left succinamide NH goes to a hexyl chain, then a phosphate diester, then a glycerol unit. The glycerol CH carries a second phosphate ester, and its terminal CH2 carries an O‑propyl‑NH link to the right succinamide.
+- **Truncated chain:** the chain at the bottom of the drawing is cut off after two CH2 groups, so I treated it as a propyl group.
+
+SMILES: O=C1CC[C@@H](C(=O)N1)N2C(=O)c3cccc(OCC(=O)NCCOCCOCCCCCn4nnc5-c6ccccc6N(C(=O)CCC(=O)NCCCCCCOP(=O)(O)OCC(COCCCNC(=O)CCC(=O)N7Cc8ccccc8-c8c(nnn8CCOCCOCCOCCNC(=O)COc8cccc9c8C(=O)N(C9=O)[C@H]8CCC(=O)NC8=O)-c8ccccc87)OP(=O)(O)OCCC)Cc6ccccc6-c45)c3C2=O

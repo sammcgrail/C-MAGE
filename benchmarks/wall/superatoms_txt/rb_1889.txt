@@ -1,0 +1,15 @@
+I traced the macrocycle residue by residue and set each stereocentre from the wedges and hashes.
+
+**Ring sequence** (going around the cycle):
+- An Asp residue whose α-carboxyl is a piperidine amide. Its side-chain CH2–C(=O) is the ring link, so the ring passes through the β-carboxyl rather than the α-carboxyl.
+- Val, then N-Me-Phe, then Leu, then N-Me-Leu, then Thr, then N-Me-Leu, then Phe, then back to the Asp α-N.
+- The amide N–H and N–CH3 positions are as drawn.
+
+**Stereochemistry** (CIP assignment from each drawn wedge or hash):
+- Asp, N-Me-Phe, Leu, both N-Me-Leu and Phe α-carbons are all S, i.e. L-configured.
+- The Thr α-carbon is S and the β-carbon (the OH wedge) is R, which is L-Thr.
+- The Val α-carbon has an H wedge with N on the left and the isopropyl up. This gives R, so Val is D.
+
+**Check:** the SMILES below has one ring closure for the macrocycle (label 2) and a reused label 3 for the two phenyl rings. The ring contains 8 residues, 4 of them N-methylated... correction: only 4 N–CH3 groups are drawn (Val→NMe-Phe, Leu→NMe-Leu, Thr→NMe-Leu, plus the NMe-Leu after Leu), which matches the three N-Me-Leu/Phe amides in the SMILES: N-Me-Phe, N-Me-Leu and N-Me-Leu.
+
+SMILES: O=C(N1CCCCC1)[C@@H]2CC(=O)N[C@H](C(C)C)C(=O)N(C)[C@@H](Cc3ccccc3)C(=O)N[C@@H](CC(C)C)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H]([C@@H](C)O)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](Cc3ccccc3)C(=O)N2

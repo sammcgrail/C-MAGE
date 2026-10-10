@@ -1,0 +1,20 @@
+Reading the drawing region by region:
+
+- **Indazole:** 1H-indazol-3-yl with a 3,5-difluorobenzyl group at C5. The amide NH is attached at C3.
+- **Central benzamide:** The carbonyl carbon is C1. The ortho position (C2) carries NH-tetrahydropyran-4-yl. C4 carries the piperazine nitrogen.
+- **Piperazine:** The other nitrogen is attached to C3 of a piperidine.
+- **Piperidine:** Its nitrogen is linked by CH2 to C5 of an isoindolinone.
+- **Isoindolinone:** The lactam nitrogen carries the 2,6-dioxopiperidin-3-yl group (glutarimide).
+
+SMILES assembly:
+
+- Indazole with benzyl: `c1(NC(=O)...)n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12`
+- Benzamide: `C(=O)c1ccc(cc1NC1CCOCC1)N1CCN(CC1)C1CCCN(C1)Cc1ccc2c(c1)CN(C1CCC(=O)NC1=O)C2=O`
+
+Check on the isoindolinone: the ring carbonyl C(=O) is bonded to the aromatic carbon at the upper left of the five-membered ring. The CH2 is bonded to the aromatic carbon at the lower side. The CH2 attached to the piperidine nitrogen sits on the aromatic carbon that is "para-like" to the carbonyl-bearing carbon, i.e. adjacent to the CH carbon next to the CH2 side.
+
+In the drawing, the aromatic ring has these atoms: C3a (attached to CH2) at the lower right, C7a (attached to C=O) at the upper right, then the top-left carbon, the left carbon, the bottom carbon bearing the substituent, and the bottom-right carbon (which is C4, adjacent to C3a). The substituent carbon is therefore adjacent to C4, making it C5, which is attached to C4 next to C3a (the CH2 side).
+
+In my SMILES, `c1ccc2c(c1)CN(...)C2=O` has the substituent carbon c1 followed by c, c, then c2 (bonded to C2=O at ring closure), then c(c1) bonded to CH2. The substituent carbon is therefore adjacent, through c1 closure, to the carbon bearing CH2. Going around: c1 (substituent), c, c, c2 (C=O side), c (CH2 side), c1 (closing back to the substituent carbon). The substituent carbon is therefore bonded to the carbon adjacent to the CH2-bearing carbon, which is C5 in the isoindolinone numbering. This matches the drawing.
+
+SMILES: O=C(Nc1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12)c1ccc(cc1NC1CCOCC1)N1CCN(CC1)C1CCCN(C1)Cc1ccc2c(c1)CN(C1CCC(=O)NC1=O)C2=O

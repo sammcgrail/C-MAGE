@@ -1,0 +1,27 @@
+I read the drawing as a cyclic peptide-like macrocycle and traced it residue by residue, starting from the 7-membered lactam.
+
+**Residues in order around the ring**
+1. A caprolactam (azepan-2-one) ring: N1, C2(=O), C3 (bearing N-methyl, wedged ring CH2), two CH2 groups, CH(CH3) with a wedged methyl, and a CH2 back to N1.
+2. From C3: N(Me)–C(=O)–CH2 (a sarcosine unit), then N(Me)–C(=O) leading to an isoleucine α-carbon.
+3. Isoleucine, with the sec-butyl side chain, then NH–C(=O) to a cyclopropylalanine α-carbon with its N-methyl.
+4. N(Me)–C(=O)–CH2 to an aspartic-type α-carbon whose side-chain carbonyl is a morpholine amide, then its N-methyl.
+5. N(Me)–C(=O) to a cyclopentylglycine α-carbon with its N-methyl.
+6. N(Me)–C(=O) to a 1-aminocyclobutane-1-carboxamide (no stereocentre), then NH–C(=O) to proline.
+7. The proline nitrogen acylated by a homophenylalanine α-carbon whose aryl group is 3-chloro-4-CF3-phenyl. The aryl ring is attached at one carbon, with CF3 para and Cl meta to the attachment point.
+8. That residue's NH–C(=O)–CH2–N(Me)–C(=O) leads to the α-carbon bearing a CH2–(4-CF3-phenyl) group, which closes onto the lactam N1.
+
+**Stereochemistry**
+I assigned each wedge or hash by CIP priorities and converted to @/@@ for the SMILES neighbour order. The results:
+- Lactam C3: S.
+- Lactam CH(CH3): R.
+- α-carbon bearing the 4-CF3-benzyl group: R.
+- Isoleucine α: S; isoleucine β: S.
+- Cyclopropylalanine α: S.
+- Aspartate-type α: S.
+- Cyclopentylglycine α: S.
+- Proline α: S.
+- Homophenylalanine α: S.
+
+I checked ring closures and branch order by hand but did not run the SMILES through a parser.
+
+SMILES: O=C1N2C[C@H](C)CC[C@@H]1N(C)C(=O)CN(C)C(=O)[C@H]([C@@H](C)CC)NC(=O)[C@H](CC3CC3)N(C)C(=O)C[C@@H](C(=O)N4CCOCC4)N(C)C(=O)[C@H](C5CCCC5)N(C)C(=O)C6(CCC6)NC(=O)[C@@H]7CCCN7C(=O)[C@H](CCc8ccc(C(F)(F)F)c(Cl)c8)NC(=O)CN(C)C(=O)[C@H]2Cc9ccc(C(F)(F)F)cc9

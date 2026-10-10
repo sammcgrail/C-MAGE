@@ -1,0 +1,9 @@
+I read the structure region by region and wrote the SMILES from that reading.
+
+- **Quinazoline core:** the 4-amino group sits on the pyrimidine ring, with a 2-methyl group. On the benzo ring there are 6,7-dimethoxy groups and the long chain at C8.
+- **Side chain on the 4-amino group:** NH is attached to a (1-arylethyl) carbon, and the aryl is a meta-substituted phenyl carrying CF2–CH2OH. The methyl is drawn on a wedge. With priorities N > aryl > CH3 > H, the centre reads as R, which corresponds to `[C@H]` in the SMILES as written.
+- **Linker:** I counted the zigzag by geometry. The span from C8 to the piperazine N is about 11 bond-steps, and the chain ends one step above the N. That gives 10 CH2 groups. This count is the least certain part of the reading.
+- **Piperazine and isoindolinone:** the piperazine is N-alkylated at one nitrogen and N-arylated at the other. The aryl is C5 of a 6-fluoroisoindolin-1-one.
+- **Glutarimide:** the isoindolinone nitrogen carries a piperidine-2,6-dione. Its attachment carbon has plain bonds, so it gets no stereo.
+
+SMILES: COc1cc2c(N[C@H](C)c3cccc(c3)C(F)(F)CO)nc(C)nc2c(CCCCCCCCCCN2CCN(CC2)c2cc3CN(C4CCC(=O)NC4=O)C(=O)c3cc2F)c1OC

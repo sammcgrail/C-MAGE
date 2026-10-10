@@ -1,0 +1,13 @@
+I read the structure in pieces and joined them into one SMILES.
+
+- **Left end:** a HOCH2–CF2– group on the meta position of a benzene ring. That ring carries a CH(CH3)–NH– unit joined to C4 of the quinazoline.
+- **Quinazoline core:** a 2-methyl quinazoline with OMe at C6 and C7. The C8 position carries a four-carbon (butyl) chain.
+- **Linker:** the butyl chain ends on the nitrogen of piperidine 1. Its C4 is bonded to the nitrogen of piperidine 2, and C4 of piperidine 2 is bonded to the isoindolinone.
+- **Right end:** the isoindolinone has F next to the piperidine-bearing carbon. Its lactam nitrogen is attached to C3 of a glutarimide (piperidine-2,6-dione). That C3 is drawn with plain bonds, so I gave it no stereo.
+- **Stereocentre:** the only stereo shown is the hashed methyl on the benzylic CH.
+  - Its substituents rank N > aryl > CH3 > H.
+  - The hashed methyl points away from the viewer, so H points toward the viewer.
+  - From the front, N (upper right) → aryl (upper left) → CH3 (bottom) runs counterclockwise. With H toward the viewer this reverses, so the centre is R.
+  - In the SMILES, written as `c[C@@H](C)N`, `@@` encodes R.
+
+SMILES: OCC(F)(F)c1cccc(c1)[C@@H](C)Nc1nc(C)nc2c(CCCCN3CCC(CC3)N3CCC(CC3)c3cc4CN(C(=O)c4cc3F)C3CCC(=O)NC3=O)c(OC)c(OC)cc12

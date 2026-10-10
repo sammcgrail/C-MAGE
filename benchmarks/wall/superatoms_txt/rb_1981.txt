@@ -1,0 +1,15 @@
+I read the drawing as a head-to-side-chain cyclic peptide and wrote it as SMILES, working around the ring.
+
+**Sequence, read from the Asp residue:** Asp, Ala, Trp, His, Leu, Gly, Glu, Leu, Val, Trp, 2-(aminomethyl)Phe, then Thr-NH2. In each junction the C=O of one residue is bonded to the NH of the next.
+
+**Ring closure:** the Asp side-chain carboxyl forms an amide with the benzylic NH of the 2-(aminomethyl)Phe residue. The Phe aromatic ring carries its CH2–N(H) and its alpha-CH2 on adjacent carbons.
+
+**Open attachment point:** the Asp α-NH is drawn with a wavy bond to a truncated group. I could not tell what that group is, so I wrote it as a dummy atom `*`.
+
+**Stereochemistry:**
+- I worked out Asp, Phe and Thr (both centres) from the wedges and hashes in the drawing. All are L-configured: Asp S, Phe S, Thr 2S,3R.
+- The other residues are drawn with ordinary wedges and match the natural L pattern, so I wrote them as L.
+
+I checked the SMILES by working through each ring closure and each junction, and it matches the drawing atom for atom.
+
+SMILES: *N[C@H]1CC(=O)NCc2ccccc2C[C@@H](C(=O)N[C@@H]([C@@H](C)O)C(N)=O)NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](C(C)C)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCC(=O)O)NC(=O)CNC(=O)[C@H](CC(C)C)NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](C)NC1=O

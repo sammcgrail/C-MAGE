@@ -1,0 +1,10 @@
+I read the structure in five parts and joined them in this SMILES.
+
+1. **Left aryl ether:** a 4-cyano-3,5-dimethylphenyl group is bonded through oxygen to a tetramethylcyclobutane. The ring carbons are: the O-bearing CH, a C(CH3)2, the NH-bearing CH, and a second C(CH3)2.
+   - The O is drawn on a wedge and the N on a hash, so the two substituents are trans. I encoded this as `O[C@H]2C(C)(C)[C@H](N…)C2(C)C`. I checked the @/@ pattern by working out the geometry on the ring.
+2. **Amide and pyrazine:** the NH is acylated by a pyrazine-2-carboxamide. The piperidine nitrogen sits at C5, para to the carboxamide carbon (2,5-disubstituted).
+3. **Spiro core:** the piperidine ring is spiro-fused to a morpholine. The spiro carbon carries the ring oxygen and a CH2 that leads to the morpholine nitrogen, giving a 1-oxa-4,9-diazaspiro[5.5]undecane.
+4. **Central cyclobutane:** the morpholine nitrogen is bonded to a 1,3-disubstituted cyclobutane whose other carbon carries an aryl ether oxygen. The N is on a bold wedge and the O on a hash, so this pair is also trans. I encoded it as `N[C@H]5C[C@H](O…)C5`, again checking the geometry.
+5. **Right-hand imide:** the aryl ether oxygen is on position 5 of an isoindoline-1,3-dione. Its ring nitrogen carries a 2,6-dioxopiperidin-3-yl group. That piperidine carbon has no wedge or hash in the drawing, so I left it without stereo.
+
+SMILES: N#Cc1c(C)cc(O[C@H]2C(C)(C)[C@H](NC(=O)c3cnc(N4CCC5(CC4)CN(CCO5)[C@H]5C[C@H](Oc6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)C5)cn3)C2(C)C)cc1C

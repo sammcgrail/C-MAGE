@@ -1,0 +1,25 @@
+I traced the ring from the β-aminobutyric acid residue clockwise and wrote each residue as it appears in the drawing.
+
+**Ring sequence (clockwise from the top left):**
+1. β-Aminobutyric acid: NH–CH(CH3)–CH2–C(=O)
+2. N-Me-Ala
+3. N-Me-Phe
+4. N-Me-Gly (sarcosine)
+5. N-Me-Leu
+6. Thr (NH, free OH)
+7. N-Me-Ala
+8. N-Me-Leu
+9. N-Me-Ile
+10. Ser(O-tBu) (NH)
+
+The Ser carbonyl closes the ring onto the NH of the β-aminobutyric acid.
+
+**Stereochemistry:** I read each stereocentre from its wedge or hash and the positions of its neighbours in the drawing.
+- Every α-carbon (Ala, Phe, Leu, Ile, Thr, Ser) has a hashed H and comes out as the L-configuration, written `N[C@@H](R)C(=O)`.
+- The β-aminobutyric acid carbon, with a hashed H, comes out as `N[C@@H](C)C`.
+- The Thr β-carbon has a bold wedge to OH and comes out as `[C@@H](C)O`.
+- The Ile β-carbon has a hashed methyl and comes out as `[C@@H](C)CC`.
+
+I did not run this SMILES through a parser; I checked it by hand against the drawing.
+
+SMILES: N1[C@@H](C)CC(=O)N(C)[C@@H](C)C(=O)N(C)[C@@H](Cc2ccccc2)C(=O)N(C)CC(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H]([C@@H](C)O)C(=O)N(C)[C@@H](C)C(=O)N(C)[C@@H](CC(C)C)C(=O)N(C)[C@@H]([C@@H](C)CC)C(=O)N[C@@H](COC(C)(C)C)C(=O)1

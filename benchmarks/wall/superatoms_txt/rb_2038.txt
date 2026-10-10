@@ -1,0 +1,17 @@
+I read the structure as a macrocycle and wrote the SMILES by following the ring around from the dimethoxy-hydroxyphenyl group.
+
+**Fragments, in order around the ring**
+- **Aryl group:** a 2-hydroxy-4,5-dimethoxyphenyl ring joined to a CH2CH2 chain.
+- **Benzylic carbon:** a CH carrying the ester oxygen and a meta-substituted phenylene ring. The hashed bond to the CH2 makes it R.
+- **Oxyacetamide link:** the phenylene's oxygen goes through OCH2C(=O) to an N-methyl norleucine (butyl side chain, drawn as S).
+- **Naphthylalanine:** a 2-naphthylalanine residue (S), joined to the next residue through an N-methyl amide.
+- **Serine residue:** an N-methyl O-tert-butyl serine (S), followed by a glycine.
+- **Unsaturated linker:** an N-methyl aminocrotonate unit, N(C)CC=CC(=O)O. The wavy bond means the double-bond geometry is unspecified, so I left it without a label.
+- **Dimethyl diketo unit:** OCH2C(CH3)2C(=O)C(=O)N, which acylates the nitrogen of a pipecolic acid.
+- **Pipecolic acid:** drawn as S, with its carboxyl closing the macrocycle as an ester onto the benzylic oxygen.
+
+I assigned each stereocentre from the wedges and hashes, using CIP priorities, and then chose the @/@@ symbols to match.
+
+The ring closure %10 joins the benzylic carbon to the ester oxygen. The digit 2 is reused for the phenylene, naphthalene and pipecolic rings, but never while another ring with that label is open.
+
+SMILES: COc1cc(O)c(CC[C@@H]%10c2cccc(c2)OCC(=O)N(C)[C@@H](CCCC)C(=O)N[C@@H](Cc2ccc3ccccc3c2)C(=O)N(C)[C@@H](COC(C)(C)C)C(=O)NCC(=O)N(C)CC=CC(=O)OCC(C)(C)C(=O)C(=O)N2CCCC[C@H]2C(=O)O%10)cc1OC

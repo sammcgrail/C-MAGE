@@ -1,0 +1,22 @@
+This is a PROTAC-type molecule. I read it in three parts: the cereblon ligand, the linker, and the warhead.
+
+**Cereblon ligand (left).** A glutarimide (2,6-dioxopiperidin-3-yl) is attached to the nitrogen of a phthalimide. The phthalimide carries an NH at the 4-position of the benzene ring, which connects to the linker.
+
+**Linker.** Reading from the aryl NH: NH-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-C(=O)-NH-CH2CH2-SO2-N(ring).
+- The oxygens sit at the labelled positions in the drawing, four in total.
+- After the fourth O there are two CH2 groups, then the C=O.
+- The amide NH is followed by CH2CH2 and then the sulfonyl group.
+
+**Warhead (right).** The sulfonamide nitrogen is part of a 6-azaspiro[2.5]octane ring.
+- The ring atoms run from the spiro carbon through CH2, N, CH2 and CH2 to the CH bearing the NH, and back to the spiro carbon.
+- The spiro carbon also carries a cyclopropane.
+- The CH bears an NH that attaches to the pyrimidine C2.
+- The pyrimidine has Br at C5 and an NH-aryl group at C4.
+- The aryl ring is a benzamide with F at one ortho position and the pyrimidinylamino group at the other ortho position.
+
+**SMILES assembly.**
+- Glutarimide and phthalimide: O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCOCCOCCC(=O)NCCS(=O)(=O)N4CCC(Nc5ncc(Br)c(Nc6cccc(F)c6C(N)=O)n5)C5(CC5)C4)c3C2=O)C(=O)N1
+- Check of the aryl ring: the phthalimide carbons are c3 (C attached to C=O), then c, c, c, c(N...) and c3 (closing, bearing the other C=O). The substituent NH sits on the carbon adjacent to the carbon bearing the C2=O, which matches the drawing, where the NH is at the 4-position next to the carbonyl-bearing carbon.
+- Check of the spiro ring: N4-CH2-CH2-CH(NH...)-C5(CC5)-CH2-N4. This gives the ring N4, C, C, C(N), C5, C4, which is six atoms, as required.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCOCCOCCC(=O)NCCS(=O)(=O)N4CCC(Nc5ncc(Br)c(Nc6cccc(F)c6C(N)=O)n5)C5(CC5)C4)c3C2=O)C(=O)N1

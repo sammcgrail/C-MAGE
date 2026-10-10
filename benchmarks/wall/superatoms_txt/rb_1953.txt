@@ -1,0 +1,20 @@
+I read the structure as a cyclic peptide and traced the ring clockwise from the top-left β-amino acid. The residues, in order, are:
+
+1. β-aminobutyric acid (NH, CH(CH3), CH2, C=O)
+2. N-methyl β-aminobutyric acid
+3. N-methyl leucine
+4. phenylalanine
+5. N-methyl leucine
+6. valine
+7. N-methyl isoleucine
+8. glycine
+9. N-methyl 3-chlorophenylalanine (Cl at the meta position)
+10. threonine
+11. N-methyl leucine
+12. leucine, which closes back onto the first β-amino acid's nitrogen
+
+I assigned stereochemistry from the wedges and hashes. Each α-carbon has a hashed H, and I worked out the SMILES chirality tag for each from the drawn geometry. Every α-carbon of residues 3–7 and 9–12 comes out as the L configuration, which is `@@` in the N–Cα–C(=O) writing order. Residue 1 is also `@@` and residue 2 is `@`, as worked out from their wedges. The isoleucine β-carbon and the threonine β-carbon (wedged CH3 and wedged OH respectively) both come out `@@`.
+
+I did not run this through a SMILES parser; I checked the ring closure and the meta placement of Cl by hand.
+
+SMILES: N1[C@@H](C)CC(=O)N(C)[C@H](C)CC(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](Cc2ccccc2)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](C(C)C)C(=O)N(C)[C@@H]([C@@H](C)CC)C(=O)NCC(=O)N(C)[C@@H](Cc2cccc(Cl)c2)C(=O)N[C@@H]([C@@H](C)O)C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@@H](CC(C)C)C1=O

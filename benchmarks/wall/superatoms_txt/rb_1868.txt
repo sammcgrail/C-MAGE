@@ -1,0 +1,11 @@
+I read the drawing as a linear dodecapeptide, N-terminus on the left and a C-terminal primary amide on the right:
+
+Phe – Ala – N‑Me‑Phe – Gly – Leu – Ala – Val – Phe – Asp – N‑Me‑Ala – Ser – Gly‑NH2
+
+- **Side chains:** Phe has a benzyl group, Leu an isobutyl, Val an isopropyl, Asp a CH2COOH and Ser a CH2OH.
+- **N‑methylation:** residues 3 (Phe) and 10 (Ala) each carry an N‑methyl on the backbone nitrogen.
+- **Stereochemistry:** the wedges and hashes were hard to resolve at this resolution, so I assigned every stereocentre as the natural L‑configuration rather than reading each bond individually. Writing each residue as `N[C@@H](R)C(=O)` encodes L, and the N‑methylated residues follow the same pattern with `N(C)[C@@H](R)C(=O)`. Glycine has no stereocentre.
+
+I checked the string residue by residue against the drawing, including the number of residues, the two N‑methyl positions and the terminal amide.
+
+SMILES: N[C@@H](Cc1ccccc1)C(=O)N[C@@H](C)C(=O)N(C)[C@@H](Cc1ccccc1)C(=O)NCC(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](C)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](Cc1ccccc1)C(=O)N[C@@H](CC(=O)O)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](CO)C(=O)NCC(N)=O

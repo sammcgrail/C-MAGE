@@ -1,0 +1,25 @@
+I read the structure region by region and wrote it as one macrocyclic SMILES. I checked each stereocentre against the drawn wedges and hashes by hand and did not run it through a parser.
+
+**Macrocycle, in order around the ring:**
+- **Eight-membered lactam:** the ring contains a cis C=C and a C=O, and its alpha carbon carries an N-methyl amide nitrogen.
+- **Cyclohexylmethyl residue:** the lactam nitrogen is attached to a CH bearing a CH2 and a 4,4-difluorocyclohexyl group, followed by C(=O)–N(Me)–CH2–C(=O)–NH.
+- **Aryl residue:** the next CH carries a CH2CH2 chain to a 3-chloro-4-(trifluoromethyl)phenyl ring, then C(=O).
+- **Pyrrolidine:** 4-methylpyrrolidine-2-carbonyl, followed by NH on a 3,3-dimethylcyclobutane carbon.
+- **N-methyl isoleucine-type residue:** C(=O)–N(Me)–CH(sec-butyl)–C(=O).
+- **Aspartic-type residue:** N(Me)–CH(C(=O)NMe2)–CH2–C(=O).
+- **O-propyl serine:** N(Me)–CH(CH2OCH2CH2CH3)–C(=O).
+- **Isoleucine:** NH–CH(CH(CH3)CH2CH3)–C(=O).
+- **Closure:** C(=O)–N(Me)–CH2–C(=O) returns to the N-methyl nitrogen on the lactam alpha carbon.
+
+**Stereochemistry:** I assigned each centre from the wedges and hashes and then converted to @/@@ by neighbour order.
+- Lactam alpha carbon: S.
+- The CH bearing the difluorocyclohexylmethyl group: R.
+- The arylethyl CH: S.
+- Pyrrolidine C2 and C4: both S.
+- N-methyl isoleucine-type alpha carbon: S.
+- Aspartic-type alpha carbon: S.
+- Serine alpha carbon: S.
+- Isoleucine alpha and beta carbons: both S.
+- The sec-butyl CH, the cyclobutane carbons and the ring double bond (cis) follow the drawing; the sec-butyl CH has no wedge and gets no stereo label.
+
+SMILES: CN9[C@H]1C/C=C\CCN(C1=O)[C@H](CC2CCC(F)(F)CC2)C(=O)N(C)CC(=O)N[C@@H](CCc3ccc(C(F)(F)F)c(Cl)c3)C(=O)N4C[C@@H](C)C[C@H]4C(=O)NC5(CC(C)(C)C5)C(=O)N(C)[C@@H](C(C)CC)C(=O)N(C)[C@@H](CC(=O)N(C)[C@@H](COCCC)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N(C)CC9=O)C(=O)N(C)C

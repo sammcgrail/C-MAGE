@@ -1,0 +1,11 @@
+I read the molecule as a PROTAC-type structure with three parts joined by a diacyl linker.
+
+1. **Left-hand ligand.** A 3-fluorophenyl group sits on a pyrrolidine C2, which is drawn with a hashed bond. The pyrrolidine N is attached to C6 of an imidazo[1,2-b]pyridazine. Its C3 carries a 2,6-disubstituted pyridine, and the pyridine's other substituent is a piperazine N.
+2. **Linker.** The other piperazine N is acylated by a nonanedioyl chain: C(=O), then 7 CH2 groups (counted vertex by vertex), then C(=O). That second carbonyl is an amide on the tert-leucine NH.
+3. **Right-hand ligand.** This is a VHL ligand. The tert-leucine is acylated on the N of a 4-hydroxyproline. The proline carboxamide is bound to a 4-(4-methylthiazol-5-yl)benzylamine.
+
+For the fluorophenyl-bearing pyrrolidine carbon, the CIP priorities are N, then aryl, then ring CH2, then H. The hashed aryl bond puts H toward the viewer, and the in-plane order N → aryl → CH2 runs counterclockwise. Reversing for the H, this is R, which is written `N1[C@@H](c2cccc(F)c2)CCC1` in the SMILES.
+
+I wrote the tert-leucine and hydroxyproline stereocentres in the standard VH032 pattern, which matches the drawn wedges. I did not check these two centres independently from the picture.
+
+SMILES: O=C(CCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C)N1CCN(CC1)c1cccc(n1)-c1cnc2ccc(nn12)N1[C@@H](c2cccc(F)c2)CCC1

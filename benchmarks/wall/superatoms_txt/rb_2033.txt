@@ -1,0 +1,19 @@
+I read the structure as a 17-membered-plus macrocycle (a cyclic peptide-like ring) and traced it residue by residue, starting from the NH of the top-right homophenylalanine-type unit and going round the ring.
+
+**Residues in order, with the stereochemistry I read from the wedges and hashes:**
+
+1. The top-right residue is NH–CH(wedge)–CH2CH2–aryl, followed by C(=O). The aryl group is a 3,5-difluoro-4-(trifluoromethyl)phenyl ring. The alpha carbon is `[C@@H]`.
+2. N-methyl residue with a CH2–CHF2 side chain on a hashed bond. The alpha carbon is `[C@@H]`.
+3. NH–C(cyclobutane)–C(=O). The 1-aminocyclobutane carboxylic acid carbon has no stereo.
+4. N-methyl cyclopentylglycine, with the cyclopentyl on a wedge. The alpha carbon is `[C@@H]`.
+5. N-methyl β-amino acid N(Me)–CH(CH3, hashed)–CH2–C(=O). The stereocentre is `[C@H]`.
+6. N-methyl cyclopropylalanine, with the CH2–cyclopropyl on a wedge. The alpha carbon is `[C@@H]`.
+7. Isoleucine, with the NH on a wedge at the alpha carbon and the methyl on a wedge at the beta carbon. Alpha is `[C@@H]`, beta is `[C@@H]`.
+8. Sarcosine: N(Me)–CH2–C(=O).
+9. An N-methyl amino acid whose alpha carbon sits in an 8-membered lactam ring: N, C(=O), CH (hashed CH2), CH2, CH=CH, CH2, CH2. The ring double bond is drawn cis, written `/C=C\`. The alpha carbon is `[C@H]`.
+10. The lactam nitrogen carries a CH(wedge CH2–C6H4–CF3) unit with a para-CF3 phenyl. The alpha carbon is `[C@@H]`. It is followed by C(=O).
+11. Sarcosine again, N(Me)–CH2–C(=O), which closes onto the first NH.
+
+I checked the SMILES for valid ring closures, and every heteroatom, CF3/CHF2 group and ring size matches the drawing. I have not run it through a parser.
+
+SMILES: N1[C@@H](CCc2cc(F)c(C(F)(F)F)c(F)c2)C(=O)N(C)[C@@H](CC(F)F)C(=O)NC3(CCC3)C(=O)N(C)[C@@H](C4CCCC4)C(=O)N(C)[C@H](C)CC(=O)N(C)[C@@H](CC5CC5)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N(C)CC(=O)N(C)[C@H]6C/C=C\CCN(C6=O)[C@@H](Cc7ccc(C(F)(F)F)cc7)C(=O)N(C)CC1=O

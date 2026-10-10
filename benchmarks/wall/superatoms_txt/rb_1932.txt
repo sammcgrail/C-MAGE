@@ -1,0 +1,15 @@
+This is an EZH2-degrader PROTAC. It combines an EZH2 inhibitor (an EPZ-6438-like benzamide), a piperazine, a 2,6-diazaspiro[3.3]heptane linker, and a pomalidomide-type cereblon ligand.
+
+**Fragments read from the drawing**
+
+- **Pyridone:** 4,6-dimethyl-2-oxo-1,2-dihydropyridin-3-yl, attached through CH2 to the amide NH. SMILES: Cc1cc(C)c(CNC(=O)...)c(=O)[nH]1.
+- **Central benzene ring:** C1 carries the amide C(=O). C2 carries the methyl. C3 carries N(Et)(tetrahydropyran-4-yl). C4 is CH. C5 carries the aryl group. C6 is CH.
+- **Central ring SMILES:** c1(C(=O)NCc2c(C)cc(C)[nH]c2=O)cc(-c3ccc(CN4CCN(CC4)CC(=O)N5CC6(C5)CN(C6)CCNc7cccc8c7C(=O)N(C9CCC(=O)NC9=O)C8=O)cc3)cc(N(CC)C9CCOCC9)c1C
+- **Aryl group:** a para-disubstituted phenyl bearing CH2 attached to piperazine N.
+- **Piperazine:** its other N carries CH2C(=O), which is bonded to a spiro azetidine N.
+- **Spiro linker:** the second azetidine N carries CH2CH2NH, which is attached to the isoindoline-1,3-dione at position 4.
+- **Glutarimide:** 2,6-dioxopiperidin-3-yl on the isoindoline N.
+
+**Final SMILES:** I reused ring-closure digit 9 in two places, which is valid in SMILES because the first ring is closed before the second opens. To be safe, I renumbered the second use as %10.
+
+SMILES: Cc1cc(C)c(CNC(=O)c2cc(-c3ccc(CN4CCN(CC4)CC(=O)N5CC6(C5)CN(C6)CCNc7cccc8c7C(=O)N(C9CCC(=O)NC9=O)C8=O)cc3)cc(N(CC)C%10CCOCC%10)c2C)c(=O)[nH]1

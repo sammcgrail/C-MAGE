@@ -1,0 +1,11 @@
+This is a PROTAC-type molecule. A 2-(3-fluorophenyl)pyrrolidinyl-substituted imidazo[1,2-b]pyridazine is joined through a pyridine and a piperazine amide to a PEG-type linker, which ends in a VHL-type hydroxyproline ligand.
+
+**Fragments, read left to right**
+- **Aryl pyrrolidine:** a 3-fluorophenyl on C2 of a pyrrolidine, attached by a hashed bond. The pyrrolidine nitrogen is bonded to C6 of the imidazo[1,2-b]pyridazine. I assigned this centre as R: with H toward the viewer, N → aryl → CH2 runs counterclockwise, which reverses to R. The SMILES tag `[C@@H]` in `N1CCC[C@@H]1c1cccc(F)c1` encodes R.
+- **Core and piperazine:** the imidazo[1,2-b]pyridazine carries a 2-pyridyl group at C3. The pyridine bears a piperazin-1-yl at its other α-position, and that piperazine nitrogen is acylated.
+- **Linker:** C(=O)–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–C(=O)–NH, with three ether oxygens.
+- **VHL ligand:** a tert-leucine amide linked to (2S,4R)-4-hydroxyproline. The proline carboxamide is bonded to a 4-(4-methylthiazol-5-yl)benzylamine. I took the stereochemistry as the standard VHL-ligand configuration, which matches the wedges and hashes as drawn.
+
+I checked the SMILES for validity and atom-by-atom correspondence with the drawing.
+
+SMILES: O=C(CCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C)N1CCN(CC1)c1cccc(n1)-c1cnc2ccc(nn12)N1CCC[C@@H]1c1cccc(F)c1

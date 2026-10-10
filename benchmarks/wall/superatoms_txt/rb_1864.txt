@@ -1,0 +1,19 @@
+I read the molecule as a PROTAC-type compound with three parts joined by a linker: a VHL ligand, an amide/PEG linker with a piperazine, and a pyridyl-imidazo[1,2-b]pyridazine bearing a 2-(3-fluorophenyl)pyrrolidine.
+
+**VHL end (right side).**
+- A 4-(4-methylthiazol-5-yl)benzyl amide is attached to a 4-hydroxyproline, which is in turn acylated by a tert-leucine.
+- I took the stereochemistry as the standard VHL ligand pattern (2S,4R hydroxyproline, S tert-leucine), consistent with the wedges in the drawing.
+
+**Linker.**
+- The tert-leucine NH carries C(=O)CH2CH2–O–CH2CH2–NH–C(=O)CH2–.
+- That CH2 is attached to one nitrogen of a piperazine.
+
+**Heteroaryl end (left side).**
+- The other piperazine nitrogen is bonded to the 2-position of a pyridine.
+- The pyridine 6-position links to C3 of an imidazo[1,2-b]pyridazine.
+- The pyridazine C6 carries the nitrogen of a pyrrolidine.
+- That pyrrolidine has a 3-fluorophenyl group at C2, drawn on a hashed bond.
+
+**Pyrrolidine stereocentre.** The aryl group is on a hashed bond, so it points away from the viewer and the hydrogen points toward the viewer. Viewed from the hydrogen, the neighbours N, ring CH2 and aryl run clockwise. Converting this to SMILES neighbour order (ring CH2, H, N, aryl) gives `[C@@H]`, i.e. the R configuration, as in larotrectinib-type compounds.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)CCOCCNC(=O)CN3CCN(CC3)c3cccc(n3)-c3cnc4ccc(nn34)N3CCC[C@@H]3c3cccc(F)c3)C(C)(C)C)cc1

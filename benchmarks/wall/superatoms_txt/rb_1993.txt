@@ -1,0 +1,20 @@
+The structure is a PROTAC-like molecule. I read it in four pieces.
+
+**Left fragment.** A 3,5-dimethylisoxazol-4-yl group is attached at C7 of an imidazo[1,2-a]pyridine.
+- Isoxazole: O1, N2=C3(CH3), C4 (the attachment point), C5(CH3). SMILES: Cc1noc(C)c1-.
+- Imidazo[1,2-a]pyridine: the bridgehead N is bonded to C3 (bearing NH-cyclohexyl), and C3 is bonded to C2 (bearing the CH2CH2 chain). C2 is double-bonded to N1, which is bonded to C8a. C8a is bonded to C8, then C7 (isoxazole), C6, C5, and back to the bridgehead N.
+- Written out: c1(-c2c(C)noc2C)cc2nc(CC...)c(NC3CCCCC3)n2cc1.
+
+**Linker.** The chain runs from C2 through CH2CH2 to a para-substituted benzene, then to NH-C(=O)-CH2-O-.
+
+**Right fragment.** The O is attached at C4 of an isoindoline-1,3-dione. Its N is bonded to C3 of a piperidine-2,6-dione (glutarimide).
+- Isoindoline-1,3-dione: O-c1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12.
+
+The stereocentre in the glutarimide is drawn with plain bonds, so I give it no stereo label.
+
+**Assembled SMILES:**
+Cc1noc(C)c1-c1ccn2c(NC3CCCCC3)c(CCc3ccc(NC(=O)COc4cccc5c4C(=O)N(C4CCC(=O)NC4=O)C5=O)cc3)nc2c1
+
+Checking the imidazopyridine ring closure: c1ccn2c(...)c(...)nc2c1 starts at C7 (c1), then C6, C5, the bridgehead N (n2), C3, C2, N1, C8a (c2, closing the five-membered ring), and C8 (c1, closing the six-membered ring). That is correct.
+
+SMILES: Cc1noc(C)c1-c1ccn2c(NC3CCCCC3)c(CCc3ccc(NC(=O)COc4cccc5c4C(=O)N(C4CCC(=O)NC4=O)C5=O)cc3)nc2c1

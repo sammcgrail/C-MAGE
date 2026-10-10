@@ -1,0 +1,14 @@
+Reading the drawing region by region:
+
+- **Left end:** a 3,5-difluorophenyl ring joined through a CH2 to C5 of a 1H-indazole. The indazole C3 carries the NH of the amide.
+- **Central benzamide:** the C=O is attached to the ring carbon at position 1. The ortho carbon (2) carries NH-(tetrahydropyran-4-yl). The carbon para to the carbonyl (4) carries the piperidine nitrogen.
+- **Piperidine:** its 4-position carries a CH2 that connects to an azetidine nitrogen.
+- **Azetidine:** its 3-position is attached to the isoindolinone at C5.
+- **Isoindolinone:** the lactam N carries a 2,6-dioxopiperidin-3-yl group. The ring CH2 sits next to this nitrogen.
+
+SMILES pieces:
+- Indazole: c1(NC(=O)...)n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12
+- Benzamide: C(=O)c1ccc(N2CCC(CN3CC(C3)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4)CC2)cc1NC7CCOCC7
+- Isoindolinone ring: c4ccc5c(c4)CN(C6CCC(=O)NC6=O)C5=O. The carbonyl carbon is attached to the ring carbon adjacent to the one bearing the azetidine side. In the drawing, the azetidine-bearing carbon is the ring carbon below and to the left of the carbon that is bonded to the C=O-bearing carbon. The C=O carbon (top) connects to the ring carbon at upper right, so the substituent carbon is meta to the C=O-bearing ring carbon. In my SMILES c4ccc5C(=O)...c5c4, the attachment carbon c4 is followed by c, c, then c5 (bearing C=O). That places the attachment carbon at position 3 relative to c5 through the path c4-c-c-c5, which is para-like. Going the other way, c4 is bonded to the final c4 and then to c5(CH2), which makes it adjacent-but-one to the CH2-bearing carbon. In the drawing, the attachment carbon is bonded to a CH that connects to the CH2-bearing carbon, so it is meta to the CH2-bearing carbon, and para to the C=O-bearing carbon. This matches the SMILES.
+
+SMILES: O=C(Nc1n[nH]c2ccc(Cc3cc(F)cc(F)c3)cc12)c1ccc(N2CCC(CN3CC(C3)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4)CC2)cc1NC1CCOCC1

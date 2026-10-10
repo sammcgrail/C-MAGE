@@ -1,0 +1,12 @@
+I read the structure in four parts and joined them into one SMILES.
+
+- **Left side:** a meta-substituted benzene carrying a CF2–CH2OH group. It is attached to a CH(CH3) that bears the NH. The methyl is drawn on a hashed bond, so this is the only stereocentre I assigned.
+- **Core:** a quinazoline with the NH at C4, a methyl at C2, and methoxy groups at C6 and C7. An ethylene linker at C8 leads to a piperazine.
+- **Linker:** the piperazine's other nitrogen carries a second CH2CH2 chain to a piperidine nitrogen. The piperidine C4 is bonded to the aromatic ring of the isoindolinone.
+- **Right side:** an isoindolin-1-one with a fluorine on the carbon next to the piperidine-bearing carbon. The lactam nitrogen is attached to a glutarimide (2,6-dioxopiperidin-3-yl), which is drawn without stereo.
+
+For the hashed-methyl stereocentre, the priorities are N > aryl > CH3 > H. The hashed methyl points away from the viewer, so H points toward the viewer. The N → aryl → CH3 sequence appears counterclockwise from the front, which makes the centre R. In SMILES this is `C[C@@H](N...)Ar`.
+
+I checked ring closures and atom counts against the drawing.
+
+SMILES: C[C@@H](Nc1nc(C)nc2c1cc(OC)c(OC)c2CCN1CCN(CC1)CCN1CCC(CC1)c1cc3CN(C4CCC(=O)NC4=O)C(=O)c3cc1F)c1cccc(c1)C(F)(F)CO
