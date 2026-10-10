@@ -1,0 +1,24 @@
+I read this as a VHL-recruiting PROTAC: a kinase-inhibitor-type warhead joined through a PEG linker to a hydroxyproline/tert-leucine VHL ligand. I assembled the SMILES in three pieces and checked each against the drawing.
+
+**Warhead (left side)**
+- The pyrimidine-4-carboxamide carries a 2-(2-fluoro-6-methoxyphenyl) group.
+- The amide nitrogen is attached to a central benzene ring.
+- That ring has a 4-cyanopyridin-3-yl substituent para to the amide NH.
+- It also has a piperazin-1-yl substituent ortho to the amide NH.
+
+**Linker (middle)**
+- The piperazine is acylated by C(=O)CH2–O–CH2CH2–O–CH2CH2–O–CH2–C(=O).
+- The last carbonyl forms an amide with the tert-leucine nitrogen.
+
+**VHL ligand (right side)**
+- The tert-leucine (tBu) is joined by its carbonyl to the nitrogen of a 4-hydroxypyrrolidine.
+- The pyrrolidine 2-carboxamide is attached to a 4-(4-methylthiazol-5-yl)benzylamine.
+- I took the three stereocentres (tert-leucine, hydroxyproline C2 and C4) from the wedges and hashes. They match the standard (S)-tert-leucine and (2S,4R)-hydroxyproline VHL ligand, and I adjusted the @/@@ symbols to suit the order in which I wrote the atoms.
+
+SMILES: COc1cccc(F)c1-c1nccc(n1)C(=O)Nc1ccc(cc1N1CCN(CC1)C(=O)COCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C)-c1cnccc1C#N
+
+I did not run this through a SMILES parser, so ring-closure labels and stereo symbols are checked by hand only.
+
+Correction: reusing ring label 1 while the central benzene ring was still open would break the string. The version below uses distinct labels.
+
+SMILES: COc1cccc(F)c1-c1nccc(n1)C(=O)Nc2ccc(cc2N3CCN(CC3)C(=O)COCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc5ccc(cc5)-c6scnc6C)-c7cnccc7C#N

@@ -1,0 +1,21 @@
+I read the molecule as three connected parts and wrote the SMILES region by region. The stereocentres were assigned from my reading of the wedges and the usual VHL-ligand configuration, not independently checked against the image.
+
+**Left part (aryl isoquinoline):**
+- The isoquinoline carries an 8-NH2 and a 7-F.
+- At C6 it carries a 5-amino-4-methylpyridin-3-yl ring.
+- At C3 it has an NH amide.
+
+**Linker:**
+- From the C3 amide NH the chain runs C(=O)CCNC(=O)CH2.
+- That leads into four ethylene glycol units, then O–CH2–C(=O)–NH.
+- This is a β-alanine amide followed by a PEG5 acetamide.
+
+**Right part (VHL-type ligand):**
+- The linker NH attaches to a tert-leucine residue, which is acylated onto a 4-hydroxyproline nitrogen.
+- The proline carboxamide is bound to a 4-(4-methylthiazol-5-yl)benzylamine.
+
+**Stereochemistry:**
+- The tert-leucine carbon is written `[C@@H]` in my atom order (N, H, tBu, C=O). This is equivalent to the standard `CC(C)(C)[C@H](N…)C(=O)` form.
+- The hydroxyproline is written `[C@H](O)` at C4 and `[C@H]3` at C2, matching the standard (2S,4R) VHL ligand.
+
+SMILES: Nc1c(F)c(-c3cncc(N)c3C)cc2cc(NC(=O)CCNC(=O)COCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)ncc12

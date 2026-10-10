@@ -1,0 +1,10 @@
+Reading the drawing region by region:
+
+- **Core:** a pyrido[4,3-d]pyrimidine. C4 carries a 3,8-diazabicyclo[3.2.1]octane, attached through N3 with the N8–H bridge free. C2 carries an O–CH2 link, C8 carries F, and C7 carries the naphthyl group.
+- **Naphthyl:** 8-ethyl-3-hydroxynaphthalen-1-yl.
+- **Linker:** a pyrrolizidine (hexahydro-1H-pyrrolizine). Its quaternary C7a carries the CH2–O toward the core, drawn on a hashed bond. Its C3 carries a CH2–O–C(=O) group on a wedge bond.
+- **Carbamate end:** the carbamate nitrogen is part of a piperazine, whose other nitrogen is attached to C4 of an isoindolin-1-one. The isoindolinone nitrogen carries a 1-methyl-2,6-dioxopiperidin-3-yl group.
+
+For the stereocentres, I worked out the chirality tags from the 2D geometry of the wedge and hash bonds, which gave [C@@] at C7a and [C@H] at C3. I did not run a SMILES parser, so validity rests on my own check of ring closures and atom counts.
+
+SMILES: N1C2CCC1CN(C2)c1nc(OC[C@@]23CCCN2[C@H](COC(=O)N2CCN(CC2)c2cccc4c2CN(C4=O)C2CCC(=O)N(C)C2=O)CC3)nc2c(F)c(-c3cc(O)cc4cccc(CC)c34)ncc12

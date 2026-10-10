@@ -1,0 +1,33 @@
+I read the structure region by region, from left to right.
+
+**Left end:** a 2-fluoro-6-methoxyphenyl group. The ring carbon attached to the core is flanked by C-F on one side and C-OMe on the other.
+
+**Core:** a 1H-pyrazolo[4,3-d]pyrimidine. The pyrimidine ring atoms are:
+- C5, which carries the aryl group
+- N4
+- C3a
+- C7a
+- C7, which is CH
+- N6
+
+The pyrazole ring is fused to the pyrimidine at C3a and C7a, and its atoms are:
+- C3a, bonded to N4 of the pyrimidine
+- C3, which carries the phenyl group
+- N2
+- N1H
+- C7a, bonded to C7
+
+In the drawing, N4 sits at the top right of the core and is bonded to C3a. C3a is bonded to C3, the carbon attached to the phenyl ring, and C3 is bonded to N2. N2 is bonded to N1H, and N1H is bonded to C7a. C7a is bonded to C7, the CH, which is bonded to N6. N6 is bonded to C5, which is bonded to N4.
+
+Core SMILES: c1(Ar)nc2c(cn1)[nH]nc2-c...
+
+**Middle:** a para-phenylene linked to a piperazine. The piperazine N-CH2-C(=O)NH leads into the chain NH-CH2CH2-O-CH2CH2-O-CH2CH2-NH.
+
+**Right end:** an aryl NH on a phthalimide (isoindoline-1,3-dione). The substituent is at the 5-position, and the imide N carries a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so I give it no stereo.
+
+Full SMILES:
+COc1cccc(F)c1-c1ncc2[nH]nc(-c3ccc(cc3)N3CCN(CC3)CC(=O)NCCOCCOCCNc3ccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c4c3)c2n1
+
+Check on the core: c1(Ar)ncc2[nH]nc(Ar')c2n1. C5 is bonded to N6, then C7(H), then C7a, which is bonded to N1H, N2, C3 and C3a, which is bonded to N4, which closes back to C5. That matches the drawing.
+
+SMILES: COc1cccc(F)c1-c1ncc2[nH]nc(-c3ccc(cc3)N3CCN(CC3)CC(=O)NCCOCCOCCNc3ccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c4c3)c2n1

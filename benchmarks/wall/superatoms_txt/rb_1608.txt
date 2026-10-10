@@ -1,0 +1,27 @@
+I read the molecule as a PROTAC-like compound with three parts: a pyrido[4,3-d]pyrimidine warhead, a pyrrolidine–piperidine–piperidine linker, and a glutarimide-substituted isoindolinone.
+
+**Warhead**
+- The core is a pyrido[4,3-d]pyrimidine.
+- C4 carries a 3,8-diazabicyclo[3.2.1]octane attached through its N3, with the bridging NH free.
+- C8 carries F.
+- C7 carries a naphthalene attached through its C1. The naphthalene has OH at C3, an ethynyl at C8 and F at C7.
+- C2 carries an O–CH2 group leading to the pyrrolidine.
+
+**Linker**
+- The pyrrolidine is N-methylated. Its C2 bears the CH2O group on a wedge, and its C4 bears an O on a hash.
+- That O connects to piperidin-4-yl. The piperidine N is linked by CH2 to the 4-position of a second piperidine.
+- The second piperidine N is bonded to the isoindolinone aryl ring.
+
+**Stereochemistry of the pyrrolidine (from the wedge and hash)**
+- C2 has N > CH2O > C3 > H, with H pointing away. N → CH2O → C3 runs counterclockwise, so C2 is S.
+- C4 has O > C5 > C3 > H, with H toward the viewer. O → C5 → C3 runs counterclockwise from the front, which reverses to clockwise, so C4 is R.
+- In the SMILES below, `[C@@H]` for C2 and `[C@@H]` for C4 give (2S,4R).
+
+**Isoindolinone**
+- The lactam carbonyl is at C1 and the CH2 at C3.
+- C4 carries F, C5 carries the piperidine N, and C7 carries a methyl.
+- The lactam N is attached to a 2,6-dioxopiperidin-3-yl (glutarimide) group.
+
+I used ring-closure label 8 for the glutarimide so it does not clash with the aromatic ring label 6 that is still open at that point.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(N3CC4CCC(C3)N4)nc(OC[C@@H]5C[C@@H](OC6CCN(CC6)CC6CCN(CC6)c6cc(C)c7c(c6F)CN(C8CCC(=O)NC8=O)C7=O)CN5C)nc2c1F

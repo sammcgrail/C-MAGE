@@ -1,0 +1,17 @@
+I read the molecule as an EZH2-inhibitor/VHL-ligand PROTAC and wrote the SMILES in four parts.
+
+1. **EZH2-binding end (left):**
+   - The 4,6-dimethyl-2-pyridone is attached through its 3-CH2 to an amide NH.
+   - That amide sits on a tetra-substituted benzene bearing a methyl, an N-ethyl-N-(tetrahydropyran-4-yl)amino group, and the biaryl bond.
+2. **Linker:**
+   - The biaryl's second phenyl carries a CH2-piperazine.
+   - The other piperazine nitrogen is bonded to a chain of 11 CH2 groups ending in a C(=O). Counting zigzag vertices from the piperazine N to the carbonyl gives 11 CH2 plus the carbonyl carbon.
+3. **VHL end (right):**
+   - The carbonyl is an amide to the tert-leucine NH.
+   - The tert-leucine C(=O) is bonded to the hydroxyproline N.
+   - The hydroxyproline C(=O) is an amide to NH-CH2-phenyl-(4-methylthiazol-5-yl).
+4. **Stereochemistry:**
+   - The wedges and hashes match the usual (S,R,S) VHL ligand.
+   - I wrote the tert-leucine centre as `@@` because it is written in the opposite atom order from the standard VH032 SMILES, which uses `@`.
+
+SMILES: Cc1cc(C)c(CNC(=O)c2cc(-c3ccc(CN4CCN(CCCCCCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N5C[C@H](O)C[C@H]5C(=O)NCc5ccc(-c6scnc6C)cc5)CC4)cc3)cc(N(CC)C3CCOCC3)c2C)c(=O)[nH]1

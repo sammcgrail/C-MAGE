@@ -1,0 +1,16 @@
+I read the molecule in three parts and joined them through the carboxamide.
+
+**Left tricycle.** A pyridazine ring carries a 2-hydroxyphenyl group and is fused to a ring containing an NH and a CH2. That ring is fused in turn to a piperazine. The piperazine nitrogen furthest from the pyridazine carries the urea carbonyl.
+
+**Stereocentre.** The ring-junction CH has one wedged bond, to the CH2 that leads to the NH. Its CIP priorities are:
+1. the ring nitrogen,
+2. the CH2 attached to the amide nitrogen,
+3. the CH2 attached to the NH.
+
+With the hydrogen pointing away from the viewer, the sequence 1→2→3 runs counterclockwise, so the centre is S. In the SMILES below, `[C@H]` written as `NC[C@H]2C1` encodes this S configuration.
+
+**Linker and right-hand side.** The urea nitrogen is N-methylated and bonded to C4 of a piperidine. That piperidine's nitrogen is linked through a CH2 to C4 of a second piperidine. The second piperidine's nitrogen is attached to C5 of an isoindolin-1-one. The isoindolinone nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide) group. The glutarimide carbon is drawn with plain bonds, so I gave it no stereo.
+
+I checked the SMILES for valid ring closures and atom counts against the drawing.
+
+SMILES: O=C(N(C)C1CCN(CC1)CC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1)N1CCN2c3cc(-c4ccccc4O)nnc3NC[C@H]2C1

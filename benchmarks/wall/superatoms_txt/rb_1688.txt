@@ -1,0 +1,27 @@
+This looks like a KRAS G12D PROTAC-type molecule. I read it region by region.
+
+**Left fragment (naphthalene).** The ring carries an OH on one ring, an ethynyl on the peri position and F on the adjacent carbon. The attachment carbon (C1) connects to the pyridopyrimidine. Peri to it is C8, bearing the ethynyl. C7 bears F, then C6 and C5 (CH), then C4a. Then C4 (CH), C3 (C–OH) and C2 (CH).
+
+SMILES for the naphthalene: c1(c2c(C#C)c(F)ccc2cc(O)c1)
+
+Written from C1: c1(-X)cc(O)cc2ccc(F)c(C#C)c12
+
+**Pyrido[4,3-d]pyrimidine core.** Atoms: N(pyridine), CH, C4a, C4 (bearing the diazabicycle), N3, C2 (bearing O), N1, C8a, C8 (F), C7 (aryl). Going around the pyridine ring: C7 is attached to N6, N6 to C5(H), C5 to C4a, C4a to C8a, C8a to C8, and C8 to C7.
+
+SMILES: c1(-Ar)nc c2c(N...)nc(OCC...)nc2c1F
+
+**Diazabicycle.** 3,8-diazabicyclo[3.2.1]octane: N3 is attached to the core, and the NH at position 8 is the bridge. The SMILES is N1(core)CC2CCC(C1)N2.
+
+**Linker.** O–CH2CH2–N(piperidine); piperidine C4–CH2–N of the azetidine. The azetidine is part of a 2,7-diazaspiro[3.5]nonane, with the spiro carbon shared with a piperidine whose N bears the aryl group.
+
+**Isoindolinone.** The aryl is attached at position 4 of the isoindolinone. The lactam N carries the glutarimide (3-yl), and C1 is the C=O.
+
+**Full SMILES:**
+
+Oc1cc(-c2ncc3c(N4CC5CCC(C4)N5)nc(OCCN4CCC(CN5CC6(C5)CCN(CC6)c5cccc6c5CN(C5CCC(=O)NC5=O)C6=O)CC4)nc3c2F)c2c(C#C)c(F)ccc2c1
+
+Checking the naphthalene: c1 (C–OH) c c(-core) c2 c(C#C) c(F) c c c2 c1. The ring fusion carbon after C1 is C8a, bonded to C8 (ethynyl), and the last closure "c2" is C4a. After C4a comes c1, which is C4 (CH), bonded to C3 (OH). The written order is Oc1 (C3), c (C2), c(-core) (C1), c2 (C8a), c(C#C) (C8), c(F) (C7), c (C6), c (C5), c2 (C4a), c1 (C4). This is consistent.
+
+The isoindolinone attachment: c5cccc6c5CN(...)C6=O. The aryl carbon bearing the piperidine N is c5, followed by three CH, then c6 (the carbon bearing C=O). Then c5 closes the ring (the carbon bearing CH2), so the CH2 is adjacent to the carbon next to the substituent. This matches the drawing, where the substituent is at position 4, adjacent to the CH2-bearing carbon.
+
+SMILES: Oc1cc(-c2ncc3c(N4CC5CCC(C4)N5)nc(OCCN4CCC(CN5CC6(C5)CCN(CC6)c5cccc6c5CN(C5CCC(=O)NC5=O)C6=O)CC4)nc3c2F)c2c(C#C)c(F)ccc2c1

@@ -1,0 +1,18 @@
+This molecule is a PROTAC-type conjugate. It joins a sunitinib-like kinase-inhibitor head to a VHL-ligand (VH032-type) tail through a piperazine and PEG-like linker. I read it in four parts and checked stereochemistry against known reference structures rather than deriving it from the drawing alone.
+
+**Left side (kinase-binding head):**
+- A 5-fluoro-2-oxindole carries a 3-ylidene methylene linking to a pyrrole. I assigned the Z geometry, as in sunitinib.
+- The pyrrole is 2,4-dimethyl with a carboxamide at C3, and the amide nitrogen leads into the linker.
+
+**Linker:**
+- A propyl chain (NCCC) connects the amide to a piperazine nitrogen.
+- The other piperazine nitrogen is acylated: C(=O)CH2–O–CH2CH2–O–CH2–C(=O)–NH.
+
+**VHL ligand:**
+- The NH is attached to an L-tert-leucine unit, whose carbonyl acylates the proline nitrogen.
+- The proline is a 4-hydroxyproline (2S,4R) whose carboxyl forms an amide with a 4-(4-methylthiazol-5-yl)benzylamine.
+- I set the tert-leucine and hydroxyproline stereocentres to match the standard VH032 configuration, and checked the SMILES chirality ordering against it.
+
+**Assembled SMILES check:** every ring is closed and the heteroatom labels match the drawing.
+
+SMILES: Cc1[nH]c(/C=C2\C(=O)Nc3ccc(F)cc23)c(C)c1C(=O)NCCCN1CCN(CC1)C(=O)COCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

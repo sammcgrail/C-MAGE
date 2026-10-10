@@ -1,0 +1,8 @@
+I read the molecule in four pieces and joined them with SMILES. I have not run the string through a validator, only checked it by hand.
+
+1. **Right-hand end:** a glutarimide (piperidine-2,6-dione) is attached at C3 to the N of an isoindolin-1-one. The aryl carbon bearing the piperidine N sits next to the CH that is adjacent to the carbonyl-bearing ring-fusion carbon (the 6-position of the isoindolinone).
+2. **3-Fluoropiperidine:** its ring N is the aryl-bound N. F is on a wedge at C3, and the CH2 linker at C4 is on a hash. Working from the 2D geometry with implicit H, I get C3 as `[C@H](F)` and C4 as `[C@@H]`.
+3. **Middle:** the C4 CH2 leads to the N of a second piperidine. Its C4 carries a C(=O) that acylates the tricycle.
+4. **Left-hand tricycle:** a pyridazine bearing a 2-hydroxyphenyl group is fused to two piperazine rings. The ring NH sits on the pyridazine carbon, and the acylated N is in the other piperazine. The stereocentre at the ring fusion has a wedge to the CH2–NH carbon, which gives `[C@H]`.
+
+SMILES: O=C1NC(=O)CCC1N1Cc2ccc(cc2C1=O)N1C[C@H](F)[C@@H](CN3CCC(CC3)C(=O)N3CCN4c5cc(-c6ccccc6O)nnc5NC[C@H]4C3)CC1

@@ -1,0 +1,19 @@
+I read the structure as a PROTAC-type molecule and worked through it region by region.
+
+**Left side (cereblon ligand):** a glutarimide ring (NH between two C=O groups) is attached through its C3 to the nitrogen of an isoindoline-1,3-dione. The benzene ring of the isoindoline carries an NH at position 4, which starts the linker.
+
+**Linker:** NH–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–C(=O)–NH–CH2CH2–SO2–N(piperidine).
+- Counting oxygens from the left: NH-CH2CH2-O (first), CH2CH2-O (second), CH2CH2-O (third), CH2CH2-O (fourth), then CH2CH2C(=O).
+- The drawing shows four O atoms, at x=350, 520, 690 and 860.
+- The segments are NH–CH2CH2 (to the first O), CH2CH2 (to the second O), CH2CH2 (to the third O), CH2CH2 (to the fourth O), then CH2CH2C(=O). This gives four ether oxygens.
+
+**Right side:**
+- The sulfonamide nitrogen is the piperidine N. The piperidine C4 carries an NH that connects to pyrimidine C2.
+- The pyrimidine has N1, C2, N3, C4, C5 (Br) and C6 (H). C4 carries an NH–aryl group.
+- The aryl ring is a benzene with the NH at one carbon, an adjacent carbon bearing C(=O)NH2, and F on the next carbon, so the amide is flanked by NH and F.
+
+**SMILES assembly:**
+- Glutarimide and isoindoline: O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCOCCOCCC(=O)NCCS(=O)(=O)N4CCC(CC4)Nc4ncc(Br)c(Nc5cccc(F)c5C(N)=O)n4)c3C2=O)C(=O)N1
+- The isoindoline carbons are C(=O) (attached to the ring), then c3 with the aromatic ring, with the NH-bearing carbon adjacent to the carbon bearing the other C=O. In the drawing, the NH carbon sits at the bottom, next to the lower ring-fusion carbon that bears C1=O (the right-hand carbonyl). In my SMILES, c3cccc(N...)c3C2=O puts the substituent carbon adjacent to the ring fusion carbon attached to C2=O, which is consistent.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCOCCOCCC(=O)NCCS(=O)(=O)N4CCC(CC4)Nc4ncc(Br)c(Nc5cccc(F)c5C(N)=O)n4)c3C2=O)C(=O)N1

@@ -1,0 +1,26 @@
+Reading the structure region by region, from left to right:
+
+**Left fragment (KRAS-inhibitor-like core).** A pyrido[4,3-d]pyrimidine bears these substituents:
+- C4 carries 3,8-diazabicyclo[3.2.1]octane, attached through the N3 nitrogen. The NH bridge is the 8-position.
+- C2 carries an O-CH2CH2-N linker.
+- C8 carries F.
+- C7 carries the naphthyl group.
+
+The naphthyl ring is 3-hydroxy-8-ethynyl-7-fluoronaphthalen-1-yl. In the drawing, the ring carbon attached to the pyridine (C1) is next to C2 (CH) and then C3 (C-OH). C4 is CH and C4a is the ring fusion. The other ring runs C5 (CH), C6 (CH), C7 (C-F), C8 (C-ethynyl) to C8a.
+
+**Linker.** The ethoxy nitrogen is the N of piperidine A. Its C4 is joined by a CH2 to C4 of piperidine B. The N of piperidine B carries a CH2 that goes to C4 of piperidine C. The N of piperidine C is bonded to the aryl ring of the isoindolinone.
+
+**Right fragment.** The isoindolinone has its N bonded to the 3-position of piperidine-2,6-dione. The C=O is on the carbon next to the aromatic ring, and the CH2 is on the other side. The piperidine C nitrogen sits on the aromatic carbon at the 5-position of the isoindolinone.
+
+**SMILES construction.**
+- Core: pyrido[4,3-d]pyrimidine, written c1(N2CC3CCC(C2)N3)nc(OCCN...)nc2c(F)c(Ar)ncc12.
+- Naphthyl: c1cc(O)cc2ccc(F)c(C#C)c12, attached through its first atom.
+- Isoindolinone: c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1, attached at the 5-position. The ring is written with the piperidine on the carbon that is meta to the C=O-bearing carbon and adjacent to the CH-bearing carbon.
+
+Full SMILES:
+
+C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(nc(OCCN3CCC(CC3)CC3CCN(CC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4)CC3)nc2c1F)N1CC2CCC(C1)N2
+
+Checking the isoindolinone ring: c4ccc5C(=O)N(...)Cc5c4 starts at the aromatic carbon bearing the piperidine N (c4). It then runs c, c, c5 (carrying C=O), then C(=O), N, CH2, c5 (ring closure) and c4 (the final CH, bonded back to c4). The piperidine-bearing carbon is therefore adjacent to the CH that touches the carbon carrying CH2, which is the 5-position. This matches the drawing.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(nc(OCCN3CCC(CC3)CC3CCN(CC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4)CC3)nc2c1F)N1CC2CCC(C1)N2

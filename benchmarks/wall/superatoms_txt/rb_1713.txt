@@ -1,0 +1,8 @@
+I read the structure in four regions and joined them into one SMILES.
+
+1. **Left tricycle:** a pyridazine fused to two piperazine-type rings. The pyridazine carries a 2-hydroxyphenyl group on the carbon next to the N=N unit. An NH–CH2 sits on the other side, and the ring nitrogen is part of the fused piperazine. The stereocentre is the ring-fusion CH. It has a wedge to the CH2 that leads to the NH, so I assigned it `[C@H]`.
+2. **Linker:** the piperazine nitrogen bears a carbonyl, which connects to N3 of a 3,8-diazabicyclo[3.2.1]octane. N8 of that bicycle carries a CH2 that leads to C4 of a piperidine.
+3. **Aryl piece:** the piperidine nitrogen is bonded to the benzene ring of an isoindolin-1-one. The ring carbon bearing it is meta to the CH2-bearing carbon. The isoindolinone nitrogen is bonded to the 3-position of a glutarimide (piperidine-2,6-dione).
+4. **Stereochemistry:** the glutarimide CH is drawn with plain bonds, so it gets no stereo label. The bicyclic bridgeheads are also drawn without wedges, so they get none either.
+
+SMILES: O=C1CCC(N2Cc3ccc(cc3C2=O)N2CCC(CC2)CN2C3CCC2CN(C3)C(=O)N2CCn3c4cc(-c5ccccc5O)nnc4NC[C@H]3C2)C(=O)N1

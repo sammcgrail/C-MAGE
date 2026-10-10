@@ -1,0 +1,38 @@
+This is a KRAS G12D-type PROTAC, built from a pyrido[4,3-d]pyrimidine core, a linker and a lenalidomide-like isoindolinone glutarimide. I read it region by region.
+
+**Core (pyrido[4,3-d]pyrimidine).**
+- The pyrimidine ring has C4 bearing the diazabicycle, N3, C2 bearing the O-linker, N1, and the fused carbons C4a and C8a.
+- The pyridine ring has C5 (CH), N6, C7 bearing the naphthyl group, C8 bearing F, and C8a.
+- SMILES for the core: c1(N...)nc(OCC...)nc2c(F)c(Ar)ncc12.
+
+**Diazabicycle.** The top NH is bridging, with two bridgehead CH groups, a two-carbon bridge (CH2CH2) and two CH2 groups going to the lower N.
+- This is 3,8-diazabicyclo[3.2.1]octane, attached through N3.
+- SMILES: N1(C2CCC1CN(C2)...), written as N3CC4CCC(C3)N4.
+
+**Naphthyl group.** It is attached to the pyridine at naphthalene C1.
+- The ring carbons are C1 (attached to the pyridine), C2 (CH), C3 (OH), C4 (CH), C4a, C5 (CH), C6 (CH), C7 (F), C8 (ethynyl) and C8a.
+- SMILES: c1(c2cc(O)cc3ccc(F)c(C#C)c23).
+
+**Linker.**
+- O–CH2CH2–N(piperidine); the piperidine C4 carries CH2 to a piperazine N.
+- The piperazine N1 is attached to a C(CH3)2 carbon, which is followed by CH2 and then N4.
+- N4 carries CH2 to the C4 of a second piperidine, whose N bears the aryl group.
+- Piperazine SMILES: N1(CC2CCN(CC2)...)C(C)(C)CN(CC3CCN(CC3)Ar)CC1.
+
+**Isoindolinone.**
+- The aryl ring carries the piperidine N at C5 and F at C4, adjacent to the CH2 of the lactam ring.
+- Ring: c1(N-pip)c(F)c2CN(C3CCC(=O)NC3=O)C(=O)c2cc1.
+
+**Assembled SMILES.**
+
+N#... (no nitrile); the ethynyl group is C#C.
+
+C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(nc(OCCN3CCC(CC3)CN3CCN(CC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4F)CC3(C)C)nc2N2CC3CCC(C2)N3)c1F
+
+Check on the piperazine: N3 is the piperazine N attached to the CH2 from the first piperidine. Then ring closure: N3 C C N(...) C C3(C)C. That makes N3–CH2–CH2–N(…)–CH2–C(C)(C)–N3, a six-membered ring (N, C, C, N, C, C), which is correct. The gem-dimethyl carbon is adjacent to N3 and the CH2 leads to N4, as drawn.
+
+The pyridine ring: c1ncc2c(...)nc(...)nc2... I wrote c1ncc2c(nc(O...)nc2N...)c1F. Atom c1 (C7) is bonded to n (N6), then c (C5), then c2 (C4a), then c( (C8a, which is bonded to N1 as nc(OR)...). That places C4 attached to C4a, but I wrote the C4 substituent (nc2N...) after the C8a branch. Written this way, C4a is bonded to the carbon that closes the ring with the N-bicycle carbon, which gives the wrong pattern. I need to fix the order so that C4a carries C4 and C8a carries C8.
+
+Corrected: c1(Ar)ncc2c(N-bicycle)nc(OR)nc2c1F, with C8a being c2 closing to the carbon bearing F.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(N3CC4CCC(C3)N4)nc(OCCN3CCC(CC3)CN3CCN(CC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4F)CC3(C)C)nc2c1F

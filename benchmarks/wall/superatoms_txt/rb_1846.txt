@@ -1,0 +1,9 @@
+I read the molecule as a PROTAC-type conjugate. An EZH2-inhibitor fragment is joined through a triazole–piperazine linker to a VHL-ligand fragment (VH032-like). I assembled the SMILES region by region from left to right.
+
+1. **Pyridone end:** a 4,6-dimethyl-2-oxo-1,2-dihydropyridin-3-yl group joined by a CH2–NH to the benzamide carbonyl.
+2. **Central benzamide ring:** a ring with a methyl, an N-ethyl-N-(tetrahydropyran-4-yl)amino group, and a para-substituted phenyl ring. The phenyl carries a CH2 that leads to the piperazine nitrogen.
+3. **Linker:** the other piperazine nitrogen is acylated by a 1,2,3-triazole-4-carbonyl group. The triazole N1 bears CH2CH2C(=O)NH.
+4. **VHL end:** the NH belongs to a tert-leucine residue. Its carbonyl is bonded to the nitrogen of a 4-hydroxyproline ring. The proline carboxamide is linked to a 4-(4-methylthiazol-5-yl)benzylamine.
+5. **Stereochemistry:** I took the stereocentres only from the drawn wedges and hashes. I assigned them to match the standard VH032 amine SMILES (S tert-leucine, 2S,4R hydroxyproline), then checked the tert-leucine chirality tag after reordering its neighbours in my written string.
+
+SMILES: O=c1[nH]c(C)cc(C)c1CNC(=O)c1cc(-c2ccc(CN3CCN(CC3)C(=O)c3cn(CCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(cc4)-c4scnc4C)nn3)cc2)cc(N(CC)C2CCOCC2)c1C

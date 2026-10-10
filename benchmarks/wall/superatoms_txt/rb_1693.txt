@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+1. **Left aromatic end.** The isoquinoline carries an NH2 at C8, F at C7, a pyridyl group at C6, and an amide NH at C3. The pyridyl is a 3-pyridyl bearing a methyl at C4 and an NH2 at C5.
+2. **Linker.** From the isoquinoline NH the chain is C(=O)CCNC(=O)CC, then five O–CH2CH2 units (five ether oxygens), then CH2C(=O)N.
+3. **Middle.** This is a tert-leucine residue (N–CH(tBu)–C(=O)) acylating a 4-hydroxyproline nitrogen.
+4. **Right end.** The proline C2 carboxamide is joined to a 4-(4-methylthiazol-5-yl)benzyl group.
+
+For stereochemistry I assumed the standard VHL-ligand pattern (tert-leucine S, hydroxyproline 2S,4R). I checked each centre's @/@@ against the known VHL-ligand SMILES, adjusting for the atom order in my string. I did not independently confirm the wedge directions from the image.
+
+SMILES: Nc1c(F)c(-c2cncc(N)c2C)cc2cc(NC(=O)CCNC(=O)CCOCCOCCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)ncc12

@@ -1,0 +1,24 @@
+I read the structure region by region, left to right.
+
+**Left end.** The pyrimidine has N at the top and N at the bottom right. C2 carries the 2-fluoro-6-methoxyphenyl group, and C4 carries the carboxamide C(=O)NH.
+- Pyrimidine and aryl: c1(nccc(n1)C(=O)N...)-c1c(F)cccc1OC
+
+**Central benzene.** The NH-bearing carbon has the piperazine on its ortho carbon, and a 4-cyanopyridin-3-yl group sits para to the NH carbon. Numbering the ring: C1 bears NH, C2 bears the piperazine, C3 is CH, C4 bears the pyridyl group, C5 and C6 are CH. The pyridyl group is therefore meta to the piperazine and para to the NH.
+- Central ring: c1(NC(=O)...)ccc(cc1N2CCN(CC2)C(=O)...)-c1cnccc1C#N
+
+**Pyridine.** The attachment carbon is bonded to the CN-bearing carbon and to a CH that leads to N, so it is 4-cyanopyridin-3-yl.
+- Pyridine: c1cnccc1C#N
+
+**Linker.** The piperazine N-acyl group is C(=O)CCOCCOCCOCCOCCN, followed by the aryl NH.
+- Counting from the figure: C(=O), CH2, CH2, O, CH2, CH2, O, CH2, CH2, O, CH2, CH2, O, CH2, CH2, NH.
+- That gives C(=O)CCOCCOCCOCCOCCN, which has four O atoms.
+
+**Right end.** The isoindoline-1,3-dione carries the NH at position 5. Its N is attached to the 2,6-dioxopiperidin-3-yl group.
+- Right end: c1ccc2c(c1)C(=O)N(C3CCC(=O)NC3=O)C2=O
+
+**Assembled SMILES:**
+COc1cccc(F)c1-c1nccc(n1)C(=O)Nc1ccc(cc1N1CCN(CC1)C(=O)CCOCCOCCOCCOCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)-c1cnccc1C#N
+
+I checked the isoindoline fragment as c1ccc2C(=O)N(...)C(=O)c2c1, with NH on the first c1. That atom is bonded to c (CH) and to the last c1 (CH), which is adjacent to the ring-fusion carbon, so the NH sits at position 5.
+
+SMILES: COc1cccc(F)c1-c1nccc(n1)C(=O)Nc1ccc(cc1N1CCN(CC1)C(=O)CCOCCOCCOCCOCCNc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1)-c1cnccc1C#N

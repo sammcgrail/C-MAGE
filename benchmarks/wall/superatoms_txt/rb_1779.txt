@@ -1,0 +1,11 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+**Left tricycle.** A pyridazine carries the 2-hydroxyphenyl group on the carbon next to the ring CH. It is fused to a dihydropyrazine ring that contains an NH and a CH2. That ring is fused in turn to a piperazine. The only stereocentre here is the ring-fusion CH, drawn with a wedge to the CH2–NH carbon. By CIP priorities (ring N > CH2–N(tertiary) > CH2–NH) it is S, which corresponds to `[C@H]` in the SMILES order I wrote.
+
+**Linker.** The piperazine nitrogen carries a CH2 that leads to C6 of a 3-azabicyclo[3.1.0]hexane. C6 has a hashed bond to that CH2. Both ring-fusion carbons (C1 and C5) have wedged bonds to their CH2 groups, so the ring fusion is cis. I assigned the three chirality tags by working out the local geometry at each centre.
+
+**Azetidine.** The bicyclic ring nitrogen bears CH2 attached to C3 of an azetidine. The azetidine nitrogen is bonded to the aromatic ring.
+
+**Right end.** The aromatic ring belongs to an isoindolin-1-one. The azetidine nitrogen sits on C6, which is meta to the CH2-bearing carbon and one position away from the carbonyl-bearing carbon. The lactam nitrogen carries a glutarimide (2,6-dioxopiperidin-3-yl). Its C3 is drawn with plain bonds, so it has no stereo label.
+
+SMILES: Oc1ccccc1-c1cc2c(nn1)NC[C@H]1CN(C[C@@H]3[C@H]4CN(CC5CN(C5)c5ccc6CN(C7CCC(=O)NC7=O)C(=O)c6c5)C[C@@H]34)CCN21

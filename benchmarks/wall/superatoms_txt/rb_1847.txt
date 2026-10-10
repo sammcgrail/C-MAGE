@@ -1,0 +1,26 @@
+This is an EZH2-inhibitor/cereblon PROTAC. I read it in fragments.
+
+**Left fragment.** A 4,6-dimethyl-2-oxo-1,2-dihydropyridin-3-yl group carries a CH2 that links through NH to a C(=O) on the central benzene.
+- Pyridone: Cc1cc(C)c(CNC(=O)...)c(=O)[nH]1
+
+**Central benzene.**
+- C1 bears the amide.
+- C2 bears the methyl.
+- C3 bears N(ethyl)(tetrahydropyran-4-yl).
+- C4 is H.
+- C5 bears the aryl group.
+- C6 is H.
+- SMILES: c1(C(=O)NCc2c(C)cc(C)[nH]c2=O)c(C)c(N(CC)C2CCOCC2)cc(-c3ccc(CN4CCN(CC4)CC(=O)N5CC6(C5)CN(C6)CCCCNc7cccc8c7C(=O)N(C9CCC(=O)NC9=O)C8=O)cc3)c1
+
+**Chain on the right.**
+- The biphenyl's CH2 leads to a piperazine N.
+- The other piperazine N carries CH2C(=O), which acylates N2 of a 2,6-diazaspiro[3.3]heptane.
+- The other spiro N is attached to a chain of four CH2 groups ending in NH.
+- That NH is bonded to the 4-position of the thalidomide-type isoindoline-1,3-dione.
+- Counting the chain from the drawing: N, then CH2 (up-right), CH2, CH2, CH2, then NH. That is four carbons, which gives CCCC.
+
+**Thalidomide part.** The isoindoline N bears the 2,6-dioxopiperidin-3-yl group. The aryl carbon bearing NH is adjacent to the carbonyl-bearing ring carbon, which matches the 4-amino substitution.
+
+Final SMILES, written as one string:
+
+SMILES: CCN(C1CCOCC1)c1cc(-c2ccc(CN3CCN(CC(=O)N4CC5(C4)CN(CCCCNc4cccc6c4C(=O)N(C4CCC(=O)NC4=O)C6=O)C5)CC3)cc2)cc(C(=O)NCc2c(C)cc(C)[nH]c2=O)c1C

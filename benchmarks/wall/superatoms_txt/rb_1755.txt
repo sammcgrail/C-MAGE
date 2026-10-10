@@ -1,0 +1,13 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+1. **Left tricycle:** a pyridazine bearing a 2-hydroxyphenyl group, fused to a piperazine, which is fused to a second piperazine. The NH sits on the pyridazine carbon next to the N=N unit. The second piperazine nitrogen carries the urea carbonyl.
+
+2. **Stereocentre on the tricycle:** the wedge runs from the ring CH to the CH2 that leads to NH. With H pointing away, the order N → CH2N(amide) → CH2NH runs counterclockwise, so this centre is S. In the SMILES it is written `[C@@H]3`.
+
+3. **Methylpiperazine:** the carbonyl is attached to N1, and the adjacent CH carries a hashed methyl. Its priorities are N > ring CH2 > CH3, and the H points toward the viewer, which makes it R. In the SMILES it is written `[C@H]4C`. The other piperazine nitrogen carries a CH2 that leads to the piperidine C4.
+
+4. **Right-hand end:** the piperidine nitrogen is attached to the isoindolinone aromatic ring. The isoindolinone nitrogen carries a glutarimide (2,6-dioxopiperidin-3-yl). That glutarimide carbon is drawn with plain bonds, so it gets no stereo label.
+
+I checked the SMILES against the drawing ring by ring and atom by atom.
+
+SMILES: Oc1ccccc1-c1cc2N3CCN(C(=O)N4CCN(CC5CCN(CC5)c5ccc6CN(C7CCC(=O)NC7=O)C(=O)c6c5)C[C@H]4C)C[C@@H]3CNc2nn1

@@ -1,0 +1,10 @@
+I read the structure in four parts and wrote each as a SMILES fragment.
+
+- **Left end:** a 1H-pyrazolo[4,3-d]pyrimidine. Its C5 carries a 2-fluoro-6-methoxyphenyl group. Its C3 carries a para-substituted phenyl.
+- **Linker:** that phenyl is attached to a piperazine nitrogen, and the other piperazine nitrogen is acylated. The chain from that acyl carbon to the second carbonyl has 9 carbons, so it is a nonanedioyl (azelaoyl) diamide, with 7 CH2 groups between the two C=O carbons.
+- **Middle:** the second carbonyl is bonded to the NH of a tert-leucine. The tert-leucine C=O is bonded to the nitrogen of a 4-hydroxyproline ring.
+- **Right end:** the proline C=O forms an amide with a 4-(4-methylthiazol-5-yl)benzylamine.
+
+For stereochemistry I matched the wedges and hashes to the standard VHL-ligand configuration, which is (S)-tert-leucine and (2S,4R)-hydroxyproline. I rewrote those centres in the atom order of my SMILES, and that gave `[C@H]` for the tert-leucine carbon, `[C@@H](O)` for C4 and `[C@H]3` for C2.
+
+SMILES: COc1cccc(F)c1-c1ncc2[nH]nc(-c3ccc(cc3)N3CCN(CC3)C(=O)CCCCCCCC(=O)N[C@H](C(=O)N3C[C@@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)C(C)(C)C)c2n1

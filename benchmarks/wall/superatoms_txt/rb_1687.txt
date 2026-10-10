@@ -1,0 +1,10 @@
+I read the molecule as a pyrido[4,3-d]pyrimidine core carrying four substituents, with a pyrrolizidine linker leading to a lenalidomide-type piperazine carbamate. I wrote the SMILES region by region and checked each part against the drawing.
+
+- **Core:** C4 carries the N-methyl-3,8-diazabicyclo[3.2.1]octane, C2 carries an O-CH2 link to the pyrrolizidine, C8 carries F, and C7 carries the naphthyl group.
+- **Naphthyl group:** it is attached at C1, with ethyl at the peri position (C8) and OH at C3.
+- **Pyrrolizidine:** the quaternary bridgehead carbon has a wedged CH2O bond. The other stereocentre, the CH bearing the CH2O-carbamate, has a hashed bond to CH2O.
+- **Carbamate and tail:** the CH2O is acylated as a carbamate onto a piperazine. The piperazine is bonded at the 5-position of a 3-oxo-isoindolin-2-yl group, and the isoindoline nitrogen carries the 2,6-dioxopiperidin-3-yl ring.
+
+I assigned the two stereocentres from the wedge and hash bonds as drawn, giving `[C@]` for the quaternary carbon and `[C@@H]` for the CH. The glutarimide CH is drawn with plain bonds, so it gets no stereo.
+
+SMILES: CCc1cccc2cc(O)cc(-c3ncc4c(N5CC6CCC(C5)N6C)nc(OC[C@]67CCCN6[C@@H](COC(=O)N6CCN(CC6)c6ccc8c(c6)CN(C6CCC(=O)NC6=O)C8=O)CC7)nc4c3F)c12

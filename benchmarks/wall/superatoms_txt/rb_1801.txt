@@ -1,0 +1,14 @@
+I read the structure as an EZH2-inhibitor/VHL-ligand PROTAC and built the SMILES region by region. I have not run it through a validator.
+
+- **Pyridone end:** a 4,6-dimethyl-2-pyridone, attached through its 3-CH2–NH to the benzamide carbonyl.
+- **Central benzamide ring:** it carries a methyl, an N-ethyl-N-(tetrahydropyran-4-yl)amino group, and a para-substituted phenyl ring.
+- **Piperazine linker start:** the phenyl ring bears a CH2 bonded to a piperazine nitrogen. The other piperazine nitrogen carries CH2C(=O)NH.
+- **Chain:** NH–(CH2)5–O–(CH2)3–O–CH2–C(=O)NH, counting the zigzag vertices one at a time.
+- **VHL ligand:** an L-tert-leucine unit (S) acylating a (2S,4R)-4-hydroxyproline. Its carboxamide goes to a 4-(4-methylthiazol-5-yl)benzylamine.
+- **Stereochemistry:** only the tert-leucine carbon and the two hydroxyproline carbons are drawn with wedges or hashes. I assigned @/@@ to match the known VH032 form and checked the neighbour ordering for each centre.
+
+SMILES: O=C1NC(C)=CC(C)=C1CNC(=O)c1cc(-c2ccc(CN3CCN(CC3)CC(=O)NCCCCCOCCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)cc)cc(N(CC)C3CCOCC3)c1C
+
+Wait — that string is malformed in the aryl section. Here is the corrected version, which is the one to use:
+
+SMILES: O=C1NC(C)=CC(C)=C1CNC(=O)c1cc(-c2ccc(CN3CCN(CC3)CC(=O)NCCCCCOCCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)cc2)cc(N(CC)C2CCOCC2)c1C

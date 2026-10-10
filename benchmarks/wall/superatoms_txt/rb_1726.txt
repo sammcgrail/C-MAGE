@@ -1,0 +1,18 @@
+I read the structure region by region, starting from the left.
+
+**Left aryl ring:** a 2-fluoro-6-methoxyphenyl group, attached through its C1 to the pyrimidine ring.
+
+**Pyrazolo[4,3-d]pyrimidine core:**
+- The pyrimidine ring carries C5 (bonded to the aryl group), N4 and N6, with C7 as the ring CH.
+- The fused pyrazole has C3 bonded to the phenylene ring, then N2, and N1 as NH. C3a is bonded to N4 and C7a to C7.
+- Written as SMILES: c1(-c2c(F)cccc2OC)nc2c(cn1)[nH]nc2-c1ccc(cc1)...
+- Ring closure check: the pyrimidine atoms are C5, N4 (the "n" in the image between C5 and C3a), C3a, C7a, C7 (CH) and N6.
+- Written out: c2(Ar)nc3c(nc2)... but with the ring-fusion atoms assigned this becomes c1(Ar)nc2c(cn1)[nH]nc2-Ar'. Here c2 is C3a, bonded to N4, and the next atom c( is C7a, bonded to c (C7) and [nH]. C7a bears the NH, and C3a connects through ring closure 2 to C3, which carries the aryl group. Overall: c1(Ar)nc2c(cn1)[nH]nc2Ar'.
+
+**Linker:**
+- The phenylene is para-substituted and connected to a piperazine N.
+- The other piperazine N is acylated: C(=O)CCCCN, giving a five-carbon chain. The carbonyl is C1, followed by four CH2 groups, then NH. The image shows the carbonyl, then four vertices to NH, so the chain is C(=O)CCCCNH.
+
+**Right-hand side:** the NH is attached to C4 of the isoindoline-1,3-dione (pomalidomide). The imide N is bonded to a 2,6-dioxopiperidin-3-yl group, drawn without stereo.
+
+SMILES: COc1cccc(F)c1-c1nc2c(cn1)[nH]nc2-c1ccc(cc1)N1CCN(CC1)C(=O)CCCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

@@ -1,0 +1,12 @@
+I read the molecule as a PROTAC-type structure and wrote it as one SMILES, going region by region from left to right.
+
+- **Left aryl group:** a 4-cyano-3,5-dimethylphenyl ring linked through an ether oxygen to a cyclohexane.
+- **Cyclohexane:** it is 1,4-disubstituted, with a wedged O at one end and a hashed NH at the other. That is a trans arrangement.
+- **Pyrazine core:** the NH is part of an amide to a pyrazine-2-carboxamide. The pyrazine carries a piperidin-1-yl group at C5, which sits para to the amide carbon across the ring.
+- **Piperidine and linker:** the piperidine is substituted at C4 by a CH2 that leads to an N-acetyl nitrogen.
+- **Cyclobutane:** that nitrogen is attached to a 1,3-disubstituted cyclobutane. The N is on a wedge and the O is on a hash, which is trans.
+- **Right-hand end:** the cyclobutyl O is bonded to an isoindoline-1,3-dione bearing a methoxy group. The imide nitrogen carries a 2,6-dioxopiperidin-3-yl ring. That glutarimide carbon is drawn with plain bonds, so it gets no stereo label.
+
+For the stereo SMILES, I worked out the chirality symbols for the 1,4-cyclohexane and 1,3-cyclobutane pairs by geometry. When both ring stereocentres are written with the same neighbour order, as here, the same @/@ symbol on both gives trans.
+
+SMILES: N#Cc1c(C)cc(O[C@H]2CC[C@H](NC(=O)c3cnc(N4CCC(CN(C(C)=O)[C@H]5C[C@H](Oc6cc(OC)c7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)C5)CC4)cn3)CC2)cc1C

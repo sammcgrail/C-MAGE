@@ -1,0 +1,9 @@
+I read the molecule as a PROTAC with three parts joined end to end:
+
+- **Left, target ligand:** a 1H-pyrazolo[4,3-d]pyrimidine carrying a 2-fluoro-6-methoxyphenyl group on the pyrimidine ring. At C3 it carries a phenyl ring that is attached to a piperazine nitrogen.
+- **Middle, linker:** the piperazine nitrogen is acylated as N–C(=O)–CH2–O–CH2–C(=O)–NH.
+- **Right, VHL ligand:** that NH is the tert-leucine nitrogen. The tert-leucine is joined to a 4-hydroxyproline, whose carboxamide is attached to a 4-(4-methylthiazol-5-yl)benzylamine.
+
+For stereochemistry, I took the three drawn centres to be the usual VHL-ligand configuration: L-tert-leucine, and the 4-hydroxyproline with its C2 carboxamide and C4 hydroxyl as drawn. I then wrote the chirality tags in this SMILES atom order by checking neighbour permutations against the standard VHL ligand SMILES, not by re-deriving CIP labels from the wedges.
+
+SMILES: COc1cccc(F)c1-c1ncc2[nH]nc(-c3ccc(cc3)N3CCN(CC3)C(=O)COCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)c2n1

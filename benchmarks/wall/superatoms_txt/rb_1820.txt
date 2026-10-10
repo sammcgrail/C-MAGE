@@ -1,0 +1,28 @@
+I read the structure region by region and assembled the SMILES below.
+
+**Pyrido[4,3-d]pyrimidine core.** The ring atoms are N6, C5(H), C4a, C4, N3, C2, N1, C8a, C8(F) and C7.
+- C4 carries the diazabicyclo group.
+- C2 carries the N-methyl amino group.
+- C8 carries F.
+- C7 carries the naphthyl group.
+
+**C4 substituent.** The bicycle is 3,8-diazabicyclo[3.2.1]octane. N3 attaches to the core, and the bridging NH (N8) joins the two bridgehead carbons. Written as a SMILES fragment: N1(core)CC2CCC(C1)N2, which is N3-CH2-CH(bridgehead)-CH2CH2-CH(bridgehead)-CH2, with the NH bridging the two bridgeheads. No stereo is drawn.
+
+**Naphthyl group.** The naphthalene carries:
+- C1, bonded to the core.
+- C2 and C3, on the ring positions next to C1. The OH-bearing carbon is separated from the attachment carbon by one CH, so it sits at position 3.
+- C8, bearing the ethynyl group.
+- C7, bearing F.
+
+Written from the attachment carbon: c1(core)cc(O)cc2ccc(F)c(C#C)c12.
+
+**Side chain from C2.** N(C)CCN1CCC(CC1)CC1CCN(CC1)CC1CN(C1)... This runs N-methyl, ethylene, piperidine N, piperidin-4-yl, CH2, a second piperidin-4-yl, its N, CH2, then azetidin-3-yl. The azetidine N attaches to the isoindolinone.
+
+**Isoindolinone.** The azetidine N is on the aromatic ring at position 5. The lactam N bears the 2,6-dioxopiperidin-3-yl group. The stereocentre there is drawn with a plain bond, so no stereo is given.
+
+**Assembled SMILES.**
+C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(nc(nc2c1F)N(C)CCN1CCC(CC1)CC1CCN(CC1)CC1CN(C1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O)N1CC2CCC(C1)N2
+
+I checked the ring closures. Ring label 1 is reused after closing, and the ring-2 labels are reused after closing as well. Inside the core, "c1ncc2c(nc(nc2c1F)...)N1CC2CCC(C1)N2" works as follows: c1 (C7), n (N6), c (C5), c2 (C4a), c( (C4) with a branch nc(nc2c1F) — n3, c2 (C2, bearing the N-methyl group), n1, c2 (C8a, closing to C4a), c1F (C8, closing to C7 and carrying F). Then C4 is bonded to the bicycle N after the branch closes. This is consistent.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(nc(nc2c1F)N(C)CCN1CCC(CC1)CC1CCN(CC1)CC1CN(C1)c1ccc2C(=O)N(Cc2c1)C1CCC(=O)NC1=O)N1CC2CCC(C1)N2

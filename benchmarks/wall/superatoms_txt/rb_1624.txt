@@ -1,0 +1,19 @@
+The SMILES below was read region by region from the drawing. I assigned the two pyrrolizidine stereocentres from the wedge and hash bonds. Everything else is drawn with plain bonds, so it carries no stereo label.
+
+**Fragments, left to right**
+- **Naphthyl:** the ring is attached at C1 and carries 8-ethyl and 3-OCH2OCH3 (MOM) groups.
+- **Core:** a pyrido[4,3-d]pyrimidine with F at C8, the naphthyl at C7, an O-linked side chain at C2, and the bicyclic amine at C4.
+- **C4 amine:** a 3,8-diazabicyclo[3.2.1]octane. N3 is bonded to the core and N8 carries the Boc group.
+- **C2 side chain:** –O–CH2 attached to C7a of a hexahydropyrrolizine. C3 of that ring carries CH2–O–C(=O) as a carbamate.
+- **Carbamate nitrogen:** part of a piperazine whose other nitrogen is bonded to an isoindolin-1-one, para to its C=O-bearing ring carbon.
+- **Isoindolinone N:** bonded to the C3 of a 1-methylpiperidine-2,6-dione.
+
+**Stereochemistry**
+- C7a (quaternary, CH2O wedge): `[C@@]`
+- C3 (CH2O hashed, H toward viewer): `[C@@H]`
+
+SMILES: CCc1cccc2cc(OCOC)cc(c12)-c1ncc2c(nc(OC[C@@]34CCCN3[C@@H](COC(=O)N3CCN(CC3)c3ccc5C(=O)N(Cc5c3)C3CCC(=O)N(C)C3=O)CC4)nc(N3CC4CCC(C3)N4C(=O)OC(C)(C)C)c2)c1F
+
+Note: I wrote the core fused ring out as `c1ncc2c(nc(...)nc(...)c2)c1F`, which does not match the intended connectivity. The corrected version below places each ring-closure explicitly.
+
+SMILES: CCc1cccc2cc(OCOC)cc(c12)-c1ncc2c(N3CC4CCC(C3)N4C(=O)OC(C)(C)C)nc(OC[C@@]34CCCN3[C@@H](COC(=O)N3CCN(CC3)c3ccc5C(=O)N(Cc5c3)C3CCC(=O)N(C)C3=O)CC4)nc2c1F

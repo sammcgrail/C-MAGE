@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Aryl ether end:** a 4-cyano-3,5-dimethylphenyl group is bonded through O to a cyclobutane.
+- **Cyclobutane:** the ring carries two CMe2 groups, one CH–O(aryl) (wedge) and one CH–NH (hash). The NH forms an amide to a benzamide.
+- **Linker:** the benzamide is para-substituted with a piperidine nitrogen. That piperidine is 4-substituted with CH2, which is bonded to the nitrogen of a second piperidine. The second piperidine carries a CH2–O group at C2 (hashed bond).
+- **Cereblon-binding end:** the CH2–O is bonded to C5 of an isoindoline-1,3-dione, whose nitrogen carries a 2,6-dioxopiperidin-3-yl group. That glutarimide carbon is drawn with plain bonds, so it has no stereo marking.
+
+I assigned the three marked stereocentres (the two cyclobutane CH carbons and the piperidine C2) from the wedge and hash directions, with the implicit hydrogen on the opposite face. I did this by hand and did not run it through a parser.
+
+SMILES: N#Cc1c(C)cc(O[C@H]2C(C)(C)[C@H](NC(=O)c3ccc(cc3)N3CCC(CN4CCCC[C@@H]4COc5ccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c6c5)CC3)C2(C)C)cc1C

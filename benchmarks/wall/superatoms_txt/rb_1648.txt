@@ -1,0 +1,27 @@
+I read the molecule as a KRAS-inhibitor-type PROTAC with three parts joined by a linker.
+
+**Left-hand warhead**
+- A naphthalene carries an OH, an ethynyl group and a fluorine.
+- The naphthalene is attached to C7 of a pyrido[4,3-d]pyrimidine, and C8 of that core bears a fluorine.
+- C4 of the core carries a 3,8-diazabicyclo[3.2.1]octane, attached through the ring nitrogen of the three-atom bridge. The bridging NH is free.
+- C2 of the core carries an O–CH2–CH(CH3)–N unit.
+
+**Stereocentre**
+- The methyl on the CH(CH3)N carbon is drawn on a bold wedge.
+- Its neighbours are N, CH2O, CH3 and H (priorities in that order). With H pointing away, N → CH2O → CH3 runs counterclockwise, so the centre is S.
+- In the SMILES this is written `OC[C@H](C)N`.
+
+**Linker**
+- The nitrogen of that CH(CH3)N unit is the N of a piperidine.
+- The piperidine's C4 is joined by a CH2 to C4 of a second piperidine.
+- The second piperidine's nitrogen is joined by a CH2 to C4 of a third piperidine.
+- The third piperidine's nitrogen is attached to the aromatic ring of the right-hand fragment.
+
+**Right-hand fragment**
+- An isoindolin-1-one carries a fluorine on the carbon next to the ring-fusion carbon that bears the CH2.
+- The piperidine nitrogen sits on the aromatic carbon next to that fluorine.
+- The isoindolinone nitrogen is bonded to C3 of a piperidine-2,6-dione (glutarimide). That carbon is drawn with plain bonds, so no stereochemistry is assigned.
+
+I checked the ring closures and atom counts by hand; I did not run the string through a parser.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(N3CC4CCC(N4)C3)nc(OC[C@H](C)N3CCC(CC3)CC3CCN(CC3)CC3CCN(CC3)c3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3F)nc2c1F

@@ -1,0 +1,11 @@
+I read the molecule as three linked parts and wrote the SMILES region by region. I did not run it through a parser, so the validity check was done by hand.
+
+**Left part.** A pyridazine ring is fused to a tetrahydropyrazine, which is fused to a piperazine. The pyridazine carbon next to the N=N bears a 2-hydroxyphenyl group. The other pyridazine carbon bonded to N carries the ring NH. The piperazine nitrogen not shared with the fused ring is bonded to the pyrimidin-2-yl group.
+
+**Stereocentre.** The ring-fusion CH has a hashed bond to the CH2 that leads to the pyrimidine-bearing nitrogen. With the implicit H pointing toward the viewer, the other three neighbours run clockwise as seen from the front: CH2NH, then CH2N, then the bridgehead N. Written as `NC[C@@H]1CN...N21`, this corresponds to `@@`.
+
+**Middle part.** The pyrimidine is substituted at C5 by a –CH2CH2– linker to piperidin-4-yl. The piperidine nitrogen carries a three-carbon propyl chain.
+
+**Right part.** The propyl chain is attached to the isoindolin-1-one benzene ring. The isoindolinone nitrogen is bonded to C3 of a piperidine-2,6-dione (glutarimide), which has no stereo drawn.
+
+SMILES: Oc1ccccc1-c1cc2c(nn1)NC[C@@H]1CN(c3ncc(CCC4CCN(CCCc5ccc6C(=O)N(C7CCC(=O)NC7=O)Cc6c5)CC4)cn3)CCN21

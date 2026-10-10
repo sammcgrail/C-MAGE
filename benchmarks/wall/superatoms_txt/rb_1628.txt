@@ -1,0 +1,14 @@
+I read the molecule as a KRAS-type PROTAC and wrote the SMILES one region at a time. I assigned the two stereocentres from the wedge and hash bonds by hand; I did not check the SMILES with software.
+
+**Regions, left to right**
+- **Core:** a pyrido[4,3-d]pyrimidine. It carries F at C8, the naphthyl group at C7, the bicyclic amine at C4, and the O–CH2 linker at C2.
+- **Amine at C4:** a 3,8-diazabicyclo[3.2.1]octane, attached through its ring nitrogen, with a free NH bridge.
+- **Naphthyl group at C7:** attached at naphthalene C1, with OH at C3 and ethyl at C8.
+- **Linker:** the C2 oxygen–CH2 goes to the quaternary carbon (C7a) of a hexahydro-1H-pyrrolizine. The other ring carbon next to the nitrogen (C3) carries a CH2–O–C(=O) group, which forms a carbamate to a piperazine.
+- **Right-hand end:** the piperazine's other nitrogen is bonded to C4 of a 1-oxoisoindoline. The isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl group, which has no stereo drawn.
+
+**Stereochemistry**
+- **C7a:** the CH2O bond is hashed. From the front, the other three neighbours run N → C1 → C7 counterclockwise, which gives `[C@@]` in my atom order.
+- **C3:** the CH2O bond is wedged, which gives `[C@H]` in my atom order.
+
+SMILES: c1(N2CC3CCC(C2)N3)nc(OC[C@@]45CCCN4[C@H](COC(=O)N6CCN(CC6)c7cccc8c7CN(C8=O)C9CCC(=O)NC9=O)CC5)nc%10c(F)c(-c%11cc(O)cc%12cccc(CC)c%11%12)ncc1%10

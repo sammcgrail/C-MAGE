@@ -1,0 +1,11 @@
+I read the structure region by region and wrote the SMILES from that. The stereo assignments come from my own wedge/hash analysis and are not independently checked.
+
+**Fragments, left to right**
+- **Aryl ether:** a 4-cyano-3,5-dimethylphenyl group, linked through O to a cyclobutane.
+- **First cyclobutane:** it carries four methyls (2,2,4,4-tetramethyl). The O-bearing carbon has a wedge bond and the NH-bearing carbon has a hashed bond.
+- **Linker:** the NH is part of an amide to a para-substituted benzene (a benzamide). The benzene is bonded to the nitrogen of a piperidine.
+- **Piperidine:** its 4-position carries an N-methylamino group, which is bonded to a second cyclobutane.
+- **Second cyclobutane:** 1,3-disubstituted, with N on a wedge and O on a hash, so the two substituents are trans.
+- **Isoindoline-1,3-dione:** the second cyclobutane's O is attached at the 6-position, with a 4-methoxy group. Its ring nitrogen carries the 2,6-dioxopiperidin-3-yl (glutarimide) group, whose stereocentre is drawn with plain bonds and so has no stereo label.
+
+SMILES: N#Cc1c(C)cc(O[C@H]2C(C)(C)[C@H](NC(=O)c3ccc(cc3)N3CCC(CC3)N(C)[C@H]3C[C@@H](C3)Oc3cc(OC)c4C(=O)N(C5CCC(=O)NC5=O)C(=O)c4c3)C2(C)C)cc1C

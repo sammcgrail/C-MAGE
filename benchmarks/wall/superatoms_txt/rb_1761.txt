@@ -1,0 +1,24 @@
+This is an EZH2-inhibitor/pomalidomide PROTAC (EZH2 ligand based on the tazemetostat scaffold). I read it region by region.
+
+**Left end (pyridone):** The 4,6-dimethyl-2-oxo-1,2-dihydropyridin-3-yl group is attached through CH2 to the amide NH. SMILES fragment: Cc1cc(C)c(CNC(=O)...)c(=O)[nH]1.
+
+**Central biaryl ring:**
+- The first ring carries the C(=O)NH group, a methyl, and an N(ethyl)(tetrahydropyran-4-yl) group.
+- Its remaining substituent is the aryl bond to the second ring.
+- Ring atoms: c1 (C=O) – c(C) – c(N(CC)C2CCOCC2) – cH – c(aryl) – cH.
+
+**Second ring and linker:**
+- The para-substituted benzene ring carries a CH2 attached to a piperazine N.
+- The other piperazine N is acylated by C(=O) on the triazole C4.
+- The triazole is 1,2,3-triazole with N1 bearing the pentyl chain. The chain runs from N1 through CH2 ×5, which I counted in the drawing, to the NH.
+
+**Chain count:** From N1 the chain goes to a vertex, then down and across. The bonds run N–C, C–C, C–C, C–C, C–C(N). The drawing shows about 5 carbons, so I used pentyl.
+
+**Pomalidomide end:** The NH is attached to the isoindoline-1,3-dione at position 4, and the imide N bears the 2,6-dioxopiperidin-3-yl group.
+
+**Assembly:**
+Cc1cc(C)c(CNC(=O)c2cc(-c3ccc(CN4CCN(CC4)C(=O)c4cn(CCCCCNc5cccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c56)nn4)cc3)cc(N(CC)C3CCOCC3)c2C)c(=O)[nH]1
+
+Check on the triazole: c4cn(...)nn4 gives C4, C5(H), N1, N2, N3, which matches the drawing.
+
+SMILES: Cc1cc(C)c(CNC(=O)c2cc(-c3ccc(CN4CCN(CC4)C(=O)c4cn(CCCCCNc5cccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c56)nn4)cc3)cc(N(CC)C3CCOCC3)c2C)c(=O)[nH]1

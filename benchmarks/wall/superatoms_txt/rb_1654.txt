@@ -1,0 +1,28 @@
+I read the structure region by region, from the left-hand naphthyl group to the glutarimide on the right.
+
+**Left end – naphthalene.** The ring carries OH at one position, the pyridopyrimidine at the adjacent position, and an ethyl group on the peri position of the other ring.
+- Ring 1 atoms: C1 (attached to the pyridopyrimidine), C2 (CH), C3 (C-OH), C4 (CH), C4a, C8a.
+- Ring 2 atoms: C8 (bearing the ethyl group), C7, C6, C5.
+- SMILES for this fragment: c1(c2c(CC)cccc2cc(O)c1)
+
+**Pyrido[4,3-d]pyrimidine core.**
+- Pyridine ring: N6=C5H–C4a, then C8a, C8(F), C7(aryl).
+- Pyrimidine ring: C4(diazabicycle)=N3–C2(OR)=N1–C8a.
+- SMILES for this fragment: c1(Ar)c(F)c2nc(OCC...)nc(N3...)c2cn1
+
+**Diazabicycle.** This is 3,8-diazabicyclo[3.2.1]octane, attached through N3 with a free NH at the 8-position.
+- Drawn as N3(CC4CCC(N4)C3).
+- Bridgehead C1 and C5 are joined by a two-carbon bridge (CC) and by the NH bridge.
+
+**Linker.** The core O–CH2CH2–N(piperidine) leads to a piperidine whose C4 carries a CH2 to C4 of a second piperidine. The second piperidine's N is attached to the isoindolinone.
+
+**Right end.**
+- Isoindolinone: N–CH2–c(aryl)…c(C=O). The piperidine N sits on the aryl carbon adjacent to the CH2-bearing carbon.
+- Glutarimide: the isoindolinone N is attached to C3 of the glutarimide, which is N-methylated: C1CCC(=O)N(C)C1=O.
+
+**Assembled SMILES.**
+Oc1cc(c2c(CC)cccc2c1)-c1ncc2c(nc(OCCN3CCC(CC3)CC3CCN(CC3)c3cccc4C(=O)N(Cc34)C3CCC(=O)N(C)C3=O)nc2c1F)N1CC2CCC(C1)N2
+
+In the naphthalene, the ring atoms are c1 (OH carbon), c (CH), c(aryl-bearing), c2 (C8a) bearing the ethyl-side ring, and so on. I wrote the naphthalene as Oc1cc(X)c2c(CC)cccc2c1, in which the carbon bearing X is bonded to c2, the ring-fusion carbon adjacent to the C(Et) carbon. That matches the drawing, where the ethyl carbon is peri to the aryl-bearing carbon.
+
+SMILES: Oc1cc(-c2ncc3c(nc(OCCN4CCC(CC4)CC4CCN(CC4)c4cccc5C(=O)N(Cc45)C4CCC(=O)N(C)C4=O)nc3c2F)N2CC3CCC(C2)N3)c2c(CC)cccc2c1

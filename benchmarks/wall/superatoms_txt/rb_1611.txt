@@ -1,0 +1,22 @@
+Reading the structure region by region:
+
+**Left fragment.** A naphthalene carries an OH, an ethynyl group and an F. The ring carbon bearing the OH is attached to a CH, which is attached to the carbon bonded to the quinazoline. Going around the naphthalene: C1 bears the quinazoline, C2 is CH, C3 bears OH, C4 is CH, C4a is the ring fusion, C5 is CH, C6 is CH, C7 bears F, C8 bears the ethynyl group, and C8a is the second fusion carbon, adjacent to C1.
+
+Naphthalene SMILES: c1(c2c(C#C)c(F)ccc2cc(O)c1)
+
+**Quinazoline.** C4 bears the diazabicyclic amine, C2 bears the O-CH2CH2 linker, and C7 bears the naphthyl group. Written from the amine end: N1=C(OCC...)N=C(N...)c2ccc(Ar)cc12.
+
+**Bicyclic amine.** This is 3,8-diazabicyclo[3.2.1]octane. N3 is attached to the quinazoline, and the NH bridge is N8. The SMILES is N1(C2CCC1CN(C2)...), which gives C1 of the bicycle attached to N8, then CH2CH2 as the two-carbon bridge, then the other bridgehead.
+
+**Linker.** O-CH2CH2-N(piperidine A). Piperidine A is substituted at C4 with CH2, which leads to C4 of piperidine B. The N of piperidine B carries a CH2 attached to C4 of piperidine C, and the N of piperidine C is attached to the aryl ring.
+
+**Isoindolinone.** The aryl ring carries the piperidine N at C5 and F at C4 of the isoindolinone. The F-bearing carbon is adjacent to the ring-fusion carbon that bears the CH2 (C3), and the C=O carbon is attached to the other fusion carbon. The lactam N is attached to the glutarimide (3-piperidine-2,6-dione).
+
+**Assembled SMILES:**
+C#Cc1c(F)ccc2cc(O)cc(c12)-c1ccc2c(N3CC4CCC(C3)N4)nc(OCCN3CCC(CC4CCN(CC5CCN(CC5)c5ccc6C(=O)N(C7CCC(=O)NC7=O)Cc6c5F)CC4)CC3)nc2c1
+
+Checking the isoindolinone: c5ccc6C(=O)N(...)Cc6c5F. The atom c5 bonded to the piperidine N is followed by c, c, then c6 (bearing C=O), and the ring closes through c6 (bearing CH2) and c5F. So the F-bearing carbon is adjacent to the c6 that bears CH2 and to the c5 that bears the piperidine, which matches the drawing.
+
+In the bicyclic amine, N3CC4CCC(C3)N4 puts N3 attached to CH2, then C4 (bridgehead), CH2CH2, the other bridgehead C(C3), and N4 as the bridge NH. This is correct.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ccc2c(N3CC4CCC(C3)N4)nc(OCCN3CCC(CC4CCN(CC5CCN(CC5)c5ccc6C(=O)N(C7CCC(=O)NC7=O)Cc6c5F)CC4)CC3)nc2c1

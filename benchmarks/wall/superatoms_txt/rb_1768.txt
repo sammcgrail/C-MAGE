@@ -1,0 +1,26 @@
+This is a KRAS G12D-type PROTAC: a pyrido[4,3-d]pyrimidine core carrying a diazabicyclooctane and a naphthyl group, joined through a linker to a cereblon-binding isoindolinone-glutarimide.
+
+**Core and left side.** The pyrido[4,3-d]pyrimidine has these substituents:
+- C4 carries the 3,8-diazabicyclo[3.2.1]octane, attached through its N3, with a free NH at the 8-position bridge.
+- C2 carries an O–CH2CH2–N(piperidine) group.
+- C8 carries F.
+- C7 carries the naphthyl group.
+
+The naphthyl is attached at its C1, and its C8 carries an ethynyl group. C7 of the naphthalene carries F.
+
+**Linker.** The piperidine N is linked by CH2CH2O to C2 of the core. The piperidine C4 carries a CH2 that goes to the azetidine N. The azetidine is spiro-fused at its C3 to a piperidine C4, giving 2,7-diazaspiro[3.5]nonane. The piperidine N of this spiro system (N7) attaches to the aryl ring of the isoindolinone.
+
+**Right side.** The isoindolinone has the lactam N bearing the piperidine-2,6-dione (glutarimide) at its 3-position. On the aromatic ring, F sits adjacent to the CH2 end of the ring fusion, and the spiro-piperidine N is on the next carbon.
+
+**SMILES assembly.**
+- Core: c1(N2CC3CCC(C2)N3)nc(OCCN2CCC(CN3CC4(C3)CCN(CC4)c3ccc4C(=O)N(CC4c3F)C3CCC(=O)NC3=O)CC2)nc2c(F)c(nc cc12)… The ring closure is awkward as written, so I rebuilt the core explicitly.
+- Core atoms: C4(N-bicycle)=N3–C2(OR)=N1–C8a=C8(F)–C7(Ar)=N6–C5=C4a.
+- Core SMILES: `c12cnc(c(F)c1nc(OCC…)nc2N…)Ar`.
+
+I did not draw any stereochemistry, since the image shows no wedges or hashes.
+
+SMILES: C#Cc1c(F)ccc2cccc(c12)-c1ncc2c(N3CC4CCC(C3)N4)nc(OCCN3CCC(CN4CC5(C4)CCN(CC5)c4ccc5C(=O)N(C(C5=C4F)... 
+
+I need to write the final string correctly. The isoindolinone CH2 is bonded to the aromatic carbon bearing F's neighbour, so it is written as follows:
+
+SMILES: C#Cc1c(F)ccc2cccc(c12)-c1ncc2c(N3CC4CCC(C3)N4)nc(OCCN3CCC(CN4CC5(C4)CCN(CC5)c4ccc5c(c4F)CN(C4CCC(=O)NC4=O)C5=O)CC3)nc2c1F

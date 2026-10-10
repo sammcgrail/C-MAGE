@@ -1,0 +1,10 @@
+I read the structure in four parts and wrote the SMILES for each, then joined them.
+
+1. **Left tricyclic core.** A pyridazine ring carries a 2-hydroxyphenyl group on the carbon next to the ring nitrogen. It is fused to a six-membered ring containing an NH and a CH2. That ring is in turn fused to a piperazine through a stereocentre drawn with a wedge.
+2. **Piperazine and first piperidine.** The piperazine's second nitrogen carries a CH2 attached to C4 of a piperidine. That carbon also bears an OMe group.
+3. **Linker to the second piperidine.** The first piperidine nitrogen is joined by a CH2 to C4 of a second piperidine. The second piperidine nitrogen is bonded directly to the aromatic ring of the isoindolinone.
+4. **Isoindolinone and glutarimide.** The isoindolinone is a 1-oxo isoindoline whose ring nitrogen is attached to C3 of a piperidine-2,6-dione. That carbon is drawn with plain bonds, so it gets no stereo label.
+
+For the one wedged stereocentre, I worked out the geometry from the drawing. With the implicit H pointing away, the ring N, the wedged CH2 (toward NH) and the lower CH2 run clockwise. In the SMILES neighbour order (CH2NH, H, N, CH2) this corresponds to `@`, so I wrote `[C@H]`.
+
+SMILES: Oc1ccccc1-c1cc2c(nn1)NC[C@H]1CN(CC3(OC)CCN(CC4CCN(CC4)c4ccc5c(c4)CN(C4CCC(=O)NC4=O)C5=O)CC3)CCN21

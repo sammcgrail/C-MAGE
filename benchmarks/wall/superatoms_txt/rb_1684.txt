@@ -1,0 +1,16 @@
+I read the molecule region by region and wrote it as SMILES.
+
+**Fragments read from the drawing**
+- **Left aryl group:** a 3-chloro-4-cyanophenoxy ring, with the nitrile para to the ether oxygen and the chlorine ortho to the nitrile.
+- **Cyclohexane linker:** a 1,4-disubstituted ring with the aryl ether oxygen on one carbon and the amide NH on the opposite carbon.
+- **Amide and heteroaryl:** the NH is acylated by a pyridazine-3-carboxamide, and the pyridazine carries a piperidin-1-yl group at C6.
+- **Piperidine to piperazine:** the piperidine has a CH2 at C4 that connects to a piperazine nitrogen.
+- **Right-hand core:** the other piperazine nitrogen is attached to a 5-fluoro-isoindoline-1,3-dione, with the fluorine ortho to the piperazine. The isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide) group.
+
+**Stereochemistry**
+- **Cyclohexane:** the oxygen bond is hashed and the nitrogen bond is wedged, so the two substituents are on opposite faces, which makes the ring trans-1,4. In SMILES this is `O[C@H]2CC[C@H](CC2)N`.
+- **Glutarimide C3:** the bond to the imide nitrogen is wedged and the hydrogen is behind. The priorities are N > C2(=O) > C4 > H, and N→C2→C4 runs clockwise, so the centre is R. In my SMILES ordering this is `[C@@H]`.
+
+I checked the SMILES against the fragment list above, atom for atom.
+
+SMILES: N#Cc1ccc(O[C@H]2CC[C@H](CC2)NC(=O)c2ccc(nn2)N2CCC(CC2)CN2CCN(CC2)c2cc3C(=O)N(C(=O)c3cc2F)[C@@H]2CCC(=O)NC2=O)cc1Cl

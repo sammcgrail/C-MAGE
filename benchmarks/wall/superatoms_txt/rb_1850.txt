@@ -1,0 +1,13 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+1. **Left aryl and tricyclic core.** A 2-hydroxyphenyl group sits on a pyridazine ring. The pyridazine is fused to a six-membered ring containing an NH and a CH2, and that ring is fused to a piperazine. This gives a pyridazino-pyrazino-pyrazine tricycle, written `Oc1ccccc1-c1cc2c(nn1)NC[C@H]1CN(...)CCN21`.
+
+2. **Stereocentre.** The only stereocentre is the ring-fusion CH, which carries a hashed bond to the CH2 that leads to the NH. I assigned it S by CIP priorities (ring N > CH2 on the piperazine N > CH2NH > H). In the SMILES this corresponds to `@` in the atom order I wrote.
+
+3. **Linker.** The piperazine N (the `N(...)` above) is attached to piperidin-4-yl. That piperidine N bears a CH2CH2 chain ending in an N-methyl amine, which is attached to a second piperidin-4-yl: `C3CCN(CC3)CCN(C)C3CCN(CC3)`.
+
+4. **Right end.** The second piperidine N is bonded to position 5 of an isoindoline-1,3-dione. The imide N carries a 2,6-dioxopiperidin-3-yl group, which is drawn with no stereo and so gets no stereo label: `c3ccc4c(c3)C(=O)N(C3CCC(=O)NC3=O)C4=O`.
+
+I checked that the ring-closure digits pair up and that each ring has the vertex count shown in the drawing.
+
+SMILES: Oc1ccccc1-c1cc2c(nn1)NC[C@H]1CN(C3CCN(CC3)CCN(C)C3CCN(CC3)c3ccc4c(c3)C(=O)N(C3CCC(=O)NC3=O)C4=O)CCN21

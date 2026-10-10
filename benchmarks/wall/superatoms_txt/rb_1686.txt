@@ -1,0 +1,32 @@
+I read the structure region by region and assembled the SMILES below.
+
+**Left end (KRAS-type scaffold).** This is a pyrido[4,3-d]pyrimidine core.
+- The pyridine N sits at the top left, followed by CH, then C4, which carries the diazabicyclo group.
+- C4 is bonded to N3, then C2 (bearing the O-linker), then N1, then C8a.
+- C8a leads to C8 (F), then C7 (the aryl-bearing carbon), then the pyridine N6, then C5 (CH), then C4a.
+- The 3,8-diazabicyclo[3.2.1]octane is attached through its N3, with NH at the bridge.
+- The aryl group is a naphthalene: 8-ethyl-3-hydroxynaphthalen-1-yl.
+
+**Core SMILES.** Fc1c(-c2cc(O)cc3cccc(CC)c23)ncc2c(N3CC4CCC(N4)C3)nc(OCC...)nc12
+
+**Linker.**
+- O-CH2CH2-N(piperidine A); piperidine A C4 bears CH2 to piperidine B C4.
+- Piperidine B N-CH2-piperidine C C4; piperidine C N is attached to the isoindolinone aromatic ring.
+
+**Isoindolinone.**
+- N-CH2-c(ar)...c(ar)-C(=O). The CH2 is attached to the aromatic carbon next to the one bearing the piperidine N.
+- The ring is: N1(C(=O)c2cccc(N3...)c2C1) with the glutarimide on N1.
+- Glutarimide: C1CCC(=O)NC1=O.
+
+**Assembly.**
+O=C1CCC(N2Cc3c(cccc3N3CCC(CN4CCC(CC5CCN(CCOc6nc(N7CC8CCC(N8)C7)c8cnc(-c9cc(O)cc%10cccc(CC)c9%10)c(F)c8n6)CC5)CC4)CC3)C2=O)C(=O)N1
+
+**Check of the naphthalene.** The attachment carbon c9 (C1) is bonded to cc(O) and to the ring-fusion carbon (C8a). The ring-fusion carbon of the naphthalene is written "c%10" at the end, so the portion c9cc(O)cc%10cccc(CC)c9%10 needs checking:
+- c9 (C1), c (C2), c(O) (C3), c (C4), c%10 (C4a), c c c (C5, C6, C7), c(CC) (C8), c9%10 (C8a).
+- C8a closes ring 9 with C1 and ring %10 with C4a. This is correct.
+
+**Check of the pyridopyrimidine.** The fragment c6nc(N7...)c8cnc(Ar)c(F)c8n6 gives:
+- c6 (C2), n (N3), c(N7) (C4), c8 (C4a), c (C5), n (N6), c(Ar) (C7), c(F) (C8), c8 (C8a), n6 (N1).
+- This matches the drawing.
+
+SMILES: O=C1CCC(N2Cc3c(cccc3N3CCC(CN4CCC(CC5CCN(CCOc6nc(N7CC8CCC(N8)C7)c8cnc(-c9cc(O)cc%10cccc(CC)c9%10)c(F)c8n6)CC5)CC4)CC3)C2=O)C(=O)N1

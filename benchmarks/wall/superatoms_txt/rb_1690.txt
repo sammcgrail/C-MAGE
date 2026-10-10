@@ -1,0 +1,15 @@
+I read the structure as a PROTAC-type molecule built from these parts, and wrote the SMILES region by region.
+
+- **Left warhead:** a naphthalene bearing OH, an ethynyl group and a fluorine. It is attached at C7 of a pyrido[4,3-d]pyrimidine, which carries F at C8.
+- **C4 of the pyridopyrimidine:** a 3,8-diazabicyclo[3.2.1]octane attached through its N3. The N8 bridge is a free NH.
+- **C2 of the pyridopyrimidine:** an O–CH2 link to an N-methylpyrrolidine, with a 4-oxy substituent on the ring.
+- **Linker:** the pyrrolidine C4–O leads to a piperidin-4-yl ring. Its nitrogen is linked by CH2 to the 3-position of an azetidine.
+- **Right-hand end:** the azetidine nitrogen is bonded to C5 of an isoindolin-1-one. The isoindolinone nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide) group, whose stereocentre is drawn plain and so is left unspecified.
+
+**Stereochemistry:** only the two pyrrolidine centres are shown with wedges, and I assigned them by CIP priorities.
+- C2, which carries the wedged CH2O, is S.
+- C4, which carries the hashed O, is R.
+
+I translated these into `[C@@H]` for both centres in the SMILES order used below.
+
+SMILES: C#Cc1c(F)ccc2cc(O)cc(c12)-c1ncc2c(nc(OC[C@@H]3C[C@@H](OC4CCN(CC5CN(C5)c5ccc6C(=O)N(C7CCC(=O)NC7=O)Cc6c5)CC4)CN3C)nc2c1F)N1CC2CCC(C1)N2

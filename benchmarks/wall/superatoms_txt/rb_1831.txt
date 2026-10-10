@@ -1,0 +1,13 @@
+This molecule is a PROTAC that links a sunitinib-like kinase-inhibitor fragment to a pomalidomide (thalidomide-type) fragment.
+
+**Left fragment.** A 5-fluoro-2-oxindole is joined through a Z-configured exocyclic double bond to a pyrrole. The pyrrole carries 2,4-dimethyl groups and a 3-carboxamide. The amide nitrogen leads into a propyl chain (NH-CH2CH2CH2-) that ends on a piperazine nitrogen.
+
+**Linker.** The other piperazine nitrogen is attached to a butanoyl chain: N-CH2CH2CH2-C(=O). That carbonyl forms an amide with NH, followed by a pentyl chain (5 CH2), then NH attached to the aromatic ring at position 4 of the phthalimide.
+
+**Right fragment.** The phthalimide is N-linked to a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so no stereo is given.
+
+**Z geometry of the oxindole alkene.** In the drawing, the oxindole C3 bears the aromatic ring carbon C3a and the C2 carbonyl. The pyrrole side bears the ring NH and the pyrrole C-CH3 carbon. The pyrrole NH sits on the same side as the oxindole C=O, as in sunitinib, which is Z.
+
+Written with the double bond as C3(=CH-pyrrole), the SMILES fragment is `O=C1Nc2ccc(F)cc2/C1=C\c1[nH]c(C)c(C(=O)N...)c1C`. In this the bond atoms are written C1(=C\c...), with the preceding atom c2 (C3a) written as `c2/C1`. C3a is "below" the bond (via `/`) and the pyrrole C2 is "below" (via `\`), so C3a and the pyrrole carbon are on opposite sides of the double bond. That puts the pyrrole C2 on the same side as the C=O carbon, which is the same arrangement as the pyrrole NH being syn to the oxindole C=O. This matches the Z geometry of sunitinib.
+
+SMILES: O=C1Nc2ccc(F)cc2/C1=C\c1[nH]c(C)c(C(=O)NCCCN2CCN(CCCC(=O)NCCCCCNc3cccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c34)CC2)c1C

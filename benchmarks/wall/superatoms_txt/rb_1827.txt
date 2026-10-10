@@ -1,0 +1,23 @@
+This is an EZH2-degrader PROTAC. It has an EZH2 ligand (a benzamide with a pyridone), a PEG linker, and a thalidomide-type cereblon ligand.
+
+**Left fragment (EZH2 ligand)**
+- The central benzene ring carries three substituents: a 4-(morpholinomethyl)phenyl group, a C(=O)NHCH2-pyridone group, and an N(ethyl)(piperidin-4-yl) group.
+- A methyl group sits between the amide and the amino group.
+- The pyridone is 4,6-dimethyl-2-oxo-1,2-dihydropyridin-3-yl, attached through a CH2 to the amide NH.
+- Ring order, starting at the carbon bearing the aryl group: C(aryl), CH, C(N), C(CH3), C(C=O), CH, back to C(aryl).
+- SMILES for this ring: c1(-c2ccc(CN3CCOCC3)cc2)cc(N(CC)C2CCN(...)CC2)c(C)c(C(=O)NCc2c(C)cc(C)[nH]c2=O)c1
+
+**Linker**
+- The piperidine N is acylated: C(=O)CCOCCOCCOCCOCCC(=O)NCCO-Ar.
+- Counting oxygens in the drawing from the carbonyl: CH2CH2 then O, CH2CH2, O, CH2CH2, O, CH2CH2, O, then CH2CH2C(=O). That gives four ether oxygens.
+- The chain is therefore C(=O)CCOCCOCCOCCOCCC(=O)N.
+
+**Right fragment (cereblon ligand)**
+- The amide N is attached to CH2CH2-O-aryl.
+- The aryl is the isoindoline-1,3-dione bearing the 2,6-dioxopiperidin-3-yl group on its N.
+- The O-aryl sits at the 4-position of the isoindoline.
+- SMILES for this fragment: NCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O
+
+No wedges or hashes are drawn, so the stereocentre at the glutarimide carbon is left unspecified.
+
+SMILES: CCN(C1CCN(CC1)C(=O)CCOCCOCCOCCOCCC(=O)NCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)c1cc(-c2ccc(CN3CCOCC3)cc2)cc(C(=O)NCc2c(C)cc(C)[nH]c2=O)c1C

@@ -1,0 +1,14 @@
+I read the molecule as three parts joined in a row, and wrote the SMILES from that reading.
+
+- **Left end:** a pomalidomide-type unit. A 2,6-dioxopiperidin-3-yl group sits on the N of a phthalimide, and the benzene ring of the phthalimide carries an NH at the 4-position.
+- **Linker:** NH–CH2CH2–O–CH2CH2–O–CH2CH2–NH, then a carbamate C(=O)–O.
+- **Right end:** a statin-like hexahydronaphthalene core. The carbamate oxygen is on C1, and methyls are on C3 and C7. The diene is C4=C4a and C5=C6. At C8 a CH2CH2 chain leads to a six-membered lactone, which carries F at C4 where simvastatin has OH.
+
+For stereochemistry, I took the decalin centres to follow the natural simvastatin/lovastatin configuration rather than re-deriving each one from the wedges. I did check the two lactone centres against the drawing:
+
+- **C4 (the F carbon):** F is on a wedge and H is hashed. With H pointing away, F, C3 and C5 run clockwise, and the priorities are F > C3 > C5 > H, so this centre is R.
+- **C6 (the carbon bonded to the ring O):** H is on a wedge. The priorities are O > C5 > chain > H, and the centre comes out R.
+
+Both match the natural (4R,6R) lactone arrangement, so I copied the simvastatin stereo tags and replaced the lactone OH with F in the same spatial position.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCNC(=O)O[C@H]4C[C@H](C=C5[C@H]4[C@H]([C@H](C=C5)C)CC[C@@H]6C[C@H](F)CC(=O)O6)C)c3C2=O)C(=O)N1

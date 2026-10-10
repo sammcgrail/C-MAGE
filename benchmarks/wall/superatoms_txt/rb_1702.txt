@@ -1,0 +1,21 @@
+Reading the structure region by region:
+
+**Left end.** A pyrimidine carries a 2-fluoro-6-methoxyphenyl group at C2 and a carboxamide at C4. The aryl ring is attached at the carbon between the F-bearing carbon and the OMe-bearing carbon.
+- Pyrimidine and aryl: c1(-c2c(F)cccc2OC)nccc(n1)C(=O)N
+
+**Central aryl ring.** The amide NH sits on a benzene ring. The ring carries a piperazin-1-yl group ortho to the NH, and a 4-cyanopyridin-3-yl group para to the NH.
+- The ring atoms run N-C1, C2 (piperazine), C3 (H), C4 (pyridyl), C5 (H), C6 (H).
+- From the drawing, the NH carbon is at the top, the piperazine carbon is next, then CH, then the pyridyl-bearing carbon, then two CH.
+- Pyridyl: c1cnccc1C#N, with the attachment carbon adjacent to both the CH (C2 of the pyridine) and the C bearing CN.
+
+**Linker.** The distal piperazine nitrogen is acylated: N-C(=O)CCOCCOCCN-aryl. That is C(=O), CH2, CH2, O, CH2, CH2, O, CH2, CH2, NH.
+
+**Right end.** The NH is attached to an isoindoline-1,3-dione at position 5, and the imide N carries a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so no stereo is given.
+
+**Assembled SMILES.**
+- Pyrimidine amide: COc1cccc(F)c1-c1nccc(n1)C(=O)Nc1ccc(cc1N1CCN(CC1)C(=O)CCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O)-c1cnccc1C#N
+- Ring-closure numbers are reused, so I checked the pairings. In "Nc1ccc(cc1N1CCN(CC1)...)-c1cnccc1C#N", ring 1 opens at the NH carbon, runs c, c, c(...) and then c, c1 closes the ring. That gives six atoms: the NH carbon, two CH, the pyridyl-bearing carbon, a CH, and the piperazine-bearing carbon. The order is correct.
+- The pyridyl substituent follows the branch on the C(...) atom, so it sits on the right carbon. The branch contents (cc1N1CCN(CC1)...) are inside the parentheses, with the piperazine ring 1 opened after ring 1 closed. That is valid.
+- Inside the branch, the isoindoline uses "c1ccc2c(c1)..." after the earlier ring 1 was closed by the piperazine "CC1)", so reuse is fine. The piperidine "C1CCC(=O)NC1=O" is opened inside the isoindoline's N-branch while ring 2 is open, which is also fine.
+
+SMILES: COc1cccc(F)c1-c1nccc(n1)C(=O)Nc1ccc(cc1N1CCN(CC1)C(=O)CCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O)-c1cnccc1C#N

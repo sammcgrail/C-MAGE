@@ -1,0 +1,11 @@
+I read the drawing as a PROTAC-type conjugate. A pomalidomide unit (glutarimide plus 4-amino-phthalimide) is joined through an acetamide and a short diethylene-glycol-type linker to a carbamate. The carbamate sits on the hydroxyl of a lovastatin/simvastatin-type hexahydronaphthalene core, which carries the 4-hydroxy-6-oxo-tetrahydropyran lactone side chain.
+
+I wrote the SMILES in three parts:
+
+1. **Pomalidomide end:** the glutarimide carbon is drawn with plain bonds, so it gets no stereo label. It is attached to the phthalimide nitrogen, and the 4-NH of the aromatic ring carries the acetamide.
+2. **Linker:** NHC(=O)CH2–O–CH2CH2–O–CH2CH2–NH–C(=O)–O. This is the acetamide, two ether oxygens and the carbamate.
+3. **Statin end:** I took the ring-fusion, methyl and lactone stereocentres from the natural lovastatin/simvastatin configuration. I did not independently re-derive each wedge or hash from the picture, so the stereo labels rest on that assumption. The ring pattern matches the drawing: ester carbon, CH2, CH(CH3), CH=C, CH=CH, CH(CH3), CH(side chain), ring-fusion CH.
+
+I checked the atom connectivity against the drawing and the SMILES is valid.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NC(=O)COCCOCCNC(=O)O[C@H]4C[C@@H](C)C=C5C=C[C@H](C)[C@H](CC[C@@H]6C[C@@H](O)CC(=O)O6)[C@@H]45)c3C2=O)C(=O)N1

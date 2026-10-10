@@ -1,0 +1,28 @@
+Reading the structure region by region:
+
+**Core: pyrido[4,3-d]pyrimidine.**
+- The pyrimidine ring has C4 (bearing the diazabicycle), N3, C2 (bearing the O-linker), N1 and C8a.
+- The pyridine ring contains C5 (H), N6, C7 (bearing the naphthyl group), C8 (bearing F) and C4a.
+- SMILES for the core: c1(N...)c2cnc(Ar)c(F)c2nc(OCC...)n1.
+
+**Diazabicycle on C4.** The ring is 3,8-diazabicyclo[3.2.1]octane. N3 is attached to the core. The two CH2 groups lead to bridgehead carbons, which are linked by the NH bridge (one atom) and by a two-carbon bridge (CH2CH2).
+- The drawing shows the top ring with three CH2 groups, i.e. a seven-membered ring through the bridgeheads. The bridgehead carbons are joined by the NH, by the CH2CH2CH2 chain at the top, and by CH2–N–CH2 at the bottom. That gives a 3,9-diazabicyclo[4.2.1]nonane.
+- The count is: bridgehead C1, then the top chain CH2, CH2, CH2 (three carbons), then bridgehead C2. The NH bridge is one atom. The lower bridge is CH2–N–CH2, which is three atoms with the N in the middle.
+- SMILES: N1(C2CCCC1CN(C2)...) — written fully as C1(CCC2)N2... I use C2CCC(N2)CN(C...)C... in the final string.
+
+**Linker.** C2–O–CH2CH2–N of a piperidine. The piperidine is the spiro compound 2,7-diazaspiro[3.5]nonane: the azetidine spiro carbon is shared with the piperidine's C4. The azetidine N is attached to the isoindolinone aryl.
+
+**Isoindolinone.** The aryl carbon at position 4 carries the azetidine N. The ring is c1cccc2c1CN(C2=O)C3CCC(=O)NC3=O.
+
+**Naphthyl.** C1 of the naphthalene is attached to the core. C8 carries the ethyl group and C3 carries the OH. Naphthalene atoms: c1(core)cc(O)cc2cccc(CC)c12.
+
+**Full SMILES assembly:**
+Core: c1(N5CC6CCCC(N6)C5)... Here the bicycle is N5CC6CCCC(N6)C5, i.e. N, CH2, CH (bridgehead), CCC, CH (bridgehead, attached to the NH), CH2 closing back to N. This is consistent with the drawing.
+
+Full: Oc1cc(-c2nc... )
+
+SMILES: CCc1cccc2cc(O)cc(-c3ncc4c(nc(OCCN5CCC6(CC5)CN(C6)c5cccc6c5CN(C5CCC(=O)NC5=O)C6=O)nc4c3F)N3CC4CCCC(C3)N4)c12
+
+I wrote the aryl group on the azetidine nitrogen with reused ring labels (5, 6) after they had closed. This is valid in SMILES, but the isoindolinone ring labels need checking: `c5cccc6c5CN(C5CCC(=O)NC5=O)C6=O` reuses 5 inside the branch while ring 5 is still open on the aromatic atom. The first "c5" opens label 5 and "c5" closes it before the nested "C5" opens again, so it is fine.
+
+I also checked the bicycle: N3CC4CCCC(C3)N4 gives N3, CH2, C4 (bridgehead), CCC, C (bridgehead) with branch C3 closing to N, then N4 closing to the first bridgehead. This is correct.

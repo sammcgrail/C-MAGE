@@ -1,0 +1,13 @@
+I read the molecule region by region, working left to right.
+
+- **Left aryl ether:** a 4-cyano-3,5-dimethylphenyl group is joined through an oxygen to a cyclobutane carbon.
+- **Cyclobutane:** the ring runs CH(OAr), CMe2, CH(NH), CMe2. The OAr carbon has a wedged O and the NH carbon has a hashed N.
+- **Amide and piperidine:** the NH is acylated by a para-substituted benzoyl group, whose para position carries a piperidine N. The piperidine has a CH2 at its 4-position.
+- **Linker:** that CH2 leads to an N-methyl amine on a cyclopentane. The ring carries the N (hashed) and an aryl ether O (wedged) at the 1,3-positions.
+- **Right end:** the cyclopentyl oxygen is attached at the 5-position of an isoindoline-1,3-dione. Its ring nitrogen bears a 2,6-dioxopiperidin-3-yl group, drawn with no stereo.
+
+For each of the four stereocentres I took the drawn wedge or hash, with the implicit H on the opposite side, and converted the clockwise or counterclockwise sense into @ or @@ using the SMILES neighbour order.
+
+I checked that the ring-closure digits are used and closed consistently and that the SMILES matches the drawing atom for atom.
+
+SMILES: N#Cc1c(C)cc(O[C@H]2C(C)(C)[C@H](NC(=O)c3ccc(cc3)N3CCC(CC3)CN(C)[C@@H]3C[C@@H](Oc4ccc5C(=O)N(C6CCC(=O)NC6=O)C(=O)c5c4)CC3)C2(C)C)cc1C

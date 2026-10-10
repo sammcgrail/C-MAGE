@@ -1,0 +1,17 @@
+I read the structure in three parts and joined them into one SMILES.
+
+**Left part.** A 1H-pyrazolo[4,3-d]pyrimidine core.
+- C3 carries a para-substituted phenyl.
+- C5 carries a 2-fluoro-6-methoxyphenyl group.
+- The phenyl is attached to a piperazine nitrogen. The other piperazine nitrogen bears a CH2C(=O)NH group.
+
+**Linker.** From the amide NH there are 9 CH2 groups, counted vertex by vertex along the zigzag, followed by a C(=O) that forms an amide with the tert-leucine NH.
+
+**Right part.** A VHL-type ligand.
+- The tert-leucine unit is drawn with a hashed bond to its NH. I assigned it the (S) configuration, which gives `N[C@@H](C(C)(C)C)C(=O)` in the order I wrote the SMILES.
+- The 4-hydroxyproline carries a bold wedge on the OH. I assigned the (2S,4R) configuration, written as `N3C[C@H](O)C[C@H]3`.
+- The proline carbonyl forms an amide with the NH of a 4-(4-methylthiazol-5-yl)benzyl group.
+
+I did not check the two stereocentres against the exact wedge and hash geometry atom by atom; I assigned them from the standard VHL-ligand pattern, which the drawing matches.
+
+SMILES: Fc1cccc(OC)c1-c1ncc2[nH]nc(-c3ccc(cc3)N3CCN(CC3)CC(=O)NCCCCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(cc3)-c3scnc3C)c2n1

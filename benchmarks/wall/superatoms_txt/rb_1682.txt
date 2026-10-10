@@ -1,0 +1,47 @@
+I read the structure region by region, starting from the left.
+
+**Left naphthalene.** The ring bears OH, a C≡CH group and F. Its substituent positions are:
+- C1 is attached to the pyridopyrimidine.
+- C3 carries the OH.
+- C8 carries the ethynyl group.
+- C7 carries the F.
+
+SMILES fragment: `Oc1cc(c2c(C#C)c(F)ccc2c1)-c...`
+
+**Pyrido[4,3-d]pyrimidine core.**
+- The pyridine N is at the left, followed by CH, then C4a.
+- C4a leads to C4, which bears the diazabicyclo group.
+- C4 is bonded to N3, which is bonded to C2 (bearing the O-ethyl linker), then N1, then C8a.
+- C8a leads to C8 (bearing F), then C7 (bearing the naphthyl group), and back to the pyridine N.
+
+SMILES: `c1(-Ar)nc... ` which I write as `n1cc2c(N3CC4CCC(C3)N4)nc(OCC...)nc2c(F)c1-Ar`.
+
+**Diazabicyclo group.** This is 3,8-diazabicyclo[3.2.1]octane, attached through N3 with a free NH at position 8: `N1CC2CCC(C1)N2`.
+
+**Linker.**
+- O-CH2CH2-N(piperidine).
+- The piperidine C4 carries a CH2 attached to a piperazine N.
+- In the piperazine, N1 is attached to CH2, then CH2 (C2), then C(CH3)2 (C3), then N4... The drawing shows N at the top left with CH2CH2 on the top and bottom.
+- Ring order: N(a), CH2, CH2, N(b), CH2, C(Me)2, back to N(a).
+- N(b) is adjacent to the CMe2 group. The drawing shows the N at the right (N-b) bonded to CMe2 below it and to CH2 above, with CH2 on the left going down to CMe2.
+- Reading the ring: Na (top left), top CH2, CH2 (top right), Nb (right), CMe2 (bottom), CH2 (left), back to Na. So Nb is adjacent to CMe2.
+- Nb carries CH2-piperidin-4-yl.
+
+**Right side.**
+- The piperidine N is attached to the isoindolinone aryl ring at C5.
+- F is at C4, adjacent to the CH2 of the lactam ring.
+- The lactam N bears the 2,6-dioxopiperidin-3-yl group.
+
+Piperazine part: `CN1CCN(CC2CCN(CC2)...)C(C)(C)C1`, where the first N (Na) bears the CH2 from the left piperidine, and Nb bears the CH2 toward the right piperidine.
+
+Isoindolinone: `c1ccc2c(c1N...)` Aryl: C5 attached to the piperidine N, C4 has F, C3a is attached to CH2 (C3), C7a is attached to C=O. The aryl SMILES is `c1(N...)ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1F`.
+
+**Full SMILES:**
+
+`Oc1cc(-c2nc*...` assembled as:
+
+`Oc1cc(-c2ncc3c(N4CC5CCC(C4)N5)nc(OCCN4CCC(CN5CCN(CC6CCN(CC6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)Cc7c6F)C(C)(C)C5)CC4)nc3c2F)c2c(C#C)c(F)ccc2c1`
+
+Check of the piperazine: N5 (Na) is followed by CC, then N(Nb)(CH2-piperidine) and C(C)(C)C5, so Nb is adjacent to CMe2 and the ring closes through CH2 to Na. This matches.
+
+SMILES: Oc1cc(-c2ncc3c(N4CC5CCC(C4)N5)nc(OCCN4CCC(CN5CCN(CC6CCN(CC6)c6ccc7C(=O)N(C8CCC(=O)NC8=O)Cc7c6F)C(C)(C)C5)CC4)nc3c2F)c2c(C#C)c(F)ccc2c1

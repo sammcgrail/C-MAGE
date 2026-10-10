@@ -1,0 +1,27 @@
+This is a sunitinib-like warhead joined to a pomalidomide-type cereblon ligand through a linker. I read it in three parts.
+
+**Left (sunitinib-like part):** a 5-fluoro-2-oxindole with an exocyclic C=C at C3. That carbon is joined through a CH= to C5 of a pyrrole. The pyrrole carries methyl groups at C2 and C4 and a carboxamide at C3. The double bond geometry is drawn as Z, as in sunitinib, so I write it as `C1(=C\c2...)`.
+
+- Oxindole with the pyrrole attached: `O=C1Nc2ccc(F)cc2/C1=C\c1[nH]c(C)c(C(=O)N...)c1C`
+- Pyrrole check: the NH ring atom is bonded to C5 (bearing the CH=) and to C2 (methyl). C3 bears the amide and C4 bears a methyl. The drawing shows a methyl at the top, next to the carbonyl-bearing carbon, and a methyl at the bottom right, next to the NH carbon, which matches.
+
+**Middle linker:** amide N–CH2CH2CH2–N(piperazine)–piperazine N–CH2–C(=O)–NH–(CH2)5–NH–aryl.
+
+- Chain: `NCCCN1CCN(CC1)CC(=O)NCCCCCNc...`
+- The pentyl chain has 5 carbons. Counting the vertices between the amide NH and the aryl NH gives 5.
+
+**Right (pomalidomide-type part):** a phthalimide with the amino group at position 4, and the imide nitrogen bearing a 2,6-dioxopiperidin-3-yl group. No stereochemistry is drawn there.
+
+- `c1cccc2c1C(=O)N(C3CCC(=O)NC3=O)C2=O`
+
+**Assembled SMILES:**
+
+`O=C1Nc2ccc(F)cc2/C1=C\c1[nH]c(C)c(C(=O)NCCCN2CCN(CC(=O)NCCCCCNc3cccc4c3C(=O)N(C3CCC(=O)NC3=O)C4=O)CC2)c1C`
+
+The pyrrole ring reads `c1[nH]c(C)c(C(=O)N…)c1C`. Here c1 is C5 (attached to the CH=), [nH] is N1, c(C) is C2 with its methyl, c(C(=O)N…) is C3 with the amide, and c1C is C4 with its methyl. Both methyls and the amide are therefore placed correctly.
+
+For the Z geometry, the oxindole C3 has substituents C2(=O) and C3a (aromatic). In sunitinib the pyrrole sits on the same side as the C4–H of the oxindole, and the amide NH hydrogen-bonds to the oxindole C=O. In this drawing the pyrrole NH is near the oxindole carbonyl, so the Z form is the right reading.
+
+The SMILES above is written as `[C1](=O)...C1=C\c`. I use sunitinib's known SMILES as a template: `CCN(CC)CCNC(=O)c1c(C)[nH]c(/C=C\2/C(=O)Nc3ccc(F)cc23)c1C`. Following it, the oxindole part becomes `/C=C\2/C(=O)Nc3ccc(F)cc23`.
+
+SMILES: CC1=C(C(=O)NCCCN2CCN(CC(=O)NCCCCCNc3cccc4c3C(=O)N(C3CCC(=O)NC3=O)C4=O)CC2)C(C)=C(N1)/C=C\1/C(=O)Nc2ccc(F)cc12

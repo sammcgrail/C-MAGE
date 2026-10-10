@@ -1,0 +1,21 @@
+I read the molecule as an EZH2-inhibitor/VHL-ligand conjugate (a PROTAC-type structure), and wrote it out in pieces.
+
+**Left half (EZH2-binding part):**
+- A 4,6-dimethyl-2-pyridone is linked through a CH2–NH–C(=O) group to a benzene ring.
+- That ring carries a methyl group and an N-ethyl-N-(tetrahydropyran-4-yl)amino group.
+- It is also joined to a para-substituted phenyl ring, which bears a CH2-piperazine.
+
+**Middle linker:**
+- The piperazine nitrogen is acylated by the C4 carbonyl of a 1,2,3-triazole.
+- The triazole N1 carries a four-CH2 chain ending in an amide C(=O), which is a pentanoyl linker.
+
+**Right half (VHL ligand):**
+- The amide nitrogen is attached to a tert-leucine unit, which is acylated onto a 4-hydroxyproline.
+- The proline carboxamide is bound to a 4-(4-methylthiazol-5-yl)benzylamine.
+
+**Stereochemistry:**
+- The wedge/hash bonds are on the tert-leucine α-carbon and on the two hydroxyproline stereocentres.
+- I matched them to the standard VH032 configuration (hydroxyproline 2S,4R; tert-leucine S).
+- I checked that the SMILES atom ordering reproduces that configuration.
+
+SMILES: CCN(C1CCOCC1)c1cc(-c2ccc(CN3CCN(CC3)C(=O)c3cn(CCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(cc4)-c4scnc4C)nn3)cc2)cc(C(=O)NCc2c(C)cc(C)[nH]c2=O)c1C

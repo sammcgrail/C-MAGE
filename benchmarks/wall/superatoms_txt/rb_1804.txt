@@ -1,0 +1,9 @@
+I read the drawing region by region and assembled the SMILES from these parts.
+
+- **Quinazoline core:** a methyl sits at C2, and C4 carries an NH linked to the side chain. C6 and C7 each carry OMe, and C8 carries the chain.
+- **Linker:** counting the zigzag vertices between C8 and the piperidine nitrogen gives 7 CH2 groups, so it is a heptyl chain.
+- **Piperidine and isoindolinone:** the piperidine C4 is bonded to an aryl carbon of the isoindolin-1-one. That carbon is adjacent to the aromatic CH that neighbours the carbon bearing the C=O. The lactam nitrogen carries a 2,6-dioxopiperidin-3-yl group, drawn with no stereo.
+- **Amine side chain:** the NH connects to a CH(CH3) that is bonded to C2 of a thiophene. Thiophene C4 is bonded to a phenyl ring bearing an ortho CH2NHCH3.
+- **Stereocentre:** the CH(CH3) methyl is drawn on a wedge, with N at lower right and the thiophene at lower left. With H pointing away, N → thiophene → CH3 runs clockwise, so the centre is R. In the SMILES this is `C[C@@H](N…)Ar`.
+
+SMILES: C[C@@H](Nc1nc(C)nc2c(CCCCCCCN3CCC(CC3)c3ccc4CN(C5CCC(=O)NC5=O)C(=O)c4c3)c(OC)c(OC)cc12)c1cc(cs1)-c1ccccc1CNC

@@ -1,0 +1,26 @@
+I read the molecule in three parts and wrote the SMILES from them, then assigned the two stereocentres from the wedge and hash bonds.
+
+1. **Left part:** a pyrido[4,3-d]pyrimidine core.
+   - C4 carries a 3,8-diazabicyclo[3.2.1]octane attached through N3, with the bridging N8 bearing H.
+   - C8 carries F.
+   - C7 carries a naphthalene joined at its C1. The ring has OH at C3 and ethyl at C8.
+   - C2 carries an O–CH2 link to the pyrrolizidine.
+
+2. **Middle part:** a tetrahydro-1H-pyrrolizine.
+   - Its quaternary C7a carries the O–CH2 group on a wedge bond.
+   - C3 carries a CH2–O group on a hashed bond.
+   - That CH2–O is a carbamate, O–C(=O)–N, to a piperazine.
+
+3. **Right part:** the piperazine's other nitrogen is attached to C4 of a 1-oxoisoindoline. The isoindoline nitrogen carries a 2,6-dioxopiperidin-3-yl group, and that carbon is drawn with plain bonds, so it has no stereo label.
+
+For the stereocentres, I worked out the neighbour order around each one from the 2D coordinates:
+- The quaternary C7a, with neighbours in SMILES order (CH2O, N, C1, C7), comes out as `@`.
+- C3, with neighbours in SMILES order (N, H, CH2O, C2), comes out as `@@`.
+
+I checked ring closures and atom counts by hand against the drawing, but did not run the string through a parser.
+
+SMILES: Oc1cc(-c2nc*)c2c(CC)ccc... 
+
+Correction — the final answer is:
+
+SMILES: CCc1cccc2cc(O)cc(-c3ncc4c(N5CC6CCC(C5)N6)nc(OC[C@]67CCCN6[C@@H](COC(=O)N6CCN(CC6)c6cccc8C(=O)N(C9CCC(=O)NC9=O)Cc68)CC7)nc4c3F)c12

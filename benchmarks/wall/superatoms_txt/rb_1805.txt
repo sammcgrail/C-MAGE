@@ -1,0 +1,19 @@
+I read the structure region by region and assembled the SMILES below. I did not run it through a parser.
+
+**Fragments**
+- **Left aryl group:** a 4-cyano-3,5-dimethylphenyl ring joined through an ether oxygen.
+- **Cyclobutane:** a four-membered ring with carbons in the order C(OAr), C(CH3)2, C(NH), C(CH3)2. The aryl ether and the amide nitrogen sit on opposite carbons of the ring.
+- **Amide and phenyl:** the NH is acylated by a para-substituted benzoyl group, whose ring carries the piperidine nitrogen.
+- **Piperidine:** attached through its nitrogen to the phenyl ring, with a CH2 at the 4-position.
+- **Morpholine:** that CH2 is bonded to the morpholine nitrogen. The morpholine C3 carries a CH2CH2–O chain.
+- **Right-hand end:** the chain ends at the 5-position of an isoindoline-1,3-dione. The imide nitrogen is bonded to a 2,6-dioxopiperidin-3-yl ring, drawn without stereochemistry.
+
+**Stereochemistry**
+- **Cyclobutane carbon bearing O (wedge):** `[C@H]`.
+- **Cyclobutane carbon bearing N (hash):** `[C@@H]`.
+- **Morpholine C3 (hashed chain bond):** `[C@H]`.
+- **Glutarimide carbon:** left unspecified, since it is drawn with plain bonds.
+
+I assigned each descriptor by working out the chirality from the 2D coordinates of the wedged and hashed bonds. The two cyclobutane centres are only pseudo-asymmetric, because both ring neighbours of each are identical CMe2 groups. They encode a trans relationship between the O and N substituents.
+
+SMILES: N#Cc1c(C)cc(O[C@H]2C(C)(C)[C@@H](NC(=O)c3ccc(cc3)N3CCC(CC3)CN3CCOC[C@H]3CCOc3ccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c4c3)C2(C)C)cc1C

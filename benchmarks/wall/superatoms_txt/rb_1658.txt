@@ -1,0 +1,10 @@
+I read the structure in four parts and joined them in one SMILES.
+
+- **Left aryl and tricycle:** a 2-hydroxyphenyl sits on a pyridazine. The pyridazine is fused to a tetrahydropyrazine (ring NH, CH2, one stereo CH) and that in turn to a piperazine. This gives a pyridazino-pyrazino-pyrazine tricycle.
+- **Stereocentre:** the single wedge is on the CH next to the ring NH–CH2, with the wedge pointing to that CH2. Treating the implicit H as pointing away, the neighbours N, CH2(NH) and CH2(ring) run clockwise in the drawing. Working out the permutation for my atom order gives `[C@H]`.
+- **Linker:** the piperazine's free nitrogen carries a CH2 attached to C4 of a 4-methylpiperidine. That piperidine's nitrogen carries a CH2 attached to C4 of a second piperidine.
+- **Right end:** the second piperidine's nitrogen is bonded to C5 of an isoindolin-1-one. The isoindolinone nitrogen carries a 2,6-dioxopiperidin-3-yl group. The glutarimide CH is a stereocentre by connectivity but is drawn with plain bonds, so it gets no stereo label.
+
+I checked the ring closures and heteroatom counts against the drawing atom by atom.
+
+SMILES: Oc1ccccc1-c1cc2c(nn1)NC[C@H]1CN(CC3(C)CCN(CC4CCN(CC4)c4ccc5C(=O)N(C6CCC(=O)NC6=O)Cc5c4)CC3)CCN21

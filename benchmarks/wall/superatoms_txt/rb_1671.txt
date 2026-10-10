@@ -1,0 +1,18 @@
+Reading the drawing region by region, from left to right:
+
+1. **Glutarimide:** a 2,6-dioxopiperidin-3-yl ring, written O=C1CCC(N2...)C(=O)N1. The ring CH is a stereocentre by connectivity but is drawn with plain bonds, so no stereo is given.
+2. **Phthalimide:** the glutarimide CH is attached to the imide nitrogen of a 1,3-dioxoisoindoline. The aromatic ring carries an O substituent at position 4.
+3. **Linker to piperazine:** the aryl ether O–CH2–C(=O) acylates a piperazine nitrogen. The other piperazine nitrogen carries a four-carbon chain, (CH2)4, ending in NH–SO2.
+4. **Sulfonamide aryl ring:** the sulfonyl sits on a benzene ring. Numbering from the sulfonyl carbon (C1), the ring has a methyl at C3 and an NH at C4, which links to the pyrimidine C2.
+5. **Pyrimidine:** the ring is C2(NH-aryl), N3, C4(NH-aryl'), C5(Br), C6H, N1.
+6. **Terminal benzamide:** C4 of the pyrimidine carries NH attached to a benzene ring. That ring bears a C(=O)NH2 at the adjacent carbon, and fluorine at the next carbon, ortho to the amide on its other side.
+
+SMILES assembly:
+
+O=C1CCC(N2C(=O)c3cccc(OCC(=O)N4CCN(CCCCNS(=O)(=O)c5ccc(Nc6ncc(Br)c(Nc7cccc(F)c7C(N)=O)n6)c(C)c5)CC4)c3C2=O)C(=O)N1
+
+Check on the phthalimide: c3cccc(O...)c3C2=O. The first c3 is attached to the C(=O) bonded to N. The O-bearing carbon is adjacent to the last c3, which carries the other C=O, so the substitution pattern is correct.
+
+Check on the sulfonamide ring: c5ccc(N...)c(C)c5. The ring starts at the sulfonyl carbon, then CH, CH, C(NH), C(CH3), CH, closing back to the start. The methyl is therefore ortho to the NH and meta to the sulfonyl, as drawn.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(OCC(=O)N4CCN(CCCCNS(=O)(=O)c5ccc(Nc6ncc(Br)c(Nc7cccc(F)c7C(N)=O)n6)c(C)c5)CC4)c3C2=O)C(=O)N1

@@ -1,0 +1,17 @@
+I read the molecule as a VHL-type ligand joined by a keto-diamide linker to a spiro-indane oxazolidinedione, and wrote the SMILES region by region.
+
+**VHL end (left).**
+- A 4-methylthiazol-5-yl group sits on a para-substituted benzene.
+- The benzene carries CH2–NH–C(=O) attached to a 4-hydroxypyrrolidine.
+- The pyrrolidine nitrogen is acylated by a tert-leucine whose NH continues into the linker.
+- The stereocentres are the usual (2S,4R) hydroxyproline and (S) tert-leucine; the wedges and hashes match this.
+
+**Linker.** Counting zigzag vertices from the left amide gives C(=O), then 7 CH2, then a ketone C(=O), then 2 CH2, then C(=O)–NH. This is written as `C(=O)CCCCCCCC(=O)CCC(=O)N`, where the first seven C's after the carbonyl are CH2 and the eighth is the ketone carbon.
+
+**Right end.**
+- The NH is on the indane benzene ring, para to the carbon bonded to the spiro centre.
+- The spiro carbon bears O (hashed), C(=O) (wedged), the aryl carbon, and the ring CH2. I assigned `[C@@]` from the 2D geometry using the neighbour order in the SMILES (CH2, aryl, C=O, O).
+- The oxazolidine-2,4-dione nitrogen carries CH2–C(=O)–N(4-fluorobenzyl)–CH(CH3)CF3.
+- The methyl on that CH is hashed. The priorities N > CF3 > CH3 > H give S, which is written `[C@@H]` in `N[C@@H](C)C(F)(F)F`.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)CCCCCCCC(=O)CCC(=O)Nc3ccc4c(c3)CC[C@@]45OC(=O)N(CC(=O)N(Cc3ccc(F)cc3)[C@@H](C)C(F)(F)F)C5=O)C(C)(C)C)cc1

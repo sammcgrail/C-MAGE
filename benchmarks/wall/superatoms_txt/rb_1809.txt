@@ -1,0 +1,10 @@
+I read the molecule region by region from the drawing and wrote it as the SMILES below. I did not run it through a parser, so validity is checked by hand only.
+
+- **Left aryl ether:** a benzene ring carries a nitrile, a methoxy group ortho to it, and an ether oxygen para to the nitrile.
+- **Cyclohexane:** a 1,4-disubstituted ring with the aryl ether O on a wedge and the amide NH on a hash. Opposite wedge and hash on a 1,4-pair means trans, so I wrote the stereocentres as `[C@H]` and `[C@@H]`.
+- **Pyrazine:** the carboxamide and the piperidine N sit para to each other (a 2,5-disubstituted pyrazine). I checked the atom order around the ring against the drawing.
+- **Piperidine:** the ring N is attached to the pyrazine, and the 4-position carries a CH2 that leads to the acetylated nitrogen.
+- **Cyclobutane:** a 1,3-disubstituted ring with the N on a wedge and the ether O on a hash, so trans. I used the same `[C@H]` / `[C@@H]` pattern as for the cyclohexane.
+- **Right side:** the cyclobutyl ether O is attached to the 5-position of a phthalimide. Its ring nitrogen is bonded to the 3-position of a 2,6-dioxopiperidine. That glutarimide carbon is drawn with plain bonds, so I gave it no stereo.
+
+SMILES: N#Cc1ccc(O[C@H]2CC[C@@H](NC(=O)c3cnc(N4CCC(CN(C(C)=O)[C@H]5C[C@@H](Oc6ccc7C(=O)N(C8CCC(=O)NC8=O)C(=O)c7c6)C5)CC4)cn3)CC2)cc1OC
