@@ -1,0 +1,17 @@
+I read the structure region by region, from left to right.
+
+**Left end.** A 1-methylcyclopropyl group is attached through an oxygen to the benzo ring of the indazole, at position 5. The indazole is drawn as the 2H-tautomer, with N2 bearing the H. Position 3 of the indazole is attached to the pyrimidine.
+
+**Pyrimidine.** The ring is attached to the indazole at C4. The ring nitrogens are at positions 1 and 3, and C6 carries the piperidine nitrogen.
+
+**Piperidine to piperazine.** The piperidine is attached through its N to the pyrimidine. Its C4 carries a CH2 that links to one piperazine nitrogen. The other piperazine nitrogen carries a CH2 that links to C4 of a second piperidine.
+
+**Right end.** The second piperidine nitrogen is attached to the isoindolinone at position 4 (the benzene ring carbon adjacent to the CH2 of the lactam ring). The lactam nitrogen carries the 2,6-dioxopiperidin-3-yl group. The stereocentre there is drawn with plain bonds, so no stereo is given.
+
+**Assembling the SMILES.**
+- Left fragment: CC1(CC1)Oc1ccc2n[nH]c(c2c1)-c1cc(ncn1)N1CCC(CC1)CN1CCN(CC1)CC1CCN(CC1)c1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O
+- Indazole: c1ccc2n[nH]c(c2c1)... The ring is written as n[nH], which is the 2H-tautomer as drawn (N1 plain, N2 with H). The atom order is c1(OR)ccc2n[nH]c(-pyr)c2c1. Reading around the ring, C5 (with O) is bonded to C4 and C6. C6 goes to C7, then C7a, then N1. C4 goes to C3a, then C3. This is consistent.
+- Pyrimidine: c1cc(N...)ncn1 gives C4 (attached to the indazole), C5, C6 (attached to the piperidine N), N1, C2, N3. This matches the drawing.
+- Isoindolinone: c1cccc2C(=O)N(Cc12)... The aromatic carbon bearing the piperidine is c1, followed by three CH carbons, then c2 (which bears the C=O), and finally c12, which carries the CH2 and closes both rings. The CH2 carbon is adjacent to the ring-closing carbon c12, and that carbon is adjacent to c1, which bears the piperidine. This matches the drawing.
+
+SMILES: CC1(CC1)Oc1ccc2n[nH]c(c2c1)-c1cc(ncn1)N1CCC(CC1)CN1CCN(CC1)CC1CCN(CC1)c1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O

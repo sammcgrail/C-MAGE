@@ -1,0 +1,23 @@
+I read the structure region by region, from left to right.
+
+**Left end (glutarimide and isoindoline-dione):** a 2,6-dioxopiperidin-3-yl ring is attached through its C3 to the isoindoline-1,3-dione nitrogen. The drawing shows no wedges or hashes at this stereocentre, so I give it no stereo. The SMILES fragment is O=C1CCC(N2C(=O)c3cccc(N...)c3C2=O)C(=O)N1.
+
+**Linker:** the aryl NH leads into a chain written as NH-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2CH2-NH. That gives NCCOCCOCCOCCN, which is three oxygens and four ethylene units.
+
+**Amide and benzene:** the terminal NH forms an amide, NH-C(=O)-C6H4 (para), and the para position carries NH.
+
+**Right end (pyrrolopyrimidine):** the NH attaches to C2 of a 7H-pyrrolo[2,3-d]pyrimidine. At C4 there is a 1-propylpyrazol-4-yl group.
+
+Numbering the pyrrolopyrimidine as the drawing shows it:
+- C4 is bonded to N3 and to C4a.
+- N3 is bonded to C2, which carries the NH.
+- C2 is bonded to N1, then C7a, then N7H, then C6=C5, then C4a.
+
+This gives the fragment c1(nc(Nc...)nc2[nH]ccc12) with the pyrazole on C4.
+
+**Pyrazole:** c1cn(CCC)nc1, attached through its C4.
+
+**Assembled SMILES:**
+O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCOCCNC(=O)c4ccc(Nc5nc(-c6cnn(CCC)c6)c7cc[nH]c7n5)cc4)c3C2=O)C(=O)N1
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NCCOCCOCCOCCNC(=O)c4ccc(Nc5nc(-c6cnn(CCC)c6)c7cc[nH]c7n5)cc4)c3C2=O)C(=O)N1

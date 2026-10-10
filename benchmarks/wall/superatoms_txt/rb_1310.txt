@@ -1,0 +1,25 @@
+I read the molecule as a PROTAC-type structure and built the SMILES region by region, left to right.
+
+**Left end (quinazoline)**
+- The quinazoline carries a 4-acetylpiperazin-1-yl group at C4, a 6-chloro, a 7-(3-hydroxynaphthalen-1-yl) and an 8-fluoro substituent.
+- C2 bears an NH–CH2CH2–C(=O)–N(CH3) chain.
+
+**Linker**
+- From the N-methyl amide, the chain runs CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–O.
+- The last oxygen is attached to C3 of an isoxazole.
+
+**Isoxazole side chain**
+- C5 of the isoxazole bears a stereocentre carrying an isopropyl group (wedge bond) and a C(=O) that acylates the pyrrolidine nitrogen.
+- I assigned this centre as `[C@@H]` from the wedge on the isopropyl bond and the neighbour order isoxazole, H, iPr, C=O.
+
+**Hydroxyproline unit**
+- It is a 4-hydroxypyrrolidine-2-carboxamide with the standard VHL-ligand configuration: `N3C[C@H](O)C[C@H]3C(=O)N`, i.e. (2S,4R).
+- The hash on the OH and the wedge on the carbonyl are consistent with this.
+
+**Right end**
+- The amide nitrogen is attached to an α-methylbenzyl stereocentre with a wedged methyl, written `N[C@@H](C)`.
+- The aryl ring has an ortho-OMe and a para-(4-methylthiazol-5-yl) group.
+
+I checked the SMILES against the drawing atom by atom; the stereodescriptors come from my reading of the wedges rather than from software.
+
+SMILES: CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOc2cc([C@@H](C(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(-c4scnc4C)cc3OC)on2)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

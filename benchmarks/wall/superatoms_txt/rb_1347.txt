@@ -1,0 +1,8 @@
+I read the structure in four pieces, joined them in order, and checked ring closures and stereochemistry by hand.
+
+1. **Left-hand heterocycle:** a 1H-pyrazolo[3,4-c]pyridine. Its pyridine carbon next to the ring-fusion carbon carries an O-(1-methylcyclopropyl) group. Its C3 is bonded to the pyrimidine.
+2. **Pyrimidine and first piperidine:** the pyrimidine is attached at C4 to the bicycle and at C6 to a piperidine nitrogen. The piperidine's 4-position bears an ether oxygen.
+3. **Cyclohexane linker:** a 1,4-dioxy-cyclohexane. The drawing shows one wedged and one hashed oxygen on opposite sides of the ring, so this is the trans isomer. In SMILES the trans pattern is `O[C@H]1CC[C@H](CC1)O`. I derived the second centre's tag by comparing the neighbour order with the known trans form `C[C@H]1CC[C@@H](C)CC1`.
+4. **Right-hand part:** the cyclohexane's second oxygen goes to a piperidin-4-yl. Its nitrogen is bonded to C5 of an isoindolin-1-one that has a 4-methoxy group. The lactam nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide). The glutarimide carbon is drawn with plain bonds, so it gets no stereo tag.
+
+SMILES: CC1(CC1)Oc1cc2c(n[nH]c2cn1)-c1cc(ncn1)N1CCC(CC1)O[C@H]1CC[C@H](CC1)OC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1OC

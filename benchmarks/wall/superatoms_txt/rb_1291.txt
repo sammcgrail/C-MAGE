@@ -1,0 +1,10 @@
+I read the structure in four parts and assembled them into one SMILES.
+
+- **Left side:** a 2-hydroxyphenyl group sits on a pyridazine. The pyridazine carries a para-substituted phenyl at the ring position next to the unsubstituted CH. That phenyl bears an N-methyl-N-(2-oxyethyl)amino group.
+- **Middle:** the ethoxy chain ends on the 3-position of an isoxazole. The 5-position of the isoxazole carries the starred carbon, which bears an isopropyl group and the C(=O). This carbon is drawn with plain bonds, so I gave it no stereo.
+- **Hydroxyproline core:** the acyl group is on the pyrrolidine nitrogen. The 4-OH is hashed and the 2-carboxamide is wedged. I assigned the natural (2S,4R) VHL-ligand configuration, which fits the drawing. I took this from the standard VHL ligand pattern and did not check the wedge and hash directions in detail.
+- **Right side:** the amide NH is attached to a CH(CH3) with a wedged methyl. Working through the CIP priorities from the drawing gives (S). That carbon carries a para-phenylene linked to a 4-methylthiazol-5-yl group.
+
+The pyrrolidine stereo is written to match the standard VH032 pattern, `N1C[C@H](O)C[C@H]1C(=O)`. The benzylic carbon is `N[C@@H](C)Ar`, which I checked gives (S).
+
+SMILES: Oc1ccccc1-c1cc(-c2ccc(N(C)CCOc3cc(on3)C(C(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)cc2)cnn1

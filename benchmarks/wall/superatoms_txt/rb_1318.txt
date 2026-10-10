@@ -1,0 +1,18 @@
+I read the structure as a PROTAC-type molecule with three parts, then wrote the SMILES region by region.
+
+**Left side (kinase-inhibitor warhead):**
+- A pyrimido-benzodiazepinone core carries an N-methyl lactam (C=O) and an N-cyclopentyl group.
+- The pyrimidine C2 bears an NH that links to a para-substituted phenyl ring.
+
+**Linker:**
+- The phenyl ring carries a C(=O) that acylates one nitrogen of a piperazine.
+- The other piperazine nitrogen bears a chain of five CH2 groups ending in C(=O)NH, which is a hexanoyl amide.
+
+**Right side (VHL-type ligand):**
+- The amide NH is attached to a tert-leucine unit, with the tert-butyl group drawn at the top.
+- This unit acylates the nitrogen of a 4-hydroxyproline.
+- The proline carboxamide NH is attached to a 1-arylethyl group, whose aryl is a phenyl bearing a 4-methylthiazol-5-yl ring.
+
+**Stereochemistry:** I set the four stereocentres from the wedges and hashes as follows. The tert-leucine carbon and the 1-arylethyl carbon are both S, and the hydroxyproline is the usual 2S,4R pattern. I checked the proline and methylbenzyl parity by comparing neighbour orderings against the known VH032 SMILES.
+
+SMILES: CN1C(=O)c2ccccc2N(C2CCCC2)c2nc(Nc3ccc(cc3)C(=O)N3CCN(CC3)CCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)ncc21

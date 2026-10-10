@@ -1,0 +1,19 @@
+I read the structure in four pieces and joined them.
+
+**Left side (quinazoline).** A 3-chloro-4-fluorophenyl ring is attached through NH to C4 of a quinazoline. The quinazoline carries a methoxy group at C7 and an NH-amide at C6.
+
+**Linker.** The amide is a trans (E) but-2-enamide, C(=O)/C=C/C, with the terminal CH2 bonded to the nitrogen of a piperidine. Piperidine C4 is bonded to a piperazine nitrogen. The other piperazine nitrogen bears a CH2 linked to a para-substituted benzene ring. The para position of that ring carries CH2–S.
+
+**Right side (isoindolinone).** The sulfur attaches to C4 of an isoindolinone. The isoindolinone ring has its CH2 at C1 and its C=O at C3, and the lactam N bears a 2,6-dioxopiperidin-3-yl group. The sulfur-bearing aromatic carbon is adjacent to the carbon that carries the CH2. In the drawing, the ring-fusion carbon bonded to CH2 sits next to the carbon bonded to S, which fits.
+
+**SMILES assembly.**
+- Quinazoline: c1nc2cc(OC)c(NC(=O)...)cc2c(Nc2ccc(F)c(Cl)c2)n1
+- Isoindolinone: O=C1N(C2CCC(=O)NC2=O)Cc2c1cccc2S...
+
+The full SMILES is:
+
+COc1cc2ncnc(Nc3ccc(F)c(Cl)c3)c2cc1NC(=O)/C=C/CN1CCC(CC1)N1CCN(CC1)Cc1ccc(CSc2cccc3C(=O)N(C4CCC(=O)NC4=O)Cc23)cc1
+
+The ring closures in the isoindolinone fragment check out: c2cccc3C(=O)N(...)Cc23 begins at the S-bearing carbon c2, runs through cccc3 (three CH and then the carbon bearing C=O), and closes with Cc23, where that carbon is bonded to CH2, ring 2 (to the S-bearing carbon) and ring 3 (to the C=O carbon).
+
+SMILES: COc1cc2ncnc(Nc3ccc(F)c(Cl)c3)c2cc1NC(=O)/C=C/CN1CCC(CC1)N1CCN(CC1)Cc1ccc(CSc2cccc3C(=O)N(C4CCC(=O)NC4=O)Cc23)cc1

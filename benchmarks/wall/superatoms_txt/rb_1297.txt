@@ -1,0 +1,23 @@
+I read this as a PROTAC-type molecule with three parts: a KRAS-G12C-style warhead, a PEG linker, and a VHL-type ligand.
+
+**Warhead (left)**
+- A piperazine carries an acryloyl group (C=CC(=O)N).
+- The piperazine is attached to C4 of a tetrahydropyrido[4,3-d]pyrimidine core.
+- The ring nitrogen of that core carries a 3-hydroxynaphthalen-1-yl group.
+- C2 of the pyrimidine carries an O–CH(CH3)–CH2– unit linked to a piperidine nitrogen.
+
+**Stereocentre on the propan-2-yl oxygen**
+- The methyl is drawn hashed, so the hydrogen points toward the viewer.
+- With priorities O > CH2N > CH3, I assigned this centre R, which is `O[C@H](C)CN` in my SMILES.
+
+**Linker**
+- The piperidine 4-oxygen is followed by five –CH2CH2O– units and then –CH2C(=O)–.
+- That gives six ether oxygens in total, which matches the six O labels in the drawing.
+
+**VHL ligand (right)**
+- The linker's amide nitrogen is attached to a tert-leucine residue.
+- The tert-leucine is acylated onto a (2S,4R)-4-hydroxyproline.
+- The proline carboxamide is bonded to an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethylamine.
+- I wrote the stereo tags to match the standard VH032 arrangement and checked each one against the neighbour ordering in my SMILES. The tert-leucine centre needed `@@` rather than `@`.
+
+SMILES: C=CC(=O)N1CCN(CC1)c1nc(O[C@H](C)CN2CCC(CC2)OCCOCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@H](C)c2ccc(cc2)-c2scnc2C)nc2CN(CCc12)c1cc(O)cc2ccccc12

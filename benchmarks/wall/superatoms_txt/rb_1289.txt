@@ -1,0 +1,11 @@
+I read the structure region by region and wrote the SMILES below. I did not run it through a parser, so validity is checked by hand only.
+
+1. **Left end:** a 1-methylcyclopropyl ether (`CC1(CC1)O-`) on C5 of a 2H-indazole. The NH sits on N2, next to C3, which carries the pyrimidine.
+2. **Pyrimidine:** attached through its C4 to the indazole C3. Its C6 carries the azetidine nitrogen.
+3. **Spiro core:** a 2,7-diazaspiro[3.5]nonane. The azetidine nitrogen (N2) is bonded to the pyrimidine. The piperidine nitrogen (N7) is bonded to the cyclobutane.
+4. **Cyclobutane:** 1,3-disubstituted. The bond to the spiro nitrogen is a bold wedge and the bond to the ether oxygen is hashed, so the two substituents are trans. Working through the geometry gives `N[C@H]1C[C@@H](C1)O`.
+5. **Ether and piperidine:** the cyclobutane oxygen is bonded to C4 of a piperidine, and the piperidine nitrogen is bonded to the isoindolinone aryl ring.
+6. **Isoindolinone:** the aryl carbon carrying the piperidine is adjacent to the carbon bearing F. That F-bearing carbon is next to the ring carbon bonded to CH2. The lactam N bears the glutarimide.
+7. **Glutarimide:** 2,6-dioxopiperidin-3-yl. Its stereocentre is drawn with plain bonds, so it gets no stereo label.
+
+SMILES: CC1(CC1)Oc1ccc2n[nH]c(c2c1)-c1cc(ncn1)N1CC2(C1)CCN(CC2)[C@H]1C[C@@H](C1)OC1CCN(CC1)c1ccc2C(=O)N(Cc2c1F)C1CCC(=O)NC1=O

@@ -1,0 +1,9 @@
+This is a BRD4–VHL PROTAC. I read it in three parts and joined them.
+
+- **BRD4 warhead (JQ1-type):** a thieno-triazolo-diazepine with three methyl groups and a 4-chlorophenyl ring. The side chain on the stereocentre is CH2C(=O)NH–, and I took that centre as the (S)-JQ1 configuration.
+- **Connector:** –NH–CH2CH2–O–CH2CH2CH2–O–CH2–C(=O)–, counted atom by atom from the drawing.
+- **VHL warhead:** an L-tert-leucine amide, then a 4-hydroxyproline carrying the OH on the wedged carbon, then an amide to a 1-(4-(4-methylthiazol-5-yl)phenyl)ethyl group.
+
+I wrote the SMILES with the stereo marks taken from the standard JQ1 and VH032-methyl (AHPC-Me) SMILES. I then re-derived each centre's chirality in the order the atoms appear in my string. The 1-arylethyl carbon needed `@@` in my atom order to match the reference.
+
+SMILES: Cc1nnc2n1-c1sc(C)c(C)c1C(c1ccc(Cl)cc1)=N[C@H]2CC(=O)NCCOCCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

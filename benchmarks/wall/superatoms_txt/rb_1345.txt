@@ -1,0 +1,21 @@
+The image shows a PROTAC-type molecule. I read it from left to right.
+
+**Pyridazine end.** The ring is a pyridazine with N–N at the top. One carbon next to N carries NH2. The next carbon carries the O–CH2 ether. A CH carbon follows, and the last carbon, next to the other N, carries the 2-hydroxyphenyl group.
+
+SMILES for this part: Nc1nnc(-c2ccccc2O)cc1OCC...
+
+**Bicyclo[1.1.1]pentane.** The drawing shows a bicyclopentane with two bridgehead carbons. One bridgehead carries the CH2–O group and the other carries the C(=O)NH group. Written as C12(CC(C1)(C2)...) with three CH2 bridges: C1(COc...)(C2)CC2... Here is a cleaner form: OCC12CC(C1)(C2)C(=O)N.
+
+**Linker.** The amide NH is followed by CH2CH2–O, then a benzene ring that is 1,3-disubstituted (meta). The second oxygen leads to OCH2CH2NH, which attaches to the isoindoline-1,3-dione at position 5.
+
+**Isoindoline-dione and glutarimide.** The isoindoline-dione nitrogen is bonded to the 3-position of piperidine-2,6-dione.
+
+The isoindoline ring is c1ccc2c(c1)C(=O)N(C2=O)C3CCC(=O)NC3=O. The NH is attached at the ring carbon that is meta to the carbonyl-bearing carbon c(c1), which is position 5.
+
+Full SMILES:
+
+Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)NCCOc1cccc(OCCNc2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c1
+
+Checking the bicyclopentane: C12 (bridgehead A), then C (CH2), then C(C1)(C2) is bridgehead B. Bridgehead B bonds to the CH2 before it, to C1 (a CH2 closing back to A), and to C2 (a CH2 closing back to A). That gives three bridges between A and B, as required.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)NCCOc1cccc(OCCNc2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c1

@@ -1,0 +1,17 @@
+Reading the structure from left to right:
+
+1. **Pyridazine core.** The ring has two adjacent N atoms. One ring carbon carries NH2, the next carries the O–CH2 linker, and the carbon after that carries the 2-hydroxyphenyl group. As SMILES: Nc1nnc(-c2ccccc2O)cc1OC...
+
+2. **Bicyclo[1.1.1]pentane.** The linker is O–CH2–C(bridgehead). The bridgehead carbon connects through three one-carbon bridges to the other bridgehead carbon, which carries the C(=O)NH amide. As SMILES: C12(COc...)CC(C1)(C2)C(=O)N...
+
+3. **PEG chain.** The amide N continues as NCCOCCOCCN, ending at an NH on the aromatic ring.
+
+4. **Phthalimide (isoindoline-1,3-dione).** The NH is attached at position 5 of the isoindoline-1,3-dione. Its imide N bears a 2,6-dioxopiperidin-3-yl group: N1C(=O)CCC(C1=O)... attached through C3.
+
+Joining the pieces:
+
+Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)NCCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O
+
+Check on the phthalimide: the aromatic carbon bearing NH is c1, followed by c c c2 (ring fusion) c(c1) (the other fusion carbon). The C(=O) on the fusion carbon next to c1's CH goes to N, and the other C(=O) closes the ring with C2=O. This is consistent with substitution at the 5-position.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)NCCOCCOCCNc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O

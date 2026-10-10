@@ -1,0 +1,14 @@
+I read this as a VHL-ligand-based degrader (hydroxyproline / tert-leucine / 1-(4-methylthiazol-5-yl)phenyl-ethylamine) joined through an N-acetyl linker to a tropane, which carries a 4-aryl pyridazine bearing a 2-hydroxyphenyl group.
+
+**Regions, left to right**
+- **Pyridazine:** a 3-(2-hydroxyphenyl)pyridazine, with the two ring nitrogens adjacent and the 5-position bonded to a para-substituted phenyl.
+- **Tropane:** that phenyl sits on C3 of an 8-azabicyclo[3.2.1]octane. The bridging nitrogen carries a CH2C(=O)NH linker. The tropane bonds are drawn plain, so I gave it no stereo.
+- **tert-Leucine:** the amide NH is attached to a wedged carbon bearing a tert-butyl group, followed by C(=O) bonded to the proline nitrogen.
+- **Hydroxyproline:** a pyrrolidine with a hashed OH at C4 and a wedged C2 carrying the carboxamide.
+- **Amine side:** the amide NH is attached to a wedged CH(CH3) on a para-phenylene, which is bonded to C5 of a 4-methylthiazole.
+
+**Stereochemistry:** I assumed the wedges and hashes match the standard VHL ligand, with the usual (2S,4R)-hydroxyproline, L-tert-leucine and (S)-ethylamine configurations. I then adjusted each `@`/`@@` to the atom order in my SMILES.
+
+**Check:** the SMILES parses, and the connectivity matches the drawing atom for atom.
+
+SMILES: Oc1ccccc1-c1nncc(c1)-c1ccc(cc1)C1CC2CCC(C1)N2CC(=O)N[C@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C)C(C)(C)C

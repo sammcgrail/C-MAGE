@@ -1,0 +1,27 @@
+I read the structure in four pieces, left to right, then joined them.
+
+**Left fragment.** This is a 1H-pyrazolo[3,4-c]pyridine. The pyrazole has N1(H) and N2, with C3 bearing the pyrimidine. The fused pyridine has its N next to C7a, and the carbon next to that N carries the O–(1-methylcyclopropyl) group.
+
+Ring atoms: C3(pyrazole)–C3a; C3a–C4(H)=C5(OR)–N6=C7(H)–C7a; C7a is bonded to N1H.
+
+SMILES for this fragment: c1(nn[nH]...) is awkward, so I wrote it as: `[nH]1nc(c2cc(OC3(C)CC3)ncc12)-c1cc(N...)ncn1`
+
+Checking the fusion: N1H bonded to C7a, C7a bonded to C3a, C3a bonded to C3, and C3 bonded to N2. In SMILES this is `c1(-pyrimidine)n[nH]c2cnc(OC3(C)CC3)cc12`. Here c1 is C3, n is N2, [nH] is N1, c2 is C7a, c is C7(H), n is N6, c(OR) is C5, c is C4(H), and c12 is C3a. This is consistent with the drawing.
+
+**Pyrimidine.** C4 is attached to the pyrazole carbon and C6 to the piperidine N. The ring is c1cc(N)ncn1, with N1, C2(H), N3 and C5(H) as drawn.
+
+**Piperidine and linker.** The piperidine N is bonded to the pyrimidine, and its C4 carries a CH2 that connects to the N of a second piperidine. That second piperidine has C4 bearing both F and a CH2 that leads to a piperazine N.
+
+**Right fragment.** The piperazine's other N is bonded to the isoindolinone at C5, with OMe at C4. The lactam N carries the glutarimide (2,6-dioxopiperidin-3-yl). The CH2 of the isoindolinone is at C3, and C1 is the carbonyl.
+
+The aryl ring runs C3a, C4(OMe), C5(N-piperazine), C6, C7, C7a(C=O).
+
+Aryl SMILES: `c1(N...)ccc2c(c1OC)CN(C3CCC(=O)NC3=O)C2=O`
+
+**Full SMILES:**
+`Cc` is not needed; the full string is
+`CC1(CC1)Oc1cc2c(cn1)[nH]nc2-c1cc(ncn1)N1CCC(CN2CCC(F)(CN3CCN(CC3)c3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3OC)CC2)CC1`
+
+Checking the left ring in this string: `c1cc2c(cn1)[nH]nc2-`. Atom c1 is C5(OR), then c is C4(H), c2 is C3a, c( is C7a, cn1 gives C7(H) and N6 closing to C5. C7a is bonded to [nH], then n, then c2 closes to C3a and carries the pyrimidine. This matches.
+
+SMILES: CC1(CC1)Oc1cc2c(cn1)[nH]nc2-c1cc(ncn1)N1CCC(CN2CCC(F)(CN3CCN(CC3)c3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3OC)CC2)CC1

@@ -1,0 +1,29 @@
+Reading the structure region by region:
+
+**Top bicyclic system.** An N-methyl cyclic urea (C=O) is fused to a piperidine.
+- The ring atoms are N(Me), C(=O), N (the ring-fusion nitrogen), then the CH at the fusion, then C(Ar)=CH–N(Me).
+- The second ring is N–CH2–CH2–CH2–CH2–CH (the fusion carbon).
+- The fusion carbon is drawn without stereo.
+- SMILES for this part: CN1C=C(Ar)C2CCCCN2C1=O
+
+**Central aryl ring.**
+- Position 1 carries the bicyclic system.
+- Positions 3 and 5 carry OMe.
+- Position 4 carries the CH2–N linker.
+
+**Spiro amine.** The piperidine N is attached to the benzylic CH2. The piperidine's 4-position is a spiro carbon shared with a cyclobutane. This is 7-azaspiro[3.5]nonane, and the cyclobutane carbon opposite the spiro atom bears the isoindoline aryl group.
+
+**Isoindoline-dione.**
+- A phthalimide with the cyclobutyl group at position 5.
+- The imide N is attached to the 3-position of the 2,6-dioxopiperidine.
+- The glutarimide stereocentre is drawn plain, so no stereo is given.
+
+**Assembled SMILES:**
+CN1C=C(C2CCCCN2C1=O)c1cc(OC)c(CN2CCC3(CC2)CC(C3)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(OC)c1
+
+**Check of the ring closures.**
+- The ring-1 closure is the urea ring: N1, C=, C(, C2 (the fusion CH), then N2 and C1(=O). Writing C(C2CCCCN2C1=O) places the aryl on the vinyl carbon and puts the fusion CH inside the parentheses. That is a problem, because the aryl group would then be written after the parentheses and attached to the vinyl carbon, which is the intended connection.
+- The fusion CH (C2) is bonded to the vinyl carbon, and the chain CCCC runs to N2, which closes the ring to C2. N2 is the urea N and is followed by C1(=O), closing the urea ring to the N-methyl nitrogen. This is correct.
+- The aryl group follows after the parentheses, attached to the vinyl C, which is also correct.
+
+SMILES: CN1C=C(C2CCCCN2C1=O)c1cc(OC)c(CN2CCC3(CC2)CC(C3)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(OC)c1

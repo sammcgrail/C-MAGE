@@ -1,0 +1,17 @@
+Reading the structure region by region:
+
+**Left end:** a 2-hydroxyphenyl group is attached to a pyridazine. The ring atoms are C3 (bearing the aryl group), C4 (CH), C5 (bearing O), C6 (bearing NH2), N1 and N2. Its SMILES is c1ccc(O)c(c1)-c1cc(OC...)c(N)nn1.
+
+**Linker:** the ether oxygen connects to a CH2, which connects to a bicyclo[1.1.1]pentane. Bridgehead C1 carries the CH2O group, and the other bridgehead C3 carries the C(=O)N amide. The three bridges are CH2 groups.
+Bicyclopentane: C12(COc...)CC(C1)(C2)C(=O)N...
+
+**Amide side chain:** the amide N is bonded to CH2CH2, which leads to C4 of a piperidine. The piperidine nitrogen is attached to the isoindoline-dione ring at position 5.
+
+**Right end:** the isoindoline-1,3-dione nitrogen carries a 2,6-dioxopiperidin-3-yl group, N2C(=O)CCC(=O)NC2=O, so the full group is O=C1CCC(N2C(=O)c3ccc(cc3C2=O)N2CCC(CCNC(=O)...)CC2)C(=O)N1.
+
+**Assembled SMILES:**
+Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)NCCC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Checking the isoindoline: c1ccc2C(=O)N(...)C(=O)c2c1 puts the piperidine N-bearing carbon at c1. Going around the ring, c1 is followed by c, c, then c2 (which bears the C=O), and the ring closes through c2 and c1. The substituted carbon is therefore adjacent to the CH (the last c1) that sits next to the ring-fusion carbon, which matches position 5.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)NCCC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

@@ -1,0 +1,23 @@
+I read the structure region by region and wrote it out as SMILES.
+
+**Left side:**
+- A 2H-indazole carries a 1-methylcyclopropyloxy group at C5.
+- Its C3 is bonded to C4 of a pyrimidine ring.
+- Pyrimidine C6 is bonded to a piperazine nitrogen.
+
+**Piperazine:**
+- The ring carbon next to the other piperazine nitrogen carries a methyl drawn as a wedge, so it is a stereocentre.
+- With the wedged methyl toward the viewer and the implicit H behind, the substituents N, CH2 and Me run counterclockwise. That corresponds to `[C@@H]` when the carbon is written after the nitrogen in the SMILES.
+- That nitrogen bears a CH2 linked to C4 of a 1,2,3-triazole.
+
+**Centre:**
+- Triazole N1 is bonded to a CH2 that leads to C4 of a piperidine.
+- The piperidine nitrogen is attached to the aromatic ring of the isoindoline-1,3-dione.
+
+**Right side:**
+- The isoindoline-1,3-dione nitrogen is bonded to C3 of a glutarimide (2,6-dioxopiperidine).
+- That carbon is drawn with plain bonds, so it has no stereo label.
+
+I checked that the SMILES is valid and matches the drawing atom for atom.
+
+SMILES: CC1(CC1)Oc1ccc2n[nH]c(c2c1)-c1cc(ncn1)N1CCN(Cc2cn(CC3CCN(CC3)c3ccc4C(=O)N(C5CCC(=O)NC5=O)C(=O)c4c3)nn2)[C@@H](C)C1
