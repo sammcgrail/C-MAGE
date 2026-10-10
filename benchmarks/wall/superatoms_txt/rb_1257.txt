@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Left end:** a 2-hydroxyphenyl group sits on C3 of a pyridazine. The pyridazine's C5 carries a para-substituted phenyl, which is bonded to a piperazine nitrogen.
+- **Linker:** the other piperazine nitrogen is attached to CH2–C(=O)–NH, which connects to the tert-leucine α-carbon. That carbon bears a tert-butyl group and the C(=O) that acylates the proline nitrogen.
+- **Hydroxyproline:** the pyrrolidine has a hashed 4-OH and a wedged C2 carboxamide. This matches the usual (2S,4R) VHL-ligand pattern.
+- **Right end:** the proline amide NH is bonded to a CH carrying CH2–N(CH3)2 and a phenyl. That phenyl bears a 4-methylthiazol-5-yl group. The CH is drawn with plain bonds, so it gets no stereo label.
+
+Stereochemistry: the tert-leucine carbon has a wedge to NH. I assigned it S by CIP priorities (N > C(=O) > tBu), which is `N[C@@H](C(C)(C)C)C(=O)` in this atom order. For the hydroxyproline I used the standard VHL-ligand SMILES pattern `N1C[C@H](O)C[C@H]1C(=O)` and did not re-derive its chirality from the wedges.
+
+SMILES: Oc1ccccc1-c1cc(-c2ccc(cc2)N2CCN(CC2)CC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NC(CN(C)C)c2ccc(cc2)-c2scnc2C)cnn1

@@ -1,0 +1,23 @@
+I read the molecule as a PROTAC-type structure with three parts joined by a linker. I did not verify the stereochemistry beyond the checks below.
+
+**Target-binding end (quinazoline):**
+- The quinazoline carries a 4-(4-carbamoylpiperazin-1-yl) group.
+- It has 6-chloro and 8-fluoro substituents.
+- The 7-position bears a 2-fluoro-6-hydroxyphenyl ring.
+- The 2-position carries an NH.
+
+**Linker:**
+- From the quinazoline NH: NH–CH2CH2–C(=O)–N(CH3)–.
+- Then five ethylene-oxy units, counted from the five ring-free oxygen labels in the drawing: (CH2CH2O)×5.
+- Then –CH2–C(=O)–NH–.
+
+**E3-ligase end (VHL-type ligand):**
+- tert-Leucine, with the wedge on the NH bond. I assigned it S, which is the L-amino-acid form.
+- 4-Hydroxyproline, with the usual (2S,4R) configuration.
+- The prolyl carbonyl is joined by an amide to a (1-aryl)ethylamine, whose aryl group is 4-(4-methylthiazol-5-yl)phenyl. The wedge-drawn methyl gives the stereocentre written as `[C@@H]`.
+
+**Stereochemistry choices:**
+- The hashed bond on the hydroxyphenyl ring looks like an atropisomer marker. It does not define a clear stereocentre, so I left it out.
+- For the hydroxyproline and the benzylic carbon, I used the standard VHL-ligand stereochemistry rather than re-deriving each centre from the wedges.
+
+SMILES: NC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)nc2c(F)c(c(Cl)cc12)-c1c(O)cccc1F

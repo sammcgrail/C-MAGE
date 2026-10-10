@@ -1,0 +1,10 @@
+I read the structure in sections, left to right, and wrote each as SMILES.
+
+- **Left end:** a 1H-pyrazolo[3,4-c]pyridine (an indazole with a ring nitrogen in the six-membered ring). It carries a 1-methylcyclopropyloxy group on the carbon next to the pyridine nitrogen, and it is attached at C3 to the pyrimidine.
+- **Pyrimidine:** it is 4,6-disubstituted, with the indazole on one carbon and the piperidine nitrogen on the other.
+- **Piperidine:** it is linked through its nitrogen to the pyrimidine and bears an ether oxygen at its 4-position.
+- **Cyclohexane:** it is a 1,4-disubstituted ring with the ether oxygen on one carbon (wedge) and a CH2 on the other (hash). The wedge and hash are on opposite faces, so the ring is trans. I checked the chirality tags against the pattern for trans-1,4-dimethylcyclohexane, `C[C@H]1CC[C@@H](CC1)C`.
+- **Piperazine and isoindolinone:** the CH2 leads to a piperazine nitrogen. The other piperazine nitrogen is bonded to the isoindolinone, which carries a methoxy group next to the piperazine and a C=O on the lactam.
+- **Glutarimide:** the isoindolinone nitrogen is bonded to the 3-position of a 2,6-dioxopiperidine. That carbon is drawn with plain bonds, so I left it without stereo.
+
+SMILES: CC1(CC1)Oc1cc2c(cn1)[nH]nc2-c1cc(N2CCC(CC2)O[C@H]2CC[C@@H](CC2)CN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)Cc3c2OC)ncn1

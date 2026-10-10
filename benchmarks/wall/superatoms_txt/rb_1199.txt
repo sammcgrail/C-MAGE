@@ -1,0 +1,17 @@
+I read the molecule region by region, then checked each stereocentre against the wedges and hashes.
+
+**Structure read from the drawing**
+- A 2-hydroxyphenyl group is attached to C3 of a pyridazine ring. C5 of that pyridazine carries a para-phenylene.
+- The phenylene is bonded to C4 of a 1,2,3,6-tetrahydropyridine (a C=C inside the ring). The ring nitrogen bears a CH2–C(=O)–NH linker.
+- The linker leads to a tert-leucine unit (C(CH3)3 on the α-carbon), whose C=O acylates the nitrogen of a 4-hydroxyproline.
+- The proline C2 carries C(=O)NH–CH(CH3)–aryl. The aryl group is a para-phenylene bearing a 4-methylthiazol-5-yl ring.
+
+**Stereocentres (CIP assignments from the drawing)**
+- The tert-leucine α-carbon is S. In SMILES this is written `N[C@@H](C(C)(C)C)C(=O)`.
+- The proline C2 is S, from the bold wedge to the carbonyl.
+- The proline C4 is R, from the hashed OH.
+- The benzylic CH(CH3) carbon is S, from the wedged methyl. In SMILES this is `N[C@@H](C)c1...`.
+
+I converted each CIP assignment into the matching @/@@ tag by permuting the neighbour order in the SMILES.
+
+SMILES: Oc1ccccc1-c1cc(cnn1)-c1ccc(cc1)C1=CCN(CC1)CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

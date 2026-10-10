@@ -1,0 +1,10 @@
+I read the structure in four pieces and joined them in order.
+
+- **Left end:** a 2H-indazole with a 1-methylcyclopropoxy group at C5. Its C3 is bonded to C4 of a pyrimidine.
+- **Piperazine:** the pyrimidine C6 carries the piperazine N4. The other piperazine nitrogen (N1) sits next to a carbon bearing a methyl group drawn with a bold wedge, which is the only stereocentre with a wedge shown.
+- **Linker:** N1 is connected through CH2 to C4 of a piperidine. That piperidine's nitrogen is connected through CH2 to C4 of a second piperidine.
+- **Right end:** the second piperidine nitrogen is bonded to C4 of an isoindoline-1,3-dione. The dione nitrogen carries a 2,6-dioxopiperidin-3-yl group. That carbon has plain bonds, so I gave it no stereo.
+
+For the methyl-bearing carbon, the neighbours in priority order are N1, then the CH2 leading to the other piperazine N, then CH3, with H pointing away. In the drawing these run counterclockwise, which makes the centre S. In the SMILES `C[C@H]1CN(...)CCN1...`, the `@` label corresponds to S, so I used `@`.
+
+SMILES: C[C@H]1CN(c2cc(-c3n[nH]c4ccc(OC5(C)CC5)cc34)ncn2)CCN1CC1CCN(CC1)CC1CCN(CC1)c1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O

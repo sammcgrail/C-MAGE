@@ -1,0 +1,10 @@
+I read the structure in sections, left to right, and assembled one SMILES from them.
+
+- **Left end:** a thiazol-2-yl group on an amide NH, `O=C(Nc1nccs1)`.
+- **Alpha carbon:** a CH bearing a 2-hydroxy-5-fluorophenyl ring and the isoindolinone nitrogen. The phenyl carbon attached to the CH has the OH ortho to it and the F meta to it (para to the OH), so the ring is `c1cc(F)ccc1O`.
+- **First isoindolinone:** the lactam N, then the CH2, then the benzo ring. The piperidine nitrogen sits on the ring carbon next to the CH adjacent to the C=O-bearing carbon, giving `N1Cc2ccc(N3…)cc2C1=O`.
+- **Linker:** piperidine N, ring carbon 4 bonded to a piperazine N, and the other piperazine N carrying a chain of 8 CH2 groups (counted vertex by vertex) that ends in S.
+- **Right end:** S on position 4 of a second isoindolinone, whose lactam N carries the 2,6-dioxopiperidin-3-yl group.
+- **Stereochemistry:** no wedges or hashes are drawn, so none is specified, including at the alpha carbon and the glutarimide carbon.
+
+SMILES: O=C(Nc1nccs1)C(c1cc(F)ccc1O)N1Cc2ccc(N3CCC(CC3)N3CCN(CCCCCCCCSc4cccc5c4CN(C4CCC(=O)NC4=O)C5=O)CC3)cc2C1=O

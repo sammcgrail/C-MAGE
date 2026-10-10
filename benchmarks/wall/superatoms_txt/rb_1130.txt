@@ -1,0 +1,11 @@
+I read the molecule as a VHL-ligand conjugate, built from five pieces:
+
+- **Aryl-pyridazine head:** a 3,5-disubstituted pyridazine carrying a 5-fluoro-2-hydroxyphenyl group at C3 and a 1,4-phenylene at C5.
+- **Piperidine linker:** the phenylene is attached to C4 of a piperidine. The piperidine nitrogen carries a CH2C(=O)NH group.
+- **tert-Leucine:** the amide NH is attached to a tert-leucine unit.
+- **Hydroxyproline:** the tert-leucine carbonyl acylates the nitrogen of a 4-hydroxyproline.
+- **Amine end:** the proline carboxamide is bonded to an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethylamine.
+
+I assigned stereochemistry from the wedges and hashes: the tert-leucine carbon as S, the hydroxyproline as 2S,4R, and the benzylic carbon of the ethylamine as S. This matches the usual VH032-type VHL ligand. I checked each centre by comparing neighbour order with a standard reference SMILES, which gave `[C@@H]` for the tert-leucine, `[C@@H]` for the hydroxyproline C4 and `[C@H]` for C2. The ethylamine carbon came out as `[C@@H]`.
+
+SMILES: Oc1ccc(F)cc1-c1cc(-c2ccc(cc2)C2CCN(CC2)CC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)cnn1

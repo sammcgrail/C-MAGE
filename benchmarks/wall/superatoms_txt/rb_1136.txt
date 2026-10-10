@@ -1,0 +1,16 @@
+The drawing is a PROTAC-type molecule, so I read it in four parts and joined them.
+
+**Quinazoline warhead.** The aniline is 3-chloro-4-fluorophenyl, attached through NH to C4 of the quinazoline. C6 carries an acrylamide, NHC(=O)C=C. C7 carries an O-CH2CH2CH2 chain.
+
+**Linker.** The propyl chain ends on the nitrogen of a piperidine. Piperidine C4 is bonded to a piperazine nitrogen. The other piperazine nitrogen is acylated: C(=O)CH2CH2-O-CH2CH2-O-CH2CH2-NH.
+
+**E3 ligand.** The terminal NH is bonded to C4 of a phthalimide (isoindoline-1,3-dione). The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group. This carbon has plain bonds in the drawing, so I gave it no stereo.
+
+**Assembly.** Quinazoline ring: c1(Nc2ccc(F)c(Cl)c2)ncnc2cc(OCCCN...)c(NC(=O)C=C)cc12.
+
+The full SMILES is:
+C=CC(=O)Nc1cc2c(Nc3ccc(F)c(Cl)c3)ncnc2cc1OCCCN1CCC(CC1)N1CCN(CC1)C(=O)CCOCCOCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12
+
+Check of the phthalimide fragment: c1cccc2C(=O)N(...)C(=O)c12 starts with the aromatic carbon bearing NH (c1), then three CH, then c2 bearing a C=O. The ring closes through c12, which is adjacent to c1. This matches the drawing, where NH sits on the carbon next to the carbon bearing a carbonyl.
+
+SMILES: C=CC(=O)Nc1cc2c(Nc3ccc(F)c(Cl)c3)ncnc2cc1OCCCN1CCC(CC1)N1CCN(CC1)C(=O)CCOCCOCCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

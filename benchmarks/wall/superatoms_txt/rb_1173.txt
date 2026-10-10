@@ -1,0 +1,22 @@
+The structure is a PROTAC-like molecule: a pyrido[4,3-b]indole (5H-pyrido[4,3-b]indole) core, a fluoropyridine, a spiro piperidine-cyclopropane, a piperazine, and a thalidomide-type isoindoline-dione with a glutarimide.
+
+**Tricyclic core.** The pyridine ring has N at the top left. Its atoms are C1(H)=N2–C3H=C4H–C4a, then C9b. The pyrrole N5 carries CHF2. The tricycle is c1ncc2... written as: n1ccc2c(c1)c1ccc(cc1n2C(F)F)-Ar.
+
+Checking the connectivity: the ring N at the top is bonded to a CH, which is bonded to the ring-fusion carbon C9b. C9b is bonded to the benzo ring carbon C9a. The other fusion carbon, C4a, is bonded to N5 and to the CH=CH on the left.
+
+SMILES for the core: c1cc2n(C(F)F)c3cc(-Ar)ccc3c2cn1. The aryl group sits on the benzo carbon that is para to C9a, meta to N-bearing C. In the image, the benzo ring carbon at (285,150) attaches to the pyridine. C9a is at the upper left (205,70 region), and the ring runs C9a, C9, C8, C7, C6, C5a. The aryl-bearing carbon is bonded to the CH that sits next to C5a, so it is C7. The core SMILES above gives c3cc(Ar)ccc3 starting from the N-bearing carbon, which makes the aryl carbon the third atom (C7). This is consistent.
+
+**Fluoropyridine.** The ring is c1(Ar)cnc(N...)c(F)c1: C5 carries the aryl, C6 is CH, N1, C2 carries the piperidine N, C3 carries F, and C4 is CH.
+
+**Spiro piperidine.** This is 6-azaspiro[2.5]octane. The piperidine N is bonded to CH2CH2–C(spiro)–CH2CH2. The spiro carbon is part of a cyclopropane that carries a CH2–N(piperazine) substituent. SMILES: N1CCC2(CC1)CC2CN...
+
+**Piperazine and isoindoline.** The piperazine links the CH2 to an aryl carbon on the isoindoline-1,3-dione. The imide N is bonded to the 2,6-dioxopiperidin-3-yl group.
+
+Isoindoline: c1(N-pip)ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1.
+
+**Full SMILES:**
+FC(F)n1c2cc(ccc2c2cnccc21)-c1cnc(N2CCC3(CC2)CC3CN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(F)c1
+
+Check of the core ring closure: n1 (N5) is bonded to c2 (C5a), then cc(...)ccc2 closes the benzo ring, with the last atom being C9a (the "c2" closure). Written this way, the closure needs care. After "ccc2" the benzo ring closes at C9a, and then "c2cnccc21" opens a new ring label 2. Reusing label 2 is valid once it has closed. The atoms c2 (C9b), c (C1), n, c, c, c21 (C4a) close the pyridine and bond to N5. This is consistent.
+
+SMILES: FC(F)n1c2cc(ccc2c2cnccc21)-c1cnc(N2CCC3(CC2)CC3CN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)c(F)c1

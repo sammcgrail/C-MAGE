@@ -1,0 +1,22 @@
+The molecule is a PROTAC-type compound with four parts, read left to right.
+
+**Pyridazine end.** The ring is c1(N)nnc(c2ccccc2O)cc1O…, with these substituents:
+- NH2 on the carbon adjacent to N.
+- A 2-hydroxyphenyl group on the other carbon next to N.
+- An O–CH2 ether at the 4-position.
+
+**Bicyclo[1.1.1]pentane linker.** The ether CH2 is attached to a bicyclo[1.1.1]pentane at C1, and C3 carries a CH2–NH group. SMILES: C12(COc…)CC(C1)(C2)CNC(=O)…
+
+**Piperidine and linker.** The amide C(=O) is on C4 of a piperidine. The piperidine nitrogen carries CH2CH2–O–Ar.
+
+**Thalidomide-type end.** The aryl group is the isoindoline-1,3-dione, bearing the ether oxygen at the 5-position. Its imide nitrogen is attached to the 3-position of a 2,6-dioxopiperidine. The glutarimide carbon is a stereocentre, but it is drawn with plain bonds, so no stereo is given.
+
+**Assembled SMILES:**
+Nc1nnc(-c2ccccc2O)cc1OCC12CC(CNC(=O)C3CCN(CCOc4ccc5C(=O)N(C6CCC(=O)NC6=O)C(=O)c5c4)CC3)(C1)C2
+
+**Checks:**
+- Pyridazine: c1(N) n n c(Ar) c c1(O) gives six atoms: C(NH2), N, N, C(Ar), CH, C(O). This matches the drawing.
+- Bicyclopentane: C12 (C1), CC(...)(C1)C2 gives bridgeheads C1 and C3 with three one-carbon bridges: the CH2 in "CC", the "C1" and the "C2". This is correct.
+- Phthalimide ring: c4ccc5C(=O)N(...)C(=O)c5c4. The ether-bearing carbon c4 is followed by two CH, then c5 (bearing C=O), then the other c5 and a CH closing the ring back to c4. The O-substituted carbon is therefore adjacent to the CH that neighbours the ring-fusion carbon, which gives the 5-position as drawn.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(CNC(=O)C3CCN(CCOc4ccc5C(=O)N(C6CCC(=O)NC6=O)C(=O)c5c4)CC3)(C1)C2

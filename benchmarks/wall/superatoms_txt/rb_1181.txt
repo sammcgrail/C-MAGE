@@ -1,0 +1,17 @@
+I read the structure in sections and wrote each part as SMILES, then joined them.
+
+- **Left end:** a benzo[4,5]imidazo[1,2-a]pyrimidine. The bridgehead N is bonded to the CH=CH, and the pyrimidine carbon at the far end carries the pyridine.
+- **Pyridine:** attached at its 3-position to the pyrimidine, with the azetidine N at the 6-position.
+- **Linker:** azetidine, then an ether O at azetidine C3 to piperidine C4. The piperidine N carries an –CH2CH2–O– chain that ends on isoxazole C3.
+- **Isoxazole:** C5 bears the CH(iPr)–C(=O) unit.
+- **Right end:** a 4-hydroxyproline amide, with the amide N on a 1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group.
+
+Stereochemistry follows the wedges and hashes in the drawing:
+
+- The CH(iPr) carbon is R.
+- Proline C2 is S and C4 (bearing OH) is R.
+- The benzylic CH(CH3) is S.
+
+I derived each @/@@ by working out the CIP descriptor from the drawn geometry and converting it to the order of atoms in the SMILES. I did not run it through a parser.
+
+SMILES: c1ccc2c(c1)nc1nc(-c3ccc(N4CC(C4)OC4CCN(CCOc5cc(on5)[C@@H](C(C)C)C(=O)N5C[C@H](O)C[C@H]5C(=O)N[C@H](C)c5ccc(cc5)-c5scnc5C)CC4)nc3)ccn12

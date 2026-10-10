@@ -1,0 +1,10 @@
+I read the structure region by region and assembled the SMILES below. I did not run it through a parser, so validity rests on my manual check of ring closures and atom counts.
+
+- **Quinazoline core:** C4 carries a 4-acetylpiperazin-1-yl group, and C2 carries a tertiary amine nitrogen. On the benzo ring, C8 has F, C7 has the 3-hydroxynaphthalen-1-yl group, and C6 has Cl.
+- **Amine substituents:** The C2 nitrogen bears a CH2CH2C(=O)N(CH3)2 arm and a CH2CH2–O–CH2CH2CH2–O– linker.
+- **Isoxazole:** The linker oxygen is attached to C3 of the isoxazole. C5 carries a CH(isopropyl)–C(=O)– group.
+- **Stereocentre next to the isoxazole:** The isopropyl bond is hashed. By CIP priorities (C(=O)N > isoxazole C5 > isopropyl > H) this centre is S, which corresponds to `[C@H]` in the SMILES as written.
+- **Hydroxyproline unit:** The pyrrolidine nitrogen is acylated by the valine-type carbonyl. The ring has a 4-OH and a 2-carboxamide. I took the stereochemistry as the standard VHL-ligand (2S,4R) pattern, matching the wedge on the carboxamide and the hash on the OH in the drawing.
+- **Amide terminus:** The proline carboxamide nitrogen is linked through CH2 to a para-substituted phenyl ring. That ring carries a 4-methylthiazol-5-yl group.
+
+SMILES: CC(=O)N1CCN(CC1)c1nc(N(CCC(=O)N(C)C)CCOCCCOc2cc(on2)[C@H](C(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(cc2)-c2scnc2C)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

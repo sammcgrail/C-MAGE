@@ -1,0 +1,13 @@
+I read the structure region by region and wrote it as a SMILES string.
+
+- **Quinazoline core:** C4 carries the piperazine N, C2 carries the NH chain, C6 has Cl, C7 has the aryl group and C8 has F.
+- **Piperazine:** the second N bears C(=O)CH(OH)₂, which is drawn as the dihydroxyacetyl (hydrate) group.
+- **Aryl group:** a 2-fluoro-6-hydroxyphenyl ring. The hashed bonds on its ring look like drawing artifacts, so I assigned no stereo there.
+- **Linker:** NH–CH₂CH₂–C(=O)–N(CH₃)–CH₂CH₂ followed by five O–CH₂CH₂ units, with the last one ending in OCH₂C(=O)NH. I counted five ether oxygens in the drawing.
+- **tert-Leucine:** the wedge on the N–Cα bond gives S, which is the natural L configuration.
+- **Hydroxyproline:** the wedged carboxamide at C2 gives S, and the hashed OH at C4 gives R, so this is the natural (2S,4R) form.
+- **Benzylic amine:** the wedged methyl gives S for the CH(CH₃) attached to the 4-(4-methylthiazol-5-yl)phenyl ring.
+
+I derived each @/@@ tag from the CIP assignment above rather than copying a known compound.
+
+SMILES: OC(O)C(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)nc2c(F)c(c(Cl)cc12)-c1c(O)cccc1F

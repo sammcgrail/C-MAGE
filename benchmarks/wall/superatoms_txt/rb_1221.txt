@@ -1,0 +1,27 @@
+This is a PROTAC-like molecule: an osimertinib-derived EGFR warhead joined through a linker to a thalidomide-like (isoindolinone) cereblon ligand.
+
+**Warhead (left side)**
+- The 1-methylindol-3-yl group is attached to pyrimidine C4. The pyrimidine C2 carries an NH that links to the central benzene ring.
+- On the central benzene ring:
+  - NH-C(=O)CH=CH2 (acrylamide)
+  - OMe
+  - O-CH2CH2-N (piperidine nitrogen)
+  - the NH to the pyrimidine
+- Ring substitution pattern: C1 bears the NH-pyrimidine, C2 is H, C3 bears the acrylamide NH, C4 bears the O-CH2CH2 chain, C5 is H, and C6 bears OMe. The OMe sits next to the NH-pyrimidine carbon, as in osimertinib.
+
+**Linker**
+- The piperidine nitrogen carries the ethoxy chain, and piperidine C4 is bonded to a piperazine nitrogen.
+- The other piperazine nitrogen is acylated: C(=O)CH2-S-aryl.
+
+**Cereblon ligand (right side)**
+- The aryl group is an isoindolin-1-one. Its N is attached to the 2,6-dioxopiperidin-3-yl ring, and C=O is at C1.
+- The S is on the aromatic carbon adjacent to the CH2 (C4 of the isoindolinone).
+
+**SMILES assembly**
+- Warhead: C=CC(=O)Nc1cc(Nc2nccc(n2)-c2cn(C)c3ccccc23)c(OC)cc1OCCN1CCC(CC1)N1CCN(CC1)C(=O)CSc1cccc2C(=O)N(C3CCC(=O)NC3=O)Cc12
+- The aryl ring carbons are c1cccc2c1CN(...)C2=O. S attaches to c1, whose neighbor c(ring fusion) bears the CH2.
+- Written as Sc1cccc2c1CN(C3CCC(=O)NC3=O)C2=O, the carbon after c1 on the ring closure is the fusion carbon bearing CH2, which is correct.
+
+Checking the central ring: c1(NHC(=O)C=C) cc(NH-pyrimidine) c(OC) cc1 OCC… The acrylamide carbon is adjacent to the O-bearing carbon. In the drawing, the acrylamide NH sits on the carbon next to the O-chain carbon, and the NH-pyrimidine is para to the O-chain carbon. The OMe carbon is adjacent to the NH-pyrimidine carbon. In the SMILES, ring atoms in order are a1 (NHacryl), a2 (cH), a3 (NH-pyr), a4 (OMe), a5 (cH), a6 (O-chain), with a6 bonded to a1. So the acrylamide and O-chain carbons are adjacent, and the NH-pyrimidine (a3) is para to a6. This matches the drawing.
+
+SMILES: C=CC(=O)Nc1cc(Nc2nccc(n2)-c2cn(C)c3ccccc23)c(OC)cc1OCCN1CCC(CC1)N1CCN(CC1)C(=O)CSc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O

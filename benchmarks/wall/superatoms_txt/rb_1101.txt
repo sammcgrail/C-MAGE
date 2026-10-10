@@ -1,0 +1,10 @@
+I read the structure in sections, left to right, and assembled the SMILES from them.
+
+1. **Left end:** a 1-methylcyclopropyl group is bonded through oxygen to C5 of a 1H-pyrazolo[4,3-c]pyridine. The ring nitrogen sits next to the CH that is attached to the NH-bearing carbon. C3 of this bicycle carries the pyrimidine.
+2. **Pyrimidine:** it is attached to the bicycle at one carbon. At the other carbon, it is attached to a piperazine nitrogen. The two ring nitrogens flank the CH at the bottom.
+3. **Piperazine:** the second nitrogen carries a CH2 that leads to the cyclohexane.
+4. **Cyclohexane:** it is 1,4-disubstituted, with the CH2 on one carbon and an oxygen on the other. One substituent is drawn with a bold wedge and the other with a hash, so the ring is trans. I used `C[C@H]1CC[C@@H](...)CC1` as the trans pattern.
+5. **Ether link:** the oxygen connects the cyclohexane to C4 of a piperidine, whose nitrogen is bonded to the aromatic ring of the isoindolinone.
+6. **Isoindolinone:** the aromatic carbon next to the piperidine-bearing carbon carries OMe. The lactam nitrogen bears a 2,6-dioxopiperidin-3-yl group. That carbon is a stereocentre by connectivity but is drawn with plain bonds, so I gave it no stereo label.
+
+SMILES: C1(C)(CC1)Oc1cc2c(cn1)[nH]nc2-c1cc(ncn1)N1CCN(CC1)C[C@H]1CC[C@@H](CC1)OC1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)Cc2c1OC

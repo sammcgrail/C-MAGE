@@ -1,0 +1,23 @@
+The molecule is a PROTAC-type compound: a quinazoline KRAS-inhibitor-like warhead joined through a PEG linker to a thalidomide-like (lenalidomide-type) cereblon ligand.
+
+**Warhead (quinazoline).**
+- C4 carries a piperazine whose distal nitrogen bears a propionyl group: N1CCN(CC1)C(=O)CC.
+- C2 carries an NH. The benzo ring has Cl at C6, 3-hydroxynaphthalen-1-yl at C7, and F at C8.
+- Quinazoline SMILES: c1(N2CCN(C(=O)CC)CC2)nc(NCC...)nc3c(F)c(-c4cc(O)cc5ccccc45)c(Cl)cc13
+
+**Linker.**
+- The C2 NH continues as NCCC(=O)N(C)CCOCCOCCOCCOCCO-Ar.
+- Counting the ethers in the drawing: after N(Me) comes CH2CH2, then O, CH2CH2, O, CH2CH2, O, CH2CH2, O, CH2CH2, O, and then the aryl ring. That is five oxygens, with the last one attached to the aryl ring.
+- Linker SMILES: N(C)CCOCCOCCOCCOCCOc
+
+**Cereblon ligand.**
+- The isoindolinone is Ar-O at C5, with CH2 attached to N and C=O on the other side.
+- The N bears a 2,6-dioxopiperidin-3-yl group.
+- SMILES: c1cc2CN(C3CCC(=O)NC3=O)C(=O)c2cc1 (written with the O attached to the ring carbon at position 5)
+
+**Aryl ring placement.** In the drawing, the O-bearing carbon is adjacent to a CH that is bonded to the CH2-bearing carbon, so O sits meta to the CH2 carbon on the CH2 side. The ring SMILES is Oc1ccc2c(c1)CN(C1CCC(=O)NC1=O)C2=O. Here c1 (O-bearing) is next to c(c1), which is attached to CH2, and the ring fusion carbon bearing C=O is at the end, so this matches the drawing.
+
+**Full SMILES.**
+CCC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOc2ccc3C(=O)N(C4CCC(=O)NC4=O)Cc3c2)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12
+
+SMILES: CCC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOc2ccc3C(=O)N(C4CCC(=O)NC4=O)Cc3c2)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

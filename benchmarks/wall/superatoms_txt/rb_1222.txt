@@ -1,0 +1,10 @@
+I read the molecule as follows. The only stereo in the drawing is the wedge/hash pair on the cyclobutane and the hash on the 3-position of the left piperidine; the glutarimide carbon is drawn plain, so it carries no stereo.
+
+- **Left part:** a pyrazine-2-carboxamide with an anilino NH at C3. At C5 it carries a piperidin-1-yl ring, and that ring has a 3-(3-methyl-2-oxoimidazolidin-1-yl) substituent on a hashed bond.
+- **Middle:** a para-substituted phenyl ring bearing a 4-methylpiperidin-4-yl group. Its nitrogen is bonded to a 1,3-disubstituted cyclobutane.
+- **Cyclobutane:** one substituent is wedged (the piperidine N) and the other is hashed (the NH), so they are trans.
+- **Right part:** the cyclobutane NH is attached at C4 of a phthalimide-type isoindoline-1,3-dione. Its ring nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide) group.
+
+For the hashed piperidine C3, the CIP priorities are N > C2 > C4 > H. The geometry works out to S, which is written `[C@H]` in the SMILES order used. For the trans cyclobutane, the atom order in my SMILES requires `[C@H]1C[C@H](C1)`.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(cc1)C1(C)CCN(CC1)[C@H]1C[C@H](C1)Nc1cccc2C(=O)N(C(=O)c12)C1CCC(=O)NC1=O)N1C[C@H](CCC1)N1CCN(C)C1=O

@@ -1,0 +1,20 @@
+This is a PROTAC-type molecule. I read it from left to right.
+
+**Left fragment.** A 2-hydroxyphenyl ring is attached to a pyridazine. The pyridazine has the aryl group at C3, N2 and N1 in the ring, an NH2 at C6, and the ether oxygen at C5 (the carbon adjacent to the C-NH2 carbon). Written from the aryl carbon: c1(-c2ccccc2O)cc(OC...)c(N)nn1.
+
+**Bicyclopentane.** The ether O–CH2 is attached to a bicyclo[1.1.1]pentane bridgehead. The other bridgehead carries the C(=O) group. This gives C12(CC(C1)(C2)...) with the CH2 bridges: C1(COc...)(C2)CC2... I write it as C(=O)C12CC(C1)(C2)COAr.
+
+**Piperidine and linker.** The carbonyl is bonded to a piperidine nitrogen. At the piperidine 4-position there is a chain of four CH2 groups (CCCC), which ends at a piperazine nitrogen.
+
+**Piperazine and phthalimide.** The other piperazine nitrogen is bonded to C5 of an isoindoline-1,3-dione. The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group.
+
+Assembled SMILES:
+
+Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)N1CCC(CCCCN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)CC1
+
+Checks:
+- The bicyclopentane is C12CC(C1)(C2): C1 (bridgehead) opens rings 1 and 2, then CH2, then the second bridgehead C(C1)(C2) closes both rings via two CH2 groups. That gives 5 carbons in total, which is correct.
+- The pyridazine is written Nc1nnc(Ar)cc1OR, so the ring atoms are c1(N), n, n, c(Ar), c, c1(OR). That is six atoms and matches the drawing.
+- The phthalimide is c2ccc3C(=O)N(...)C(=O)c3c2. Here c2 is the attachment point, followed by c, c, then c3 bearing the C=O, and c3 closing the ring, then c2 closing the ring. The attachment carbon is meta to one ring-fusion carbon and para to the other, which is consistent with the 5-position.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(C1)(C2)C(=O)N1CCC(CCCCN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)CC1

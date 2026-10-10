@@ -1,0 +1,12 @@
+I read the structure region by region and assembled the SMILES from the pieces below.
+
+- **Quinazoline core:** C4 carries a piperazine, C2 carries an O-linked side chain, C6 has Cl, C7 has a 3-hydroxynaphthalen-1-yl group, and C8 has F.
+- **Piperazine cap:** the second piperazine nitrogen bears C(=O)C(OH)OH, written exactly as drawn (a gem-diol).
+- **Linker:** from the quinazoline C2 oxygen, the chain runs O–CH(CH3)–CH2–N(piperidine), then piperidine C4–O–CH2CH2–O–CH2–C(=O)–NH.
+- **VHL-type ligand:** this continues as tert-leucine, then 4-hydroxyproline, then an amide to (1-aryl)ethylamine, where the aryl is 4-(4-methylthiazol-5-yl)phenyl.
+
+For stereochemistry:
+- **Side-chain carbon (O–CH(CH3)–CH2N):** the methyl is hashed, and working through the CIP priorities gives R.
+- **VHL ligand centres:** I assumed the standard VHL ligand configuration and checked each centre against the usual SMILES by permutation parity. The tert-leucine centre was initially written with the wrong tag and corrected to `@@`. The hydroxyproline and the benzylic ethylamine centres were consistent as written.
+
+SMILES: C[C@@H](Oc1nc(N2CCN(CC2)C(=O)C(O)O)c2cc(Cl)c(-c3cc(O)cc4ccccc34)c(F)c2n1)CN1CCC(CC1)OCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

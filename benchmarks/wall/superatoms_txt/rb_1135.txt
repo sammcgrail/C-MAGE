@@ -1,0 +1,16 @@
+The structure is a PROTAC-type molecule built from four parts, read left to right.
+
+**1. 1,5-Naphthyridine.** The ring system has N at the top of the left ring and N at the bottom of the fusion position in the right ring. The right ring N is bonded to the C that carries the NH substituent. SMILES for this part: c1cnc2ccc(nc2c1)N. The ring fusion atoms are C4a, bonded to N1, and C8a, bonded to N5. Here N1 is the top-left N, which is bonded to a fusion carbon, and N5 is the bottom N, which is bonded to the other fusion carbon. The substituted carbon is adjacent to N5. This is a 1,5-naphthyridin-2-yl group.
+
+**2. Pyridine.** The NH links the naphthyridine to pyridine C4. The ring N is at the top right, and C2 carries the piperidine N.
+
+**3. Piperidine, ethyl linker and piperazine.** The piperidine N attaches to pyridine C2, and the piperidine C4 carries a CH2CH2 chain. That chain ends at a piperazine N. The other piperazine N is bonded to the isoindoline aryl ring.
+
+**4. Thalidomide-type end.** The aryl ring is fused to the phthalimide, and the imide N bears a 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so no stereo is given.
+
+Assembled SMILES:
+O=C1CCC(N2C(=O)c3ccc(cc3C2=O)N2CCN(CC2)CCC2CCN(CC2)c2cc(Nc3ccc4ncccc4n3)ccn2)C(=O)N1
+
+The naphthyridine fragment c3ccc4ncccc4n3 has the substituted C bonded to ring N, then two CH, then the fusion carbon c4, which is bonded to the other ring's N (n), then ccc, then the fusion carbon c4, which is bonded to n3. In this fragment the first fusion carbon bears n and the second bears n3, so each fusion carbon carries one N, which is consistent with 1,5-naphthyridine.
+
+SMILES: O=C1CCC(N2C(=O)c3ccc(cc3C2=O)N2CCN(CC2)CCC2CCN(CC2)c2cc(Nc3ccc4ncccc4n3)ccn2)C(=O)N1

@@ -1,0 +1,25 @@
+The structure is a PROTAC-type molecule. I read it from left to right in four pieces.
+
+**Cereblon-binding end.** A glutarimide (2,6-dioxopiperidin-3-yl) is attached at C3 to the nitrogen of a phthalimide (isoindoline-1,3-dione). The 4-position of the benzo ring carries an O–CH2–C(=O)–NH group.
+
+**Cyclopropane linker.** The amide NH is followed by CH2 and then a 1,2-disubstituted cyclopropane. The second cyclopropane carbon carries C(=O)NH–CH2.
+
+**Bicyclopentane.** The CH2 from the second amide leads to a bicyclo[1.1.1]pentane. One bridgehead carries that CH2 and the other bridgehead carries CH2–O–.
+
+**Pyridazine end.** The oxygen is bonded to C4 of a pyridazine. C3 bears NH2, and C6 bears a 2-hydroxyphenyl group.
+
+The pyridazine ring runs N=N–C(aryl)=CH–C(O–)=C(NH2). The drawing shows N, N, then C6 bearing the aryl group, CH, C4 bearing the O, and C3 bearing the NH2, which fits this.
+
+Bicyclo[1.1.1]pentane SMILES: C12(CC(C1)(C2)...) — the bridgeheads are C1 and C3, joined by three CH2 groups.
+
+Assembled SMILES:
+
+O=C1CCC(N2C(=O)c3cccc(OCC(=O)NCC4CC4C(=O)NCC45CC(C4)(C5)COc6cc(-c7ccccc7O)nnc6N)c3C2=O)C(=O)N1
+
+Checking the bicyclopentane fragment: C45CC(C4)(C5)CO… The atom C4(5) is the first bridgehead, opening rings 4 and 5. It is followed by CH2, then the second bridgehead C(C4)(C5), which closes ring 4 through a CH2 and ring 5 through another CH2. That gives three bridges between the two bridgeheads, as required.
+
+Checking the pyridazine: c6cc(-c7ccccc7O)nnc6N. The ring atoms are c6 (O-bearing), cH, c(aryl), n, n, and c6(N), which closes the ring with 6 atoms. This is correct.
+
+No wedge or hash bonds are drawn, so no stereochemistry is included.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(OCC(=O)NCC4CC4C(=O)NCC45CC(C4)(C5)COc6cc(-c7ccccc7O)nnc6N)c3C2=O)C(=O)N1

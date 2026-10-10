@@ -1,0 +1,21 @@
+The structure reads as a PROTAC-type molecule with three parts: a thalidomide-like cereblon ligand, a PEG linker, and a bicyclopentane-linked aminopyridazine phenol.
+
+**Cereblon ligand.** The glutarimide is O=C1CCC(N2C(=O)...C2=O)C(=O)N1. It is attached through its N to an isoindoline-1,3-dione. The isoindoline carries an NH substituent at position 5, which is the aromatic carbon para to one of the carbonyl-bearing carbons.
+
+**Linker.** From the aryl NH the chain is NH-CH2CH2-O-CH2CH2-O-CH2CH2-C(=O)-NH.
+
+**Bicyclo[1.1.1]pentane.** The amide NH is attached to a bridgehead carbon, and the other bridgehead carbon carries the side chain. The core is C12(CC(C1)(C2)...) with three CH2 bridges. The side chain from the far bridgehead is CH2CH2-O-.
+
+**Pyridazine.** The ring is c1(O...)cc(-aryl)nnc1N, with these positions:
+- C4 bears the O-alkyl group.
+- C5 is CH.
+- C6 bears the 2-hydroxyphenyl.
+- N1 and N2 are the ring nitrogens.
+- C3 bears NH2.
+
+**Assembled SMILES.**
+O=C1CCC(N2C(=O)c3ccc(NCCOCCOCCC(=O)NC45CC(CCOc6cc(-c7ccccc7O)nnc6N)(C4)C5)cc3C2=O)C(=O)N1
+
+The bicyclopentane fragment NC45CC(CCO...)(C4)C5 is correct: C4 and C5 are the bridgehead and the first bridge, and the second CH2 bridge is closed by the C4 ring closure. Bridgehead 1 (C45) is bonded to CH2 (first bridge), then to C(...), then C4 (a CH2 that closes back to bridgehead 1), and C5 (a CH2 that also closes back to bridgehead 1). This gives three bridges between the two bridgeheads, so the connectivity is valid.
+
+SMILES: O=C1CCC(N2C(=O)c3ccc(NCCOCCOCCC(=O)NC45CC(CCOc6cc(-c7ccccc7O)nnc6N)(C4)C5)cc3C2=O)C(=O)N1

@@ -1,0 +1,18 @@
+Reading the structure region by region, from left to right:
+
+1. **Aryl group.** A 3-chloro-4-fluorophenyl ring is attached through NH to C4 of the quinazoline.
+2. **Quinazoline core.** The ring has N1 and N3, and a methoxy group at C7. C6 carries an NH amide.
+3. **Crotonamide linker.** The amide is NC(=O)/C=C/CN, and the double bond is drawn trans (E). The terminal N is the piperidine nitrogen.
+4. **Piperidine and piperazine.** The piperidine is 4-substituted with a piperazine nitrogen. The other piperazine nitrogen is acylated.
+5. **PEG linker.** The acyl group is C(=O)CCOCCOCCN, ending in an NH.
+6. **Thalidomide end.** The NH is attached at C4 of the isoindoline-1,3-dione. The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, with no stereochemistry drawn.
+
+Assembling the SMILES:
+
+Fc1ccc(Nc2ncnc3cc(OC)c(NC(=O)/C=C/CN4CCC(CC4)N4CCN(CC4)C(=O)CCOCCOCCNc4cccc5c4C(=O)N(C4CCC(=O)NC4=O)C5=O)cc23)cc1Cl
+
+Ring-closure check: ring label 4 is reused for the piperidine, the piperazine, the thalidomide aryl ring and the glutarimide, but each is closed before the label is reopened, so the SMILES is valid.
+
+The thalidomide aryl portion, `c4cccc5c4C(=O)N(...)C5=O`, reads as follows. The aromatic carbon bearing NH (c4) is followed by three CH atoms, then c5, which closes through `c4` to the carbon bearing the first C(=O). c5 is therefore the other ring-fusion carbon and ends with C5=O. This is correct: the NH-bearing carbon is adjacent to a fusion carbon, which in turn carries a carbonyl.
+
+SMILES: Fc1ccc(Nc2ncnc3cc(OC)c(NC(=O)/C=C/CN4CCC(CC4)N4CCN(CC4)C(=O)CCOCCOCCNc4cccc5c4C(=O)N(C4CCC(=O)NC4=O)C5=O)cc23)cc1Cl

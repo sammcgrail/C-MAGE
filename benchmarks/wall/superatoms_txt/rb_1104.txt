@@ -1,0 +1,11 @@
+I read the molecule as a VHL-ligand-type conjugate and built the SMILES from the drawing in five parts:
+
+1. **Left end:** a 2-hydroxyphenyl group sits on C3 of a pyridazine. The ring has two adjacent N atoms at the top. A para-substituted phenyl is attached at C5 of the pyridazine.
+2. **Linker:** that phenyl carries a piperidin-4-yl group. The piperidine N is attached to CH2–C(=O)–NH.
+3. **tert-Leucine unit:** the amide NH connects to a stereocentre bearing a tert-butyl group and a C(=O), which acylates the proline N.
+4. **Hydroxyproline unit:** the ring has an OH on C4 and a C(=O)NH on C2. The wedge and hash bonds on this ring give the (2S,4R) pattern.
+5. **Right end:** the proline amide NH is bonded to a CH2 on a para-substituted phenyl. That phenyl carries a 4-methylthiazol-5-yl group.
+
+For the three stereocentres I took the drawn wedges and hashes to be the natural VHL-ligand configuration (S for tert-leucine, 2S,4R for hydroxyproline). I did not re-derive the chirality from the wedges independently. I wrote the chirality tags by converting from the known VH032 SMILES to my atom ordering.
+
+SMILES: Oc1ccccc1-c1cc(cnn1)-c1ccc(cc1)C1CCN(CC1)CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

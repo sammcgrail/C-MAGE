@@ -1,0 +1,15 @@
+Reading the structure region by region:
+
+- **Quinazoline core:** C4 carries the piperazine, C2 carries the NH, C6 carries Cl, C7 carries the naphthyl group, and C8 carries F.
+- **Piperazine:** it is N-acylated with propionyl, C(=O)CC.
+- **Naphthyl group:** it is attached at its position 1 and has OH at position 3 (the ring carbon bonded to C7 is C1, the next CH is C2, and the carbon bearing OH is C3).
+- **Linker from C2 of the quinazoline:** NH-CH2CH2-C(=O)-N(CH3)-CH2CH2-O-CH2CH2-O-CH2CH2-O-aryl.
+- **Isoindolinone:** the aryl is the benzene ring of the isoindolinone, with the lactam C=O at the bottom. The ether oxygen sits on the ring carbon in the position para to the carbonyl-bearing carbon. The N bears a 2,6-dioxopiperidin-3-yl group.
+
+Quinazoline SMILES: c1(N2CCN(C(=O)CC)CC2)nc(NCCC(=O)N(C)CCOCCOCCOc3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12
+
+Checking the isoindolinone: the CH2 attached to the ring is at the top and the C=O at the bottom. The ether-bearing carbon is connected to the ring carbon next to the CH2-bearing carbon. In the image, the O-bearing carbon is at the top left of the benzene ring, adjacent to the CH carbon that bonds to CH2. In my SMILES, Oc3ccc4C(=O)N(...)Cc4c3 gives c3 (O-bearing), c, c, c4 (C=O-bearing), then c4 (CH2-bearing), then c3 closing the ring. The O-bearing carbon is therefore adjacent to the CH between the O-bearing carbon and the CH2-bearing carbon, which matches the drawing.
+
+Naphthyl check: c3cc(O)cc4ccccc34 starts at C1 (the attachment point), then C2, then C3 (OH), then C4, then C4a, four CH carbons, and C8a, which closes both rings. This is correct.
+
+SMILES: CCC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOc3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

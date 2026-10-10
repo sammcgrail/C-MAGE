@@ -1,0 +1,19 @@
+I read the structure region by region and assembled the SMILES from the pieces below.
+
+**Quinazoline core.** C4 carries the piperazine, N3 and N1 are the ring nitrogens, and C2 carries the NH linker. On the benzo ring, C5 is H, C6 bears Cl, C7 bears the naphthyl group, and C8 bears F.
+
+**Piperazine.** It is N-acetylated: N1(C(C)=O) and N4 attached to the quinazoline C4.
+
+**Naphthyl group.** It is attached at its C1 position. The OH sits on C3 (the ring carbon between the two ring CH groups), so this is 3-hydroxynaphthalen-1-yl.
+
+**Linker.** From the C2 amino group: NH-CH2CH2-C(=O)-N(CH3)-CH2CH2-O-CH2CH2-O-CH2CH2-O-aryl.
+
+**Isoindolinone.** The aryl ring is fused to a CH2–N–C(=O) five-membered ring. The ether oxygen is on the ring carbon next to the CH2-bearing carbon. In the drawing, the CH2 attaches at the upper right of the benzene ring, and the O-bearing carbon is the upper left, adjacent to the ring-fusion carbon that bears CH2. The carbonyl is on the lower right carbon.
+
+The isoindolinone N is attached to 2,6-dioxopiperidin-3-yl.
+
+**Assembly.**
+- Quinazoline: c1(N2CCN(C(C)=O)CC2)nc(NCCC(=O)N(C)CCOCCOCCOc3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12
+- Aryl ring: the O-bearing carbon, c3, is adjacent to c4 (the ring fusion carbon bearing CH2, written at the end as Cc4c3). The ring is Oc3ccc4C(=O)N(...)Cc4c3, in which c3 (O-bearing) is bonded to the last aromatic c (c4c3 closure). That last aromatic carbon is bonded to the fusion carbon bearing CH2, so the O-bearing carbon is meta to the fusion carbon bearing C=O and ortho to the CH carbon. This matches the drawing.
+
+SMILES: CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOc3ccc4C(=O)N(C5CCC(=O)NC5=O)Cc4c3)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

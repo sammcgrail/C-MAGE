@@ -1,0 +1,16 @@
+I read the structure as a PROTAC with a covalent KRAS G12C-type warhead joined through a PEG linker to a VHL ligand, and wrote the SMILES in those three parts.
+
+**Warhead (left side).**
+- A quinazoline core carries an acryloyl-piperazine at C4.
+- It has a 2-NH substituent, an 8-fluoro group, a 6-chloro group, and a 3-hydroxynaphthalen-1-yl group at C7.
+
+**Linker.**
+- The 2-NH is attached to –CH2CH2C(=O)N(CH3)–.
+- Next comes a chain of five ethylene-oxy units: N–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2–C(=O)–NH. I counted five ether oxygens along the drawn chain.
+
+**VHL ligand (right side).**
+- The linker amide NH connects to tert-leucine, then to 4-hydroxyproline, then to an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethylamine.
+
+**Stereochemistry.** I took the stereocentres to match the standard VHL ligand configuration: tert-leucine S, hydroxyproline (2S,4R) and the methylbenzylamine carbon S. I wrote the chirality tags from that convention, adjusted for atom order in my SMILES, rather than re-deriving each wedge from the drawing.
+
+SMILES: C=CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@@H](C)c2ccc(cc2)-c2scnc2C)nc2c(F)c(c(Cl)cc12)-c1cc(O)cc2ccccc12

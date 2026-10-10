@@ -1,0 +1,10 @@
+I read the structure in four parts and joined them into one SMILES.
+
+- **Left end:** a 5-methyl-5H-pyrido[4,3-b]indole (a γ-carboline with N-methyl). Its benzene ring carries the pyrimidine at C7, and the pyridine N sits two atoms from the fused carbon.
+- **Linker, first half:** a pyrimidin-5-yl ring whose C2 is bonded through O to a cyclobutane. The cyclobutane is 1,3-disubstituted, with O on a wedge and N(CH3) on a hash, so the two are trans. The N-methylamine nitrogen is bonded to C6 of a 2-azaspiro[3.3]heptane.
+- **Linker, second half:** the azaspiro N2 carries a straight chain of five CH2 groups ending in an ether O. I counted five carbons from the zigzag; this is the least certain count in the drawing.
+- **Right end:** the ether O is on C5 of an isoindoline-1,3-dione. Its imide N is bonded to the 3-position of a 2,6-dioxopiperidine, drawn with no stereo.
+
+I checked the cyclobutane stereo tags by working through the chirality order. `O[C@H]1C[C@@H](C1)N` puts O and N on opposite faces of the ring, which matches the trans wedge/hash pair.
+
+SMILES: Cn1c2cc(ccc2c2cnccc12)-c1cnc(nc1)O[C@H]1C[C@@H](C1)N(C)C1CC2(C1)CN(C2)CCCCCOc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

@@ -1,0 +1,10 @@
+I read the molecule as a PROTAC-type structure with four parts, joined in order:
+
+1. **Pyrazine core:** a pyrazine-2-carboxamide (C(=O)NH2) with an arylamino group (NH–C6H4) on the carbon next to the carboxamide carbon. A piperidin-1-yl group sits on the carbon para to that position across the ring.
+2. **Piperidine substituent:** at C3 of the piperidine is a 3-methyl-2-oxoimidazolidin-1-yl group. It is attached by a wedged bond, which I assign as (R) using the Cahn–Ingold–Prelog priorities N(substituent) > C2 > C4 > H. The SMILES fragment `N1C[C@H](N2CCN(C)C2=O)CCC1` encodes this.
+3. **Linker:** the para-substituted phenyl carries O–CH2CH2CH2–NH–C(=O)–CH2CH2CH2–N, and that nitrogen is one end of a piperazine.
+4. **Cereblon-binding end:** the other piperazine nitrogen is bonded to C5 of a phthalimide (isoindoline-1,3-dione). The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, whose stereocentre is drawn with plain bonds and so has no stereo label.
+
+I checked ring closures and numbering by hand but did not run the SMILES through a validator.
+
+SMILES: NC(=O)c1ncc(nc1Nc1ccc(OCCCNC(=O)CCCN2CCN(CC2)c2ccc3C(=O)N(C4CCC(=O)NC4=O)C(=O)c3c2)cc1)N1C[C@H](N2CCN(C)C2=O)CCC1

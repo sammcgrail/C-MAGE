@@ -1,0 +1,12 @@
+The drawing is a VHL-recruiting PROTAC. I read it in four parts and assigned stereochemistry from the wedges plus the standard VHL ligand configuration.
+
+1. **Left end:** a 2-hydroxyphenyl group sits on C3 of a pyridazine, and a para-substituted phenyl sits on C5 of the same ring. This gives `Oc1ccccc1-c1cc(...)cnn1`.
+2. **Linker:** the aryl NH is followed by four CH2 groups and then a C=O, so the chain is `NCCCCC(=O)N`.
+3. **Central VHL core:** the amide N is attached to the tert-leucine α-carbon, which carries a tert-butyl group. Its C=O acylates the pyrrolidine N of 4-hydroxyproline.
+   - I took the tert-leucine as (S), the hydroxyproline as (2S,4R), and wrote them using the same chirality tags as the known VH032 ligand.
+4. **Right end:** the proline carboxamide N is bonded to a CH(CH3) carbon bearing a 4-(4-methylthiazol-5-yl)phenyl group.
+   - The methyl is drawn on a wedge with N, aryl and methyl in counter-clockwise order and H at the back, so this carbon is (S).
+
+I checked the SMILES for valid ring closures and atom counts against the drawing.
+
+SMILES: C[C@H](NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@@H](NC(=O)CCCCNc1ccc(cc1)-c1cnnc(c1)-c1ccccc1O)C(C)(C)C)c1ccc(cc1)-c1scnc1C

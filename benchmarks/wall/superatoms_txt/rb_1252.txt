@@ -1,0 +1,32 @@
+I read the structure region by region, left to right.
+
+**Left end (glutarimide and phthalimide):**
+- A glutarimide ring, O=C1CCC(N2...)C(=O)N1, is attached through its C3 to the phthalimide nitrogen.
+- The phthalimide is a benzene ring fused to an N-C(=O) five-membered ring, with a C(=O) on each side of the nitrogen.
+- The aryl ring carries an O-CH2-C(=O)NH linker.
+
+**Middle (cyclopropane):**
+- The amide NH is followed by CH2 and then a cyclopropane carbon.
+- A second cyclopropane carbon carries C(=O)NH.
+- The third cyclopropane carbon is a plain CH2 at the apex.
+- This is a 1,2-disubstituted cyclopropane.
+
+**Bicyclopentane:**
+- The amide NH connects to CH2, which attaches to a bicyclo[1.1.1]pentane bridgehead.
+- The other bridgehead carries CH2-O-pyridazine.
+- The drawing shows two bridgehead carbons joined by three one-carbon bridges. One bridge is drawn as a line through the middle, and the other two are the upper and lower vertices.
+- The SMILES is C12(CC...)(C1)... written as C13(CO...)CC1(CN...)C3, which is the bicyclo[1.1.1]pentane.
+
+**Right end (pyridazine):**
+- The ring atoms are C(NH2)=N-N=C(aryl)-CH=C(O-), so the amino carbon is adjacent to N, then N, then the C bearing the aryl group.
+- The pyridazine is 3-amino-4-alkoxy-6-(2-hydroxyphenyl).
+- SMILES: Nc1nnc(-c2ccccc2O)cc1OC...
+
+**Assembly:**
+O=C1CCC(N2C(=O)c3ccc(OCC(=O)NCC4CC4C(=O)NCC45CC(COc6cc(-c7ccccc7O)nnc6N)(C4)C5)cc3C2=O)C(=O)N1
+
+Check on the bicyclopentane: C45 opens rings 4 and 5, then CC(...)(C4)C5 gives the bridgehead C5, a CH2 (the first bridge), a second bridgehead C bearing the CH2O substituent, a CH2 closing ring 4 back to the first bridgehead, and a CH2 closing ring 5. The first bridgehead therefore bonds to its CH2N substituent, the first bridge CH2, the CH2 closing ring 4 and the CH2 closing ring 5, which is correct.
+
+Ring-label reuse: ring label 4 is used for the cyclopropane (C4CC4) and closed before it is reused for the bicyclopentane, which is fine.
+
+SMILES: O=C1CCC(N2C(=O)c3ccc(OCC(=O)NCC4CC4C(=O)NCC45CC(COc6cc(-c7ccccc7O)nnc6N)(C4)C5)cc3C2=O)C(=O)N1

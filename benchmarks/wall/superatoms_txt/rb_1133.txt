@@ -1,0 +1,18 @@
+Reading the structure region by region:
+
+**Aryl group.** The ring carbon attached to NH is C1. Going around the ring, C2 bears F, C3 bears Cl, C4 bears Cl, and C5 and C6 are CH. This gives the 3,4-dichloro-2-fluorophenyl group: Nc1ccc(Cl)c(Cl)c1F.
+
+**Quinazoline.** C4 carries the NH-aryl group. N3 and C2(H) follow, then N1, then C8a. C8 is CH and C7 carries OMe. C6 carries the O-piperidinyl group, C5 is CH, and C4a closes back to C4.
+SMILES for this part: c1nc(Nc2ccc(Cl)c(Cl)c2F)c2cc(OC3CCN(CC3)...)c(OC)cc2n1
+
+**Piperidine and linker.** The piperidine is 4-oxy substituted, and its nitrogen is acylated: N-C(=O)-CH2-CH2-CH2-S. The chain has a carbonyl carbon plus three CH2 groups before the sulfur, so it is C(=O)CCCS.
+
+**Isoindolinone.** The S-aryl carbon is C4 of the isoindolinone. The lactam N bears the glutarimide, and the CH2 sits next to the aromatic carbon that carries the S-substituted neighbour. In the drawing, the CH2 attaches to the aromatic carbon adjacent to the one bearing S, and the C=O attaches to the other ring-fusion carbon.
+SMILES: O=C1N(CC2=C1C=CC=C2S...)C1CCC(=O)NC1
+
+**Full SMILES.**
+COc1cc2ncnc(Nc3ccc(Cl)c(Cl)c3F)c2cc1OC1CCN(CC1)C(=O)CCCSc1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O
+
+The glutarimide ring should read C1CCC(=O)NC1=O, with the attachment carbon next to the C=O of the imide. The drawing shows C3 attached to N, then C2(=O), then NH, then C6(=O), then C5H2 and C4H2. So the ring is C1(N...)C(=O)NC(=O)CC1, which is what the SMILES gives.
+
+SMILES: COc1cc2ncnc(Nc3ccc(Cl)c(Cl)c3F)c2cc1OC1CCN(CC1)C(=O)CCCSc1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O

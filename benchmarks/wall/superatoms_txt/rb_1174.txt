@@ -1,0 +1,28 @@
+Reading the structure left to right:
+
+**Left fragment.** The tricyclic core is a 5-methyl-5H-pyrido[4,3-b]indole (a γ-carboline). The pyridine ring has N at the far left. The indole N carries a methyl group. The benzo ring is attached at its 7-position to a pyridin-3-yl group.
+
+**Pyridine.** The pyridine is 2-alkoxy, substituted at C5 by the carboline. Its ring N sits next to the carbon bearing the O.
+
+**Spiro linker.** The O connects to a spiro[3.3]heptane: a cyclobutane carbon bearing the O, then CH2, the spiro carbon, and CH2. The second ring is an azetidine, so this is 2-azaspiro[3.3]heptane with the O at position 6.
+
+**Chain.** The azetidine N carries CH2CH2–O–CH2CH2CH2–O. This O is attached to the 3-position of an azetidine, whose N is bonded to the aryl ring of the phthalimide.
+
+**Right fragment.** The isoindoline-1,3-dione is substituted at C5 by the azetidine N. Its imide N carries a 2,6-dioxopiperidin-3-yl group. No stereochemistry is drawn.
+
+**SMILES assembly.**
+
+- Carboline: the pyridine ring is c1ncc2c(c1)... I need the ring fusion right. In the picture, the pyridine N is at the left, with C at the top (CH next to the ring-fusion carbon, which is bonded to the benzo ring), and CH=CH at the bottom leading to the C attached to N-Me.
+- The carboline reads n1ccc2c(c1)c1ccc(cc1n2C)-Ar.
+- Check: the pyridine carbons are c1 (N), CH at the bottom, CH, then c2 bonded to the N-Me, then c(c1) bonded to the CH next to N. This is consistent.
+- The benzo ring: c1ccc(cc1n2C) puts the aryl para to... the carbon attached to the C3a fusion carbon, then CH, CH, then C-Ar, then CH, then the carbon bonded to N. In the picture the aryl carbon is adjacent to the CH that is adjacent to the C–N carbon, so this matches.
+
+Full SMILES:
+
+Cn1c2cc(-c3ccc(OC4CC5(C4)CN(CCOCCCOC4CN(C4)c4ccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c6c4)C5)nc3)ccc2c2cnccc21
+
+Check of the carboline: n1(C) c2cc(Ar)ccc2 c2cnccc21. The N-bearing carbon c2 is followed by cH, then c(Ar), cH, cH, then the fusion carbon c2 closing the benzo ring. Then c2cnccc21 begins at the carbon bonded to the fusion carbon: c2, cH, n, cH, cH, c21, where the last atom is bonded to N1. This is correct.
+
+Phthalimide: c4ccc6C(=O)N(...)C(=O)c6c4. The attachment carbon c4 is followed by cH, cH, c6 (carbonyl-bearing), then the other c6 and cH (c4 closing). The attachment carbon is therefore adjacent to the CH that is adjacent to the ring-fusion carbon, so the substituent is at position 5, as drawn.
+
+SMILES: Cn1c2cc(-c3ccc(OC4CC5(C4)CN(CCOCCCOC4CN(C4)c4ccc6C(=O)N(C7CCC(=O)NC7=O)C(=O)c6c4)C5)nc3)ccc2c2cnccc21

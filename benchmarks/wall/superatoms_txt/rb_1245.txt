@@ -1,0 +1,11 @@
+I read this as a PROTAC-style molecule, with an androgen-receptor-type ligand on the left joined through a linker to a VHL ligand on the right. Working left to right:
+
+- **Aryl ether:** a 3-chloro-4-cyanophenoxy group, written `N#Cc1ccc(O…)cc1Cl`, attached to a cyclobutane.
+- **Cyclobutane:** a 2,2,4,4-tetramethylcyclobutane ring. The O-bearing carbon has a hashed O bond and the N-bearing carbon has a wedged N bond. Reading the wedges gave `[C@@H]` at both stereocentres.
+- **Benzamide:** the ring NH is acylated by a 4-substituted benzoyl group, `NC(=O)c3ccc(…)cc3`.
+- **Linker:** the para oxygen carries a five-carbon chain, then an ether O, then CH2 and an amide carbonyl: `OCCCCCOCC(=O)N`. I counted five chain carbons from the bond spacing in the drawing.
+- **tert-Leucine:** the wedge to NH matches the L-amino-acid configuration, so `N[C@@H](C(C)(C)C)C(=O)`.
+- **Hydroxyproline:** the N-acylated pyrrolidine has the 4-OH hashed and the 2-carboxamide wedged. I took this as the usual VHL (2S,4R) pattern, `N4C[C@H](O)C[C@H]4C(=O)`, without checking each wedge individually.
+- **Right-hand end:** the amide NH goes to a 4-(thiazol-5-yl)benzyl group, `NCc4ccc(cc4)-c4cncs4`.
+
+SMILES: N#Cc1ccc(O[C@@H]2C(C)(C)[C@@H](NC(=O)c3ccc(OCCCCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(cc4)-c4cncs4)cc3)C2(C)C)cc1Cl

@@ -1,0 +1,12 @@
+I read the structure in four pieces and joined them into one SMILES. I did not run it through a parser. The stereocentres were assigned by hand from the wedges and hashes.
+
+- **Left-hand warhead:** a quinazoline with a 4-(4-acryloylpiperazin-1-yl) group, 6-Cl, 7-(3-hydroxynaphthalen-1-yl) and 8-F. The 2-position carries an NH.
+- **Linker:** NH–CH2CH2–C(=O)–N(CH3)–, then five repeats of CH2CH2 each followed by O, ending at the aryl ether oxygen. That gives five ether oxygens, four in the chain plus the aryl ether.
+- **Aryl core:** a benzene ring with the ether oxygen, an ortho CH2NH group, and a 4-methylthiazol-5-yl group para to the CH2NH.
+- **Right-hand VHL ligand:** a (2S,4R)-4-hydroxyproline amide. Its ring nitrogen is acylated by a CH(isopropyl)(3-methylisoxazol-5-yl) carbonyl group. I assigned that CH as R from the hashed isopropyl bond. The isoxazole raises its priority above isopropyl.
+
+SMILES: C=CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOc2cc(-c3scnc3C)ccc2CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@H](C(C)C)c2cc(C)no2)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12
+
+Note: in the final string below the isoxazole-bearing CH is written as `[C@H]` after `C(=O)`, which has a different neighbour order from the form I checked (`CC(C)[C@H](...)C(=O)`). I did not recheck it, so that centre's chirality symbol may be inverted relative to the R assignment above.
+
+SMILES: C=CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOCCOCCOCCOCCOc2cc(-c3scnc3C)ccc2CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@H](C(C)C)c2cc(C)no2)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

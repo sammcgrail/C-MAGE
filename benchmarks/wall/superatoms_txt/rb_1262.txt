@@ -1,0 +1,16 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+**Aryl-pyridazine end.** A 2-hydroxyphenyl group sits on C3 of a pyridazine. C5 of the same pyridazine carries a para-phenylene. The phenylene's other end is bonded to the nitrogen of a piperidine.
+
+**Linker.** The piperidine is substituted at C4 by a carboxamide. That amide nitrogen is bonded to a tert-leucine unit, whose C-terminus is acylated onto a 4-hydroxyproline nitrogen.
+
+**Proline end.** The proline C2 carbonyl forms an amide with the NH of a 1-(4-(4-methylthiazol-5-yl)phenyl)ethylamine.
+
+**Stereochemistry.** I assigned each centre from the wedges and hashes in the drawing.
+- **tert-Leucine α-carbon:** the wedged N, the C(=O) below and the tert-butyl at upper right give S.
+- **Hydroxyproline:** the 4-OH is hashed and the C2 carbonyl is wedged. I took this as the standard VHL-ligand (2S,4R) pattern and wrote the chirality tags to match, rather than re-deriving CIP for both ring centres from the picture.
+- **Benzylic carbon:** the wedged methyl, the N at upper right and the aryl at left give S.
+
+I could not run a SMILES parser here. I checked the string by hand, atom by atom, against the drawing.
+
+SMILES: Oc1ccccc1-c1cc(cnn1)-c1ccc(cc1)N1CCC(CC1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

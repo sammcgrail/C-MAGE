@@ -1,0 +1,20 @@
+This SMILES was read from the drawing region by region. I assigned the stereocentres from the wedges and hashes by working out their CIP descriptors by hand, not with software.
+
+**Left end.** A 2-hydroxyphenyl group is attached to a pyridazine ring. The ring carbons carry, in order, the aryl group, an H, an ether oxygen, and an NH2. The two ring nitrogens are adjacent.
+
+**Linker to the bicycle.** The ether oxygen is bonded to a CH2 on a bicyclo[1.1.1]pentane bridgehead. The other bridgehead carries a CH2–NH–C(=O) group.
+
+**Chain.** Counting the zigzag from one amide carbonyl to the other gives 13 bonds, so there are 12 CH2 groups between the two C=O carbons. This is a tetradecanedioic acid diamide.
+
+**Right end.** The second carbonyl is bonded to NH and then to a tert-leucine unit, whose α-carbon carries a tert-butyl group. The tert-leucine C=O is bonded to a 4-hydroxyproline nitrogen, and the proline C=O is bonded to NH–CH2 on a benzene ring. That benzene carries a 4-methylthiazol-5-yl group at the para position.
+
+**Stereochemistry.**
+- The proline carbon bearing the amide is S.
+- The hydroxyl-bearing proline carbon is R.
+- The tert-leucine α-carbon is written as `[C@@H]` for the L-configuration.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(CNC(=O)CCCCCCCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(-c4scnc4C)cc3)(C1)C2
+
+Check on the chain: that string has 13 C's in "CCCCCCCCCCCCC" before the second C(=O), which is one too many. The correct 12-carbon version is:
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1OCC12CC(CNC(=O)CCCCCCCCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(-c4scnc4C)cc3)(C1)C2

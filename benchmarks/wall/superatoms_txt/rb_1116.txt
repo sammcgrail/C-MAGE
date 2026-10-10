@@ -1,0 +1,21 @@
+I read the structure as a KRAS G12C-type PROTAC with four parts: an acryloyl-piperazinyl quinazoline, a 3-hydroxynaphthyl group, a linker, and a thalidomide-type cereblon ligand.
+
+**Quinazoline core.** The ring carries these substituents:
+- C4 bears the piperazine, which is N-acryloylated: C=CC(=O)N1CCN(CC1)-.
+- C6 bears Cl.
+- C7 bears the 3-hydroxynaphthalen-1-yl group.
+- C8 bears F.
+- C2 bears the NH of the linker.
+
+**Linker.** From C2, the chain runs NH–CH2CH2–C(=O)–N(CH3)–CH2CH2–O–aryl.
+
+**Cereblon ligand.** The aryl group is a phthalimide ring attached through O at position 5. The imide nitrogen carries the 2,6-dioxopiperidin-3-yl group. The stereocentre is drawn with plain bonds, so I give it no stereo.
+
+**Quinazoline SMILES.** Atom order is C4(piperazine)=N3–C2(NH…)=N1–C8a, then the benzo ring C8a–C8(F)–C7(naphthyl)–C6(Cl)–C5–C4a.
+- Written out: C=CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOc2ccc3c(c2)C(=O)N(C2CCC(=O)NC2=O)C3=O)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12
+
+**Naphthyl ring.** Naphthalen-1-yl is attached at C1. C2 is CH, C3 bears OH, C4 is CH, and C4a–C8a is the fused benzo ring. In the SMILES, c3cc(O)cc4ccccc34 gives c3 (C1), c (C2), c(O) (C3), c (C4), c4ccccc4 (C4a through C8a, closing back to C1). This matches the drawing.
+
+**Phthalimide ring.** In c2ccc3c(c2)C(=O)N(...)C3=O, the O-bearing carbon is c2. It is followed by c and c, then c3 (a ring-fusion carbon bearing C3=O at the end), then c(c2), the other fusion carbon, which carries C(=O)N. The ether carbon sits adjacent to the CH that is next to a fusion carbon, which gives position 5. This is consistent with the drawing.
+
+SMILES: C=CC(=O)N1CCN(CC1)c1nc(NCCC(=O)N(C)CCOc2ccc3c(c2)C(=O)N(C2CCC(=O)NC2=O)C3=O)nc2c(F)c(-c3cc(O)cc4ccccc34)c(Cl)cc12

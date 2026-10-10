@@ -1,0 +1,11 @@
+I read the molecule as a VHL-type E3 ligase ligand joined through an amide to a bicyclo[1.1.1]pentane linker that carries a pyridazine ether. I assembled the SMILES from these regions:
+
+1. **Left end:** a 4-methylthiazol-5-yl group is attached to a para-substituted benzene. A benzylic CH2–NH then links the benzene to the proline carboxamide.
+2. **Hydroxyproline:** the pyrrolidine has a 4-hydroxy group (wedge) and the 2-carboxamide (hash). I took this as the standard (2S,4R) VHL-ligand configuration.
+3. **tert-Leucine:** the proline nitrogen is acylated by a tert-leucine residue (C(C)(C)C side chain). I took its hashed NH as the usual S configuration.
+4. **Linker:** the tert-leucine NH forms an amide with a bicyclo[1.1.1]pentane bridgehead. The other bridgehead carries CH2–O.
+5. **Right end:** the ether oxygen is bonded to C4 of a pyridazine. C3 bears NH2, and C6 bears a 2-hydroxyphenyl group. C5 is CH.
+
+I did not independently verify the stereocentres beyond matching them to the standard VHL ligand pattern. I checked that the bicyclopentane SMILES closes into three bridges between the two bridgehead carbons.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)C23CC(COc4cc(-c5ccccc5O)nnc4N)(C2)C3)C(C)(C)C)cc1
