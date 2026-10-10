@@ -1,0 +1,16 @@
+I read the structure as a DOTA-type chelator (a 12-membered tetraaza ring with three carboxymethyl arms and one acetamide arm) attached to a cyclic peptide. The Ga label is drawn inside the macrocycle with no bonds to the nitrogens, so I wrote it as a separate `[Ga]` atom.
+
+**Peptide, from the DOTA end:**
+1. Cysteic acid, with a CH2SO3H side chain.
+2. A lysine whose side-chain nitrogen is the amide to cysteic acid. Its α-nitrogen is the N of a 1-methyl-isoindole.
+3. Tyrosine.
+4. N⁶-isopropyl-lysine.
+5. Arginine, with a guanidine side chain.
+6. 2-Naphthylalanine.
+7. Alanine.
+8. Cysteine, whose sulfur is bonded to C3 of the isoindole. This closes the macrocycle, and I wrote the closure as ring bond `%10`.
+9. A C-terminal N⁶-isopropyl-lysine amide.
+
+**Stereochemistry:** I assigned each centre from its wedge or hash bond. Cysteic acid, lysine, tyrosine, N⁶-isopropyl-lysine, 2-naphthylalanine, cysteine and the C-terminal lysine all come out L. Arginine (hashed side chain) and alanine (wedged methyl) come out D.
+
+SMILES: OC(=O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC1)CC(=O)N[C@@H](CS(=O)(=O)O)C(=O)NCCCC[C@H](n2c(C)c3ccccc3c2S%10)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](CCCCNC(C)C)C(=O)N[C@H](CCCNC(=N)N)C(=O)N[C@@H](Cc2ccc3ccccc3c2)C(=O)N[C@H](C)C(=O)N[C@@H](C%10)C(=O)N[C@@H](CCCCNC(C)C)C(N)=O.[Ga]

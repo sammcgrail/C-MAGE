@@ -1,0 +1,20 @@
+I read the structure as a macrocycle and wrote it out in sequence, starting from the dimethoxy-hydroxyphenyl group and following the ring around.
+
+**Fragments, in order:**
+1. A 2-hydroxy-3,4-dimethoxyphenyl ring joined through a CH2CH2 linker to a benzylic CH that carries the ester oxygen.
+2. A meta-substituted phenylene ring. Its other substituent is an O–CH2–C(=O) ether-acetamide.
+3. N-methyl-norleucine, with an n-butyl side chain.
+4. 2-Naphthylalanine, with an NH on the backbone.
+5. N-methyl-O-tert-butylserine.
+6. Glycine, with an NH on the backbone.
+7. An N-methyl amide on an N–CH2–CH=CH–C(=O)–O fragment. The wavy bond on the alkene means no cis/trans geometry is specified, so I left it unmarked.
+8. An O–CH2–C(CH3)2–C(=O)–C(=O) unit leading to the pipecolic acid nitrogen.
+9. L-pipecolate, whose carbonyl closes the ring as the ester to the benzylic CH.
+
+**Stereochemistry:**
+- I took the wedged amino-acid centres (norleucine, naphthylalanine, serine, pipecolate) as the L (S) configuration. I checked each against the atom order in my SMILES.
+- The benzylic carbon has a hashed bond to the CH2 above it. Working through the CIP priorities (O > aryl > CH2 > H) gives R, and I confirmed that `[C@H]` in my atom order encodes R.
+
+**Ring closures:** the phenylene closes so that the ether O and the benzylic carbon sit meta to each other. This matches the drawing.
+
+SMILES: COc1ccc(CC[C@H]2OC(=O)[C@@H]3CCCCN3C(=O)C(=O)C(C)(C)COC(=O)C=CCN(C)C(=O)CNC(=O)[C@H](COC(C)(C)C)N(C)C(=O)[C@H](Cc3ccc4ccccc4c3)NC(=O)[C@H](CCCC)N(C)C(=O)COc3cccc2c3)c(O)c1OC

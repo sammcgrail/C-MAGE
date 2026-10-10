@@ -1,0 +1,26 @@
+I read the molecule as a linear acyl-peptide tail attached to a thioether-bridged macrocyclic peptide. I could not confirm the stereochemistry from the drawing alone, so I assigned L-configuration to every α-carbon, including the Cys. I did not check each wedge and hash against that assumption.
+
+**Tail (top left):**
+- A 4-iodophenyl-butanoyl group is acylated onto the α-amine of Glu1.
+- Glu1's side-chain carboxyl forms an amide with the α-amine of Glu2.
+- Glu2's side-chain carboxyl forms an amide with the α-amine of a Lys that has a C-terminal primary amide.
+- That Lys's ε-amine is acylated by the Cys carbonyl, which leads into the macrocycle.
+
+**Macrocycle sequence**, starting from Cys and following the backbone:
+1. Cys, whose sulfur is joined through CH2C(=O) to the amine of Phe(4-COOH). This is the thioether bridge.
+2. Phe(4-COOH).
+3. N-methyl-Lys.
+4. Val.
+5. Val.
+6. Ser.
+7. Asn.
+8. Trp, alkylated on its indole nitrogen.
+9. Phe(4-COOH).
+10. Lys, with a free ε-amine.
+11. 5-hydroxy-Trp.
+12. Aib (the C(CH3)2 residue).
+13. Val, whose carbonyl closes back onto the Cys α-nitrogen.
+
+The N-methyl-Lys ε-amine is acylated by CH2C(=O), and that CH2 is attached to the indole nitrogen of the Trp. This forms the second ring, closed in the SMILES with ring label %20.
+
+SMILES: Ic1ccc(cc1)CCCC(=O)N[C@@H](CCC(=O)N[C@@H](CCC(=O)N[C@@H](CCCCNC(=O)[C@@H]1CSCC(=O)N[C@@H](Cc2ccc(C(=O)O)cc2)C(=O)N(C)[C@@H](CCCCNC(=O)C%20)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](CO)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](Cc3cn%20c4ccccc34)C(=O)N[C@@H](Cc5ccc(C(=O)O)cc5)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H](Cc6c[nH]c7ccc(O)cc67)C(=O)NC(C)(C)C(=O)N[C@@H](C(C)C)C(=O)N1)C(N)=O)C(=O)O)C(=O)O

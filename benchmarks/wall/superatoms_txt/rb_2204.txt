@@ -1,0 +1,14 @@
+I read this as a dimer of MMAF-type auristatin units joined through a branched PEG linker that ends in a propiolamide. I wrote the SMILES from the drawing region by region and did not run it through a validator.
+
+**Linker core.** A central tertiary amine carries three arms:
+- A GABA-type arm: C(=O)CH2CH2CH2NH–C(=O)C≡CH, ending in the terminal alkyne amide.
+- A short arm: CH2CH2C(=O)NH–CH2CH2–O–CH2CH2–O–CH2CH2–C(=O)–, which is acylated onto the N-methyl-valine nitrogen of the lower auristatin unit.
+- A long arm: CH2CH2C(=O)NH–(PEG2)–C(=O)NH–CH(CH3)–C(=O)NH–CH2CH2CH2–C(=O)–, which is acylated onto the N-methyl-valine nitrogen of the upper auristatin unit. The alanine carbon is drawn with plain bonds, so it gets no stereo.
+
+**Auristatin units.** Each unit runs N-Me-Val, then Val, then N-Me-dolaisoleuine (Dil), then dolaproine (Dap), then Phe.
+- The upper unit ends as the Phe methyl ester (CO2Me).
+- The lower unit ends as the free Phe acid (CO2H).
+
+**Stereochemistry.** The wedges and hashes match the natural auristatin configuration, so I took the stereo descriptors from the standard MMAE/MMAF pattern. I kept the standard atom order for the upper unit. For the lower unit I wrote the chain in the opposite direction and re-derived each @/@@ by permutation parity.
+
+SMILES: CC[C@H](C)[C@@H]([C@@H](CC(=O)N1CCC[C@H]1[C@@H]([C@@H](C)C(=O)N[C@@H](Cc2ccccc2)C(=O)OC)OC)OC)N(C)C(=O)[C@@H](NC(=O)[C@H](C(C)C)N(C)C(=O)CCCNC(=O)C(C)NC(=O)CCOCCOCCNC(=O)CCN(C(=O)CCCNC(=O)C#C)CCC(=O)NCCOCCOCCC(=O)N(C)[C@@H](C(C)C)C(=O)N[C@@H](C(C)C)C(=O)N(C)[C@@H]([C@@H](C)CC)[C@H](OC)CC(=O)N3CCC[C@H]3[C@H](OC)[C@@H](C)C(=O)N[C@@H](Cc3ccccc3)C(=O)O)C(C)C

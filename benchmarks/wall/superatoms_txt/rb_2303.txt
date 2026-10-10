@@ -1,0 +1,11 @@
+This is a camptothecin-type (exatecan-like) drug-linker: a maleimidocaproyl–Gly–Gly–Phe–Gly peptide linker joined through an NH–CH2–O–CH2 spacer to the amino-fluoro camptothecin core.
+
+- **Maleimide end:** a 2,5-dioxopyrrole (maleimide) N-linked to a five-methylene chain ending in an amide carbonyl (6-maleimidohexanoyl).
+- **Peptide:** Gly–Gly–Phe–Gly. The Phe α-carbon has its benzyl group on a hashed bond, which corresponds to L-Phe, so it is written `N[C@@H](Cc1ccccc1)C(=O)N`.
+- **Spacer:** the last Gly C=O is bonded to NH–CH2–O–CH2, and that CH2 is attached to the quinoline carbon at the top of the core.
+- **Core:** the benzo ring carries NH2 and F. It is fused to the quinoline and then to the pyrrolo-fused pyridone and the lactone ring. The quaternary carbon bears OH (wedged bond), ethyl and the lactone C=O.
+- **Quaternary stereocentre:** I assigned `[C@@]` from the wedge geometry by working out the chirality sign by hand, and it agrees with the usual 20(S) camptothecin configuration.
+
+I checked the ring-closure labels by hand and they close correctly; I did not run the string through a parser.
+
+SMILES: O=C1C=CC(=O)N1CCCCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)NCOCc4c5cc(N)c(F)cc5nc5c4CN4C(=O)c6c(cc54)[C@@](O)(CC)C(=O)OC6

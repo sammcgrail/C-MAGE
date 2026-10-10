@@ -1,0 +1,22 @@
+This SMILES is my reading of the drawing, but several stereo assignments are inferred rather than read directly.
+
+**Structure, region by region**
+- **Sugar heads (two, identical):** each is a 1,6-anhydro-GalNAc-type bicycle. C1 and C5 are bridged by an O–CH2 unit. C5 also carries a CH2–O–PEG arm, and C2 carries NHAc.
+- **Sugar linkers:** each sugar has four ethylene-glycol O atoms, written CH2(OCH2CH2)3OCH2CH2, ending on N1 of a 1,4-disubstituted triazole. The triazole C4 carries CH2–O–.
+- **Branching core:** the two triazole arms join a serinol-type CH, which is acylated through NH.
+- **Spacer:** the acyl group is C(=O)CH2CH2 followed by four O atoms in an ethylene-glycol chain and CH2CH2C(=O). This amide ends on the Lys ε-NH.
+- **Lysine:** the lysine is a C-terminal primary amide. Its α-NH is acylated by Gly.
+- **Macrocycle (N→C direction):** Gly–Cys is the entry point. Cys Cβ–S–CH2–C(=O) forms a thioether to the Phe N-terminus.
+  - The ring sequence is Phe–Val–Pro–Thr–Thr–Bip–NMeAla–Bip–NMeAla–Glu(CO2H)–Ala–Pro.
+  - The last Pro C(=O) closes onto the Cys NH.
+  - Bip is biphenylalanine.
+
+**Stereochemistry**
+- I assigned every α-carbon as L from the wedges where I could read them (Ala, N-Me-Ala and Val), and assumed L for the rest.
+- The Glu wedge was hard to read, so that centre is an assumption.
+- The Thr β-carbons are taken as (3R), the natural L-Thr configuration.
+- The sugar stereocentres are written as the β-D-galacto 1,6-anhydro skeleton. I could not verify these against the drawing, particularly at the quaternary C5.
+
+I did not run a valid-SMILES check on this string beyond checking that the ring-closure digits pair up.
+
+SMILES: C(COCc4cn(CCOCCOCCOCCOC[C@]12CO[C@H](O1)[C@H](NC(C)=O)[C@@H](O)[C@H]2O)nn4)(COCc4cn(CCOCCOCCOCCOC[C@]12CO[C@H](O1)[C@H](NC(C)=O)[C@@H](O)[C@H]2O)nn4)NC(=O)CCOCCOCCOCCOCCC(=O)NCCCC[C@H](NC(=O)CNC(=O)[C@@H](N%10)CSCC(=O)N[C@@H](Cc5ccccc5)C(=O)N[C@@H](C(C)C)C(=O)N6CCC[C@H]6C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](Cc7ccc(-c8ccccc8)cc7)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](Cc7ccc(-c8ccccc8)cc7)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](C)C(=O)N9CCC[C@H]9C%10=O)C(N)=O

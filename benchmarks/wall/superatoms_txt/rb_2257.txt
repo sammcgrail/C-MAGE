@@ -1,0 +1,25 @@
+Reading the drawing from left to right:
+
+- Fmoc group: fluorenyl-CH-CH2-O-C(=O)-NH.
+- Gly: NH-CH2-C(=O).
+- Gly: NH-CH2-C(=O).
+- Phe: NH-CH(CH2Ph)-C(=O), with a wedge on the benzyl bond.
+- Gly: NH-CH2-C(=O).
+- NH-CH2-O-CH2-C(=O)-O-CH2-Ph, so the chain ends in a benzyl ester.
+
+Stereochemistry: the stereocentre has the NH on the left, the C(=O) on the right, and the CH2Ph pointing up on a wedge. The Phe is presumably L (S), and I checked the wedge direction against that.
+
+The SMILES is written as N[C@@H](Cc1ccccc1)C(=O)... and the chirality is determined for the order N, H, CH2, C(=O).
+
+For the drawn centre, the neighbours are N (lower left), C(=O) (lower right), and CH2 (up, wedge toward the viewer), with H pointing back. Viewed from the front, with H away from the viewer, the sequence N → CH2 → C(=O) runs from lower left to up to lower right, which is clockwise.
+
+CIP priorities are N > C(=O)(O,O,N) > CH2Ph > H. So N → C(=O) → CH2 is the reverse of the clockwise path above, which is counterclockwise. That gives S, consistent with L-Phe.
+
+For the SMILES, N[C@@H](Cc1ccccc1)C(=O) lists the neighbours as N, H, CH2, C(=O). With @@, viewing from N, the sequence H → CH2 → C(=O) is clockwise. L-Phe is conventionally written N[C@@H](Cc1ccccc1)C(=O)O, which matches S, so I use that.
+
+Full SMILES:
+O=C(OCc1ccccc1)COCNC(=O)CNC(=O)[C@H](Cc1ccccc1)NC(=O)CNC(=O)CNC(=O)OCC1c2ccccc2-c2ccccc21
+
+Checking the written order for this form: the stereocentre is written as C(=O) preceding, then [C@H] with neighbours C(=O) (preceding), H, CH2, N. L-Phe written from the C-terminus, as in OC(=O)[C@H](Cc1ccccc1)N, is the L form. That matches.
+
+SMILES: O=C(OCc1ccccc1)COCNC(=O)CNC(=O)[C@H](Cc1ccccc1)NC(=O)CNC(=O)CNC(=O)OCC1c2ccccc2-c2ccccc21

@@ -1,0 +1,22 @@
+I read the macrocycle region by region and wrote it as one SMILES, with the stereocentres assigned from the wedges and hashes.
+
+**Ring path.** I traced the ring clockwise from the N-methyl-leucine. The units, in order, are:
+1. N-methyl-Leu (isobutyl side chain) joined to the N-methyl amide on the CH2–CH=CH–C(=O)–O linker.
+2. The ester O–CH2–C(CH3)2–C(=O)–C(=O) connecting to the piperidine nitrogen.
+3. The pipecolic acid, whose carboxyl forms an ester with the benzylic CH(O).
+4. That benzylic CH, which carries the CH2CH2-(3,4-dimethoxyphenyl) arm and a meta-phenylene ring.
+5. The meta-phenylene NH–C(=O)CH2CH2C(=O)–NH succinamide bridge, leading to phenylglycine.
+6. The 3-acetamidophenylalanine unit.
+7. The proline, whose carbonyl closes the ring onto the N-methyl-Leu nitrogen.
+
+**Alkene.** The CH=CH bond is drawn wavy, so I gave it no cis/trans label.
+
+**Stereocentres.** I assigned each from the drawn wedge or hash using CIP priorities and then converted to @/@@ with the SMILES neighbour order:
+- Leu α-carbon: S
+- Pipecolic α-carbon: S
+- Benzylic CH–O: R
+- Phenylglycine α-carbon: S
+- Phenylalanine α-carbon: S
+- Proline α-carbon: R
+
+SMILES: CC(C)C[C@H]1C(=O)N(C)CC=CC(=O)OCC(C)(C)C(=O)C(=O)N2CCCC[C@H]2C(=O)O[C@H](CCc2ccc(OC)c(OC)c2)c2cccc(c2)NC(=O)CCC(=O)N[C@@H](c2ccccc2)C(=O)N[C@@H](Cc2cccc(NC(C)=O)c2)C(=O)N2CCC[C@@H]2C(=O)N1C

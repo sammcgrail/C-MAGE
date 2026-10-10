@@ -1,0 +1,30 @@
+I read the structure region by region and wrote the SMILES in the order below.
+
+**Left end.** An ethylphosphonic acid, P(=O)(OH)₂–CH₂CH₂–, sits on a cyclohexane ring. The ring carries three OH groups on adjacent carbons, plus an ether oxygen. That oxygen leads to –OCH₂CH₂–O–N=C(CH₃)–CH₂CH₂–C(=O)–, an oxime formed from a levulinoyl unit.
+
+**Linker.** The levulinoyl carbonyl is an amide to the ε-NH of a first lysine. That lysine's α-NH carries a second levulinoyl group, NC(=O)CCC(C)=O. Its C(=O) is joined to the ε-NH of a second lysine, which ends in a primary amide, C(N)=O. The second lysine's α-NH is acylated by glycine, and glycine's carbonyl is attached to the cysteine α-carbon.
+
+**Macrocycle.** The ring closes through a thioether, Cys–CH₂–S–CH₂–C(=O)–. Reading from that thioacetyl group, the residues are:
+- Phe
+- Val
+- Pro
+- Thr
+- Thr
+- biphenylalanine (Bip)
+- N-Me-Ala
+- Bip
+- N-Me-Ala
+- Glu
+- Ala
+- Pro
+- back to Cys
+
+**Stereochemistry.**
+- I worked out each α-centre from the wedges and hashes. All amino acids come out L, including the first Thr, whose β-carbon is drawn with a hashed OH and comes out as the natural (3R) configuration.
+- The second Thr's β-carbon is drawn with plain bonds, so it is left unspecified.
+- The oxime C=N geometry is not clearly shown, so it is also left unspecified.
+- The cyclohexane stereocentres were assigned from the drawn wedge and hash bonds, including the wedge to H at the ether-bearing carbon.
+
+I could not fully check the geometry-derived chirality tags (@/@@) at every centre against the drawing.
+
+SMILES: OP(=O)(O)CC[C@H]1C[C@H](OCCON=C(C)CCC(=O)NCCCC[C@H](NC(=O)CCC(C)=O)C(=O)NCCCC[C@@H](C(N)=O)NC(=O)CNC(=O)[C@@H]2CSCC(=O)N[C@@H](Cc3ccccc3)C(=O)N[C@@H](C(C)C)C(=O)N3CCC[C@H]3C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](C(C)O)C(=O)N[C@@H](Cc3ccc(cc3)-c3ccccc3)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](Cc3ccc(cc3)-c3ccccc3)C(=O)N(C)[C@@H](C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](C)C(=O)N3CCC[C@H]3C(=O)N2)[C@@H](O)[C@@H](O)[C@@H]1O

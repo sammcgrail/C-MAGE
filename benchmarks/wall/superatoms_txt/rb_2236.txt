@@ -1,0 +1,17 @@
+I read the structure as a macrocycle and wrote it as one SMILES, starting from the carbinol carbon on the left and going around the ring.
+
+**Fragments, in order around the ring**
+1. The ester carbinol carbon carries a 2-(2,3,4-trimethoxyphenyl)ethyl chain. The ring carbon bearing the chain has OMe on the adjacent carbon and on the next two carbons.
+2. The carbinol carbon also bears a meta-disubstituted benzene ring. The meta oxygen continues as O–CH2–C(=O).
+3. Next is N-methyl-norleucine (N-Me, n-butyl side chain), then the 2-naphthylalanine NH residue, then N-methyl-O-tert-butylserine, then glycine (NH–CH2–C(=O)).
+4. Then comes an N-methyl nitrogen carrying CH2–CH=CH–C(=O)–O. The wavy alkene bond is left without cis/trans geometry.
+5. The ring continues through O–CH2–C(CH3)2–C(=O)–C(=O)– to the piperidine nitrogen, then through the piperidine C2 carboxyl back to the carbinol oxygen.
+
+**Stereochemistry (from the wedges and hashes)**
+- Norleucine, naphthylalanine and serine alpha carbons: all assigned S (L-configuration).
+- Piperidine C2: S (L-pipecolic acid).
+- Carbinol carbon (hashed bond to the CH2): R.
+
+I checked each centre by hand against the CIP priorities and the SMILES neighbour order. I did not run the string through a parser.
+
+SMILES: COc1c(OC)c(OC)ccc1CC[C@@H]2c3cccc(c3)OCC(=O)N(C)[C@@H](CCCC)C(=O)N[C@@H](Cc4ccc5ccccc5c4)C(=O)N(C)[C@@H](COC(C)(C)C)C(=O)NCC(=O)N(C)CC=CC(=O)OCC(C)(C)C(=O)C(=O)N6CCCC[C@H]6C(=O)O2

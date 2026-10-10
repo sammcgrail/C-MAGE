@@ -1,0 +1,8 @@
+I read the structure as a cyclic heptapeptide with an N-terminal 4-chlorophenylalanine and a C-terminal D-Tyr amide, matching the name below the drawing: H-Cpa-cyclo[D-Cys-Tyr-D-Aph(benzenesulfonyl)-Lys-Thr-Cys]-D-Tyr-NH2.
+
+- **Ring:** the two Cys sulfurs are joined by a disulfide bond, so I used a ring-closure label (`%10`) between the two S atoms.
+- **Cpa:** the 4-chlorophenyl-CH2 group sits on an alpha carbon with a hashed NH2. Working out the CIP priorities from the drawing gives S, so this is L-Cpa.
+- **Other residues:** I took the remaining stereocentres from the residue names in the caption (D-Cys, L-Tyr, D-Aph, L-Lys, L-Thr, L-Cys, D-Tyr-NH2) rather than re-deriving each from the wedges. For Thr I checked the beta carbon against the standard L-Thr SMILES and it matches.
+- **Aph side chain:** the para-substituent on the phenylalanine ring is an NH–SO2–phenyl group, written as `NS(=O)(=O)c2ccccc2`.
+
+SMILES: N[C@@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](CS%10)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@H](Cc1ccc(NS(=O)(=O)c2ccccc2)cc1)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CS%10)C(=O)N[C@H](Cc1ccc(O)cc1)C(N)=O

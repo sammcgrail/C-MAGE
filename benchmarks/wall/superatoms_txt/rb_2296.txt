@@ -1,0 +1,20 @@
+I read the molecule as a maleimidocaproyl–Gly‑Gly‑Phe‑Gly linker joined through an NH–CH2–O–CH(cyclopropyl)–C(=O)– spacer to an exatecan core by an amide bond.
+
+**Linker, left to right:**
+- A maleimide (2,5‑dioxopyrrole) ring is attached through its nitrogen to a five‑carbon chain ending in C(=O).
+- That carbonyl is followed by Gly, Gly, Phe and Gly, linked as amides.
+- The Phe benzyl group is drawn on a wedge, which matches the L‑Phe pattern `N[C@@H](Cc1ccccc1)C(=O)`.
+- The last Gly nitrogen is followed by CH2–O.
+- That O is attached to a CH carrying a cyclopropyl group on a hashed bond, then C(=O)–NH.
+- Working through the neighbour order for the hashed cyclopropyl gives `O[C@H](C1CC1)C(=O)`.
+
+**Exatecan core:**
+- The NH‑bearing stereocentre is drawn on a wedge and sits in a ring with CH2CH2 and the fused aromatic system.
+- The aromatic ring carries a methyl and a fluorine.
+- It is fused to a quinoline‑type nitrogen ring, then a pyrrolidinone‑fused pyridone, and finally a lactone.
+- The lactone carbon bears OH and ethyl, with the stereochemistry of the camptothecin‑type centre.
+- I took the two core stereocentres from the known exatecan SMILES. I re‑derived the parity for my atom ordering (even permutation for the amine carbon, odd for the quaternary carbon, which gives `@` for each).
+
+I checked that the ring‑closure digits are reused only after the earlier rings close, and that the SMILES accounts for every atom in the drawing.
+
+SMILES: O=C1C=CC(=O)N1CCCCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)NCO[C@H](C1CC1)C(=O)N[C@H]1CCc2c(C)c(F)cc3nc4c5cc6c(c(=O)n5Cc4c1c23)COC(=O)[C@](O)(CC)6

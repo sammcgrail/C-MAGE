@@ -1,0 +1,13 @@
+The drawing shows cyclen (1,4,7,10-tetraazacyclododecane), a 12-membered ring with four nitrogens separated by two-carbon bridges. Each nitrogen carries a CH2C(=O)NH-CH2CH2CH2-N3 arm.
+
+Checking the arms: the upper-left arm runs N–CH2–C(=O)–NH–CH2CH2CH2–N3, and the other three are drawn the same way. Each azide is written N3, which I treat as -N=[N+]=[N-].
+
+Building the SMILES, the ring is N1CCN(CCN(CCN(CC1)CC(=O)NCCCN=[N+]=[N-])CC(=O)NCCCN=[N+]=[N-])CC(=O)NCCCN=[N+]=[N-], with the first nitrogen also carrying its own arm.
+
+Written out in full:
+- Start with the first nitrogen and its arm: `[N-]=[N+]=NCCCNC(=O)CN1CCN(CC(=O)NCCCN=[N+]=[N-])CCN(CC(=O)NCCCN=[N+]=[N-])CCN(CC(=O)NCCCN=[N+=[N-])CC1`
+- That string has a typo in the last azide, so the corrected form is below.
+
+Ring check: N1, CC, N, CC, N, CC, N, CC back to N1. That gives 4 nitrogens and 8 carbons, which is 12 ring atoms.
+
+SMILES: [N-]=[N+]=NCCCNC(=O)CN1CCN(CC(=O)NCCCN=[N+]=[N-])CCN(CC(=O)NCCCN=[N+]=[N-])CCN(CC(=O)NCCCN=[N+]=[N-])CC1

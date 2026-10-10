@@ -1,0 +1,21 @@
+I read the structure in segments and wrote each as SMILES, then joined them. Stereochemistry follows the natural auristatin and pyrrolobenzodiazepine (PBD) configurations rather than being re-derived from every wedge in the image.
+
+**Left end and central branching nitrogen**
+- The left end is a propiolamide: HC≡C–C(=O)NH–(CH2)3–C(=O)–N.
+- That nitrogen carries two identical β-alanine-type arms, each CH2CH2C(=O)NH–CH2CH2–O–CH2CH2–O–CH2CH2–C(=O)–.
+
+**Upper arm (to the auristatin payload)**
+- The arm continues –NH–CH(CH3)–C(=O)–NH–(CH2)3–C(=O)– (the alanine is drawn with plain bonds, so no stereo).
+- It then runs into the peptide N(Me)-Val–Val–N(Me)-dolaisoleuine (sec-butyl, OMe)–proline-based dolaproine (OMe, CH3)–Phe-OMe.
+- I took the Val, Phe, proline, dolaisoleuine and dolaproine centres as the natural L/auristatin configurations.
+
+**Lower arm (to the PBD dimer)**
+- The arm continues –C(=O)–NH–CH(iPr)–C(=O)–NH–CH2–C(=O)– (L-Val), ending on the N10 nitrogen of the first PBD unit.
+
+**PBD dimer**
+- The first PBD unit has the N10 amine bonded to a CH2 (C11) rather than an imine. It carries a lactam, an exocyclic methylene on the pyrrolidine, and an aryl OMe.
+- The two aromatic rings are joined through O–(CH2)5–O linkers, which I counted as five carbons.
+- The second PBD unit keeps the N=CH imine, the lactam, the exocyclic methylene and an aryl OMe.
+- Both C11a centres come out as S with the stereo marks in the SMILES below.
+
+SMILES: C#CC(=O)NCCCC(=O)N(CCC(=O)NCCOCCOCCC(=O)NC(C)C(=O)NCCCC(=O)N(C)[C@@H](C(C)C)C(=O)N[C@@H](C(C)C)C(=O)N(C)[C@@H]([C@@H](C)CC)[C@H](OC)CC(=O)N1CCC[C@H]1[C@H](OC)[C@@H](C)C(=O)N[C@@H](Cc1ccccc1)C(=O)OC)CCC(=O)NCCOCCOCCC(=O)N[C@@H](C(C)C)C(=O)NCC(=O)N1C[C@@H]2CC(=C)CN2C(=O)c2cc(OC)c(OCCCCCOc3cc4N=C[C@@H]5CC(=C)CN5C(=O)c4cc3OC)cc21

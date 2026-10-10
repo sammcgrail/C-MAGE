@@ -1,0 +1,20 @@
+I read the macrocycle residue by residue, going around the ring. Each stereocentre was assigned from the wedge or hash bonds in the drawing.
+
+**Ring sequence (clockwise from the azetidine):**
+1. L-azetidine-2-carbonyl, with the ring nitrogen acylated by the last residue.
+2. N-Me-cyclohexylalanine (L).
+3. Sarcosine (N-Me-Gly).
+4. Homophenylalanine (L), NH-CH(CH2CH2Ar)-C(=O). The aryl group is 3-chloro-4-(trifluoromethyl)phenyl.
+5. L-proline.
+6. N-Me-Aib, N(Me)-C(CH3)2-C(=O).
+7. N-Me-cyclohexylglycine (L).
+8. N-Me-β-homoalanine, N(Me)-CH(CH3)-CH2-C(=O). The methyl is on a wedge, and the centre is written with @.
+9. N-Me-L-alanine.
+10. L-isoleucine, with an NH rather than N-Me. The α carbon is S and the β carbon is S.
+11. N-Me-L-alanine, which closes the ring onto the azetidine nitrogen.
+
+**Stereochemistry:** I assigned CIP descriptors from the wedges and hashes, then converted each to @ or @@ for the SMILES atom order. Every α carbon comes out as the L-amino acid (S), including azetidine and proline.
+
+**Checks:** The SMILES is valid, with ring labels 1 and 2 opened at the azetidine nitrogen and label 3 reused for the cyclohexyl, aryl and proline rings. Counting atoms around the drawing matches the string.
+
+SMILES: N12CC[C@H]1C(=O)N(C)[C@@H](CC3CCCCC3)C(=O)N(C)CC(=O)N[C@@H](CCc3ccc(C(F)(F)F)c(Cl)c3)C(=O)N3CCC[C@H]3C(=O)N(C)C(C)(C)C(=O)N(C)[C@@H](C3CCCCC3)C(=O)N(C)[C@H](C)CC(=O)N(C)[C@@H](C)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N(C)[C@@H](C)C2=O

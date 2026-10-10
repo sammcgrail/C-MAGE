@@ -1,0 +1,19 @@
+I read the drawing as a macrocyclic peptide and wrote the SMILES in the order below.
+
+**Ring sequence (from the N-terminus)**
+- The N-terminal Asp has a free α-NH2. Its side-chain carbonyl forms an amide with the Lys ε-NH, and its main-chain carbonyl is bonded to the Asn NH.
+- Asn carries a free side-chain CONH2.
+- Next is cyclohexylglycine (Cha), then a pyrrolidine (proline) ring. The proline has a 1,2,3-triazol-1-yl group at C4, and the triazole carries a 4-(thiophen-2-yl)phenyl group at its 4-position.
+- Then comes a benzothiophen-3-yl-alanine, and the ring closes at Lys. The Lys α-carbon bears a primary carboxamide (CONH2), and the ε-NH completes the macrocyclic amide.
+
+**Stereochemistry**
+- I assigned CIP descriptors from the wedges and hashes. The Cha and benzothienyl-alanine centres read as S, and the Lys centre as S.
+- The proline centres read as 2S,4S.
+- The Asp and Asn centres are not independently checked against the wedges. I took them to be L (S) on the usual convention, and the drawing's hashed H2N bond on Asp is consistent with that.
+- I then chose the @/@@ marks in the SMILES so that each centre gives the descriptor above.
+
+SMILES: N[C@H]1CC(=O)NCCCC[C@@H](C(N)=O)NC(=O)[C@H](Cc2csc3ccccc23)NC(=O)[C@@H]4C[C@H](n5cc(-c6ccc(-c7cccs7)cc6)nn5)CN4C(=O)[C@@H](C8CCCCC8)NC(=O)[C@H](CC(N)=O)NC1=O
+
+Correction: the Cha centre must be `@`, so the final line is:
+
+SMILES: N[C@H]1CC(=O)NCCCC[C@@H](C(N)=O)NC(=O)[C@H](Cc2csc3ccccc23)NC(=O)[C@@H]4C[C@H](n5cc(-c6ccc(-c7cccs7)cc6)nn5)CN4C(=O)[C@H](C8CCCCC8)NC(=O)[C@H](CC(N)=O)NC1=O

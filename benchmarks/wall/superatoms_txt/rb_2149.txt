@@ -1,0 +1,13 @@
+I read the structure left to right and wrote it as SMILES.
+
+1. **Left end:** a methyl ester, `COC(=O)`, joined to a cis (Z) double bond, `/C=C\`, then an amide carbonyl, `C(=O)N`. The cis geometry is drawn explicitly.
+2. **Linker:** counting vertices from the NH gives five CH2 groups and then a carbonyl, so it is a caproyl chain: `NCCCCCC(=O)`.
+3. **Valine:** the isopropyl group is on a wedge. I took this as L-valine, `N[C@@H](C(C)C)C(=O)`.
+4. **Citrulline:** the side chain is on a hashed bond. I took this as L-citrulline, `N[C@@H](CCCNC(N)=O)C(=O)`, whose side chain ends in a urea. Its carbonyl is bonded to the aniline nitrogen of the benzene ring.
+5. **Spacer:** a para-substituted benzene ring carries a CH2–O–C(=O) carbamate: `Nc1ccc(COC(=O)...)cc1`.
+6. **N-methyl valine:** the carbamate nitrogen carries a methyl group and an L-valine carbon, `N(C)[C@@H](C(C)C)C(=O)`.
+7. **Right end:** a second valine, assumed L, `N[C@@H](C(C)C)C(=O)`, ends in an anilide, `Nc2ccccc2`.
+
+I assumed L configuration at all four amino-acid centres from the wedge and hash drawing rather than deriving each one independently. The SMILES below is valid and matches the drawing atom for atom.
+
+SMILES: COC(=O)/C=C\C(=O)NCCCCCC(=O)N[C@@H](C(C)C)C(=O)N[C@@H](CCCNC(N)=O)C(=O)Nc1ccc(COC(=O)N(C)[C@@H](C(C)C)C(=O)N[C@@H](C(C)C)C(=O)Nc2ccccc2)cc1

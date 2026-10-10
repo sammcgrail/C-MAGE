@@ -1,0 +1,31 @@
+I read the molecule as a Ga-labelled DOTA-type chelator joined to a cyclic peptide through an isoindole. Only the amide-bearing macrocycle carbon, the lysine alpha carbon and the peptide residues carry stereo, as read from the wedges and hashes.
+
+**Chelator.** The 12-membered tetra-aza ring (cyclen) has three N-CH2-COOH arms. The fourth N carries CH2-C(=O)-NH-, which links to a cysteic acid residue, CH(CH2SO3H). Ga is drawn as a label inside the ring with no bonds, so I wrote it as a separate `[Ga]` component.
+
+**Peptide chain.** After cysteic acid, an NH-(CH2)4 chain leads to the alpha carbon of a lysine-type residue. That alpha carbon is bonded to the isoindole nitrogen (a 2H-isoindole carrying a 4-nitro group and a 1-thioether). From its carbonyl the sequence runs:
+
+1. Tyr
+2. Lys(N-isopropyl)
+3. Arg (guanidine)
+4. 2-naphthylalanine
+5. Ala
+6. Cys, whose sulfur bonds to isoindole C1, closing the macrocycle
+7. Lys(N-isopropyl) with a C-terminal NH2
+
+**Stereochemistry.** Working out each centre from the wedges and hashes gives:
+
+| Residue | CIP |
+|---|---|
+| Cysteic acid | R |
+| Isoindole-bearing lysine | S |
+| Tyr | S |
+| Lys(iPr) in the ring | S |
+| Arg | R (D) |
+| 2-Nal | S |
+| Ala | R (D) |
+| Cys | R |
+| C-terminal Lys(iPr) | S |
+
+I converted these to SMILES chirality tags by hand and have not run the string through a parser.
+
+SMILES: OC(=O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)N[C@@H](CS(=O)(=O)O)C(=O)NCCCC[C@H](n2cc3c([N+](=O)[O-])cccc3c2S4)C(=O)N[C@@H](Cc5ccc(O)cc5)C(=O)N[C@@H](CCCCNC(C)C)C(=O)N[C@H](CCCNC(=N)N)C(=O)N[C@@H](Cc5ccc6ccccc6c5)C(=O)N[C@H](C)C(=O)N[C@@H](C4)C(=O)N[C@@H](CCCCNC(C)C)C(N)=O)CC1.[Ga]

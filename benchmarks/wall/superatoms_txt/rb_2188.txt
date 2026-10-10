@@ -1,0 +1,25 @@
+I read the structure region by region and wrote the SMILES from that. Several stereocentres were hard to read from the drawing, so those are uncertain.
+
+**Glycan arms (two identical)**
+- Each is a tetrahydropyran carrying a 2-phosphonoethyl group, three OH groups and a 3-carbon chain.
+- The wedges and hashes give an α-mannose-type (C-glycoside) configuration.
+- Each chain ends in an oxime: –CH2CH2CH2–O–N=C(CH3)–CH2CH2–C(=O)–. I left the oxime C=N geometry unspecified because the drawing shows none.
+
+**Linker**
+- The first oxime is acylated onto the ε-NH of Lys A.
+- The second oxime is acylated onto the α-NH of Lys A.
+- Lys A's carbonyl is bonded to the ε-NH of Lys B, which carries a C-terminal primary amide.
+- Lys B's α-NH is bonded to Gly, then to the carbonyl of Cys.
+
+**Macrocycle**
+- The Cys side-chain CH2 is bonded through sulfur to the CH2 of a chloroacetyl-type cap (–S–CH2–C(=O)–) on the N-terminal Phe.
+- Reading N→C, the ring sequence is: cap-Phe, Val, Pro, Thr, Thr, Bip, N-Me-Ala, Bip, N-Me-Ala, Glu (free CO2H), Ala, Pro, then back to Cys.
+- Bip is 4-biphenylalanine.
+
+**Stereochemistry**
+- I took every wedge or hash literally, which gives D-Phe, D-Thr (both), D-Bip (both) and D-Glu.
+- Val, Cys, N-Me-Ala (both), the Lys residues and the second glycan ring follow directly from the drawn wedges.
+- The prolines and the Ala next to the Glu were not clear from the drawing, so I assumed L.
+- The Thr β-carbons are assigned by analogy rather than read directly.
+
+SMILES: OP(=O)(O)CC[C@H]1O[C@@H]([C@@H](O)[C@@H](O)[C@@H]1O)CCCON=C(C)CCC(=O)NCCCC[C@H](NC(=O)CCC(C)=NOCCC[C@H]2O[C@H](CCP(=O)(O)O)[C@@H](O)[C@H](O)[C@@H]2O)C(=O)NCCCC[C@@H](C(N)=O)NC(=O)CNC(=O)[C@@H](N%10)CSCC(=O)N[C@H](Cc2ccccc2)C(=O)N[C@@H](C(C)C)C(=O)N2CCC[C@H]2C(=O)N[C@H]([C@H](C)O)C(=O)N[C@H]([C@H](C)O)C(=O)N[C@H](Cc2ccc(cc2)-c2ccccc2)C(=O)N(C)[C@@H](C)C(=O)N[C@H](Cc2ccc(cc2)-c2ccccc2)C(=O)N(C)[C@@H](C)C(=O)N[C@H](CCC(=O)O)C(=O)N[C@@H](C)C(=O)N2CCC[C@H]2C%10=O

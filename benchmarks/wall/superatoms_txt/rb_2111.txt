@@ -1,0 +1,17 @@
+I read the image as a cyclic peptide and wrote the SMILES residue by residue.
+
+**Residues and connectivity**
+- **Asp:** the free N-terminal amine sits on the Asp α-carbon. Its side-chain carbonyl forms an amide with the Lys ε-nitrogen, which closes the ring.
+- **Asn:** the Asp backbone C=O is bonded to the Asn NH. The Asn side chain is CH2C(=O)NH2.
+- **Ile:** the Asn C=O is bonded to the Ile NH, and the Ile C=O is bonded to the proline nitrogen.
+- **Proline:** it carries a 1,2,3-triazol-1-yl group at C4. The triazole bears a 4-(thiophen-2-yl)phenyl group at its own C4 position.
+- **Benzothienylalanine:** the proline C=O is bonded to its NH. Its side chain is a CH2 attached to benzothiophen-3-yl.
+- **Lys:** the Bta C=O is bonded to the Lys α-NH. Lys ends in a primary carboxamide (C(N)=O) and has a four-CH2 side chain leading to the ring-closing amide.
+
+**Stereochemistry**
+I assigned each wedge or hash from the drawing using CIP priorities.
+- Asp α, Asn α, Ile α, Lys α and Pro C2 all come out as the natural L (S) configuration. I assumed Asn and Bta are L, as the drawing leaves them ambiguous.
+- Ile Cβ is S, so the side chain is L-isoleucine, not allo.
+- Pro C4 is S, from the wedge to the triazole nitrogen.
+
+SMILES: N[C@H]1CC(=O)NCCCC[C@@H](C(N)=O)NC(=O)[C@H](Cc2csc3ccccc23)NC(=O)[C@@H]4C[C@H](n5cc(-c6ccc(-c7cccs7)cc6)nn5)CN4C(=O)[C@H]([C@@H](C)CC)NC(=O)[C@H](CC(N)=O)NC1=O

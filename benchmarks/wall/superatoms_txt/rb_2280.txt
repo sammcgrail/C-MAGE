@@ -1,0 +1,29 @@
+I read the molecule as a cyclic depsipeptide, working along the ring and its side chain:
+
+- **Side chain:** a benzothiophene-2-carbonyl group on N-methyl-D-leucine.
+- **Ring, in order:**
+  1. A threonine-like residue (2-amino-3-hydroxybutanoic acid) whose side-chain oxygen forms the ring ester.
+  2. A 4-amino-3-hydroxy-5-methylheptanoic acid unit (statine-like).
+  3. A 2-hydroxyisovalerate, joined to the previous unit by an ester.
+  4. L-leucine.
+  5. L-proline.
+  6. N-methyl-O-methyl-L-tyrosine, whose carboxyl closes the ring as an ester onto the threonine oxygen.
+
+I assigned each stereocentre from the wedges and hashes using CIP priorities, then wrote the SMILES so its @/@@ marks match those assignments. The assignments are:
+
+| Centre | Configuration |
+|---|---|
+| N-Me-Leu Cα | R |
+| Thr Cα | S |
+| Thr Cβ | R |
+| Statine C4 | R |
+| Statine C5 | S |
+| Statine C3 | S |
+| Hydroxyisovalerate C2 | S |
+| Leu Cα | S |
+| Pro Cα | S |
+| N-Me-Tyr Cα | S |
+
+I checked ring closures and heteroatoms against the drawing but did not run the string through a parser.
+
+SMILES: O=C(c1cc2ccccc2s1)N(C)[C@H](CC(C)C)C(=O)N[C@@H]([C@@H](C)O%10)C(=O)N[C@H]([C@@H](C)CC)[C@@H](O)CC(=O)O[C@@H](C(C)C)C(=O)N[C@@H](CC(C)C)C(=O)N1CCC[C@H]1C(=O)N(C)[C@@H](Cc1ccc(OC)cc1)C(=O)%10

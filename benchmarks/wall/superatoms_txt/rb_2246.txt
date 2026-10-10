@@ -1,0 +1,25 @@
+Tracing the macrocycle clockwise from the top left, residue by residue:
+
+1. N-Me-Phe: the N carries a methyl, the alpha carbon carries a CH2Ph, and its C=O leads to the next residue.
+2. Phe (NH): the alpha carbon carries a benzyl group and the C=O is attached to N-Me-Phe's N. Reading in the direction N-Me-Phe N → C(=O) → Phe alpha C → NH → C(=O) → Val alpha C, the chain is:
+   - N-Me-Phe: N(C)–CH(CH2Ph)–C(=O)–Pro N. The carbonyl on the left attaches to proline N.
+   - The N-Me-Phe nitrogen is bonded to the C(=O) of Phe, which is attached to Phe's alpha carbon, and that alpha carbon is bonded to NH.
+   - NH–C(=O)–CH(iPr)–N(Me): this is Val, with the carbonyl bonded to the Phe NH.
+   - The N-Me-Val nitrogen is bonded to C(=O)–CH(sec-butyl)–O, a 2-hydroxy-3-methylpentanoic acid (Hmp) unit.
+   - The O is bonded to C(=O)–CH(C(C)(C)O)–N(Me), a β-hydroxy-N-methylvaline unit.
+   - That N(Me) is bonded to C(=O)–CH(isobutyl)–NH, a Leu unit.
+   - The Leu NH is bonded to C(=O)–CH(iPr)–N(Me), an N-Me-Val unit.
+   - That N(Me) is bonded to C(=O)–CH(sec-butyl)–NH, an Ile unit.
+   - The Ile NH is bonded to C(=O)–Pro (alpha C), and the Pro N is bonded to C(=O)–N-Me-Phe alpha C.
+
+Writing the SMILES, starting at the proline N:
+
+N1(CCCC1C(=O)N...) — with the ring closed through the cycle:
+
+O=C1C(Cc2ccccc2)N(C)C(=O)C(Cc2ccccc2)NC(=O)C(C(C)C)N(C)C(=O)C(C(C)CC)OC(=O)C(C(C)(C)O)N(C)C(=O)C(CC(C)C)NC(=O)C(C(C)C)N(C)C(=O)C(C(C)CC)NC(=O)C2CCCN12
+
+The ring closure labels check out. Ring 1 opens at the first C(=O) (the Pro-attached carbonyl of N-Me-Phe) and closes at the Pro N. The "C2CCCN12" part closes the Pro ring with label 2 and closes the macrocycle with label 1. Label 2 is reused for the phenyl rings only after they have closed, so this is valid.
+
+No stereochemistry is drawn, so none is included.
+
+SMILES: O=C1C(Cc2ccccc2)N(C)C(=O)C(Cc2ccccc2)NC(=O)C(C(C)C)N(C)C(=O)C(C(C)CC)OC(=O)C(C(C)(C)O)N(C)C(=O)C(CC(C)C)NC(=O)C(C(C)C)N(C)C(=O)C(C(C)CC)NC(=O)C2CCCN12

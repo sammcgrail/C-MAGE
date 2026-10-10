@@ -1,0 +1,18 @@
+I read the structure as a macrocyclic peptide and wrote the SMILES by tracing the ring and then assigning stereo from the wedges.
+
+**Ring (traced from the Asn residue):**
+- Asn, with its side-chain CONH2, has its alpha NH acylated by a succinyl linker, C(=O)CH2CH2C(=O).
+- The succinyl linker connects to the Lys epsilon-NH, which continues through (CH2)4 to the Lys alpha carbon, bearing a C-terminal CONH2.
+- The Lys alpha NH is acylated by the Trp carbonyl, so the Trp NH is acylated by the Pro carbonyl.
+- The Pro ring nitrogen is acylated by the cyclohexylglycine carbonyl.
+- The cyclohexylglycine NH is acylated by the Asn carbonyl, which closes the ring.
+
+**Substituents:**
+- Trp carries a 3-indolylmethyl side chain.
+- Pro carries a 1,2,3-triazol-1-yl group at C4, a 4-substituted triazole bearing a 4-(thiophen-2-yl)phenyl group.
+
+**Stereochemistry:**
+- I assigned each centre from the drawn wedges and hashes: Asn, Lys, Trp and Pro alpha carbons come out as the L-configuration, the Chg alpha carbon from its wedge, and the Pro C4 centre from the wedge to the triazole nitrogen.
+- I checked each @/@@ against the drawing, and the Lys centre needed the @@ form.
+
+SMILES: NC(=O)C[C@@H]1NC(=O)CCC(=O)NCCCC[C@@H](C(N)=O)NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@@H]4C[C@H](n5cc(-c6ccc(cc6)-c7cccs7)nn5)CN4C(=O)[C@H](C8CCCCC8)NC1=O

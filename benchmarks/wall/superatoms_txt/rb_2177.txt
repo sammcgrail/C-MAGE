@@ -1,0 +1,12 @@
+I read the structure as a linear peptide with one ether cross-link, and wrote the SMILES in sequence from the N-terminus.
+
+1. The N-terminal residue is Trp (L). Its indole is attached through the 7-position carbon to an ether oxygen.
+2. Next is Asn (L), with a CH2C(=O)NH2 side chain.
+3. The third residue has an alpha carbon (S) and a beta carbon (R) that carries both the ether oxygen and an indol-3-yl group. The ether oxygen closes the ring back to the Trp 7-position.
+4. Next is Ser (L), with a CH2OH side chain.
+5. The fifth residue has an alpha carbon (S) and a beta carbon (S). The beta carbon carries a 3-aminopropyl chain and is bonded to C6 of the third residue's indole, which closes a second ring.
+6. Then comes Ser (L), followed by the C-terminal Phe (L) with a free carboxylic acid.
+
+I assigned each stereocentre from the wedge and hash bonds in the drawing using CIP priorities, then translated the result into @/@@. I did not re-check the final string with a SMILES parser.
+
+SMILES: N[C@@H](Cc1c[nH]c2c(O3)cccc12)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H]([C@H]3c4c[nH]c5cc%10ccc45)C(=O)N[C@@H](CO)C(=O)N[C@@H]([C@H]%10CCCN)C(=O)N[C@@H](CO)C(=O)N[C@@H](Cc4ccccc4)C(=O)O

@@ -1,0 +1,14 @@
+The molecule is a maleimide–PEG3–Gly-Gly-Phe-Gly linker joined through an NH-CH2-O-CH2 spacer to an amino-fluoro camptothecin core (exatecan-like). I read it in these pieces, left to right:
+
+1. **Maleimide:** O=C1C=CC(=O)N1, with its nitrogen attached to a PEG3 chain, CCOCCOCCOCC.
+2. **Linker amide:** the chain ends in C(=O) bonded to NH, which starts the peptide.
+3. **Tetrapeptide:** Gly-Gly-Phe-Gly. The Phe benzyl group is on a hashed bond. Working through the geometry gives the L configuration, written `[C@@H]` with N listed first.
+4. **Spacer:** the last glycine's C(=O) links to NH-CH2-O-CH2, and this CH2 is attached to C7 of the camptothecin core.
+5. **Camptothecin core:**
+   - The benzo ring carries NH2 on the carbon nearer the C7 side and F on the carbon nearer the quinoline N.
+   - It is fused to the pyrrolo-quinoline system, which carries the pyridone C=O.
+   - The lactone ring ends in the quaternary carbon bearing OH (wedge) and ethyl (hash). Tracing the geometry from the drawing gives `[C@]` for the order of atoms in my SMILES.
+
+I checked ring closures and atom connectivity against the drawing by hand; I did not run a validator.
+
+SMILES: O=C1C=CC(=O)N1CCOCCOCCOCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)NCOCc1c2c(nc3cc(F)c(N)cc13)-c1cc3c(c(=O)n1C2)COC(=O)[C@]3(O)CC

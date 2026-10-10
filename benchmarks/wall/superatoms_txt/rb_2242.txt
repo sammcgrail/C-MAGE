@@ -1,0 +1,15 @@
+I read the molecule as a biotin–PEG-linked cyclic heptapeptide, closed through a 1,4-disubstituted triazole (a lactam-free "click" macrocycle). I assumed all residues are L-amino acids, which I checked by CIP analysis for the triazolyl-alanine residue. The same check was not done for the other residues, whose stereo I took as L, and the biotin stereocentres are written as in natural D-biotin.
+
+**Pieces read from the drawing**
+- **Biotin:** the bicyclic ureido-thiolane with a pentanoyl chain.
+- **Linker:** the biotin carbonyl is amide-bonded to NH-CH2CH2-O-CH2CH2-O-CH2CH2-O-CH2-C(=O), which acylates the N-terminus of the first ring residue.
+- **Ring sequence (N→C):** triazolyl-alanine, Lys, Leu, Gly, Trp, Pro, then a C-terminal primary amide residue.
+- **Triazole:** C4 carries the alanine CH2 and N1 carries a chain of four CH2 groups. I counted four from the drawing.
+- **C-terminal residue:** the four-CH2 chain runs from triazole N1 back to the α-carbon of this residue, which bears the C(N)=O group and is amide-bonded to the Pro carbonyl.
+
+**Stereo and ring-closure checks**
+- The triazolyl-alanine centre has a hashed bond to its CH2 and comes out as S, i.e. L.
+- I wrote each stereo tag by comparing neighbour order in the SMILES against the L-amino-acid pattern N[C@@H](R)C(=O), correcting the tags for ring-closure order and reversed residue direction.
+- The ring-closure digits, the triazole closure and the biotin bicycle all close correctly.
+
+SMILES: C1[C@H]2[C@@H]([C@@H](S1)CCCCC(=O)NCCOCCOCCOCC(=O)N[C@H]1Cc3cn(nn3)CCCC[C@@H](C(N)=O)NC(=O)[C@@H]3CCCN3C(=O)[C@H](Cc3c[nH]c4ccccc34)NC(=O)CNC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCCCN)NC1=O)NC(=O)N2

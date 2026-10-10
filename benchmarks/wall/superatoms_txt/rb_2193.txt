@@ -1,0 +1,20 @@
+I traced the macrocycle atom by atom from the image and wrote it as a SMILES with ring-closure labels.
+
+**Ring backbone.** Starting at the aryl carbonyl and going around, the ring is:
+
+- para-substituted benzene: C(=O)–C6H4–CH2–S–CH2CH2–C(=O)
+- then N(CH2C(=O)NH2) with its CH2 leading into the next residue
+- four reduced-amide units, each of the form N(acyl)–CH2–C(=O)–NH–CH(R)–CH2–, joined in sequence.
+
+**Substituents.** In order around the ring, starting from the aryl carbonyl:
+
+1. Unit 1: the NH is on the carbon bearing CH2Ph (benzyl), and the next N carries a cyclopropylacetyl group.
+2. Unit 2: benzyl again, with a second N-cyclopropylacetyl.
+3. Unit 3: the carbon bears a 4-aminobutyl chain (four CH2 then NH2), and the next N carries a 3-phenylpropanoyl group.
+4. Unit 4: benzyl, and the final N carries CH2C(=O)NH2 and the thioether-linked acyl group.
+
+**Stereochemistry.** All four stereocentres have a wedge to the side chain, with N, H, side chain and CH2N as the neighbours. I assigned each as S by CIP priority (N > CH2N > side chain > H). Written in the order N, H, side chain, CH2N, that corresponds to `[C@@H]`.
+
+I checked that the ring-closure digits are opened and closed correctly. The benzene closure `c1` ends up para to the CH2S carbon.
+
+SMILES: O=C1N[C@@H](Cc2ccccc2)CN(C(=O)CC2CC2)CC(=O)N[C@@H](Cc2ccccc2)CN(C(=O)CC2CC2)CC(=O)N[C@@H](CCCCN)CN(C(=O)CCc2ccccc2)CC(=O)N[C@@H](Cc2ccccc2)CN(CC(N)=O)C(=O)CCSCc2ccc1cc2

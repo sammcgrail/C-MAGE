@@ -1,0 +1,11 @@
+I read the molecule as a maleimide–PEG3 linker joined to an exatecan-type camptothecin payload through a Gly-Gly-Phe-Gly peptide. I wrote the SMILES from the drawing region by region, left to right.
+
+1. **Maleimide and PEG3 spacer:** the maleimide ring is `O=C1C=CC(=O)N1`. Its N carries three ethylene-oxy units, `CCOCCOCCOCC`, ending in the amide carbonyl `C(=O)`.
+2. **Peptide:** the chain continues as Gly, Gly, Phe, Gly (`NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)`). The Phe centre is drawn with a hashed bond to the benzyl CH2, which I read as L-Phe (S).
+3. **Self-immolative spacer:** the last Gly amide N is joined to `CH2-O-CH2CH2-SO2-NH-CH2` (`NCOCCS(=O)(=O)NC`). That CH2 attaches to the camptothecin core.
+4. **Camptothecin core:** the quinoline ring carries Me and F, with F on the carbon next to the ring-fusion carbon bonded to N. The five-membered ring, the pyridone and the lactone follow, giving `c1c2cc(C)c(F)cc2nc2c1Cn1c2cc2c(c1=O)COC(=O)[C@]2(O)CC`.
+5. **Quaternary stereocentre:** the drawing shows OH on a wedge and the ethyl on a hash. I took this as the natural 20(S) camptothecin configuration. I fixed the chirality tag by comparing neighbour order with the PubChem camptothecin SMILES, which gave `[C@]` in my atom order.
+
+I checked the ring-closure digits so that the five-membered ring and the benzo ring close on the intended atoms.
+
+SMILES: O=C1C=CC(=O)N1CCOCCOCCOCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)NCOCCS(=O)(=O)NCc1c2cc(C)c(F)cc2nc2c1Cn1c2cc2c(c1=O)COC(=O)[C@]2(O)CC

@@ -1,0 +1,17 @@
+I read the structure as a biotin–PEG linker attached to a head-to-side-chain cyclic peptide. The ring is closed through a 1,4-disubstituted triazole.
+
+**Fragments, left to right**
+- **Biotin:** a bicyclic urea fused to a tetrahydrothiophene, with a valeryl chain, –(CH2)4–C(=O)–.
+- **Linker:** NH–CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2–C(=O)–NH–, a short PEG spacer ending in an amide to the first ring residue.
+- **Ring residues:** the peptide runs triazolyl-Ala → Leu → Leu → Gly → Trp → Pro → Lys-derived residue, which ends in a C-terminal primary amide (C(N)=O).
+- **Triazole bridge:** the Ala side chain is CH2 on triazole C4. Triazole N1 carries four CH2 groups running back to the Lys-derived α-carbon, which closes the macrocycle.
+
+**Stereochemistry**
+- I worked out the Ala(triazole) centre from its hashed bond to the CH2 and found it is L.
+- The other α-carbons (Leu, Leu, Trp, Pro, Lys-derived) are drawn with wedges and match the L configuration.
+- Gly has no stereocentre.
+- For the biotin ring fusion I used the standard natural biotin configuration. That is an assumption from recall rather than something I re-derived from the wedges.
+
+**Check:** I wrote the SMILES so that ring-closure digits are not reused while still open. The macrocycle closure (digit 8) sits on the Ala α-carbon and the Leu N-terminal C(=O). The chirality tags were assigned by permutation parity against the L-amino-acid pattern.
+
+SMILES: C1[C@H]2[C@@H]([C@@H](S1)CCCCC(=O)NCCOCCOCCOCC(=O)N[C@H]8Cc5cn(nn5)CCCC[C@@H](C(N)=O)NC(=O)[C@@H]6CCCN6C(=O)[C@H](Cc3c[nH]c4ccccc34)NC(=O)CNC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC8=O)NC(=O)N2

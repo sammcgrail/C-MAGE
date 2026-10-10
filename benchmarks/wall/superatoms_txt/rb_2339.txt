@@ -1,0 +1,30 @@
+This is my reading of the drawing, written as SMILES. Every stereocentre was assigned from the wedges and hashes by eye, so those assignments are the least certain part.
+
+**Components, from the top left**
+- **Chelator:** a DOTA-type 12-membered tetra-aza ring with three CH2COOH arms. The fourth arm is an acetamide that links to the peptide. The "Ga" label sits inside the ring with no bonds drawn, so I wrote it as a separate [Ga] atom.
+- **Cysteic acid:** an L-cysteic acid residue carrying CH2SO3H, joined to the chelator by that acetamide.
+- **Isoindole residue:** a lysine whose side-chain NH forms the amide to the cysteic acid. Its α-nitrogen is the N of a 2H-isoindole carrying a nitro group on C4. C1 of the isoindole carries a thioether sulfur.
+- **Cyclic peptide chain:** the residues follow in order around the ring:
+  1. L-Tyr
+  2. L-Lys(N-isopropyl)
+  3. D-Arg
+  4. L-2-naphthylalanine
+  5. D-Ala
+  6. A homocysteine-type residue whose S–CH2CH2 side chain closes the ring back onto the isoindole C1
+- **C-terminus:** an L-Lys(N-isopropyl) primary amide (–C(N)=O).
+
+**Stereochemistry as I read it**
+
+| Residue | Reading |
+|---|---|
+| Cysteic acid | L |
+| Isoindole-bearing lysine | L |
+| Tyr | L |
+| Lys(iPr), internal | L |
+| Arg | D (hashed side-chain bond) |
+| 2-Nal | L |
+| Ala | D (hashed methyl) |
+| Homocysteine-type | L |
+| Lys(iPr), C-terminal | L |
+
+SMILES: OC(=O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC1)CC(=O)N[C@@H](CS(=O)(=O)O)C(=O)NCCCC[C@H](n2cc3c([N+](=O)[O-])cccc3c2SCC%10)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](CCCCNC(C)C)C(=O)N[C@H](CCCNC(N)=N)C(=O)N[C@@H](Cc2ccc3ccccc3c2)C(=O)N[C@H](C)C(=O)N[C@@H]%10C(=O)N[C@@H](CCCCNC(C)C)C(N)=O.[Ga]

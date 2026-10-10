@@ -1,0 +1,18 @@
+I read the molecule region by region and wrote the SMILES from that reading. The stereocentre assignments come from the drawing conventions, not from a database match.
+
+**Peptide (left side):** H2N‑Gly‑Gly‑Gly‑Lys‑Val‑Cit. The lysine side chain is a 4‑aminobutyl group and the citrulline side chain ends in a urea (NHC(=O)NH2). I took all three amino acids as L, written as `N[C@@H](R)C(=O)`.
+
+**Linker:** the citrulline NH is attached to a para‑aminobenzyl group, which is joined through a carbamate to N‑methyl‑N,N'‑ethylene‑N'‑methyl diamine. That diamine's second nitrogen forms a carbamate to the phenol oxygen of the alkylating unit.
+
+**Alkylating unit:** this is a seco‑CBI (benzo[e]indoline) core carrying:
+- a 1‑(chloromethyl) group;
+- a methyl on the naphthalene ring, adjacent to the ring‑fusion carbon bonded to C1;
+- the carbamate‑bearing oxygen on the naphthalene ring, para to the ring‑fusion carbon that bears the indoline nitrogen.
+
+The indoline nitrogen is acylated.
+
+**Stereocentre at C1:** the CH2Cl bond is hashed. The CIP priorities are CH2Cl > C2 (the CH2 bonded to N) > C9b (the aromatic ring‑fusion carbon) > H. With H toward the viewer, CH2Cl → C2 → C9b runs clockwise, so the centre is S. In the SMILES written as `C[C@@H](CCl)c2`, `@@` gives S.
+
+**DNA‑binding tail:** the acyl group is an imidazo[1,2‑a]pyridine‑2‑carbonyl. Its 6‑position carries an NH–C(=O)–C6H4–OH amide (4‑hydroxybenzamide).
+
+SMILES: NCC(=O)NCC(=O)NCC(=O)N[C@@H](CCCCN)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](CCCNC(N)=O)C(=O)Nc1ccc(COC(=O)N(C)CCN(C)C(=O)Oc2cc3N(C(=O)c4cn5cc(NC(=O)c6ccc(O)cc6)ccc5n4)C[C@@H](CCl)c3c3c(C)cccc23)cc1

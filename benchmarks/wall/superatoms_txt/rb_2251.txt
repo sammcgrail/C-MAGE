@@ -1,0 +1,10 @@
+I read the molecule as a cyclic peptide with one disulfide bridge, running from the C-terminus (free acid) to the N-terminus:
+
+Thr‑OH ← Cys(S–S) ← Trp ← Val ← Leu ← Glu ← Gly ← Leu ← His ← Trp ← Ala ← Cys(S–S) ← Asp ← NH–(truncated group).
+
+- **Macrocycle:** the ring is closed by the disulfide between the two Cys residues. The backbone from the second Cys through Ala, Trp, His, Leu, Gly, Glu, Leu, Val and Trp reaches the first Cys.
+- **Side chains:** Trp has an indole, His an imidazole, Glu a CH2CH2COOH, Asp a CH2COOH, Leu an isobutyl, Val an isopropyl and Thr a CH(OH)CH3.
+- **Stereochemistry:** I assumed natural L‑amino acids throughout (L‑Thr as 2S,3R). I wrote the chirality tags to match the order in which each residue's neighbours appear in the SMILES.
+- **N-terminal group (least certain):** the Asp nitrogen is drawn attached to a vertex with a wavy line and a short line, which marks a truncated attachment. I read this as a carbon bearing two methyls plus the wavy bond, and filled the wavy bond with a methyl, giving N‑tert‑butyl.
+
+SMILES: CC(C)(C)N[C@@H](CC(=O)O)C(=O)N[C@H]1CSSC[C@H](NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](C(C)C)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCC(=O)O)NC(=O)CNC(=O)[C@H](CC(C)C)NC(=O)[C@H](Cc2c[nH]cn2)NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](C)NC1=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)O

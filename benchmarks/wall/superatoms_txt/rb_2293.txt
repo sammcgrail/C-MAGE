@@ -1,0 +1,10 @@
+The SMILES below was read region by region from the drawing. The drawing is a cyclic peptide with the following features:
+
+- **Sequence, N→C:** Cys – Ala – a homopropargylglycine-type residue – His – Leu – Gly – Glu – norvaline – an ornithine-derived residue – Trp – Cys – Thr-NH2.
+- **Disulfide:** the two Cys side chains are joined by an S–S bond.
+- **Triazole bridge:** the side chains of the alkyne residue and the ornithine-derived residue (CH2CH2 and CH2CH2CH2) are linked through a 1,4-disubstituted 1,2,3-triazole. The CH2CH2 arm is on C4 and the CH2CH2CH2 arm is on N1.
+- **N-terminus:** the wavy bond on the first Cys nitrogen is written as `*`, a dummy attachment atom.
+
+For stereochemistry, I checked the wedge and hash bonds on the first Cys, the ornithine-derived residue, the second Cys, Ala and Thr. The Cys residues came out as R (the L form) and the others as the L configuration, with Thr as 2S,3R. I assumed L for the remaining residues (His, Leu, Glu, norvaline, Trp and the alkyne residue) without checking each wedge individually.
+
+SMILES: *N[C@@H](CS%11)C(=O)N[C@@H](C)C(=O)N[C@@H](CCc2cn%12nn2)C(=O)N[C@@H](Cc2c[nH]cn2)C(=O)N[C@@H](CC(C)C)C(=O)NCC(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCC)C(=O)N[C@@H](CCC%12)C(=O)N[C@@H](Cc2c[nH]c3ccccc23)C(=O)N[C@@H](CS%11)C(=O)N[C@@H]([C@@H](C)O)C(=O)N

@@ -1,0 +1,14 @@
+I read the structure as a symmetric dimer built around a hexa-aza cage, with a cyclic RGD-type peptide at each end. I did not run the SMILES through a parser, so validity is checked by hand only.
+
+**Cyclic peptide (each end).** The ring is cyclo(Asp–Phe–Lys–Arg–Gly), closed through backbone amides. The Lys side chain (four CH2) is acylated by a 3-maleimidopropanoyl group. That maleimide is attached to the thiol of a Cys-NH2 as a thiosuccinimide.
+
+**Linker to the cage (each end).**
+- The Cys α-NH is acylated by a 6-aminohexanoyl unit, and its amine nitrogen is acylated by the Tyr carbonyl.
+- The Tyr α-NH is acylated by a glutaryl group.
+- The other end of the glutaryl group forms an amide with the NH on a cage bridgehead carbon.
+
+**Cage.** Two bridgehead carbons, each bearing an NH amide. They are joined by three CH2–NH–CH2CH2–NH–CH2 bridges.
+
+**Stereochemistry.** I assumed L-Arg, L-Asp, L-Tyr and L-Cys, and D-Phe, as in the usual cyclo(RGDfK) peptide. I did not verify these against the individual wedges in the drawing. The Lys α-carbon is drawn with plain bonds, so I left it unspecified, as I did for the thiosuccinimide carbons.
+
+SMILES: O=C1CNC(=O)[C@H](CCCNC(N)=N)NC(=O)C(CCCCNC(=O)CCN2C(=O)CC(SC[C@@H](C(N)=O)NC(=O)CCCCCNC(=O)[C@H](Cc3ccc(O)cc3)NC(=O)CCCC(=O)NC45CNCCNCC(NC(=O)CCCC(=O)N[C@@H](Cc6ccc(O)cc6)C(=O)NCCCCCC(=O)N[C@@H](CSC7CC(=O)N(C7=O)CCC(=O)NCCCCC8NC(=O)[C@@H](Cc9ccccc9)NC(=O)[C@H](CC(=O)O)NC(=O)CNC(=O)[C@H](CCCNC(N)=N)NC8=O)C(N)=O)(CNCCNC4)CNCCNC5)C2=O)NC(=O)[C@@H](Cc%10ccccc%10)NC(=O)[C@H](CC(=O)O)N1

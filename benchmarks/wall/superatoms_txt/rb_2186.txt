@@ -1,0 +1,17 @@
+This SMILES was read from the drawing as a macrocyclic octapeptide, with N-terminal and C-terminal residues outside the ring and a triazole bridging two side chains. I did not run it through a parser, so validity is checked by hand only.
+
+**Sequence, N to C**
+1. 4-Chlorophenylalanine, the free N-terminus. The hashed NH2 reads as S, so I assigned it D.
+2. Propargylglycine-derived residue. Its CH2 is the triazole C4 substituent. The wedged N reads as R, so I assigned it D.
+3. Tyrosine, read as L.
+4. 4-Carbamoylphenylalanine, read as L.
+5. Lysine with a free NH2 on the four-carbon side chain, read as L.
+6. Serine with a CH2OH side chain, read as L.
+7. Azidoalanine-derived residue. Its CH2 is bonded to triazole N1, which closes the ring. The wedged CH2 reads as R, so I assigned it D.
+8. C-terminal tyrosine amide, read as D.
+
+**Triazole.** It is a 1,4-disubstituted 1,2,3-triazole. C4 carries the CH2 from residue 2, and N1 carries the CH2 from residue 7. The macrocycle closure is written as ring bond `%10` on N1.
+
+**Stereochemistry.** I assigned each centre from the wedge or hash on its drawn bond, then converted to @ or @@ with the pattern N[C@@H](R)C(=O) for L and N[C@H](R)C(=O) for D. Residues 2, 7 and 8 are the least certain assignments.
+
+SMILES: N[C@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](Cc2cn%10nn2)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](Cc2ccc(C(N)=O)cc2)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H](CO)C(=O)N[C@H](C%10)C(=O)N[C@H](Cc2ccc(O)cc2)C(N)=O

@@ -1,0 +1,23 @@
+I read the macrocycle region by region and wrote the SMILES as one ring running around it. The stereocentres were assigned from the wedges and hashes as drawn.
+
+**Ring sequence, starting at the amide N on the meta-substituted benzene:**
+1. The aryl NH is acylated by a succinyl linker, NH–C(=O)CH2CH2C(=O)–.
+2. Next comes N-methyl-leucine with an isobutyl side chain. The wedge on its α-carbon gives the L-like configuration.
+3. Then a phenylalanine NH, with a benzyl side chain on a hashed bond.
+4. Then N-methyl-isoleucine, with a sec-butyl group, a wedged methyl and a hashed N-methyl bond.
+5. Then glycine NH–CH2–C(=O).
+6. That carbonyl connects to N(Me)–CH2CH2–CH=CH–C(=O)–O, with the double bond drawn cis (Z).
+7. The ester O–CH2–C(CH3)2 is followed by C(=O)C(=O) and then the pipecolic acid nitrogen, a six-membered piperidine ring.
+8. The pipecolic C2 carries a wedged C(=O)–O ester to a benzylic CH, which has a hashed CH2CH2 bond to a 3,4-dimethoxyphenyl group.
+9. That benzylic CH is attached to the meta position of the benzene ring where the sequence began.
+
+**Stereochemistry:** working through each wedge or hash gave the following.
+- Leu α-carbon: `[C@@H]`.
+- Phe α-carbon: `[C@H]`. By this reading it is the D-configuration, but I followed the drawing.
+- Ile α-carbon: `[C@@H]`, and Ile β-carbon: `[C@@H]`.
+- Pipecolic C2: `[C@H]`.
+- Benzylic ester carbon: `[C@H]`.
+
+I checked ring closures and branch counts by hand. The aryl ring closes with the nitrogen meta to the benzylic carbon, and the piperidine has six members.
+
+SMILES: O=C1CCC(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@H](Cc2ccccc2)C(=O)N(C)[C@@H]([C@@H](C)CC)C(=O)NCC(=O)N(C)CC/C=C\C(=O)OCC(C)(C)C(=O)C(=O)N3CCCC[C@H]3C(=O)O[C@H](CCc4ccc(OC)c(OC)c4)c5cccc(c5)N1

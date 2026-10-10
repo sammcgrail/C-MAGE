@@ -1,0 +1,23 @@
+I read the drawing as a didemnin-type cyclic depsipeptide, with a pyruvyl-proline-N-methyl-leucine side chain on the threonine nitrogen. The ring contains the following units, in order:
+
+- Threonine, whose side-chain oxygen forms the ester to N,O-dimethyltyrosine.
+- N,O-dimethyltyrosine, with a 4-methoxyphenyl side chain.
+- Proline.
+- Leucine.
+- A hydroxyisovalerylpropionyl unit, with a ketone, a methyl-bearing carbon and an isopropyl carbinol ester.
+- Isostatine, with a hydroxyl and a sec-butyl group, closing back onto the threonine carbonyl.
+
+I assigned each stereocentre from the wedges and hashes using CIP priorities, then converted each to @/@@ in SMILES atom order. The assignments are:
+
+- Terminal proline: S
+- N-methyl-leucine: S
+- Threonine: α-carbon S, β-carbon R
+- N,O-dimethyltyrosine: S
+- Ring proline: S
+- Ring leucine: S
+- Hydroxyisovalerylpropionyl unit: methyl-bearing carbon S, isopropyl carbinol carbon S
+- Isostatine: C3 S, C4 R, C5 S
+
+I did not re-verify the full SMILES by an independent parse. The N-methyl-leucine centre comes out S from the drawing, although natural didemnins carry D-N-methyl-leucine there. I followed the drawing.
+
+SMILES: CC(=O)C(=O)N1CCC[C@H]1C(=O)N(C)[C@@H](CC(C)C)C(=O)N[C@H]2[C@@H](C)OC(=O)[C@H](Cc3ccc(OC)cc3)N(C)C(=O)[C@@H]4CCCN4C(=O)[C@H](CC(C)C)NC(=O)[C@@H](C)C(=O)[C@H](C(C)C)OC(=O)C[C@H](O)[C@@H]([C@@H](C)CC)NC2=O

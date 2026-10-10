@@ -1,0 +1,11 @@
+I read the structure in four pieces and wrote the SMILES by joining them in order.
+
+1. **Maleimide and PEG linker:** a maleimide N-substituted with CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–C(=O)–.
+2. **Peptide chain:** –NH–Gly–Gly–Phe–Gly–NH–, followed by CH2–O–CH2 joining to the morpholine.
+   - The phenylalanine α-carbon has a hashed bond to the benzyl group. This gives the S (L) configuration, written `N[C@@H](Cc1ccccc1)C(=O)`.
+3. **Morpholine:** it is attached at C2 through a wedged CH2O bond, and its ring nitrogen carries a CH2 that links to the core. The CIP priorities are ring O > CH2O > ring C3 > H, and the drawing gives S, written `OC[C@@H]1CN(...)CCO1`.
+4. **Camptothecin-type core:** the quinoline carries a methyl and a fluorine on the benzo ring. It is fused to the pyrrolo-pyridone and a lactone, and the lactone carbon bears an OH (wedged) and an ethyl group. I wrote this carbon as `[C@]3(O)CC` in my ring-closure ordering, which I matched to natural 20S camptothecin. I did not independently re-derive it from the wedge geometry.
+
+I checked the ring-closure digits by hand and the SMILES should parse as written, but I did not run it through a parser.
+
+SMILES: O=C1C=CC(=O)N1CCOCCOCCOCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)NCOC[C@@H]1CN(Cc2c3cc(C)c(F)cc3nc3c2Cn2c3cc3c(c2=O)COC(=O)[C@]3(O)CC)CCO1

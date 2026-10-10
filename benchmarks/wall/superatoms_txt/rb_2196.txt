@@ -1,0 +1,15 @@
+This SMILES is my reading of the drawing, with L-configuration assumed at every amino-acid α-carbon. I did not verify the wedge directions against the drawing for each centre.
+
+**Reading of the structure**
+- **Chelator:** a DOTA-type 12-membered tetra-aza ring with three N-CH2COOH arms and a fourth N-CH2C(=O)- arm. The "Ga" label has no bonds drawn to it, so I left it out of the SMILES.
+- **Linker and first residues:** the fourth arm is acylated onto cysteic acid (CH2SO3H side chain). Its carbonyl is amidated by the ε-NH of a lysine.
+- **Lysine nitrogen:** that lysine's α-nitrogen is drawn as the N of an isoindole ring rather than as an amide NH. The isoindole carbon next to the N carries a sulfur.
+- **Peptide chain from that lysine:** Tyr, Lys(N-isopropyl), Arg, 2-naphthylalanine, Ala.
+- **Closing the macrocycle:** after Ala comes a C(=N–)–CH2–S unit, with the sulfur bonded to the isoindole. I wrote the N on that carbon as a plain imine N with no H, since a double bond and two substituents leave no room for one.
+- **C-terminus:** the same carbon also bears C(=O)NH–Lys(N-isopropyl)–NH2.
+
+**Stereochemistry:** for the lysine α-carbon, whose neighbours are written in a different order, I used `[C@H]` so that it is L.
+
+I checked that every ring-closure digit is opened and closed.
+
+SMILES: OC(=O)CN1CCN(CC(=O)N[C@@H](CS(=O)(=O)O)C(=O)NCCCC[C@H]2C(=O)N[C@@H](Cc3ccc(O)cc3)C(=O)N[C@@H](CCCCNC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](Cc3ccc4ccccc4c3)C(=O)N[C@@H](C)C(=O)N=C(CSc3c4ccccc4cn32)C(=O)N[C@@H](CCCCNC(C)C)C(N)=O)CCN(CC(=O)O)CCN(CC(=O)O)CC1

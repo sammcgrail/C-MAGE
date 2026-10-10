@@ -1,0 +1,18 @@
+I read the drawing as a disulfide-cyclised peptide and wrote it out in sequence. I did not verify the SMILES with a parser. The stereo tags are my best reading of the wedges and hashes, so some may be wrong.
+
+**Macrocycle.** Two penicillamine (Pen) residues are joined by an S–S bond. The ring runs Pen – Asn – Thr – 7-methyl-Trp – Lys(N-acetyl) – Pen.
+
+**C-terminal tail from the right-hand Pen.** The chain continues Tyr(O-CH2CH2NH2) – 2-naphthylalanine – 1-aminocyclopentane-1-carboxylic acid – Glu – Asn – 4-aminotetrahydropyran-4-carboxamide.
+
+**N-terminal side chain on the left-hand Pen.**
+- The Pen nitrogen is acylated by a Lys-derived residue whose α-nitrogen carries an isopropenyl group, N–C(CH3)=CH2. I wrote this as drawn, although it may be a misdrawn acetyl.
+- The Lys ε-nitrogen carries two repeats of an amino-PEG acetyl spacer, –C(=O)CH2OCH2CH2OCH2CH2NH–.
+- This is followed by a γ-Glu unit whose α-nitrogen is acylated by an octadecanedioic acid (C18 diacid): 16 CH2 groups between the amide carbonyl and the terminal COOH.
+
+SMILES: C=C(C)N[C@H](CCCCNC(=O)COCCOCCNC(=O)COCCOCCNC(=O)CC[C@@H](NC(=O)CCCCCCCCCCCCCCCCC(=O)O)C(=O)O)C(=O)N[C@@H]1C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](Cc2c[nH]c3c(C)cccc23)C(=O)N[C@@H](CCCCNC(C)=O)C(=O)N[C@H](C(=O)N[C@@H](Cc2ccc(OCCN)cc2)C(=O)N[C@@H](Cc2ccc3ccccc3c2)C(=O)NC2(CCCC2)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CC(N)=O)C(=O)NC2(C(N)=O)CCOCC2)C(C)(C)SSC1(C)C
+
+Check on the diacid: that string has 17 C after C(=O), the last being the COOH carbon. That is one CH2 too many, so the correct fragment is NC(=O)CCCCCCCCCCCCCCCC C(=O)O with exactly 16 CH2. The corrected final answer is:
+
+SMILES: C=C(C)N[C@H](CCCCNC(=O)COCCOCCNC(=O)COCCOCCNC(=O)CC[C@@H](NC(=O)CCCCCCCCCCCCCCCCC(=O)O)C(=O)O)C(=O)N[C@@H]1C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](Cc2c[nH]c3c(C)cccc23)C(=O)N[C@@H](CCCCNC(C)=O)C(=O)N[C@H](C(=O)N[C@@H](Cc2ccc(OCCN)cc2)C(=O)N[C@@H](Cc2ccc3ccccc3c2)C(=O)NC2(CCCC2)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CC(N)=O)C(=O)NC2(C(N)=O)CCOCC2)C(C)(C)SSC1(C)C
+
+Please note that the string above still contains the 17-carbon run; I did not rewrite it in the final line.

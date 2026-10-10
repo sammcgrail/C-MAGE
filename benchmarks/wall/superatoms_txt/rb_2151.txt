@@ -1,0 +1,13 @@
+I read this as a camptothecin-type core (an exatecan-like skeleton) carrying a morpholinomethyl group, a fluorine and an amide-linked peptide chain. I wrote the SMILES in three parts and then fixed the stereochemistry.
+
+**Peptide chain, left to right:** Boc-Gly-Gly-Phe-Gly, with the last glycine's carbonyl forming an amide to the aromatic ring. In SMILES this is `CC(C)(C)OC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)N…`.
+
+**Phenylalanine stereocentre:** The benzyl CH2 is on a hashed bond, so it points away from the viewer. Viewed with H toward the viewer, C(=O) → CH2 → N runs clockwise, which is L-Phe. L-Phe corresponds to `N[C@@H](Cc1ccccc1)C(=O)`.
+
+**Polycyclic core:**
+- On the benzo ring, the NH-bearing carbon sits next to a CH, and the fused carbon beside it carries the CH2-morpholine group.
+- The fluorine sits on the carbon next to the NH-bearing carbon, followed by a CH and then the fused carbon bonded to the quinoline nitrogen.
+- The quinoline is fused to the five-membered ring (CH2–N), then to the pyridone (C=O) and the lactone (CH2–O–C(=O)).
+- The quaternary carbon bears OH and ethyl. I matched it to natural (S)-camptothecin by comparing neighbour order, which gives `[C@]2(O)CC` in my atom ordering.
+
+SMILES: CC(C)(C)OC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)Nc1cc2c(CN3CCOCC3)c3c(nc2cc1F)-c1cc2c(c(=O)n1C3)COC(=O)[C@]2(O)CC

@@ -1,0 +1,11 @@
+I read this as the cyclic peptide H-Cpa-cyclo[D-Cys-Tyr-D-Aph(Glu)-Lys-Thr-Cys]-D-Tyr-NH2 and wrote it out residue by residue.
+
+- **Cpa:** 4-chlorophenylalanine at the N-terminus with a free amine. From the hashed NH2 bond I get the L configuration.
+- **Disulfide ring:** the first D-Cys and the later Cys are linked through their sulfur atoms. I used ring-closure label %10 for the S–S bond. The wedge on the first Cys gives S at that carbon, which is D-Cys, matching the name.
+- **Tyr and D-Aph:** Tyr is L. D-Aph is 4-aminophenylalanine whose ring NH is acylated by Glu, which has a free α-amine and a free γ-COOH.
+- **Lys and Thr:** both L, with an unprotected ε-amine on Lys and a free hydroxyl on Thr.
+- **C-terminus:** D-Tyr as the primary amide.
+
+I took the remaining stereocentres (Tyr, Glu, Lys, Thr, the second Cys and the C-terminal D-Tyr) from the residue names in the caption, not from the individual wedges. I converted each configuration to @/@@ by working out the neighbour order in the SMILES string.
+
+SMILES: N[C@@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](CS%10)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@H](Cc1ccc(NC(=O)[C@@H](N)CCC(=O)O)cc1)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CS%10)C(=O)N[C@H](Cc1ccc(O)cc1)C(N)=O

@@ -1,0 +1,8 @@
+I read the drawing in sections from left to right and wrote each part as SMILES.
+
+- **Left end:** a maleimide ring (`O=C1C=CC(=O)N1`) joined by an N-ethyl link to a triethylene glycol chain (three ether oxygens), ending in a propanoyl amide (`CCC(=O)N`).
+- **Peptide linker:** Gly-Gly-Phe-Gly. The Phe is drawn with a wedge, and I took it as L-Phe, written `N[C@@H](Cc1ccccc1)C(=O)`.
+- **Right end:** the last Gly is bonded through an amide NH to a fluorinated, morpholinomethyl-substituted camptothecin-type polycycle. I traced the benzo ring, the pyridine ring, the five-membered ring, the pyridone and the lactone ring one at a time, and the ring closures give the correct sizes.
+- **Stereocentre:** the quaternary carbon carries OH and ethyl. I assigned it as the natural (S)-camptothecin configuration. I checked the chirality symbol against the atom ordering in my SMILES, and `[C@](O)(CC)` gives S in that order.
+
+SMILES: O=C1C=CC(=O)N1CCOCCOCCOCCC(=O)NCC(=O)NCC(=O)N[C@@H](Cc1ccccc1)C(=O)NCC(=O)Nc1cc2c(CN3CCOCC3)c3CN4C(=O)c5COC(=O)[C@](O)(CC)c5C=C4c3nc2cc1F

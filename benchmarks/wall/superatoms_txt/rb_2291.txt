@@ -1,0 +1,19 @@
+I read the structure as the cyclic peptide named under the drawing, H-Cpa-cyclo[D-Cys-Tyr-D-Phe(4-acetamidomethyl)-Lys-Thr-Cys]-D-Tyr-NH2, and wrote the SMILES residue by residue.
+
+**Residues and connectivity**
+- The N-terminal residue is L-4-chlorophenylalanine (Cpa) with a free NH2. Its carbonyl is acylated onto the amine of the first D-Cys.
+- The ring runs D-Cys, Tyr, D-Phe(4-CH2NHAc), Lys (free side-chain NH2), Thr, Cys. The two Cys residues are joined by a disulfide (S–S).
+- The second Cys carbonyl is joined to D-Tyr, which ends as a primary amide (C(N)=O).
+
+**Stereochemistry**
+- Cpa: the hashed NH2 gives S, which is the L configuration.
+- First Cys: gives S, which is D for cysteine.
+- Tyr: gives S, which is L.
+- Lys: gives S, which is L.
+- D-Phe: I could not clearly tell whether its side-chain bond is hashed or bold. I assigned D from the name.
+- Thr and the second Cys: the wedges are not clearly legible, so I assumed L-Thr and L-Cys.
+- D-Tyr: assigned D from the name.
+
+For each residue I set the @/@@ tag from the neighbour order in the SMILES string, comparing against the standard L-residue SMILES.
+
+SMILES: N[C@@H](Cc1ccc(Cl)cc1)C(=O)N[C@@H]2CSSC[C@@H](C(=O)N[C@H](Cc3ccc(O)cc3)C(N)=O)NC(=O)[C@H]([C@@H](C)O)NC(=O)[C@H](CCCCN)NC(=O)[C@@H](Cc3ccc(CNC(C)=O)cc3)NC(=O)[C@H](Cc3ccc(O)cc3)NC2=O

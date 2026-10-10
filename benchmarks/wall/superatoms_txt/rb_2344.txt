@@ -1,0 +1,11 @@
+I wrote the SMILES from the sequence in the drawing's caption, H‑Cpa‑cyclo[D‑Cys‑Tyr‑D‑Aph(2‑(4‑morpholinyl)ethyl)‑Lys‑Thr‑Cys]‑D‑Tyr‑NH2. I checked it against the drawn groups.
+
+- **N‑terminus:** Cpa is 4‑chlorophenylalanine with a free NH2. I checked the hashed NH2 on the drawing, and it works out as the L (S) configuration.
+- **Ring:** The two Cys residues are joined by a disulfide (S–S). The ring runs D‑Cys, Tyr, D‑Aph, Lys, Thr, Cys.
+- **D‑Aph side chain:** the aniline nitrogen carries a CH2CH2 linker to the morpholine nitrogen.
+- **Lys:** its side chain is a free (CH2)4NH2.
+- **Thr:** the β‑carbon bears OH and CH3.
+- **C‑terminus:** D‑Tyr is outside the ring and ends as a primary amide, C(N)=O.
+- **Stereochemistry:** apart from the Cpa check above, I took the L/D configurations from the residue names (D‑Cys, D‑Aph, D‑Tyr; L for the rest, with Thr as L‑Thr) and encoded them in SMILES. I did not re‑verify the other centres against the wedges.
+
+SMILES: N[C@@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](CS%10)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@H](Cc1ccc(NCCN2CCOCC2)cc1)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CS%10)C(=O)N[C@H](Cc1ccc(O)cc1)C(N)=O

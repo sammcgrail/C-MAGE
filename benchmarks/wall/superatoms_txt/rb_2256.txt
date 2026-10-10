@@ -1,0 +1,20 @@
+I read the molecule as a peptoid-like chain of 10 repeating units. Each unit has the form NH–CH(R)–CH2–N(SO2R′)–CH2–C(=O)–. The chain starts with an N-terminal acetyl group and ends in a C-terminal primary amide (CH2–C(=O)NH2).
+
+Units from left to right (R is the carbon side chain, R′ is the sulfonyl substituent):
+
+| Unit | R (on the CH) | R′ (on the sulfonyl) |
+|---|---|---|
+| 1 | CH2CH2COOH (Glu-like) | CH2CH2NH2 |
+| 2 | (CH2)3NHC(=NH)NH2 (Arg-like) | CH3 |
+| 3 | Arg-like | CH3 |
+| 4 | isobutyl (Leu-like) | CH2CH2NH2 |
+| 5 | CH(OH)CH3 (Thr-like) | isobutyl |
+| 6 | CH3 (Ala-like, marked *) | CH2CH2NH2 |
+| 7 | Arg-like | isobutyl |
+| 8 | sec-butyl (Ile-like) | CH3 |
+| 9 | isobutyl | isobutyl |
+| 10 | isobutyl | benzyl |
+
+Stereochemistry: every α-carbon has a wedged side-chain bond, and all ten are drawn with the same geometry. Working through the Glu-like carbon gave the SMILES pattern `N[C@@H](R)CN`. I applied that same pattern to all ten. The Thr-like β-carbon and the Ile-like β-carbon have no wedges, so I left them without stereo marks.
+
+SMILES: CC(=O)N[C@@H](CCC(=O)O)CN(S(=O)(=O)CCN)CC(=O)N[C@@H](CCCNC(=N)N)CN(S(C)(=O)=O)CC(=O)N[C@@H](CCCNC(=N)N)CN(S(C)(=O)=O)CC(=O)N[C@@H](CC(C)C)CN(S(=O)(=O)CCN)CC(=O)N[C@@H](C(C)O)CN(S(=O)(=O)CC(C)C)CC(=O)N[C@@H](C)CN(S(=O)(=O)CCN)CC(=O)N[C@@H](CCCNC(=N)N)CN(S(=O)(=O)CC(C)C)CC(=O)N[C@@H](C(C)CC)CN(S(C)(=O)=O)CC(=O)N[C@@H](CC(C)C)CN(S(=O)(=O)CC(C)C)CC(=O)N[C@@H](CC(C)C)CN(S(=O)(=O)Cc1ccccc1)CC(N)=O

@@ -1,0 +1,16 @@
+This SMILES was read from the drawing region by region. I assumed all the amino-acid stereocentres are L, and I derived only the Xaa1 centre from its hashed bond (it comes out S).
+
+**Fragments read from the image**
+- **Biotin:** the bicyclic urea fused to a thiophane ring, with a pentanoyl chain.
+- **Linker:** an amide to a PEG3 chain, NH‑CH2CH2‑O‑CH2CH2‑O‑CH2CH2‑O‑CH2‑C(=O).
+- **Cyclic peptide, N→C:** the PEG acyl group caps the N‑terminus of a triazolylalanine (Xaa1). The sequence then runs Leu, Lys (free NH2 on the side chain), Gly, Trp (indole), Pro, and a C‑terminal primary amide residue.
+- **Macrocycle closure:** the C‑terminal residue is an azidolysine-type residue. Its side chain has four CH2 groups ending at N1 of a 1,4‑disubstituted 1,2,3‑triazole, and C4 of that triazole carries the CH2 of Xaa1.
+
+**Stereochemistry**
+- The Xaa1 α‑carbon has a hashed CH2 bond. Working out its priorities (N > C(=O) > CH2 > H) gives S, which is L.
+- I took the other residues (Leu, Lys, Trp, Pro, and the C‑terminal azidolysine residue) as L.
+- The biotin centres use the standard biotin configuration.
+
+**Check:** the ring closures are consistent. Closure 6 joins Xaa1 to the Leu carbonyl, and the triazole ring closes at C4. The chirality tags were adjusted for the order in which each atom's neighbours are written.
+
+SMILES: O=C(CCCC[C@@H]1SC[C@@H]2NC(=O)N[C@H]12)NCCOCCOCCOCC(=O)N[C@H]6Cc7cn(nn7)CCCC[C@@H](C(N)=O)NC(=O)[C@@H]8CCCN8C(=O)[C@H](Cc8c[nH]c9ccccc89)NC(=O)CNC(=O)[C@H](CCCCN)NC(=O)[C@H](CC(C)C)NC6=O

@@ -1,0 +1,24 @@
+I read the drawing as a resin-bound, fully protected peptide. The sequence below runs from the N-terminus (left to right in the SMILES) to the resin-linked C-terminus.
+
+**Sequence:**
+1. Fmoc on the N-terminus, attached to tetrahydropyran-4-yl-glycine (the oxane ring is six-membered, with one O).
+2. Ile.
+3. Cys(S-trityl).
+4. Ser(O-tBu).
+5. Arg(Pbf), with the sulfonylguanidine side chain.
+6. Ser(O-tBu).
+7. Leu.
+8. Pro.
+9. Octahydroindole-2-carboxylic acid (Oic).
+10. Ile.
+11. Cys(S-trityl).
+12. Ile, attached to the resin through an ester O. I wrote the resin bead as a `*` atom.
+
+**Stereochemistry:**
+- I checked the first Cys and the tetrahydropyranylglycine centres against the wedges and hashes, and both come out as L (R for Cys, S for the glycine derivative).
+- I assigned the remaining residues as natural L-amino acids without checking each wedge, so those are assumptions.
+- For Oic I used the natural (2S,3aS,7aS) configuration, which I did not read off the hashed H atoms in the drawing.
+
+I rewrote the Oic fragment so it is entered from the ring nitrogen, and re-derived its chirality tags for that atom order. The SMILES was not run through a parser, so validity was checked by hand only.
+
+SMILES: O=C(OCC1c2ccccc2-c2ccccc12)N[C@@H](C1CCOCC1)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N[C@@H](CSC(c1ccccc1)(c1ccccc1)c1ccccc1)C(=O)N[C@@H](COC(C)(C)C)C(=O)N[C@@H](CCCNC(=N)NS(=O)(=O)c1c(C)c(C)c2OC(C)(C)Cc2c1C)C(=O)N[C@@H](COC(C)(C)C)C(=O)N[C@@H](CC(C)C)C(=O)N1CCC[C@H]1C(=O)N3[C@H](C(=O)N[C@@H]([C@@H](C)CC)C(=O)N[C@@H](CSC(c1ccccc1)(c1ccccc1)c1ccccc1)C(=O)N[C@@H]([C@@H](C)CC)C(=O)O*)C[C@H]4CCCC[C@H]34
