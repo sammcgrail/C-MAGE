@@ -1,0 +1,23 @@
+Reading the structure region by region, from left to right:
+
+**Left end.** A 6-(trifluoromethyl)pyridine-2-carboxamide: the pyridine nitrogen sits next to both the CF3-bearing carbon and the carbon carrying C(=O)NH. The SMILES for this part is O=C(Nc...)c1cccc(C(F)(F)F)n1.
+
+**Benzothiazole.** The amide NH is on C6 of a benzothiazole. The adjacent carbon (C5) carries C(C)(C)O. The thiazole C2 bears the cyclohexyl group. Writing the benzene ring from the NH carbon:
+- c1(NC=O) is bonded to CH, which is bonded to the ring carbon C7a that bears S.
+- S is bonded to C2, which is bonded to N3, then C3a, then CH (C4), then C5 (bearing the C(C)(C)O group), and back to c1.
+- This gives: c1(NC(=O)...)c(C(C)(C)O)cc2nc(sc2c1)[C@H]3CC[C@H](CC3)CN...
+
+**Cyclohexane.** It is 1,4-disubstituted with a hashed bond to the benzothiazole and a hashed bond to the CH2. Both are hashed, which implies a trans arrangement. I'll write it as [C@H]1CC[C@@H](CC1)... and assign the trans configuration.
+
+For the trans-1,4-cyclohexane in the form C2(...)CCC(...)CC2: written as [C@H]1(Ar)CC[C@@H](CC1)CN, the SMILES `[C@H]1(...)CC[C@@H](...)CC1` is trans. I'll use the form A[C@H]1CC[C@@H](CC1)C, which is trans.
+
+**Azaspiro linker.** The CH2 is attached to N of a 2-azaspiro[3.3]heptane. The azetidine is N1CC2(C1)CC(C2)..., and the cyclobutane carbon opposite the spiro carbon carries a CH2CH2NH chain.
+
+**Aryl amine and imide.** The chain ends in NH on C4 of an isoindoline-1,3-dione. The imide nitrogen carries the 2,6-dioxopiperidin-3-yl group, drawn without stereo.
+
+**Assembly.**
+CC(C)(O)c1cc2nc(sc2cc1NC(=O)c1cccc(C(F)(F)F)n1)[C@H]1CC[C@@H](CC1)CN1CC2(C1)CC(CCNc1cccc3c1C(=O)N(C1CCC(=O)NC1=O)C3=O)C2
+
+The cyclohexane stereo is uncertain, so I'll check it. With the ring written as [C@H]1CC[C@@H](CC1)..., the first atom has neighbors in the order (c-aryl preceding, H, ring closure 1, C). The second has (preceding C, H, branch CC1, then CN). The standard trans-1,4 pattern is C[C@H]1CC[C@@H](C)CC1, which has the same form as mine. The aryl group precedes the first center in my string, so the pattern holds, and I'll keep it.
+
+SMILES: CC(C)(O)c1cc2nc(sc2cc1NC(=O)c1cccc(C(F)(F)F)n1)[C@H]1CC[C@@H](CC1)CN1CC2(C1)CC(CCNc1cccc3c1C(=O)N(C1CCC(=O)NC1=O)C3=O)C2

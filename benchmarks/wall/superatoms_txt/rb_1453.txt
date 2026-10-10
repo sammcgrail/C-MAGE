@@ -1,0 +1,14 @@
+I read the molecule as a PROTAC-type structure with three parts, and wrote the SMILES by building each part in turn.
+
+**Left end.** A 3-aminopyridazine carries a 2-hydroxyphenyl group at C6. At C4 it is attached to N3 of a 3,8-diazabicyclo[3.2.1]octane. N8 of that bicycle is bonded to the 4-position of a pyridine.
+
+**Linker.** The pyridine 2-position carries an O–CH2CH2 chain to C4 of a piperidine. The piperidine nitrogen bears a CH2CH2–O chain to C3 of an isoxazole.
+
+**Right end.** The isoxazole C5 carries a CH(isopropyl)–C(=O) unit, which is acylated onto a 4-hydroxyproline. The proline carboxamide is bonded to an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethylamine. This is the standard VHL ligand.
+
+**Stereochemistry.**
+- The isopropyl-bearing carbon has a bold wedge on the isopropyl. I assigned it R, which is `[C@@H]` in the SMILES order used.
+- The proline carbons follow the usual (2S,4R)-hydroxyproline pattern, matching the wedge on the carboxamide and the hash on the OH.
+- The benzylic CH(CH3) has a wedge on the methyl. I assigned it S.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ccnc(OCCC2CCN(CCOc3cc(on3)[C@@H](C(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@H](C)c3ccc(-c4scnc4C)cc3)CC2)c1

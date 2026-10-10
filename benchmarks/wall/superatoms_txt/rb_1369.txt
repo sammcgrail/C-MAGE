@@ -1,0 +1,12 @@
+I read the molecule as a VHL-recruiting PROTAC-type structure, built from these fragments, left to right:
+
+- **Left warhead:** a 7H-pyrrolo[2,3-c]pyridazine. Its 6-position carries a 2-hydroxyphenyl group, and its 3-position is bonded to the 4-carbon of a piperidine.
+- **Linker:** the piperidine nitrogen is bonded to C2 of a pyrimidine. C5 of the pyrimidine is bonded to a cyclohexane, which is 1,4-disubstituted with a carboxamide.
+- **Cyclohexane stereochemistry:** both ring bonds (to the pyrimidine and to the amide carbonyl) are drawn as bold wedges. Both substituents are therefore on the same face, so I encoded a cis-1,4 arrangement.
+- **Amino acid:** the amide nitrogen is bonded to the alpha carbon of tert-leucine. The N–Cα bond is hashed, which I worked out as the (S) configuration.
+- **Hydroxyproline:** the acyl group sits on the proline nitrogen, the C4 hydroxyl is hashed, and the C2 carboxamide is wedged. This matches the usual (2S,4R) VHL ligand pattern, as in VH032.
+- **Right end:** the carboxamide nitrogen is bonded to a 4-(4-methylthiazol-5-yl)benzyl group.
+
+I derived the cis cyclohexane SMILES notation (`[C@H]1CC[C@H](CC1)`) by working through the neighbour ordering at each ring carbon. I checked the tert-leucine and hydroxyproline stereo tags against the known VH032 SMILES.
+
+SMILES: Oc1ccccc1-c1cc2c(c[nH]c2nn1)C1CCN(CC1)c1ncc(cn1)[C@H]1CC[C@H](CC1)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

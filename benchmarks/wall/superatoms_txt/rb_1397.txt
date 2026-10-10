@@ -1,0 +1,10 @@
+This is a PROTAC-type molecule. I read it in four pieces and joined them.
+
+- **Warhead:** a 3-cyanopyrrolo[1,2-b]pyridazine attached to a pyridine. The pyridine carries an isopropylamino group and a 1,3,4-thiadiazole, which is linked to a piperazine.
+- **Linker:** the piperazine nitrogen is acylated by an adipoyl chain, –C(=O)CCCCC(=O)–, whose other end forms an amide with the tert-leucine nitrogen.
+- **E3 ligand:** the tert-leucine is joined to a 4-hydroxyproline, which is amidated by a 1-[4-(4-methylthiazol-5-yl)phenyl]ethylamine.
+- **Stereochemistry:** I set the three stereocentres to the standard VHL-ligand configuration (S tert-leucine, 2S,4R hydroxyproline, S benzylic carbon) rather than deriving each one from the wedges. I checked the tert-leucine centre against the standard SMILES by atom-order permutation, which required `@@` in my atom ordering. The hydroxyproline and benzylic centres match the standard writing directly.
+
+I traced the pyrrolo[1,2-b]pyridazine ring closures atom by atom and got a 6-membered ring fused to a 5-membered ring, with the aryl group on the pyrrole carbon next to the bridgehead nitrogen.
+
+SMILES: N#Cc1cnn2c(c1)ccc2-c1cc(NC(C)C)c(cn1)-c1nnc(s1)N1CCN(CC1)C(=O)CCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

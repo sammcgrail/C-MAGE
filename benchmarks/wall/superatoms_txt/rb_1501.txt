@@ -1,0 +1,19 @@
+I read the structure region by region and wrote it as SMILES, assigning stereochemistry only at the wedged centres.
+
+**Fragments**
+- **Left end:** a benzothiophene-2-carboxamide with a CF2–PO3H2 group at C5. The amide NH is bonded to the bicyclic core.
+- **Core:** an eight-membered ring (N-ethyl, CH2, CH–NH, C=O, ring N, fusion CH, CH2, CH2) fused to a pyrrolidine. The pyrrolidine C2 carries a C(=O)NH amide.
+- **Glutamine unit:** an L-Gln residue with a side-chain primary amide, joined through its α-NH and C=O.
+- **Phenylalanine unit:** a 4-tert-butyl-phenylalanine residue whose C=O forms an amide with a piperidine nitrogen.
+- **Right end:** the piperidine C4 carries a CH2CH2–NH chain to C4 of a lenalidomide-type isoindolinone. The isoindolinone N is bonded to a 2,6-dioxopiperidin-3-yl group, drawn without stereo.
+
+**Stereochemistry from the wedges**
+- The core CH–NH carbon is S.
+- The pyrrolidine C2 carbon is S.
+- The fusion carbon is R.
+- The Gln α-carbon is S.
+- The 4-tert-butyl-phenylalanine α-carbon is S.
+
+I checked each assignment from the drawn wedge, the Cahn–Ingold–Prelog priorities and the SMILES neighbour order. The SMILES was written by hand and not run through a parser, so ring-closure labels and atom counts were checked by reading it back against the drawing.
+
+SMILES: CCN1C[C@H](NC(=O)c2cc3cc(C(F)(F)P(=O)(O)O)ccc3s2)C(=O)N2[C@H](C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](Cc3ccc(C(C)(C)C)cc3)C(=O)N3CCC(CCNc4cccc5c4CN(C5=O)C4CCC(=O)NC4=O)CC3)CC[C@@H]2CC1

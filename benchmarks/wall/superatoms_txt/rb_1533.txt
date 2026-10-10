@@ -1,0 +1,12 @@
+I read the structure in four parts and joined them into one SMILES.
+
+1. **Left end:** a 3,5-dichloropyridin-4-yl group is attached through an NH to C4 of a coumarin (2H-chromen-2-one).
+2. **Coumarin ring substituents:** a methoxy group sits at C7, and an O-linked chain sits at C8.
+3. **Linker:** counting the vertices between the C8 oxygen and the piperidine nitrogen gives seven CH2 groups, so the chain is an O-heptyl linker. It ends at the piperidine N.
+4. **Right end:** the piperidine is attached at its C4 to C4 of an isoindolin-1-one. The isoindolinone nitrogen carries a 2,6-dioxopiperidin-3-yl (glutarimide) group.
+
+The stereocentre on the glutarimide is drawn with plain bonds, so I gave it no stereo marking.
+
+I checked ring closures in the isoindolinone fragment: `c3cccc4c3CN(C4=O)` places the piperidine on C4, the CH2 on C3a, and the carbonyl on C7a.
+
+SMILES: O=C1C=C(Nc2c(Cl)cncc2Cl)c2ccc(OC)c(OCCCCCCCN3CCC(CC3)c3cccc4c3CN(C4=O)C3CCC(=O)NC3=O)c2O1

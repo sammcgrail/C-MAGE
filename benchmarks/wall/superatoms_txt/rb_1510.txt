@@ -1,0 +1,14 @@
+I read the structure region by region and wrote the SMILES from that. I did not run it through a parser, so validity is checked only by hand.
+
+**Fragments**
+- **Left end:** a 3-amino-pyridazine carrying a 2-hydroxyphenyl group. Its 4-position is attached to N3 of a 3,8-diazabicyclo[3.2.1]octane. The bridgeheads have no wedges, so I gave them no stereo.
+- **Pyridine:** N8 of the bicycle is bonded to the 4-position of a pyridine. The pyridine 2-position carries an ether oxygen.
+- **Cyclobutane:** the oxygen is on a wedge at C1 and the CH2 is on a hash at C3, so the ring is 1,3-disubstituted and the two substituents are trans. That CH2 links to the nitrogen of a piperidine.
+- **Piperidine and linker:** the piperidine is substituted at C4 with a –CH2CH2–O– chain that ends on the 3-position of an isoxazole.
+- **Isoxazole side chain:** the isoxazole 5-position bears a CH carrying an isopropyl group (hashed) and a C(=O) that acylates a pyrrolidine nitrogen.
+- **Pyrrolidine:** it has a hashed 4-OH and a wedged 2-carboxamide.
+- **Amide end:** the amide N is attached to a CH(CH3) with a wedged methyl. That CH is bonded to a 2,3-difluorophenyl ring whose 4-position carries a 4-methylthiazol-5-yl group.
+
+**Stereocentres:** I assigned each @/@@ from the wedge and hash geometry for the cyclobutane C1 and C3, the isopropyl-bearing CH, the pyrrolidine C2 and C4, and the N–CH(CH3) carbon.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ccnc(O[C@H]2C[C@H](CN3CCC(CC3)CCOc3cc(on3)[C@H](C(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(-c4scnc4C)c(F)c3F)C2)c1

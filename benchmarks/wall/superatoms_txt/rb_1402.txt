@@ -1,0 +1,23 @@
+Reading the drawing region by region:
+
+**Left fragment.** This is a pyrrolo[1,2-b]pyridazine carrying a nitrile. The five-membered ring has N (bridgehead), C2 (bearing the pyridine substituent), C3, C4 and C3a. The six-membered ring is C3a, CH, C(CN), CH, N, N(bridgehead).
+- SMILES for this part: N#Cc1cnn2c(c1)ccc2-
+
+**Pyridine.** It is attached to the pyrrolo carbon at the position adjacent to the ring N. Going around: C2 (attached to the pyrrolopyridazine), C3 (H), C4 (NHMe), C5 (thiadiazole), C6 (H), N.
+- SMILES for this part: c1(...)cc(NC)c(...)cn1
+
+**Thiadiazole.** The 1,3,4-thiadiazole is attached to the pyridine through C2 and to the spiro amine through C5.
+- SMILES for this part: c1nnc(s1)N...
+
+**Spiro amine.** This is a 2,7-diazaspiro[3.5]nonane. The piperidine N is attached to the thiadiazole. Its ring is N, CH2, C(spiro), CH2, CH2, CH2, back to N. The azetidine is spiro C, CH2, N, CH2. The azetidine N carries a CH2 linking to the aryl group.
+- SMILES for this part: N1CCCC2(C1)CN(C2)C...
+
+**Isoindoline-dione.** The benzyl CH2 sits on position 5 of the isoindoline-1,3-dione. Its N is attached to the 2,6-dioxopiperidin-3-yl group.
+- SMILES for this part: Cc1ccc2c(c1)C(=O)N(C2=O)C1CCC(=O)NC1=O
+
+**Full SMILES:**
+N#Cc1cnn2c(c1)ccc2-c1cc(NC)c(cn1)-c1nnc(s1)N1CCCC2(C1)CN(C2)Cc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O
+
+The pyrrolo ring closure checks out: n2 is the bridgehead N, c(c1) is C3a (closing the six-membered ring through c1), then cc runs through C4 and C3, and c2 is C2, which closes back to the bridgehead N. That fuses correctly.
+
+SMILES: N#Cc1cnn2c(c1)ccc2-c1cc(NC)c(cn1)-c1nnc(s1)N1CCCC2(C1)CN(C2)Cc1ccc2c(c1)C(=O)N(C1CCC(=O)NC1=O)C2=O

@@ -1,0 +1,9 @@
+I read the structure in pieces and joined them into one SMILES. I did not run it through a parser.
+
+- **Left end:** a 2,6-dioxopiperidin-3-yl group sits on the nitrogen of an isoindoline-1,3-dione. The isoindoline carries an NH at position 4. The piperidine carbon is drawn with plain bonds, so I gave it no stereo.
+- **Spiro linker:** the NH is attached to a cyclobutane CH. The cyclobutane shares its spiro carbon with a cyclohexane (a spiro[3.5]nonane). The cyclohexane carbon para to the spiro carbon bears an N-methyl amine, and these centres are plain bonds with no stereo.
+- **Cyclohexane in the centre:** the N-CH2 side is drawn with a hashed bond and the indazole nitrogen side with a bold wedge, which makes the 1,4-disubstitution trans. I encoded this as `C[C@H]6CC[C@H](CC6)n7`, checking the chirality order against the known trans-1,4-dimethylcyclohexane SMILES.
+- **Indazole:** it is attached through N2 to the cyclohexane. It carries a 2-hydroxypropan-2-yl group at C5 and an amide NH at C6.
+- **Right end:** the amide is a 6-(trifluoromethyl)pyridine-2-carboxamide.
+
+SMILES: O=C1CCC(N2C(=O)c3cccc(NC4CC5(C4)CCC(CC5)N(C)C[C@H]6CC[C@H](CC6)n7cc8cc(C(C)(C)O)c(NC(=O)c9cccc(C(F)(F)F)n9)cc8n7)c3C2=O)C(=O)N1

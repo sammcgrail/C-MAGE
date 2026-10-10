@@ -1,0 +1,10 @@
+I read the molecule in four parts and joined them into one SMILES.
+
+- **Left end:** a 6-(2-fluoropropan-2-yl)pyridine-2-carboxamide, whose amide NH is attached to the indazole.
+- **Indazole:** a 2H-indazole with the amide NH at C5, OMe at C6 and methyl at C7. N2 carries the cyclohexyl group.
+- **Cyclohexane:** a 1,4-disubstituted ring with N2 of the indazole at C1 and a CH2 at C4. The wedge on one end and the hash on the other put the two substituents on opposite faces, so the ring is trans. That gives `[C@H]…[C@@H]` in the SMILES below.
+- **Linker and right end:** the CH2 leads to the nitrogen of a 2-azaspiro[3.3]heptane. The 6-position of the spirocycle carries a CH2CH2NH chain, which attaches to C4 of a phthalimide. The phthalimide nitrogen carries a 2,6-dioxopiperidin-3-yl group. This stereocentre is drawn with plain bonds, so I gave it no stereo.
+
+I checked the trans assignment by working through the chirality order at both ring carbons.
+
+SMILES: Cc1c(OC)c(NC(=O)c2cccc(n2)C(C)(C)F)cc2cn(nc12)[C@H]3CC[C@@H](CC3)CN4CC5(C4)CC(C5)CCNc6cccc7C(=O)N(C(=O)c67)C8CCC(=O)NC8=O

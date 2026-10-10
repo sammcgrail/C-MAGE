@@ -1,0 +1,8 @@
+I read the structure in four pieces and joined them into one SMILES.
+
+- **Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. Its amide NH is bonded to C5 of a 2H-indazole that carries a methoxy group at C6.
+- **Cyclohexane:** the indazole N2 is bonded to a 1,4-disubstituted cyclohexane. The N-side carbon has a bold wedge and the CH2-side carbon has a hashed bond, so the ring is trans. I encoded this as `[C@H]1CC[C@@H](...)CC1`.
+- **Spiro linker:** the cyclohexyl CH2 is bonded to the nitrogen of a 2-azaspiro[3.3]heptane. The cyclobutane carbon on the far side of the spiro unit carries a CH(CH3)CH2NH chain. The methyl is on a wedge, and working out the geometry gives `[C@H](C)` in the order written.
+- **Right end:** the NH is bonded to C4 of a phthalimide (isoindoline-1,3-dione). The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group, whose stereocentre is drawn with plain bonds and so has no stereo label.
+
+SMILES: COc1cc2nn(cc2cc1NC(=O)c1cccc(n1)C(F)(F)F)[C@H]1CC[C@@H](CN3CC4(C3)CC(C4)[C@H](C)CNc3cccc4c3C(=O)N(C4=O)C3CCC(=O)NC3=O)CC1

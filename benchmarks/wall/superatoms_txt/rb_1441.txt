@@ -1,0 +1,13 @@
+I read the structure region by region and wrote the SMILES below. I did not run it through a parser. The molecule looks like a bifunctional degrader (PROTAC) with a VHL-type hydroxyproline ligand.
+
+**Left to right**
+- **Pyridazine:** a 3-amino-pyridazine bearing a 2-hydroxyphenyl group at C6. Its C4 is bonded to N3 of the bicycle.
+- **Bicycle:** the bridge between the two bridgehead carbons has two carbons, so it is a 3,8-diazabicyclo[3.2.1]octane. N3 carries the pyridazine and N8 carries the pyridine.
+- **Pyridine:** attached to N8 at C4, with an O-cyclobutyl substituent at C2.
+- **Cyclobutane:** 1,3-disubstituted. One oxygen is on a wedge and the other on a hash, so the substituents are trans. The two ring carbons are not true stereocentres, so I wrote them as a trans pair (`@,@`).
+- **Linker:** the cyclobutyl oxygen goes to piperidine C4. That piperidine's N is bonded to a C(CH3)2 group, which is bonded to C4 of a second piperidine.
+- **Isoxazole:** the second piperidine's N is bonded to C3 of an isoxazole. C5 of the isoxazole carries CH(iPr)–C(=O). That CH is drawn with plain bonds, so it has no stereo label.
+- **Hydroxyproline:** the C(=O) acylates the pyrrolidine N. I assigned (2S,4R) from the wedge at C2 and the hash at C4.
+- **Amide end:** the amide NH is bonded to the (S)-1-arylethyl carbon (methyl on a wedge). The aryl group is a phenyl carrying 4-methylthiazol-5-yl.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ccnc(O[C@H]2C[C@H](OC3CCN(CC3)C(C)(C)C3CCN(CC3)c3cc(on3)C(C(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@@H](C)c3ccc(cc3)-c3scnc3C)C2)c1

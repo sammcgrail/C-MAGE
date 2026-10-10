@@ -1,0 +1,9 @@
+I read the molecule region by region and assembled the SMILES from these pieces.
+
+- **Left end:** an isoquinolin-1(2H)-one whose ring nitrogen is bonded to position 6 of a benzothiazole.
+- **Benzothiazole:** it carries a 2-hydroxypropan-2-yl group, C(CH3)2OH, at position 5 and the cyclohexyl group at C2.
+- **Cyclohexane:** it is 1,4-disubstituted, with a wedge on the benzothiazole side and a hash on the CH2 side. That wedge/hash pair indicates trans, which I encoded as `[C@H]1CC[C@H](CC1)`. This follows the trans-1,4 pattern as I remember it for SMILES; I did not check it with a toolkit.
+- **Spiro linker:** the CH2 on the cyclohexane is bonded to the nitrogen of a 2-azaspiro[3.3]heptane. The CH on the other cyclobutane ring of the spiro system bears a CH2CH2NH chain. No stereochemistry is drawn there.
+- **Right end:** the NH is attached at position 4 of an isoindoline-1,3-dione, which is N-linked to the 3-position of a piperidine-2,6-dione (glutarimide). That carbon is drawn with plain bonds, so it gets no stereo label.
+
+SMILES: O=C1c2ccccc2C=CN1c1cc2sc(nc2cc1C(C)(C)O)[C@H]1CC[C@H](CC1)CN1CC2(C1)CC(CCNc1cccc3c1C(=O)N(C3=O)C1CCC(=O)NC1=O)C2

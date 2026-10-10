@@ -1,0 +1,9 @@
+I read the structure in five fragments and joined them into one SMILES.
+
+- **Left end:** a 6-(1,1-difluoroethyl)pyridine-2-carboxamide, `CC(F)(F)c1cccc(n1)C(=O)N`.
+- **Indazole:** a 2H-indazole whose C5 carries the amide NH and whose C6 carries a C(CH3)2OH group. N2 is bonded to the cyclohexane.
+- **Cyclohexane:** 1,4-disubstituted, with a bold wedge to the indazole N on one carbon and a hashed bond to the CH2 on the other. One wedge and one hash across a 1,4-ring means trans. The ring has a mirror plane, so the trans relationship fully defines it. In SMILES the trans form is `[C@H]1CC[C@H](CC1)`. I derived this tag assignment from the ring's symmetry rather than checking it against a reference compound.
+- **Spirocycle:** the cyclohexyl CH2 is attached to the N of a 7-azaspiro[3.5]nonane. The cyclobutane CH of the spiro system carries a CH2CH2NH linker.
+- **Right end:** the linker NH is bonded to C4 of an isoindoline-1,3-dione. Its ring N carries a 2,6-dioxopiperidin-3-yl group, drawn without stereochemistry.
+
+SMILES: CC(F)(F)c1cccc(n1)C(=O)Nc1cc2cn(nc2cc1C(C)(C)O)[C@H]1CC[C@H](CC1)CN1CCC2(CC1)CC(C2)CCNc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

@@ -1,0 +1,10 @@
+I read the molecule in four parts and joined them into one SMILES.
+
+- **Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. Its amide NH is attached to the benzothiazole at C6.
+- **Benzothiazole:** it carries a C(CH3)2OH group at C5 and is linked at C2 to a cyclohexane ring.
+- **Cyclohexane:** a 1,4-disubstituted ring with a wedge on the benzothiazole side and a hash on the CH2 side. A wedge at one end and a hash at the other makes the ring trans. The CH2 leads to an azetidine nitrogen.
+- **Right end:** the azetidine C3 carries a CH2CH2NH chain. That NH is bonded to C4 of a phthalimide-type ring bearing the 2,6-dioxopiperidin-3-yl group on its imide nitrogen. This stereocentre is drawn with plain bonds, so it gets no stereo label.
+
+For the trans-cyclohexane, I worked out the chirality tags from the neighbour order in the SMILES. The first ring carbon takes `[C@H]` and the second takes `[C@@H]`.
+
+SMILES: O=C(Nc1cc2sc(nc2cc1C(C)(C)O)[C@H]3CC[C@@H](CC3)CN4CC(CCNc5cccc6c5C(=O)N(C7CCC(=O)NC7=O)C6=O)C4)c8cccc(n8)C(F)(F)F

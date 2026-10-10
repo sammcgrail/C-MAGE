@@ -1,0 +1,19 @@
+I read the structure region by region and wrote the SMILES from that.
+
+**Fragments, left to right**
+- **Left end:** a 5-cyanopyrrolo[1,2-b]pyridazine, attached through its pyrrole carbon to a pyridine.
+- **Pyridine:** it carries an NHMe group and is linked to a 1,3,4-thiadiazole.
+- **Linker:** the thiadiazole sits on N3 of a 3,8-diazabicyclo[3.2.1]octane. N8 is acylated by a C(=O)CH2 group.
+- **Benzylic stereocentre:** the CH next to the CH2 carries an NH and a 4-(4-methylthiazol-5-yl)phenyl group.
+- **Hydroxyproline unit:** the NH on the benzylic carbon is acylated by a hydroxyproline.
+- **Right end:** the proline nitrogen is acylated by a tert-leucine unit capped with a 1-fluorocyclopropanecarbonyl group.
+
+**Stereochemistry from the wedges and hashes**
+- The benzylic carbon (hashed bond to the aryl ring) works out as S.
+- The proline α-carbon (wedge to the carboxamide) is S.
+- The hydroxyl-bearing carbon (hashed OH) is R, giving the usual (2S,4R)-hydroxyproline.
+- The tert-leucine α-carbon (wedged NH) is S.
+
+I assigned each centre by CIP priorities from the drawing, then matched the @/@@ symbols to the standard VH032-type SMILES for the proline and tert-leucine centres. The bicycle bridgeheads have no stereo shown, so I left them unspecified.
+
+SMILES: N#Cc1cnn2c(ccc2c1)-c1cc(NC)c(cn1)-c1nnc(s1)N1CC2CCC(C1)N2C(=O)C[C@H](NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@@H](NC(=O)C1(F)CC1)C(C)(C)C)c1ccc(cc1)-c1scnc1C

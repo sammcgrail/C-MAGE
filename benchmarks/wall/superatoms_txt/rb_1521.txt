@@ -1,0 +1,11 @@
+I read the structure in fragments and assembled one SMILES.
+
+- **Left end:** a 5-cyanopyrrolo[1,2-b]pyridazine, attached through its pyrrole carbon to a pyridine. The pyridine carries an NHMe group and a 1,3,4-thiadiazole.
+- **Cyclohexane:** the thiadiazole is bonded to a 1,4-disubstituted cyclohexane, with a wedge on the thiadiazole-bearing carbon and a hash on the NH-bearing carbon. That is the trans arrangement, which I encoded as `[C@H]…[C@H]` in the form X[C@H]1CC[C@H](Y)CC1.
+- **Linker:** the cyclohexyl NH is acylated by a four-carbon chain, `NC(=O)CCCO`, ending in an aryl ether.
+- **Aryl ring:** the ether oxygen sits ortho to the CH2NH group. A 4-methylthiazol-5-yl group sits para to the CH2 carbon.
+- **Right end:** this is a VHL-type ligand. The CH2NH is acylated by a 4-hydroxyproline (2S,4R as drawn). The proline nitrogen is acylated by a tert-leucine whose NH carries a 1-fluorocyclopropanecarbonyl group. I assigned the proline and tert-leucine stereocentres by comparison with the standard VHL ligand SMILES.
+
+I checked the ring closures and numbering by hand and did not run the SMILES through a parser.
+
+SMILES: N#Cc1cc2ccc(-c3cc(NC)c(-c4nnc([C@H]5CC[C@H](NC(=O)CCCOc6cc(-c7scnc7C)ccc6CNC(=O)[C@@H]6C[C@@H](O)CN6C(=O)[C@@H](NC(=O)C6(F)CC6)C(C)(C)C)CC5)s4)cn3)n2nc1

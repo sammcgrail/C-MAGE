@@ -1,0 +1,11 @@
+I read the molecule in five parts and joined them in one SMILES string:
+
+- **Left end:** an isoquinolin-1(2H)-one whose ring nitrogen is bonded to C5 of the indazole.
+- **Indazole:** a 2H-indazole carrying a methoxy group at C6. Its N2 is bonded to the cyclohexane ring.
+- **Cyclohexane:** a 1,4-disubstituted ring with one bold wedge (at the indazole N) and one hashed bond (at the CH2 side). That combination means trans, so I wrote it as `[C@H]3CC[C@@H](CC3)`. I took this trans pattern from memory of standard SMILES for trans-1,4-disubstituted cyclohexanes rather than deriving it, so the @/@@ assignment is the least certain part.
+- **Linker:** the CH2 on the cyclohexane leads to the nitrogen of a 2-azaspiro[3.3]heptane. The spiro ring bears a –CH2CH2–NH– chain at position 6 (the far cyclobutane carbon).
+- **Right end:** the NH is bonded to C4 of a phthalimide, whose imide nitrogen carries a 2,6-dioxopiperidin-3-yl group (the thalidomide-type unit). That piperidine carbon is drawn with plain bonds, so it has no stereo label.
+
+I checked the ring closures and atom counts against the drawing; I did not run the string through a validator.
+
+SMILES: COc1cc2nn(cc2cc1-n1ccc2ccccc2c1=O)[C@H]1CC[C@@H](CC1)CN1CC2(C1)CC(C2)CCNc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O

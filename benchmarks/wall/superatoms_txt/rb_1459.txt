@@ -1,0 +1,20 @@
+I read the structure region by region, left to right.
+
+**Left bicycle.** This is a pyrrolo[1,5-b]pyridazine carrying a nitrile. The ring atoms are:
+- The pyrrole ring: N (bridgehead), C7 (attached to the pyridine), C6, C5 and C4a (bridgehead carbon).
+- The pyridazine ring: C4a, C4, C3 (bearing CN), C2, then N1 (the second nitrogen), then the bridgehead N.
+
+As SMILES this is N#Cc1cnn2c(c3...)ccc2c1, where the pyrrole carbon bearing the pyridine is c2(...). Written out: N#Cc1cnn2c(ccc2c1)-Ar.
+
+**Pyridine.** C2 is attached to the bicycle. Going around the ring from there: C3 (CH), C4 (NHMe), C5 (attached to the thiadiazole), C6 (CH), then N. As SMILES: c1(-bicycle)cc(NC)c(-thiadiazole)cn1.
+
+**Thiadiazole.** This is a 1,3,4-thiadiazole. One carbon bears the pyridine and the other bears the piperazine: c1nnc(S1)N...
+
+**Piperazine and linker.** The piperazine nitrogen is acylated by C(=O) attached to piperidine C4. The piperidine nitrogen carries a CH2 linked to the isoindoline-dione aromatic ring.
+
+**Isoindoline-dione.** The CH2 is on C5 of the ring. The imide nitrogen bears the 2,6-dioxopiperidin-3-yl group, drawn with no stereo.
+
+**Full SMILES:**
+N#Cc1cnn2c(ccc2c1)-c1cc(NC)c(cn1)-c1nnc(s1)N1CCN(CC1)C(=O)C1CCN(CC1)Cc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+SMILES: N#Cc1cnn2c(ccc2c1)-c1cc(NC)c(cn1)-c1nnc(s1)N1CCN(CC1)C(=O)C1CCN(CC1)Cc1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

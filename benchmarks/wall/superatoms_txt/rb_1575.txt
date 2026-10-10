@@ -1,0 +1,20 @@
+I read the structure in four pieces and joined them.
+
+**Left fragment.** A 6-(trifluoromethyl)pyridine-2-carboxamide: the pyridine has CF3 at C6 and C(=O)NH at C2. The amide NH is attached to the benzothiazole at C6.
+
+**Benzothiazole.** S1 and C2 are drawn at the top right of the bicycle, and C2 carries the piperidine nitrogen. N3 is at the bottom. The benzo ring carries the NH-amide on one carbon, and the adjacent carbon carries C(C)(C)O (2-hydroxypropan-2-yl).
+
+SMILES for the benzothiazole: c1(N...)c(C(C)(C)O)cc2nc(N3...)sc2c1. Checking the layout: C7a is attached to S and C3a is attached to N. The ring carbon at the top (attached to S, then CH, then C-NH) matches this, since the top-left CH sits next to C7a. The NH-bearing carbon is C6, and the carbon bearing C(CH3)2OH is C5, which is adjacent to C4(H) and then C3a (attached to N). This fits.
+
+**Middle fragment.** The benzothiazole C2 is bonded to a piperidine N. The piperidine C4 carries a CH2 that links to N7 of a 2,7-diazaspiro[3.5]nonane, so the nitrogen sits in the six-membered ring. The spiro carbon is shared with a cyclobutane, and the cyclobutane carbon opposite the spiro carbon (C3 of the spiro[3.5] system) bears the NH.
+
+**Right fragment.** The NH is attached to C4 of an isoindoline-1,3-dione (a pomalidomide-type unit). Its N is bonded to C3 of a piperidine-2,6-dione.
+
+The drawing shows no wedges or hashes, so I include no stereochemistry.
+
+Assembled SMILES:
+O=C(Nc1cc2sc(nc2cc1C(C)(C)O)N1CCC(CN2CCC3(CC2)CC(C3)Nc2cccc3C(=O)N(C(=O)c23)C2CCC(=O)NC2=O)CC1)c1cccc(n1)C(F)(F)F
+
+Check on the benzothiazole writing: c1 (NH-bearing, C6) c (C7, H) c2 (C7a) s c(N) n c2 (C3a) c (C4, H) c1 (C5, with the carbinol). In my string, "Nc1cc2sc(nc2cc1C(C)(C)O)": c1 is C6, then c is C7, c2 is C7a, s, c is C2 (with n), c2 is C3a, c is C4, c1 is C5 carrying C(C)(C)O. The N1CCC... piperidine attaches to C2 after the parenthesis closes. This is consistent.
+
+SMILES: O=C(Nc1cc2sc(nc2cc1C(C)(C)O)N1CCC(CN2CCC3(CC2)CC(C3)Nc2cccc3C(=O)N(C(=O)c23)C2CCC(=O)NC2=O)CC1)c1cccc(n1)C(F)(F)F

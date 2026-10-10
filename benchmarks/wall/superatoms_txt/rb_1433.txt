@@ -1,0 +1,25 @@
+The drawing shows a PROTAC-type molecule drawn as a formic acid salt, so the SMILES includes formic acid as a separate component.
+
+**Left fragment (thieno[3,2-c]pyridinone core):**
+- The aryl group is a benzene ring carrying CH2N(CH3)2 between two OMe groups, attached to C7 of the bicyclic core.
+- Core atoms: C7 is attached to the aryl group, then C6H=, then N5(CH3), then C4(=O), then C3a, which is bonded to C3H and to C7a.
+- The thiophene ring is S, C2 (bearing the carboxamide), C3H, C3a and C7a.
+- SMILES for this part: c1(c(OC)cc(cc1OC)-c1cn(C)c(=O)c2cc(sc12)C(=O)N...)CN(C)C
+
+**Middle fragment:**
+- The amide NH is attached to C4 of a piperidine ring. C3 of that ring carries CF2, and the ring nitrogen is N1.
+- Ring order is N1, C2H2, C3F2, C4(NH), C5, C6.
+- N1 is bonded to C4 of a second piperidine, whose nitrogen is attached to the isoindolinone aryl group.
+- SMILES for this part: NC1CCN(CC1(F)F)C1CCN(CC1)
+
+**Right fragment (isoindolinone):**
+- The aryl ring carbon bearing the piperidine nitrogen is adjacent to the carbon next to the C=O-bearing ring fusion carbon.
+- In the drawing, the benzene ring has its top-right carbon joined to CH2 and its bottom-right carbon joined to C(=O). The substituent carbon is on the lower left, adjacent to the carbon bearing C=O, so the ring is substituted at position 6 of the isoindolinone.
+- SMILES for this part: c1ccc2CN(C(=O)c2c1)C1CCC(=O)NC1=O, with the piperidine nitrogen attached at the ring carbon next to the C(=O)-bearing carbon.
+
+**Assembled SMILES:**
+COc1cc(cc(OC)c1CN(C)C)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1(F)F)C1CCN(CC1)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1.OC=O
+
+I checked the last aryl ring, c1ccc2CN(...)C(=O)c2c1. The first atom c1 carries the piperidine N. The next two atoms are cH, then c2 carries the CH2, and the ring closes through c2 (carrying C=O) and the final c1 (cH). The substituted carbon is therefore bonded to the cH that is bonded to the C(=O)-bearing carbon. This matches the drawing.
+
+SMILES: COc1cc(cc(OC)c1CN(C)C)-c1cn(C)c(=O)c2cc(sc12)C(=O)NC1CCN(CC1(F)F)C1CCN(CC1)c1ccc2CN(C3CCC(=O)NC3=O)C(=O)c2c1.OC=O

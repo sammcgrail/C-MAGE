@@ -1,0 +1,22 @@
+I read the molecule as a VHL-ligand–linker–SMARCA2-binder conjugate, and wrote it out piece by piece.
+
+**VHL end**
+- A 4-hydroxypyrrolidine-2-carboxamide with (2S,4R) configuration, read from the hashed and wedged bonds.
+- Its amide NH bears an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group.
+- The ring nitrogen is acylated by CH(isopropyl)(isoxazol-5-yl). From the wedge to the carbonyl, I assigned this centre as S.
+
+**Linker**
+- The isoxazole carries a piperazine at C3.
+- The other piperazine nitrogen is linked through CH2 to a cyclobutane.
+- The cyclobutane is 1,3-disubstituted, with a wedge on the CH2 side and a hash on the O side. That makes it trans.
+- The cyclobutane oxygen is attached to C2 of a pyridine.
+
+**Target-binder end**
+- The pyridine C4 carries the bridging nitrogen (N8) of a 3,8-diazabicyclo[3.2.1]octane.
+- N3 of that bicycle is attached to C4 of a pyridazine.
+- The pyridazine has an NH2 at C3 and a 2-hydroxyphenyl at C6.
+- The bicycle's bridgehead stereochemistry is not clearly shown, so I left it unspecified.
+
+I checked ring closures and atom counts by hand against the drawing; the SMILES was not run through a parser.
+
+SMILES: C[C@H](NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@@H](C(C)C)c1cc(no1)N1CCN(C[C@H]2C[C@H](Oc3cc(ccn3)N3C4CCC3CN(C4)c3cc(-c4ccccc4O)nnc3N)C2)CC1)c1ccc(cc1)-c1scnc1C

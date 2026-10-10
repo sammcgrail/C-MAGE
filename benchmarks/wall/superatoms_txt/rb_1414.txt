@@ -1,0 +1,20 @@
+Reading the structure region by region:
+
+**Left fragment:** a pyridine ring with N, with Cl at both positions adjacent to the C4 carbon. C4 carries the NH, which is bonded to a C(=O) attached to a benzene ring. This gives the 3,5-dichloropyridin-4-yl amide: c1(Cl)cncc(Cl)c1NC(=O)...
+
+**Benzene ring:** C1 bears the C=O. C3 bears the O-pentyl chain and C4 bears OCHF2, as in roflumilast-type compounds.
+
+**Chain:** from the oxygen, the vertices run O–CH2–CH2–CH2–CH2–CH2–N. In the drawing the chain goes from O to a vertex (~530,340), then 590,315, 650,340, 710,315, 765,340, and then N at 815,318. That is 5 carbons: 530, 590, 650, 710, 765. So the chain is OCCCCCN, a pentyl linker.
+
+**Piperidine:** N-linked, with C4 attached to the isoindolinone.
+
+**Isoindolinone:** the aromatic ring carries the piperidinyl at C4 and F at C6. The C=O is at C1 and CH2 at C3. The ring N bears the 2,6-dioxopiperidin-3-yl group.
+
+The aromatic ring atoms are: C3a (attached to CH2), C4 (piperidinyl), C5 (H), C6 (F), C7 (H), and C7a (attached to C=O).
+
+**SMILES:**
+O=C(Nc1c(Cl)cncc1Cl)c1ccc(OC(F)F)c(OCCCCCN2CCC(CC2)c2cc(F)cc3C(=O)N(C4CCC(=O)NC4=O)Cc23)c1
+
+Check of the isoindolinone part: c2cc(F)cc3C(=O)N(...)Cc23. The first atom c2 is C4, followed by C5 (c), C6 (F), C7 (c), C7a (c3) carrying C(=O), then N, CH2, and c23 as C3a closing to both C4 and C7a. This is correct.
+
+SMILES: O=C(Nc1c(Cl)cncc1Cl)c1ccc(OC(F)F)c(OCCCCCN2CCC(CC2)c2cc(F)cc3C(=O)N(C4CCC(=O)NC4=O)Cc23)c1

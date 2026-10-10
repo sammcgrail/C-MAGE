@@ -1,0 +1,21 @@
+I read the structure in segments, working left to right, and then assigned the stereocentres from the wedges and hashes.
+
+**Left to right**
+- **Pyridazine:** 3-amino ring, with a 2-hydroxyphenyl group on C6 and the bicyclic amine on C4.
+- **Bicycle:** a 3,8-diazabicyclo[3.2.1]octane. N3 is attached to the pyridazine and the bridging N8 is attached to the pyridine.
+- **Pyridine:** substituted at C4 by the bicycle N8, and at C2 by an O-cyclobutyl group.
+- **Cyclobutane:** 1,3-disubstituted, with the pyridyl-O drawn on a bold wedge and the O–N bond on a hashed bond. This makes the two substituents trans.
+- **Spiro-piperazine:** a 2-oxa-5,8-diazaspiro[3.5]nonane. The cyclobutyl-O is bonded to N8 (an N–O bond), and N5 carries a CH2 group that links to the piperidine.
+- **Piperidine and isoxazole:** the piperidine nitrogen is bonded to C3 of an isoxazole. C5 of the isoxazole carries the CH(iPr)C(=O) unit.
+- **Hydroxyproline amide:** an acylated 4-hydroxypyrrolidine-2-carboxamide. The amide NH is bonded to a CH(CH3) group on a phenyl ring that bears a 4-methylthiazol-5-yl group.
+
+**Stereocentres**
+- **Isopropyl-bearing CH:** the CIP analysis from the bold wedge gives R.
+- **Proline C4 (OH on a hash):** R.
+- **Proline C2 (bold wedge to the amide carbon):** S.
+- **CH(CH3) next to the amide NH:** S.
+- **Cyclobutane:** trans, as noted above.
+
+I derived the @/@@ tags by hand from these assignments and did not run the SMILES through a parser.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ccnc(O[C@H]2C[C@H](ON3CCN(CC4CCN(CC4)c4cc([C@@H](C(C)C)C(=O)N5C[C@H](O)C[C@H]5C(=O)N[C@@H](C)c5ccc(cc5)-c5scnc5C)on4)C4(COC4)C3)C2)c1

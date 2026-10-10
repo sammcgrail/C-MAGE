@@ -1,0 +1,13 @@
+I read the molecule region by region and wrote the SMILES as follows.
+
+**Left to right:**
+- **Bicyclic head:** a 3-cyano-pyrrolo[1,2-b]pyridazine, attached through its pyrrole carbon next to the bridgehead nitrogen.
+- **Pyridine:** a pyridine bearing an isopropylamino group, with a 1,3,4-thiadiazole attached at the adjacent ring carbon.
+- **Linker:** the thiadiazole carries a piperazine, whose second nitrogen is acylated by a diacyl chain. The chain runs C(=O), five CH2, C(=O), counted from the vertices in the drawing.
+- **Amino acid:** the far carbonyl forms an amide with the nitrogen of a tert-leucine.
+- **Proline unit:** the tert-leucine carbonyl is attached to the nitrogen of a 4-hydroxyproline.
+- **Tail:** the proline carboxamide links to a (1-arylethyl)amine whose aryl is a phenyl bearing a 4-methylthiazol-5-yl group.
+
+**Stereochemistry:** I took the stereocentres from the wedges and hashes. I checked the SMILES chirality tags against the known VH032 (VHL ligand) SMILES, since the tert-leucine, hydroxyproline and 1-arylethylamine centres match its (S), (2S,4R) and (S) pattern. The tags are @@ on the tert-leucine carbon, @ on the hydroxyl-bearing carbon, @ on the proline C2, and @ on the ethylamine carbon.
+
+SMILES: N#Cc1cnn2c(-c3cc(NC(C)C)c(cn3)-c3nnc(s3)N3CCN(CC3)C(=O)CCCCCC(=O)N[C@@H](C(C)(C)C)C(=O)N3C[C@H](O)C[C@H]3C(=O)N[C@H](C)c3ccc(cc3)-c3scnc3C)ccc2c1

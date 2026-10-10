@@ -1,0 +1,19 @@
+I read the structure in segments and assembled the SMILES from them.
+
+- **Left end:** a benzothiophene-2-carboxamide with a CF2–PO3H2 group at C5. The amide nitrogen is attached to a bicyclic core.
+- **Bicyclic core:** an 8-membered ring fused to a pyrrolidine, containing an N-CH2CHF2 nitrogen, a ring-fusion CH, a lactam C=O and the NH-bearing CH. The pyrrolidine carbon carries a C(=O)NH link to the next residue.
+- **Middle:** a glutamine residue with a free primary amide side chain, then a 4-tert-butylphenylalanine residue.
+- **Piperidine linker:** the phenylalanine C=O forms an amide with a piperidine nitrogen. The piperidine C4 carries a –CH2CH2–NH– chain.
+- **Right end:** the chain's NH is attached to C5 of an isoindolin-1-one, whose ring nitrogen bears a 2,6-dioxopiperidin-3-yl group. That centre is drawn with plain bonds, so I gave it no stereo.
+
+I assigned CIP descriptors from the wedges and encoded them as follows:
+
+- The NH-bearing carbon of the bicyclic core is S, written `[C@H]`.
+- The ring-fusion carbon is R, written `[C@H]`.
+- The pyrrolidine C2 is S, written `[C@@H]`.
+- The glutamine α-carbon is S, written `[C@@H]`.
+- The phenylalanine α-carbon is S, written `[C@@H]`.
+
+I checked ring closures and atom counts against the drawing: the 8-membered ring, the pyrrolidine, the benzothiophene and the isoindolinone.
+
+SMILES: OP(O)(=O)C(F)(F)c1ccc2sc(cc2c1)C(=O)N[C@H]1CN(CC(F)F)CC[C@H]2CC[C@@H](C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](Cc3ccc(cc3)C(C)(C)C)C(=O)N3CCC(CCNc4ccc5C(=O)N(Cc5c4)C4CCC(=O)NC4=O)CC3)N2C1=O

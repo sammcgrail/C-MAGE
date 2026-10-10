@@ -1,0 +1,10 @@
+I read the structure in fragments and joined them. The stereocentres were assigned from the wedge bonds by working out R/S from the drawn geometry. I did not run the SMILES through a parser, so validity is checked by hand only.
+
+**Fragments**
+- **Glutarimide and isoindolinone:** a 2,6-dioxopiperidin-3-yl group sits on the nitrogen of a 1-oxoisoindoline. The glutarimide carbon has plain bonds, so it gets no stereo label.
+- **Linker:** the alkyne is attached to the isoindolinone aromatic carbon next to the CH2-bearing ring-fusion carbon. After the alkyne come five CH2 groups and then the C=O, which acylates the diazepine nitrogen.
+- **Bicyclic core:** a pyrrolo[1,2-a][1,4]diazepinone. It has three wedged stereocentres: the ring-fusion CH (R), the pyrrolidine CH bearing the carboxamide (S), and the CH bearing the NH (S).
+- **Side chain on the carboxamide:** the amide nitrogen is attached to a wedged CH (S). That carbon carries a CH2CH2C(=O)NH2 arm and a 4-benzylthiazol-2-yl group.
+- **Benzothiophene:** the 2-carboxamide is on the NH of the core. A CF2–P(=O)(OH)2 group is at position 5 of the benzothiophene.
+
+SMILES: O=C1CCC(N2Cc3c(C#CCCCCCC(=O)N4CC[C@H]5CC[C@@H](C(=O)N[C@@H](CCC(N)=O)c6nc(Cc7ccccc7)cs6)N5C(=O)[C@@H](NC(=O)c8cc9cc(C(F)(F)P(=O)(O)O)ccc9s8)C4)cccc3C2=O)C(=O)N1

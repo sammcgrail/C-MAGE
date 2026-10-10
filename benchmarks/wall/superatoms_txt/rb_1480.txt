@@ -1,0 +1,15 @@
+I read the structure as a PROTAC-type molecule: a 2-hydroxyphenyl aminopyridazine–pyrazole ligand joined through a PEG-like linker to a VHL-type hydroxyproline ligand.
+
+**Fragments, left to right**
+- A 2-hydroxyphenyl ring sits on a pyridazine, which also carries an NH2 group and a pyrazol-4-yl group.
+- The pyrazole N1 carries the linker CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2CH2, which ends on C3 of an isoxazole.
+- The isoxazole C5 bears a CH(iPr)–C(=O) group. The iPr bond is hashed, which gives the `[C@H]` centre.
+- The C(=O) is bonded to the proline-type nitrogen of a 4-hydroxypyrrolidine. The 2-carboxamide bond is wedged and the 4-OH bond is hashed.
+- The amide NH is bonded to a CH(CH3) carbon (methyl wedged), which carries a 4-(4-methylthiazol-5-yl)phenyl ring.
+
+**Stereochemistry**
+I assigned each centre from its wedge or hash and checked the result against the standard VHL-ligand pattern (2S,4R hydroxyproline and the 1-arylethylamine). The three stereocentres in the SMILES are the isoxazole side-chain CH, the pyrrolidine C2 and C4, and the benzylic CH(CH3).
+
+I wrote the SMILES by hand from this reading, and I did not run it through a parser.
+
+SMILES: Oc1ccccc1-c1cc(-c2cnn(CCOCCOCCOCCCc3cc([C@H](C(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)N[C@@H](C)c4ccc(-c5scnc5C)cc4)on3)c2)c(N)nn1

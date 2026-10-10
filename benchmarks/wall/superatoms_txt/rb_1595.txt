@@ -1,0 +1,18 @@
+I read the molecule as a VHL-ligand–linked PROTAC-type compound. I wrote the SMILES in pieces and then joined them.
+
+**Pieces, right to left in the drawing**
+- **Cap:** a 1-fluorocyclopropane-carboxamide, `NC(=O)C1(F)CC1`, sits on the amino group of a tert-leucine (tert-butyl on the α-carbon).
+- **Hydroxyproline:** the tert-leucine carbonyl acylates the nitrogen of a 4-hydroxypyrrolidine. The hydroxyl is on the hashed bond and the 2-carboxamide is on the wedged bond. I took this to be the standard (2S,4R) VHL ligand and used its usual SMILES.
+- **Benzylic centre:** the proline amide NH is attached to a stereocentre carrying CH2C(=O)NH–, a 4-(4-methylthiazol-5-yl)phenyl group on a hashed bond, and H. Working through the hashed bond gives `@@` when written from the proline side.
+- **Cyclobutane:** it is 1,3-disubstituted, with the amide NH on a wedge and the thiadiazole on a hash. That makes it trans, written `N[C@@H]2C[C@H](C2)…`.
+- **Thiadiazole:** a 1,3,4-thiadiazole joins the cyclobutane to a pyridine.
+- **Pyridine:** it carries an NHMe group, with the thiadiazole next to it and the pyrrolopyridazine at the other end.
+- **Pyrrolo[1,2-b]pyridazine:** it has a nitrile at the 5-position and is attached to the pyridine through the carbon next to the bridgehead nitrogen.
+
+**Checks**
+- All ring-closure digits are opened and closed, and digits are reused only after being closed.
+- I counted ring atoms and heteroatoms against the drawing: cyclopropane 3, cyclobutane 4, thiadiazole 5 (S, 2 N), thiazole 5, pyrrolidine 5, and the 5- and 6-membered rings of the bicyclic.
+
+The tert-leucine and hydroxyproline stereocentres were assigned from the standard VHL ligand rather than derived from the wedges, so those are the least independently checked.
+
+SMILES: CC(C)(C)[C@H](NC(=O)C1(F)CC1)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](CC(=O)N[C@@H]2C[C@H](C2)c2nnc(s2)c2cnc(cc2NC)-c2ccc3cc(C#N)cnn23)c1ccc(cc1)-c1scnc1C

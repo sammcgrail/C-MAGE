@@ -1,0 +1,11 @@
+I read the structure region by region and wrote it as a single SMILES, with formic acid as a separate component.
+
+- **Left fragment:** a 4-(dimethylaminomethyl)-3,5-dimethoxyphenyl group is attached at C7 of a thieno[3,2-c]pyridin-4-one. The ring nitrogen carries a methyl, and C2 of the thiophene carries the carboxamide.
+- **Amide nitrogen:** it is bonded to C4 of a 3,3-difluoropiperidine. That carbon is the only stereocentre with a wedge, drawn as a wedge from the NH.
+- **Linker:** the piperidine nitrogen is bonded to C4 of a second piperidine, whose nitrogen is bonded to the isoindolinone aryl ring.
+- **Isoindolinone end:** the aryl carbon bearing the piperidine nitrogen sits next to the ring carbon that carries the lactam C=O. The lactam nitrogen is bonded to a 2,6-dioxopiperidin-3-yl group, which has no stereo marking in the drawing.
+- **Counter-ion:** formic acid is drawn separately and is written as `.C(=O)O`.
+
+For the wedged carbon, the NH is toward the viewer and the implicit H is behind. Viewed from the front, the substituents N → CH2 (up) → CF2 (down) run clockwise. Converting that to SMILES neighbour order (N, H, CF2, CH2) gives `@`.
+
+SMILES: CN(C)Cc1c(OC)cc(cc1OC)C1=CN(C)C(=O)c2cc(C(=O)N[C@H]3CCN(CC3(F)F)C3CCN(CC3)c3ccc4CN(C5CCC(=O)NC5=O)C(=O)c4c3)sc12.C(=O)O

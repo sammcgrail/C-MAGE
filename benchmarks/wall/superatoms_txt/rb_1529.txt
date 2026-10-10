@@ -1,0 +1,12 @@
+I read the molecule region by region, left to right, and wrote the SMILES from that reading.
+
+- **Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. Its amide NH is on C6 of a benzothiazole.
+- **Benzothiazole:** C5 carries a C(CH3)2OH group, and C2 is attached to the cyclohexane ring.
+- **Cyclohexane:** a 1,4-disubstituted ring with a wedge on one substituent and a hash on the other, which I read as trans. In SMILES this is the @,@ pairing when written as `[C@H]1CC[C@H](...)CC1`. The absolute configuration is not fully determined by my reading, so I chose one of the two trans enantiomeric arrangements.
+- **Cyclohexane to piperidine:** the cyclohexane CH2 links to the nitrogen of a piperidine.
+- **Dispiro core:** piperidine C4 is spiro to a cyclobutane. The opposite cyclobutane carbon is spiro to a second cyclobutane, whose far carbon carries a CH2CH2NH chain.
+- **Right end:** the chain NH is attached to C4 of an isoindoline-1,3-dione. The imide nitrogen carries a 2,6-dioxopiperidin-3-yl group (the thalidomide-type unit).
+
+The ring-closure digits are reused only after each ring is closed. Atom counts match the drawing.
+
+SMILES: O=C(Nc1cc2sc(nc2cc1C(C)(C)O)[C@H]1CC[C@H](CN3CCC4(CC3)CC5(C4)CC(CCNc6cccc7c6C(=O)N(C6CCC(=O)NC6=O)C7=O)C5)CC1)c1cccc(n1)C(F)(F)F

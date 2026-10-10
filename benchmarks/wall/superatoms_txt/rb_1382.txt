@@ -1,0 +1,10 @@
+Reading the drawing region by region:
+
+- **Left end:** a 6-methylpyridine-2-carboxamide whose NH is attached to C6 of a benzothiazole. C5 of the benzothiazole carries a C(CH3)2OH group.
+- **First cyclohexane:** a 1,4-disubstituted ring joined to C2 of the benzothiazole. One bond is hashed and the other wedged, so the ring is trans. Its other substituent is CH2–N(CH3).
+- **Second cyclohexane:** a 1,4-disubstituted ring joined to that N by a wedge and to an NH by a hash, so it is also trans.
+- **Right end:** the NH is attached at C4 of an isoindoline-1,3-dione. The imide N carries a 2,6-dioxopiperidin-3-yl group, and its stereocentre is drawn with plain bonds, so I gave it no stereo.
+
+For the trans-1,4 rings I wrote `X[C@H]1CC[C@H](CC1)Y`, working out the chirality symbols from the known trans-1,4-dimethylcyclohexane SMILES `C[C@H]1CC[C@@H](C)CC1`. Because the second branch atom is ordered differently in my string, the second symbol flips to `@`.
+
+SMILES: Cc1cccc(n1)C(=O)Nc1cc2sc(nc2cc1C(C)(C)O)[C@H]1CC[C@H](CC1)CN(C)[C@H]1CC[C@H](CC1)Nc1cccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c12

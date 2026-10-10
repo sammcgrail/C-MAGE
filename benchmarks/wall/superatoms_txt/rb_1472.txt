@@ -1,0 +1,12 @@
+I read the structure in segments from left to right and joined them into one SMILES.
+
+1. **Left end:** a pyrrolo[1,2-b]pyridazine bearing a nitrile on the pyridazine ring. Its pyrrole carbon (C7) is bonded to C2 of a pyridine.
+2. **Pyridine:** it carries an isopropylamino group at C4 and a 1,3,4-thiadiazol-2-yl group at C5.
+3. **Linker:** the thiadiazole's other carbon is bonded to one nitrogen of a 3,9-diazaspiro[5.5]undecane. The second nitrogen carries C(=O)CH2–O–.
+4. **Central benzene:** the oxygen is on one ring carbon. A 4-methylthiazol-5-yl group sits meta to that oxygen and para to the CH2NH group.
+5. **Right end:** the CH2NH is acylated by a 4-hydroxyproline. The proline nitrogen is acylated by a tert-leucine whose amine carries a 1-fluorocyclopropanecarbonyl group.
+6. **Stereochemistry:** the hydroxyproline and tert-leucine centres are drawn with wedges and hashes. I assigned them as the usual VHL-ligand configuration (2S,4R-hydroxyproline, S-tert-leucine) and did not check each wedge against the SMILES chirality tags individually.
+
+I checked that the ring-closure digits are opened and closed correctly and that each ring's atom count matches the drawing.
+
+SMILES: N#Cc1cnn2c(-c3cc(NC(C)C)c(-c4nnc(s4)N4CCC5(CC4)CCN(CC5)C(=O)COc4cc(-c5scnc5C)ccc4CNC(=O)[C@@H]4C[C@@H](O)CN4C(=O)[C@@H](NC(=O)C4(F)CC4)C(C)(C)C)cn3)ccc2c1

@@ -1,0 +1,11 @@
+I read the molecule as a PROTAC-style conjugate and assembled the SMILES in five parts.
+
+1. **VHL-type ligand:** A 4-hydroxyproline with the carboxamide wedged and the OH hashed. The amide nitrogen carries an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group. The proline nitrogen is acylated by a CH(isopropyl)(isoxazol-5-yl) group, which has one defined stereocentre.
+2. **Linker:** The isoxazole 3-O is joined through a CH2CH2 chain to a trans-1,4-disubstituted cyclohexane. The other cyclohexane position carries an ether oxygen to a trans-1,3-disubstituted cyclobutane. That cyclobutane's second oxygen links to the 2-position of a pyridine.
+3. **Pyridine and bicycle:** The pyridine 4-position is attached to the bridging nitrogen (N8) of a 3,8-diazabicyclo[3.2.1]octane.
+4. **Pyridazine:** N3 of the bicycle is bonded to a 3-amino-6-(2-hydroxyphenyl)pyridazine at its 4-position.
+5. **Stereochemistry:** I derived the @/@@ marks from the wedges and hashes shown. I worked out the cis/trans relationships on the two rings from their paired wedge/hash bonds. The bicycle bridgeheads and the aromatic rings carry no stereo marks.
+
+I checked ring closures and atom counts against the drawing, but did not run the SMILES through a parser.
+
+SMILES: CC(C)[C@H](c1cc(OCC[C@H]2CC[C@H](O[C@H]3C[C@H](Oc4cc(ccn4)N4C5CCC4CN(C5)c4cc(-c5ccccc5O)nnc4N)C3)CC2)no1)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@H](C)c1ccc(-c2scnc2C)cc1

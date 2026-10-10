@@ -1,0 +1,12 @@
+I read the molecule region by region and assigned each wedge or hash as follows:
+
+- **Left end:** a 3-amino-pyridazine carries a 2-hydroxyphenyl at C6 and a pyrazol-4-yl at C4. The pyrazole N1 bears a CH2–C≡C chain.
+- **Cyclobutane:** the alkyne is attached to a wedged carbon and the ring oxygen to a hashed carbon, so the 1,3-substituents are trans. This gives `C#C[C@H]2C[C@H](O…)C2`.
+- **Piperidine and linker:** the cyclobutyl ether is on piperidine C4. The piperidine N carries an N–CH2CH2–O chain that links to isoxazole C3.
+- **Isoxazole side chain:** at isoxazole C5 there is a stereocentre bearing a wedged isopropyl and a carbonyl. I assigned it `[C@@H]`.
+- **Hydroxyproline:** the amide N is acylated by the side-chain carbonyl, and the ring has a hashed 4-OH and a wedged 2-carboxamide. I assigned these `[C@H](O)` and `[C@H]5`.
+- **Right end:** the amide N is attached to a CH(CH3) with a wedged methyl, assigned `[C@@H]`. That carbon bears a 4-(4-methylthiazol-5-yl)phenyl group.
+
+I worked out each @/@@ from the drawn geometry by hand and did not run the SMILES through a parser.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(CC#C[C@H]2C[C@H](OC3CCN(CCOc4cc([C@@H](C(C)C)C(=O)N5C[C@H](O)C[C@H]5C(=O)N[C@@H](C)c5ccc(cc5)-c5scnc5C)on4)CC3)C2)c1

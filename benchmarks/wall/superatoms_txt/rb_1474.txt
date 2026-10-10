@@ -1,0 +1,34 @@
+I read the structure as a PROTAC-like molecule and worked through it in pieces.
+
+**Left fragment: pyrazolo[1,5-b]pyridazine with a nitrile.**
+- The five-membered ring holds the bridgehead N (N1), two CH carbons, and the C attached to the pyridine. The shared carbon is the fused-ring carbon.
+- The six-membered ring runs from the shared C through CH, C(CN), CH, N, and back to N1.
+- Written from the pyridine-bearing carbon: c1(...)ccc2cc(C#N)cnn12.
+
+**Central pyridine.**
+- It is attached to the pyrazolopyridazine at C2.
+- Ring atoms: C2 (attached), N, CH, C5 (bearing the thiadiazole), C4 (bearing NH-iPr), CH.
+- SMILES: c1(-pyrazolopyridazine)cc(NC(C)C)c(-thiadiazole)cn1.
+
+**Thiadiazole.**
+- 1,3,4-thiadiazole: C(S)=N–N=C(S), with a piperazine on the second carbon.
+- SMILES: c1(...)nnc(N2CCN(CC2)...)s1.
+
+**Piperazine to piperidine.**
+- The other piperazine N is bonded to piperidin-4-yl.
+- The piperidine N is acylated: C(=O)Cc(aryl).
+
+**Isoindolinone.**
+- The CH2 is attached at position 4 of the isoindolin-1-one.
+- The benzene ring carbons: C4 (bearing CH2), C5, C6, C7, C7a (attached to C=O), C3a (attached to the CH2–N).
+- The lactam N carries the 2,6-dioxopiperidin-3-yl group.
+- SMILES: c1cc2C(=O)N(C3CCC(=O)NC3=O)Cc2c(c1)CC(=O)...
+
+**Assembled SMILES:**
+N#Cc1cnn2c(ccc2c1)-c1cc(NC(C)C)c(cn1)-c1nnc(s1)N1CCN(CC1)C1CCN(CC1)C(=O)Cc1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O
+
+Checking the pyrazolopyridazine: n2 is N1, bonded to c(ccc2c1). Here c is C7 (the pyridine-bearing carbon), followed by cc, then c2 (the fusion carbon, which closes the ring to n2), then c1. The sequence is N#Cc1 c n n2 c(...) c c c2 c1. The ring 1 atoms are c1(CN), c, n, n2, … c2, c1, which gives the six-membered ring c1, c, n, n2, c2(fusion), c1(closing CH), i.e. six atoms. That matches the drawing, where the CN carbon sits between two CH carbons, one of which is next to the fusion carbon and the other next to N.
+
+For the isoindolinone, c1cccc2C(=O)N(...)Cc12 has the aromatic atoms c1 (bearing CH2), c, c, c, c2 (bearing C=O), and the final c12 (bearing the CH2–N). The CH2 substituent is on c1, which is adjacent to the CH2-bearing fusion carbon. This is correct.
+
+SMILES: N#Cc1cnn2c(ccc2c1)-c1cc(NC(C)C)c(cn1)-c1nnc(s1)N1CCN(CC1)C1CCN(CC1)C(=O)Cc1cccc2C(=O)N(Cc12)C1CCC(=O)NC1=O

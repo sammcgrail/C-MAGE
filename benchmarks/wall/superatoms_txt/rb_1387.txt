@@ -1,0 +1,15 @@
+Reading the structure region by region, left to right:
+
+1. **Left end:** a pyridine bearing CF3 at C6 and a carboxamide at C2. SMILES: FC(F)(F)c1cccc(n1)C(=O)N...
+2. **Benzoxazole:** the amide NH is on C6 of the benzoxazole. C5 carries C(C)(C)O. C2 of the benzoxazole is attached to the piperidine nitrogen.
+   - Ring atoms: c1(NC(=O)...)cc2oc(N3CCC(CC3)...)nc2cc1C(C)(C)O.
+   - The benzene carbon bearing the NH is bonded to a CH, which is bonded to the carbon attached to O (C7a). The other ring-fusion carbon (C3a) is attached to N and to a CH, which leads to the carbon bearing C(C)(C)O.
+3. **Piperidine to spiro unit:** the piperidine C4 carries a CH2 linked to N of the 7-azaspiro[3.5]nonane. The spiro carbon is shared with a cyclobutane. The azaspiro piperidine N is bonded to two CH2 groups, each followed by another CH2, then the spiro carbon: N7(CCC8(CC7)CC(C8)...). The cyclobutane carbon opposite the spiro carbon carries CH2CH2NH.
+4. **Right end:** the NH is attached to C4 of an isoindoline-1,3-dione. The imide N bears a 2,6-dioxopiperidin-3-yl group (pomalidomide type).
+
+Full SMILES:
+FC(F)(F)c1cccc(n1)C(=O)Nc1cc2oc(nc2cc1C(C)(C)O)N1CCC(CC1)CN1CCC2(CC1)CC(C2)CCNc1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1=O
+
+Check of the spiro unit: N1CCC2(CC1)CC(C2)CC... The spiro C2 opens ring 2, and CC(C2) closes the cyclobutane: spiro C, CH2, CH, CH2 back to the spiro C. That is 4 atoms, so it is correct.
+
+SMILES: FC(F)(F)c1cccc(n1)C(=O)Nc1cc2oc(nc2cc1C(C)(C)O)N1CCC(CC1)CN1CCC2(CC1)CC(C2)CCNc1cccc2c1C(=O)N(C2=O)C1CCC(=O)NC1=O

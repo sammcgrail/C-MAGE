@@ -1,0 +1,10 @@
+I read this as a VHL-ligand-based degrader (PROTAC-type) molecule and assembled the SMILES region by region from left to right.
+
+- **Left end:** a 2-hydroxyphenyl group sits on a 7H-pyrrolo[2,3-c]pyridazine. The pyrrole carbon (C3) carries a piperidin-4-yl group.
+- **Middle:** the piperidine nitrogen is attached to C2 of a pyrimidine. The pyrimidine C5 carries a 1,4-disubstituted cyclohexane.
+- **Cyclohexane stereochemistry:** the pyrimidine bond is hashed and the carboxamide bond is wedged, so the ring is trans. The SMILES uses `[C@H]…[C@H]` in the order written below, which I worked out to give trans.
+- **Linker:** the cyclohexane carboxamide is joined through NH to a tert-leucine unit, which is drawn with a hashed bond to the NH.
+- **Right end:** the tert-leucine C=O is joined to a 4-hydroxyproline, and its carboxamide NH is attached to a benzyl group. That benzyl is para-substituted with a 4-methylthiazol-5-yl ring.
+- **Hydroxyproline and tert-leucine stereochemistry:** I took these as the standard VHL-ligand configuration (2S,4R for the hydroxyproline, S for the tert-leucine) rather than re-deriving each centre from the wedges.
+
+SMILES: Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@H](O)CN2C(=O)[C@@H](NC(=O)[C@H]2CC[C@H](CC2)c2cnc(nc2)N2CCC(CC2)c2c[nH]c3nnc(cc23)-c2ccccc2O)C(C)(C)C)cc1

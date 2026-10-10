@@ -1,0 +1,12 @@
+I read the structure in pieces and joined them into one SMILES.
+
+- **Left end:** a 2-hydroxyphenyl is attached to C3 of a pyridazine. C5 of the pyridazine carries a pyridine, giving a 3,5-disubstituted pyridazine.
+- **Pyridine and piperidine:** the pyridine is attached to the pyridazine at its C3 position. Its C6 position bears a piperidin-4-yl group.
+- **Linker:** the piperidine nitrogen is bonded to CH2–C(=O)–NH.
+- **tert-Leucine unit:** that NH is on a CH bearing a tert-butyl group, then C(=O) bonded to the pyrrolidine nitrogen. The wedge on this carbon corresponds to the S configuration.
+- **Pyrrolidine:** 4-hydroxy-pyrrolidine-2-carboxamide with the usual VHL-ligand (2S,4R) stereochemistry, matching the wedge and hash bonds in the drawing.
+- **Right end:** the amide NH is bonded to an (S)-1-arylethyl group. The aryl is a para-phenylene carrying a 4-methylthiazol-5-yl. I checked the S assignment from the wedged methyl, the N and the aryl ring.
+
+I took the pyrrolidine and tert-leucine stereo tags from the standard VH032-type ligand SMILES and checked that the atom order in my string matches it.
+
+SMILES: C[C@H](NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)[C@@H](NC(=O)CN1CCC(CC1)c1ccc(cn1)-c1cnnc(c1)-c1ccccc1O)C(C)(C)C)c1ccc(cc1)-c1scnc1C

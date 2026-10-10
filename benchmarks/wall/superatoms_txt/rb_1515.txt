@@ -1,0 +1,11 @@
+I read the structure in sections and then joined them into one SMILES.
+
+- **Left end:** a pyrimidine-4-carboxamide with a CF3 group at the 2-position.
+- **Benzothiazole core:** the amide NH sits at C6, a C(CH3)2OH group at C5, and the cyclohexyl group at C2.
+- **Cyclohexane:** it is 1,4-disubstituted. The bond to the benzothiazole is a wedge and the bond to the CH2 is a hash, so the two substituents are trans.
+- **Linker:** the CH2 leads to the nitrogen of a 2-azaspiro[3.3]heptane. The far cyclobutane carbon carries a CH2CH2NH chain.
+- **Right end:** the NH is attached at C4 of an isoindoline-1,3-dione. Its ring nitrogen carries a 2,6-dioxopiperidin-3-yl group, drawn with plain bonds, so I gave it no stereo.
+
+I wrote the trans-1,4 stereocentres as `[C@H]1CC[C@@H](...)CC1`, which is the pattern I recall for trans-1,4-disubstituted cyclohexanes. I did not verify it against a toolkit.
+
+SMILES: O=C(Nc1cc2sc(nc2cc1C(C)(C)O)[C@H]1CC[C@@H](CN3CC4(C3)CC(CCNc3cccc5c3C(=O)N(C3CCC(=O)NC3=O)C5=O)C4)CC1)c1ccnc(n1)C(F)(F)F

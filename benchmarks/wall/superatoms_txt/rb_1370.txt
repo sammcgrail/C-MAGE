@@ -1,0 +1,13 @@
+I read the structure in sections from left to right and wrote each part as SMILES.
+
+- **Left end:** a 3-cyanopyrrolo[1,2-b]pyridazine. Its pyrrole carbon next to the bridgehead nitrogen is bonded to a pyridine.
+- **Pyridine:** it carries an NHMe group, and the neighbouring carbon is bonded to a 1,3,4-thiadiazole.
+- **Cyclohexane:** it links the thiadiazole to an amide nitrogen. One substituent is drawn on a hashed bond and the other on a wedge, so the 1,4-relationship is trans.
+- **Linker:** the amide is followed by CH2–C(CH3)2–C(=O)–NH.
+- **tert-Leucine:** the next unit is an L-tert-leucine, with the tert-butyl group on a wedge, working out to (S).
+- **Hydroxyproline:** the tert-leucine carbonyl is bonded to the hydroxyproline nitrogen. The ring has a hashed OH and a wedged carboxamide, matching the usual (2S,4R) VHL ligand.
+- **Right end:** an (S)-1-arylethylamide whose aryl group is a para-substituted phenyl bearing a 4-methylthiazol-5-yl.
+
+For the stereocentres, I worked out the SMILES chirality tags from the wedge and hash geometry for the tert-leucine and the arylethyl carbon. For the hydroxyproline I relied on the standard VHL ligand pattern. For the cyclohexane I derived the tags for the trans arrangement.
+
+SMILES: N#Cc1cnn2c(ccc2c1)-c1cc(NC)c(cn1)-c1nnc(s1)[C@H]1CC[C@@H](CC1)NC(=O)CC(C)(C)C(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

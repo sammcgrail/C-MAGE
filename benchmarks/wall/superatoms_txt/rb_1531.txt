@@ -1,0 +1,19 @@
+I read the structure in segments and joined them into one SMILES.
+
+**Left to right**
+- **Pyridazine core:** a pyridazine with NH2 at C3, a 2-hydroxyphenyl at C6, and the bicyclic amine nitrogen at C4.
+- **Bicycle:** a 3,8-diazabicyclo[3.2.1]octane. The CH2–N–CH2 bridge carries the pyridazine, and the one-atom N bridge carries the pyridine.
+- **Pyridine:** attached at its 4-position, with an O–CH2CH2– link at the 2-position leading to a piperazine.
+- **Linker:** the piperazine's other nitrogen goes through CH2CH2–O to C3 of an isoxazole.
+- **Isoxazole side chain:** C5 of the isoxazole carries CH(iPr)–C(=O), which acylates the pyrrolidine nitrogen.
+- **Pyrrolidine:** a 4-hydroxyproline with a hashed OH at C4 and a wedged carboxamide at C2.
+- **Amide end group:** the amide nitrogen is attached to C3 of an N-acetylazetidine. That carbon also carries a 4-(4-methylthiazol-5-yl)phenyl group.
+
+**Stereochemistry**
+- **Valine-type CH:** the iPr is wedged. The priorities are C(=O)N > isoxazole C5 > iPr > H, which gives R. In the SMILES written from the isoxazole side this is `[C@@H]`.
+- **Proline C2:** the amide is wedged, giving S.
+- **Proline C4:** the OH is hashed, giving R.
+- **Proline fragment:** this is the usual (2S,4R) VHL-ligand pattern, written `N1C[C@H](O)C[C@H]1C(=O)N`.
+- **Other carbons:** the azetidine C3 and the bicycle bridgeheads are not marked with wedges or hashes, so they carry no stereo.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CC2CCC(C1)N2c1ccnc(OCCN3CCN(CCOc4cc([C@@H](C(C)C)C(=O)N5C[C@H](O)C[C@H]5C(=O)NC6(CN(C(C)=O)C6)c6ccc(cc6)-c6scnc6C)on4)CC3)c1

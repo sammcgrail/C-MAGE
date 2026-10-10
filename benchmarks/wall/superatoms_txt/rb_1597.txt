@@ -1,0 +1,11 @@
+I read the structure in sections and assembled the SMILES from them.
+
+- **Left end:** a 6-(trifluoromethyl)pyridine-2-carboxamide. Its amide NH is attached to C5 of a 2H-indazole.
+- **Indazole:** C6 carries a C(CH3)2OH group, and N2 is bonded to a cyclohexane.
+- **Cyclohexane:** it is 1,4-disubstituted with a wedge on the indazole side and a hash on the CH2 side, so the two substituents are trans.
+- **Linker:** the CH2 on the cyclohexane leads to the nitrogen of a 7-azaspiro[3.5]nonane. The cyclobutane carbon of that spiro unit bears an NH.
+- **Right end:** the NH is attached to C4 of a phthalimide. The phthalimide nitrogen is bonded to a 2,6-dioxopiperidin-3-yl ring, whose stereocentre is drawn with plain bonds, so it gets no stereo label.
+
+I derived the trans arrangement by working through the SMILES chirality tags for a 1,4-disubstituted ring. The `[C@H]…[C@@H](CC3)C` pattern used here is trans.
+
+SMILES: O=C(Nc1cc2cn([C@H]3CC[C@@H](CC3)CN4CCC5(CC4)CC(C5)Nc6cccc7c6C(=O)N(C7=O)C8CCC(=O)NC8=O)nc2cc1C(C)(C)O)c9cccc(n9)C(F)(F)F

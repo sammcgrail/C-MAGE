@@ -1,0 +1,24 @@
+Reading the structure from left to right:
+
+**Left fragment.** The pyrrolo[1,2-b]pyridazine has a nitrile at position 5. The pyrrole ring is C7(attached to the pyridine)–C6=C5... in the drawing, N1 (bridgehead) is bonded to N (pyridazine), which is bonded to CH, then C(CN), then CH, then the fused carbon. The pyrrole carbon bonded to the pyridine is next to the bridgehead N.
+
+SMILES for this fragment: N#Cc1cnn2c(c2... written fully as N#Cc1cnn2c(ccc2c1)-c1cc(NC(C)C)c(cn1)-...
+
+Ring check: n2 is the bridgehead N, c(...) is the pyrrole C bonded to the pyridine, then cc, then c2 is the fused carbon, then c1. The ring closure gives c1 (CH) bonded to the fused carbon, which is correct.
+
+**Pyridine.** N is bonded to C2 (bearing the pyrrolopyridazine), C3 is CH, C4 bears NH-iPr, C5 bears the thiadiazole, and C6 is CH.
+
+SMILES: c1(-pp)cc(NC(C)C)c(cn1)-thiadiazole
+
+**Thiadiazole.** 1,3,4-thiadiazole: c1nnc(s1) with the pyridine on one carbon and the piperidine N on the other.
+
+**Piperidine.** N-linked to the thiadiazole, with 4-NH–C(=O) at the other end.
+
+**Amide.** Piperidine-4-carboxamide, whose ring N is attached to the isoindoline-1,3-dione at position 5. The isoindoline N bears a 2,6-dioxopiperidin-3-yl group.
+
+**Full SMILES:**
+N#Cc1cnn2c(ccc2c1)-c1cc(NC(C)C)c(cn1)-c1nnc(s1)N1CCC(CC1)NC(=O)C1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1
+
+Check on the isoindoline: c1ccc2C(=O)N(...)C(=O)c2c1. The attachment carbon c1 is followed by c, c, then c2 (fused carbon bearing C=O), and the ring closes through c2c1. The attachment carbon is bonded to the last c1, which is the CH next to the fused carbon. This matches the drawing, where the substituted carbon is adjacent to the CH that is adjacent to the fused carbon.
+
+SMILES: N#Cc1cnn2c(ccc2c1)-c1cc(NC(C)C)c(cn1)-c1nnc(s1)N1CCC(CC1)NC(=O)C1CCN(CC1)c1ccc2C(=O)N(C3CCC(=O)NC3=O)C(=O)c2c1

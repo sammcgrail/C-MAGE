@@ -1,0 +1,13 @@
+I read the molecule region by region and wrote the SMILES from that reading. The stereocentres were assigned by comparing atom orderings against the standard VHL-ligand SMILES, not from the wedges directly.
+
+**Fragments, left to right:**
+- **Pyridazine:** a 3-amino-pyridazine bearing a 2-hydroxyphenyl group at C6 and a pyrazol-4-yl group at C4.
+- **Pyrazole:** its N1 carries a CH(CH3) group that links to a para-substituted benzene.
+- **Linker:** the benzene carries –CH2CH2CH2–O–CH2–C(=O)–NH–.
+- **tert-Leucine:** the amide NH connects to a tert-butyl-bearing stereocentre drawn with a wedge, followed by C(=O) into the proline nitrogen.
+- **Hydroxyproline:** the ring has a 4-OH (hashed) and a wedged C2 bearing the carboxamide.
+- **Right-hand end:** the carboxamide goes through NH–CH2 to a para-phenylene carrying a 4-methylthiazol-5-yl group.
+
+**Stereochemistry:** this is the standard VHL ligand pattern, (2S,4R)-hydroxyproline with (S)-tert-leucine. The two proline centres are written as `[C@H]` and the tert-leucine centre as `[C@@H]`. The benzylic CH(CH3) carbon is drawn with plain bonds, so it has no stereo label.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(c1)C(C)c1ccc(CCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)NCc2ccc(-c3scnc3C)cc2)cc1

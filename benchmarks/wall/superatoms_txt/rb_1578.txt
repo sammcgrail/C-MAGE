@@ -1,0 +1,15 @@
+I read the structure in sections, left to right, and assembled one SMILES from them.
+
+**Left to right:**
+- A 2-hydroxyphenyl group is attached to a pyridazine. The pyridazine carries an NH2 and, at the next ring carbon, a 3,8-diazabicyclo[3.2.1]octane through its N3 nitrogen.
+- The bicycle's bridging N8 is bonded to C4 of a pyridine. The pyridine's C2 carries an O link to a cyclobutane.
+- The cyclobutane is 1,3-disubstituted with one bold and one hashed bond, so it is trans. That makes the two ring carbons non-stereogenic in the absolute sense, but the trans relationship is encoded in the SMILES.
+- The cyclobutane's other oxygen goes to C4 of a piperidine. That piperidine's nitrogen is bonded to C4 of a second piperidine, whose nitrogen is bonded to C3 of an isoxazole.
+- The isoxazole's C5 carries a CH(iPr)–C(=O) group. Reading the hashed isopropyl bond, this carbon is S.
+- The acyl group is bonded to the nitrogen of a 4-hydroxypyrrolidine. From the wedge and hash bonds, C2 is S and C4 is R.
+- The pyrrolidine C2 carries a C(=O)NH amide. The amide nitrogen is bonded to a CH(CH3) carbon with a bold methyl, which is S.
+- That CH(CH3) carbon is attached to a phenyl ring bearing a 4-methylthiazol-5-yl group at the para position.
+
+I assigned each stereocentre by CIP priority from the drawn wedges and hashes, then chose the @/@@ symbols to match the SMILES neighbour order. I checked ring closures and branch parentheses by hand rather than with software.
+
+SMILES: Oc1ccccc1-c1cc(N2CC3CCC(C2)N3c3ccnc(c3)O[C@H]3C[C@@H](C3)OC3CCN(CC3)C3CCN(CC3)c3cc([C@H](C(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)N[C@@H](C)c4ccc(cc4)-c4scnc4C)on3)c(N)nn1

@@ -1,0 +1,8 @@
+I read the molecule as a PROTAC: a SMARCA2-type aminopyridazine ligand joined through a PEG linker to a VHL ligand. I wrote the SMILES region by region and then checked the stereocentres against the drawing.
+
+- **Left end:** a pyridazine bearing NH2 and a 2-hydroxyphenyl group, with a pyrazol-4-yl substituent on the adjacent ring carbon.
+- **Linker:** the pyrazole N-1 carries six repeating –CH2CH2–O– units (six ether oxygens in the drawing), ending in –CH2–C(=O)–.
+- **Right end:** the VHL ligand, built from tert-leucine, 4-hydroxyproline and a 4-(4-methylthiazol-5-yl)benzylamide.
+- **Stereochemistry:** the tert-leucine carbon is the L (S) form, written `[C@@H]`. The hydroxyproline is the (2S,4R) form, written `[C@H](O)` at C4 and `[C@H]1` at C2 in this atom order. I confirmed each by comparing neighbour order against the standard VHL-ligand SMILES.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(c1)CCOCCOCCOCCOCCOCCOCC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(cc1)-c1scnc1C

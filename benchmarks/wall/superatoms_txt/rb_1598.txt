@@ -1,0 +1,15 @@
+I read the structure region by region and wrote it as the SMILES below. I did not run it through a parser, so the validity check was done by hand.
+
+- **Glutarimide:** a 2,6-dioxopiperidin-3-yl ring is attached through its C3 to the isoindolinone nitrogen. This carbon has plain bonds, so I gave it no stereo.
+- **Isoindolinone:** the lactam C=O sits on the aromatic carbon next to the CH2-bearing carbon. The alkyne is on the aromatic carbon adjacent to the CH2-bearing carbon.
+- **Linker:** an alkyne followed by five CH2 groups and then a C(=O) amide, which acylates the ring nitrogen of the bicyclic core.
+- **Bicyclic core:** an eight-membered ring (N, CH2, CH2, CH, N, C=O, CH, CH2) fused to a pyrrolidine through the CH and the N.
+  - The fusion CH carries a wedge to the CH2 above it.
+  - The pyrrolidine CH carries a wedge to its carboxamide.
+  - The ring CH next to the lactam carbonyl carries a wedge to its NH.
+- **Side chain:** the amide NH leads to a stereocentre (wedge to CH2–O–C(=O)NH2) bearing a 5-phenylthiazol-2-yl group.
+- **Benzothiophene:** the 2-carboxamide is on the thiophene ring, and a CF2–PO3H2 group is on C5 of the benzo ring.
+
+I assigned @/@@ at the four wedged centres from the wedge geometry, taking the implicit hydrogen as pointing away from the viewer.
+
+SMILES: O=C1CCC(C(=O)N1)N1Cc2c(C1=O)cccc2C#CCCCCCC(=O)N1CC[C@H]3CC[C@@H](C(=O)N[C@@H](COC(N)=O)c4ncc(-c5ccccc5)s4)N3C(=O)[C@@H](NC(=O)c3cc4cc(C(F)(F)P(=O)(O)O)ccc4s3)C1

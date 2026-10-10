@@ -1,0 +1,8 @@
+I read the molecule in four parts and wrote the SMILES from them.
+
+1. **Left fragment:** a 3-hydroxy-6,7-dihydro-5H-benzo[7]annulene. The seven-membered ring has two aromatic carbons, a C=C bearing two aryl groups, and three CH2 groups. One alkene carbon carries a 4-(cyclopropyloxy)phenyl group. The other carries a phenyl ring that is para-linked to the piperidine nitrogen.
+2. **Linker:** the piperidine is substituted at C4 with a CH2 that leads to a piperazine nitrogen. The other piperazine nitrogen is attached to the aromatic ring of the isoindolinone.
+3. **Right fragment:** a 1-oxoisoindoline whose ring nitrogen is bonded to C3 of a piperidine-2,6-dione (glutarimide).
+4. **Stereochemistry:** only the glutarimide C3 is drawn with a hashed bond, pointing to the isoindolinone nitrogen. Working through the geometry, with that nitrogen behind the plane and the implicit H toward the viewer, gives `[C@H]` for the neighbour order used in the SMILES. The C=C in the seven-membered ring is in a ring with no cis/trans marking, so I added no double-bond stereo.
+
+SMILES: Oc1ccc2c(c1)CCCC(c1ccc(OC3CC3)cc1)=C2c1ccc(cc1)N1CCC(CC1)CN1CCN(CC1)c1ccc2c(c1)CN(C2=O)[C@H]1CCC(=O)NC1=O

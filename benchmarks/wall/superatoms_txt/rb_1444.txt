@@ -1,0 +1,18 @@
+I read the drawing in sections and built the SMILES from each one. The stereo at the pyrrolidine C4 (the hashed OH) was not worked out from the drawing; I assumed the usual VHL-ligand (4R) configuration.
+
+**Fragments**
+- **Left end:** a 3-amino-pyridazine bearing a 2-hydroxyphenyl at C6 and a pyrazol-4-yl at C4.
+- **Pyrazole and pyridone:** the pyrazole N1 carries a CH(CH3) group attached to C5 of a 2-pyridone. The pyridone N1 carries a CH2CH2–O chain.
+- **Isoxazole:** the chain ends at O on isoxazole C3. Isoxazole C5 carries a CH(iPr)–C(=O) group.
+- **Pyrrolidine:** that C(=O) acylates the pyrrolidine N. The ring has 4-OH (hashed) and a 2-carboxamide (wedged).
+- **Right end:** the amide NH sits on a CH(CH3) group (methyl wedged) attached to a phenyl ring. The phenyl carries a 4-methylthiazol-5-yl group.
+
+**Stereocentres from the wedges and hashes**
+- The CH(CH3) on the pyridone is drawn with plain bonds, so it gets no stereo label.
+- The isopropyl-bearing carbon (wedged iPr) works out as R.
+- Pyrrolidine C2 (wedged carboxamide) works out as S.
+- The CH(CH3) next to the amide NH (wedged methyl) works out as S.
+
+I wrote each centre's @/@@ from the order of its neighbours in the SMILES string and checked the permutation against these assignments.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1-c1cnn(c1)C(C)c1ccc(=O)n(c1)CCOc1cc(on1)[C@@H](C(C)C)C(=O)N2C[C@H](O)C[C@H]2C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

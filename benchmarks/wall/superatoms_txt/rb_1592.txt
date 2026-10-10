@@ -1,0 +1,12 @@
+I read the molecule region by region, from left to right.
+
+- **Left end:** a pyridazine with NH2 on one carbon and a 2-hydroxyphenyl on the carbon across the ring. The ring carbon next to the NH2 carbon carries the piperidine nitrogen.
+- **Spiro core:** a piperidine whose 4-position is also the spiro carbon of a morpholine. That spiro carbon bears the ring oxygen and a CH2 that leads to the morpholine nitrogen, so the core is 1-oxa-4,9-diazaspiro[5.5]undecane.
+- **Linker:** the morpholine nitrogen carries CH2–C≡C–CH2 attached to a piperazine nitrogen. The other piperazine nitrogen carries CH2CH2–O, which is attached to C3 of an isoxazole.
+- **Isoxazole side chain:** C5 of the isoxazole carries a CH bearing an isopropyl group and a C(=O) that acylates the pyrrolidine nitrogen. The wedge on the isopropyl bond gives `[C@@H]` when written from the isoxazole side.
+- **Hydroxyproline:** the OH is hashed and the carboxamide is wedged. Working out both centres from the drawing gives `N1C[C@H](O)C[C@H]1C(=O)N`.
+- **Right end:** the amide NH is bonded to a CH(CH3) with a wedged methyl, then to a 4-(4-methylthiazol-5-yl)phenyl group. That centre works out to `[C@@H]`.
+
+I checked that ring-closure digits are reused only after they are closed, and that each ring and heteroatom matches the drawing.
+
+SMILES: Nc1nnc(-c2ccccc2O)cc1N1CCC2(CC1)CN(CCO2)CC#CCN1CCN(CC1)CCOc1cc(on1)[C@@H](C(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(cc1)-c1scnc1C

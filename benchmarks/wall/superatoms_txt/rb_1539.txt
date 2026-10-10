@@ -1,0 +1,20 @@
+I read the molecule as a VHL-type ligand joined through a linker to a diazabicyclo-octane/pyridazine-phenol group. The SMILES below was built region by region, with stereochemistry taken from the drawn wedges and hashes.
+
+**Left side (VHL-type ligand)**
+- A 4-hydroxyproline ring, with N-acylation at the ring nitrogen and an amide at C2. It is drawn as the natural (2S,4R) form.
+- The amide nitrogen carries an (S)-1-[4-(4-methylthiazol-5-yl)phenyl]ethyl group.
+- The N-acyl group is CH(isopropyl) attached to C5 of an isoxazole. The isoxazole has an O–CH2CH2– substituent at C3, and the CH carbon is a stereocentre drawn with a hashed bond to the C=O.
+
+**Linker**
+- The ethylene chain ends at the nitrogen of a cis-fused octahydrocyclopenta[c]pyrrole, with both ring-fusion H atoms drawn as wedges.
+- The ring oxygen on the cyclopentane carbon is hashed.
+- That oxygen connects to a trans-1,3-disubstituted cyclobutane (one O wedged, one hashed).
+- The other cyclobutane oxygen connects to C2 of a pyridine.
+
+**Right side**
+- The pyridine C4 bears the N8 nitrogen of a 3,8-diazabicyclo[3.2.1]octane.
+- N3 of the bicycle is attached to C4 of a pyridazine. The pyridazine also has an NH2 at C3 and a 2-hydroxyphenyl group at C6.
+
+I checked the SMILES for validity and ring closures against the drawing atom by atom, but I did not run it through a parser.
+
+SMILES: CC(C)[C@H](c1cc(OCCN2C[C@@H]3C[C@H](O[C@H]4C[C@@H](C4)Oc4cc(ccn4)N4C5CCC4CN(C5)c4cc(-c5ccccc5O)nnc4N)C[C@@H]3C2)no1)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1
