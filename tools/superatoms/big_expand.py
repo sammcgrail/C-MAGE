@@ -141,6 +141,24 @@ def disable_timer(why):
     log(f"timer disabled: {why}")
 
 
+# ------------------------------------------------------------------------------------------------ quarantine
+# Sam, 10 Oct: "If anything halted you move onto the next one." A per-item problem (an image that will not clean, a
+# CX shard that fails, a CX row that does not belong, an API read that errors) is logged here and skipped; the step
+# carries on and the timer stays on. Only a real integrity / system failure halts (the spend guard: CapHit).
+QUAR = WORK / "quarantine.jsonl"
+
+
+def quarantine(key, stage, why):
+    WORK.mkdir(parents=True, exist_ok=True)
+    with open(QUAR, "a") as fh:
+        fh.write(json.dumps({"at": now().isoformat(), "key": key, "stage": stage, "why": str(why)[:300]}) + "\n")
+    log(f"QUARANTINED [{stage}] {key}: {str(why)[:200]}")
+
+
+def quarantined(stage=None):
+    return {r["key"] for r in jl(QUAR) if stage is None or r["stage"] == stage}
+
+
 # ------------------------------------------------------------------------------------------------ money
 def run_spend(d):
     return sum((r.get("cost_usd") or 0) for p in ("ledger.jsonl", "retries.jsonl") for r in jl(Path(d) / p))
@@ -295,7 +313,8 @@ def pick(cands, n, per_patent_now):
 
 def add_rows(n, source):
     rows = set_rows()
-    used = {x["orig_file"] for x in rows} | {x.get("orig_mol") for x in rows if x.get("orig_mol")}
+    used = ({x["orig_file"] for x in rows} | {x.get("orig_mol") for x in rows if x.get("orig_mol")}
+            | quarantined("add"))
     n_test = sum(1 for x in rows if x["src"] == "USPTO")
     if source == "auto":
         source = "test" if n_test < N_TEST else ("odp" if odp_ok() else "train")
@@ -343,17 +362,25 @@ def add_rows(n, source):
     k0 = max([int(x["id"][3:]) for x in rows] + [0])
     zf = None
     new = []
-    for i, c in enumerate(chosen, k0 + 1):
-        rid = f"rb_{i:04d}"
+    i = k0
+    for c in chosen:
+        rid = f"rb_{i + 1:04d}"
         dst = IMG / f"{rid}.png"
-        if c["src"] == "USPTO":
-            clean_png(TEST_DIR / c["orig_file"], dst)
-        elif c["src"] == "USPTO-ODP":
-            clean_png(c["orig_file"], dst)
-        else:
-            import io, zipfile
-            zf = zf or zipfile.ZipFile(ZIP)
-            clean_png(io.BytesIO(zf.read(c["orig_file"])), dst)
+        try:
+            if c["src"] == "USPTO":
+                clean_png(TEST_DIR / c["orig_file"], dst)
+            elif c["src"] == "USPTO-ODP":
+                clean_png(c["orig_file"], dst)
+            else:
+                import io, zipfile
+                zf = zf or zipfile.ZipFile(ZIP)
+                clean_png(io.BytesIO(zf.read(c["orig_file"])), dst)
+        except Exception as e:          # one bad drawing never stops the step
+            quarantine(c["orig_file"], "add", f"{type(e).__name__}: {e}")
+            if dst.exists():
+                dst.unlink()
+            continue
+        i += 1
         new.append({"id": rid, "src": c["src"], "orig_id": c["orig_id"], "orig_file": c["orig_file"],
                     **({"orig_mol": c["orig_mol"]} if c.get("orig_mol") else {}), "patent": c["patent"],
                     "png": str(dst), "truth": c["truth"], "labels": [], "heavy": c["heavy"], "cls": c["cls"],
@@ -379,7 +406,8 @@ def run_cx():
     runs of run_stage3_only.sh (each its own image dir and run dir), then each run merged into the pair."""
     rows = set_rows()
     have = cx_have()
-    todo = [x for x in rows if x["id"] not in have]
+    bad = quarantined("cx")
+    todo = [x for x in rows if x["id"] not in have and x["id"] not in bad]
     if not todo:
         return 0
     stamp = now().strftime('%Y%m%dT%H%M%S')
@@ -399,25 +427,32 @@ def run_cx():
                                            "--device", "cpu"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
                                           text=True, env=env)))
     log(f"CXMolScribe stage 3 on {len(todo)} images in {k} parallel shards")
-    errs = []
-    for o, p in procs:
+    done = 0
+    for i, (o, p) in enumerate(procs):
         _, err = p.communicate()
         runs = sorted(glob.glob(str(o / "run_*")))
-        if p.returncode != 0 or not runs:
-            errs.append(f"{o.name} rc={p.returncode}: {(err or '')[-300:]}")
-    if errs:
-        raise RuntimeError("stage 3 failed: " + " | ".join(errs))
-    for o, _ in procs:
-        merge_cx(sorted(glob.glob(str(o / "run_*")))[-1])
-    return len(todo)
+        shard = [x["id"] for x in todo[i::k]]
+        if p.returncode != 0 or not runs:          # a failed shard: its images are skipped, the others merge
+            for rid in shard:
+                quarantine(rid, "cx", f"stage-3 shard {o.name} rc={p.returncode}: {(err or '')[-200:]}")
+            continue
+        merge_cx(runs[-1])
+        got = cx_have()
+        for rid in shard:
+            if rid in got:
+                done += 1
+            else:
+                quarantine(rid, "cx", "no row in its shard's stage-3 output")
+    return done
 
 
 def merge_cx(run_dir, sa=None, cxp=None):
     """Append a stage-3 run's rows to the published pair (text only, one row per id; the same rule as
-    merge_cx.py). Every NEW row must be an id of some set.json; rows already in the pair are only checked for
-    duplicates, because a set may later drop an id (wavy/removed.json) while its old CX row stays in the pair (that
-    tripped `assert k in ids` on wv_0001 and halted the timer, 9 Oct 13:25Z). Atomic: both files are checked
-    before either is written."""
+    merge_cx.py). A NEW row that is in no set.json, or already has a CX row, is quarantined and skipped (Sam 10 Oct:
+    a bad item never halts). Rows already in the pair are only checked for duplicates, because a set may later drop
+    an id (wavy/removed.json) while its old CX row stays (that halted the timer on wv_0001, 9 Oct 13:25Z); a
+    duplicate inside the published pair itself is an integrity failure and raises. Both files are checked before
+    either is written."""
     import pandas as pd
     sa, cxp = Path(sa or SA), Path(cxp or CXP)
     ids = {x["id"] for d in sorted(sa.iterdir()) if (d / "set.json").exists() for x in json.load(open(d / "set.json"))}
@@ -427,14 +462,21 @@ def merge_cx(run_dir, sa=None, cxp=None):
         old = pd.read_excel(p)
         newp = Path(run_dir) / "03_CXMS_Results" / f"Completed_{f}Confidence_CMAGE.xlsx"
         new = pd.read_excel(newp) if newp.exists() else old.iloc[0:0]
-        for is_new, dfr in ((False, old), (True, new)):
-            for fp in dfr["File Path"]:
-                k = Path(fp).stem
-                if is_new and k not in ids:
-                    raise AssertionError(f"new CX row {k} is in no set.json")
-                if k in seen:
-                    raise AssertionError(f"{k} twice")
-                seen.add(k)
+        for fp in old["File Path"]:
+            k = Path(fp).stem
+            if k in seen:
+                raise AssertionError(f"{k} twice in the published pair")      # integrity: the pair itself is broken
+            seen.add(k)
+        keep = []
+        for fp in new["File Path"]:                 # a bad NEW row is skipped (quarantined), never fatal
+            k = Path(fp).stem
+            if k not in ids:
+                quarantine(k, "cx-merge", "new CX row is in no set.json"); keep.append(False)
+            elif k in seen:
+                quarantine(k, "cx-merge", "already has a CX row"); keep.append(False)
+            else:
+                seen.add(k); keep.append(True)
+        new = new[keep] if len(new) else new
         m = pd.concat([old, new.reindex(columns=old.columns)], ignore_index=True)
         out[p] = m.drop(columns=[c for c in m.columns if c == "Unnamed: 0"])
     for p, m in out.items():
@@ -447,7 +489,8 @@ def merge_cx(run_dir, sa=None, cxp=None):
 def run_api():
     rows = set_rows()
     have = api_have()
-    todo = [x for x in rows if x["id"] not in have]
+    bad = quarantined("api")
+    todo = [x for x in rows if x["id"] not in have and x["id"] not in bad]
     if not todo:
         return 0, 0.0
     big = run_spend(RUN)
@@ -479,6 +522,12 @@ def run_api():
                        capture_output=True, text=True, cwd=str(REPO))
     with open(WORK / "api.log", "a") as fh:
         fh.write(r.stdout[-20000:] + r.stderr[-5000:])
+    if r.returncode != 0:
+        log(f"api_reader_set exited {r.returncode} (rows it did not read wait for the next step): {r.stderr[-200:]}")
+    # a row the reader recorded as failed is never re-read by api_reader (its key is in the ledger): list it
+    failed = {x["k"] for x in jl(RUN / "ledger.jsonl") if x.get("status") != "ok"} & {x["id"] for x in todo}
+    for rid in sorted(failed - quarantined("api")):
+        quarantine(rid, "api", "API read failed (ledger status not ok)")
     stop = RUN / "STOP"
     if stop.exists() and run_spend(RUN) >= BIG_CAP - 0.01:
         raise CapHit(f"the big set's API spend reached the ${BIG_CAP:.0f} cap")
@@ -599,16 +648,29 @@ def step(n, source="auto", do_publish=True, do_signal=True):
         return 0
     backlog = len([x for x in rows if x["id"] not in api_have()])
     n = max(0, n - backlog)              # rows still waiting for the API (month guard) count against this step
-    new = add_rows(n, source) if n > 0 else []
+    errors = []
+
+    def phase(name, fn, default):
+        """Run one phase; a non-integrity error is logged and the step moves on to the next phase."""
+        try:
+            return fn()
+        except CapHit:
+            raise
+        except Exception as e:
+            errors.append(f"{name}: {type(e).__name__}: {e}"[:300])
+            log(f"phase {name} failed, moving on: {type(e).__name__}: {e}")
+            return default
+
+    new = phase("add", lambda: add_rows(n, source), []) if n > 0 else []
+    ncx = phase("cx", run_cx, 0)
     try:
-        ncx = run_cx()
-        napi, cost = run_api()
+        napi, cost = phase("api", run_api, (0, 0.0))
     except CapHit as e:
         s["halted"] = str(e); save_state(s)
         disable_timer(str(e))
         signal(f"C-MAGE big superatom set STOPPED: {e}.\nTimer disabled. Log {LOG}", do_signal)
         return 1
-    sc = score()
+    sc = phase("score", score, {})
     a = sc.get("all", {"n": 0, "api": 0, "cx": 0})
     pct = lambda x, n: f"{x / n * 100:.1f}%" if n else "-"
     total = len(api_have() & {x["id"] for x in set_rows()})
@@ -624,11 +686,14 @@ def step(n, source="auto", do_publish=True, do_signal=True):
     line2 = "Exact: " + "; ".join(parts) if parts else "Exact: nothing scored yet."
     head = None
     if do_publish:
-        head = publish(f"Superatoms big set: +{len(new)} drawings, {napi} API reads, {ncx} CXMolScribe reads\n\n"
-                       f"{line1}\n{line2}")
-        line2 += f" Commit {head}."
+        head = phase("publish", lambda: publish(f"Superatoms big set: +{len(new)} drawings, {napi} API reads, "
+                                                f"{ncx} CXMolScribe reads\n\n{line1}\n{line2}"), None)
+        line2 += f" Commit {head}." if head else " Not published (the next step retries)."
+    nq = len(jl(QUAR))
+    if errors or nq:
+        line2 += f" Skipped: {len(errors)} phase error(s), {nq} quarantined item(s) in all ({QUAR.name})."
     s["steps"].append({"at": now().isoformat(), "added": len(new), "api": napi, "cx": ncx, "cost": round(cost, 4),
-                       "commit": head, "minutes": round((time.time() - t0) / 60, 1)})
+                       "commit": head, "errors": errors, "minutes": round((time.time() - t0) / 60, 1)})
     save_state(s)
     signal(line1 + "\n" + line2, do_signal)
     if n_protac_read() >= TARGET_PROTAC:
@@ -697,13 +762,16 @@ def main():
             print(publish("Superatoms big set: rebuild and publish"))
             return 0
     except Exception as e:
+        # Sam 10 Oct: never park the pipeline on an error. Log it, tell Sam once, keep the timer: the next tick tries
+        # again. Only CapHit (the spend guard, handled in step) sets "halted" (watched by cmage-halt-watch).
         s = load_state()
-        s["halted"] = f"{type(e).__name__}: {e}"[:500]
+        s.setdefault("errors", []).append({"at": now().isoformat(), "cmd": a.cmd, "error": f"{type(e).__name__}: {e}"[:500]})
+        s["errors"] = s["errors"][-50:]
         save_state(s)
-        disable_timer("error")
-        signal(f"C-MAGE big superatom set HALTED on an error: {str(e)[:300]}\nTimer disabled. Log {LOG}",
-               a.cmd != "step" or not getattr(a, "no_signal", False))
-        raise
+        log(f"{a.cmd} failed (timer kept on, next tick retries): {type(e).__name__}: {e}")
+        signal(f"C-MAGE big superatom set: a {a.cmd} failed ({str(e)[:200]}). Timer stays on; the next tick retries. "
+               f"Log {LOG}", a.cmd != "step" or not getattr(a, "no_signal", False))
+        return 1
 
 
 if __name__ == "__main__":
