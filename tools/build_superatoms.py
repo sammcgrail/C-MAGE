@@ -182,12 +182,13 @@ def mcnemar(rs, ka, kb):
 # sa_NNNN / rs_*, with an explicit "arm": "s5" or "s55"). A lane's default arm covers rows without one.
 SA_LANES = {"/root/cmage-work/sonnet/results.jsonl": "s5", "/root/cmage-work/sonnet-s55c/results.jsonl": "s55"}
 SA_LANE_GLOB = ("/root/cmage-work/sonnet-*sa*/results.jsonl",   # sa5 / sa55: superatom drawings
-                "/root/cmage-work/sonnet-wv*/results.jsonl")    # wv55: attachment-point fragments (wv_*)
+                "/root/cmage-work/sonnet-wv*/results.jsonl",    # wv55: attachment-point fragments (wv_*)
+                "/root/cmage-work/sonnet-big*/results.jsonl")   # big55: the big set (rb_*, PROTACs first)
 ARM_OF = {"s5": "s5", "": "s5", "s55": "s55", "s55c": "s55"}
 
 
 def is_sa(k: str) -> bool:
-    return k.startswith(("sa_", "rs_", "wv_"))
+    return k.startswith(("sa_", "rs_", "wv_", "rb_"))
 
 
 def sa_tool_reads() -> dict:
