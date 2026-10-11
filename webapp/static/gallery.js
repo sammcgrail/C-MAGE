@@ -72,7 +72,7 @@ var CSS = [
 var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
 
 var IMGDIR = {c: "img", b: "superatoms", r: "superatoms", g: "superatoms", w: "superatoms"};
-var MIN_N = 10;        // a reader needs this many images read in a set to be ranked "best" or to set a gap
+var MIN_N = 20;        // under this many images read in a set, a reader gets no % (Sam: "if it's under 20 don't show 100"), no "best", no gap
 var D = null, NA = 0, LLM = [], CX = -1;
 var S = {type: -1, src: "all", q: "", same: false};
 var GB = null, WALL = null, CARDS = [];
@@ -143,9 +143,10 @@ function cardsUpdate(T){
     var n = read[a], p = pc(ex[a], n);
     C.s.classList.toggle("none", !n);
     C.s.classList.toggle("isbest", best.length < NA && best.indexOf(a) >= 0);
-    C.pc.textContent = n ? p.toFixed(1) + "%" : "–";
-    C.of.textContent = n ? fmt(ex[a]) + " of " + fmt(n) + (n < MIN_N ? " · too few" : "") : "not read";
-    C.bar.style.width = (n ? Math.min(100, p) : 0) + "%";
+    var ok = n >= MIN_N;
+    C.pc.textContent = ok ? p.toFixed(1) + "%" : "–";
+    C.of.textContent = n ? fmt(ex[a]) + " of " + fmt(n) + (ok ? "" : " · too few to score") : "not read";
+    C.bar.style.width = (ok ? Math.min(100, p) : 0) + "%";
   });
   var lab = S.type < 0 ? "All types" : D.types[S.type].label;
   $("#gahead").innerHTML = '<span class="on">' + esc(lab) + '</span><span>' + fmt(T.cnt[k]) + ' images'
