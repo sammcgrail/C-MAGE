@@ -45,6 +45,39 @@ def test_step_carries_on(t):
     assert disabled and E.load_state()["halted"] == "spend guard"
 
 
+def test_clean_truth(t):
+    """New rows get the same stray-fragment cleaning as clean_truth.py apply: label/glyph artifacts dropped (raw kept
+    in truth_raw), a drawn salt kept, an unknown fragment kept and logged for a look, a clean truth untouched."""
+    from rdkit import Chem
+    E.now = lambda: __import__("datetime").datetime(2026, 10, 11)
+    lp = t / "truth_cleanup.json"
+    parent = "COc1cc2nn(C3CCN(C(=O)C4CCN(Cc5ccc6c(c5)C(=O)N(C5CCC(=O)NC5=O)C6=O)CC4)CC3)cc2cc1NC(=O)c1cccc(C(F)(F)F)n1"
+    cases = {      # raw truth -> expected clean truth
+        parent + ".[I-27]": parent,                     # compound label "I-27" (rb_0605)
+        parent + ".I[I-16]": parent,
+        parent + ".S.S": parent,                        # "(S)" stereo descriptors
+        parent + ".[HH]": parent,                       # split N-H
+        parent + ".[2H-].[2H-]": parent,                # "D-" amino-acid labels
+        parent + ".[C-3]BF": parent,                    # "(BFC-3)"
+        parent + ".C": parent,                          # lone C glyph
+        parent + ".O=CO": parent + ".O=CO",             # drawn formic acid salt: kept
+        parent + ".[Cl-]": parent + ".[Cl-]",
+        parent + ".O": parent + ".O",                   # hydrate: kept
+        parent: parent,
+    }
+    for i, (raw, want) in enumerate(cases.items()):
+        r = E.clean_truth_row(f"rb_t{i:03d}", {"truth": raw, "cls": "protac"}, log_path=lp)
+        assert r["truth"] == want, (raw, r["truth"])
+        assert r["changed"] == (raw != want)
+        assert Chem.MolFromSmiles(r["truth"]) is not None
+    r = E.clean_truth_row("rb_t100", {"truth": parent + ".CCCCc1ccccc1", "cls": "protac"}, log_path=lp)
+    assert r["truth"] == parent + ".CCCCc1ccccc1" and r["undecided"], r          # unknown: kept, flagged
+    log = json.load(open(lp))
+    ids = {x["id"] for x in log["rows"]}
+    assert "rb_t000" in ids and "rb_t100" in ids and "rb_t010" not in ids, ids    # clean truth: no entry
+    assert any(x["id"] == "rb_t100" and x["undecided"] for x in log["rows"])
+
+
 def main():
     E.log = lambda m: None
     with tempfile.TemporaryDirectory() as t:
@@ -72,6 +105,7 @@ def main():
             got2 |= {Path(x).stem for x in pd.read_excel(cxp / f"Completed_{f}Confidence_CMAGE.xlsx")["File Path"]}
         assert got2 == got, got2
         test_step_carries_on(t)
+        test_clean_truth(t)
     print("TEST PASS")
 
 

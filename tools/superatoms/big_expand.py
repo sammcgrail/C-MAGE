@@ -207,7 +207,7 @@ def known_keys():
     smis = [r["truth_smiles"] for r in csv.DictReader(open(REPO / "corpus_images/manifest.csv"))]
     for d in ("synth", "real", "big"):
         if (SA / d / "set.json").exists():
-            smis += [x["truth"] for x in json.load(open(SA / d / "set.json"))]
+            smis += [t for x in json.load(open(SA / d / "set.json")) for t in (x["truth"], x.get("truth_raw")) if t]
     out = set()
     for s in smis:
         if s not in c:
@@ -311,6 +311,25 @@ def pick(cands, n, per_patent_now):
     return out
 
 
+def clean_truth_row(rid, c, log_path=None):
+    """clean_truth.clean() on a new row's MOL truth: stray label fragments ("(S)" -> S, "I-27" -> [I-27], a split
+    N-H -> [HH]) are dropped, drawn salts kept. Every removal, and every fragment the rules cannot decide (kept,
+    for a look at the drawing), is appended to big/truth_cleanup.json, the same log clean_truth.py apply writes."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    import clean_truth
+    r = clean_truth.clean(c["truth"], rid, c.get("orig_mol"))
+    if r["removed"] or r["undecided"] or r["kept"]:
+        lp = Path(log_path or clean_truth.LOG)
+        log_ = json.load(open(lp)) if lp.exists() else {"rows": [], "flagged_rows": []}
+        log_["rows"] = [x for x in log_["rows"] if x["id"] != rid] + [
+            {"id": rid, "cls": c.get("cls"), "truth_raw": c["truth"], "truth": r["truth"], "removed": r["removed"],
+             "kept": r["kept"], "undecided": r["undecided"], "added": now().strftime("%Y-%m-%d")}]
+        json.dump(log_, open(lp, "w"), indent=1)
+        if r["undecided"]:
+            log(f"{rid}: truth fragment(s) left for a look: {[u['fragment'] for u in r['undecided']]}")
+    return r
+
+
 def add_rows(n, source):
     rows = set_rows()
     used = ({x["orig_file"] for x in rows} | {x.get("orig_mol") for x in rows if x.get("orig_mol")}
@@ -381,9 +400,11 @@ def add_rows(n, source):
                 dst.unlink()
             continue
         i += 1
+        ct = clean_truth_row(rid, c)
         new.append({"id": rid, "src": c["src"], "orig_id": c["orig_id"], "orig_file": c["orig_file"],
                     **({"orig_mol": c["orig_mol"]} if c.get("orig_mol") else {}), "patent": c["patent"],
-                    "png": str(dst), "truth": c["truth"], "labels": [], "heavy": c["heavy"], "cls": c["cls"],
+                    "png": str(dst), "truth": ct["truth"], **({"truth_raw": c["truth"]} if ct["changed"] else {}),
+                    "labels": [], "heavy": c["heavy"], "cls": c["cls"],
                     "n_res": c["n_res"], "inchikey": c["inchikey"], "show": True,
                     **({"week": c["week"]} if c.get("week") else {}),
                     "added": now().strftime("%Y-%m-%d")})

@@ -300,7 +300,8 @@ def _build() -> int:
         for arm in ("s5", "s55"):
             r = sa_reads[arm].get(k)
             if r:
-                if r.get("truth") and r["truth"] != x["truth"]:
+                # a lane row read before clean_truth.py (11 Oct) carries the raw truth; it is re-scored on the clean one
+                if r.get("truth") and r["truth"] not in (x["truth"], x.get("truth_raw")):
                     raise SystemExit(f"{arm} {k}: backfill lane truth differs from the superatom set")
                 ans[arm][k] = {"s": r.get("sonnet_smiles") or "", "v": BS.score(r.get("sonnet_smiles"), x["truth"], x["rule"]),
                                "c": r.get("sonnet_conf")}
