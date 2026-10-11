@@ -1,0 +1,11 @@
+I read the structure as a macrocycle built from these parts, and wrote the SMILES in the same order:
+
+- **Indole:** N-ethyl, with the 2-position carrying a pyridin-3-yl group. That pyridine has a 2-[(S)-1-methoxyethyl] substituent.
+- **Linker:** the indole 3-position carries CH2–C(CH3)2–CH2–O–C(=O), forming an ester.
+- **Piperazic acid:** the ester carbonyl is attached to the (S) carbon of a six-membered ring containing NH–N. The ring nitrogen is acylated by the next residue.
+- **Amino acid:** this is C(=O)–CH(NH–acyl)–CH2, with (S) configuration. The CH2 connects to C2 of a thiazole, and thiazole C4 connects to indole C5.
+- **Acyl cap:** 7-oxabicyclo[2.2.1]heptane-1-carbonyl, attached to the amino acid NH.
+
+I checked the three stereocentres by working out the CIP priorities for the SMILES chirality tags, and all three come out as (S). The wedge on the pyridine–indole bond looks like an atropisomer marker. I did not encode it, because it is not a stereocentre in the SMILES sense.
+
+SMILES: CCn1c(-c3cccnc3[C@H](C)OC)c2CC(C)(C)COC(=O)[C@@H]4CCCN(N4)C(=O)[C@@H](NC(=O)C56CCC(CC5)O6)Cc7nc(cs7)-c8ccc1c2c8

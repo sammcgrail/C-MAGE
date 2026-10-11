@@ -1,0 +1,21 @@
+I read the structure region by region and wrote the SMILES with stereo only at the centres that have wedges or hashes.
+
+**Ring and chain skeleton**
+- **Pyridine:** C2 carries CH(OMe)CH₃ and C3 is bonded to the indole C2.
+- **Indole:** N1 bears an ethyl group and C3 bears CH₂–C(CH₃)₂–CH₂–O. C5 is bonded to the aryl ring.
+- **Macrocycle link:** the CH₂–C(CH₃)₂–CH₂–O chain leads to an ester, O–C(=O), attached to the piperazic acid α-carbon.
+- **Piperazic acid:** a six-membered ring (Cα, three CH₂, N, NH). The ring N is acylated by C(=O)–CH(NH–acyl)–CH₂–Ar.
+- **Aryl ring:** benzene with 1,3,5 substitution: the CH₂, the OH and the indole C5.
+- **Acyl group on the amino acid NH:** a 1,5-dimethyl-2-oxopyrrolidine-4-carbonyl group, i.e. the pyrrolidinone with N–CH₃, a ring C=O, a ring CH₂, and a CH(CH₃) next to N.
+
+**Stereocentres**
+I assigned CIP descriptors from the wedges and hashes and matched the SMILES @/@@ to them:
+- CH(OMe)CH₃ on the pyridine: S.
+- Piperazic acid Cα: S.
+- Amino acid Cα: S.
+- Pyrrolidinone C4 (bearing the carbonyl): S.
+- Pyrrolidinone C5 (bearing the methyl): R.
+
+The bold bond at the pyridine C3 is on an aromatic carbon, so it cannot be written as a tetrahedral centre. I left it without stereo.
+
+SMILES: C[C@H](OC)c1ncccc1-c1n(CC)c2ccc3cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@@H](NC(=O)[C@H]1CC(=O)N(C)[C@@H]1C)Cc1cc(O)cc3c1

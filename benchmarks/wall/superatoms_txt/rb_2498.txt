@@ -1,0 +1,16 @@
+I read the structure region by region and assembled the SMILES below. I have not run it through a parser, so validity is checked only by hand (ring closures and atom counts).
+
+**Reading the drawing, starting at the top left**
+- A 3,4-dimethoxyphenyl ring carries a CH2CH2 chain ending at a stereocentre. That carbon is bonded to the macrocycle's meta-phenylene ring and to an ester oxygen. The hashed bond to the CH2 makes it R.
+- The ester oxygen is acylated by a pipecolic acid (piperidine-2-carboxylate), drawn S with a wedge. Its ring nitrogen carries the C(=O)C(=O)C(CH3)2CH2O– unit, an α-ketoamide with a gem-dimethyl group.
+- That CH2O is esterified by an acrylate-type chain: C(=O)–CH=CH–CH2–CH2–N(CH3). I left the C=C geometry unspecified because the adjacent single bond is drawn wavy.
+- The N-methyl amide leads to phenylglycine (R, hashed phenyl), then an NH–C(=O) link to tyrosine (S, hashed CH2).
+- The tyrosine phenol oxygen is capped as a dimethylphosphinate, OP(=O)(CH3)2. Both methyls are drawn as plain line ends on P.
+- The tyrosine carbonyl joins proline. The hashed ring CH2 makes the drawn proline centre R, so I followed the drawing rather than assuming L-proline.
+- Proline's nitrogen is acylated by N-methyl-leucine (S, wedged isobutyl group).
+- The N-methyl-leucine nitrogen is acylated by C(=O)CH2–O–, which closes the macrocycle onto the meta-phenylene ring.
+
+**Stereocentres**
+I assigned the @/@@ tags by working out CIP priorities and viewing direction at each wedge or hash.
+
+SMILES: COc1ccc(CC[C@H]2OC(=O)[C@@H]3CCCCN3C(=O)C(=O)C(C)(C)COC(=O)C=CCCN(C)C(=O)[C@@H](c3ccccc3)NC(=O)[C@H](Cc3ccc(OP(C)(C)=O)cc3)NC(=O)[C@H]3CCCN3C(=O)[C@H](CC(C)C)N(C)C(=O)COc3cccc2c3)cc1OC

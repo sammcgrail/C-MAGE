@@ -1,0 +1,12 @@
+I read the structure as a macrocycle and assembled the SMILES in pieces.
+
+- **Macrocycle core:** a piperazic acid ring (S at the alpha carbon) whose ring NH side carries an ester, and whose other nitrogen carries an amide C(=O).
+- **Ester linker:** the ester oxygen connects through OCH2–C(CH3)2–CH2 to C3 of the indole.
+- **Indole:** N-ethyl, with C2 bonded to the pyridine and C5 bonded to a chain of four CH2 groups. I counted four from the drawing, but the vertices are slightly ambiguous.
+- **Chain end:** the four CH2 groups lead to the (S) CH, which carries the NH–C(=O)–(2-methylcyclopropyl) group and the C(=O) that acylates the piperazic nitrogen.
+- **Pyridine:** C2 carries the (S)-CH(CH3)OCH3 group, C3 is the link to the indole, and C5 carries the 4-methylpiperazin-1-yl group. The ring nitrogen is next to C2.
+- **Cyclopropane:** both stereocentres are S. The carbonyl is drawn hashed on one carbon and the methyl wedged on the other, which gives a trans arrangement.
+
+I assigned each @/@@ by working out the CIP priorities at every centre and checking the neighbour order in the SMILES, rather than copying the drawing's wedges directly.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cc(N4CCN(C)CC4)cnc3[C@H](C)OC)n(CC)c3ccc(cc23)CCCC[C@H](NC(=O)[C@H]5C[C@@H]5C)C(=O)N6CCC[C@@H]1N6

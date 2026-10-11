@@ -1,0 +1,17 @@
+I read the structure as a macrocycle built from these pieces:
+
+- **Urea tail:** an isobutyl(methyl)urea, CC(C)CN(C)C(=O)N–, sits on the (S) alpha carbon.
+- **Thiazole:** the alpha carbon's CH2 links to C2 of a thiazole. Thiazole C4 is bonded to C5 of the indole.
+- **Indole:** the indole N carries an ethyl group. C2 bears a pyridin-3-yl ring, and the pyridine C2 carries the (S)-CH(CH3)OMe group.
+- **Linker:** indole C3 carries CH2–C(CH3)2–CH2–O, which forms the ester with the piperazic acid carbonyl.
+- **Piperazic acid:** the (S) ring carbon bears the ester carbonyl. The ring N1 is acylated by the C(=O) attached to the alpha carbon, which closes the macrocycle.
+
+I assigned each stereocentre from its CIP priorities and then chose the SMILES chirality tag that gives S in each case:
+
+- Alpha carbon, priorities N > C(=O) > CH2 > H: [C@H].
+- Piperazic C3, priorities N > C(=O)O > CH2 > H: [C@@H].
+- Methoxyethyl carbon, priorities O > pyridyl C > CH3 > H: [C@H].
+
+I checked the ring-closure digits by hand for the thiazole, indole, pyridine and macrocycle, but I did not run the string through a parser.
+
+SMILES: CC(C)CN(C)C(=O)N[C@H]1Cc2nc(cs2)-c2ccc3n(CC)c(-c4cccnc4[C@H](C)OC)c(CC(C)(C)COC(=O)[C@@H]4CCCN(N4)C1=O)c3c2

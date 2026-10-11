@@ -1,0 +1,17 @@
+I read the drawing region by region and wrote the SMILES as a single macrocycle.
+
+**Fragments**
+- **Left side chain:** HOOC–CH(CH3)–CH2– is attached to a benzene ring at the meta position. The methyl is on a hashed bond.
+- **Quaternary carbon:** it carries the aryl ring, a methyl (hashed), the chain and the triazole carbon.
+- **Chain from the quaternary carbon:** CH2CH2CH2–C(CH3)2–CH2–SO2–CH2CH2– runs to C4 of the indole.
+- **Indole:** it has an NH, and F at C6. C5 carries the bridging S.
+- **Benzoic acid ring:** the S-bearing carbon is next to the carbon bearing COOH. Going round the ring, the next positions are CH, then C–F, then the carbon bearing the triazole, then CH back to the S-bearing carbon.
+- **Triazole:** a 1-methyl-1,2,4-triazole. C3 bonds to the quaternary carbon, and C5 bonds to the fluorinated aryl ring.
+
+**Stereochemistry**
+- **Quaternary carbon:** the methyl is hashed, and phenyl → chain → triazole runs clockwise on the page. Written in the SMILES neighbour order (phenyl, triazole, methyl, chain), this gives `@@`.
+- **CH(CH3)COOH carbon:** the methyl is hashed, and with the implicit H towards the viewer, Me → COOH → CH2 runs counterclockwise. In the SMILES neighbour order (COOH, H, Me, CH2), this gives `@`.
+
+I checked ring closures and atom counts against the drawing.
+
+SMILES: OC(=O)[C@H](C)Cc1cccc(c1)[C@@]9(C)CCCC(C)(C)CS(=O)(=O)CCc2c3cc[nH]c3cc(F)c2Sc2cc(c(F)cc2C(=O)O)-c2nc9nn2C

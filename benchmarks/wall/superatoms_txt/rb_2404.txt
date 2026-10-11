@@ -1,0 +1,19 @@
+I read the structure region by region and wrote the SMILES from that reading. Several stereocentres and one ring size are uncertain, as noted below.
+
+**Reading of the drawing**
+- **Triantennary GalNAc part:** a quaternary carbon carries three CH2–O–CH2CH2–C(=O)NH–(CH2)3–NH–C(=O)–(CH2)4–O arms. Each arm ends in a β-linked GalNAc/GlcNAc-type sugar (2-NHAc, 3-OH, 4-OH, 6-CH2OH). I took all three sugars to have the same configuration, as drawn.
+- **Spacer:** the fourth substituent on that carbon is NH–C(=O)–(CH2)6–C(=O)–NH–(CH2)3, which leads into the macrocycle.
+- **Macrocycle, in order around the ring:**
+  1. An ornithine-type Cα whose Nα is tertiary. Its substituents are the 4-chloro-2-[4-(2-(dimethylaminomethyl)-1-methylimidazol-5-yl)phenoxy]benzyl group and the succinyl acyl carbon.
+  2. The Cα carbonyl, bonded to the NH of an O-methylserine.
+  3. The serine carbonyl, bonded to the N-methyl of a β-homo-4-chlorophenylalanine residue.
+  4. That residue's CH2C(=O), bonded to the NH of a 1,2-diaminocyclohexane.
+  5. The ring's other nitrogen, N-methylated and acylated by a 2-benzylsuccinyl unit.
+  6. The succinyl's far carbonyl, which closes the ring onto the ornithine Nα.
+
+**Uncertain points**
+- Stereo at the Orn Cα and Ser Cα is read assuming the narrow end of each wedge is at the stereocentre. This gives the D-type configuration at both, which is unexpected, so the wedge direction may be misread.
+- I read the cyclohexane as a chair, with the two ring bonds next to the amine-bearing carbons hashed. That gives cis-1,2-diamine stereo. Trans is the more common building block, so this is a literal reading and may be wrong.
+- The sugar configuration was worked out atom by atom from the wedges and hashes, not from a known sugar name.
+
+SMILES: C(COCCC(=O)NCCCNC(=O)CCCCO[C@H]1O[C@@H](CO)[C@@H](O)[C@@H](O)[C@@H]1NC(C)=O)(COCCC(=O)NCCCNC(=O)CCCCO[C@H]1O[C@@H](CO)[C@@H](O)[C@@H](O)[C@@H]1NC(C)=O)(COCCC(=O)NCCCNC(=O)CCCCO[C@H]1O[C@@H](CO)[C@@H](O)[C@@H](O)[C@@H]1NC(C)=O)NC(=O)CCCCCCC(=O)NCCC[C@H](C(=O)N[C@H](COC)C(=O)N(C)[C@H](Cc3ccc(Cl)cc3)CC(=O)N[C@H]4CCCC[C@H]4N(C)C(=O)[C@@H](Cc5ccccc5)CC(=O)6)N6Cc7ccc(Cl)cc7Oc8ccc(cc8)-c9cnc(CN(C)C)n9C

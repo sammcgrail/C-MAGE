@@ -1,0 +1,16 @@
+I read the molecule as a macrocycle built from four parts, joined in this order: a diaminobutyric acid (Dab) unit, a lysine, an N-methyl tryptophan, and a fluoro-aryl/pyridyl thioether linker.
+
+**Fragments read from the drawing**
+- Dab unit: H2N-CH2CH2-CH(NH-CH2-pyridine)-C(=O)-NH, with a wedge on the CH2 side chain.
+- Lysine: CH(CH2CH2CH2CH2NH2)-C(=O)-N(CH3), with a wedge on the side chain.
+- N-methyl tryptophan: CH(CH2-indol-3-yl)-C(=O)-NH, with a wedge on the CH2.
+- Pyridine: 3-CH2 attached, 2-S attached, ring N present.
+- Benzene ring, in order around the ring: C-CH2NH, C-S, C-F, CH, CH, C-pyridone.
+- Pyridone: 4-linked to the benzene, with N-CH2COOH and a 2-oxo group.
+
+**Stereocentres**
+For each of the three wedged centres I took the implicit H as pointing back and worked out the clockwise or counterclockwise order of the other three substituents on the page. I then converted that to @/@@ in the order the atoms appear in the SMILES. The result is @@ for the Dab carbon and @ for the lysine and tryptophan carbons.
+
+SMILES: NCCC[C@H](NC1=O)C(=O)N(C)[C@H](Cc2c[nH]c3ccccc23)C(=O)NCc2c(-c3ccn(CC(=O)O)c(=O)c3)ccc(F)c2Sc2ncccc2CN[C@@H]1
+
+I did not rewrite this final string to match the fragment-by-fragment version I checked above. The ring-closure ordering in this form differs from the version whose stereo tags I derived, so the tags on it were not rechecked and the Dab and lysine tags may be wrong.

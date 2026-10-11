@@ -1,0 +1,14 @@
+I read the drawing region by region and wrote the SMILES from that reading.
+
+- **Macrocycle core:** a piperazic acid ring (six-membered, with one NH and one acylated N) is linked as an ester through C(=O)O–CH2–C(CH3)2–CH2 to C3 of an N-ethyl indole. The same piperazic N is acylated by an amino-acid-derived unit.
+- **Amino acid unit:** the α-carbon bears an NH–C(=O)–(2-methylcyclopropyl) amide, and its CH2 goes to a meta-disubstituted phenol. The phenol ring is bonded to indole C5.
+- **Indole C2 substituent:** a pyridin-3-yl ring carrying a CH(OCH3)CH3 group at pyridine C2.
+- **Stereocentres:** I assigned each wedge or hash by CIP priorities and then matched the SMILES chirality tags to those assignments.
+  - The methoxy-bearing CH is S.
+  - The piperazic α-carbon is S.
+  - The amino acid α-carbon is S.
+  - The cyclopropane carbon bearing the carbonyl is S.
+  - The cyclopropane carbon bearing the methyl is S.
+- **Not encoded:** the wedge on the pyridine–indole bond looks like an atropisomer marker. SMILES tetrahedral tags cannot express it, so I left it out.
+
+SMILES: C[C@H](OC)c1ncccc1-c1n(CC)c2ccc3cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@@H](NC(=O)[C@H]1C[C@@H]1C)Cc1cc(O)cc3c1

@@ -1,0 +1,13 @@
+I read the structure region by region, then built the SMILES and assigned both stereocentres from the drawn wedges.
+
+**Left side chain:** CH3C(=O)O–CH2–CH(OAc)–CH2– is attached to a benzene ring at a meta position. The CH(OAc) carbon has a bold wedge to O, which puts H at the back. That gives R, written as `[C@H]` in the SMILES order below.
+
+**Quaternary carbon:** It carries an aryl group, a methyl (hashed wedge, pointing away), a 1-methyl-1,2,4-triazol-3-yl group and a CH2 chain. The priorities are triazole > aryl > chain > methyl. With the methyl at the back, triazole → aryl → chain runs clockwise, so the centre is R, written as `[C@@]1` in the SMILES order below.
+
+**Macrocycle chain:** From the quaternary carbon the chain runs CH2–CH2–CH2–C(CH3)2–CH2–SO2–CH2–CH2 to C4 of the indole.
+
+**Indole:** C4 carries the chain, C5 carries the S bridge, C6 carries F, and N1 is NH.
+
+**Remaining ring system:** The S links to C4 of a pyridine. Pyridine C2 is bonded to C5 of the N1-methyl triazole, and triazole C3 closes the ring back to the quaternary carbon.
+
+SMILES: CC(=O)OC[C@H](OC(C)=O)Cc1cccc(c1)[C@@]1(C)CCCC(C)(C)CS(=O)(=O)CCc2c3cc[nH]c3cc(F)c2Sc2ccnc(c2)-c2nc1nn2C

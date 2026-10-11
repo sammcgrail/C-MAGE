@@ -1,0 +1,12 @@
+I read the molecule region by region and built the SMILES from that.
+
+- **Acid side chain:** HOOC–CH(CH3)–CH2– is attached to a meta-substituted benzene ring. The methyl group is on a bold wedge. Working through the neighbour order, `C[C@H](CAr)C(=O)O` reproduces that wedge geometry.
+- **Benzylic carbon:** the carbon on the benzene ring carries an NH and a triazole carbon, and is drawn with plain bonds, so it gets no stereo label.
+- **Triazole:** it is a 1-methyl-1,2,4-triazole. C3 bonds to the benzylic CH, C5 bonds to the fluorophenyl ring, and N1 carries the methyl group.
+- **Fluorophenyl ring:** the carbon bonded to the triazole sits next to the C–F carbon. The ring CH next to the ether carbon is the other neighbour of the triazole-bearing carbon.
+- **Ether and indole:** the oxygen links this ring to indole C5. Indole C6 and C7 each carry F, and C4 carries the CH2CH2 chain.
+- **Macrocycle linker:** from the indole the chain runs CH2CH2–SO2–CH2CH2–CF2–CH2–NH, closing back onto the benzylic CH.
+
+The SMILES below was written against the drawing atom for atom; I did not run it through a parser.
+
+SMILES: C[C@H](Cc1cccc(c1)C2NCC(F)(F)CCS(=O)(=O)CCc3c4cc[nH]c4c(F)c(F)c3Oc5ccc(F)c(c5)-c6nc2nn6C)C(=O)O

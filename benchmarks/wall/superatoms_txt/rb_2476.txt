@@ -1,0 +1,18 @@
+I read the drawing region by region and wrote the SMILES from that reading.
+
+**Structure read from the image**
+- **Left side chain:** a benzene ring substituted at the meta position by CH2–CH(OH)–CH2OH. The OH on the stereocentre is drawn with a wedge.
+- **Quaternary stereocentre:** it carries a hashed methyl, the phenyl ring, the chain CH2 and the triazole carbon.
+- **Macrocycle chain:** from the quaternary carbon, three CH2 groups lead to C(CH3)2, then CH2, then SO2, then CH2CH2 to the indole C4.
+- **Indole:** an NH indole with fluorines on C6 and C7. C4 carries the CH2CH2 link and C5 carries the sulfoxide S(=O).
+- **Sulfoxide link:** the S(=O) joins indole C5 to pyridine C4.
+- **Pyridine and triazole:** pyridine C2 is bonded to C5 of a 1-methyl-1,2,4-triazole. Triazole C3 bonds to the quaternary carbon.
+
+**Stereochemistry**
+- Quaternary carbon: with the methyl behind the plane, the other three substituents run counterclockwise when viewed from the front. This corresponds to `@@` in the atom order I wrote.
+- Diol carbon: with the OH wedged forward, the implicit H is behind the plane. This corresponds to `@` in the atom order I wrote.
+- The sulfoxide sulfur is drawn with plain bonds, so I gave it no stereo label.
+
+I checked the ring closures and atom counts of the SMILES against the drawing.
+
+SMILES: C[C@@]1(CCCC(C)(C)CS(=O)(=O)CCc2c3cc[nH]c3c(F)c(F)c2S(=O)c2ccnc(c2)-c2nc1nn2C)c1cccc(C[C@H](O)CO)c1

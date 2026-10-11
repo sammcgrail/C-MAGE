@@ -1,0 +1,17 @@
+I read the structure region by region and wrote the SMILES around the macrocycle.
+
+**Fragments, in order around the ring**
+- **Aryl group:** a 2-fluoro-3,4-dimethoxyphenyl ring joined through its C1 to a CH2CH2 chain.
+- **Benzylic ester carbon:** the chain ends at a CH bearing the ester oxygen and a meta-substituted benzene. The hashed bond points to the CH2, which gives R.
+- **Central benzene:** it carries an O–CH2–C(=O) linker at the meta position.
+- **N-Me norleucine:** N(Me)–CH(n-butyl)–C(=O), drawn S.
+- **2-Naphthylalanine:** NH–CH(CH2-naphthalen-2-yl)–C(=O), drawn S.
+- **N-Me Ser(OtBu):** N(Me)–CH(CH2OC(CH3)3)–C(=O), drawn S.
+- **Glycine:** NH–CH2–C(=O).
+- **N-Me amino-alkenoate:** N(Me)–CH2–CH=CH–C(=O)–O. The wavy bond means the alkene geometry is not specified, so I left it without a stereo mark.
+- **Gem-dimethyl diketone:** O–CH2–C(CH3)2–C(=O)–C(=O).
+- **Pipecolic acid:** the diketone ends on the piperidine N, and its C2 carries the ester C(=O) that closes the ring on the benzylic oxygen. The drawn stereocentre is S.
+
+I assigned each stereo tag by working out the CIP priorities from the wedge and hash bonds, then converting to @/@@ in the order the atoms appear in the SMILES. Ring closures were checked by counting atoms around each ring.
+
+SMILES: COc1ccc(CC[C@H]2OC(=O)[C@@H]3CCCCN3C(=O)C(=O)C(C)(C)COC(=O)C=CCN(C)C(=O)CNC(=O)[C@H](COC(C)(C)C)N(C)C(=O)[C@H](Cc3ccc4ccccc4c3)NC(=O)[C@H](CCCC)N(C)C(=O)COc3cccc2c3)c(F)c1OC

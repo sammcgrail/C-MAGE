@@ -1,0 +1,19 @@
+I read the structure in pieces and assembled them into one SMILES, then worked out each stereocentre from the wedges and hashes.
+
+**Fragments**
+- **Macrocycle ester:** an ester O–CH2–C(CH3)2–CH2 chain runs from the indole C3 to the piperazic acid carbonyl.
+- **Piperazic acid:** a six-membered ring (Cα, three CH2, N-acyl, NH). Cα carries the ester C(=O)O and is (S).
+- **Amino acid unit:** the acyl N of the piperazic ring is bonded to C(=O)–CH(NH–urea)–CH2–aryl, with the CH being (S).
+- **Aryl link:** the CH2 is on a meta-substituted phenyl, which is bonded to indole C5.
+- **Indole:** N-ethyl, with C2 bonded to the pyridine and C3 bonded to the CH2 of the ester chain.
+- **Pyridine:**
+  - C2 carries CH(CH3)OCH3, which is (S).
+  - C3 is bonded to the indole.
+  - C5 carries the bicyclic amine, an octahydropyrazino[2,1-c][1,4]oxazine joined through its piperazine-type N, with an (S) ring-fusion CH.
+- **Urea:** the NH–C(=O) is bonded to N1 of a 2,4-dimethylpiperazine whose C2 is (S).
+
+I assigned each @/@@ by ranking the CIP priorities at each centre and matching them to the neighbour order in the SMILES.
+
+**Ring closures checked:** the macrocycle closes through the ester carbonyl carbon (label 1) onto the piperazic Cα, and the piperazic ring closes through its NH onto the acylated N (label 2).
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3c([C@H](C)OC)ncc(c3)N3CCN4CCOC[C@@H]4C3)n(CC)c3ccc(cc23)-c2cccc(c2)C[C@H](NC(=O)N2CCN(C)C[C@@H]2C)C(=O)N2CCC[C@@H]1N2

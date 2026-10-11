@@ -1,0 +1,9 @@
+I read the structure as follows (the SMILES is checked by hand only, not run through a parser):
+
+- **Purine head:** an 8-hydroxy-adenine with a 2-butoxy group, joined through its N9-CH2 to C4 of a 1,2,3-triazole.
+- **Linker:** the triazole N1 carries a tri-ethylene-glycol chain (CH2CH2O ×3, then CH2CH2) ending in an amide NH. That amide continues as a propionyl group to the succinimide nitrogen. The succinimide is attached through sulfur to the cysteine side chain.
+- **Peptide, N- to C-terminus:** Lys–His–Ser–Ser–Gly–Cys–Ala–Phe–Leu–OH.
+
+I assigned each stereocentre from the wedge or hash on its bond. Every residue reads as D except Leu, which reads as L: D-Lys, D-His, D-Ser, D-Ser, D-Cys, D-Ala, D-Phe, L-Leu. Gly has no stereocentre. The succinimide carbon bearing sulfur is drawn with plain bonds, so it has no stereo label.
+
+SMILES: N[C@H](CCCCN)C(=O)N[C@H](Cc1c[nH]cn1)C(=O)N[C@H](CO)C(=O)N[C@H](CO)C(=O)NCC(=O)N[C@H](CSC2CC(=O)N(CCC(=O)NCCOCCOCCOCCn3cc(Cn4c(O)nc5c(N)nc(OCCCC)nc54)nn3)C2=O)C(=O)N[C@H](C)C(=O)N[C@H](Cc2ccccc2)C(=O)N[C@@H](CC(C)C)C(=O)O

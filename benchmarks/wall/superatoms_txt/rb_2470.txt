@@ -1,0 +1,13 @@
+I read the structure as a macrocycle and wrote the SMILES in pieces, then set each stereocentre from its CIP label in the drawing.
+
+**Fragments**
+- **Piperazic acid ring:** a six-membered ring containing two adjacent nitrogens. One nitrogen is an NH and the other is acylated. The ring carbon next to the NH carries the ester carbonyl and is labelled (S).
+- **Ester linker:** C(=O)–O–CH2–C(CH3)2–CH2, leading to the indole 3-position.
+- **Indole:** N-ethyl, with a pyridine on C2 and an aryl ring on C5.
+- **Pyridine:** C3 is bonded to the indole, C2 carries the (S)-CH(CH3)OCH3 group, and C5 carries an N-methylpiperazine.
+- **Aryl ring:** a meta-substituted benzene bonded to indole C5. Its other substituent is CH2–CH(NHC(=O)-cyclopropyl)–C(=O)–N, where that C(=O)–N is the acylated piperazic nitrogen and the CH is labelled (S).
+- **Cyclopropane:** a 2-methylcyclopropane-1-carboxamide with both ring carbons labelled (S).
+
+**Stereochemistry:** I worked out the @/@@ symbols for each of the five labelled centres from the CIP priorities and the order of neighbours in the SMILES. I did not check the result with a cheminformatics toolkit.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cc(N4CCN(C)CC4)cnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2cccc(c2)C[C@H](NC(=O)[C@H]2C[C@@H]2C)C(=O)N2CCC[C@H](N2)1

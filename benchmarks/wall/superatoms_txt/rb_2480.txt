@@ -1,0 +1,21 @@
+I read the drawing region by region and wrote the SMILES from that reading. The molecule is a rapamycin-like macrolide in which the macrocycle carries a terminal carboxylic acid chain, –(CH2)3–COOH.
+
+**Ring systems and substituents**
+- The cyclohexane carries a hydroxyl and a methoxy group on adjacent carbons, plus the vinyl link at C4.
+- The piperidine is a pipecolate whose nitrogen bears the α,β-diketo (N–C(=O)–C(=O)–) amide.
+- The six-membered hemiketal ring is C(OH)–CH(CH3)–CH2–CH(OCH3)–CH(–O–), closed through the ring oxygen.
+
+**Macrocycle path, starting from the cyclohexyl vinyl**
+- Cyclohexyl–CH=C(CH3)–CH(O-ester)–CH(CH3)–CH(OH)–CH2–C(=O)–CH(CH2CH2CH2COOH)–CH=C(CH3)–CH2–CH(OMe)–CH2–CH2–CH(OMe)–CH(pyran, O)–pyran ring–hemiketal C.
+- From the hemiketal carbon the path continues through C(=O)–C(=O)–N and the pipecolate CH–C(=O)–O, closing back on the ester CH.
+
+**Double bonds**
+- The cyclohexyl and the ester CH are trans across the first C=C, so the cyclohexyl and the methyl are cis.
+- In the second C=C, the chain CH and the CH2 are trans.
+
+**Stereocentres**
+I assigned each centre from its wedge or hash bond and its neighbour order. The cyclohexyl centres follow the natural (rapamycin) configuration, which I did not re-derive from the drawing.
+
+I checked the ring-closure digits and branch parentheses by hand; I did not run the string through a parser.
+
+SMILES: C[C@@H]1[C@@H](O)CC(=O)[C@H](CCCC(=O)O)/C=C(C)/C[C@H](OC)CC[C@H](OC)[C@H]2O[C@@](O)(C(=O)C(=O)N3CCCC[C@H]3C(=O)O[C@@H]1/C(C)=C/[C@@H]4CC[C@H]([C@@H](C4)OC)O)[C@H](C)C[C@@H]2OC

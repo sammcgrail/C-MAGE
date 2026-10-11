@@ -1,0 +1,17 @@
+I read the structure region by region and assembled the SMILES below. The stereo marks come from the (S) labels in the drawing, which I converted to @/@@ by working out the CIP priorities at each centre.
+
+**Fragments read from the drawing**
+- **Cyclopropane amide:** a 2-methylcyclopropane carboxamide, with both ring stereocentres labelled (S).
+- **Amino acid unit:** an NH-acylated CH carrying a CH2 that leads to the thiazole C2. Its stereocentre is (S).
+- **Piperazic acid ring:** a six-membered ring with three CH2 groups, an acylated N and an NH. The alpha carbon bears the ester carbonyl and is (S).
+- **Ester linker:** C(=O)O–CH2–C(CH3)2–CH2, ending on the indole C3.
+- **Thiazole:** C2 is attached to the CH2 of the amino acid, and C4 is attached to indole C5.
+- **Indole:** N-ethyl, with the pyridine on C2.
+- **Pyridine:** C3 is bonded to the indole. C2 carries CH(OMe)CH3, which is (S). C5 carries a 4-methylpiperazin-1-yl group.
+
+**Checks**
+- Ring-closure digits pair up correctly for the macrocycle (2), the piperazic ring (6) and the indole (5).
+- For the amino acid carbon, a first draft with @@ gave R, so I switched it to @ to match the (S) label.
+- The other four stereocentres (both cyclopropane carbons, the piperazic carbon and the methoxyethyl carbon) came out S as drawn.
+
+SMILES: C[C@H]1C[C@@H]1C(=O)N[C@H]2Cc3nc(cs3)-c4ccc5c(c4)c(CC(C)(C)COC(=O)[C@@H]6CCCN(N6)C2=O)c(n5CC)-c7cc(cnc7[C@H](C)OC)N8CCN(C)CC8

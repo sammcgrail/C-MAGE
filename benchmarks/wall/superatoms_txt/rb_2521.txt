@@ -1,0 +1,10 @@
+I read the structure as a macrocycle built from these pieces, and wrote the SMILES by assembling them in turn.
+
+- **Piperazic acid ring:** a six-membered ring (N, three CH2, one CH, NH). Its (S) CH carries the ester carbonyl, and its ring N is acylated by the amino-acid carbonyl.
+- **Ester linker:** C(=O)–O–CH2–C(CH3)2–CH2, joined to C3 of the indole.
+- **Indole:** N-ethyl, with a 2-[(S)-1-methoxyethyl]pyridin-3-yl group at C2. C5 is bonded to C4 of a thiazole.
+- **Thiazole side:** the thiazole C2 carries CH2–CH(S), and that CH bears the urea NH–C(=O)–N(CH3)–CH2–cyclopropyl and the C(=O) that closes onto the piperazic N.
+
+I assigned the three (S) centres by working out the CIP priorities at each centre and matching them to the @/@@ order in the SMILES. This gave [C@@H] for the piperazic CH, [C@H] for the amino-acid CH and [C@H] for the methoxyethyl CH. I did not re-check the ring closures or the stereo tags with a SMILES parser.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cccnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2csc(n2)C[C@H](NC(=O)N(C)CC2CC2)C(=O)N2CCC[C@@H]1N2

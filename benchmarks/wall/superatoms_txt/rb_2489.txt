@@ -1,0 +1,19 @@
+I read the structure as an indole-based macrocyclic lactone (an ester closing onto a piperazic acid) carrying a valine amide, an acryloyl-diazaspiro lactam and a methoxyethyl-pyridine.
+
+Fragments, from the drawing:
+- **Piperazic acid ring:** six-membered ring with an NH and an acylated N, and a carboxyl carbon attached through a hashed bond to the ring alpha carbon.
+- **Macrocyclic ester:** the carboxyl carbon is an ester O–CH2–C(CH3)2–CH2, which is attached to indole C3.
+- **Indole:** N-ethyl, with the 2-position bearing a pyridin-3-yl that has a 1-methoxyethyl group at its 2-position.
+- **Aryl linker:** the indole C5 carries a phenol ring (OH meta to both substituents). The other meta position carries a CH2 to the alpha carbon, which has an NH and a C(=O) leading to the piperazic N.
+- **Valine unit:** the NH is acylated by a valine whose alpha carbon bears an isopropyl group on a wedge and a lactam N.
+- **Spiro lactam:** the N is part of a 2,6-diazaspiro[3.4]octan-5-one, with an N-acryloyl on the azetidine nitrogen.
+
+Stereocentres, read from the wedges and hashes (written as SMILES chirality tags):
+- Piperazic alpha carbon, hashed carbonyl: `[C@@H]`.
+- Alpha carbon bearing the wedged NH: `[C@H]`.
+- Valine alpha carbon, wedged isopropyl: `[C@H]`.
+- Methoxyethyl carbon, wedged methyl: `[C@@H]`.
+
+I left out the pyridine–indole axial (atropisomer) marker, since it has no ordinary stereocentre to encode. I derived the tags by hand and did not check them with software.
+
+SMILES: CO[C@@H](C)c1ncccc1-c1n(CC)c2ccc3cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@H](Cc1cc(O)cc-3c1)NC(=O)[C@H](C(C)C)N1CCC2(CN(C(=O)C=C)C2)C1=O

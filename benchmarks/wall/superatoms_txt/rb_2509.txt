@@ -1,0 +1,17 @@
+I traced the macrocycle atom by atom and wrote it as one SMILES with ring closures.
+
+**Fragments read from the drawing**
+- **Acid side chain:** HOOC–CH(CH3)–CH2 attached to a meta-substituted benzene. The CH3 on the α-carbon is a solid wedge.
+- **Quaternary carbon:** it carries a hashed CH3, the benzene, the triazole, and the macrocycle chain.
+- **Macrocycle chain:** from the quaternary carbon it runs CH2–CH2–CH2–C(CH3)2–CH2–SO2–CH2–CH2 to C4 of the indole.
+- **Indole:** the NH indole has the chain on C4, the CH(OH) on C5, and F on C6. The CH(OH) is drawn with a wavy bond, so it has no stereo label.
+- **Pyridine:** the CH(OH) is attached to pyridine C4, and pyridine C2 is bonded to the triazole.
+- **Triazole:** a 1-methyl-1,2,4-triazole. C5 bears the pyridyl group, C3 bears the quaternary carbon, and N1 carries the methyl.
+
+**Stereochemistry**
+- **Acid α-carbon:** with H pointing away, CH3 → CH2 → COOH runs clockwise. In my atom order this gives `[C@@H]`.
+- **Quaternary carbon:** with the hashed CH3 pointing away, aryl → chain → triazole runs clockwise. In my atom order (aryl, ring closure to triazole, CH3, chain) this gives `[C@@]`.
+
+**Check:** ring closure 2 joins the quaternary carbon to triazole C3. Ring closures 3 and 4 close the indole's benzene and pyrrole rings. Ring closures 5 and 6 close the pyridine and triazole rings.
+
+SMILES: OC(=O)[C@@H](C)Cc1cccc(c1)[C@@]2(C)CCCC(C)(C)CS(=O)(=O)CCc3c4cc[nH]c4cc(F)c3C(O)c5ccnc(c5)-c6nc2nn6C

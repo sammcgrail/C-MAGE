@@ -1,0 +1,17 @@
+I read the structure in pieces and joined them into one SMILES, then assigned the stereocentres from the (S) labels in the drawing.
+
+**Fragments**
+- **Acryloyl pyrrolidine:** an N-acryloyl pyrrolidine whose C3 (S) carries a C(=O)N(CH3) group.
+- **Valine unit:** an N-methyl valine with an (S) α-carbon and an isopropyl side chain, linked by its carbonyl to the NH of the next unit.
+- **Phenylalanine-type unit:** an (S) α-carbon bearing NH and C(=O). Its CH2 leads to a 3-hydroxy-5-aryl phenyl ring.
+- **Piperazic acid ring:** a six-membered ring with NH and N. Its (S) α-carbon bears the ester C(=O)O, and the other nitrogen is acylated by the phenylalanine-unit carbonyl.
+- **Indole:** N-ethyl, attached to the phenyl ring at C5. C3 carries CH2–C(CH3)2–CH2–O, which closes the macrocycle through the ester. C2 carries the pyridine.
+- **Pyridine:** 2-(methoxymethyl), 6-(dimethylaminomethyl), joined to the indole through its C3.
+
+**Stereochemistry**
+For each stereocentre I worked out the CIP priorities and chose the @/@@ symbol that gives S, matching the labels in the drawing. The four centres are the pyrrolidine C3, the valine α-carbon, the phenylalanine-type α-carbon and the piperazic α-carbon.
+
+**Check**
+I checked ring closures and atom counts by hand against the drawing. I did not run the SMILES through a parser.
+
+SMILES: C=CC(=O)N1CC[C@@H](C1)C(=O)N(C)[C@@H](C(C)C)C(=O)N[C@H]2Cc3cc(O)cc(c3)-c4ccc5c(c4)c(CC(C)(C)COC(=O)[C@@H]6CCCN(N6)C2=O)c(n5CC)-c7ccc(CN(C)C)nc7COC

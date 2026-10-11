@@ -1,0 +1,16 @@
+I read the drawing as a macrocycle and wrote the SMILES in four parts, then assigned each stereocentre by CIP priorities.
+
+**Fragments read from the image**
+- **Piperazic acid ring:** a six-membered ring with one NH and one N that carries the amide carbonyl. The ring carbon next to the NH bears the ester C=O and is drawn (S).
+- **Ester linker:** C(=O)–O–CH2–C(CH3)2–CH2, running to C3 of the indole.
+- **Indole:** N-ethyl, with a 2-substituent that is a pyridin-3-yl ring. That pyridine carries a CH(CH3)OCH3 group at its 2-position, drawn (S). The indole C5 is bonded to the thiazole C4.
+- **Thiazole and side chain:** the thiazole C2 carries CH2–CH(NH–C(=O)–1-fluorocyclobutyl)–C(=O)–N, where the final N is the ring nitrogen of the piperazic acid. The CH is drawn (S).
+
+**Stereo assignment**
+- Piperazic carbon: the priority order is N > C(=O)O > CH2 > H. A first draft with `[C@H]` came out R, so I used `[C@@H]` to get S.
+- Amino-acid α-carbon: `[C@H]` gives S, as drawn.
+- Methoxyethyl carbon: `[C@H]` gives S, as drawn.
+
+I checked the ring-closure numbers by hand, and the atom count matches the drawing.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cccnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2csc(n2)C[C@H](NC(=O)C4(F)CCC4)C(=O)N5CCC[C@@H]1N5

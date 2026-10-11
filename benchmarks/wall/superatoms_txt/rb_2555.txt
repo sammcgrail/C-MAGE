@@ -1,0 +1,17 @@
+I read the structure region by region and wrote it as one SMILES.
+
+**Fragments**
+- **Pyridine:** a 2,3-disubstituted pyridine. Position 2 carries a CH(OCH3)CH3 group, and position 3 is bonded to the indole C2.
+- **Indole:** N-ethyl, with the pyridine at C2. C3 carries a CH2–C(CH3)2–CH2–O chain, and C5 is bonded to the aryl ring.
+- **Ester and piperazic acid:** the chain's terminal O is an ester oxygen, O–C(=O)–CH on the piperazic ring. That ring is CH–NH–N–CH2CH2CH2, closing back on the CH.
+- **Amide and amino acid:** the piperazic N is acylated by C(=O)–CH(NHSO2–(4-methylpiperazin-1-yl))–CH2–Ar.
+- **Aryl ring:** a 1,3,5-trisubstituted benzene bearing the CH2, the OH, and the bond to indole C5.
+
+**Stereochemistry**
+I assigned CIP descriptors from the wedges and hashes and converted them to @/@@:
+- Piperazic carbon (hashed bond to the carbonyl): S, written `[C@@H]`.
+- Amino acid α-carbon (wedge to CH2): S, written `[C@H]`.
+- Methoxy-bearing carbon (wedge to CH3): S, written `[C@@H]`.
+- The "&1" marks on the pyridine C3 bond look like an atropisomer label. I left them out, since an axis-type stereo marker can't be written as a simple tetrahedral @/@@.
+
+SMILES: CO[C@@H](C)c1ncccc1-c1n(CC)c2ccc3cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@H](Cc1cc(O)cc(c1)-3)NS(=O)(=O)N1CCN(C)CC1

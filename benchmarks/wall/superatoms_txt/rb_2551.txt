@@ -1,0 +1,28 @@
+I read the structure region by region and then assembled the SMILES.
+
+**Top chain.** The chain runs HN–CH2CH2–O–CH2CH2–NH2, with the HN attached to a C(=O). That carbonyl is bonded to a CH, which carries NH on the left and CH2–NH on the right.
+
+**Left side.**
+- The CH's NH is acylated by C(=O) attached to a pyridinone ring.
+- That ring is C3(C=O)–C4=C5–C6(...)=... with N1(OH) and C2=O, so it is a 1-hydroxy-2-pyridinone.
+- Its C6 carries C(=O)NH–CH2CH2CH2–N.
+
+**Right side.** The CH2–NH is acylated by a second, mirror-image pyridinone, whose C6 carries C(=O)NH–CH2CH2CH2–N.
+
+**Bottom.**
+- The two N atoms are joined by a butylene chain, N–CH2CH2CH2CH2–N. The drawing shows N–C–C–C–C–N, which I read as four carbons.
+- Each N is acylated by C(=O) attached to a 1-hydroxy-6-oxo-pyridin-2-yl ring.
+
+**SMILES pieces.**
+- Left ring: c1(C(=O)N…)ccc(C(=O)NCCCN…)n(O)c1=O
+- Bottom ring: C(=O)c1cccc(=O)n1O
+
+**Assembly.**
+NCCOCCNC(=O)C1CNC(=O)c2ccc(C(=O)NCCCN(C(=O)c3cccc(=O)n3O)CCCCN(C(=O)c3cccc(=O)n3O)CCCNC(=O)c3ccc(C(=O)N1)c(=O)n3O)n(O)c2=O
+
+**Ring closure check.**
+- Ring 1 opens at the CH (C1). The CH2 and NH lead to the right-hand pyridinone, written c2ccc(...)n(O)c2=O. Its C6 substituent continues through NCCCN, the butylene chain, and the other N–CCC–NH to the left pyridinone.
+- The left pyridinone is written c3ccc(C(=O)N1)c(=O)n3O. Its C3 carries C(=O)N1, which closes onto the CH, as required.
+- The left ring's C6 is bonded to the C(=O)NH chain. Writing it as c3ccc(C(=O)N1)c(=O)n3O makes the ring atom order c3 (C6, attached to the preceding C(=O)), c, c, c(C3, with C(=O)N1), c(=O), n3O. This is correct.
+
+SMILES: NCCOCCNC(=O)C1CNC(=O)c2ccc(C(=O)NCCCN(C(=O)c3cccc(=O)n3O)CCCCN(C(=O)c3cccc(=O)n3O)CCCNC(=O)c3ccc(C(=O)N1)c(=O)n3O)n(O)c2=O

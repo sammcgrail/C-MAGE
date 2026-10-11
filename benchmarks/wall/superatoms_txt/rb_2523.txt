@@ -1,0 +1,17 @@
+I read the molecule region by region and built the SMILES from that.
+
+**Fragments read from the drawing**
+- **Acid end:** HOOC–CH(CH3)–CH2–, with the methyl on a bold wedge, attached to a meta-disubstituted benzene.
+- **Quaternary carbon:** it carries a hashed methyl, the phenyl ring, the chain and the triazole.
+- **Chain:** from the quaternary carbon, –CH2CH2CH2–C(CH3)2–CH2–SO2–CH2CH2– leads to the indazole C4.
+- **Indazole:** 1H-indazole with the CH2 chain on C4, O on C5, F on C6 and F on C7.
+- **Diaryl ether:** O links indazole C5 to a fluorophenyl ring. On that ring the triazole carbon sits meta to O, and F sits ortho to the triazole carbon and para to O.
+- **Triazole:** C3 bears the quaternary carbon, N2 and N1 follow (N1 carries CH3), and C5 carries the fluorophenyl ring.
+
+**Stereochemistry**
+- **Acid CH (wedged methyl):** the neighbours COOH, H, CH3, CH2 in that SMILES order give `@@`.
+- **Quaternary carbon (hashed methyl):** with the SMILES neighbour order phenyl, ring-closure to triazole, CH3, chain, the centre is `@@`.
+
+The two ring closures (5 for the macrocycle closing onto the triazole, 8 for the triazole itself) and the ring positions were checked against the drawing atom by atom.
+
+SMILES: OC(=O)[C@@H](C)Cc1cccc(c1)[C@@]5(C)CCCC(C)(C)CS(=O)(=O)CCc6c7cn[nH]c7c(F)c(F)c6Oc6ccc(F)c(c6)-c8nc5nn8C

@@ -1,0 +1,15 @@
+I read the structure as a macrocycle and wrote the SMILES piece by piece, then derived each stereocentre's @/@@ from the (S) labels in the drawing.
+
+**Pieces identified**
+- **Macrocycle core:** a piperazic acid ring (hexahydropyridazine) with an (S) carbon bearing the ester C(=O)O and a ring NH. Its other ring nitrogen is acylated by the amino-acid carbonyl.
+- **Amino-acid residue:** an (S) α-carbon carrying an NH amide and a CH2 that leads to the thiazole C2.
+- **Side chain on the α-carbon:** the NH is acylated by (S)-1-acetylpiperidine-3-carbonyl.
+- **Thiazole:** its C4 is bonded to C5 of the indole.
+- **Indole:** N-ethyl; C2 carries the pyridine, and C3 carries CH2–C(CH3)2–CH2–O, which closes the ester to the piperazic acid.
+- **Pyridine:** it bears the (S)-1-methoxyethyl group next to the indole-bearing carbon, and a 5-position octahydropyrazino[2,1-c][1,4]oxazine (bicyclic, with an (S) bridgehead carbon).
+
+**Stereo check:** I assigned CIP priorities at each of the five stereocentres and chose the SMILES chirality tag that gives S. This gives `[C@H]` for the α-carbon, `@@` for the piperidine C3, `[C@H]` for the methoxyethyl carbon, `@@` for the bicyclic bridgehead and `@@` for the piperazic C3.
+
+**Ring closures:** the piperazic ring closes with six atoms, the thiazole and indole numbering matches the drawing, and the macrocycle closure is digit 2.
+
+SMILES: CC(=O)N1CCC[C@@H](C1)C(=O)N[C@H]2Cc3nc(cs3)-c4ccc5n(CC)c(-c6cc(N7CCN8CCOC[C@@H]8C7)cnc6[C@H](C)OC)c(CC(C)(C)COC(=O)[C@@H]9CCCN(N9)C2=O)c5c4

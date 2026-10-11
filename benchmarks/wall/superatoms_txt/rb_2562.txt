@@ -1,0 +1,11 @@
+I read the structure as a macrocycle built from these pieces:
+
+- **Piperazic acid:** a six-membered ring (C, NH, N, CH2, CH2, CH2). Its carboxyl carbon forms an ester with the neopentyl-type CH2–C(CH3)2–CH2 linker, and its ring N is acylated.
+- **Linker to the indole:** the CH2–C(CH3)2–CH2 chain is attached to C3 of an N-ethyl indole.
+- **Indole substituents:** C2 carries a pyridin-3-yl group, and C5 carries a thiazole through its C4.
+- **Pyridine:** its C2 bears a CH(CH3)OCH3 group, with S configuration.
+- **Thiazole side chain:** thiazole C2 is attached to CH2–CH(NH–C(=O)–piperidin-4-yl), where the piperidine N is acetylated. This CH is S, and its carbonyl carbon is the amide to the piperazic ring N.
+
+I assigned the three stereocentres (all S) by working out the CIP priorities from the SMILES atom order. The alpha carbon needed `@`, while the piperazic carbon (`@@`) and the methoxyethyl carbon (`@`) were already correct.
+
+SMILES: CC(=O)N1CCC(CC1)C(=O)N[C@H]2Cc3nc(cs3)-c4ccc5n(CC)c(-c6cccnc6[C@H](C)OC)c(CC(C)(C)COC(=O)[C@@H]7CCCN(N7)C2=O)c5c4

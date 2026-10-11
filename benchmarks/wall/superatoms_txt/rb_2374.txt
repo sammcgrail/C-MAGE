@@ -1,0 +1,11 @@
+I started from the known rapamycin skeleton and edited it to match the drawing, rather than reading every centre from scratch. This assumes the unchanged stereocentres have the natural rapamycin configuration. The edits are:
+
+- **C32:** the ketone of rapamycin is replaced by a CH bearing an O-C(=O)-O-C6H4-NO2 (4-nitrophenyl carbonate), attached by a hashed bond.
+- **C40:** the free OH is replaced by a second 4-nitrophenyl carbonate, drawn with a wedged bond.
+- **Unchanged features:** C28-OH, the C27 OMe, the C26 ketone, the triene, the pipecolate ester, the tricarbonyl region and the pyran hemiketal.
+
+I assigned the new C32 centre from the drawing. Its neighbours are C31 (upper left), the hashed O (upper right, behind the plane) and C33 (below), with H towards the viewer. Seen from the H side, C31 → O → C33 runs clockwise. That gives `[C@H]` when written in the order C31, H, O, C33.
+
+I checked that the bracket nesting follows the original rapamycin string, with only the C32 and C40 substituents changed.
+
+SMILES: C[C@@H]1CC[C@H]2C[C@@H](/C(=C/C=C/C=C/[C@H](C[C@H](C(=O)[C@@H]([C@@H](/C(=C/[C@H]([C@H](OC(=O)Oc5ccc(cc5)[N+](=O)[O-])C[C@H](OC(=O)[C@@H]3CCCCN3C(=O)C(=O)[C@@]1(O2)O)[C@H](C)C[C@@H]4CC[C@H]([C@@H](C4)OC)OC(=O)Oc6ccc(cc6)[N+](=O)[O-])C)/C)O)OC)C)C)/C)OC

@@ -1,0 +1,13 @@
+I read the structure as a macrocyclic peptide and wrote it residue by residue, starting from the thioether-linked acetyl group.
+
+**Residues and linkages**
+- Gly-NH2 is at the C-terminus, attached to the Cys carbonyl.
+- The Cys side-chain sulfur forms a thioether with the CH2 of an acetyl group (S–CH2–C(=O)), and that carbonyl is acylated onto the N of the first Phe, which closes the macrocycle.
+- Going around the ring from there: Phe, Val, Asn, Thr, Thr, Phe, N-Me-Ala, biphenylalanine (Bip), N-Me-Ala, Lys, Ala, Pro, back to the Cys N.
+- The Lys side-chain NH carries a quaternary carbon bearing a methyl and two wavy attachment bonds. I encoded this as NC(C)(*)* with dummy atoms for the open attachment points. I could not tell what it is bonded to beyond the cut lines.
+
+**Stereochemistry**
+- I checked the Ala next to Lys against the wedge/hash drawing and it comes out L (S).
+- I assumed L configuration for the remaining residues, including both Thr (2S,3R), without re-deriving each wedge from the drawing.
+
+SMILES: O=C1CSC[C@@H](C(=O)NCC(N)=O)NC(=O)[C@@H]2CCCN2C(=O)[C@H](C)NC(=O)[C@H](CCCCNC(C)(*)*)NC(=O)[C@H](C)N(C)C(=O)[C@H](Cc2ccc(cc2)-c2ccccc2)NC(=O)[C@H](C)N(C)C(=O)[C@H](Cc2ccccc2)NC(=O)[C@H]([C@@H](C)O)NC(=O)[C@H]([C@@H](C)O)NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](C(C)C)NC(=O)[C@H](Cc2ccccc2)N1

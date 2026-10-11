@@ -1,0 +1,12 @@
+I read the structure in pieces and assembled the SMILES from them.
+
+- **Left end:** a cyclopropane carrying a COOH and a CH2 group. The CH2 is attached to a benzene ring substituted at the meta position.
+- **Stereocentre:** the benzylic quaternary carbon bears a methyl, the aryl ring, the triazole carbon and the chain. I read its methyl bond as hashed, but the drawing is hard to read at that point, so this is my best guess. With the methyl pointing away, the triazole, aryl and chain substituents run clockwise in priority order, which gives R. In the SMILES this is written `[C@@]`.
+- **Chain:** the stereocentre continues through CH2CH2CH2, then C(CH3)2, CH2, SO2, CH2, CH2, which ends on indole C4.
+- **Indole:** N1 is NH, C6 and C7 each carry F, and C5 carries the aryl thioether S.
+- **Fluorophenyl ring:** it is attached to the triazole carbon. F sits ortho to that attachment, and the S sits meta to it.
+- **Triazole:** a 1-methyl-1,2,4-triazole. C5 carries the fluorophenyl ring, and C3 is bonded to the stereocentre, which closes the macrocycle.
+
+I checked the ring closures and valences in the final string.
+
+SMILES: OC(=O)C1(CC1)Cc1cccc(c1)[C@@]1(C)CCCC(C)(C)CS(=O)(=O)CCc2c3cc[nH]c3c(F)c(F)c2Sc2ccc(F)c(c2)-c2nc1nn2C

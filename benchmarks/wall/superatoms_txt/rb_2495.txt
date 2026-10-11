@@ -1,0 +1,10 @@
+I read the structure region by region and assembled it as a single SMILES.
+
+- **Acid side chain:** HOOC–CH(CH3)–CH2– is attached to the 2-position of a pyridine. The methyl is on a wedge. The priorities are COOH > CH2-pyridyl > CH3 > H, with H pointing away, and the other three run counterclockwise on the page, so the centre is S. In the SMILES written as `OC(=O)[C@@H](C)C...`, `@@` gives S.
+- **Quaternary carbon:** The pyridine's 6-position is attached to a carbon bearing a methyl, a triazole carbon, and the macrocyclic chain. It is drawn with a wavy bond, so it has no stereo label.
+- **Macrocyclic chain:** From the quaternary carbon the chain runs CH2CH2CH2–C(CH3)2–CH2–SO2–CH2CH2– and ends on the indole C4 position.
+- **Triazole:** It is a 1-methyl-1,2,4-triazole. C3 carries the quaternary carbon and C5 carries the second pyridine.
+- **Second pyridine:** Its 2-position is attached to the triazole and its 4-position to the second SO2.
+- **Indole:** C4 carries the CH2 chain, C5 carries the SO2, C6 carries F, and C7 is CH. The pyrrole NH is free.
+
+SMILES: OC(=O)[C@@H](C)Cc1cccc(n1)C2(C)CCCC(C)(C)CS(=O)(=O)CCc3c4cc[nH]c4cc(F)c3S(=O)(=O)c5ccnc(c5)-c6nc2nn6C

@@ -1,0 +1,19 @@
+I read the molecule as a macrocyclic ester built from these parts:
+
+- **Pyridine:** a 2-(1-methoxyethyl)pyridin-3-yl group on C2 of an N-ethylindole.
+- **Indole to ester:** the indole C3 carries a CH2–C(CH3)2–CH2–O chain that closes as an ester onto the piperazic acid carbonyl.
+- **Biaryl:** indole C5 is bonded to a 3-hydroxyphenyl ring, which is also attached through a CH2 to the α-carbon of the next residue.
+- **Piperazic acid:** a six-membered ring (C, three CH2, N, NH). Its ring N is acylated by the next residue, whose α-carbon is the one carrying the CH2–aryl group.
+- **Valine unit:** an N-methyl valine (isopropyl side chain), linked to the previous residue through an amide NH.
+- **Side chain:** the N-methyl nitrogen is acylated by a piperidine-4-carbonyl. The piperidine N carries an (E)-4-(dimethylamino)but-2-enoyl group.
+
+For the four wedge/hash stereocentres, I worked out the chirality from the wedge directions and the implicit hydrogen:
+
+- **Methoxyethyl CH:** S.
+- **Piperazic C3** (hashed bond to the carbonyl): gives `[C@@H]3` in the SMILES.
+- **α-carbon bearing CH2–aryl** (wedge to NH): gives `[C@@H]`.
+- **Valine α-carbon** (wedge to isopropyl): gives `[C@H]`.
+
+The C=C is drawn trans, written as `/C=C/`.
+
+SMILES: CO[C@@H](C)c1ncccc1-c1n(CC)c2ccc%10cc2c1CC(C)(C)COC(=O)[C@@H]3CCCN(N3)C(=O)[C@@H](NC(=O)[C@H](C(C)C)N(C)C(=O)C5CCN(CC5)C(=O)/C=C/CN(C)C)Cc4cc(O)cc%10c4

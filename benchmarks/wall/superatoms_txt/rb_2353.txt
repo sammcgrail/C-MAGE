@@ -1,0 +1,15 @@
+I read the drawing as a macrocycle built from these parts:
+
+- **Piperazic acid:** a hexahydropyridazine ring whose C3 (S) carries the ester carbonyl, and whose N1 is acylated.
+- **Thiazolyl-alanine unit:** the Cα (S) bears an NH-acyl group and a CH2 that leads to the thiazole C2. The thiazole C4 is bonded to indole C5.
+- **Acyl group on the alanine NH:** a cyclopropane carboxamide with a CH2OH on the adjacent ring carbon, both ring carbons (S).
+- **Indole:** N-ethyl, with C3 linked through CH2–C(CH3)2–CH2–O to the ester carbonyl. C2 is bonded to the pyridine.
+- **Pyridine:** it carries a (S)-CH(CH3)OCH3 group next to the ring nitrogen and a 4-methylpiperazin-1-yl group at C5.
+
+I assigned each stereocentre from the wedges and hashes and checked that the SMILES chirality tags give the labelled (S) configurations. For the cyclopropane, this gave `[C@H]` at the carbonyl-bearing carbon and `[C@@H]` at the hydroxymethyl-bearing carbon.
+
+SMILES: CC1(C)COC(=O)[C@@H]2CCCN(N2)C(=O)[C@@H](Cc2nc(cs2)-c2ccc3c(c2)c(C1)c(n3CC)-c1cc(N2CCN(C)CC2)cnc1[C@H](C)OC)NC(=O)[C@H]1C[C@@H]1CO
+
+Correction: the alanine Cα comes out as S with `@`, not `@@`. I wrote `@@` there in the line above, so the final answer uses the corrected tag:
+
+SMILES: CC1(C)COC(=O)[C@@H]2CCCN(N2)C(=O)[C@H](Cc2nc(cs2)-c2ccc3c(c2)c(C1)c(n3CC)-c1cc(N2CCN(C)CC2)cnc1[C@H](C)OC)NC(=O)[C@H]1C[C@@H]1CO

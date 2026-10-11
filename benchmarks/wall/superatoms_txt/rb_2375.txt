@@ -1,0 +1,21 @@
+I read the molecule as a macrocycle built from these pieces:
+
+- **Piperazic acid:** a six-membered ring (CH–CH2–CH2–CH2–N–NH) whose ring carbon carries the ester carbonyl. The ring nitrogen is acylated.
+- **Linker:** the acylated nitrogen is bonded to C(=O)–CH(NH–acyl)–CH(OEt), and the CH(OEt) carbon is bonded to C4 of an oxazole.
+- **Oxazole to indole:** the oxazole C2 is bonded to C5 of an N-ethylindole.
+- **Indole to ester:** indole C3 carries CH2–C(CH3)2–CH2–O, which forms the ester to the piperazic carbonyl and closes the macrocycle.
+- **Pyridine:** it is attached at indole C2. It bears a CH(CH3)OMe group next to the ring nitrogen and an octahydropyrido[2,1-c][1,4]oxazine at its 5-position.
+- **Cyclopropane:** the amide acyl group is a 2,3-dimethylcyclopropane-1-carbonyl with both methyls wedged (cis) and the carbonyl hashed.
+
+I assigned each stereocentre from its wedge or hash, working out the CIP descriptor and converting it to the SMILES tag. The results are:
+
+- Piperazic C3: S
+- The N-bearing α-carbon: S
+- CH(OEt): S
+- CH(CH3)OMe: S
+- The bicyclic carbon attached to the pyridine: R
+- The three cyclopropane carbons: tags worked out from the ring geometry
+
+The ring-fusion carbon of the bicyclic amine is drawn with plain bonds, so I left it unspecified.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cc(cnc3[C@H](C)OC)[C@@H]3CCN4CCOCC4C3)n(CC)c3ccc(cc23)-c2nc(co2)[C@@H](OCC)[C@H](NC(=O)[C@@H]2[C@@H](C)[C@H]2C)C(=O)N2CCC[C@@H]1N2

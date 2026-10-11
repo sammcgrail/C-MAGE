@@ -1,0 +1,12 @@
+I read the structure region by region and wrote the SMILES from that reading. I had to guess the wedge/hash assignment at the quaternary stereocentre.
+
+**Fragments read from the drawing**
+- **Left side:** a cyclopropane bearing both a COOH and a CH2 group, with the CH2 attached to a benzene ring. The benzene is meta-substituted.
+- **Quaternary stereocentre:** the second benzene substituent is a carbon bearing a methyl, the triazole, and the chain.
+- **Chain and sulfone:** from the stereocentre the chain runs CH2–CH2–CH2–C(CH3)2–CH2–SO2–CH2–CH2 to indole C4.
+- **Indole:** C5 carries a CH2 that goes to pyridine C4. C6 and C7 each carry an F, and the NH is at N1.
+- **Pyridine and triazole:** pyridine C2 is bonded to C5 of a 1-methyl-1,2,4-triazole. Triazole C3 closes the macrocycle onto the stereocentre.
+
+**Stereochemistry:** I took the methyl as hashed and the triazole bond as a solid wedge. The CIP priorities are triazole > aryl > chain CH2 > methyl. With the methyl pointing back, triazole → aryl → chain runs clockwise, which gives R. In the SMILES, with neighbour order aryl, ring closure to triazole, methyl, chain, R corresponds to `@@`.
+
+SMILES: OC(=O)C1(CC1)Cc1cccc(c1)[C@@]9(C)CCCC(C)(C)CS(=O)(=O)CCc2c3cc[nH]c3c(F)c(F)c2Cc2ccnc(c2)-c2nc9nn2C

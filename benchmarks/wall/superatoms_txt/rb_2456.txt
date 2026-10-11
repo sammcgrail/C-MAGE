@@ -1,0 +1,16 @@
+I wrote this as a rapamycin-type macrolide joined through a carbamate and a PEG linker to a pyrazolopyrimidine kinase-inhibitor head group. The macrolide stereocentres are taken from rapamycin's known configuration, not read independently from the wedges in the drawing. I did not assign the stereocentre at the hydroxyl-bearing carbon next to the CH₂ that precedes the lactone oxygen, because I could not tell from the image whether that bond is a wedge or a plain line.
+
+**Macrolide.** The ring is rapamycin-like, but the drawing differs from rapamycin at one position. Where rapamycin has a ketone, between the CH(Me) and the CH₂ next to the lactone oxygen, this structure shows CH(OH). The only remaining ketone in the upper chain is the one beside the OMe-bearing carbon. I wrote the structure to match the drawing.
+
+**Cyclohexyl carbamate.** The cyclohexane carries an OMe and an O–C(=O)–NH group in place of rapamycin's usual 40-OH.
+
+**PEG linker.** After the carbamate NH there are eight ether oxygens, each separated by a CH₂CH₂ unit, followed by CH₂CH₂C(=O). In SMILES this is NCCOCCOCCOCCOCCOCCOCCOCCOCCC(=O).
+
+**Head group.**
+- The linker amide nitrogen is the ring nitrogen of a 5,6,7,8-tetrahydropyrido[4,3-d]pyrimidine.
+- The pyrimidine C2 carries a CH₂ that is bonded to N1 of a 4-aminopyrazolo[3,4-d]pyrimidine.
+- C3 of that pyrazolopyrimidine bears a 2-aminobenzoxazol-5-yl group.
+
+I checked the SMILES for ring-closure and parenthesis balance against the drawing, but did not run it through a parser.
+
+SMILES: C[C@@H]1CC[C@H]2C[C@@H](/C(=C/C=C/C=C/[C@H](C[C@H](C(=O)[C@@H]([C@@H](/C(=C/[C@H](C(O)C[C@H](OC(=O)[C@@H]3CCCCN3C(=O)C(=O)[C@@]1(O2)O)[C@H](C)C[C@@H]4CC[C@H]([C@@H](C4)OC)OC(=O)NCCOCCOCCOCCOCCOCCOCCOCCOCCC(=O)N5CCc6nc(Cn7nc(-c8ccc9oc(N)nc9c8)c8c(N)ncnc78)ncc6C5)C)/C)O)OC)C)C)/C)OC

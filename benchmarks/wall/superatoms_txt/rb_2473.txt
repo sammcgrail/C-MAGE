@@ -1,0 +1,24 @@
+This SMILES is my own reading of the drawing, built region by region and with the stereocentre assigned by CIP priority; I have not run it through a parser.
+
+**Reading the structure**
+- **Left end:** a cyclopropane carries both a COOH and a CH2 group. The CH2 is attached to a benzene ring at the meta position.
+- **Quaternary stereocentre:** the other meta position of the benzene bears a carbon with a methyl group, the aryl ring, a triazole carbon and a chain. This is the only atom with wedges, so it is the only stereocentre.
+- **Macrocycle chain:** from the stereocentre the chain runs CH2–CH2–CH2–C(CH3)2–CH2–SO2–CH2–CH2, ending on the indole at C4.
+- **Indole:**
+  - C4 carries the sulfone chain.
+  - C5 carries a CH2 that links to the pyridine.
+  - C6 carries F.
+  - N1 is NH.
+- **Pyridine:** C4 is attached to the CH2 linker, and C2 is attached to the triazole.
+- **Triazole:**
+  - It is a 1-methyl-1,2,4-triazole.
+  - Its C5 is bonded to the pyridine.
+  - Its C3 is bonded to the stereocentre.
+
+**Stereochemistry**
+- The CIP priorities at the stereocentre are triazole > aryl > chain CH2 > methyl.
+- The methyl, the lowest priority, is drawn on a wedge toward the viewer. The triazole bond is also drawn as a wedge, but I treated it as roughly in plane.
+- Viewed from the front, triazole → aryl → chain runs clockwise. Because the lowest-priority group faces the viewer, this reverses to S.
+- In my SMILES the neighbour order is aryl, ring closure to triazole, methyl, chain. That is an even permutation of the priority order, so `@` corresponds to S.
+
+SMILES: OC(=O)C1(CC1)Cc1cccc(c1)[C@]%11(C)CCCC(C)(C)CS(=O)(=O)CCc2c3cc[nH]c3cc(F)c2Cc2ccnc(c2)-c2nc%11nn2C

@@ -1,0 +1,12 @@
+I read the molecule as a DBCO-capped peptide–drug conjugate and wrote the SMILES in six parts.
+
+1. **DBCO cap.** The dibenzo-azacyclooctyne nitrogen carries a succinyl amide, C(=O)CCC(=O)N.
+2. **Linker.** The succinyl amide leads into a 6-aminohexanoyl chain, NH–(CH2)5–C(=O).
+3. **Peptide backbone.** The chain runs Trp–Trp–Glu–Trp–Trp–NH2, with a primary amide at the C-terminus.
+4. **Glu side chain.** The γ-carboxyl of Glu forms an amide with Val, then citrulline (a ureido-propyl side chain, CCCNC(N)=O).
+5. **Payload.** Citrulline's carbonyl is acylated onto a piperazine. The piperazine's other nitrogen is bonded to a 2-CF3-phenyl ring, and the lactam nitrogen of a benzo[h][1,6]naphthyridin-2-one sits para to it. That core carries a 3-quinolinyl group.
+6. **Stereochemistry.** I assigned all the amino-acid stereocentres as L, since the wedges look consistent with that. The SMILES carries @@ on each α-carbon, written with N before the α-carbon.
+
+I checked that ring-closure labels are reused only after they are closed.
+
+SMILES: O=C(CCC(=O)NCCCCCC(=O)N[C@@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H](CCC(=O)N[C@@H](C(C)C)C(=O)N[C@@H](CCCNC(N)=O)C(=O)N1CCN(CC1)c1ccc(cc1C(F)(F)F)-n1c(=O)ccc2cnc3ccc(cc3c21)-c1cnc2ccccc2c1)C(=O)N[C@@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H](Cc1c[nH]c2ccccc12)C(N)=O)N1Cc2ccccc2C#Cc2ccccc21

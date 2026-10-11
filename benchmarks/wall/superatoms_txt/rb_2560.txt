@@ -1,0 +1,14 @@
+I read the drawing as a macrocycle built from two benzimidazoles, and wrote the SMILES from that reading without running it through a parser.
+
+**Components**
+- **Pyrazole amides:** each benzimidazole carries a 2-NHC(=O) group attached to a 1-ethyl-3-methylpyrazol-5-yl ring.
+- **Top benzimidazole:** C5 bears a C(=O)NH group linked to a cyclobutane. C7 carries the ring oxygen and N1 carries the butenyl chain.
+- **Cyclobutane:** it is 1,3-disubstituted with NH on one carbon and COOH on the other. Both bonds are drawn as wedges, so the two substituents are cis.
+- **Bottom benzimidazole:** C5 bears a primary amide (CONH2). C7 carries the second ring oxygen and N1 carries the other end of the butenyl chain.
+- **Macrocycle bridges:**
+  - A –CH2–CH=CH–CH2– chain joins the two N1 atoms. I took the double bond as E (trans) from the zigzag in the drawing.
+  - An –O–CH2CH2CH2–O– chain joins the two C7 oxygens.
+
+**Stereochemistry:** I worked out the cis cyclobutane tags (`[C@@H]` for the NH carbon, `[C@H]` for the COOH carbon) by hand from the ring geometry. The double bond is written as `/C=C/`.
+
+SMILES: CCn1nc(C)cc1C(=O)Nc1nc2cc(C(=O)N[C@@H]3C[C@H](C(=O)O)C3)cc3OCCCOc4cc(C(N)=O)cc5nc(NC(=O)c6cc(C)nn6CC)n(c45)C/C=C/Cn1c23

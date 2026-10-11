@@ -1,0 +1,16 @@
+I read the structure region by region and wrote it as one macrocyclic SMILES.
+
+**Fragments read from the drawing**
+- **Left side chain:** HO‑C(=O)‑CH(CH3)‑CH2 attached to the 2‑position of a pyridine. The wedge shows the methyl pointing toward the viewer.
+- **Central carbon:** the pyridine's other 2‑position is bonded to a quaternary carbon bearing a methyl and a 1,2,4‑triazole C3. The wavy bond means no stereo is assigned there.
+- **Triazole:** a 1‑methyl‑1,2,4‑triazole whose C5 is bonded to the 2‑position of a second pyridine.
+- **Second pyridine:** its 4‑position carries the sulfoxide S(=O) (wavy bond, so no stereo is assigned).
+- **Indole:** the sulfoxide sulfur is on C5, with fluorine on C6 and the NH in the ring. C4 carries the CH2CH2 chain that leads to the sulfone.
+- **Macrocycle chain:** from the quaternary carbon the chain runs CH2‑CH2‑CH2‑C(CH3)2‑CH2‑SO2‑CH2‑CH2 to indole C4.
+
+**Stereocentre on the acid side chain**
+The substituents are COOH, CH2‑pyridyl, the wedged CH3 and H. The CIP priority order is COOH > CH2‑pyridyl > CH3 > H. With H pointing away from the viewer, COOH (lower left), CH2 (lower right) and CH3 (top) run counterclockwise, so the centre is S. In the SMILES written below, the neighbour order at this centre makes `@@` the S configuration.
+
+I checked that every ring closure matches the drawn connectivity.
+
+SMILES: OC(=O)[C@@H](C)Cc1cccc(n1)C2(C)CCCC(C)(C)CS(=O)(=O)CCc3c4cc[nH]c4cc(F)c3S(=O)c5ccnc(c5)-c6nc2nn6C

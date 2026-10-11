@@ -1,0 +1,14 @@
+I read the structure region by region and wrote it as a single SMILES.
+
+- **Ester end:** a methyl ester on a CH(CH3) carbon with a bold wedge on the methyl, which gives the one defined stereocentre. That carbon connects through CH2 to the 2-position of a pyridine.
+- **Quaternary carbon:** the pyridine's 6-position carries a carbon bearing a methyl, drawn with a wavy bond, so it has no stereo label. It also carries the triazole and the chain.
+- **Chain:** the chain runs CH2CH2CH2, then C(CH3)2, then CH2, then SO2, then CH2CH2 to C4 of the indole.
+- **Indole:** C5 carries the sulfoxide S(=O), C6 carries F, C7 is H and N1 is NH.
+- **Second pyridine:** the sulfoxide sulfur attaches at the 4-position of this ring, and its 2-position attaches to the triazole.
+- **Triazole:** this is a 1-methyl-1,2,4-triazole. The N-methyl nitrogen sits next to the carbon bonded to the pyridine, and the other carbon bonds to the quaternary carbon.
+
+For the wedge centre, I placed H at the back with the methyl toward the viewer. The ester carbon, H, methyl and CH2 are written in that order in the SMILES, and this order gives `[C@@H]`.
+
+I checked that the SMILES closes all rings and has the correct ring sizes. It was not run through a parser.
+
+SMILES: COC(=O)[C@@H](C)Cc1cccc(n1)C2(C)CCCC(C)(C)CS(=O)(=O)CCc3c4cc[nH]c4cc(F)c3S(=O)c5ccnc(c5)-c6nc2nn6C

@@ -1,0 +1,13 @@
+I read the drawing as a macrocycle and wrote the SMILES piece by piece. I did not run it through a parser, so the validity check was done by hand.
+
+**Fragments read from the image**
+- **Piperazic acid ring:** a six-membered ring of Cα, three CH2 groups, an acylated N and an NH. Cα carries the macrocyclic ester carbonyl, drawn with a hashed bond, and is S.
+- **Backbone link:** the acylated N is bonded to C(=O)–CH(NH-urea)–CH2–thiazole C2. The CH carbon is S.
+- **Thiazole:** C2 carries the CH2 and C4 is bonded to indole C5.
+- **Urea:** NH–C(=O)–N of a 2,4-dimethylpiperazine. The ring carbon bearing the methyl is S, and the other ring nitrogen carries a methyl.
+- **Indole:** N-ethyl. C3 carries CH2–C(CH3)2–CH2–O–C(=O), which closes the macrocycle through the ester. C2 carries the pyridine.
+- **Pyridine:** C2 has CH(CH3)OCH3 (S), C3 is bonded to the indole, and C5 has a 4-methylpiperazin-1-yl group.
+
+**Stereochemistry:** I assigned CIP priorities at each of the four marked centres and chose @/@@ in the SMILES so that each comes out S, matching the (S) labels in the drawing.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cc(N4CCN(C)CC4)cnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2csc(n2)C[C@H](NC(=O)N2CCN(C)C[C@@H]2C)C(=O)N3CCC[C@@H]1N3

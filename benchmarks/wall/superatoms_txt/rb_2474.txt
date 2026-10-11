@@ -1,0 +1,11 @@
+I read the molecule region by region and wrote it as one SMILES string.
+
+- **Acid side chain:** HOOC–CH2–CH(CH3)– is attached to a meta-substituted benzene. The CH stereocentre has a wavy bond, so it gets no stereo marker.
+- **Quaternary carbon:** it carries a methyl (hashed bond), the phenyl, the triazole carbon and the macrocycle chain.
+- **Macrocycle chain:** from the quaternary carbon the chain runs CH2–CH2–CH2–C(CH3)2–CH2–SO2–CH2–CH2 and ends on C4 of the indole.
+- **Indole:** the NH indole has the CH2CH2 chain on C4, the sulfoxide S on C5 and F on C6.
+- **Sulfoxide and fluorophenyl:** the S(=O) (wavy bond, no stereo) links indole C5 to the fluorophenyl ring. That ring carries F para to the sulfur and the triazole ortho to the F.
+- **Triazole:** it is a 1-methyl-1,2,4-triazole. One ring carbon is bonded to the quaternary carbon and the other carbon is bonded to the fluorophenyl ring.
+- **Stereochemistry:** only the quaternary carbon is assigned. With the methyl hashed (pointing back), the phenyl, chain and triazole run clockwise when viewed from the front. In the SMILES neighbour order (phenyl, triazole, methyl, chain) this corresponds to `@@`.
+
+SMILES: OC(=O)CC(C)c1cccc(c1)[C@@]3(C)CCCC(C)(C)CS(=O)(=O)CCc4c5cc[nH]c5cc(F)c4S(=O)c6ccc(F)c(c6)-c7nc3nn7C

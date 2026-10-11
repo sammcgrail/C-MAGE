@@ -1,0 +1,10 @@
+I read the structure left to right and wrote the SMILES for each region.
+
+1. **Maleimide and PEG spacer:** the maleimide ring N is attached to CH2CH2–O–CH2CH2–O–CH2CH2–O–CH2CH2–C(=O).
+2. **Peptide chain:** the spacer carbonyl is followed by an amide to Gly–Gly–Phe–Gly. The Phe has a wedged benzyl group, which I read as L-Phe (S).
+3. **Self-immolative unit:** the last Gly NH is linked through CH2–O–CH2CH2–NH–C(=O)–NH–CH2 (a urea) to the camptothecin-type core.
+4. **Core:** the polycyclic core carries Me and F on the benzo ring, and the C20 quaternary carbon bears OH and ethyl in the lactone ring. I took this as the natural (S) configuration and checked the chirality tag by comparing atom neighbour order with the PubChem SMILES for (S)-camptothecin.
+
+Because I wrote the core first and the chain as a branch, I re-derived the Phe tag for that atom order, which gives `[C@H]`.
+
+SMILES: CC[C@@]1(O)C(=O)OCC2=C1C=C1N(C2=O)Cc2c1nc1cc(F)c(C)cc1c2CNC(=O)NCCOCNC(=O)CNC(=O)[C@H](Cc1ccccc1)NC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCN1C(=O)C=CC1=O

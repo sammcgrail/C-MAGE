@@ -1,0 +1,14 @@
+I read the molecule as a macrocyclic ester built from the fragments below. I assigned each stereocentre from the wedges and hashes, using CIP priorities to convert them to @/@@.
+
+- **Piperazic acid ring:** a six-membered ring with C(α), NH, an acylated N and three CH2 groups. C(α) carries the ester carbonyl on a hashed bond (S).
+- **Phenylalanine-type unit:** the α-carbon bears an NH on a wedge (S). Its CH2 is attached to a meta-substituted phenyl ring.
+- **Biaryl link:** that phenyl ring is bonded to C5 of the indole.
+- **Indole:** N1 carries an ethyl group. C2 carries a pyridin-3-yl ring, which has a 2-(1-methoxyethyl) group (S, methyl on a wedge). C3 carries CH2–C(CH3)2–CH2–O, and this O closes the macrocycle as an ester onto the piperazic acid carbonyl.
+- **N-Methyl-valine unit:** the iPr group is on a wedge, giving the S centre, with N-methyl amide linkage to the next fragment.
+- **Azetidine:** C3 carries the carbonyl on a hashed bond (S), and C2 carries a hashed methyl (S). N1 carries an acryloyl group (C(=O)CH=CH2).
+
+The bold bond inside the pyridine ring, at the biaryl axis next to the indole, probably denotes atropisomerism. I did not encode it, since it has no standard atom-level SMILES form.
+
+I checked the ring-closure digits and the 6-membered piperazic ring by hand rather than with a parser.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cccnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2cccc(c2)C[C@H](NC(=O)[C@H](C(C)C)N(C)C(=O)[C@@H]2[C@H](C)N(C(=O)C=C)C2)C(=O)N2CCC[C@@H]1N2

@@ -1,0 +1,21 @@
+I read the structure region by region and wrote the SMILES from that reading.
+
+**Fragments identified**
+- **Piperazic acid:** a six-membered ring of CH, CH2, CH2, CH2, N and NH. Its CH carries the ester carbonyl, and the ring N is acylated.
+- **Macrocycle linker:** the ester O–CH2–C(CH3)2–CH2 chain runs to C3 of the indole.
+- **Indole:** N1 carries a CH2CF3 group. C2 carries a pyridin-3-yl ring that has a 1-methoxyethyl group at its 2-position. C5 is bonded to C4 of the thiazole.
+- **Thiazole:** its C2 is linked through a CH2 to the alpha carbon of the amino-acid unit that bears the piperazic acyl group.
+- **Side chain:** the alpha-carbon NH is acylated by an N-methylvaline. Its N-methyl nitrogen is a urea nitrogen bonded to a piperazine, and the other piperazine N carries an acryloyl group.
+
+**Stereochemistry**
+I assigned each wedged or hashed centre from the drawing:
+- Piperazic CH (hashed bond): S.
+- Thiazolyl-alanine alpha carbon (wedged N): S.
+- Valine alpha carbon (wedged isopropyl): S.
+- Methoxyethyl carbon (wedged methyl): S.
+
+The wedge inside the pyridine ring appears to mark axial chirality (atropisomerism) about the pyridine–indole bond. I did not encode it, because SMILES cannot express it simply here.
+
+I did not run a validity check; I confirmed the ring-closure labels and atom-by-atom connectivity by hand.
+
+SMILES: CO[C@@H](C)c1ncccc1-c1c2CC(C)(C)COC(=O)[C@@H]3CCCN(N3)C(=O)[C@@H](NC(=O)[C@H](C(C)C)N(C)C(=O)N3CCN(CC3)C(=O)C=C)Cc3nc(cs3)-c3ccc(n1CC(F)(F)F)c2c3

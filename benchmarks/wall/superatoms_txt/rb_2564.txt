@@ -1,0 +1,17 @@
+I read the drawing region by region and wrote the SMILES from that. The ring-closure digits and the stereodescriptors were checked by hand, not by software.
+
+**Skeleton**
+- **Macrocycle ester:** a piperazic acid (hexahydropyridazine) ring whose C3 carries the C(=O)O ester. The ester oxygen is linked through CH2–C(CH3)2–CH2 to indole C3.
+- **Indole:** N-ethyl, with a 2-substituent that is a pyridin-3-yl ring carrying a CH(CH3)OCH3 group at its 2-position. Indole C5 is bonded to thiazole C4.
+- **Thiazole to piperazic N:** thiazole C2 is linked by CH2–CH(NH–C(=O)–cyclobutyl)–C(=O) to the piperazic ring N1, which closes the macrocycle.
+- **Cyclobutane:** the amide carbonyl is on one ring carbon, and a nitrile is on the adjacent carbon.
+
+**Stereochemistry**
+The five stereocentres are labelled (S) in the drawing. I worked out the CIP priorities at each centre and chose @ or @@ in the SMILES to give S:
+- piperazic C3 (S)
+- the alpha carbon bearing the amide NH (S)
+- the cyclobutane carbon bearing the amide carbonyl (S)
+- the cyclobutane carbon bearing the nitrile (S)
+- the CH(CH3)OCH3 carbon on the pyridine (S)
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cccnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2csc(n2)C[C@H](NC(=O)[C@H]2CC[C@@H]2C#N)C(=O)N2CCC[C@@H]1N2

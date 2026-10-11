@@ -1,0 +1,19 @@
+I read the structure in four parts and then joined them into one macrocyclic SMILES.
+
+**Left side.** A 4-methylpiperazine is linked through N–CH2CH2–O to an ester C(=O). The α-carbon carries a hashed methyl and a CH2 that leads to a benzene ring. I assigned `[C@H]` there. The hashed methyl points back, so the implicit H points toward the viewer. With neighbours ordered C(=O), H, CH3, CH2, that gives `@`.
+
+**Central benzene.** It is meta-disubstituted. One substituent is the CH2 from the ester side. The other is a quaternary carbon carrying a wavy-bond methyl, so no stereo is assigned there.
+
+**Macrocycle.** The quaternary carbon joins three parts:
+- a chain of three CH2 groups, then C(CH3)2, then CH2, then SO2, then CH2CH2, ending at C4 of the indole;
+- the C3 carbon of a 1-methyl-1,2,4-triazole;
+- the central benzene already described.
+
+**Right side.**
+- The indole has its NH, a fluorine at C6 and an ether oxygen at C5. C4 carries the CH2CH2 chain.
+- The ether oxygen connects to a fluorophenyl ring. The fluorine on that ring is ortho to the carbon bearing the triazole, and the oxygen is meta to it.
+- The triazole C5 bears that fluorophenyl ring, and N1 bears the methyl.
+
+I checked the ring closures atom by atom against the drawing.
+
+SMILES: CN1CCN(CC1)CCOC(=O)[C@H](C)Cc1cccc(c1)C2(C)CCCC(C)(C)CS(=O)(=O)CCc3c4cc[nH]c4cc(F)c3Oc5ccc(F)c(c5)c6nc2nn6C

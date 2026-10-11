@@ -1,0 +1,20 @@
+I read the drawing region by region and assembled the SMILES below.
+
+**Fragments identified**
+- **Pyridine:** it carries a (S)-1-methoxyethyl group on the carbon next to the ring nitrogen and a 4-methylpiperazin-1-yl group at the meta position. Its third carbon is bonded to indole C2.
+- **Indole:** N-ethyl, with the pyridine at C2. C3 bears a CH2–C(CH3)2–CH2–O chain, and C5 is bonded to thiazole C4.
+- **Thiazole:** C2 carries a CH2 that leads to the (S) α-carbon of the amide side chain.
+- **Macrocycle:** it closes through the ester O–C(=O) onto the (S) α-carbon of a piperazic acid ring (a six-membered ring with an N–NH unit). The ring nitrogen N1 is acylated by the C(=O) of the (S) amino-acid unit.
+- **Side-chain amide:** the amino-acid NH is acylated by a cyclobutane carboxamide. The cyclobutane carries the amide carbonyl on one carbon and a nitrile on the adjacent carbon, both (S).
+
+**Stereochemistry**
+I assigned each centre from the drawn (S) labels. I checked each SMILES chirality tag by working out the CIP priorities from the atom order in the string:
+- Methoxyethyl carbon: `[C@@H]`
+- Piperazic α-carbon: `[C@@H]`
+- Amino-acid α-carbon: `[C@@H]`
+- Cyclobutane carbon bearing the amide: `[C@H]`
+- Cyclobutane carbon bearing the nitrile: `[C@@H]`
+
+I did not re-check the ring-closure labelling or atom counts beyond the single pass described above.
+
+SMILES: CO[C@@H](C)c1ncc(N2CCN(C)CC2)cc1-c1n(CC)c2ccc3cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@@H](NC(=O)[C@H]1CC[C@@H]1C#N)Cc1nc(cs1)3

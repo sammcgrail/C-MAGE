@@ -1,0 +1,20 @@
+I read the molecule as a macrocyclic compound with the following parts:
+
+- **Warhead:** an N-acryloyl-3-fluoropyrrolidine-3-carboxamide, with the carbonyl and F on the same carbon.
+- **Peptide chain:** an N-methyl-valine unit, then a phenylalanine-like residue whose aryl ring carries a CHF2 group.
+- **Piperazic acid:** a hexahydropyridazine ring. Its N-acyl nitrogen is joined to the phenylalanine carbonyl, and its carboxyl forms the macrocyclic ester.
+- **Linker:** the ester oxygen is attached to CH2–C(CH3)2–CH2, which leads to indole C3.
+- **Indole:** N-ethyl, with the aryl ring at C5 and a pyridine at C2.
+- **Pyridine:** it carries a 1-methoxyethyl group at C2 and a piperazin-1-yl group at C5.
+
+Stereocentres were assigned from the wedges and hashes using CIP priorities:
+
+- Piperazic acid carbon: S
+- Phenylalanine-like α-carbon: S
+- N-methyl-valine α-carbon: S
+- Fluoropyrrolidine C3: R
+- Methoxyethyl CH: S
+
+The pyridine–indole bond is a possible atropisomeric axis, and I left it without stereo marks. I converted each assignment to the @/@@ order in the SMILES by hand, and did not run the string through a parser.
+
+SMILES: C=CC(=O)N1CC[C@@](F)(C1)C(=O)N(C)[C@@H](C(C)C)C(=O)N[C@H]2Cc3cc(C(F)F)cc(c3)-c4ccc5c(c4)c(CC(C)(C)COC(=O)[C@@H]6CCCN(N6)C2=O)c(n5CC)-c7cc(N8CCNCC8)cnc7[C@H](C)OC

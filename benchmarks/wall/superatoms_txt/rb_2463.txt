@@ -1,0 +1,13 @@
+I wrote the SMILES from the sequence in the caption, H‑Cpa‑cyclo[D‑Cys‑Tyr‑D‑Phe(4‑n‑pentylamino)‑Lys‑Thr‑Cys]‑D‑Tyr‑NH2. I checked it against the drawing region by region. It has not been run through a SMILES parser.
+
+- **N‑terminal residue:** 4‑chlorophenylalanine with a free NH2. From the hashed NH2 bond at its α‑carbon I read it as the S (L) configuration, which matches the unprefixed "Cpa" in the caption.
+- **Ring:** the two Cys residues are joined by the S–S bond (ring closure `%10`). The ring runs D‑Cys, Tyr, D‑Phe(4‑NH‑n‑pentyl), Lys, Thr, Cys.
+- **Side chains:**
+  - Tyr has a 4‑hydroxyphenyl group.
+  - D‑Phe carries a 4‑(pentylamino)phenyl group (NH–CH2CH2CH2CH2CH3).
+  - Lys has a free terminal NH2 on a four‑carbon chain.
+  - Thr has a secondary OH.
+- **C‑terminus:** the last Cys is followed outside the ring by D‑Tyr as a primary amide (C(N)=O).
+- **Stereochemistry:** L for Cpa, Tyr, Lys, Thr and Cys. D for the first Cys, Phe and the C‑terminal Tyr. For Thr I took the configuration as L‑Thr (2S,3R) and did not independently verify the wedge on its OH.
+
+SMILES: N[C@@H](Cc1ccc(Cl)cc1)C(=O)N[C@H](CS%10)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@H](Cc1ccc(NCCCCC)cc1)C(=O)N[C@@H](CCCCN)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CS%10)C(=O)N[C@H](Cc1ccc(O)cc1)C(N)=O

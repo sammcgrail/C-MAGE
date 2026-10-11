@@ -1,0 +1,16 @@
+This is my reading of the drawing, written as one Kekulé SMILES; I have not run it through a parser. The wavy bonds are written as `*`, which is my own placeholder choice.
+
+**What the drawing shows**
+- Six benzene rings sit in a hexagonal ring.
+- Each benzene is fused to three pyrazine rings (N, N on alternate bonds of the benzene).
+- Each pyrazine is fused at its other C–C bond to a four-membered all-carbon ring, which the drawing marks with a boxed "Z". I read these boxed rings as four-membered carbon rings.
+- Six of these four-membered rings bridge neighbouring benzenes around the central ring. Each is fused to a pyrazine on two opposite sides.
+- The other six are the outer corner rings, one per benzene. Each is fused to one pyrazine, and its two free carbons carry the wavy bonds.
+
+**How I wrote it**
+- I wrote one repeating unit of benzene, outer four-membered ring and bridging four-membered ring, then repeated it six times around the macrocycle.
+- Ring-closure labels `%61` and `%70` close the macrocycle between unit 6 and unit 1.
+- A Kekulé assignment exists with every carbon and nitrogen of the ring system matched to one double bond.
+- The two wavy-bond carbons of each outer ring are joined by a double bond (`C(*)=C…*`).
+
+SMILES: N=%61C(=C%41N=%70)C(N=C%43C(=N%45)C(*)=C%43*)=C%45C(N=C%31%32)=C%41N=C%32C%30C%31=NC(=C%41N=%30)C(N=C%43C(=N%45)C(*)=C%43*)=C%45C(N=C%31%32)=C%41N=C%32C%30C%31=NC(=C%41N=%30)C(N=C%43C(=N%45)C(*)=C%43*)=C%45C(N=C%31%32)=C%41N=C%32C%30C%31=NC(=C%41N=%30)C(N=C%43C(=N%45)C(*)=C%43*)=C%45C(N=C%31%32)=C%41N=C%32C%30C%31=NC(=C%41N=%30)C(N=C%43C(=N%45)C(*)=C%43*)=C%45C(N=C%31%32)=C%41N=C%32C%30C%31=NC(=C%41N=%30)C(N=C%43C(=N%45)C(*)=C%43*)=C%45C(N=C%31%32)=C%41N=C%32C%70C%31%61

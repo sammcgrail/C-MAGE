@@ -1,0 +1,10 @@
+I read the drawing as a macrocycle built from these parts, and wrote the SMILES from them.
+
+- **Pyridine and indole:** a pyridine carrying an N-methylpiperidin-4-yl group is fused through a six-membered ring to an N-ethyl indole. That ring is made of pyridine C2, pyridine C3, indole C2, indole C3, a CH, and a CH(OMe).
+- **Linker to the ester:** the CH (no stereo drawn) carries a C(CH3)2–CH2–O ester that leads to the piperazic acid carbonyl.
+- **Piperazic acid:** its ring N1 is acylated by the next residue. Its C3 carries the ester carbonyl and is S.
+- **Amino acid residue:** this carbon (S) bears an NH-acylated (1S,2S)-2-methylcyclopropanecarboxamide. Its side chain is CH2–CH=CH–CH2, with a cis (Z) double bond, running to indole C5.
+- **Stereocentres:** I assigned @/@@ so that the CH(OMe), piperazic C3, the amino acid α-carbon and both cyclopropane carbons come out S, as labelled in the drawing.
+- **Unchecked parsing:** I did not run the SMILES through a parser, so ring-closure validity rests on my manual check.
+
+SMILES: CN1CCC(CC1)c1cnc2c(c1)-c1n(CC)c3ccc(cc3c1C%10[C@@H]2OC)C/C=C\C[C@H](NC(=O)[C@H]1C[C@@H]1C)C(=O)N1CCC[C@H](N1)C(=O)OCC%10(C)C

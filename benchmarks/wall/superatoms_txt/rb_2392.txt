@@ -1,0 +1,17 @@
+I read the structure in fragments and joined them into one SMILES. I assigned stereochemistry only at the four wedged or hashed centres.
+
+**Fragments**
+- **Macrocycle:** a piperazic acid ring (six-membered, with an NH–N unit) is linked through its ester oxygen to an O–CH2–C(CH3)2–CH2 chain. That chain ends on C3 of an N-ethyl indole.
+- **Indole:** C2 carries a pyridin-3-yl group whose 2-position bears a 1-methoxyethyl group. C5 carries a 3-hydroxyphenyl ring.
+- **Phenyl side chain:** the phenyl ring's other meta position carries CH2–CH(NH–)–C(=O), and that carbonyl acylates the piperazic ring nitrogen.
+- **Tail:** the NH is acylated by valine, whose own nitrogen is N-methyl. That nitrogen is a urea nitrogen bonded to a 1,4-diazepane, and the diazepane's other nitrogen carries an acryloyl group.
+
+**Stereocentres read from the wedges and hashes**
+- **Valine α-carbon:** S.
+- **Phenylalanine-type α-carbon:** S.
+- **Piperazic α-carbon:** S.
+- **Methoxyethyl carbon:** S.
+
+I worked out each @/@@ by CIP priorities from the drawn wedge, then adjusted for the neighbour order in the SMILES string. I did not recheck the final string with a parser. The "&1" labels, including the one on the pyridine ring carbon, are just stereo-group markers and add no centre of their own.
+
+SMILES: C=CC(=O)N1CCCN(CC1)C(=O)N(C)[C@@H](C(C)C)C(=O)N[C@H]2Cc3cc(O)cc(c3)-c4ccc5c(c4)c(CC(C)(C)COC(=O)[C@@H]6CCCN(N6)C2=O)c(n5CC)-c7cccnc7[C@H](C)OC

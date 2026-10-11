@@ -1,0 +1,21 @@
+This SMILES was read directly from the drawing, so the points below are my own reading of it.
+
+**Ring and chain assembly**
+- **Macrocycle ester:** a piperazic acid ring whose carboxyl is esterified to an O–CH2–C(CH3)2–CH2 linker. That linker attaches to C3 of the indole.
+- **Indole:** N-ethyl, with a 2-(1-methoxyethyl)pyridin-3-yl group at C2. C5 is bonded to a 3-hydroxyphenyl ring.
+- **Phenyl side chain:** the phenyl ring carries CH2–CH(NH–)–C(=O) at the 5-position, and that carbonyl acylates the piperazic ring nitrogen.
+- **Amide chain on the NH:** the NH is acylated by an N-methyl valine unit. Its N-methyl nitrogen carries a pyrrolidine-3-carbonyl group.
+- **Warhead:** the pyrrolidine nitrogen is acylated by C(=O)–C≡C–(N-methylpyrrolidin-2-yl).
+
+**Stereochemistry**
+I assigned each wedged or hashed centre from the drawing, working out the CIP descriptor first and then the matching @/@@:
+- Piperazic α-carbon (hashed bond to the carbonyl): S
+- Phenylalanine-derived α-carbon (wedged NH): S
+- Valine α-carbon (wedged isopropyl): S
+- Pyrrolidine-3 carbon (wedged carbonyl): S
+- N-methylpyrrolidin-2 carbon (wedged alkyne): S
+- Methoxyethyl carbon (wedged methyl): S
+
+The drawing also shows a wedge at the pyridine/indole biaryl bond, which looks like an atropisomer marker. I left it out because it cannot be written as a simple tetrahedral stereocentre in SMILES.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cccnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2cc(O)cc(c2)C[C@H](NC(=O)[C@H](C(C)C)N(C)C(=O)[C@H]2CCN(C2)C(=O)C#C[C@@H]2CCCN2C)C(=O)N2CCC[C@@H]1N2

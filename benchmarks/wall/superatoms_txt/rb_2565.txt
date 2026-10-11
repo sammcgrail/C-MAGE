@@ -1,0 +1,11 @@
+I read the molecule as a macrocycle made of two benzimidazoles joined by a trans-butenyl linker on one side and an O–CH2–CH(N)–CH2–O linker on the other.
+
+- **Top benzimidazole:** C2 carries an NH–C(=O) link to a 1-ethyl-3-methylpyrazol-5-yl group. C5 carries COOH, and C7 carries the ether oxygen. N1 carries the butenyl chain.
+- **Bottom benzimidazole:** same pyrazole amide at C2 and ether oxygen at C7. C5 carries a primary amide, CONH2, and N1 carries the other end of the butenyl chain.
+- **Butenyl linker:** N–CH2–CH=CH–CH2–N, drawn trans, so I used `/C=C/`.
+- **Central linker:** O–CH2–CH(N)–CH2–O. The carbon has a wedge to the amine nitrogen. I worked out the SMILES chirality tag from the drawn geometry (H pointing back, substituents going clockwise when viewed from the front), which gives `@@` in the order written. I did not check the resulting (S) label by CIP priorities.
+- **Bicyclic amine:** the nitrogen is a one-atom bridge between two bridgehead carbons. The other bridges are a single CH2 and a CH2–O–CH2 chain. That makes it a 3-oxa-6-azabicyclo[3.1.1]heptane, written `N4C5COCC4C5`. The bridgeheads carry no stereo marks in the drawing, so I added none.
+
+I checked the ring-closure digits so that both benzimidazole fused rings and the macrocycle close correctly.
+
+SMILES: C1/C=C/Cn2c(NC(=O)c3cc(C)nn3CC)nc3cc(C(=O)O)cc(OC[C@@H](N4C5COCC4C5)COc4cc(C(N)=O)cc5nc(NC(=O)c6cc(C)nn6CC)n1c45)c23

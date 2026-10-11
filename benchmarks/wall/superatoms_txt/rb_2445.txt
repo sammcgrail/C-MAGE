@@ -1,0 +1,21 @@
+I read the structure as a macrocycle and built the SMILES in pieces, then assigned each stereocentre from the wedge or hash bonds and the (S) labels in the drawing.
+
+**Fragments**
+- **Pyridine:** the C2 substituent is CH(OMe)CH₃. The C3 carbon is bonded to the indole C2. The C5 carbon carries a bicyclic octahydropyrazino[2,1-c][1,4]oxazine through its ring nitrogen.
+- **Indole:** N1 carries an ethyl group. C3 carries CH₂–C(CH₃)₂–CH₂–O–C(=O), which is the ester arm of the macrocycle. C5 is bonded to C4 of the thiazole.
+- **Thiazole:** C2 carries a CH₂ that leads to the α-carbon of the amino-acid unit.
+- **α-Carbon:** it bears an NH–C(=O)– urea linking to an azetidine, which has a 2-(methoxymethyl) group. It is also bonded to the C(=O) that acylates the piperazic nitrogen.
+- **Piperazic ring:** this is a six-membered ring with an N–NH pair. The ring carbon next to the NH carries the ester C(=O)O.
+
+**Stereochemistry**
+I checked each centre's CIP priorities against the SMILES chirality tag and found all five (S) labels give the tags below. The tag for the bicyclic ring carbon is (S) by the same method.
+
+| Centre | Tag |
+|---|---|
+| CH(OMe)CH₃ | `@@` |
+| Piperazic C–CO₂ | `@@` |
+| α-Carbon | `@@` |
+| Azetidine C2 | `@` |
+| Bicyclic ring carbon | `@@` |
+
+SMILES: CO[C@@H](C)c1ncc(N2CCN3CCOC[C@@H]3C2)cc1-c1n(CC)c2ccc9cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@@H](NC(=O)N1CC[C@H]1COC)Cc1nc9cs1

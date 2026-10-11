@@ -1,0 +1,12 @@
+The SMILES below is my reading of the drawing; I checked ring closures and atom counts but did not run it through a parser.
+
+**Fragments read from the image**
+- **Indole:** the NH sits at C1. C4 carries the CH2CH2 chain, C5 carries the sulfoxide S(=O), C6 carries F, and C7 is CH.
+- **Macrocycle chain, from indole C4:** CH2–CH2–SO2–CH2–C(CH3)2–CH2–CH2–CH2–C*(CH3)(aryl)–triazole. There are three CH2 groups between the gem-dimethyl carbon and the stereocentre.
+- **Triazole:** a 1-methyl-1,2,4-triazole. C3 is bonded to the stereocentre, C5 is bonded to the fluorophenyl ring, and N1 carries the methyl.
+- **Fluorophenyl:** the carbon bonded to the triazole has F on one neighbouring carbon and a CH on the other. The sulfoxide S is attached meta to the triazole-bearing carbon.
+- **Aryl on the stereocentre:** a meta-substituted benzene bearing CH2CH2SO2CH3.
+- **Stereocentre:** the methyl is on a hashed bond. Viewed from the front, aryl → chain → triazole runs clockwise with the methyl pointing away. That gives `C[C@](aryl)(chain)(triazole)`. Because ring-closure digit 1 sits on the stereocentre and stands for the triazole bond, the neighbour order becomes triazole, aryl, chain. That is a cyclic rotation of the first order, so it keeps `@`.
+- **Sulfur stereo:** the sulfoxide S has no wedge or hash in the drawing, so it is left unspecified.
+
+SMILES: C[C@]1(c2cccc(CCS(C)(=O)=O)c2)CCCC(C)(C)CS(=O)(=O)CCc3c4cc[nH]c4cc(F)c3S(=O)c5ccc(F)c(c5)c6nc1nn6C

@@ -1,0 +1,18 @@
+I read the drawing as a macrocycle built from these parts, then assigned each stereocentre by CIP priorities.
+
+**Fragments**
+- **Urea cap:** a (2S)-2-methylpyrrolidine whose nitrogen carries a urea C(=O), which links through NH to the amino-acid α-carbon.
+- **Amino-acid α-carbon (S):** it bears the urea NH, a CH2 leading to the thiazole, and a C(=O) bonded to the piperazic ring nitrogen.
+- **Thiazole:** C2 is attached to that CH2 and C4 is attached to the indole C5.
+- **Indole:** N1 carries an ethyl group. C2 carries the 2-[(1S)-1-methoxyethyl]pyridin-3-yl group. C3 carries CH2–C(CH3)2–CH2–O, which leads to the ester.
+- **Piperazic acid:** a six-membered ring with an NH next to the (S) α-carbon, which carries the ester C(=O)O. The other ring nitrogen is acylated by the amino-acid C(=O), closing the macrocycle.
+
+**Stereochemistry (all four centres S)**
+- Pyrrolidine C2: N > CH2 > CH3 > H gives S with `[C@H]`.
+- Amino-acid α-carbon: N > C(=O) > CH2 > H gives S with `[C@H]`.
+- Piperazic α-carbon: N > C(=O)O > CH2 > H gives S with `[C@@H]`.
+- Methoxyethyl carbon: O > pyridyl C > CH3 > H gives S with `[C@H]`.
+
+The SMILES below follows these fragments atom for atom. I did not run it through a parser.
+
+SMILES: C[C@H]1CCCN1C(=O)N[C@H]2Cc3nc(cs3)-c4ccc5n(CC)c(-c6cccnc6[C@H](C)OC)c(CC(C)(C)COC(=O)[C@@H]7CCCN(N7)C2=O)c5c4

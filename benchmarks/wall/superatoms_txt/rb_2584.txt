@@ -1,0 +1,18 @@
+I read the structure region by region and wrote the SMILES from that reading.
+
+**Left side:** A carboxylic acid, HOOC–CH(CH3)–CH2–, is attached to a benzene ring. The wedged methyl on the CH gives it a defined centre. The ring carries a fluorine on the carbon between its two substituents, so it is 1,2,3-substituted.
+
+**Quaternary carbon:** This carbon carries a methyl on a hashed bond, the aryl ring, a 1-methyl-1,2,4-triazole at its C3, and a chain. The chain is three CH2 groups, then C(CH3)2, then CH2, then SO2, then CH2CH2. I counted the vertices along this chain and read three CH2 groups before the gem-dimethyl carbon.
+
+**Macrocycle ring:**
+- The chain ends on C4 of a 6-fluoroindole with a free NH. C5 of the indole carries the sulfur and C6 carries the fluorine.
+- The sulfur is a thioether (S) linking the indole to C4 of a pyridine.
+- Pyridine C2 is bonded to C5 of the triazole, which closes the macrocycle.
+
+**Stereochemistry:**
+- The wedged-methyl CH is `[C@@H]`.
+- The quaternary carbon (hashed methyl) is `[C@@]` in the SMILES order used.
+
+I derived both labels from the 2D geometry with a triple-product check, not with a software tool.
+
+SMILES: OC(=O)[C@@H](C)Cc1cccc(c1F)[C@@]3(C)(CCCC(C)(C)CS(=O)(=O)CCc2c4cc[nH]c4cc(F)c2Sc2ccnc(c2)-c2nc3nn2C)

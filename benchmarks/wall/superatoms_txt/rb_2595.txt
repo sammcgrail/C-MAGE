@@ -1,0 +1,17 @@
+This structure is drawn as a fragment of a 2D periodic network, so I have written it as one 12-ring macrocycle with the outward bonds left open as wildcard atoms.
+
+**Reading the drawing**
+- The central macrocycle has 12 six-membered rings that alternate around the ring: 6 benzene rings and 6 para-benzoquinone rings.
+- Each quinone ring carries two C=O groups on opposite carbons. Its other four carbons each carry an S.
+- Each benzene ring has six S substituents. Four of them bridge to the two neighbouring quinone rings, giving fused 1,4-dithiine rings (thianthrene-like links) on each side.
+- The remaining two S atoms on each benzene point outward and end in dashed bonds to the neighbouring cells of the network. I wrote each of these as `S*`.
+
+**Building the SMILES**
+- The string walks around the macrocycle as B1, Q1, B2, Q2, … B6, Q6, where B is a benzene ring and Q is a quinone ring.
+- Ring-closure digits provide the second S bridge between each pair of neighbouring rings. The last quinone closes back onto the first benzene.
+- Quinone ring: C(=O)–C(S)=C(S)–C(=O)–C(S)=C(S).
+- Benzene ring: fully aromatic, six S substituents.
+
+The string was assembled by hand and not parsed by a toolkit, so I checked it only by tracing atom valences and closure pairs.
+
+SMILES: c1%80c%81c(S*)c(S*)c(S%11)c1SC(C%31=O)=C%11C(=O)C(S%21)=C%31Sc1c%21c(S*)c(S*)c(S%12)c1SC(C%32=O)=C%12C(=O)C(S%22)=C%32Sc1c%22c(S*)c(S*)c(S%13)c1SC(C%33=O)=C%13C(=O)C(S%23)=C%33Sc1c%23c(S*)c(S*)c(S%14)c1SC(C%34=O)=C%14C(=O)C(S%24)=C%34Sc1c%24c(S*)c(S*)c(S%15)c1SC(C%35=O)=C%15C(=O)C(S%25)=C%35Sc1c%25c(S*)c(S*)c(S%16)c1SC(C%36=O)=C%16C(=O)C(S%81)=C%36S%80

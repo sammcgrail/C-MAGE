@@ -1,0 +1,13 @@
+I read the drawing as a tacrolimus (FK506)-type macrolide. It has a 4-hydroxy-3-methoxycyclohexyl group, a pipecolate ester, a tricarbonyl-linked hemiketal pyran ring, and a 3-(pyridin-4-yl)propyl group where tacrolimus has an allyl. I worked through the stereocentres and both double bonds from the wedges, hashes and ring geometry. I did not run the SMILES through a parser, so validity is checked by hand only.
+
+**Macrocycle chain, from the cyclohexyl end:**
+1. The cyclohexyl carbon carries a vinyl CH, which is double-bonded to C(CH3). The cyclohexyl group and the methyl are cis across this alkene.
+2. Next come the ester-bearing CH (hashed O), CH(CH3), CH(OH), CH2 and the ketone C=O.
+3. The CH bearing the pyridylpropyl chain follows. A second alkene, CH=C(CH3), has the methyl cis to that CH and the CH2 trans to it.
+4. Then CH2, CH(OMe), CH2 and CH(OMe) lead to the pyran carbon.
+
+**Pyran ring:** the ring carbons are CH–O, C(OH) (hemiketal), CH(CH3), CH2 and CH(OMe). The hemiketal carbon carries the C(=O)C(=O)N unit.
+
+**Pipecolate:** the piperidine nitrogen is acylated by the C(=O)C(=O) unit. Its C2 carries the ester C(=O)O, which closes the macrocycle at the CH(O) carbon next to the vinyl group.
+
+SMILES: O[C@@H]1CC[C@@H](/C=C(\C)[C@@H]4[C@H](C)[C@@H](O)CC(=O)[C@H](CCCc5ccncc5)/C=C(C)/C[C@H](OC)C[C@H](OC)[C@H]2O[C@@](O)(C(=O)C(=O)N3CCCC[C@H]3C(=O)O4)[C@H](C)C[C@@H]2OC)C[C@H]1OC

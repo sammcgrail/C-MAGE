@@ -1,0 +1,13 @@
+I read the drawing region by region and assembled the SMILES below. It was not run through a parser.
+
+**Regions and how I encoded them**
+- **Macrocycle ring:** a piperazic acid (a six-membered ring with an adjacent N–NH pair) carries a carboxyl group that forms an ester. The ester O is attached to a CH2–C(CH3)2–CH2 linker that leads to C3 of the indole.
+- **Indole:** N-ethyl, with the pyridyl group on C2 and the neopentyl-type linker on C3. C5 is bonded to the thiadiazole.
+- **Thiadiazole:** a 1,2,4-thiadiazole. C3 is bonded to the indole and C5 to the CH2 that leads to the amino-acid CH.
+- **Pyridine:** the carbon next to the ring N carries CH(CH3)OCH3, and the neighbouring carbon is bonded to the indole.
+- **Side chain:** the amino-acid CH carries an NH–C(=O) link to an N-methyl valine, which carries an isopropyl group. The N-methyl nitrogen is acylated by C(=O) on C3 of a pyrrolidine. The pyrrolidine nitrogen bears a but-2-ynoyl group, C(=O)C≡CC.
+
+**Stereochemistry**
+I assigned five centres from the wedges and hashes: the piperazic α-carbon (S), the amino-acid α-carbon (S), the valine α-carbon (S), the pyrrolidine C3 (S) and the methoxyethyl carbon (S). The `&1` labels on these centres mark a group of centres whose relative configuration is drawn. I treated the drawn wedges as the absolute configuration. The wedge at the pyridine–indole bond looks like an atropisomer marker, and I left it out of the SMILES.
+
+SMILES: O=C1OCC(C)(C)Cc2c(-c3cccnc3[C@H](C)OC)n(CC)c3ccc(cc23)-c2nsc(n2)C[C@H](NC(=O)[C@H](C(C)C)N(C)C(=O)[C@H]2CCN(C2)C(=O)C#CC)C(=O)N2CCC[C@@H]1N2

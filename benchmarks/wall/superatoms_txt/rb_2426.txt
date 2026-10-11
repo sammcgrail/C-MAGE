@@ -1,0 +1,16 @@
+I read the structure in pieces and joined them into one macrocyclic SMILES.
+
+**Fragments**
+- **Left side chain:** HOOC–CH(CH3)–CH2– attached to a meta-disubstituted benzene.
+- **Quaternary carbon:** it carries a methyl, the benzene ring, the triazole and the macrocycle chain. The chain is –CH2CH2CH2–C(CH3)2–CH2–SO2–CH2CH2–, which ends on the indole.
+- **Indole:** a 3-methyl indole with an NH. The ring carbon C4 bears the CH2CH2 chain, C5 bears the O link, and C6 and C7 each carry F.
+- **Triazole:** a 1-methyl-1,2,4-triazole. Its C3 is bonded to the quaternary carbon and its C5 to the fluorophenyl ring.
+- **Fluorophenyl ring:** a benzene ring bearing the triazole, an ortho F, and the aryl ether oxygen meta to the triazole.
+
+**Stereochemistry**
+- **Acid α-carbon:** the methyl is hashed, and the CIP priorities COOH > CH2Ar > CH3 > H give (R). That corresponds to `[C@H]` in the SMILES order I used.
+- **Quaternary carbon:** the methyl is hashed, and the priorities triazole > aryl > CH2 > CH3 give (R). That corresponds to `[C@@]` in the SMILES order I used.
+
+I checked that the ring-closure digits pair up correctly and that every atom in the drawing is accounted for.
+
+SMILES: OC(=O)[C@H](C)Cc1cccc(c1)[C@@]1(C)CCCC(C)(C)CS(=O)(=O)CCc2c3c(C)c[nH]c3c(F)c(F)c2Oc2ccc(F)c(c2)-c2nc1nn2C

@@ -1,0 +1,14 @@
+I read the structure in pieces and joined them into one SMILES, then checked the ring closures and assigned each stereocentre from the CIP priorities.
+
+**Fragments read from the image**
+- **Pyridine:** a 2-(1-methoxyethyl)pyridine, attached through its C3 to the indole C2. The methoxy-bearing carbon is (S).
+- **Indole:** N-ethyl, with C3 carrying CH2–C(CH3)2–CH2–O–C(=O)–, which links to the piperazic acid. C5 is bonded to the tetrahydropyridine.
+- **Tetrahydropyridine:** N1CCC=C(C1)–, with the ring carbon at the double bond attached to indole C5. The N carries a CH2 that leads to the chain below.
+- **Piperazic acid:** a six-membered ring N(acyl)–CH2–CH2–CH2–CH(C(=O)O–)–NH. The ester-bearing carbon is (S).
+- **Central chain:** N–CH2–CH(NH–)–C(=O)–N(piperazic), with the CH as (S). The NH is acylated by an (S)-N-methylvaline whose N is a urea nitrogen.
+- **Urea end:** the urea carbonyl is bonded to a piperidine nitrogen. That piperidine is spiro-fused to an oxazolidine, O–CH2–N(acryloyl)–CH(CH3), with the methyl-bearing CH as (S).
+
+**Stereochemistry**
+For each centre I took the neighbour order as written in the SMILES, ranked the substituents by CIP priority and picked the tag that gives S. That gives `[C@H]` for the methoxy carbon, `[C@@H]` for the piperazic carbon, and `[C@H]` for the central CH, the valine α-carbon and the spiro-adjacent methyl CH.
+
+SMILES: CCn1c(-c2cccnc2[C@H](C)OC)c(CC(C)(C)COC(=O)[C@@H]2CCCN(N2)C(=O)[C@H](CN2CCC=C(C2)5)NC(=O)[C@H](C(C)C)N(C)C(=O)N2CCC6(CC2)OCN(C(=O)C=C)[C@H]6C)c2cc5ccc12

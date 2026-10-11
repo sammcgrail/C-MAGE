@@ -1,0 +1,10 @@
+I read the molecule as a macrocycle built from these pieces:
+
+- **Piperazic acid:** a hexahydropyridazine-3-carboxylic acid whose carboxyl forms an ester with a neopentyl alcohol (OCH2–C(CH3)2–CH2–). Its ring N1 is acylated.
+- **Indole:** N-ethyl, with the neopentyl CH2 on C3. C2 carries a 2-(1-methoxyethyl)pyridin-3-yl group. C5 is bonded to the thiazole.
+- **Thiazole:** C4 is bonded to the indole, and C2 is bonded to the CH(OEt) carbon.
+- **Side chain:** CH(OEt)–CH(NH–C(=O)–cyclopropyl)–C(=O)–N(piperazic N1). The cyclopropane carries a pyridin-2-yl group, and the two ring carbons are trans.
+
+All stereocentres are drawn with wedges or hashes and labelled (S). I assigned each @/@@ by working out the CIP priorities and checking that the SMILES gives S at that centre. The methoxyethyl carbon, the cyclopropane carbons, the ester-bearing piperazic carbon and both side-chain carbons were each checked this way. I did not re-parse the final string with a toolkit.
+
+SMILES: C[C@H](OC)c1ncccc1-c1n(CC)c2ccc4cc2c1CC(C)(C)COC(=O)[C@@H]1CCCN(N1)C(=O)[C@@H](NC(=O)[C@H]1C[C@@H]1c1ccccn1)[C@H](OCC)c1nc(cs1)-4

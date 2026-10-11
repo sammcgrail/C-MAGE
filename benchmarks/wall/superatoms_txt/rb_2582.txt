@@ -1,0 +1,10 @@
+I read the drawing in pieces and assembled the SMILES from them. I did not run it through a parser, so validity is checked by hand only.
+
+- **Piperazic acid ring:** a six-membered ring with N–NH. The ring CH carries the ester carbonyl on a hashed bond and is (S). The other ring nitrogen is acylated by the C(=O) of the amino acid chain.
+- **Amino acid chain:** C(=O)–CH(NH–C(=O)–N(CH3)–cyclopropyl)–CH2–, with the CH drawn as (S). The CH2 leads to C2 of the thiazole.
+- **Thiazole:** C4 is bonded to C5 of the indole, and C5 of the thiazole is CH.
+- **Indole:** N1 carries an ethyl group. C2 carries a pyridin-3-yl ring whose 2-position bears an (S)-CH(CH3)OCH3 group. C3 carries CH2–C(CH3)2–CH2–O–C(=O), which closes the macrocycle onto the piperazic acid.
+
+I assigned each stereocentre from the wedges and hashes and checked the CIP priorities against the (S) labels. Each of the three centres comes out as `[C@H]` in the SMILES as written.
+
+SMILES: CCn1c(-c2cccnc2[C@H](C)OC)c2c3cc(ccc13)-c1csc(n1)C[C@H](NC(=O)N(C)C1CC1)C(=O)N1CCC[C@H](N1)C(=O)OCC(C)(C)C2
