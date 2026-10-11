@@ -136,9 +136,15 @@ def wavy_rows() -> list[dict]:
 
 
 def big_rows() -> list[dict]:
+    """Shown big-set rows, minus the ones build_superatoms.EXCLUDE drops from scoring (not one molecule)."""
     f = SA_RUN / "big" / "set.json"
+    if not f.exists():
+        return []
+    sys.path.insert(0, str(Path(__file__).parent))
+    from build_superatoms import EXCLUDE
+    ex = EXCLUDE.get("big", {})
     return [{"k": x["id"], "t": x["truth"], "n": x["id"], "png": x["png"]} for x in json.load(open(f))
-            if x.get("show")] if f.exists() else []
+            if x.get("show") and x["id"] not in ex]
 
 
 def corpus() -> list[dict]:

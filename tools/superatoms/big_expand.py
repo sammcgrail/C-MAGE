@@ -571,7 +571,7 @@ def score():
     cxp = B.cx_preds()
     out = collections.defaultdict(collections.Counter)
     for k, (r, r0, rets) in fr.items():
-        if r is None or k not in cxp or k not in rows:
+        if r is None or k not in cxp or k not in rows or k in B.EXCLUDE.get("big", {}):
             continue
         m = rows[k]
         v = B.verdict(B.parse_smiles(r.get("text")) or "", m["truth"])

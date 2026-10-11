@@ -91,7 +91,15 @@ TRAIN_NOTE = "CXMolScribe was trained on these images"
 # Read, but not scored: a drawing whose label is ambiguous by convention, so no answer could be held to it.
 EXCLUDE = {"synth": {"sa_0034": "RDKit's default 'NC' abbreviation is an isocyanide; the same two letters are the "
                                  "standard way to write a nitrile pointing left, so the drawing does not determine "
-                                 "the molecule"}}
+                                 "the molecule"},
+           # Sam 11 Oct: the drawing is not one molecule, so no single reference can grade it (tools/superatoms/
+           # clean_truth.py FLAGGED; big/truth_cleanup.json "flagged_rows").
+           "big": {"rb_0267": "a reaction scheme (four compounds and 'Zn' reagent text), not one molecule",
+                   "rb_2264": "a Markush drawing: an 'Ar' ring, a resin bead and two Ar= options",
+                   "rb_2496": "a polysiloxane with '221K' arrow labels, not one molecule",
+                   "rb_2075": "a polymer repeat unit cut by a wavy bond",
+                   "rb_2433": "a covalent organic framework with wavy cut bonds and boxed 'Z' labels",
+                   "rb_2288": "an antibody-drug conjugate ('MAB' cartoon, (...)n)"}}
 
 
 def load_jsonl(p: Path) -> list[dict]:
