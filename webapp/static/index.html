@@ -4,14 +4,21 @@
 <title>BENCHEM</title>
 <link rel="icon" href="/static/favicon.png">
 <style>
-html,body{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
-/* The iOS magnifier loupe fires on long-press over any selectable text and makes
-   a dense tile grid unusable. Killed globally, then given back to the SMILES and
-   InChI strings -- which are the whole reason a chemist opens the sheet, and the
-   one thing they will want to select by hand rather than via Copy. */
-body{user-select:none;-webkit-user-select:none}
-.kv code,.note code,input,textarea{user-select:text;-webkit-user-select:text;
+html,body{-webkit-tap-highlight-color:transparent}
+/* Selection: off on every element (SVG text and canvas do not inherit it from body on iOS,
+   and the long-press loupe makes a dense tile grid unusable), then given back to the CONTENT --
+   the tab body and the molecule sheet: names, SMILES, InChI, scores, tables, prose -- so a
+   chemist can copy what they came for. "*" sets none on every element, so the opt-in must name
+   the descendants too. Tap targets (tabs, chips, tiles, cards, toggle rows, sort headers,
+   summaries), canvases and SVG charts stay unselectable. */
+*{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+main,main *,dialog,dialog *,input,textarea{-webkit-user-select:text;user-select:text;
   -webkit-touch-callout:default}
+:is(main,dialog) :is(button,[role=button],[role=tab],.chip,.gchip,summary,canvas,svg,
+  .wall,.t,.excard,.doc,tr.r,th[data-sort],[data-lane],.ga .tr,.no-select),
+:is(main,dialog) :is(button,[role=button],[role=tab],.chip,.gchip,summary,canvas,svg,
+  .wall,.t,.excard,.doc,tr.r,th[data-sort],[data-lane],.ga .tr,.no-select) *{
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 :root{
   --bg:#0d1117; --panel:#161b22; --line:#26303d; --ink:#e6edf3; --dim:#8b98a5;
   --exact:#2ea043; --stereo:#d29922; --wrong:#da3633; --invalid:#6e7681; --acc:#388bfd;
@@ -1841,13 +1848,12 @@ $("#sheet").onclick = function(e){ if (e.target.id === "sheet") $("#sheet").clos
   new MutationObserver(function(){ if (dlg.open) clampLong(); }).observe($("#sheetBody"), {childList: true, subtree: true});
 })();
 /* The loupe is triggered by the contextmenu event on iOS, not by selection alone,
-   so the CSS above is necessary and not sufficient. Allowed on the strings. */
-document.addEventListener("contextmenu", function(e){
-  if (!e.target.closest("code, input, textarea")) e.preventDefault();
-});
-document.addEventListener("selectstart", function(e){
-  if (!e.target.closest("code, input, textarea")) e.preventDefault();
-});
+   so the CSS above is necessary and not sufficient. The guards defer to the CSS:
+   blocked wherever the element computes user-select:none, allowed on content. */
+function selOK(t){ var el = t && (t.nodeType === 1 ? t : t.parentElement); if (!el) return false;
+  var cs = getComputedStyle(el); return (cs.userSelect || cs.webkitUserSelect) !== "none"; }
+document.addEventListener("selectstart", function(e){ if (!selOK(e.target)) e.preventDefault(); });
+document.addEventListener("contextmenu", function(e){ if (!selOK(e.target)) e.preventDefault(); });
 /* LLM vs OCR is the default tab. Any other ?tab= value, including the retired
    sonnet / sonnet55 / sonnet55api tabs, lands on it. */
 /* The first data fetch waits for window load: iOS Safari's progress bar waits on

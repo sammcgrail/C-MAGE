@@ -17,9 +17,14 @@
   --c55:#3fb950; --c5:#8b98a5; --ccx:#58a6ff; --track:#0b0f14;
 }
 *{box-sizing:border-box;touch-action:manipulation}
-html,body{-webkit-touch-callout:none}
-body{user-select:none;-webkit-user-select:none}
-code,.pre,td{user-select:text;-webkit-user-select:text;-webkit-touch-callout:default}
+/* Selection off on every element (SVG/canvas ignore body inheritance on iOS), then given back to
+   the report itself -- prose, figures, tables, code -- on the container AND its descendants,
+   since "*" sets none on each element. Navigation, toggles and charts stay unselectable. */
+*{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+main,main *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+main :is(button,[role=button],[role=tab],.chip,summary,nav,canvas,svg,.no-select),
+main :is(button,[role=button],[role=tab],.chip,summary,nav,canvas,svg,.no-select) *{
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html,body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   -webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
@@ -628,8 +633,11 @@ function render(D){
   }).catch(function(){});
 }
 
-document.addEventListener("contextmenu", function(e){ if (!e.target.closest("code, .pre, td")) e.preventDefault(); });
-document.addEventListener("selectstart", function(e){ if (!e.target.closest("code, .pre, td")) e.preventDefault(); });
+/* The guards defer to the CSS: blocked wherever the element computes user-select:none. */
+function selOK(t){ var el = t && (t.nodeType === 1 ? t : t.parentElement); if (!el) return false;
+  var cs = getComputedStyle(el); return (cs.userSelect || cs.webkitUserSelect) !== "none"; }
+document.addEventListener("selectstart", function(e){ if (!selOK(e.target)) e.preventDefault(); });
+document.addEventListener("contextmenu", function(e){ if (!selOK(e.target)) e.preventDefault(); });
 (function(){ var seg = $(".seg");
   var fade = function(){ seg.classList.toggle("at-end", seg.scrollLeft + seg.clientWidth >= seg.scrollWidth - 2); };
   fade(); seg.addEventListener("scroll", fade, {passive: true}); window.addEventListener("resize", fade); })();

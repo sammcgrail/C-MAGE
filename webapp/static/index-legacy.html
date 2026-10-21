@@ -18,6 +18,14 @@
     touch-action: manipulation;
   }
   input, textarea { -webkit-user-select: text; user-select: text; }
+  /* Content opts back in (SMILES, names, results tables, notes, logs), on the container AND its
+     descendants -- "*" above sets none on every element, so a container opt-in does not inherit.
+     Tap targets, canvases and SVG stay unselectable. */
+  main, main *, footer, footer * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+  :is(main, footer) :is(button, [role=button], [role=tab], .chip, summary, label[for], canvas, svg, .no-select),
+  :is(main, footer) :is(button, [role=button], [role=tab], .chip, summary, label[for], canvas, svg, .no-select) * {
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  }
   html, body {
     -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
     overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none;
@@ -129,7 +137,6 @@
   .smiles-row { display: flex; gap: 8px; align-items: stretch; }
   .smiles { flex: 1; min-width: 0; font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #0e1118; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; word-break: break-all; overflow-wrap: anywhere; max-height: 92px; overflow-y: auto; touch-action: pan-y pinch-zoom; }
   .smiles.empty { color: var(--muted); font-style: italic; }
-  @media (hover: hover) { .smiles { -webkit-user-select: text; user-select: text; } }
   .copy { width: 84px; flex-shrink: 0; padding: 0; font-size: 14px; }
   .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
   .badge { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
@@ -601,13 +608,11 @@
 (function () {
   'use strict';
   // ---- mobile guards: kill selection, long-press callout and double-tap zoom (iOS ignores the viewport flags)
-  var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
-  document.addEventListener('selectstart', function (e) {
-    if (e.target.closest('input, textarea')) return;
-    if (hoverable && e.target.closest('.smiles')) return;
-    e.preventDefault();
-  });
-  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('input, textarea')) e.preventDefault(); });
+  // Selection guards defer to the CSS: blocked wherever the element computes user-select:none.
+  var selOK = function (t) { var el = t && (t.nodeType === 1 ? t : t.parentElement); if (!el) return false;
+    var cs = getComputedStyle(el); return (cs.userSelect || cs.webkitUserSelect) !== 'none'; };
+  document.addEventListener('selectstart', function (e) { if (!selOK(e.target)) e.preventDefault(); });
+  document.addEventListener('contextmenu', function (e) { if (!selOK(e.target)) e.preventDefault(); });
   var lastTap = null;
   document.addEventListener('touchend', function (e) {
     if (e.target.closest('button, a, input, label, [role="button"]')) { lastTap = null; return; }
