@@ -32,7 +32,7 @@ WORKDIR /opt/cmage
 # stage environments (their pins are load-bearing).
 COPY webapp/requirements.txt /opt/cmage/webapp/requirements.txt
 RUN --mount=type=cache,target=/var/cache/uv \
-    UV_CACHE_DIR=/var/cache/uv uv venv /opt/cmage/webapp/.venv --python 3.12 \
+    UV_CACHE_DIR=/var/cache/uv uv venv --clear /opt/cmage/webapp/.venv --python 3.12 \
     && UV_CACHE_DIR=/var/cache/uv VIRTUAL_ENV=/opt/cmage/webapp/.venv uv pip install -r /opt/cmage/webapp/requirements.txt \
     && apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
