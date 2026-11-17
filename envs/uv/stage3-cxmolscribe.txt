@@ -81,3 +81,7 @@ tqdm==4.67.1
 # molscribe use it when the vendored library is not loadable on this machine.
 # Harmless on x86_64, where the vendored copy is still used.
 epam.indigo==1.46.0
+
+# Transitive dependency of beautifulsoup4, pinned explicitly for the CVE fixes
+# in soupsieve 4.0.1+ (review-2026-11-01 #192).
+soupsieve>=4.0.1
