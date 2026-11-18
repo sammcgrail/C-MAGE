@@ -26,8 +26,10 @@ ENV CMAGE_ROOT=/opt/cmage \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
+# review-2026-11-01 #280: web venv pinned to the newest 3.12 patch (uv 0.11.29 only knew 3.12.13), and
+# apt-get upgrade pulls Debian security fixes the base layer lacks (brotli KEV, openssl).
 # uv comes from its official image; the base image deliberately does not ship it.
-COPY --from=ghcr.io/astral-sh/uv:0.11.29 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.13.9 /uv /usr/local/bin/uv
 # uv's managed interpreter goes beside the base image's own (/opt/python), not
 # under /root/.local: the server runs as an unprivileged user (see USER below),
 # and /root is mode 700, so a venv whose python lives there cannot even start.
@@ -39,9 +41,9 @@ WORKDIR /opt/cmage
 # stage environments (their pins are load-bearing).
 COPY webapp/requirements.txt /opt/cmage/webapp/requirements.txt
 RUN --mount=type=cache,target=/var/cache/uv \
-    UV_CACHE_DIR=/var/cache/uv uv venv --clear /opt/cmage/webapp/.venv --python 3.12 \
+    UV_CACHE_DIR=/var/cache/uv uv venv --clear /opt/cmage/webapp/.venv --python 3.12.16 \
     && UV_CACHE_DIR=/var/cache/uv VIRTUAL_ENV=/opt/cmage/webapp/.venv uv pip install -r /opt/cmage/webapp/requirements.txt \
-    && apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+    && apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
 # Stage 3 cannot run alone: it reads stage 2's workbook to learn which crops to
 # translate. This harness writes that workbook from raw images instead, which is
